@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Intro from "./components/Intro";
 import Game from "./components/Game";
 import "./static/css/main.css";
+import "./static/css/hub.css";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);

@@ -1,19 +1,13 @@
 import React, { Suspense } from "react";
 import Ring0 from "./Ring0";
+import Ring1 from "./Ring1";
 
-type HubProps = {
-  lowerRingPositionY: number;
-  lowerRingRotationY: number;
-};
-
-const Hub = (props: HubProps) => {
+const Hub = (props: any) => {
   return (
     <>
-      <Suspense fallback={<React.Fragment>loading...</React.Fragment>}>
-        <Ring0
-          lowerRingPositionY={props.lowerRingPositionY}
-          lowerRingRotationY={props.lowerRingRotationY}
-        />
+      <Suspense fallback={<>loading...</>}>
+        <Ring1 />
+        <Ring0 />
       </Suspense>
     </>
   );

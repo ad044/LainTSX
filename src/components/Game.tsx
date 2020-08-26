@@ -10,7 +10,8 @@ import Lain, {
 } from "./Lain";
 import Hub from "./Hub";
 //import Orb from "./Orb";
-import { OrbitControls } from "drei";
+import { OrbitControls, PerspectiveCamera } from "drei";
+import Lights from "./Lights";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -20,17 +21,34 @@ type FrameCounts = {
   [animation: string]: number;
 };
 
-// value by which to rotate/move the ring on the y axis
-type LowerRingValues = {
-  [direction: string]: number;
-};
-
 const Game = () => {
   const [isLainMoving, setLainMoving] = useState(false);
   const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
+  const [lainPosY, setLainPosY] = useState(-0.2);
 
-  const [lowerRingRotationY, setLowerRingRotationY] = useState(5);
-  const [lowerRingPositionY, setLowerRingPositionY] = useState(-0.31);
+  const [cameraPosY, setCameraPosY] = useState(0);
+  const [cameraRotationY, setCameraRotationY] = useState(0);
+
+  const moveCamera = (value: number, duration: number) => {
+    const moveInterval = setInterval(() => {
+      setCameraPosY((prev: number) => prev + value);
+      setLainPosY((prev: number) => prev - value);
+    });
+
+    setTimeout(() => {
+      clearInterval(moveInterval);
+    }, duration);
+  };
+
+  const rotateCamera = (value: number, duration: number) => {
+    const rotationInterval = setInterval(() => {
+      setCameraRotationY((prev: number) => prev + value);
+    });
+
+    setTimeout(() => {
+      clearInterval(rotationInterval);
+    }, duration);
+  };
 
   const getKeyValue = <U extends keyof T, T extends object>(key: U) => (
     obj: T
@@ -93,35 +111,6 @@ const Game = () => {
     }, getAnimationDuration(key));
   };
 
-  const getLowerRingValue = (direction: string) => {
-    return getKeyValue<keyof LowerRingValues, LowerRingValues>(direction)({
-      left: 0.002,
-      right: -0.002,
-      up: -0.005,
-      down: 0.005,
-    });
-  };
-
-  const rotateLowerRing = (key: string, duration: number) => {
-    const rotationInterval = setInterval(() => {
-      setLowerRingRotationY((prev) => prev + getLowerRingValue(key));
-    }, 10);
-
-    setTimeout(() => {
-      clearInterval(rotationInterval);
-    }, duration);
-  };
-
-  const moveLowerRing = (key: string, duration: number) => {
-    const moveInterval = setInterval(() => {
-      setLowerRingPositionY((prev) => prev + getLowerRingValue(key));
-    });
-
-    setTimeout(() => {
-      clearInterval(moveInterval);
-    }, duration);
-  };
-
   const handleUserKeyPress = useCallback(
     (event) => {
       const { _, keyCode } = event;
@@ -129,22 +118,33 @@ const Game = () => {
       const key = getKeyCodeAssociation(keyCode);
 
       console.log(key);
+
       if (!isLainMoving) {
         setAnimationState(key);
-        setTimeout(() => {
-          switch (key) {
-            case "left":
-            case "right":
-              rotateLowerRing(key, 1000);
-              break;
-            case "up":
-            case "down":
-              moveLowerRing(key, 1000);
-              break;
-            default:
-              break;
-          }
-        }, 1200);
+        switch (key) {
+          case "left":
+            setTimeout(() => {
+              rotateCamera(0.001, 1600);
+            }, 1100);
+            break;
+          case "right":
+            setTimeout(() => {
+              rotateCamera(-0.001, 1600);
+            }, 1100);
+            break;
+          case "up":
+            setTimeout(() => {
+              moveCamera(-0.005, 1200);
+            }, 1300);
+            break;
+          case "down":
+            setTimeout(() => {
+              moveCamera(0.005, 1200);
+            }, 1300);
+            break;
+          default:
+            break;
+        }
       }
     },
     [isLainMoving]
@@ -153,23 +153,31 @@ const Game = () => {
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
 
+    document.getElementsByTagName("canvas")[0].className = "hub-background";
+
     return () => {
       window.removeEventListener("keydown", handleUserKeyPress);
+      document.getElementsByTagName("body")[0].className = "";
     };
   }, [handleUserKeyPress]);
 
   return (
     <>
-      <Canvas shadowMap concurrent camera={{ position: [0, -0.1, -2] }}>
-        <Lain isLainMoving={isLainMoving} lainMoveState={lainMoveState} />
-        <Hub
-          lowerRingRotationY={lowerRingRotationY}
-          lowerRingPositionY={lowerRingPositionY}
-        />
-        <ambientLight color={0x808080} />
-        <pointLight color={0xffffff} position={[0, 0, 700]} intensity={0.5} />
-        <pointLight color={0x7f7f7f} position={[0, 1000, 0]} intensity={1} />
-        <pointLight color={0xffffff} position={[0, 0, 0]} intensity={0.1} />
+      {/* <Canvas camera={{ position: [0, 0, -2] }}> */}
+      <Canvas>
+        <PerspectiveCamera
+          position={[0, cameraPosY, 3]}
+          rotation={[0, cameraRotationY, 0]}
+        >
+          <OrbitControls />
+          <Lain
+            isLainMoving={isLainMoving}
+            lainMoveState={lainMoveState}
+            lainPosY={lainPosY}
+          />
+          <Hub />
+          <Lights />
+        </PerspectiveCamera>
       </Canvas>
     </>
   );
