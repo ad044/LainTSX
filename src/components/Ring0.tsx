@@ -24,7 +24,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-const Ring0 = (props: Ring0Props) => {
+const Ring0 = (props: any) => {
   const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring0.glb",
@@ -33,14 +33,14 @@ const Ring0 = (props: Ring0Props) => {
   return (
     <group
       scale={[1.3, 1.3, 1.3]}
-      position={[0, props.lowerRingPositionY, 0]}
-      rotation={[0, props.lowerRingRotationY, 0]}
+      position={[0, -0.27, 0]}
+      rotation={[0, 0.26, 0]}
       dispose={null}
     >
       <mesh geometry={nodes.Circle.geometry} rotation={[0, Math.PI / 4, 0]}>
         <meshLambertMaterial
           attach="material"
-          transparent={true}
+          color={0x636363}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -48,4 +48,4 @@ const Ring0 = (props: Ring0Props) => {
   );
 };
 
-export default Ring0
+export default Ring0;
