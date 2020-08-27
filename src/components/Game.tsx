@@ -1,5 +1,19 @@
-import React, { useState, Suspense, useCallback, useEffect } from "react";
-import { useFrame, Canvas, useLoader, useThree } from "react-three-fiber";
+import React, {
+  useState,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
+import {
+  useFrame,
+  Canvas,
+  useLoader,
+  useThree,
+  createPortal,
+  useCamera,
+} from "react-three-fiber";
 import Lain, {
   LainIntro,
   LainMoveDown,
@@ -10,8 +24,15 @@ import Lain, {
 } from "./Lain";
 import Hub from "./Hub";
 //import Orb from "./Orb";
-import { OrbitControls, PerspectiveCamera } from "drei";
+import {
+  OrbitControls,
+  PerspectiveCamera,
+  OrthographicCamera,
+  Octahedron,
+} from "drei";
 import Lights from "./Lights";
+import { Matrix4, Scene } from "three";
+import OrthoCamera from "./OrthoCamera";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -163,7 +184,6 @@ const Game = () => {
 
   return (
     <>
-      {/* <Canvas camera={{ position: [0, 0, -2] }}> */}
       <Canvas>
         <PerspectiveCamera
           position={[0, cameraPosY, 3]}
@@ -177,10 +197,12 @@ const Game = () => {
           />
           <Hub />
           <Lights />
+          <Suspense fallback={null}>
+            <OrthoCamera />
+          </Suspense>
         </PerspectiveCamera>
       </Canvas>
     </>
   );
 };
-
 export default Game;
