@@ -1,13 +1,29 @@
 import React, { Suspense } from "react";
-import Ring0 from "./Ring0";
-import Ring1 from "./Ring1";
+import GrayRing from "./GrayRing";
+import PurpleRing from "./PurpleRing";
+import LevelSprite from "./LevelSprite";
+import level_sprites from "../resources/level_sprites.json";
+
+type PositionAndScaleProps = [number, number, number];
+type RotationProps = [number, number, number, (string | undefined)?];
 
 const Hub = (props: any) => {
   return (
     <>
       <Suspense fallback={<>loading...</>}>
-        <Ring1 />
-        <Ring0 />
+        <PurpleRing />
+        <GrayRing />
+        {Object.values(level_sprites.level04).map((sprite) => {
+          return (
+            <LevelSprite
+              position={sprite.position as PositionAndScaleProps}
+              scale={sprite.scale as PositionAndScaleProps}
+              rotation={sprite.rotation as RotationProps}
+              sprite={sprite.sprite}
+              key={sprite.id}
+            />
+          );
+        })}
       </Suspense>
     </>
   );

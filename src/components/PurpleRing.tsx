@@ -11,7 +11,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-const Ring1 = (props: JSX.IntrinsicElements["group"]) => {
+const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
   const [higherRingRotation, setHigherRingRotation] = useState(0);
 
   const { nodes, materials } = useLoader<GLTFResult>(
@@ -20,12 +20,12 @@ const Ring1 = (props: JSX.IntrinsicElements["group"]) => {
     draco("/draco-gltf/")
   );
 
-  const ring1PermaRotation = () => {
+  const purpleRingPermaRotation = () => {
     setHigherRingRotation((prev) => prev + 0.002);
   };
 
   useEffect(() => {
-    setInterval(ring1PermaRotation, 1);
+    setInterval(purpleRingPermaRotation, 1);
   }, []);
 
   return (
@@ -46,4 +46,4 @@ const Ring1 = (props: JSX.IntrinsicElements["group"]) => {
   );
 };
 
-export default Ring1;
+export default PurpleRing;

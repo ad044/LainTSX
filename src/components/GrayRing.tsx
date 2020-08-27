@@ -12,7 +12,7 @@ import Lain from "./Lain";
 import { Mesh, MeshLambertMaterial, DoubleSide } from "three";
 import * as THREE from "three";
 
-type Ring0Props = {
+type GrayRingProps = {
   lowerRingPositionY: number;
   lowerRingRotationY: number;
 };
@@ -24,7 +24,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-const Ring0 = (props: any) => {
+const GrayRing = (props: any) => {
   const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring0.glb",
@@ -48,4 +48,4 @@ const Ring0 = (props: any) => {
   );
 };
 
-export default Ring0;
+export default GrayRing;
