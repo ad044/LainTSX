@@ -41,9 +41,7 @@ const LainConstructor = (props: LainConstructorProps) => {
     animator.animate();
   });
 
-  return (
-    <spriteMaterial attach="material" map={spriteTexture}></spriteMaterial>
-  );
+  return <spriteMaterial attach="material" map={spriteTexture} />;
 };
 
 export const LainIntro = () => {
@@ -115,7 +113,7 @@ export const LainMoveUp = () => {
 const Lain = (props: LainProps) => {
   return (
     <Suspense fallback={<>loading...</>}>
-      <sprite position={[0.1, props.lainPosY, 0]} scale={[4.3, 4.3, 4.3]}>
+      <sprite position={[0.1, props.lainPosY, 0]} scale={[4.9, 4.9, 4.9]}>
         {props.isLainMoving ? props.lainMoveState : <LainStanding />}
       </sprite>
     </Suspense>
