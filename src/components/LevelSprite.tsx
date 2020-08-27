@@ -32,7 +32,10 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
     } as SpriteToPath)[sprite];
   };
 
-  const spriteTexture: any = useLoader(THREE.TextureLoader, spriteToPath(props.sprite));
+  const spriteTexture: any = useLoader(
+    THREE.TextureLoader,
+    spriteToPath(props.sprite)
+  );
 
   return (
     <mesh
@@ -42,6 +45,7 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
     >
       <planeBufferGeometry attach="geometry" />
       <meshStandardMaterial
+        color={0xffffff}
         side={THREE.DoubleSide}
         attach="material"
         map={spriteTexture}
