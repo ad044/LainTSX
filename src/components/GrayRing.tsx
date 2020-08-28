@@ -30,6 +30,7 @@ const GrayRing = (props: any) => {
     "/models/ring0.glb",
     draco("/draco-gltf/")
   );
+
   return (
     <group
       scale={[1.3, 1.3, 1.3]}

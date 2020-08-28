@@ -18,12 +18,13 @@ import {
 import { OrthographicCamera, Octahedron } from "drei";
 import { Matrix4, Scene, BasicDepthPacking } from "three";
 import * as THREE from "three";
-import HUDElement from "./HUDElement";
-import level_sprite_huds from "../resources/level_sprite_huds.json";
+import HUDElement, { HUDElementProps } from "./HUDElement";
 
-type PositionAndScaleProps = [number, number, number];
+interface OrthoCameraProps extends HUDElementProps {
+  id: string;
+}
 
-const OrthoCamera = () => {
+const OrthoCamera = (props: OrthoCameraProps) => {
   const { gl, scene, camera } = useThree();
   const virtualScene = useMemo(() => new Scene(), []);
   const virtualCam = useRef();
@@ -42,23 +43,18 @@ const OrthoCamera = () => {
       makeDefault={false}
       position={[0, 0, 10]}
     >
-      {Object.values(level_sprite_huds.level04).map((spriteHud) => {
-        return (
-          <HUDElement
-            longHudType={spriteHud.long.type}
-            boringHudType={spriteHud.boring.type}
-            bigHudType={spriteHud.big.type}
-            longHudPosition={spriteHud.long.position as PositionAndScaleProps}
-            longHudScale={spriteHud.long.scale as PositionAndScaleProps}
-            boringHudPosition={
-              spriteHud.boring.position as PositionAndScaleProps
-            }
-            boringHudScale={spriteHud.boring.scale as PositionAndScaleProps}
-            bigHudPosition={spriteHud.big.position as PositionAndScaleProps}
-            bigHudScale={spriteHud.big.scale as PositionAndScaleProps}
-          />
-        );
-      })}
+      <HUDElement
+        longHudType={props.longHudType}
+        boringHudType={props.boringHudType}
+        bigHudType={props.bigHudType}
+        longHudPosition={props.longHudPosition}
+        longHudScale={props.longHudScale}
+        boringHudPosition={props.boringHudPosition}
+        boringHudScale={props.boringHudScale}
+        bigHudPosition={props.bigHudPosition}
+        bigHudScale={props.bigHudScale}
+        key={props.id}
+      />
     </OrthographicCamera>
   );
 };
