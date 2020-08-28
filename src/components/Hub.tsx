@@ -4,8 +4,8 @@ import PurpleRing from "./PurpleRing";
 import LevelSprite from "./LevelSprite";
 import level_sprites from "../resources/level_sprites.json";
 
-type PositionAndScaleProps = [number, number, number];
-type RotationProps = [number, number, number, (string | undefined)?];
+export type PositionAndScaleProps = [number, number, number];
+export type RotationProps = [number, number, number, (string | undefined)?];
 
 const Hub = (props: any) => {
   return (

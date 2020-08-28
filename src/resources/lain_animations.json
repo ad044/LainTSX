@@ -1,0 +1,18 @@
+{
+  "up": {
+    "frame_count": 36,
+    "duration": 3703.704
+  },
+  "down": {
+    "frame_count": 36,
+    "duration": 3703.704
+  },
+  "left": {
+    "frame_count": 47,
+    "duration": 3703.704
+  },
+  "right": {
+    "frame_count": 47,
+    "duration": 3703.704
+  }
+}

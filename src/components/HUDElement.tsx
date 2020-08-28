@@ -4,24 +4,21 @@ import * as THREE from "three";
 import longHud from "../static/sprites/long_hud.png";
 import boringHud from "../static/sprites/long_hud_boring.png";
 import bigHud from "../static/sprites/big_hud.png";
+import { PositionAndScaleProps } from "./Hub";
 
-type HUDElementProps = {
+export type HUDElementProps = {
   longHudType: string;
   boringHudType: string;
   bigHudType: string;
 
-  longHudPosition: [number, number, number];
-  longHudScale: [number, number, number];
+  longHudPosition: PositionAndScaleProps;
+  longHudScale: PositionAndScaleProps;
 
-  boringHudPosition: [number, number, number];
-  boringHudScale: [number, number, number];
+  boringHudPosition: PositionAndScaleProps;
+  boringHudScale: PositionAndScaleProps;
 
-  bigHudPosition: [number, number, number];
-  bigHudScale: [number, number, number];
-};
-
-type SpriteTypeToSprite = {
-  [key: string]: string;
+  bigHudPosition: PositionAndScaleProps;
+  bigHudScale: PositionAndScaleProps;
 };
 
 const HUDElement = (props: HUDElementProps) => {
@@ -51,6 +48,7 @@ const HUDElement = (props: HUDElementProps) => {
     THREE.TextureLoader,
     spriteTypeToSprite(props.boringHudType, "boring")!
   );
+
   const bigHudTexture: any = useLoader(
     THREE.TextureLoader,
     spriteTypeToSprite(props.bigHudType, "big")!
@@ -65,10 +63,7 @@ const HUDElement = (props: HUDElementProps) => {
           transparent={true}
         />
       </sprite>
-      <sprite
-        position={props.boringHudPosition}
-        scale={props.boringHudScale}
-      >
+      <sprite position={props.boringHudPosition} scale={props.boringHudScale}>
         <spriteMaterial
           attach="material"
           map={longHudBoringTexture}

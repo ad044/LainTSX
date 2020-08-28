@@ -1,19 +1,5 @@
-import React, {
-  useState,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
-import {
-  useFrame,
-  Canvas,
-  useLoader,
-  useThree,
-  createPortal,
-  useCamera,
-} from "react-three-fiber";
+import React, { useState, Suspense, useCallback, useEffect } from "react";
+import { Canvas } from "react-three-fiber";
 import Lain, {
   LainIntro,
   LainMoveDown,
@@ -22,24 +8,32 @@ import Lain, {
   LainMoveUp,
   LainStanding,
 } from "./Lain";
-import Hub from "./Hub";
+import Hub, { PositionAndScaleProps } from "./Hub";
 //import Orb from "./Orb";
-import {
-  OrbitControls,
-  PerspectiveCamera,
-  OrthographicCamera,
-  Octahedron,
-} from "drei";
+import { OrbitControls, PerspectiveCamera } from "drei";
 import Lights from "./Lights";
-import { Matrix4, Scene } from "three";
 import OrthoCamera from "./OrthoCamera";
+import TWEEN from "@tweenjs/tween.js";
+
+import level_sprite_directions from "../resources/level_sprite_directions.json";
+import lain_animations from "../resources/lain_animations.json";
+import level_sprite_huds from "../resources/level_sprite_huds.json";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
 };
 
-type FrameCounts = {
-  [animation: string]: number;
+type SpriteDirections = {
+  [key: string]: Record<string, string>;
+};
+
+// will fix the typing on this later
+type SpriteHuds = {
+  [key: string]: Record<string, any>;
+};
+
+type LainAnimations = {
+  [key: string]: Record<string, number>;
 };
 
 const Game = () => {
@@ -49,6 +43,25 @@ const Game = () => {
 
   const [cameraPosY, setCameraPosY] = useState(0);
   const [cameraRotationY, setCameraRotationY] = useState(0);
+
+  const [currentSprite, setCurrentSprite] = useState("043");
+
+  // we separate positions of the hud sprites into the state since we need to animate thme
+  const [longHudPosition, setLongHudPosition] = useState<
+    PositionAndScaleProps
+  >();
+  const [boringHudPosition, setBoringHudPosition] = useState<
+    PositionAndScaleProps
+  >();
+  const [bigHudPosition, setBigHudPosition] = useState<PositionAndScaleProps>();
+
+  const getMove = (currentLoc: string, key: string): string => {
+    return (level_sprite_directions as SpriteDirections)[currentLoc][key];
+  };
+
+  const getHudData = (sprite: string) => {
+    return (level_sprite_huds as SpriteHuds)[sprite];
+  };
 
   const moveCamera = (value: number, duration: number) => {
     const moveInterval = setInterval(() => {
@@ -71,76 +84,67 @@ const Game = () => {
     }, duration);
   };
 
-  const getKeyValue = <U extends keyof T, T extends object>(key: U) => (
-    obj: T
-  ) => obj[key];
-
   const getKeyCodeAssociation = (keyCode: number): string => {
-    return getKeyValue<keyof KeyCodeAssociations, KeyCodeAssociations>(keyCode)(
-      {
-        40: "down",
-        37: "left",
-        38: "up",
-        39: "right",
+    return ({
+      40: "down",
+      37: "left",
+      38: "up",
+      39: "right",
+    } as KeyCodeAssociations)[keyCode];
+  };
+
+  const setAnimationState = useCallback(
+    (key: string) => {
+      const move = getMove(currentSprite, key);
+
+      switch (key) {
+        case "down":
+          // "+" in the json denotes that the sprite chosen by getMove is not currently on screen,
+          // therefore lain should first do a move (up/down/left/right) and then that sprite
+          // will be chosen.
+          if (move[0] !== "+") setCurrentSprite(move);
+          else {
+            setLainMoveState(<LainMoveDown />);
+            setTimeout(() => {
+              setCurrentSprite(move);
+            }, (lain_animations as LainAnimations)[key]["duration"] + 200);
+          }
+          break;
+        case "left":
+          setLainMoveState(<LainMoveLeft />);
+          break;
+        case "up":
+          setLainMoveState(<LainMoveUp />);
+          break;
+        case "right":
+          setLainMoveState(<LainMoveRight />);
+          break;
+        default:
+          break;
       }
-    );
-  };
 
-  const getFrameCount = (animation: string): number => {
-    return getKeyValue<keyof FrameCounts, FrameCounts>(animation)({
-      up: 36,
-      down: 36,
-      left: 47,
-      right: 47,
-    });
-  };
+      // set moving to true to avoid player from overlapping animations and stuff
+      // by waiting for the anim to finish
+      setLainMoving(true);
 
-  // frameCount / FPS * 1000 to turn it into seconds
-  // 0.27 is a proportional value i calculated from the avg duration of an animation
-  // in the original game
-  const getAnimationDuration = (animation: string): number => {
-    const frameCount = getFrameCount(animation);
-    return (frameCount / (frameCount * 0.27)) * 1000;
-  };
-
-  const setAnimationState = (key: string) => {
-    switch (key) {
-      case "down":
-        setLainMoveState(<LainMoveDown />);
-        break;
-      case "left":
-        setLainMoveState(<LainMoveLeft />);
-        break;
-      case "up":
-        setLainMoveState(<LainMoveUp />);
-        break;
-      case "right":
-        setLainMoveState(<LainMoveRight />);
-        break;
-      default:
-        break;
-    }
-
-    // set moving to true to avoid player from overlapping animations and stuff
-    // by waiting for the anim to finish
-    setLainMoving(true);
-
-    // wait for the anim to finish, set lain to standing state, release the move lock
-    setTimeout(() => {
-      setLainMoving(false);
-      setLainMoveState(<LainStanding />);
-    }, getAnimationDuration(key));
-  };
+      // wait for the anim to finish, set lain to standing state, release the move lock
+      setTimeout(() => {
+        setLainMoving(false);
+        setLainMoveState(<LainStanding />);
+      }, (lain_animations as LainAnimations)[key]["duration"]);
+    },
+    [currentSprite]
+  );
 
   const handleUserKeyPress = useCallback(
     (event) => {
-      const { _, keyCode } = event;
+      const { keyCode } = event;
 
       const key = getKeyCodeAssociation(keyCode);
 
       console.log(key);
 
-      if (!isLainMoving) {
+      if (!isLainMoving && key) {
         setAnimationState(key);
         switch (key) {
           case "left":
@@ -168,7 +172,7 @@ const Game = () => {
         }
       }
     },
-    [isLainMoving]
+    [isLainMoving, setAnimationState]
   );
 
   useEffect(() => {
@@ -181,6 +185,21 @@ const Game = () => {
       document.getElementsByTagName("body")[0].className = "";
     };
   }, [handleUserKeyPress]);
+
+  const animateSpriteHUDIn = () => {
+
+    //wip
+    const initialLongPos = getHudData(currentSprite)["long"]["initial"];
+    const finalLongPos = getHudData(currentSprite)["long"]["initial"];
+    const pos = getHudData(currentSprite)["long"]["position"];
+    const pos1 = getHudData(currentSprite)["big"]["position"];
+    const pos2 = getHudData(currentSprite)["boring"]["position"];
+    setBigHudPosition(pos1);
+    setLongHudPosition(pos);
+    setBoringHudPosition(pos2);
+  };
+
+  useEffect(animateSpriteHUDIn, []);
 
   return (
     <>
@@ -198,7 +217,18 @@ const Game = () => {
           <Hub />
           <Lights />
           <Suspense fallback={null}>
-            <OrthoCamera />
+            <OrthoCamera
+              bigHudPosition={bigHudPosition!}
+              boringHudPosition={boringHudPosition!}
+              longHudPosition={longHudPosition!}
+              longHudType={getHudData(currentSprite)["long"]["type"]}
+              boringHudType={getHudData(currentSprite)["boring"]["type"]}
+              bigHudType={getHudData(currentSprite)["big"]["type"]}
+              longHudScale={getHudData(currentSprite)["long"]["scale"]}
+              boringHudScale={getHudData(currentSprite)["boring"]["scale"]}
+              bigHudScale={getHudData(currentSprite)["big"]["scale"]}
+              id={getHudData(currentSprite)["id"]}
+            />
           </Suspense>
         </PerspectiveCamera>
       </Canvas>
