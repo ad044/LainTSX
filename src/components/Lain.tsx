@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  Suspense,
-  useEffect,
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { Suspense, useState } from "react";
 import { useFrame, useLoader, useThree } from "react-three-fiber";
 import * as THREE from "three";
 import introSpriteSheet from "../static/sprites/intro.png";
@@ -88,8 +82,8 @@ export const LainMoveLeft = () => {
     <LainConstructor
       sprite={moveLeftSpriteSheet}
       frameCount={47}
-      framesVertical={6}
       framesHorizontal={8}
+      framesVertical={6}
     />
   );
 };

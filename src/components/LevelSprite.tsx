@@ -73,31 +73,17 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
     void main() {
         vec4 t1 = texture2D(tex1,vUv);
         vec4 t2 = texture2D(tex2,vUv);
-        float bias = abs(sin(timeMSeconds));
+        float bias = abs(sin(timeMSeconds / (1.6 / M_PI)));
         gl_FragColor = mix(t1, t2, bias);
     }
   `;
 
   useFrame(() => {
     if (materialRef.current) {
-      (materialRef.current! as any).uniforms.timeMSeconds.value = 1.5;
+      (materialRef.current! as any).uniforms.timeMSeconds.value =
+        (Date.now() % (Math.PI * 2000)) / 1000.0;
     }
   });
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     if (materialRef.current) {
-  //       const currentRef = materialRef.current! as any;
-  //       if (currentRef.uniforms.alpha.value > 0.1) {
-  //         currentRef.uniforms.alpha.value = (
-  //           currentRef.uniforms.alpha.value - 0.1
-  //         ).toPrecision(1);
-  //       } else {
-  //         currentRef.uniforms.alpha.value = 1.0;
-  //       }
-  //     }
-  //   }, 125);
-  // }, []);
 
   return (
     <mesh

@@ -19,7 +19,7 @@ const App = () => {
     <div id="game-root" className="game">
       {/* {moveToGame ? <Game /> : <Intro setMoveToGame={setMoveToGame} />} */}
       {/* <Intro /> */}
-        <Game />
+      <Game />
     </div>
   );
 };
