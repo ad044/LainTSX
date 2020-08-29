@@ -73,14 +73,16 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
     void main() {
         vec4 t1 = texture2D(tex1,vUv);
         vec4 t2 = texture2D(tex2,vUv);
-        float bias = abs(sin(timeMSeconds));
+        float bias = abs(sin(timeMSeconds / (1600.0 / M_PI)));
         gl_FragColor = mix(t1, t2, bias);
     }
   `;
 
+  const timeRef = Date.now();
+
   useFrame(() => {
     if (materialRef.current) {
-      (materialRef.current! as any).uniforms.timeMSeconds.value = 1.5;
+      (materialRef.current! as any).uniforms.timeMSeconds.value = Date.now() - timeRef;
     }
   });
 
