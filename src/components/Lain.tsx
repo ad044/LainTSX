@@ -1,4 +1,10 @@
-import React, { useCallback, Suspense, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  Suspense,
+  useEffect,
+  useState,
+  useLayoutEffect,
+} from "react";
 import { useFrame, useLoader, useThree } from "react-three-fiber";
 import * as THREE from "three";
 import introSpriteSheet from "../static/sprites/intro.png";

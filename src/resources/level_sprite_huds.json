@@ -17,5 +17,24 @@
       "scale": [0.5, 0.06, 1],
       "type": "normal"
     }
+  },
+  "042": {
+    "id": "042hud",
+    "long": {
+      "position": [-0.45, 0.15, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "normal",
+      "initial_position": [-1.45, 0.15, -8.6]
+    },
+    "boring": {
+      "position": [0.48, 0.174, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "normal"
+    },
+    "big": {
+      "position": [0.36, 0.13, -8.6],
+      "scale": [0.5, 0.06, 1],
+      "type": "normal"
+    }
   }
 }
