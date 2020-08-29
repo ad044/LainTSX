@@ -1,5 +1,11 @@
-import React, { useState, Suspense, useCallback, useEffect } from "react";
-import { Canvas } from "react-three-fiber";
+import React, {
+  useState,
+  Suspense,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+} from "react";
+import { Canvas, useLoader, useThree } from "react-three-fiber";
 import Lain, {
   LainIntro,
   LainMoveDown,
@@ -14,10 +20,13 @@ import { OrbitControls, PerspectiveCamera } from "drei";
 import Lights from "./Lights";
 import OrthoCamera from "./OrthoCamera";
 import TWEEN from "@tweenjs/tween.js";
+import moveDownSpriteSheet from "../static/sprites/jump_down.png";
+import moveUpSpriteSheet from "../static/sprites/jump_up.png";
 
 import level_sprite_directions from "../resources/level_sprite_directions.json";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_huds from "../resources/level_sprite_huds.json";
+import * as THREE from "three";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -38,6 +47,9 @@ type LainAnimations = {
 
 const Game = () => {
   const [isLainMoving, setLainMoving] = useState(false);
+  const [lainIntro, setLainIntro] = useState(false);
+  const [lainMoveUp, setLainMoveUp] = useState(false);
+  const [lainMoveDown, setLainMoveDown] = useState(false);
   const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
   const [lainPosY, setLainPosY] = useState(-0.2);
 
@@ -187,7 +199,6 @@ const Game = () => {
   }, [handleUserKeyPress]);
 
   const animateSpriteHUDIn = () => {
-
     //wip
     const initialLongPos = getHudData(currentSprite)["long"]["initial"];
     const finalLongPos = getHudData(currentSprite)["long"]["initial"];
@@ -201,22 +212,34 @@ const Game = () => {
 
   useEffect(animateSpriteHUDIn, []);
 
+  function Preload() {
+    const moveDown = useLoader(THREE.TextureLoader, moveDownSpriteSheet);
+    const moveUp = useLoader(THREE.TextureLoader, moveUpSpriteSheet);
+    const { gl } = useThree();
+    useLayoutEffect(() => {
+      gl.initTexture(moveDown);
+      gl.initTexture(moveUp);
+    }, [moveDown, moveUp]);
+    return null;
+  }
+
   return (
     <>
-      <Canvas>
+      <Canvas concurrent>
         <PerspectiveCamera
           position={[0, cameraPosY, 3]}
           rotation={[0, cameraRotationY, 0]}
         >
-          <OrbitControls />
-          <Lain
-            isLainMoving={isLainMoving}
-            lainMoveState={lainMoveState}
-            lainPosY={lainPosY}
-          />
-          <Hub />
-          <Lights />
           <Suspense fallback={null}>
+            <OrbitControls />
+            <Preload />
+            <Lain
+              isLainMoving={isLainMoving}
+              lainMoveState={lainMoveState}
+              lainPosY={lainPosY}
+            />
+            <Hub currentSprite={currentSprite} />
+            <Lights />
             <OrthoCamera
               bigHudPosition={bigHudPosition!}
               boringHudPosition={boringHudPosition!}

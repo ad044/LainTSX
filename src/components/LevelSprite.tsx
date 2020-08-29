@@ -9,14 +9,13 @@ import s from "../static/sprites/s.png";
 import sActive from "../static/sprites/s_active.png";
 import copland from "../static/sprites/copland.png";
 import coplandActive from "../static/sprites/copland_active.png";
-import { SpriteMaterial } from "three";
-import { act } from "react-dom/test-utils";
 
 type LevelSpriteConstructorProps = {
   sprite: string;
   position: [number, number, number];
   scale: [number, number, number];
   rotation: [number, number, number, (string | undefined)?];
+  active: boolean;
 };
 
 type SpriteToPath = {
@@ -24,7 +23,6 @@ type SpriteToPath = {
 };
 
 const LevelSprite = (props: LevelSpriteConstructorProps) => {
-  const [test, setTest] = useState(1.0);
   // the game only has a couple of sprites that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -47,9 +45,9 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
   const activeTexture: any = useLoader(THREE.TextureLoader, spriteSheet[1]);
 
   const uniforms = {
-    texture1: { type: "t", value: nonActiveTexture },
-    texture2: { type: "t", value: activeTexture },
-    alphaVal: { value: test },
+    tex1: { type: "t", value: nonActiveTexture },
+    tex2: { type: "t", value: activeTexture },
+    timeMSeconds: { value: Date.now() },
   };
 
   const vertexShader = `
@@ -57,29 +55,49 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
 
     void main() {
       vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
 
   const fragmentShader = `
-    uniform sampler2D texture1;
-    uniform sampler2D texture2;
-    uniform float alphaVal;
+    precision highp float;
+
+    uniform sampler2D tex1;
+    uniform sampler2D tex2;
+    uniform float timeMSeconds;
 
     varying vec2 vUv;
 
+    #define M_PI 3.1415926535897932384626433832795
+
     void main() {
-        vec4 tex1 = texture2D (texture1, vUv);
-        vec4 tex2 = texture2D (texture2, vUv);
-        vec3 mixCol  = mix(tex1.rgb / tex1.a, tex2.rgb / tex2.a, alphaVal);
-        gl_FragColor = vec4(mixCol.rgb, 1.0);
-        gl_FragColor.a = max(tex1.a, tex2.a); 
+        vec4 t1 = texture2D(tex1,vUv);
+        vec4 t2 = texture2D(tex2,vUv);
+        float bias = abs(sin(timeMSeconds));
+        gl_FragColor = mix(t1, t2, bias);
     }
   `;
 
   useFrame(() => {
-    (materialRef.current! as any).uniforms.alphaVal = test;
+    if (materialRef.current) {
+      (materialRef.current! as any).uniforms.timeMSeconds.value = 1.5;
+    }
   });
+
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     if (materialRef.current) {
+  //       const currentRef = materialRef.current! as any;
+  //       if (currentRef.uniforms.alpha.value > 0.1) {
+  //         currentRef.uniforms.alpha.value = (
+  //           currentRef.uniforms.alpha.value - 0.1
+  //         ).toPrecision(1);
+  //       } else {
+  //         currentRef.uniforms.alpha.value = 1.0;
+  //       }
+  //     }
+  //   }, 125);
+  // }, []);
 
   return (
     <mesh
@@ -88,16 +106,24 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
       rotation={props.rotation}
     >
       <planeBufferGeometry attach="geometry" />
-      <shaderMaterial
-        ref={materialRef}
-        attach="material"
-        uniforms={uniforms}
-        fragmentShader={fragmentShader}
-        vertexShader={vertexShader}
-        side={THREE.DoubleSide}
-        transparent={true}
-        uniformsNeedUpdate={true}
-      />
+      {props.active ? (
+        <shaderMaterial
+          ref={materialRef}
+          attach="material"
+          uniforms={uniforms}
+          fragmentShader={fragmentShader}
+          vertexShader={vertexShader}
+          side={THREE.DoubleSide}
+          transparent={true}
+        />
+      ) : (
+        <meshStandardMaterial
+          attach="material"
+          map={nonActiveTexture}
+          side={THREE.DoubleSide}
+          transparent={true}
+        />
+      )}
     </mesh>
   );
 };

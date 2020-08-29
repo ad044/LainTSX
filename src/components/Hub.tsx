@@ -21,6 +21,7 @@ const Hub = (props: any) => {
               rotation={sprite.rotation as RotationProps}
               sprite={sprite.sprite}
               key={sprite.id}
+              active={sprite.id === props.currentSprite ? true : false}
             />
           );
         })}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Intro from "./components/Intro";
 import Game from "./components/Game";
 import "./static/css/main.css";
@@ -19,7 +19,7 @@ const App = () => {
     <div id="game-root" className="game">
       {/* {moveToGame ? <Game /> : <Intro setMoveToGame={setMoveToGame} />} */}
       {/* <Intro /> */}
-      <Game/>
+        <Game />
     </div>
   );
 };
