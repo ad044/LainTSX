@@ -1,6 +1,6 @@
 {
-  "043": {
-    "id": "043hud",
+  "0422": {
+    "id": "0422hud",
     "long": {
       "position": [-0.45, 0.15, -8.6],
       "scale": [1, 0.03, 1],
@@ -10,31 +10,77 @@
     "boring": {
       "position": [0.48, 0.174, -8.6],
       "scale": [1, 0.03, 1],
-      "type": "normal"
+      "type": "normal",
+      "initial_position": [1.48, 0.174, -8.6]
     },
     "big": {
       "position": [0.36, 0.13, -8.6],
       "scale": [0.5, 0.06, 1],
-      "type": "normal"
+      "type": "normal",
+      "initial_position": [1.36, 0.13, -8.6]
     }
   },
-  "042": {
-    "id": "042hud",
+  "0414": {
+    "id": "0414hud",
     "long": {
-      "position": [-0.45, -0.15, -8.6],
+      "position": [-0.45, -0.09, -8.6],
       "scale": [1, 0.03, 1],
       "type": "normal",
-      "initial_position": [-1.45, -0.15, -8.6]
+      "initial_position": [-1.45, -0.09, -8.6]
     },
     "boring": {
-      "position": [0.48, 0.174, -8.6],
+      "position": [0.5, -0.07, -8.6],
       "scale": [1, 0.03, 1],
-      "type": "normal"
+      "type": "normal",
+      "initial_position": [1.48, -0.07, -8.6]
     },
     "big": {
-      "position": [0.36, 0.13, -8.6],
+      "position": [0.35, -0.12, -8.6],
       "scale": [0.5, 0.06, 1],
-      "type": "normal"
+      "type": "normal",
+      "initial_position": [1.36, -0.12, -8.6]
+    }
+  },
+  "0413": {
+    "id": "0413hud",
+    "long": {
+      "position": [0.85, -0.09, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "mirrored",
+      "initial_position": [1.45, -0.09, -8.6]
+    },
+    "boring": {
+      "position": [-0.11, -0.07, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "mirrored",
+      "initial_position": [-1.48, -0.07, -8.6]
+    },
+    "big": {
+      "position": [-0.35, -0.12, -8.6],
+      "scale": [0.5, 0.06, 1],
+      "type": "mirrored",
+      "initial_position": [-1.48, -0.12, -8.6]
+    }
+  },
+  "0405": {
+    "id": "0405hud",
+    "long": {
+      "position": [0.85, -0.32, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "mirrored",
+      "initial_position": [1.45, -0.3, -8.6]
+    },
+    "boring": {
+      "position": [-0.11, -0.30, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "mirrored",
+      "initial_position": [-1.48, -0.30, -8.6]
+    },
+    "big": {
+      "position": [-0.25, -0.28, -8.6],
+      "scale": [0.5, 0.06, 1],
+      "type": "mirrored",
+      "initial_position": [-1.48, -0.12, -8.6]
     }
   }
 }

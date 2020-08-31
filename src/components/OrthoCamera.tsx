@@ -29,16 +29,18 @@ const OrthoCamera = (props: OrthoCameraProps) => {
       position={[0, 0, 10]}
     >
       <HUDElement
-        longHudType={props.longHudType}
-        boringHudType={props.boringHudType}
-        bigHudType={props.bigHudType}
-        longHudPosition={props.longHudPosition}
+        longHUDType={props.longHUDType}
+        boringHUDType={props.boringHUDType}
+        bigHUDType={props.bigHUDType}
+        longHUDPosYZ={props.longHUDPosYZ}
         longHUDPosX={props.longHUDPosX}
-        longHudScale={props.longHudScale}
-        // boringHudPosition={props.boringHudPosition}
-        boringHudScale={props.boringHudScale}
-        // bigHudPosition={props.bigHudPosition}
-        bigHudScale={props.bigHudScale}
+        longHUDScale={props.longHUDScale}
+        boringHUDPosYZ={props.boringHUDPosYZ}
+        boringHUDPosX={props.boringHUDPosX}
+        boringHUDScale={props.boringHUDScale}
+        bigHUDPosYZ={props.bigHUDPosYZ}
+        bigHUDPosX={props.bigHUDPosX}
+        bigHUDScale={props.bigHUDScale}
         key={props.id}
       />
     </OrthographicCamera>

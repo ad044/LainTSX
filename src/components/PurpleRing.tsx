@@ -29,7 +29,7 @@ const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
 
   useFrame(() => {
     setPurpleRingRotationY(() => ({
-      purpleRingRotationY: purpleRingRotationY.get() + 0.04,
+      purpleRingRotationY: purpleRingRotationY.get() + 0.15,
     }));
   });
 

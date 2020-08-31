@@ -2,25 +2,32 @@ import React from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../static/sprites/big_hud.png";
+import bigHudMirrored from "../static/sprites/big_hud_mirrored.png";
 import longHud from "../static/sprites/long_hud.png";
+import longHudMirrored from "../static/sprites/long_hud_mirrored.png";
 import boringHud from "../static/sprites/long_hud_boring.png";
+import boringHudMirrored from "../static/sprites/long_hud_boring_mirrored.png";
 import { PositionAndScaleProps } from "./Hub";
 import { a, Interpolation } from "@react-spring/three";
 
 export type HUDElementProps = {
-  longHudType: string;
-  boringHudType: string;
-  bigHudType: string;
+  longHUDType: string;
+  boringHUDType: string;
+  bigHUDType: string;
 
-  longHudPosition: PositionAndScaleProps;
+  longHUDPosYZ: [number, number];
   longHUDPosX: Interpolation<number, any>;
-  longHudScale: PositionAndScaleProps;
+  longHUDScale: PositionAndScaleProps;
 
   // boringHudPosition: PositionAndScaleProps;
-  boringHudScale: PositionAndScaleProps;
+  boringHUDPosX: Interpolation<number, any>;
+  boringHUDPosYZ: [number, number];
+  boringHUDScale: PositionAndScaleProps;
 
   // bigHudPosition: PositionAndScaleProps;
-  bigHudScale: PositionAndScaleProps;
+  bigHUDPosX: Interpolation<number, any>;
+  bigHUDPosYZ: [number, number];
+  bigHUDScale: PositionAndScaleProps;
 };
 
 const HUDElement = (props: HUDElementProps) => {
@@ -38,30 +45,41 @@ const HUDElement = (props: HUDElementProps) => {
           case "big":
             return bigHud;
         }
+        break;
+      case "mirrored":
+        switch (hudElement) {
+          case "big":
+            return bigHudMirrored;
+          case "long":
+            return longHudMirrored;
+          case "boring":
+            return boringHudMirrored;
+        }
     }
   };
 
   const longHudTexture: any = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(props.longHudType, "long")!
+    spriteTypeToSprite(props.longHUDType, "long")!
   );
 
   const longHudBoringTexture: any = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(props.boringHudType, "boring")!
+    spriteTypeToSprite(props.boringHUDType, "boring")!
   );
 
   const bigHudTexture: any = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(props.bigHudType, "big")!
+    spriteTypeToSprite(props.bigHUDType, "big")!
   );
 
   return (
     <>
       <a.sprite
-        position={props.longHudPosition}
+        position-y={props.longHUDPosYZ[0]}
+        position-z={props.longHUDPosYZ[1]}
         position-x={props.longHUDPosX}
-        scale={props.longHudScale}
+        scale={props.longHUDScale}
       >
         <spriteMaterial
           attach="material"
@@ -69,20 +87,30 @@ const HUDElement = (props: HUDElementProps) => {
           transparent={true}
         />
       </a.sprite>
-      {/* <sprite position={props.boringHudPosition} scale={props.boringHudScale}>
+      <a.sprite
+        position-x={props.boringHUDPosX}
+        position-y={props.boringHUDPosYZ[0]}
+        position-z={props.boringHUDPosYZ[1]}
+        scale={props.boringHUDScale}
+      >
         <spriteMaterial
           attach="material"
           map={longHudBoringTexture}
           transparent={true}
         />
-      </sprite>
-      <sprite position={props.bigHudPosition} scale={props.bigHudScale}>
+      </a.sprite>
+      <a.sprite
+        position-x={props.bigHUDPosX}
+        position-y={props.bigHUDPosYZ[0]}
+        position-z={props.bigHUDPosYZ[1]}
+        scale={props.bigHUDScale}
+      >
         <spriteMaterial
           attach="material"
           map={bigHudTexture}
           transparent={true}
         />
-      </sprite> */}
+      </a.sprite>
     </>
   );
 };
