@@ -8,11 +8,12 @@ import moveLeftSpriteSheet from "../static/sprites/move_left.png";
 import moveRightSpriteSheet from "../static/sprites/move_right.png";
 import moveUpSpriteSheet from "../static/sprites/jump_up.png";
 import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
+import { a, Interpolation, useSpring } from "@react-spring/three";
 
 type LainProps = {
   isLainMoving: boolean;
   lainMoveState: JSX.Element;
-  lainPosY: number;
+  lainPosY: Interpolation<number, number>;
 };
 
 type LainConstructorProps = {
@@ -113,9 +114,13 @@ export const LainMoveUp = () => {
 const Lain = (props: LainProps) => {
   return (
     <Suspense fallback={<>loading...</>}>
-      <sprite position={[0.1, props.lainPosY, 0]} scale={[4.9, 4.9, 4.9]}>
+      <a.sprite
+        position-x={0.1}
+        position-y={props.lainPosY}
+        scale={[4.9, 4.9, 4.9]}
+      >
         {props.isLainMoving ? props.lainMoveState : <LainStanding />}
-      </sprite>
+      </a.sprite>
     </Suspense>
   );
 };

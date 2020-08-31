@@ -7,6 +7,8 @@ import * as THREE from "three";
 import { useLoader, useThree } from "react-three-fiber";
 import { useLayoutEffect } from "react";
 
+// this function just preloads lain's spritesheets cuz they're big and lazy loading them
+// used to make the suspense run for a couple milliseconds, resulting in flickering
 const Preloader = () => {
   const moveDown = useLoader(THREE.TextureLoader, moveDownSpriteSheet);
   const moveUp = useLoader(THREE.TextureLoader, moveUpSpriteSheet);

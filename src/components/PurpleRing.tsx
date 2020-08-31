@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import React, { useRef, useState, useEffect } from "react";
-import { useLoader } from "react-three-fiber";
+import { useLoader, useFrame } from "react-three-fiber";
 import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { draco } from "drei";
+import { useSpring, a } from "@react-spring/three";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -12,7 +13,13 @@ type GLTFResult = GLTF & {
 };
 
 const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
-  const [higherRingRotation, setHigherRingRotation] = useState(0);
+  const [{ purpleRingRotationY }, setPurpleRingRotationY] = useSpring(
+    () => ({
+      purpleRingRotationY: 0,
+      config: { precision: 0.0001, duration: 1200 },
+    }),
+    []
+  );
 
   const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
@@ -20,18 +27,18 @@ const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
     draco("/draco-gltf/")
   );
 
-  const purpleRingPermaRotation = () => {
-    setHigherRingRotation((prev) => prev + 0.002);
-  };
+  useFrame(() => {
+    setPurpleRingRotationY(() => ({
+      purpleRingRotationY: purpleRingRotationY.get() + 0.04,
+    }));
+  });
 
-  useEffect(() => {
-    setInterval(purpleRingPermaRotation, 1);
-  }, []);
+  const purpleRingRotY = purpleRingRotationY.to([0, 1], [0, Math.PI]);
 
   return (
-    <group
+    <a.group
       position={[0, 0.4, 0]}
-      rotation={[0, higherRingRotation, 0]}
+      rotation-y={purpleRingRotY}
       scale={[1.3, 1.3, 1.3]}
       dispose={null}
     >
@@ -42,7 +49,7 @@ const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
           side={THREE.DoubleSide}
         />
       </mesh>
-    </group>
+    </a.group>
   );
 };
 
