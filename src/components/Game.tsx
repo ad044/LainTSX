@@ -203,9 +203,12 @@ const Game = () => {
         // only change sprite focus
         default:
           setCurrentSprite(move);
+          // toggle hud to go back in
           updateHUD();
           setTimeout(() => {
+            // change hud while its hidden
             setCurrentSpriteHUD((level_sprite_huds as SpriteHuds)[move]);
+            // toggle it again to be shown in the new position
             updateHUD();
           }, 500);
       }

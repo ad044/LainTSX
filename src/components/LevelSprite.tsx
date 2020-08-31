@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import copland from "../static/sprites/copland.png";
@@ -44,11 +44,14 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
   const nonActiveTexture: any = useLoader(THREE.TextureLoader, spriteSheet[0]);
   const activeTexture: any = useLoader(THREE.TextureLoader, spriteSheet[1]);
 
-  const uniforms = {
-    tex1: { type: "t", value: nonActiveTexture },
-    tex2: { type: "t", value: activeTexture },
-    timeMSeconds: { value: Date.now() },
-  };
+  const uniforms = useMemo(
+    () => ({
+      tex1: { type: "t", value: nonActiveTexture },
+      tex2: { type: "t", value: activeTexture },
+      timeMSeconds: { value: Date.now() },
+    }),
+    []
+  );
 
   const vertexShader = `
     varying vec2 vUv;

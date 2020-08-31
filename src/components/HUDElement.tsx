@@ -13,7 +13,7 @@ export type HUDElementProps = {
   bigHudType: string;
 
   longHudPosition: PositionAndScaleProps;
-  longHUDPosX: Interpolation<any, any>;
+  longHUDPosX: Interpolation<number, any>;
   longHudScale: PositionAndScaleProps;
 
   // boringHudPosition: PositionAndScaleProps;
