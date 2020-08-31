@@ -1,8 +1,7 @@
-import React, { useEffect, useState, Suspense } from "react";
-import Intro from "./components/Intro";
+import React, { useEffect, useState } from "react";
 import Game from "./components/Game";
-import "./static/css/main.css";
 import "./static/css/hub.css";
+import "./static/css/main.css";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);

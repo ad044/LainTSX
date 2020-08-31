@@ -1,23 +1,8 @@
-import React, {
-  useState,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
-import {
-  useFrame,
-  Canvas,
-  useLoader,
-  useThree,
-  useCamera,
-  createPortal,
-} from "react-three-fiber";
 //import Orb from "./Orb";
-import { OrthographicCamera, Octahedron } from "drei";
-import { Matrix4, Scene, BasicDepthPacking } from "three";
-import * as THREE from "three";
+import { OrthographicCamera } from "drei";
+import React, { useMemo, useRef } from "react";
+import { useFrame, useThree } from "react-three-fiber";
+import { Scene } from "three";
 import HUDElement, { HUDElementProps } from "./HUDElement";
 
 interface OrthoCameraProps extends HUDElementProps {
@@ -48,10 +33,11 @@ const OrthoCamera = (props: OrthoCameraProps) => {
         boringHudType={props.boringHudType}
         bigHudType={props.bigHudType}
         longHudPosition={props.longHudPosition}
+        longHUDPosX={props.longHUDPosX}
         longHudScale={props.longHudScale}
-        boringHudPosition={props.boringHudPosition}
+        // boringHudPosition={props.boringHudPosition}
         boringHudScale={props.boringHudScale}
-        bigHudPosition={props.bigHudPosition}
+        // bigHudPosition={props.bigHudPosition}
         bigHudScale={props.bigHudScale}
         key={props.id}
       />

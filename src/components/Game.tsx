@@ -1,7 +1,13 @@
-import { a, useSpring } from "@react-spring/three";
+import { a, useSpring, update } from "@react-spring/three";
 //import Orb from "./Orb";
 import { OrbitControls } from "drei";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import { Canvas } from "react-three-fiber";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_directions from "../resources/level_sprite_directions.json";
@@ -44,18 +50,20 @@ const Game = () => {
     (level_sprite_huds as SpriteHuds)[currentSprite]
   );
 
-  // we separate positions of the hud sprites into the state since we need to animate thme
-  const [longHudPosX, setLongHudPosX] = useState(
-    currentSpriteHUD["long"]["position"][0]
-  );
-  const [boringHudPosition, setBoringHudPosition] = useState<
-    PositionAndScaleProps
-  >();
-  const [bigHudPosition, setBigHudPosition] = useState<PositionAndScaleProps>();
+  const [longHUDActive, setLongHUDActive] = useState(1);
 
-  const getMove = (currentLoc: string, key: string): string => {
-    return (level_sprite_directions as SpriteDirections)[currentLoc][key];
-  };
+  const { longHUDPositionX } = useSpring({
+    longHUDPositionX: longHUDActive,
+    config: { duration: 500 },
+  });
+
+  const longHUDPosX = longHUDPositionX.to(
+    [0, 1],
+    [
+      currentSpriteHUD["long"]["initial_position"][0],
+      currentSpriteHUD["long"]["position"][0],
+    ]
+  );
 
   const [{ cameraRotationY }, setCameraRotationY] = useSpring(
     () => ({
@@ -121,6 +129,10 @@ const Game = () => {
   const camPosY = cameraPositionY.to([0, 1], [0, Math.PI]);
   const lainPosY = lainPositionY.to([0, 1], [0, Math.PI]);
 
+  const getMove = (currentLoc: string, key: string): string => {
+    return (level_sprite_directions as SpriteDirections)[currentLoc][key];
+  };
+
   const getKeyCodeAssociation = (keyCode: number): string => {
     return ({
       40: "down",
@@ -168,21 +180,9 @@ const Game = () => {
     [moveCamera, moveLain, rotateCamera]
   );
 
-  const animateSpriteHUDIn = useCallback(
-    (spriteHUD: SpriteHuds) => {
-      const [longPos, boringPos, bigPos] = [
-        spriteHUD["long"]["position"],
-        spriteHUD["boring"]["position"],
-        spriteHUD["big"]["position"],
-      ];
-      const [initialLongPos, initialBoringPos, initialBigPos] = [
-        spriteHUD["long"]["initial_position"],
-        spriteHUD["boring"]["initial_position"],
-        spriteHUD["big"]["initial_position"],
-      ];
-    },
-    [longHudPosX]
-  );
+  const updateHUD = useCallback(() => {
+    setLongHUDActive((prev: number) => Number(!prev));
+  }, [setLongHUDActive]);
 
   const moveDispatcher = useCallback(
     (move: string, key: string) => {
@@ -203,11 +203,14 @@ const Game = () => {
         // only change sprite focus
         default:
           setCurrentSprite(move);
-          setCurrentSpriteHUD((level_sprite_huds as SpriteHuds)[move]);
-          animateSpriteHUDIn(currentSpriteHUD);
+          updateHUD();
+          setTimeout(() => {
+            setCurrentSpriteHUD((level_sprite_huds as SpriteHuds)[move]);
+            updateHUD();
+          }, 500);
       }
     },
-    [setAnimationState, animateSpriteHUDIn, currentSpriteHUD]
+    [setAnimationState, updateHUD]
   );
 
   const handleKeyPress = useCallback(
@@ -256,10 +259,11 @@ const Game = () => {
           <Hub currentSprite={currentSprite} />
           <Lights />
           <OrthoCamera
-            bigHudPosition={bigHudPosition!}
-            boringHudPosition={boringHudPosition!}
+            // bigHudPosition={bigHudPosition!}
+            // boringHudPosition={boringHudPosition!}
+            longHUDPosX={longHUDPosX}
             longHudPosition={[
-              longHudPosX,
+              currentSpriteHUD!["long"]["position"][0],
               currentSpriteHUD!["long"]["position"][1],
               currentSpriteHUD!["long"]["position"][2],
             ]}

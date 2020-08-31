@@ -1,9 +1,9 @@
-import * as THREE from "three";
-import React, { useRef, useState, useEffect } from "react";
-import { useLoader, useFrame } from "react-three-fiber";
-import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { a, useSpring } from "@react-spring/three";
 import { draco } from "drei";
-import { useSpring, a } from "@react-spring/three";
+import React from "react";
+import { useFrame, useLoader } from "react-three-fiber";
+import * as THREE from "three";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -21,7 +21,7 @@ const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
     []
   );
 
-  const { nodes, materials } = useLoader<GLTFResult>(
+  const { nodes } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring1.glb",
     draco("/draco-gltf/")

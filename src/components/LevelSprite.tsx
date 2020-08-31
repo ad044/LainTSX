@@ -1,14 +1,14 @@
-import React, { Suspense, useMemo, useState, useEffect, useRef } from "react";
-import { useFrame, useLoader, useThree } from "react-three-fiber";
+import React, { useRef } from "react";
+import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import movie from "../static/sprites/movie.png";
-import movieActive from "../static/sprites/movie_active.png";
-import touko from "../static/sprites/touko.png";
-import toukoActive from "../static/sprites/touko_active.png";
-import s from "../static/sprites/s.png";
-import sActive from "../static/sprites/s_active.png";
 import copland from "../static/sprites/copland.png";
 import coplandActive from "../static/sprites/copland_active.png";
+import movie from "../static/sprites/movie.png";
+import movieActive from "../static/sprites/movie_active.png";
+import s from "../static/sprites/s.png";
+import sActive from "../static/sprites/s_active.png";
+import touko from "../static/sprites/touko.png";
+import toukoActive from "../static/sprites/touko_active.png";
 
 type LevelSpriteConstructorProps = {
   sprite: string;
