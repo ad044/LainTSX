@@ -1,10 +1,11 @@
-import React, { Suspense } from "react";
-import { useFrame, useLoader, useThree } from "react-three-fiber";
+import React from "react";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
+import bigHud from "../static/sprites/big_hud.png";
 import longHud from "../static/sprites/long_hud.png";
 import boringHud from "../static/sprites/long_hud_boring.png";
-import bigHud from "../static/sprites/big_hud.png";
 import { PositionAndScaleProps } from "./Hub";
+import { a, Interpolation } from "@react-spring/three";
 
 export type HUDElementProps = {
   longHudType: string;
@@ -12,12 +13,13 @@ export type HUDElementProps = {
   bigHudType: string;
 
   longHudPosition: PositionAndScaleProps;
+  longHUDPosX: Interpolation<any, any>;
   longHudScale: PositionAndScaleProps;
 
-  boringHudPosition: PositionAndScaleProps;
+  // boringHudPosition: PositionAndScaleProps;
   boringHudScale: PositionAndScaleProps;
 
-  bigHudPosition: PositionAndScaleProps;
+  // bigHudPosition: PositionAndScaleProps;
   bigHudScale: PositionAndScaleProps;
 };
 
@@ -56,14 +58,18 @@ const HUDElement = (props: HUDElementProps) => {
 
   return (
     <>
-      <sprite position={props.longHudPosition} scale={props.longHudScale}>
+      <a.sprite
+        position={props.longHudPosition}
+        position-x={props.longHUDPosX}
+        scale={props.longHudScale}
+      >
         <spriteMaterial
           attach="material"
           map={longHudTexture}
           transparent={true}
         />
-      </sprite>
-      <sprite position={props.boringHudPosition} scale={props.boringHudScale}>
+      </a.sprite>
+      {/* <sprite position={props.boringHudPosition} scale={props.boringHudScale}>
         <spriteMaterial
           attach="material"
           map={longHudBoringTexture}
@@ -76,7 +82,7 @@ const HUDElement = (props: HUDElementProps) => {
           map={bigHudTexture}
           transparent={true}
         />
-      </sprite>
+      </sprite> */}
     </>
   );
 };

@@ -1,16 +1,8 @@
-import React, {
-  useRef,
-  useCallback,
-  Suspense,
-  useState,
-  useEffect,
-} from "react";
-import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { useThree, useFrame, Canvas, useLoader } from "react-three-fiber";
-import { OrbitControls, Html, draco, Icosahedron } from "drei";
-import Lain from "./Lain";
-import { Mesh, MeshLambertMaterial, DoubleSide } from "three";
+import { draco } from "drei";
+import React from "react";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 type GrayRingProps = {
   lowerRingPositionY: number;
@@ -25,7 +17,7 @@ type GLTFResult = GLTF & {
 };
 
 const GrayRing = (props: any) => {
-  const { nodes, materials } = useLoader<GLTFResult>(
+  const { nodes } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring0.glb",
     draco("/draco-gltf/")

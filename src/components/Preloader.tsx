@@ -14,11 +14,15 @@ const Preloader = () => {
   const moveUp = useLoader(THREE.TextureLoader, moveUpSpriteSheet);
   const moveLeft = useLoader(THREE.TextureLoader, moveLeftSpriteSheet);
   const moveRight = useLoader(THREE.TextureLoader, moveRightSpriteSheet);
+  const stand = useLoader(THREE.TextureLoader, standingSpriteSheet);
   const { gl } = useThree();
   useLayoutEffect(() => {
     gl.initTexture(moveDown);
     gl.initTexture(moveUp);
-  }, [moveDown, moveUp, moveLeft, standingSpriteSheet, moveRight]);
+    gl.initTexture(moveLeft);
+    gl.initTexture(moveRight);
+    gl.initTexture(stand);
+  }, [moveDown, moveUp, moveLeft, moveRight, stand, gl]);
   return null;
 };
 
