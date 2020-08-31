@@ -13,7 +13,7 @@ const Hub = (props: any) => {
       <Suspense fallback={<>loading...</>}>
         <PurpleRing />
         <GrayRing />
-        {Object.values(level_sprites.level04).map((sprite) => {
+        {Object.values(level_sprites).map((sprite) => {
           return (
             <LevelSprite
               position={sprite.position as PositionAndScaleProps}

@@ -1,24 +1,23 @@
-import { a, useSpring, update } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 //import Orb from "./Orb";
 import { OrbitControls } from "drei";
 import React, {
   Suspense,
   useCallback,
   useEffect,
-  useState,
-  useRef,
+  useState
 } from "react";
 import { Canvas } from "react-three-fiber";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_directions from "../resources/level_sprite_directions.json";
 import level_sprite_huds from "../resources/level_sprite_huds.json";
-import Hub, { PositionAndScaleProps } from "./Hub";
+import Hub from "./Hub";
 import Lain, {
   LainMoveDown,
   LainMoveLeft,
   LainMoveRight,
   LainMoveUp,
-  LainStanding,
+  LainStanding
 } from "./Lain";
 import Lights from "./Lights";
 import OrthoCamera from "./OrthoCamera";
@@ -45,17 +44,43 @@ const Game = () => {
   const [isLainMoving, setLainMoving] = useState(false);
   const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
 
-  const [currentSprite, setCurrentSprite] = useState("043");
+  const [currentSprite, setCurrentSprite] = useState("0422");
   const [currentSpriteHUD, setCurrentSpriteHUD] = useState<SpriteHuds>(
     (level_sprite_huds as SpriteHuds)[currentSprite]
   );
 
-  const [longHUDActive, setLongHUDActive] = useState(1);
+  const [HUDActive, setHUDActive] = useState(1);
 
-  const { longHUDPositionX } = useSpring({
-    longHUDPositionX: longHUDActive,
+  const { bigHUDPositionX } = useSpring({
+    bigHUDPositionX: HUDActive,
     config: { duration: 500 },
   });
+
+  const { longHUDPositionX } = useSpring({
+    longHUDPositionX: HUDActive,
+    config: { duration: 500 },
+  });
+
+  const { boringHUDPositionX } = useSpring({
+    boringHUDPositionX: HUDActive,
+    config: { duration: 500 },
+  });
+
+  const bigHUDPosX = bigHUDPositionX.to(
+    [0, 1],
+    [
+      currentSpriteHUD["big"]["initial_position"][0],
+      currentSpriteHUD["big"]["position"][0],
+    ]
+  );
+
+  const boringHUDPosX = boringHUDPositionX.to(
+    [0, 1],
+    [
+      currentSpriteHUD["boring"]["initial_position"][0],
+      currentSpriteHUD["boring"]["position"][0],
+    ]
+  );
 
   const longHUDPosX = longHUDPositionX.to(
     [0, 1],
@@ -181,8 +206,8 @@ const Game = () => {
   );
 
   const updateHUD = useCallback(() => {
-    setLongHUDActive((prev: number) => Number(!prev));
-  }, [setLongHUDActive]);
+    setHUDActive((prev: number) => Number(!prev));
+  }, [setHUDActive]);
 
   const moveDispatcher = useCallback(
     (move: string, key: string) => {
@@ -262,20 +287,27 @@ const Game = () => {
           <Hub currentSprite={currentSprite} />
           <Lights />
           <OrthoCamera
-            // bigHudPosition={bigHudPosition!}
-            // boringHudPosition={boringHudPosition!}
             longHUDPosX={longHUDPosX}
-            longHudPosition={[
-              currentSpriteHUD!["long"]["position"][0],
+            bigHUDPosX={bigHUDPosX}
+            boringHUDPosX={boringHUDPosX}
+            longHUDPosYZ={[
               currentSpriteHUD!["long"]["position"][1],
               currentSpriteHUD!["long"]["position"][2],
             ]}
-            longHudType={currentSpriteHUD!["long"]["type"]}
-            boringHudType={currentSpriteHUD!["boring"]["type"]}
-            bigHudType={currentSpriteHUD!["big"]["type"]}
-            longHudScale={currentSpriteHUD!["long"]["scale"]}
-            boringHudScale={currentSpriteHUD!["boring"]["scale"]}
-            bigHudScale={currentSpriteHUD!["big"]["scale"]}
+            boringHUDPosYZ={[
+              currentSpriteHUD!["boring"]["position"][1],
+              currentSpriteHUD!["boring"]["position"][2],
+            ]}
+            bigHUDPosYZ={[
+              currentSpriteHUD!["big"]["position"][1],
+              currentSpriteHUD!["big"]["position"][2],
+            ]}
+            longHUDType={currentSpriteHUD!["long"]["type"]}
+            boringHUDType={currentSpriteHUD!["boring"]["type"]}
+            bigHUDType={currentSpriteHUD!["big"]["type"]}
+            longHUDScale={currentSpriteHUD!["long"]["scale"]}
+            boringHUDScale={currentSpriteHUD!["boring"]["scale"]}
+            bigHUDScale={currentSpriteHUD!["big"]["scale"]}
             id={currentSpriteHUD!["id"]}
           />
         </Suspense>

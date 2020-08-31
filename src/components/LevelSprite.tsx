@@ -48,9 +48,9 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
     () => ({
       tex1: { type: "t", value: nonActiveTexture },
       tex2: { type: "t", value: activeTexture },
-      timeMSeconds: { value: Date.now() },
+      timeMSeconds: { value: (Date.now() % (Math.PI * 2000)) / 1000.0 },
     }),
-    []
+    [nonActiveTexture, activeTexture]
   );
 
   const vertexShader = `
