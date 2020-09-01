@@ -17,6 +17,7 @@ import Lain, {
 import Lights from "./Lights";
 import OrthoCamera from "./OrthoCamera";
 import Preloader from "./Preloader";
+import Starfield from "./Starfield";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -285,7 +286,7 @@ const Game = () => {
         rotation-y={camRotY}
       >
         <Suspense fallback={null}>
-          <OrbitControls />
+          {/* <OrbitControls />
           <Preloader />
           <Lain
             isLainMoving={isLainMoving}
@@ -293,7 +294,6 @@ const Game = () => {
             lainPosY={lainPosY}
           />
           <Hub currentSprite={currentSprite} />
-          <Lights />
           <OrthoCamera
             longHUDPosX={longHUDPosX}
             bigHUDPosX={bigHUDPosX}
@@ -318,7 +318,10 @@ const Game = () => {
             bigHUDScale={currentSpriteHUD!["big"]["scale"]}
             orthoCameraPosY={orthoCameraPosY}
             id={currentSpriteHUD!["id"]}
-          />
+          /> */}
+          <OrbitControls />
+          <Starfield />
+          <Lights />
         </Suspense>
       </a.perspectiveCamera>
     </Canvas>
