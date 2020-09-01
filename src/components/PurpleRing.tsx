@@ -5,6 +5,10 @@ import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
+type PurpleRingProps = {
+  purpleRingPosY: number;
+};
+
 type GLTFResult = GLTF & {
   nodes: {
     Circle002: THREE.Mesh;
@@ -12,7 +16,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
+const PurpleRing = (props: PurpleRingProps) => {
   const [{ purpleRingRotationY }, setPurpleRingRotationY] = useSpring(
     () => ({
       purpleRingRotationY: 0,
@@ -37,7 +41,7 @@ const PurpleRing = (props: JSX.IntrinsicElements["group"]) => {
 
   return (
     <a.group
-      position={[0, 0.4, 0]}
+      position={[0, props.purpleRingPosY, 0]}
       rotation-y={purpleRingRotY}
       scale={[1.3, 1.3, 1.3]}
       dispose={null}

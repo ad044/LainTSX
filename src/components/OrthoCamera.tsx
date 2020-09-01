@@ -7,6 +7,7 @@ import HUDElement, { HUDElementProps } from "./HUDElement";
 
 interface OrthoCameraProps extends HUDElementProps {
   id: string;
+  orthoCameraPosY: number;
 }
 
 const OrthoCamera = (props: OrthoCameraProps) => {
@@ -22,11 +23,11 @@ const OrthoCamera = (props: OrthoCameraProps) => {
     gl.render(virtualScene, virtualCam.current!);
   }, 1);
 
+  //-0.6
   return (
-    <OrthographicCamera
+    <orthographicCamera
       ref={virtualCam}
-      makeDefault={false}
-      position={[0, 0, 10]}
+      position={[0, props.orthoCameraPosY, 10]}
     >
       <HUDElement
         longHUDType={props.longHUDType}
@@ -43,7 +44,7 @@ const OrthoCamera = (props: OrthoCameraProps) => {
         bigHUDScale={props.bigHUDScale}
         key={props.id}
       />
-    </OrthographicCamera>
+    </orthographicCamera>
   );
 };
 
