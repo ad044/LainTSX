@@ -1,12 +1,7 @@
 import { a, useSpring } from "@react-spring/three";
 //import Orb from "./Orb";
 import { OrbitControls } from "drei";
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useState
-} from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Canvas } from "react-three-fiber";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_directions from "../resources/level_sprite_directions.json";
@@ -17,7 +12,7 @@ import Lain, {
   LainMoveLeft,
   LainMoveRight,
   LainMoveUp,
-  LainStanding
+  LainStanding,
 } from "./Lain";
 import Lights from "./Lights";
 import OrthoCamera from "./OrthoCamera";
@@ -44,9 +39,11 @@ const Game = () => {
   const [isLainMoving, setLainMoving] = useState(false);
   const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
 
-  const [currentSprite, setCurrentSprite] = useState("0422");
+  const [orthoCameraPosY, setOrthoCameraPosY] = useState(0);
+
+  const [currentSprite, setCurrentSprite] = useState("0506");
   const [currentSpriteHUD, setCurrentSpriteHUD] = useState<SpriteHuds>(
-    (level_sprite_huds as SpriteHuds)[currentSprite]
+    (level_sprite_huds as SpriteHuds)[currentSprite.substr(2)]
   );
 
   const [HUDActive, setHUDActive] = useState(1);
@@ -176,12 +173,12 @@ const Game = () => {
           setLainMoveState(<LainMoveDown />);
           break;
         case "left":
-          rotateCamera(0.1);
+          rotateCamera(0.15);
           setLainMoveState(<LainMoveLeft />);
           break;
         case "up":
-          moveCamera(-0.3);
-          moveLain(0.3);
+          moveCamera(-0.6);
+          moveLain(0.6);
           setLainMoveState(<LainMoveUp />);
           break;
         case "right":
@@ -211,18 +208,27 @@ const Game = () => {
 
   const moveDispatcher = useCallback(
     (move: string, key: string) => {
+      console.log(move[0]);
       switch (move[0]) {
         // do nothing / cant move
-        case "":
+        case undefined:
           break;
         // "+" in the json denotes that the sprite chosen by getMove is not currently on screen,
         // therefore lain should first do a move (up/down/left/right) and then that sprite
         // will be chosen.
         case "+":
+          // hide the hud
+          updateHUD();
+          // disable glow on current sprite
+          setCurrentSprite("");
           setAnimationState(key);
           setTimeout(() => {
-            setCurrentSprite(move);
-            setCurrentSpriteHUD((level_sprite_huds as SpriteHuds)[move]);
+            setOrthoCameraPosY(1.88);
+            updateHUD();
+            setCurrentSprite(move.substr(1));
+            setCurrentSpriteHUD(
+              (level_sprite_huds as SpriteHuds)[move.substr(3)]
+            );
           }, (lain_animations as LainAnimations)[key]["duration"] + 200);
           break;
         // only change sprite focus
@@ -232,7 +238,9 @@ const Game = () => {
           updateHUD();
           setTimeout(() => {
             // change hud while its hidden
-            setCurrentSpriteHUD((level_sprite_huds as SpriteHuds)[move]);
+            setCurrentSpriteHUD(
+              (level_sprite_huds as SpriteHuds)[move.substr(2)]
+            );
             // toggle it again to be shown in the new position
             updateHUD();
           }, 500);
@@ -247,11 +255,11 @@ const Game = () => {
 
       const key = getKeyCodeAssociation(keyCode);
 
-      const move = getMove(currentSprite, key);
+      if (key && !isLainMoving) {
+        const move = getMove(currentSprite, key);
 
-      console.log(key);
+        console.log(key);
 
-      if (!isLainMoving && key) {
         moveDispatcher(move, key);
       }
     },
@@ -308,6 +316,7 @@ const Game = () => {
             longHUDScale={currentSpriteHUD!["long"]["scale"]}
             boringHUDScale={currentSpriteHUD!["boring"]["scale"]}
             bigHUDScale={currentSpriteHUD!["big"]["scale"]}
+            orthoCameraPosY={orthoCameraPosY}
             id={currentSpriteHUD!["id"]}
           />
         </Suspense>

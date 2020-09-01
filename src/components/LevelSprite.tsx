@@ -1,14 +1,14 @@
 import React, { useRef, useMemo } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import copland from "../static/sprites/copland.png";
-import coplandActive from "../static/sprites/copland_active.png";
-import movie from "../static/sprites/movie.png";
-import movieActive from "../static/sprites/movie_active.png";
-import s from "../static/sprites/s.png";
-import sActive from "../static/sprites/s_active.png";
-import touko from "../static/sprites/touko.png";
-import toukoActive from "../static/sprites/touko_active.png";
+import Cou from "../static/sprites/Cou.png";
+import CouActive from "../static/sprites/Cou_active.png";
+import Dc from "../static/sprites/Dc.png";
+import DcActive from "../static/sprites/Dc_active.png";
+import SSkn from "../static/sprites/SSkn.png";
+import SSKnActive from "../static/sprites/SSkn_active.png";
+import Tda from "../static/sprites/Tda.png";
+import TdaActive from "../static/sprites/Tda_active.png";
 
 type LevelSpriteConstructorProps = {
   sprite: string;
@@ -27,13 +27,12 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
   // associate a sprite with the path
-  // (yes, imbad at naming them)
   const spriteToPath = (sprite: string) => {
     return ({
-      movie: [movie, movieActive],
-      touko: [touko, toukoActive],
-      s: [s, sActive],
-      copland: [copland, coplandActive],
+      Dc: [Dc, DcActive],
+      Tda: [Tda, TdaActive],
+      SSkn: [SSkn, SSKnActive],
+      Cou: [Cou, CouActive],
     } as SpriteToPath)[sprite];
   };
 

@@ -11,8 +11,11 @@ const Hub = (props: any) => {
   return (
     <>
       <Suspense fallback={<>loading...</>}>
-        <PurpleRing />
-        <GrayRing />
+        {/* average distance between rings from my CALCULATIONS is 1.87 in  our case */}
+        <PurpleRing purpleRingPosY={2.27}/>
+        <GrayRing grayRingPosY={1.6} />
+        <PurpleRing purpleRingPosY={0.4}/>
+        <GrayRing grayRingPosY={-0.27} />
         {Object.values(level_sprites).map((sprite) => {
           return (
             <LevelSprite
