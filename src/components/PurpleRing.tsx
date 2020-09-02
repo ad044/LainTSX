@@ -44,7 +44,6 @@ const PurpleRing = (props: PurpleRingProps) => {
       position={[0, props.purpleRingPosY, 0]}
       rotation-y={purpleRingRotY}
       scale={[1.3, 1.3, 1.3]}
-      dispose={null}
     >
       <mesh geometry={nodes.Circle002.geometry} rotation={[0, Math.PI / 4, 0]}>
         <meshLambertMaterial

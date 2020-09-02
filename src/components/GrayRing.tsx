@@ -28,7 +28,6 @@ const GrayRing = (props: GrayRingProps) => {
       scale={[1.3, 1.3, 1.3]}
       position={[0, props.grayRingPosY, 0]}
       rotation={[0, 0.26, 0]}
-      dispose={null}
     >
       <mesh geometry={nodes.Circle.geometry} rotation={[0, Math.PI / 4, 0]}>
         <meshLambertMaterial

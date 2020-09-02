@@ -286,7 +286,7 @@ const Game = () => {
         rotation-y={camRotY}
       >
         <Suspense fallback={null}>
-          {/* <OrbitControls />
+          <OrbitControls />
           <Preloader />
           <Lain
             isLainMoving={isLainMoving}
@@ -318,7 +318,7 @@ const Game = () => {
             bigHUDScale={currentSpriteHUD!["big"]["scale"]}
             orthoCameraPosY={orthoCameraPosY}
             id={currentSpriteHUD!["id"]}
-          /> */}
+          />
           <OrbitControls />
           <Starfield />
           <Lights />
