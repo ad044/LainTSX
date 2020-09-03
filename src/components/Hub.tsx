@@ -1,8 +1,8 @@
-import React, { Suspense, memo} from "react";
-import GrayRing from "./GrayRing";
-import PurpleRing from "./PurpleRing";
-import LevelSprite from "./LevelSprite";
+import React, { Suspense } from "react";
 import level_sprites from "../resources/level_sprites.json";
+import GrayRing from "./GrayRing";
+import LevelSprite from "./LevelSprite";
+import PurpleRing from "./PurpleRing";
 
 export type PositionAndScaleProps = [number, number, number];
 export type RotationProps = [number, number, number, (string | undefined)?];
