@@ -1,4 +1,4 @@
-import { a, Interpolation } from "@react-spring/three";
+import { Interpolation } from "@react-spring/three";
 import React, { createRef, memo, useMemo, useRef } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
@@ -157,7 +157,7 @@ const Starfield = memo((props: StarfieldProps) => {
   });
 
   return (
-    <a.group position={[-0.7, -1.5, -4]} >
+    <group position={[-0.7, -1.5, -4]} >
       {posesBlueFromRight.map((pos: any, idx: number) => {
         return (
           <mesh
@@ -273,7 +273,7 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-    </a.group>
+    </group>
   );
 });
 

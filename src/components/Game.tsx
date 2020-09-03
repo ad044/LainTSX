@@ -236,8 +236,8 @@ const Game = () => {
             setTimeout(() => {
               setSpriteUpdateCooldown(false);
             }, 1000);
-            break;
           }
+          break;
         // only change sprite focus
         default:
           if (!spriteUpdateCooldown) {
