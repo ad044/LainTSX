@@ -24,12 +24,12 @@ type LainConstructorProps = {
 
 const LainConstructor = (props: LainConstructorProps) => {
   // any here temporarily
-  const spriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);
+  const lainSpriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);
 
   const [animator] = useState(
     () =>
       new PlainSingularAnimator(
-        spriteTexture,
+        lainSpriteTexture,
         props.framesHorizontal,
         props.framesVertical,
         props.frameCount,
@@ -41,7 +41,7 @@ const LainConstructor = (props: LainConstructorProps) => {
     animator.animate();
   });
 
-  return <spriteMaterial attach="material" map={spriteTexture} />;
+  return <spriteMaterial attach="material" map={lainSpriteTexture} />;
 };
 
 export const LainIntro = () => {

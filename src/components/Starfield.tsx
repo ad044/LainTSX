@@ -1,9 +1,13 @@
-import React, { useMemo, useReducer, useRef, createRef } from "react";
-import * as THREE from "three";
-import { a, useSpring } from "@react-spring/three";
+import { a, Interpolation } from "@react-spring/three";
+import React, { createRef, memo, useMemo, useRef } from "react";
 import { useFrame } from "react-three-fiber";
+import * as THREE from "three";
 
-const Starfield = () => {
+type StarfieldProps = {
+  starfieldPosY: Interpolation<number, number>;
+}
+
+const Starfield = memo((props: StarfieldProps) => {
   const blueUniforms = useMemo(
     () => ({
       color1: {
@@ -105,7 +109,7 @@ const Starfield = () => {
   const whiteFromLeftRef = useRef(posesWhiteFromleft.map(() => createRef()));
 
   useFrame(() => {
-    blueFromRightRef.current.map((ref) => {
+    blueFromRightRef.current.forEach((ref) => {
       if ((ref.current as any).position.x < -1) {
         (ref.current as any).position.x += 7.3;
         (ref.current as any).position.z -= 7.3;
@@ -114,16 +118,16 @@ const Starfield = () => {
         (ref.current as any).position.z += 0.03;
       }
     });
-    blueFromLeftRef.current.map((ref) => {
+    blueFromLeftRef.current.forEach((ref) => {
       if ((ref.current as any).position.x > 3) {
-        (ref.current as any).position.x -= 3.3;
-        (ref.current as any).position.z -= 3.3;
+        (ref.current as any).position.x -= 8.3;
+        (ref.current as any).position.z -= 8.3;
       } else {
         (ref.current as any).position.x += 0.03;
         (ref.current as any).position.z += 0.03;
       }
     });
-    cyanFromRightRef.current.map((ref) => {
+    cyanFromRightRef.current.forEach((ref) => {
       if ((ref.current as any).position.x < -1) {
         (ref.current as any).position.x += 4.3;
         (ref.current as any).position.z -= 4.3;
@@ -132,7 +136,7 @@ const Starfield = () => {
         (ref.current as any).position.z += 0.03;
       }
     });
-    cyanFromLeftRef.current.map((ref) => {
+    cyanFromLeftRef.current.forEach((ref) => {
       if ((ref.current as any).position.x > 3) {
         (ref.current as any).position.x -= 3.3;
         (ref.current as any).position.z -= 3.3;
@@ -141,7 +145,7 @@ const Starfield = () => {
         (ref.current as any).position.z += 0.03;
       }
     });
-    whiteFromLeftRef.current.map((ref) => {
+    whiteFromLeftRef.current.forEach((ref) => {
       if ((ref.current as any).position.x > 3) {
         (ref.current as any).position.x -= 3.3;
         (ref.current as any).position.z -= 3.3;
@@ -153,7 +157,7 @@ const Starfield = () => {
   });
 
   return (
-    <group position={[-0.7, -1.5, -4]}>
+    <a.group position={[-0.7, -1.5, -4]} >
       {posesBlueFromRight.map((pos: any, idx: number) => {
         return (
           <mesh
@@ -161,7 +165,7 @@ const Starfield = () => {
             scale={[0.01, 2, 1]}
             rotation={[1.7, 0, 0.9]}
             position={[pos[0], pos[1], pos[2]]}
-            key={idx}
+            key={pos[0]}
             renderOrder={-1}
           >
             <planeGeometry attach="geometry" />
@@ -208,6 +212,7 @@ const Starfield = () => {
             position={[pos[0] - 1.3, pos[1], pos[2] + 1.5]}
             rotation={[1.7, 0, 0.9]}
             renderOrder={-1}
+            key={pos[0]}
           >
             <planeGeometry attach="geometry" />
             <shaderMaterial
@@ -230,6 +235,7 @@ const Starfield = () => {
             position={[pos[0] - 1.3, pos[1], pos[2] + 1.5]}
             rotation={[1.7, 0, -0.9]}
             renderOrder={-1}
+            key={pos[0]}
           >
             <planeGeometry attach="geometry" />
             <shaderMaterial
@@ -252,6 +258,7 @@ const Starfield = () => {
             position={[pos[0] - 1.3, pos[1], pos[2] + 1.5]}
             rotation={[1.7, 0, -0.9]}
             renderOrder={-1}
+            key={pos[0]}
           >
             <planeGeometry attach="geometry" />
             <shaderMaterial
@@ -266,8 +273,8 @@ const Starfield = () => {
           </mesh>
         );
       })}
-    </group>
+    </a.group>
   );
-};
+});
 
 export default Starfield;

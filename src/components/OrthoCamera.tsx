@@ -1,9 +1,8 @@
-//import Orb from "./Orb";
-import { OrthographicCamera } from "drei";
 import React, { useMemo, useRef } from "react";
 import { useFrame, useThree } from "react-three-fiber";
 import { Scene } from "three";
 import HUDElement, { HUDElementProps } from "./HUDElement";
+import Orb from "./Orb";
 
 interface OrthoCameraProps extends HUDElementProps {
   id: string;
@@ -44,6 +43,7 @@ const OrthoCamera = (props: OrthoCameraProps) => {
         bigHUDScale={props.bigHUDScale}
         key={props.id}
       />
+      <Orb />
     </orthographicCamera>
   );
 };

@@ -1,5 +1,5 @@
 import { draco } from "drei";
-import React from "react";
+import React, { memo } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -15,7 +15,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-const GrayRing = (props: GrayRingProps) => {
+const GrayRing = memo((props: GrayRingProps) => {
   const { nodes } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring0.glb",
@@ -38,6 +38,6 @@ const GrayRing = (props: GrayRingProps) => {
       </mesh>
     </group>
   );
-};
+});
 
 export default GrayRing;
