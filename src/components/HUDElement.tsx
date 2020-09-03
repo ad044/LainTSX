@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../static/sprites/big_hud.png";
@@ -30,7 +30,7 @@ export type HUDElementProps = {
   bigHUDScale: PositionAndScaleProps;
 };
 
-const HUDElement = (props: HUDElementProps) => {
+const HUDElement = memo((props: HUDElementProps) => {
   // these hud elements come in all shapes and forms, some of them are mirrored, rotated
   // you name it. this function allows me to specify whether i want a normal texture
   // for the sprite or the mirrored/rotated one.
@@ -113,6 +113,6 @@ const HUDElement = (props: HUDElementProps) => {
       </a.sprite>
     </>
   );
-};
+});
 
 export default HUDElement;

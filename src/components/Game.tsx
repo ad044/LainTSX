@@ -1,5 +1,4 @@
 import { a, useSpring } from "@react-spring/three";
-//import Orb from "./Orb";
 import { OrbitControls } from "drei";
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Canvas } from "react-three-fiber";
@@ -46,6 +45,7 @@ const Game = () => {
   const [currentSpriteHUD, setCurrentSpriteHUD] = useState<SpriteHuds>(
     (level_sprite_huds as SpriteHuds)[currentSprite.substr(2)]
   );
+  const [spriteUpdateCooldown, setSpriteUpdateCooldown] = useState(false);
 
   const [HUDActive, setHUDActive] = useState(1);
 
@@ -218,36 +218,48 @@ const Game = () => {
         // therefore lain should first do a move (up/down/left/right) and then that sprite
         // will be chosen.
         case "+":
-          // hide the hud
-          updateHUD();
-          // disable glow on current sprite
-          setCurrentSprite("");
-          setAnimationState(key);
-          setTimeout(() => {
-            setOrthoCameraPosY(1.88);
+          if (!spriteUpdateCooldown) {
+            // hide the hud
             updateHUD();
-            setCurrentSprite(move.substr(1));
-            setCurrentSpriteHUD(
-              (level_sprite_huds as SpriteHuds)[move.substr(3)]
-            );
-          }, (lain_animations as LainAnimations)[key]["duration"] + 200);
-          break;
+            // disable glow on current sprite
+            setCurrentSprite("");
+            setSpriteUpdateCooldown(true);
+            setAnimationState(key);
+            setTimeout(() => {
+              setOrthoCameraPosY(1.88);
+              updateHUD();
+              setCurrentSprite(move.substr(1));
+              setCurrentSpriteHUD(
+                (level_sprite_huds as SpriteHuds)[move.substr(3)]
+              );
+            }, (lain_animations as LainAnimations)[key]["duration"] + 200);
+            setTimeout(() => {
+              setSpriteUpdateCooldown(false);
+            }, 1000);
+            break;
+          }
         // only change sprite focus
         default:
-          setCurrentSprite(move);
-          // toggle hud to go back in
-          updateHUD();
-          setTimeout(() => {
-            // change hud while its hidden
-            setCurrentSpriteHUD(
-              (level_sprite_huds as SpriteHuds)[move.substr(2)]
-            );
-            // toggle it again to be shown in the new position
+          if (!spriteUpdateCooldown) {
+            setCurrentSprite(move);
+            setSpriteUpdateCooldown(true);
+            // toggle hud to go back in
             updateHUD();
-          }, 500);
+            setTimeout(() => {
+              // change hud while its hidden
+              setCurrentSpriteHUD(
+                (level_sprite_huds as SpriteHuds)[move.substr(2)]
+              );
+              // toggle it again to be shown in the new position
+              updateHUD();
+            }, 500);
+            setTimeout(() => {
+              setSpriteUpdateCooldown(false);
+            }, 1000);
+          }
       }
     },
-    [setAnimationState, updateHUD]
+    [setAnimationState, updateHUD, spriteUpdateCooldown]
   );
 
   const handleKeyPress = useCallback(
@@ -320,7 +332,7 @@ const Game = () => {
             id={currentSpriteHUD!["id"]}
           />
           <OrbitControls />
-          <Starfield />
+          <Starfield starfieldPosY={camPosY} />
           <Lights />
         </Suspense>
       </a.perspectiveCamera>

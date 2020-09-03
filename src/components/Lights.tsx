@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Lights = () => {
+const Lights = memo(() => {
   return (
     <>
       <ambientLight color={0x808080} />
@@ -9,6 +9,6 @@ const Lights = () => {
       <pointLight color={0xffffff} position={[0, 0, 0]} intensity={0.1} />
     </>
   );
-};
+});
 
 export default Lights;

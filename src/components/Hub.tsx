@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, memo} from "react";
 import GrayRing from "./GrayRing";
 import PurpleRing from "./PurpleRing";
 import LevelSprite from "./LevelSprite";
@@ -24,7 +24,7 @@ const Hub = (props: any) => {
               rotation={sprite.rotation as RotationProps}
               sprite={sprite.sprite}
               key={sprite.id}
-              active={sprite.id === props.currentSprite ? true : false}
+              active={sprite.id === props.currentSprite}
             />
           );
         })}

@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, memo } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import Cou from "../static/sprites/Cou.png";
@@ -22,7 +22,7 @@ type SpriteToPath = {
   [key: string]: [string, string];
 };
 
-const LevelSprite = (props: LevelSpriteConstructorProps) => {
+const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
   // the game only has a couple of sprites that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -114,6 +114,6 @@ const LevelSprite = (props: LevelSpriteConstructorProps) => {
       )}
     </mesh>
   );
-};
+});
 
 export default LevelSprite;

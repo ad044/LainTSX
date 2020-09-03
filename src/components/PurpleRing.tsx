@@ -1,6 +1,6 @@
 import { a, useSpring } from "@react-spring/three";
 import { draco } from "drei";
-import React from "react";
+import React, { memo } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -16,7 +16,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-const PurpleRing = (props: PurpleRingProps) => {
+const PurpleRing = memo((props: PurpleRingProps) => {
   const [{ purpleRingRotationY }, setPurpleRingRotationY] = useSpring(
     () => ({
       purpleRingRotationY: 0,
@@ -54,6 +54,6 @@ const PurpleRing = (props: PurpleRingProps) => {
       </mesh>
     </a.group>
   );
-};
+});
 
 export default PurpleRing;
