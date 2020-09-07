@@ -1,4 +1,8 @@
 {
+  "intro": {
+    "frame_count": 50,
+    "duration": 3944.033
+  },
   "up": {
     "frame_count": 36,
     "duration": 3703.704

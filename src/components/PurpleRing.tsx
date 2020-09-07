@@ -1,6 +1,5 @@
-import { a, useSpring } from "@react-spring/three";
 import { draco } from "drei";
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -17,13 +16,7 @@ type GLTFResult = GLTF & {
 };
 
 const PurpleRing = memo((props: PurpleRingProps) => {
-  const [{ purpleRingRotationY }, setPurpleRingRotationY] = useSpring(
-    () => ({
-      purpleRingRotationY: 0,
-      config: { precision: 0.0001, duration: 1200 },
-    }),
-    []
-  );
+  const purpleRingRef = useRef();
 
   const { nodes } = useLoader<GLTFResult>(
     GLTFLoader,
@@ -32,18 +25,14 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   );
 
   useFrame(() => {
-    setPurpleRingRotationY(() => ({
-      purpleRingRotationY: purpleRingRotationY.get() + 0.15,
-    }));
+    (purpleRingRef.current as any).rotation.y += 0.01;
   });
 
-  const purpleRingRotY = purpleRingRotationY.to([0, 1], [0, Math.PI]);
-
   return (
-    <a.group
+    <group
       position={[0, props.purpleRingPosY, 0]}
-      rotation-y={purpleRingRotY}
       scale={[1.3, 1.3, 1.3]}
+      ref={purpleRingRef}
     >
       <mesh geometry={nodes.Circle002.geometry} rotation={[0, Math.PI / 4, 0]}>
         <meshLambertMaterial
@@ -52,7 +41,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           side={THREE.DoubleSide}
         />
       </mesh>
-    </a.group>
+    </group>
   );
 });
 

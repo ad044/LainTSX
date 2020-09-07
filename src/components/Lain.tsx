@@ -8,6 +8,7 @@ import moveUpSpriteSheet from "../static/sprites/jump_up.png";
 import moveLeftSpriteSheet from "../static/sprites/move_left.png";
 import moveRightSpriteSheet from "../static/sprites/move_right.png";
 import standingSpriteSheet from "../static/sprites/standing.png";
+import introSpriteSheet from "../static/sprites/intro.png";
 
 type LainProps = {
   isLainMoving: boolean;
@@ -47,10 +48,10 @@ const LainConstructor = (props: LainConstructorProps) => {
 export const LainIntro = () => {
   return (
     <LainConstructor
-      sprite={standingSpriteSheet}
-      frameCount={1}
-      framesHorizontal={8}
-      framesVertical={6}
+      sprite={introSpriteSheet}
+      frameCount={50}
+      framesHorizontal={10}
+      framesVertical={5}
     />
   );
 };

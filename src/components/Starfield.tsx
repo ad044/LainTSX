@@ -157,7 +157,7 @@ const Starfield = memo((props: StarfieldProps) => {
   });
 
   return (
-    <group position={[-0.7, -1.5, -4]} >
+    <group position={[-0.7, -1.5, -4]} rotation={[0,0,0]}>
       {posesBlueFromRight.map((pos: any, idx: number) => {
         return (
           <mesh
