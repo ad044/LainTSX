@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Game from "./components/Game";
 import "./static/css/hub.css";
 import "./static/css/main.css";
+import { Canvas } from "react-three-fiber";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);
@@ -18,7 +19,9 @@ const App = () => {
     <div id="game-root" className="game">
       {/* {moveToGame ? <Game /> : <Intro setMoveToGame={setMoveToGame} />} */}
       {/* <Intro /> */}
-      <Game />
+      <Canvas concurrent>
+        <Game />
+      </Canvas>
     </div>
   );
 };

@@ -1,7 +1,13 @@
 import { a, useSpring } from "@react-spring/three";
 import { OrbitControls } from "drei";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
-import { Canvas } from "react-three-fiber";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useFrame } from "react-three-fiber";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_directions from "../resources/level_sprite_directions.json";
 import level_sprite_huds from "../resources/level_sprite_huds.json";
@@ -12,11 +18,13 @@ import Lain, {
   LainMoveRight,
   LainMoveUp,
   LainStanding,
+  LainIntro,
 } from "./Lain";
 import Lights from "./Lights";
 import OrthoCamera from "./OrthoCamera";
 import Preloader from "./Preloader";
 import Starfield from "./Starfield";
+import * as THREE from "three";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -36,12 +44,14 @@ type LainAnimations = {
 };
 
 const Game = () => {
+  const [isIntro, setIsIntro] = useState(true);
+
   const [isLainMoving, setLainMoving] = useState(false);
   const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
 
   const [orthoCameraPosY, setOrthoCameraPosY] = useState(0);
 
-  const [currentSprite, setCurrentSprite] = useState("0506");
+  const [currentSprite, setCurrentSprite] = useState("0422");
   const [currentSpriteHUD, setCurrentSpriteHUD] = useState<SpriteHuds>(
     (level_sprite_huds as SpriteHuds)[currentSprite.substr(2)]
   );
@@ -169,8 +179,8 @@ const Game = () => {
     (key: string) => {
       switch (key) {
         case "down":
-          moveCamera(0.3);
-          moveLain(-0.3);
+          moveCamera(0.6);
+          moveLain(-0.6);
           setLainMoveState(<LainMoveDown />);
           break;
         case "left":
@@ -290,21 +300,51 @@ const Game = () => {
     };
   }, [handleKeyPress]);
 
+  const groupRef = useRef();
+
+  useFrame(() => {
+    if (isIntro) {
+      if ((groupRef.current as any).rotation.x > 0) {
+        if ((groupRef.current as any).position.z > -1) {
+          (groupRef.current as any).rotation.x -= 0.015;
+        } else {
+          (groupRef.current as any).rotation.x -= 0.01;
+        }
+      }
+      if ((groupRef.current as any).position.y > 0) {
+        (groupRef.current as any).position.y -= 0.015;
+      }
+      if ((groupRef.current as any).position.z < 0) {
+        (groupRef.current as any).position.z += 0.04;
+      }
+    }
+  });
+
+  useEffect(() => {
+    setLainMoving(true);
+    setLainMoveState(<LainIntro />);
+    updateHUD();
+    setTimeout(() => {
+      setLainMoving(false);
+      setLainMoveState(<LainStanding />);
+      setIsIntro(false);
+      updateHUD();
+    }, (lain_animations as LainAnimations)["intro"]["duration"]);
+  }, [updateHUD]);
+
+  // pos-z ? => 3
+  // rot-x 1.5 => 0
+  // grp rot/pos both 0,0,0 => ?
   return (
-    <Canvas concurrent>
-      <a.perspectiveCamera
-        position-z={3}
-        position-y={camPosY}
-        rotation-y={camRotY}
-      >
+    <a.perspectiveCamera
+      position-z={3}
+      position-y={camPosY}
+      rotation-y={camRotY}
+    >
+      <group rotation={[2.3, 0, 0]} position={[0, 1.5, -7.5]} ref={groupRef}>
         <Suspense fallback={null}>
           <OrbitControls />
           <Preloader />
-          <Lain
-            isLainMoving={isLainMoving}
-            lainMoveState={lainMoveState}
-            lainPosY={lainPosY}
-          />
           <Hub currentSprite={currentSprite} />
           <OrthoCamera
             longHUDPosX={longHUDPosX}
@@ -330,13 +370,18 @@ const Game = () => {
             bigHUDScale={currentSpriteHUD!["big"]["scale"]}
             orthoCameraPosY={orthoCameraPosY}
             id={currentSpriteHUD!["id"]}
+            orbVisibility={!isIntro}
           />
-          <OrbitControls />
           <Starfield starfieldPosY={camPosY} />
           <Lights />
         </Suspense>
-      </a.perspectiveCamera>
-    </Canvas>
+      </group>
+      <Lain
+        isLainMoving={isLainMoving}
+        lainMoveState={lainMoveState}
+        lainPosY={lainPosY}
+      />
+    </a.perspectiveCamera>
   );
 };
 export default Game;
