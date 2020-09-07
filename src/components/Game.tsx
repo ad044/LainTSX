@@ -122,6 +122,14 @@ const Game = () => {
     []
   );
 
+  const [{ starfieldPositionY }, setStarfieldPositionY] = useSpring(
+    () => ({
+      starfieldPositionY: -0.5,
+      config: { precision: 0.0001, duration: 1200 },
+    }),
+    []
+  );
+
   const moveCamera = useCallback(
     (val: number) =>
       void setTimeout(
@@ -132,6 +140,18 @@ const Game = () => {
         1300
       ),
     [cameraPositionY, setCameraPositionY]
+  );
+
+  const moveStarfield = useCallback(
+    (val: number) =>
+      void setTimeout(
+        () =>
+          setStarfieldPositionY(() => ({
+            starfieldPositionY: starfieldPositionY.get() + val,
+          })),
+        1300
+      ),
+    [starfieldPositionY, setStarfieldPositionY]
   );
 
   const moveLain = useCallback(
@@ -161,6 +181,7 @@ const Game = () => {
   const camRotY = cameraRotationY.to([0, 1], [0, Math.PI]);
   const camPosY = cameraPositionY.to([0, 1], [0, Math.PI]);
   const lainPosY = lainPositionY.to([0, 1], [0, Math.PI]);
+  const starfieldPosY = starfieldPositionY.to([0, 1], [0, Math.PI]);
 
   const getMove = (currentLoc: string, key: string): string => {
     return (level_sprite_directions as SpriteDirections)[currentLoc][key];
@@ -180,6 +201,7 @@ const Game = () => {
       switch (key) {
         case "down":
           moveCamera(0.6);
+          moveStarfield(-0.6);
           moveLain(-0.6);
           setLainMoveState(<LainMoveDown />);
           break;
@@ -189,6 +211,7 @@ const Game = () => {
           break;
         case "up":
           moveCamera(-0.6);
+          moveStarfield(0.6);
           moveLain(0.6);
           setLainMoveState(<LainMoveUp />);
           break;
@@ -210,7 +233,7 @@ const Game = () => {
         setLainMoveState(<LainStanding />);
       }, (lain_animations as LainAnimations)[key]["duration"]);
     },
-    [moveCamera, moveLain, rotateCamera]
+    [moveCamera, moveLain, rotateCamera, moveStarfield]
   );
 
   const updateHUD = useCallback(() => {
@@ -372,7 +395,7 @@ const Game = () => {
             id={currentSpriteHUD!["id"]}
             orbVisibility={!isIntro}
           />
-          <Starfield starfieldPosY={camPosY} />
+          <Starfield starfieldPosY={starfieldPosY} />
           <Lights />
         </Suspense>
       </group>
