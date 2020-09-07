@@ -1,48 +1,29 @@
-import { Interpolation } from "@react-spring/three";
+import { Interpolation, a } from "@react-spring/three";
 import React, { createRef, memo, useMemo, useRef } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 
 type StarfieldProps = {
   starfieldPosY: Interpolation<number, number>;
-}
+};
 
 const Starfield = memo((props: StarfieldProps) => {
-  const blueUniforms = useMemo(
-    () => ({
+  const uniformConstructor = (col: string) => {
+    return {
       color1: {
         value: new THREE.Color("white"),
       },
       color2: {
-        value: new THREE.Color("blue"),
+        value: new THREE.Color(col),
       },
-    }),
-    []
-  );
+    };
+  };
 
-  const cyanUniforms = useMemo(
-    () => ({
-      color1: {
-        value: new THREE.Color("white"),
-      },
-      color2: {
-        value: new THREE.Color("cyan"),
-      },
-    }),
-    []
-  );
-
-  const whiteUniforms = useMemo(
-    () => ({
-      color1: {
-        value: new THREE.Color("white"),
-      },
-      color2: {
-        value: new THREE.Color("gray"),
-      },
-    }),
-    []
-  );
+  const [blueUniforms, cyanUniforms, whiteUniforms] = [
+    "blue",
+    "cyan",
+    "gray",
+  ].map((color: string) => useMemo(() => uniformConstructor(color), [color]));
 
   const vertexShader = `
     varying vec2 vUv;
@@ -72,41 +53,33 @@ const Starfield = memo((props: StarfieldProps) => {
 
   const lcgInstance = LCG(1664525, 1013904223, 2 ** 32, 2);
 
-  const posesBlueFromRight = Array.from({ length: 40 }, () => [
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-  ]);
+  const [
+    posesBlueFromRight,
+    posesBlueFromLeft,
+    posesCyanFromRight,
+    posesCyanFromLeft,
+    posesWhiteFromLeft,
+  ] = [40, 40, 10, 5, 5].map((x) =>
+    Array.from({ length: x }, () => [
+      lcgInstance() / 1000000000,
+      lcgInstance() / 1000000000,
+      lcgInstance() / 1000000000,
+    ])
+  );
 
-  const posesBlueFromLeft = Array.from({ length: 25 }, () => [
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-  ]);
-
-  const posesCyanFromRight = Array.from({ length: 10 }, () => [
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-  ]);
-
-  const posesCyanFromLeft = Array.from({ length: 5 }, () => [
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-  ]);
-
-  const posesWhiteFromleft = Array.from({ length: 5 }, () => [
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-    lcgInstance() / 1000000000,
-  ]);
-
-  const blueFromRightRef = useRef(posesBlueFromRight.map(() => createRef()));
-  const blueFromLeftRef = useRef(posesBlueFromLeft.map(() => createRef()));
-  const cyanFromRightRef = useRef(posesCyanFromRight.map(() => createRef()));
-  const cyanFromLeftRef = useRef(posesCyanFromLeft.map(() => createRef()));
-  const whiteFromLeftRef = useRef(posesWhiteFromleft.map(() => createRef()));
+  const [
+    blueFromRightRef,
+    blueFromLeftRef,
+    cyanFromRightRef,
+    cyanFromLeftRef,
+    whiteFromLeftRef,
+  ] = [
+    posesBlueFromRight,
+    posesBlueFromLeft,
+    posesCyanFromRight,
+    posesCyanFromLeft,
+    posesWhiteFromLeft,
+  ].map((poses) => useRef(poses.map(() => createRef())));
 
   useFrame(() => {
     blueFromRightRef.current.forEach((ref) => {
@@ -150,14 +123,18 @@ const Starfield = memo((props: StarfieldProps) => {
         (ref.current as any).position.x -= 3.3;
         (ref.current as any).position.z -= 3.3;
       } else {
-        (ref.current as any).position.x += 0.03;
-        (ref.current as any).position.z += 0.03;
+        (ref.current as any).position.x += 0.02;
+        (ref.current as any).position.z += 0.02;
       }
     });
   });
 
   return (
-    <group position={[-0.7, -1.5, -4]} rotation={[0,0,0]}>
+    <a.group
+      position={[-0.7, 0, -4]}
+      rotation={[0, 0, 0]}
+      position-y={props.starfieldPosY}
+    >
       {posesBlueFromRight.map((pos: any, idx: number) => {
         return (
           <mesh
@@ -187,7 +164,7 @@ const Starfield = memo((props: StarfieldProps) => {
             ref={(blueFromLeftRef.current as any)[idx]}
             scale={[0.01, 2, 1]}
             rotation={[1.7, 0, -0.9]}
-            position={[pos[0] - 2.4, pos[1] - 1.5, pos[2]]}
+            position={[pos[0] - 2.4, pos[1] - 0.5, pos[2]]}
             key={pos[0]}
             renderOrder={-1}
           >
@@ -250,12 +227,12 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-      {posesWhiteFromleft.map((pos: any, idx: number) => {
+      {posesWhiteFromLeft.map((pos: any, idx: number) => {
         return (
           <mesh
             ref={(whiteFromLeftRef.current as any)[idx]}
             scale={[0.01, 0.9, 1]}
-            position={[pos[0] - 1.3, pos[1], pos[2] + 1.5]}
+            position={[pos[0] - 1.3, pos[1] + 0.5, pos[2] + 1.5]}
             rotation={[1.7, 0, -0.9]}
             renderOrder={-1}
             key={pos[0]}
@@ -273,7 +250,7 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-    </group>
+    </a.group>
   );
 });
 
