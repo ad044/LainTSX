@@ -12,7 +12,7 @@ type OrbProps = {
 };
 
 const Orb = memo((props: OrbProps) => {
-  const orbRef = useRef();
+  const orbRef = useRef<THREE.Object3D>();
   const [orbDirection, setOrbDirection] = useState("left");
   const [currentCurve, setCurrentCurve] = useState("first");
 
@@ -97,11 +97,11 @@ const Orb = memo((props: OrbProps) => {
       }
 
       if (currentCurve === "first") {
-        (orbRef.current as any).position.x = orbPosFirst.x;
-        (orbRef.current as any).position.y = orbPosFirst.y;
+        orbRef.current!.position.x = orbPosFirst.x;
+        orbRef.current!.position.y = orbPosFirst.y;
       } else {
-        (orbRef.current as any).position.x = orbPosSecond.x;
-        (orbRef.current as any).position.y = orbPosSecond.y;
+        orbRef.current!.position.x = orbPosSecond.x;
+        orbRef.current!.position.y = orbPosSecond.y;
       }
     }
   });

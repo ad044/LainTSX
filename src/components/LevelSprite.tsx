@@ -36,7 +36,7 @@ const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
     } as SpriteToPath)[sprite];
   };
 
-  const materialRef = useRef();
+  const materialRef = useRef<THREE.ShaderMaterial>();
 
   const spriteSheet = spriteToPath(props.sprite);
 
@@ -82,7 +82,7 @@ const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
 
   useFrame(() => {
     if (materialRef.current) {
-      (materialRef.current! as any).uniforms.timeMSeconds.value =
+      materialRef.current.uniforms.timeMSeconds.value =
         (Date.now() % (Math.PI * 2000)) / 1000.0;
     }
   });

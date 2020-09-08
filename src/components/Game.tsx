@@ -25,6 +25,7 @@ import OrthoCamera from "./OrthoCamera";
 import Preloader from "./Preloader";
 import Starfield from "./Starfield";
 import * as THREE from "three";
+import Orb from "./Orb";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -312,6 +313,19 @@ const Game = () => {
     [isLainMoving, currentSprite, moveDispatcher]
   );
 
+  const doIntro = useCallback(() => {
+    setLainMoving(true);
+    setLainMoveState(<LainIntro />);
+    updateHUD();
+
+    setTimeout(() => {
+      setLainMoving(false);
+      setLainMoveState(<LainStanding />);
+      setIsIntro(false);
+      updateHUD();
+    }, (lain_animations as LainAnimations)["intro"]["duration"]);
+  }, [updateHUD]);
+
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
 
@@ -323,37 +337,27 @@ const Game = () => {
     };
   }, [handleKeyPress]);
 
-  const groupRef = useRef();
+  const groupRef = useRef<THREE.Object3D>();
 
   useFrame(() => {
     if (isIntro) {
-      if ((groupRef.current as any).rotation.x > 0) {
-        if ((groupRef.current as any).position.z > -1) {
-          (groupRef.current as any).rotation.x -= 0.015;
+      if (groupRef.current!.rotation.x > 0) {
+        if (groupRef.current!.position.z > -1) {
+          groupRef.current!.rotation.x -= 0.015;
         } else {
-          (groupRef.current as any).rotation.x -= 0.01;
+          groupRef.current!.rotation.x -= 0.01;
         }
       }
-      if ((groupRef.current as any).position.y > 0) {
-        (groupRef.current as any).position.y -= 0.015;
+      if (groupRef.current!.position.y > 0) {
+        groupRef.current!.position.y -= 0.015;
       }
-      if ((groupRef.current as any).position.z < 0) {
-        (groupRef.current as any).position.z += 0.04;
+      if (groupRef.current!.position.z < 0) {
+        groupRef.current!.position.z += 0.04;
       }
     }
   });
 
-  useEffect(() => {
-    setLainMoving(true);
-    setLainMoveState(<LainIntro />);
-    updateHUD();
-    setTimeout(() => {
-      setLainMoving(false);
-      setLainMoveState(<LainStanding />);
-      setIsIntro(false);
-      updateHUD();
-    }, (lain_animations as LainAnimations)["intro"]["duration"]);
-  }, [updateHUD]);
+  useEffect(doIntro, []);
 
   // pos-z ? => 3
   // rot-x 1.5 => 0
@@ -366,7 +370,6 @@ const Game = () => {
     >
       <group rotation={[2.3, 0, 0]} position={[0, 1.5, -7.5]} ref={groupRef}>
         <Suspense fallback={null}>
-          <OrbitControls />
           <Preloader />
           <Hub currentSprite={currentSprite} />
           <OrthoCamera
@@ -397,6 +400,7 @@ const Game = () => {
           />
           <Starfield starfieldPosY={starfieldPosY} />
           <Lights />
+          <OrbitControls />
         </Suspense>
       </group>
       <Lain
