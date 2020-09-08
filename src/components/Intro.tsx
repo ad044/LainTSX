@@ -46,7 +46,11 @@ const FirstMarq: React.FC = () => {
   );
 };
 
-const Intro = (props: any) => {
+type IntroProps = {
+  setMoveToGame: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Intro = (props: IntroProps) => {
   const [looping, setLooping] = useState(true);
   const [isArrowUp, setIsArrowUp] = useState(true);
 

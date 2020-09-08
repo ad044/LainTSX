@@ -1,7 +1,12 @@
-import { Interpolation, a } from "@react-spring/three";
-import React, { createRef, memo, useMemo, useRef } from "react";
+import { a, Interpolation } from "@react-spring/three";
+import React, { createRef, memo, RefObject, useMemo, useRef } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
+
+type StarRefsAndIncrementors = [
+  React.MutableRefObject<React.RefObject<THREE.Object3D>[]>,
+  number
+][];
 
 type StarfieldProps = {
   starfieldPosY: Interpolation<number, number>;
@@ -79,53 +84,50 @@ const Starfield = memo((props: StarfieldProps) => {
     posesCyanFromRight,
     posesCyanFromLeft,
     posesWhiteFromLeft,
-  ].map((poses) => useRef(poses.map(() => createRef())));
+  ].map((poses) =>
+    useRef<RefObject<THREE.Object3D>[]>(
+      poses.map(() => createRef<THREE.Object3D>())
+    )
+  );
+
+  // these arrays contain refs to the 3d planes and the increment values that they should move with across
+  // the screen
+  const fromRightStarRefsAndIncrementors: StarRefsAndIncrementors = [
+    [blueFromRightRef, 7.3],
+    [cyanFromRightRef, 4.3],
+  ];
+
+  const fromLeftStarRefsAndIncrementors: StarRefsAndIncrementors = [
+    [blueFromLeftRef, 8.3],
+    [cyanFromLeftRef, 3.3],
+    [whiteFromLeftRef, 3.3],
+  ];
 
   useFrame(() => {
-    blueFromRightRef.current.forEach((ref) => {
-      if ((ref.current as any).position.x < -1) {
-        (ref.current as any).position.x += 7.3;
-        (ref.current as any).position.z -= 7.3;
-      } else {
-        (ref.current as any).position.x -= 0.03;
-        (ref.current as any).position.z += 0.03;
-      }
+    // planes (stars) coming from right move to positive X and negative Z direction
+    fromRightStarRefsAndIncrementors.forEach((el) => {
+      el[0].current.forEach((posRef: RefObject<THREE.Object3D>) => {
+        if (posRef.current!.position.x < -1) {
+          posRef.current!.position.x += el[1];
+          posRef.current!.position.z -= el[1];
+        } else {
+          posRef.current!.position.x -= 0.03;
+          posRef.current!.position.z += 0.03;
+        }
+      });
     });
-    blueFromLeftRef.current.forEach((ref) => {
-      if ((ref.current as any).position.x > 3) {
-        (ref.current as any).position.x -= 8.3;
-        (ref.current as any).position.z -= 8.3;
-      } else {
-        (ref.current as any).position.x += 0.03;
-        (ref.current as any).position.z += 0.03;
-      }
-    });
-    cyanFromRightRef.current.forEach((ref) => {
-      if ((ref.current as any).position.x < -1) {
-        (ref.current as any).position.x += 4.3;
-        (ref.current as any).position.z -= 4.3;
-      } else {
-        (ref.current as any).position.x -= 0.03;
-        (ref.current as any).position.z += 0.03;
-      }
-    });
-    cyanFromLeftRef.current.forEach((ref) => {
-      if ((ref.current as any).position.x > 3) {
-        (ref.current as any).position.x -= 3.3;
-        (ref.current as any).position.z -= 3.3;
-      } else {
-        (ref.current as any).position.x += 0.03;
-        (ref.current as any).position.z += 0.03;
-      }
-    });
-    whiteFromLeftRef.current.forEach((ref) => {
-      if ((ref.current as any).position.x > 3) {
-        (ref.current as any).position.x -= 3.3;
-        (ref.current as any).position.z -= 3.3;
-      } else {
-        (ref.current as any).position.x += 0.02;
-        (ref.current as any).position.z += 0.02;
-      }
+
+    // the ones that are coming from left move to negative X and Z
+    fromLeftStarRefsAndIncrementors.forEach((el) => {
+      el[0].current.forEach((posRef: RefObject<THREE.Object3D>) => {
+        if (posRef.current!.position.x > 3) {
+          posRef.current!.position.x -= el[1];
+          posRef.current!.position.z -= el[1];
+        } else {
+          posRef.current!.position.x += 0.03;
+          posRef.current!.position.z += 0.03;
+        }
+      });
     });
   });
 
@@ -135,10 +137,10 @@ const Starfield = memo((props: StarfieldProps) => {
       rotation={[0, 0, 0]}
       position-y={props.starfieldPosY}
     >
-      {posesBlueFromRight.map((pos: any, idx: number) => {
+      {posesBlueFromRight.map((pos: number[], idx: number) => {
         return (
           <mesh
-            ref={(blueFromRightRef.current as any)[idx]}
+            ref={blueFromRightRef.current[idx]}
             scale={[0.01, 2, 1]}
             rotation={[1.7, 0, 0.9]}
             position={[pos[0], pos[1], pos[2]]}
@@ -158,10 +160,10 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-      {posesBlueFromLeft.map((pos: any, idx: number) => {
+      {posesBlueFromLeft.map((pos: number[], idx: number) => {
         return (
           <mesh
-            ref={(blueFromLeftRef.current as any)[idx]}
+            ref={blueFromLeftRef.current[idx]}
             scale={[0.01, 2, 1]}
             rotation={[1.7, 0, -0.9]}
             position={[pos[0] - 2.4, pos[1] - 0.5, pos[2]]}
@@ -181,10 +183,10 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-      {posesCyanFromRight.map((pos: any, idx: number) => {
+      {posesCyanFromRight.map((pos: number[], idx: number) => {
         return (
           <mesh
-            ref={(cyanFromRightRef.current as any)[idx]}
+            ref={cyanFromRightRef.current[idx]}
             scale={[0.01, 0.9, 1]}
             position={[pos[0] - 1.3, pos[1], pos[2] + 1.5]}
             rotation={[1.7, 0, 0.9]}
@@ -204,10 +206,10 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-      {posesCyanFromLeft.map((pos: any, idx: number) => {
+      {posesCyanFromLeft.map((pos: number[], idx: number) => {
         return (
           <mesh
-            ref={(cyanFromLeftRef.current as any)[idx]}
+            ref={cyanFromLeftRef.current[idx]}
             scale={[0.01, 0.9, 1]}
             position={[pos[0] - 1.3, pos[1], pos[2] + 1.5]}
             rotation={[1.7, 0, -0.9]}
@@ -227,10 +229,10 @@ const Starfield = memo((props: StarfieldProps) => {
           </mesh>
         );
       })}
-      {posesWhiteFromLeft.map((pos: any, idx: number) => {
+      {posesWhiteFromLeft.map((pos: number[], idx: number) => {
         return (
           <mesh
-            ref={(whiteFromLeftRef.current as any)[idx]}
+            ref={whiteFromLeftRef.current[idx]}
             scale={[0.01, 0.9, 1]}
             position={[pos[0] - 1.3, pos[1] + 0.5, pos[2] + 1.5]}
             rotation={[1.7, 0, -0.9]}

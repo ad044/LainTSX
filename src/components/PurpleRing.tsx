@@ -1,5 +1,5 @@
 import { draco } from "drei";
-import React, { memo, useRef } from "react";
+import React, { memo, RefObject, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -16,7 +16,7 @@ type GLTFResult = GLTF & {
 };
 
 const PurpleRing = memo((props: PurpleRingProps) => {
-  const purpleRingRef = useRef();
+  const purpleRingRef = useRef<THREE.Object3D>();
 
   const { nodes } = useLoader<GLTFResult>(
     GLTFLoader,
@@ -25,7 +25,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   );
 
   useFrame(() => {
-    (purpleRingRef.current as any).rotation.y += 0.01;
+    purpleRingRef.current!.rotation.y += 0.01;
   });
 
   return (

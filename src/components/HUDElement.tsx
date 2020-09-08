@@ -16,16 +16,16 @@ export type HUDElementProps = {
   bigHUDType: string;
 
   longHUDPosYZ: [number, number];
-  longHUDPosX: Interpolation<number, any>;
+  longHUDPosX: Interpolation<number, number>;
   longHUDScale: PositionAndScaleProps;
 
   // boringHudPosition: PositionAndScaleProps;
-  boringHUDPosX: Interpolation<number, any>;
+  boringHUDPosX: Interpolation<number, number>;
   boringHUDPosYZ: [number, number];
   boringHUDScale: PositionAndScaleProps;
 
   // bigHudPosition: PositionAndScaleProps;
-  bigHUDPosX: Interpolation<number, any>;
+  bigHUDPosX: Interpolation<number, number>;
   bigHUDPosYZ: [number, number];
   bigHUDScale: PositionAndScaleProps;
 };
@@ -58,17 +58,17 @@ const HUDElement = memo((props: HUDElementProps) => {
     }
   };
 
-  const longHudTexture: any = useLoader(
+  const longHudTexture = useLoader(
     THREE.TextureLoader,
     spriteTypeToSprite(props.longHUDType, "long")!
   );
 
-  const longHudBoringTexture: any = useLoader(
+  const longHudBoringTexture = useLoader(
     THREE.TextureLoader,
     spriteTypeToSprite(props.boringHUDType, "boring")!
   );
 
-  const bigHudTexture: any = useLoader(
+  const bigHudTexture = useLoader(
     THREE.TextureLoader,
     spriteTypeToSprite(props.bigHUDType, "big")!
   );
