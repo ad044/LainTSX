@@ -40,8 +40,8 @@ const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
 
   const spriteSheet = spriteToPath(props.sprite);
 
-  const nonActiveTexture: any = useLoader(THREE.TextureLoader, spriteSheet[0]);
-  const activeTexture: any = useLoader(THREE.TextureLoader, spriteSheet[1]);
+  const nonActiveTexture = useLoader(THREE.TextureLoader, spriteSheet[0]);
+  const activeTexture = useLoader(THREE.TextureLoader, spriteSheet[1]);
 
   const uniforms = useMemo(
     () => ({

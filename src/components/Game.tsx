@@ -25,27 +25,46 @@ import OrthoCamera from "./OrthoCamera";
 import Preloader from "./Preloader";
 import Starfield from "./Starfield";
 import * as THREE from "three";
-import Orb from "./Orb";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
 };
 
+type SpriteDirectionData = {
+  [direction: string]: string;
+};
+
 type SpriteDirections = {
-  [key: string]: Record<string, string>;
+  [sprite_id: string]: SpriteDirectionData;
 };
 
-// will fix the typing on this later
+type HudShapeData = {
+  position: number[];
+  scale: number[];
+  type: string;
+  initial_position: number[];
+};
+
+type SpriteHudData = {
+  long: HudShapeData;
+  boring: HudShapeData;
+  big: HudShapeData;
+};
+
 type SpriteHuds = {
-  [key: string]: Record<string, any> | any;
+  [sprite_hud_id: string]: SpriteHudData;
 };
 
+type LainAnimationData = {
+  frame_count: number;
+  duration: number;
+};
 type LainAnimations = {
-  [key: string]: Record<string, number>;
+  [sprite: string]: LainAnimationData;
 };
 
 const Game = () => {
-  const [isIntro, setIsIntro] = useState(true);
+  const [isIntro, setIsIntro] = useState(false);
 
   const [isLainMoving, setLainMoving] = useState(false);
   const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
@@ -53,7 +72,7 @@ const Game = () => {
   const [orthoCameraPosY, setOrthoCameraPosY] = useState(0);
 
   const [currentSprite, setCurrentSprite] = useState("0422");
-  const [currentSpriteHUD, setCurrentSpriteHUD] = useState<SpriteHuds>(
+  const [currentSpriteHUD, setCurrentSpriteHUD] = useState<SpriteHudData>(
     (level_sprite_huds as SpriteHuds)[currentSprite.substr(2)]
   );
   const [spriteUpdateCooldown, setSpriteUpdateCooldown] = useState(false);
@@ -313,19 +332,6 @@ const Game = () => {
     [isLainMoving, currentSprite, moveDispatcher]
   );
 
-  const doIntro = useCallback(() => {
-    setLainMoving(true);
-    setLainMoveState(<LainIntro />);
-    updateHUD();
-
-    setTimeout(() => {
-      setLainMoving(false);
-      setLainMoveState(<LainStanding />);
-      setIsIntro(false);
-      updateHUD();
-    }, (lain_animations as LainAnimations)["intro"]["duration"]);
-  }, [updateHUD]);
-
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
 
@@ -351,13 +357,30 @@ const Game = () => {
       if (groupRef.current!.position.y > 0) {
         groupRef.current!.position.y -= 0.015;
       }
+
       if (groupRef.current!.position.z < 0) {
         groupRef.current!.position.z += 0.04;
+      }
+
+      // if the rotation hits this value that means that the intro is finished.
+      // using a settimeout or something similar resulted in clunkiness, since it was dependant
+      // on load times.
+      if (parseFloat(groupRef.current!.rotation.x.toPrecision(2)) === -0.005) {
+        updateHUD();
+        setLainMoving(false);
+        setLainMoveState(<LainStanding />);
+        setIsIntro(false);
       }
     }
   });
 
-  useEffect(doIntro, []);
+  // on load, move the hud to the right (out of vision), and set lain sprite to intro
+  useEffect(() => {
+    setIsIntro(true);
+    updateHUD();
+    setLainMoving(true);
+    setLainMoveState(<LainIntro />);
+  }, [updateHUD]);
 
   // pos-z ? => 3
   // rot-x 1.5 => 0
@@ -391,12 +414,19 @@ const Game = () => {
             longHUDType={currentSpriteHUD!["long"]["type"]}
             boringHUDType={currentSpriteHUD!["boring"]["type"]}
             bigHUDType={currentSpriteHUD!["big"]["type"]}
-            longHUDScale={currentSpriteHUD!["long"]["scale"]}
-            boringHUDScale={currentSpriteHUD!["boring"]["scale"]}
-            bigHUDScale={currentSpriteHUD!["big"]["scale"]}
+            longHUDScale={
+              currentSpriteHUD!["long"]["scale"] as [number, number, number]
+            }
+            boringHUDScale={
+              currentSpriteHUD!["boring"]["scale"] as [number, number, number]
+            }
+            bigHUDScale={
+              currentSpriteHUD!["big"]["scale"] as [number, number, number]
+            }
             orthoCameraPosY={orthoCameraPosY}
-            id={currentSpriteHUD!["id"]}
+            id={currentSprite}
             orbVisibility={!isIntro}
+            hudVisibility={!isIntro}
           />
           <Starfield starfieldPosY={starfieldPosY} />
           <Lights />

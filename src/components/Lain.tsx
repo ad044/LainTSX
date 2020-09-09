@@ -23,6 +23,7 @@ type LainConstructorProps = {
   framesHorizontal: number;
 };
 
+
 const LainConstructor = (props: LainConstructorProps) => {
   // any here temporarily
   const lainSpriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);

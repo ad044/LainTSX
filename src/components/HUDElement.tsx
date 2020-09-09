@@ -7,7 +7,6 @@ import longHud from "../static/sprites/long_hud.png";
 import longHudMirrored from "../static/sprites/long_hud_mirrored.png";
 import boringHud from "../static/sprites/long_hud_boring.png";
 import boringHudMirrored from "../static/sprites/long_hud_boring_mirrored.png";
-import { PositionAndScaleProps } from "./Hub";
 import { a, Interpolation } from "@react-spring/three";
 
 export type HUDElementProps = {
@@ -17,17 +16,19 @@ export type HUDElementProps = {
 
   longHUDPosYZ: [number, number];
   longHUDPosX: Interpolation<number, number>;
-  longHUDScale: PositionAndScaleProps;
+  longHUDScale: [number, number, number];
 
-  // boringHudPosition: PositionAndScaleProps;
+  // boringHudPosition: [number, number, number];
   boringHUDPosX: Interpolation<number, number>;
   boringHUDPosYZ: [number, number];
-  boringHUDScale: PositionAndScaleProps;
+  boringHUDScale: [number, number, number];
 
-  // bigHudPosition: PositionAndScaleProps;
+  // bigHudPosition: [number, number, number];
   bigHUDPosX: Interpolation<number, number>;
   bigHUDPosYZ: [number, number];
-  bigHUDScale: PositionAndScaleProps;
+  bigHUDScale: [number, number, number];
+
+  hudVisibility: boolean;
 };
 
 const HUDElement = memo((props: HUDElementProps) => {
@@ -74,7 +75,7 @@ const HUDElement = memo((props: HUDElementProps) => {
   );
 
   return (
-    <>
+    <group visible={props.hudVisibility}>
       <a.sprite
         position-y={props.longHUDPosYZ[0]}
         position-z={props.longHUDPosYZ[1]}
@@ -111,7 +112,7 @@ const HUDElement = memo((props: HUDElementProps) => {
           transparent={true}
         />
       </a.sprite>
-    </>
+    </group>
   );
 });
 
