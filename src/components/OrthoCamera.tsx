@@ -7,7 +7,7 @@ import Orb from "./Orb";
 interface OrthoCameraProps extends HUDElementProps {
   id: string;
   orthoCameraPosY: number;
-  orbVisibility:boolean;
+  orbVisibility: boolean;
 }
 
 const OrthoCamera = (props: OrthoCameraProps) => {
@@ -43,8 +43,9 @@ const OrthoCamera = (props: OrthoCameraProps) => {
         bigHUDPosX={props.bigHUDPosX}
         bigHUDScale={props.bigHUDScale}
         key={props.id}
+        hudVisibility={props.hudVisibility}
       />
-      <Orb orbVisibility={props.orbVisibility}/>
+      <Orb orbVisibility={props.orbVisibility} />
     </orthographicCamera>
   );
 };

@@ -16,7 +16,7 @@ const Orb = memo((props: OrbProps) => {
   const [orbDirection, setOrbDirection] = useState("left");
   const [currentCurve, setCurrentCurve] = useState("first");
 
-  const orbSpriteTexture: any = useLoader(THREE.TextureLoader, orbSprite);
+  const orbSpriteTexture = useLoader(THREE.TextureLoader, orbSprite);
 
   // first one goes from up to down left to right
   const firstCurve = new THREE.QuadraticBezierCurve3(

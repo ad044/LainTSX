@@ -4,9 +4,6 @@ import GrayRing from "./GrayRing";
 import LevelSprite from "./LevelSprite";
 import PurpleRing from "./PurpleRing";
 
-export type PositionAndScaleProps = [number, number, number];
-export type RotationProps = [number, number, number, (string | undefined)?];
-
 type HubProps = {
   currentSprite: string;
 };
@@ -23,9 +20,16 @@ const Hub = (props: HubProps) => {
         {Object.values(level_sprites).map((sprite) => {
           return (
             <LevelSprite
-              position={sprite.position as PositionAndScaleProps}
-              scale={sprite.scale as PositionAndScaleProps}
-              rotation={sprite.rotation as RotationProps}
+              position={sprite.position as [number, number, number]}
+              scale={sprite.scale as [number, number, number]}
+              rotation={
+                sprite.rotation as [
+                  number,
+                  number,
+                  number,
+                  (string | undefined)?
+                ]
+              }
               sprite={sprite.sprite}
               key={sprite.id}
               active={sprite.id === props.currentSprite}

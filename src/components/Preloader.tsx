@@ -1,3 +1,4 @@
+import introSpriteSheet from "../static/sprites/intro.png";
 import moveDownSpriteSheet from "../static/sprites/jump_down.png";
 import moveUpSpriteSheet from "../static/sprites/jump_up.png";
 import standingSpriteSheet from "../static/sprites/standing.png";
@@ -9,6 +10,7 @@ import longHudSpriteSheet from "../static/sprites/long_hud.png";
 import longHudMirroredSpriteSheet from "../static/sprites/long_hud_mirrored.png";
 import boringHudSpriteSheet from "../static/sprites/long_hud_boring.png";
 import boringHudMirroredSpriteSheet from "../static/sprites/long_hud_boring_mirrored.png";
+
 import * as THREE from "three";
 import { useLoader, useThree } from "react-three-fiber";
 import { useLayoutEffect } from "react";
@@ -16,6 +18,7 @@ import { useLayoutEffect } from "react";
 // this function just preloads lain's spritesheets and other assets cuz they're big and lazy loading them
 // used to make the suspense run for a couple milliseconds, resulting in flickering
 const Preloader = () => {
+  const intro = useLoader(THREE.TextureLoader, introSpriteSheet);
   const moveDown = useLoader(THREE.TextureLoader, moveDownSpriteSheet);
   const moveUp = useLoader(THREE.TextureLoader, moveUpSpriteSheet);
   const moveLeft = useLoader(THREE.TextureLoader, moveLeftSpriteSheet);
@@ -39,6 +42,7 @@ const Preloader = () => {
 
   const { gl } = useThree();
   useLayoutEffect(() => {
+    gl.initTexture(intro);
     gl.initTexture(moveDown);
     gl.initTexture(moveUp);
     gl.initTexture(moveLeft);
@@ -63,6 +67,7 @@ const Preloader = () => {
     boringHudMirrored,
     longHud,
     longHudMirrored,
+    intro,
   ]);
   return null;
 };
