@@ -3,6 +3,7 @@ import level_sprites from "../resources/level_sprites.json";
 import GrayRing from "./GrayRing";
 import LevelSprite from "./LevelSprite";
 import PurpleRing from "./PurpleRing";
+import Preloader from "./Preloader";
 
 type HubProps = {
   currentSprite: string;
