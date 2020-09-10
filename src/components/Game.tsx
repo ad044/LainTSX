@@ -64,10 +64,10 @@ type LainAnimations = {
 };
 
 const Game = () => {
-  const [isIntro, setIsIntro] = useState(false);
+  const [isIntro, setIsIntro] = useState(true);
 
-  const [isLainMoving, setLainMoving] = useState(false);
-  const [lainMoveState, setLainMoveState] = useState(<LainStanding />);
+  const [isLainMoving, setLainMoving] = useState(true);
+  const [lainMoveState, setLainMoveState] = useState(<LainIntro />);
 
   const [orthoCameraPosY, setOrthoCameraPosY] = useState(0);
 
@@ -76,6 +76,8 @@ const Game = () => {
     (level_sprite_huds as SpriteHuds)[currentSprite.substr(2)]
   );
   const [spriteUpdateCooldown, setSpriteUpdateCooldown] = useState(false);
+
+  const [mainStarfieldVisible, setMainStarfieldVisible] = useState(false);
 
   const [HUDActive, setHUDActive] = useState(1);
 
@@ -335,8 +337,6 @@ const Game = () => {
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
 
-    document.getElementsByTagName("canvas")[0].className = "hub-background";
-
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
       document.getElementsByTagName("body")[0].className = "";
@@ -347,40 +347,48 @@ const Game = () => {
 
   useFrame(() => {
     if (isIntro) {
-      if (groupRef.current!.rotation.x > 0) {
-        if (groupRef.current!.position.z > -1) {
-          groupRef.current!.rotation.x -= 0.015;
-        } else {
-          groupRef.current!.rotation.x -= 0.01;
+      if (groupRef.current) {
+        if (groupRef.current!.rotation.x > 0) {
+          if (groupRef.current!.position.z > -1) {
+            groupRef.current!.rotation.x -= 0.015;
+          } else {
+            // if the position z is at a certain point speed up the rotation
+            groupRef.current!.rotation.x -= 0.01;
+          }
         }
-      }
-      if (groupRef.current!.position.y > 0) {
-        groupRef.current!.position.y -= 0.015;
-      }
+        if (groupRef.current!.position.y > 0) {
+          groupRef.current!.position.y -= 0.015;
+        }
 
-      if (groupRef.current!.position.z < 0) {
-        groupRef.current!.position.z += 0.04;
-      }
+        if (groupRef.current!.position.z < 0) {
+          groupRef.current!.position.z += 0.04;
+        }
 
-      // if the rotation hits this value that means that the intro is finished.
-      // using a settimeout or something similar resulted in clunkiness, since it was dependant
-      // on load times.
-      if (parseFloat(groupRef.current!.rotation.x.toPrecision(2)) === -0.005) {
-        updateHUD();
-        setLainMoving(false);
-        setLainMoveState(<LainStanding />);
-        setIsIntro(false);
+        // if the rotation hits this value that means that the intro is finished.
+        // using a settimeout or something similar resulted in clunkiness, since it was dependant
+        // on load times.
+        if (
+          parseFloat(groupRef.current!.rotation.x.toPrecision(2)) === -0.005
+        ) {
+          setLainMoving(false);
+          setLainMoveState(<LainStanding />);
+
+          setTimeout(() => {
+            setIsIntro(false);
+            document.getElementsByTagName("canvas")[0].className =
+              "hub-background";
+          }, 300);
+        }
+
+        // when pos z reaches this point, make the main starfield appear
+        if (parseFloat(groupRef.current!.position.z.toPrecision(2)) === -1.4) {
+          if (!mainStarfieldVisible) {
+            setMainStarfieldVisible(true);
+          }
+        }
       }
     }
   });
-
-  // on load, move the hud to the right (out of vision), and set lain sprite to intro
-  useEffect(() => {
-    setIsIntro(true);
-    updateHUD();
-    setLainMoving(true);
-    setLainMoveState(<LainIntro />);
-  }, [updateHUD]);
 
   // pos-z ? => 3
   // rot-x 1.5 => 0
@@ -391,8 +399,8 @@ const Game = () => {
       position-y={camPosY}
       rotation-y={camRotY}
     >
-      <group rotation={[2.3, 0, 0]} position={[0, 1.5, -7.5]} ref={groupRef}>
-        <Suspense fallback={null}>
+      <Suspense fallback={null}>
+        <group rotation={[2.3, 0, 0]} position={[0, 1.5, -7.5]} ref={groupRef}>
           <Preloader />
           <Hub currentSprite={currentSprite} />
           <OrthoCamera
@@ -428,16 +436,21 @@ const Game = () => {
             orbVisibility={!isIntro}
             hudVisibility={!isIntro}
           />
-          <Starfield starfieldPosY={starfieldPosY} />
+          <Starfield
+            starfieldPosY={starfieldPosY}
+            mainStarfieldVisible={mainStarfieldVisible}
+            introStarfieldVisible={isIntro}
+          />
           <Lights />
           <OrbitControls />
-        </Suspense>
-      </group>
-      <Lain
-        isLainMoving={isLainMoving}
-        lainMoveState={lainMoveState}
-        lainPosY={lainPosY}
-      />
+        </group>
+
+        <Lain
+          isLainMoving={isLainMoving}
+          lainMoveState={lainMoveState}
+          lainPosY={lainPosY}
+        />
+      </Suspense>
     </a.perspectiveCamera>
   );
 };

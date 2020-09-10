@@ -11,6 +11,7 @@ type StarRefsAndIncrementors = [
 type StarfieldProps = {
   starfieldPosY: Interpolation<number, number>;
   introStarfieldVisible: boolean;
+  mainStarfieldVisible: boolean;
 };
 
 type StarfieldObjectData = {
@@ -57,6 +58,7 @@ const Starfield = memo((props: StarfieldProps) => {
   const fragmentShader = `
     uniform vec3 color1;
     uniform vec3 color2;
+    uniform float alpha;
 
     varying vec2 vUv;
     
@@ -142,14 +144,15 @@ const Starfield = memo((props: StarfieldProps) => {
 
   const fromLeftStarRefsAndIncrementors: StarRefsAndIncrementors = [
     [blueFromLeftRef, 8.3],
-    [cyanFromLeftRef, 3.3],
+    [cyanFromLeftRef, 3.7],
     [whiteFromLeftRef, 3.3],
   ];
 
   useFrame(() => {
     if (props.introStarfieldVisible) {
       introStarfieldGroupRef.current!.position.y += 0.2;
-    } else {
+    }
+    if (props.mainStarfieldVisible) {
       // planes (stars) coming from right move to positive X and negative Z direction
       fromRightStarRefsAndIncrementors.forEach((el) => {
         el[0].current.forEach((posRef: RefObject<THREE.Object3D>) => {
@@ -217,79 +220,94 @@ const Starfield = memo((props: StarfieldProps) => {
   ];
 
   const introStarfieldObjects = [
-    { starPoses: introPosesBlue, ref: introBlueRef, uniform: blueUniforms },
-    { starPoses: introPosesCyan, ref: introCyanRef, uniform: cyanUniforms },
-    { starPoses: introPosesWhite, ref: introWhiteRef, uniform: whiteUniforms },
+    {
+      starPoses: introPosesBlue,
+      ref: introBlueRef,
+      uniform: blueUniforms,
+    },
+    {
+      starPoses: introPosesCyan,
+      ref: introCyanRef,
+      uniform: cyanUniforms,
+    },
+    {
+      starPoses: introPosesWhite,
+      ref: introWhiteRef,
+      uniform: whiteUniforms,
+    },
   ];
 
-  return props.introStarfieldVisible ? (
-    <a.group
-      ref={introStarfieldGroupRef}
-      position={[-2, -20, -2]}
-      rotation={[0, 0, 0]}
-      visible={props.introStarfieldVisible}
-    >
-      {introStarfieldObjects.map((obj: IntroStarfieldObjectData) =>
-        obj.starPoses.map((pos: number[], idx: number) => {
-          return (
-            <mesh
-              ref={obj.ref.current[idx]}
-              scale={[0.01, 2, -0.5]}
-              position={[pos[0], pos[1], pos[2]]}
-              key={pos[0]}
-              renderOrder={-1}
-            >
-              <planeGeometry attach="geometry" />
-              <shaderMaterial
-                attach="material"
-                uniforms={obj.uniform}
-                fragmentShader={fragmentShader}
-                vertexShader={vertexShader}
-                side={THREE.DoubleSide}
-                transparent={true}
-                depthWrite={false}
-              />
-            </mesh>
-          );
-        })
-      )}
-    </a.group>
-  ) : (
-    <a.group
-      position={[-0.7, 0, -5]}
-      rotation={[0, 0, 0]}
-      position-y={props.starfieldPosY}
-    >
-      {mainStarfieldObjects.map((obj: StarfieldObjectData) =>
-        obj.starPoses.map((pos: number[], idx: number) => {
-          return (
-            <mesh
-              ref={obj.ref.current[idx]}
-              position={[
-                pos[0] + obj.positionSpecifier[0],
-                pos[1] + obj.positionSpecifier[1],
-                pos[2] + obj.positionSpecifier[2],
-              ]}
-              rotation={obj.rotation as [number, number, number]}
-              scale={[0.01, 2, -0.5]}
-              renderOrder={-1}
-              key={pos[0]}
-            >
-              <planeGeometry attach="geometry" />
-              <shaderMaterial
-                attach="material"
-                uniforms={obj.uniform}
-                fragmentShader={fragmentShader}
-                vertexShader={vertexShader}
-                side={THREE.DoubleSide}
-                transparent={true}
-                depthWrite={false}
-              />
-            </mesh>
-          );
-        })
-      )}
-    </a.group>
+  return (
+    <>
+      <a.group
+        ref={introStarfieldGroupRef}
+        position={[-2, -20, -2]}
+        rotation={[0, 0, 0]}
+        visible={props.introStarfieldVisible}
+      >
+        {introStarfieldObjects.map((obj: IntroStarfieldObjectData) =>
+          obj.starPoses.map((pos: number[], idx: number) => {
+            return (
+              <mesh
+                ref={obj.ref.current[idx]}
+                scale={[0.01, 2, -0.5]}
+                position={[pos[0], pos[1], pos[2]]}
+                key={pos[0]}
+                renderOrder={-1}
+              >
+                <planeGeometry attach="geometry" />
+                <shaderMaterial
+                  attach="material"
+                  uniforms={obj.uniform}
+                  fragmentShader={fragmentShader}
+                  vertexShader={vertexShader}
+                  side={THREE.DoubleSide}
+                  transparent={true}
+                  depthWrite={false}
+                />
+              </mesh>
+            );
+          })
+        )}
+      </a.group>
+      <a.group
+        position={[-0.7, 0, -5]}
+        rotation={[0, 0, 0]}
+        position-y={props.starfieldPosY}
+        visible={props.mainStarfieldVisible}
+      >
+        {mainStarfieldObjects.map((obj: StarfieldObjectData) =>
+          obj.starPoses.map((pos: number[], idx: number) => {
+            return (
+              <mesh
+                ref={obj.ref.current[idx]}
+                position={[
+                  pos[0] + obj.positionSpecifier[0],
+                  pos[1] + obj.positionSpecifier[1],
+                  pos[2] + obj.positionSpecifier[2],
+                ]}
+                rotation={obj.rotation as [number, number, number]}
+                scale={[0.01, 2, -0.5]}
+                renderOrder={-1}
+                key={pos[0]}
+              >
+                <planeGeometry attach="geometry" />
+                <a.shaderMaterial
+                  attach="material"
+                  uniforms={obj.uniform}
+                  fragmentShader={fragmentShader}
+                  vertexShader={vertexShader}
+                  side={THREE.DoubleSide}
+                  transparent={true}
+                  depthWrite={false}
+                  opacity={0.1}
+                />
+              </mesh>
+            );
+          })
+        )}
+      </a.group>
+    </>
   );
 });
 

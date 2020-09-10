@@ -18,12 +18,10 @@ export type HUDElementProps = {
   longHUDPosX: Interpolation<number, number>;
   longHUDScale: [number, number, number];
 
-  // boringHudPosition: [number, number, number];
   boringHUDPosX: Interpolation<number, number>;
   boringHUDPosYZ: [number, number];
   boringHUDScale: [number, number, number];
 
-  // bigHudPosition: [number, number, number];
   bigHUDPosX: Interpolation<number, number>;
   bigHUDPosYZ: [number, number];
   bigHUDScale: [number, number, number];
