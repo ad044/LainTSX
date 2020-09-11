@@ -1,15 +1,14 @@
-import React, { Suspense } from "react";
+import React, { memo, Suspense } from "react";
 import level_sprites from "../resources/level_sprites.json";
 import GrayRing from "./GrayRing";
-import LevelSprite from "./LevelSprite";
+import LevelSprite from "./LevelSprite/LevelSprite";
 import PurpleRing from "./PurpleRing";
-import Preloader from "./Preloader";
+import { useRecoilValue } from "recoil";
+import { currentSpriteAtom } from "./LevelSprite/CurrentSpriteAtom";
 
-type HubProps = {
-  currentSprite: string;
-};
+const Hub = memo(() => {
+  const currentSprite = useRecoilValue(currentSpriteAtom);
 
-const Hub = (props: HubProps) => {
   return (
     <>
       <Suspense fallback={<>loading...</>}>
@@ -33,13 +32,13 @@ const Hub = (props: HubProps) => {
               }
               sprite={sprite.sprite}
               key={sprite.id}
-              active={sprite.id === props.currentSprite}
+              active={sprite.id === currentSprite}
             />
           );
         })}
       </Suspense>
     </>
   );
-};
+});
 
 export default Hub;
