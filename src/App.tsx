@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Game from "./components/Game";
+import MainScene from "./components/MainScene/MainScene";
 import "./static/css/hub.css";
 import "./static/css/main.css";
 import { Canvas } from "react-three-fiber";
+import { RecoilRoot } from "recoil";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);
@@ -17,10 +18,12 @@ const App = () => {
 
   return (
     <div id="game-root" className="game">
-      {/* {moveToGame ? <Game /> : <Intro setMoveToGame={setMoveToGame} />} */}
+      {/* {moveToGame ? <MainScene /> : <Intro setMoveToGame={setMoveToGame} />} */}
       {/* <Intro /> */}
       <Canvas concurrent>
-        <Game />
+        <RecoilRoot>
+          <MainScene />
+        </RecoilRoot>
       </Canvas>
     </div>
   );

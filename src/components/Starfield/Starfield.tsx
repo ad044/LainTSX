@@ -1,7 +1,8 @@
-import { a, Interpolation } from "@react-spring/three";
-import React, { createRef, memo, RefObject, useMemo, useRef } from "react";
+import { a, Interpolation, useSpring } from "@react-spring/three";
+import React, {createRef, memo, RefObject, useEffect, useMemo, useRef} from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
+import { starfieldPosYAtom } from "./StarfieldAtom";
 
 type StarRefsAndIncrementors = [
   React.MutableRefObject<React.RefObject<THREE.Object3D>[]>,
@@ -9,7 +10,6 @@ type StarRefsAndIncrementors = [
 ][];
 
 type StarfieldProps = {
-  starfieldPosY: Interpolation<number, number>;
   introStarfieldVisible: boolean;
   mainStarfieldVisible: boolean;
 };
@@ -34,6 +34,11 @@ type IntroStarfieldObjectData = {
 
 const Starfield = memo((props: StarfieldProps) => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
+
+  const starfieldState = useSpring({
+    starfieldPosY: starfieldPosYAtom,
+    config: { duration: 1200 },
+  });
 
   const uniformConstructor = (col: string) => {
     return {
@@ -237,6 +242,10 @@ const Starfield = memo((props: StarfieldProps) => {
     },
   ];
 
+  useEffect(() => {
+    console.log('ssd')
+  }, [])
+
   return (
     <>
       <a.group
@@ -273,7 +282,7 @@ const Starfield = memo((props: StarfieldProps) => {
       <a.group
         position={[-0.7, 0, -5]}
         rotation={[0, 0, 0]}
-        position-y={props.starfieldPosY}
+        position-y={starfieldPosYAtom}
         visible={props.mainStarfieldVisible}
       >
         {mainStarfieldObjects.map((obj: StarfieldObjectData) =>
