@@ -1,14 +1,14 @@
 import React, { useRef, useMemo, memo } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import Cou from "../static/sprites/Cou.png";
-import CouActive from "../static/sprites/Cou_active.png";
-import Dc from "../static/sprites/Dc.png";
-import DcActive from "../static/sprites/Dc_active.png";
-import SSkn from "../static/sprites/SSkn.png";
-import SSKnActive from "../static/sprites/SSkn_active.png";
-import Tda from "../static/sprites/Tda.png";
-import TdaActive from "../static/sprites/Tda_active.png";
+import Cou from "../../static/sprites/Cou.png";
+import CouActive from "../../static/sprites/Cou_active.png";
+import Dc from "../../static/sprites/Dc.png";
+import DcActive from "../../static/sprites/Dc_active.png";
+import SSkn from "../../static/sprites/SSkn.png";
+import SSKnActive from "../../static/sprites/SSkn_active.png";
+import Tda from "../../static/sprites/Tda.png";
+import TdaActive from "../../static/sprites/Tda_active.png";
 
 type LevelSpriteConstructorProps = {
   sprite: string;
