@@ -19,10 +19,11 @@ const MainScene = () => {
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
 
   const [isIntro, setIsIntro] = useState(true);
-  const [mainStarfieldVisible, setMainStarfieldVisible] = useState(false);
 
   const camPosY = useRecoilValue(camPosYAtom);
   const camRotY = useRecoilValue(camRotYAtom);
+
+  const [ambientLightVal, setAmbientLightVal] = useState(0.4);
 
   const cameraState = useSpring({
     camPosY: camPosY,
@@ -62,6 +63,7 @@ const MainScene = () => {
 
           setTimeout(() => {
             setIsIntro(false);
+            setAmbientLightVal(1.0);
             document.getElementsByTagName("canvas")[0].className =
               "hub-background";
           }, 300);
@@ -87,11 +89,8 @@ const MainScene = () => {
           <Preloader />
           <Hub />
           <OrthoCamera orbVisibility={!isIntro} hudVisibility={!isIntro} />
-          <Starfield
-            mainStarfieldVisible={mainStarfieldVisible}
-            introStarfieldVisible={isIntro}
-          />
-          <Lights />
+          <Starfield introStarfieldVisible={isIntro} />
+          <Lights ambientLightVal={ambientLightVal} />
           <OrbitControls />
         </group>
         <Lain />

@@ -1,16 +1,16 @@
-import { a, Interpolation, useSpring } from "@react-spring/three";
-import React, { Suspense, useState } from "react";
-import { useFrame, useLoader } from "react-three-fiber";
+import {a, useSpring} from "@react-spring/three";
+import React, {Suspense, useState} from "react";
+import {useFrame, useLoader} from "react-three-fiber";
 import * as THREE from "three";
-import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
+import {PlainSingularAnimator} from "three-plain-animator/lib/plain-singular-animator";
 import moveDownSpriteSheet from "../../static/sprites/jump_down.png";
 import moveUpSpriteSheet from "../../static/sprites/jump_up.png";
 import moveLeftSpriteSheet from "../../static/sprites/move_left.png";
 import moveRightSpriteSheet from "../../static/sprites/move_right.png";
 import standingSpriteSheet from "../../static/sprites/standing.png";
 import introSpriteSheet from "../../static/sprites/intro.png";
-import { useRecoilValue } from "recoil";
-import { lainMoveStateAtom, lainMovingAtom, lainPosYAtom } from "./LainAtom";
+import {useRecoilValue} from "recoil";
+import {lainMoveStateAtom, lainMovingAtom, lainPosYAtom} from "./LainAtom";
 
 type LainConstructorProps = {
   sprite: string;
