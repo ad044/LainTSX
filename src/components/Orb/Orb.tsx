@@ -1,7 +1,7 @@
 import React, { memo, useRef, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import orbSprite from "../static/sprites/orb.png";
+import orbSprite from "../../static/sprites/orb.png";
 
 // initialize outside the component otherwise it gets overwritten when it rerenders
 let orbIdx = 0;

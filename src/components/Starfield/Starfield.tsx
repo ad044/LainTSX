@@ -1,4 +1,4 @@
-import { a, Interpolation, useSpring } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import React, {
   createRef,
   memo,
@@ -10,17 +10,16 @@ import React, {
 } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
-import { starfieldPosYAtom } from "./StarfieldAtom";
+import {
+  introStarfieldVisibilityAtom,
+  starfieldPosYAtom,
+} from "./StarfieldAtom";
 import { useRecoilValue } from "recoil";
 
 type StarRefsAndInitialPoses = [
   React.MutableRefObject<React.RefObject<THREE.Object3D>[]>,
   number[][]
 ][];
-
-type StarfieldProps = {
-  introStarfieldVisible: boolean;
-};
 
 type StarfieldObjectData = {
   starPoses: number[][];
@@ -40,12 +39,14 @@ type IntroStarfieldObjectData = {
     | undefined;
 };
 
-const Starfield = memo((props: StarfieldProps) => {
+const Starfield = memo(() => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
 
   const [mainStarfieldVisible, setMainStarfieldVisible] = useState(false);
 
   const starfieldPosY = useRecoilValue(starfieldPosYAtom);
+
+  const introStarfieldVisible = useRecoilValue(introStarfieldVisibilityAtom);
 
   const starfieldState = useSpring({
     starfieldPosY: starfieldPosY,
@@ -173,7 +174,7 @@ const Starfield = memo((props: StarfieldProps) => {
   );
 
   useFrame(() => {
-    if (props.introStarfieldVisible) {
+    if (introStarfieldVisible) {
       introStarfieldGroupRef.current!.position.y += 0.2;
     }
     if (mainStarfieldVisible) {
@@ -281,21 +282,21 @@ const Starfield = memo((props: StarfieldProps) => {
     <>
       <a.group
         ref={introStarfieldGroupRef}
-        position={[-2, -20, -2]}
+        position={[-2, -20, -3.2]}
         rotation={[0, 0, 0]}
-        visible={props.introStarfieldVisible}
+        visible={introStarfieldVisible}
       >
         {introStarfieldObjects.map((obj: IntroStarfieldObjectData) =>
           obj.starPoses.map((pos: number[], idx: number) => {
             return (
               <mesh
                 ref={obj.ref.current[idx]}
-                scale={[0.01, 2, -0.5]}
+                scale={[0.005, 2, 0.005]}
                 position={[pos[0], pos[1], pos[2]]}
                 key={pos[0]}
                 renderOrder={-1}
               >
-                <planeBufferGeometry attach="geometry" />
+                <boxBufferGeometry attach="geometry" />
                 <shaderMaterial
                   attach="material"
                   uniforms={obj.uniform}

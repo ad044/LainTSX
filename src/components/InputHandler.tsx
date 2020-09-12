@@ -53,7 +53,7 @@ const InputHandler = () => {
 
   const setCurrentHUDElement = useSetRecoilState(currentHUDAtom);
 
-  const sethudActive = useSetRecoilState(hudActiveAtom);
+  const setHudActive = useSetRecoilState(hudActiveAtom);
 
   const setCamPosY = useSetRecoilState(camPosYAtom);
   const setCamRotY = useSetRecoilState(camRotYAtom);
@@ -136,8 +136,8 @@ const InputHandler = () => {
   );
 
   const updateHUD = useCallback(() => {
-    sethudActive((prev: number) => Number(!prev));
-  }, [sethudActive]);
+    setHudActive((prev: number) => Number(!prev));
+  }, [setHudActive]);
 
   const moveDispatcher = useCallback(
     (move: string, key: string) => {
