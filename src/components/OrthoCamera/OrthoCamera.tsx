@@ -1,22 +1,23 @@
-import React, { useMemo, useRef } from "react";
+import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useThree } from "react-three-fiber";
 import { Scene } from "three";
 import HUDElement from "../HUD/HUDElement";
-import Orb from "../Orb";
+import Orb from "../Orb/Orb";
 import { useRecoilValue } from "recoil";
 import { orthoCamPosYAtom } from "./OrthoCameraAtom";
 import { useSpring, a } from "@react-spring/three";
+import { orbVisibilityAtom } from "../Orb/OrbAtom";
+import { hudVisibilityAtom } from "../HUD/HUDActiveAtom";
 
-interface OrthoCameraProps {
-  orbVisibility: boolean;
-  hudVisibility: boolean;
-}
-
-const OrthoCamera = (props: OrthoCameraProps) => {
+const OrthoCamera = memo(() => {
   const { gl, scene, camera } = useThree();
   const virtualScene = useMemo(() => new Scene(), []);
   const virtualCam = useRef();
   const orthoCameraPosY = useRecoilValue(orthoCamPosYAtom);
+
+  const orbVisible = useRecoilValue(orbVisibilityAtom);
+
+  const hudVisible = useRecoilValue(hudVisibilityAtom);
 
   const orthoCameraState = useSpring({
     orthoCameraPosY: orthoCameraPosY,
@@ -38,10 +39,10 @@ const OrthoCamera = (props: OrthoCameraProps) => {
       position={[0, 0, 10]}
       position-y={orthoCameraState.orthoCameraPosY}
     >
-      <HUDElement key={1} hudVisibility={props.hudVisibility} />
-      <Orb orbVisibility={props.orbVisibility} />
+      <HUDElement key={1} hudVisibility={hudVisible} />
+      <Orb orbVisibility={orbVisible} />
     </a.orthographicCamera>
   );
-};
+});
 
 export default OrthoCamera;
