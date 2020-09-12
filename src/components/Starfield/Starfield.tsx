@@ -1,17 +1,25 @@
 import { a, Interpolation, useSpring } from "@react-spring/three";
-import React, {createRef, memo, RefObject, useEffect, useMemo, useRef} from "react";
+import React, {
+  createRef,
+  memo,
+  RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 import { starfieldPosYAtom } from "./StarfieldAtom";
+import { useRecoilValue } from "recoil";
 
-type StarRefsAndIncrementors = [
+type StarRefsAndInitialPoses = [
   React.MutableRefObject<React.RefObject<THREE.Object3D>[]>,
-  number
+  number[][]
 ][];
 
 type StarfieldProps = {
   introStarfieldVisible: boolean;
-  mainStarfieldVisible: boolean;
 };
 
 type StarfieldObjectData = {
@@ -35,21 +43,14 @@ type IntroStarfieldObjectData = {
 const Starfield = memo((props: StarfieldProps) => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
 
+  const [mainStarfieldVisible, setMainStarfieldVisible] = useState(false);
+
+  const starfieldPosY = useRecoilValue(starfieldPosYAtom);
+
   const starfieldState = useSpring({
-    starfieldPosY: starfieldPosYAtom,
+    starfieldPosY: starfieldPosY,
     config: { duration: 1200 },
   });
-
-  const uniformConstructor = (col: string) => {
-    return {
-      color1: {
-        value: new THREE.Color("white"),
-      },
-      color2: {
-        value: new THREE.Color(col),
-      },
-    };
-  };
 
   const vertexShader = `
     varying vec2 vUv;
@@ -80,6 +81,17 @@ const Starfield = memo((props: StarfieldProps) => {
 
   const lcgInstance = LCG(1664525, 1013904223, 2 ** 32, 2);
 
+  const uniformConstructor = (col: string) => {
+    return {
+      color1: {
+        value: new THREE.Color("white"),
+      },
+      color2: {
+        value: new THREE.Color(col),
+      },
+    };
+  };
+
   const [blueUniforms, cyanUniforms, whiteUniforms] = [
     "blue",
     "cyan",
@@ -91,11 +103,12 @@ const Starfield = memo((props: StarfieldProps) => {
     posesBlueFromLeft,
     posesCyanFromRight,
     posesCyanFromLeft,
+    posesWhiteFromRight,
     posesWhiteFromLeft,
-  ] = [30, 30, 20, 20, 5].map((x) =>
+  ] = [5, 5, 5, 5, 5, 5].map((x) =>
     Array.from({ length: x }, () => [
       lcgInstance() / 1000000000,
-      lcgInstance() / 1000000000,
+      lcgInstance() / 1000000000 - 1,
       lcgInstance() / 1000000000,
     ])
   );
@@ -105,12 +118,14 @@ const Starfield = memo((props: StarfieldProps) => {
     blueFromLeftRef,
     cyanFromRightRef,
     cyanFromLeftRef,
+    whiteFromRightRef,
     whiteFromLeftRef,
   ] = [
     posesBlueFromRight,
     posesBlueFromLeft,
     posesCyanFromRight,
     posesCyanFromLeft,
+    posesWhiteFromRight,
     posesWhiteFromLeft,
   ].map((poses) =>
     useRef<RefObject<THREE.Object3D>[]>(
@@ -140,48 +155,54 @@ const Starfield = memo((props: StarfieldProps) => {
     )
   );
 
-  // these arrays contain refs to the 3d planes and the increment values that they should move with across
-  // the screen
-  const fromRightStarRefsAndIncrementors: StarRefsAndIncrementors = [
-    [blueFromRightRef, 7.3],
-    [cyanFromRightRef, 4.3],
+  const fromRightStarRefsAndInitialPoses: StarRefsAndInitialPoses = [
+    [blueFromRightRef, posesBlueFromRight],
+    [cyanFromRightRef, posesCyanFromRight],
+    [whiteFromRightRef, posesWhiteFromRight],
   ];
 
-  const fromLeftStarRefsAndIncrementors: StarRefsAndIncrementors = [
-    [blueFromLeftRef, 8.3],
-    [cyanFromLeftRef, 3.7],
-    [whiteFromLeftRef, 3.3],
+  const fromLeftStarRefsAndInitialPoses: StarRefsAndInitialPoses = [
+    [blueFromLeftRef, posesBlueFromLeft],
+    [cyanFromLeftRef, posesCyanFromLeft],
+    [whiteFromLeftRef, posesWhiteFromLeft],
   ];
+
+  const starSpeeds = Array.from(
+    { length: 60 },
+    () => lcgInstance() / 100000000000
+  );
 
   useFrame(() => {
     if (props.introStarfieldVisible) {
       introStarfieldGroupRef.current!.position.y += 0.2;
     }
-    if (props.mainStarfieldVisible) {
+    if (mainStarfieldVisible) {
       // planes (stars) coming from right move to positive X and negative Z direction
-      fromRightStarRefsAndIncrementors.forEach((el) => {
-        el[0].current.forEach((posRef: RefObject<THREE.Object3D>) => {
-          if (posRef.current!.position.x < -1) {
-            posRef.current!.position.x += el[1];
-            posRef.current!.position.z -= el[1];
-          } else {
-            posRef.current!.position.x -= 0.03;
-            posRef.current!.position.z += 0.03;
+      fromRightStarRefsAndInitialPoses.forEach((el) => {
+        el[0].current.forEach(
+          (posRef: RefObject<THREE.Object3D>, idx: number) => {
+            if (posRef.current!.position.x < -1) {
+              posRef.current!.position.x = el[1][idx][0] + 6;
+              posRef.current!.position.z = el[1][idx][2] - 2.5;
+            }
+            posRef.current!.position.x -= 0.03 + starSpeeds[idx];
+            posRef.current!.position.z += 0.035;
           }
-        });
+        );
       });
-
       // the ones that are coming from left move to negative X and Z
-      fromLeftStarRefsAndIncrementors.forEach((el) => {
-        el[0].current.forEach((posRef: RefObject<THREE.Object3D>) => {
-          if (posRef.current!.position.x > 3) {
-            posRef.current!.position.x -= el[1];
-            posRef.current!.position.z -= el[1];
-          } else {
-            posRef.current!.position.x += 0.03;
-            posRef.current!.position.z += 0.03;
+      fromLeftStarRefsAndInitialPoses.forEach((el) => {
+        el[0].current.forEach(
+          (posRef: RefObject<THREE.Object3D>, idx: number) => {
+            if (posRef.current!.position.x > 3) {
+              posRef.current!.position.x = el[1][idx][0] - 9;
+              posRef.current!.position.z = el[1][idx][2] - 0.5;
+            } else {
+              posRef.current!.position.x += 0.03 + starSpeeds[idx];
+              posRef.current!.position.z += 0.015;
+            }
           }
-        });
+        );
       });
     }
   });
@@ -190,36 +211,43 @@ const Starfield = memo((props: StarfieldProps) => {
     {
       starPoses: posesBlueFromRight,
       ref: blueFromRightRef,
-      rotation: [1.7, 0, 0.9],
-      positionSpecifier: [0, 0, 0],
+      rotation: [1.7, 0, 1],
+      positionSpecifier: [6, 0, -2.5],
       uniform: blueUniforms,
     },
     {
       starPoses: posesBlueFromLeft,
       ref: blueFromLeftRef,
-      rotation: [1.7, 0, -0.9],
+      rotation: [1.7, 0, -1.2],
       positionSpecifier: [-2.4, -0.5, 2],
       uniform: blueUniforms,
     },
     {
       starPoses: posesCyanFromRight,
       ref: cyanFromRightRef,
-      rotation: [1.7, 0, 0.9],
-      positionSpecifier: [-1.3, 0, 1.5],
+      rotation: [1.7, 0, 1],
+      positionSpecifier: [6, 0, -2.5],
       uniform: cyanUniforms,
     },
     {
       starPoses: posesCyanFromLeft,
       ref: cyanFromLeftRef,
-      rotation: [1.7, 0, -0.9],
+      rotation: [1.7, 0, -1.2],
       positionSpecifier: [-1.3, 0, 2.5],
       uniform: cyanUniforms,
     },
     {
       starPoses: posesWhiteFromLeft,
       ref: whiteFromLeftRef,
-      rotation: [1.7, 0, -0.9],
-      positionSpecifier: [-1.3, 0.5, 1.5],
+      rotation: [1.7, 0, -1.2],
+      positionSpecifier: [-1.3, 0.5, 2.3],
+      uniform: whiteUniforms,
+    },
+    {
+      starPoses: posesWhiteFromRight,
+      ref: whiteFromRightRef,
+      rotation: [1.7, 0, 1],
+      positionSpecifier: [-1.3, 0.5, -2.5],
       uniform: whiteUniforms,
     },
   ];
@@ -243,8 +271,11 @@ const Starfield = memo((props: StarfieldProps) => {
   ];
 
   useEffect(() => {
-    console.log('ssd')
-  }, [])
+    setTimeout(() => {
+      setMainStarfieldVisible(true);
+      console.log("123");
+    }, 1800);
+  }, []);
 
   return (
     <>
@@ -264,7 +295,7 @@ const Starfield = memo((props: StarfieldProps) => {
                 key={pos[0]}
                 renderOrder={-1}
               >
-                <planeGeometry attach="geometry" />
+                <planeBufferGeometry attach="geometry" />
                 <shaderMaterial
                   attach="material"
                   uniforms={obj.uniform}
@@ -282,8 +313,8 @@ const Starfield = memo((props: StarfieldProps) => {
       <a.group
         position={[-0.7, 0, -5]}
         rotation={[0, 0, 0]}
-        position-y={starfieldPosYAtom}
-        visible={props.mainStarfieldVisible}
+        position-y={starfieldState.starfieldPosY}
+        visible={mainStarfieldVisible}
       >
         {mainStarfieldObjects.map((obj: StarfieldObjectData) =>
           obj.starPoses.map((pos: number[], idx: number) => {
@@ -296,20 +327,18 @@ const Starfield = memo((props: StarfieldProps) => {
                   pos[2] + obj.positionSpecifier[2],
                 ]}
                 rotation={obj.rotation as [number, number, number]}
-                scale={[0.01, 2, -0.5]}
+                scale={[0.01, 2, 0.01]}
                 renderOrder={-1}
                 key={pos[0]}
               >
-                <planeGeometry attach="geometry" />
+                <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
                 <a.shaderMaterial
                   attach="material"
                   uniforms={obj.uniform}
                   fragmentShader={fragmentShader}
                   vertexShader={vertexShader}
-                  side={THREE.DoubleSide}
                   transparent={true}
                   depthWrite={false}
-                  opacity={0.1}
                 />
               </mesh>
             );

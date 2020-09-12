@@ -21,6 +21,7 @@ import { camPosYAtom, camRotYAtom } from "./MainScene/CameraAtom";
 import { starfieldPosYAtom } from "./Starfield/StarfieldAtom";
 import { currentHUDAtom } from "./HUD/CurrentHUDAtom";
 import { SpriteHuds } from "./HUD/HUDElement";
+import { orthoCamPosYAtom } from "./OrthoCamera/OrthoCameraAtom";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -57,6 +58,8 @@ const InputHandler = () => {
   const setCamPosY = useSetRecoilState(camPosYAtom);
   const setCamRotY = useSetRecoilState(camRotYAtom);
 
+  const setOrthoCamPosY = useSetRecoilState(orthoCamPosYAtom);
+
   const setLainPosY = useSetRecoilState(lainPosYAtom);
 
   const setStarfieldPosY = useSetRecoilState(starfieldPosYAtom);
@@ -65,9 +68,10 @@ const InputHandler = () => {
     (val: number) => {
       setCamPosY((prev: number) => prev + val);
       setLainPosY((prev: number) => prev - val);
-      setStarfieldPosY((prev: number) => prev + val);
+      setStarfieldPosY((prev: number) => prev - val);
+      setOrthoCamPosY((prev: number) => prev - val);
     },
-    [setCamPosY, setLainPosY, setStarfieldPosY]
+    [setCamPosY, setLainPosY, setStarfieldPosY, setOrthoCamPosY]
   );
 
   const rotateCamera = useCallback(
@@ -97,7 +101,7 @@ const InputHandler = () => {
           setLainMoveState(<LainMoveDown />);
           setTimeout(() => {
             moveCamera(1.87);
-          }, 1300);
+          }, 1400);
 
           break;
         case "left":
@@ -128,7 +132,7 @@ const InputHandler = () => {
         setLainMoveState(<LainStanding />);
       }, (lain_animations as LainAnimations)[key]["duration"]);
     },
-    [moveCamera, rotateCamera, setLainMoveState]
+    [moveCamera, rotateCamera, setLainMoveState, setLainMoving]
   );
 
   const updateHUD = useCallback(() => {
@@ -137,7 +141,6 @@ const InputHandler = () => {
 
   const moveDispatcher = useCallback(
     (move: string, key: string) => {
-      console.log(move[0]);
       switch (move[0]) {
         // do nothing / cant move
         case undefined:
@@ -204,8 +207,6 @@ const InputHandler = () => {
 
       if (key && !lainMoving) {
         const move = getMove(currentSprite, key);
-
-        console.log(key);
 
         moveDispatcher(move, key);
       }
