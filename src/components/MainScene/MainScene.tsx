@@ -1,6 +1,6 @@
 import { a, useSpring } from "@react-spring/three";
 import { OrbitControls } from "drei";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect } from "react";
 import Hub from "../Hub";
 import Lain, { LainIntro } from "../Lain/Lain";
 import Lights from "../Lights";
@@ -17,6 +17,7 @@ import {
   mainGroupPosZAtom,
   mainGroupRotXAtom,
 } from "./MainGroupAtom";
+import GrayPlanes from "../GrayPlanes/GrayPlanes";
 
 const MainScene = () => {
   const setLainMoving = useSetRecoilState(lainMovingAtom);
@@ -69,6 +70,7 @@ const MainScene = () => {
           <Hub />
           <OrthoCamera />
           <Starfield />
+          <GrayPlanes />
           <Lights />
           <OrbitControls />
         </a.group>

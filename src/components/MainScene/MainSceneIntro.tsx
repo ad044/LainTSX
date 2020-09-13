@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { hudActiveAtom, hudVisibilityAtom } from "../HUD/HUDActiveAtom";
+import { hudActiveAtom, hudVisibilityAtom } from "../HUD/HUDElementAtom";
 import {
   mainGroupPosYAtom,
   mainGroupPosZAtom,
@@ -9,7 +9,12 @@ import {
 import { LainStanding } from "../Lain/Lain";
 import { lainMoveStateAtom, lainMovingAtom } from "../Lain/LainAtom";
 import { orbVisibilityAtom } from "../Orb/OrbAtom";
-import { introStarfieldVisibilityAtom } from "../Starfield/StarfieldAtom";
+import {
+  introStarfieldVisibilityAtom,
+  mainStarfieldBoostValAtom,
+  mainStarfieldVisibilityAtom,
+} from "../Starfield/StarfieldAtom";
+import { grayPlanesVisibleAtom } from "../GrayPlanes/GrayPlanesAtom";
 
 // ghost component to manipulate the intro animation for the main scene.
 
@@ -28,10 +33,16 @@ const MainSceneIntro = memo(() => {
   const setIntroStarfieldVisible = useSetRecoilState(
     introStarfieldVisibilityAtom
   );
+  const setMainStarfieldVisible = useSetRecoilState(
+    mainStarfieldVisibilityAtom
+  );
+  const setMainStarfieldBoostVal = useSetRecoilState(mainStarfieldBoostValAtom);
 
   const setMainGroupPosY = useSetRecoilState(mainGroupPosYAtom);
   const setMainGroupPosZ = useSetRecoilState(mainGroupPosZAtom);
   const setMainGroupRotX = useSetRecoilState(mainGroupRotXAtom);
+
+  const setGrayPlanesVisible = useSetRecoilState(grayPlanesVisibleAtom);
 
   useEffect(() => {
     setMainGroupPosY(0);
@@ -39,6 +50,15 @@ const MainSceneIntro = memo(() => {
     setTimeout(() => {
       setMainGroupRotX(0);
     }, 2400);
+
+    setTimeout(() => {
+      setGrayPlanesVisible(true);
+    }, 2500);
+
+    setTimeout(() => {
+      setMainStarfieldVisible(true);
+      setMainStarfieldBoostVal(0);
+    }, 2800);
 
     setHudActive((prev: number) => Number(!prev));
     setTimeout(() => {
