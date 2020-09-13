@@ -137,8 +137,10 @@ const InputHandler = () => {
 
       // wait for the anim to finish, set lain to standing state, release the move lock
       setTimeout(() => {
-        setLainMoving(false);
         setLainMoveState(<LainStanding />);
+        setTimeout(() => {
+          setLainMoving(false);
+        }, 300);
       }, (lain_animations as LainAnimations)[key]["duration"]);
     },
     [moveCamera, rotateCamera, setLainMoveState, setLainMoving]

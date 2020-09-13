@@ -206,7 +206,7 @@ const Starfield = memo(() => {
               posRef.current!.position.z = el[1][idx][2] - 0.5;
             } else {
               posRef.current!.position.x +=
-                0.03 + starSpeeds[idx] + starfieldState.starfieldBoostVal.get();
+                0.03 + starSpeeds[idx] +starfieldState.starfieldBoostVal.get();
               posRef.current!.position.z +=
                 0.015 + starfieldState.starfieldBoostVal.get() * 0.5;
             }
