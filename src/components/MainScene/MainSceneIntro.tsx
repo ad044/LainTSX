@@ -77,6 +77,9 @@ const MainSceneIntro = memo(() => {
       }, 300);
     }, 3860);
   }, [
+    setGrayPlanesVisible,
+    setMainStarfieldBoostVal,
+    setMainStarfieldVisible,
     setHudVisible,
     setOrbVisible,
     setIntroStarfieldVisible,

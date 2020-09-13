@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const grayPlanesPosYAtom = atom({
   key: "grayPlanesPosYAtom",
-  default: -1,
+  default: 0,
 });
 
 export const grayPlanesVisibleAtom = atom({

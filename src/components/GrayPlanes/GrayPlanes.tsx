@@ -1,9 +1,17 @@
-import React, { createRef, memo, RefObject, useRef } from "react";
+import React, {
+  createRef,
+  memo,
+  MutableRefObject,
+  Ref,
+  RefObject,
+  useRef,
+} from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import { useSpring, a } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
 import { grayPlanesPosYAtom, grayPlanesVisibleAtom } from "./GrayPlanesAtom";
+import { Object3D } from "three";
 
 const GrayPlanes = memo(() => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();
@@ -51,6 +59,7 @@ const GrayPlanes = memo(() => {
             scale={[0.04, 10, 0.04]}
             position={grayPlanePoses[idx] as [number, number, number]}
             ref={ref}
+            key={idx}
           >
             <planeBufferGeometry attach="geometry" />
             <meshBasicMaterial

@@ -6,6 +6,7 @@ import orbSprite from "../../static/sprites/orb.png";
 // initialize outside the component otherwise it gets overwritten when it rerenders
 let orbIdx = 0;
 let orbDirectionChangeCount = 0;
+let renderOrder = -1;
 
 type OrbProps = {
   orbVisibility: boolean;
@@ -41,6 +42,7 @@ const Orb = memo((props: OrbProps) => {
         switch (currentCurve) {
           case "first":
             setOrbDirection("right");
+            renderOrder = 0;
             break;
           case "second":
             setOrbDirection("left");
@@ -56,6 +58,7 @@ const Orb = memo((props: OrbProps) => {
             break;
           case "second":
             setOrbDirection("right");
+            renderOrder = -1;
             break;
         }
         orbDirectionChangeCount++;
@@ -108,8 +111,13 @@ const Orb = memo((props: OrbProps) => {
 
   return (
     <group position={[0, -0.1, -9]} visible={props.orbVisibility}>
-      <sprite scale={[0.5, 0.5, 0.5]} ref={orbRef}>
-        <spriteMaterial attach="material" map={orbSpriteTexture} />
+      <sprite scale={[0.5, 0.5, 0.5]} ref={orbRef} renderOrder={renderOrder}>
+        <spriteMaterial
+          attach="material"
+          map={orbSpriteTexture}
+          depthTest={false}
+          transparent={true}
+        />
       </sprite>
     </group>
   );
