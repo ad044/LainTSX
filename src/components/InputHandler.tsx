@@ -7,7 +7,7 @@ import {
   LainStanding,
 } from "./Lain/Lain";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { hudActiveAtom } from "./HUD/HUDActiveAtom";
+import { hudActiveAtom, currentHUDAtom } from "./HUD/HUDElementAtom";
 import { currentSpriteAtom } from "./LevelSprite/CurrentSpriteAtom";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_huds from "../resources/level_sprite_huds.json";
@@ -19,9 +19,9 @@ import {
 } from "./Lain/LainAtom";
 import { camPosYAtom, camRotYAtom } from "./MainScene/CameraAtom";
 import { starfieldPosYAtom } from "./Starfield/StarfieldAtom";
-import { currentHUDAtom } from "./HUD/CurrentHUDAtom";
 import { SpriteHuds } from "./HUD/HUDElement";
 import { orthoCamPosYAtom } from "./OrthoCamera/OrthoCameraAtom";
+import { grayPlanesPosYAtom } from "./GrayPlanes/GrayPlanesAtom";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -62,6 +62,8 @@ const InputHandler = () => {
 
   const setLainPosY = useSetRecoilState(lainPosYAtom);
 
+  const setGrayPlanePosY = useSetRecoilState(grayPlanesPosYAtom);
+
   const setStarfieldPosY = useSetRecoilState(starfieldPosYAtom);
 
   const moveCamera = useCallback(
@@ -70,8 +72,15 @@ const InputHandler = () => {
       setLainPosY((prev: number) => prev - val);
       setStarfieldPosY((prev: number) => prev - val);
       setOrthoCamPosY((prev: number) => prev - val);
+      setGrayPlanePosY((prev: number) => prev - val);
     },
-    [setCamPosY, setLainPosY, setStarfieldPosY, setOrthoCamPosY]
+    [
+      setCamPosY,
+      setLainPosY,
+      setStarfieldPosY,
+      setOrthoCamPosY,
+      setGrayPlanePosY,
+    ]
   );
 
   const rotateCamera = useCallback(

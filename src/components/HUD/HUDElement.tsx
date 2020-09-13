@@ -1,5 +1,5 @@
-import React, {memo} from "react";
-import {useLoader} from "react-three-fiber";
+import React, { memo } from "react";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../static/sprites/big_hud.png";
 import bigHudMirrored from "../../static/sprites/big_hud_mirrored.png";
@@ -7,10 +7,10 @@ import longHud from "../../static/sprites/long_hud.png";
 import longHudMirrored from "../../static/sprites/long_hud_mirrored.png";
 import boringHud from "../../static/sprites/long_hud_boring.png";
 import boringHudMirrored from "../../static/sprites/long_hud_boring_mirrored.png";
-import {a, useSpring} from "@react-spring/three";
-import {useRecoilValue} from "recoil";
-import {hudActiveAtom} from "./HUDActiveAtom";
-import {currentHUDAtom} from "./CurrentHUDAtom";
+import { a, useSpring } from "@react-spring/three";
+import { useRecoilValue } from "recoil";
+import { hudActiveAtom } from "./HUDElementAtom";
+import { currentHUDAtom } from "./HUDElementAtom";
 
 export type HUDElementProps = {
   hudVisibility: boolean;

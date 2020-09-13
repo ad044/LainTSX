@@ -12,6 +12,8 @@ import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 import {
   introStarfieldVisibilityAtom,
+  mainStarfieldBoostValAtom,
+  mainStarfieldVisibilityAtom,
   starfieldPosYAtom,
 } from "./StarfieldAtom";
 import { useRecoilValue } from "recoil";
@@ -42,14 +44,16 @@ type IntroStarfieldObjectData = {
 const Starfield = memo(() => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
 
-  const [mainStarfieldVisible, setMainStarfieldVisible] = useState(false);
-
   const starfieldPosY = useRecoilValue(starfieldPosYAtom);
 
   const introStarfieldVisible = useRecoilValue(introStarfieldVisibilityAtom);
+  const mainStarfieldVisible = useRecoilValue(mainStarfieldVisibilityAtom);
+
+  const mainStarfieldBoostVal = useRecoilValue(mainStarfieldBoostValAtom);
 
   const starfieldState = useSpring({
     starfieldPosY: starfieldPosY,
+    starfieldBoostVal: mainStarfieldBoostVal,
     config: { duration: 1200 },
   });
 
@@ -186,8 +190,10 @@ const Starfield = memo(() => {
               posRef.current!.position.x = el[1][idx][0] + 6;
               posRef.current!.position.z = el[1][idx][2] - 2.5;
             }
-            posRef.current!.position.x -= 0.03 + starSpeeds[idx];
-            posRef.current!.position.z += 0.035;
+            posRef.current!.position.x -=
+              0.03 + starSpeeds[idx] + starfieldState.starfieldBoostVal.get();
+            posRef.current!.position.z +=
+              0.035 + starfieldState.starfieldBoostVal.get() * 0.5;
           }
         );
       });
@@ -199,8 +205,10 @@ const Starfield = memo(() => {
               posRef.current!.position.x = el[1][idx][0] - 9;
               posRef.current!.position.z = el[1][idx][2] - 0.5;
             } else {
-              posRef.current!.position.x += 0.03 + starSpeeds[idx];
-              posRef.current!.position.z += 0.015;
+              posRef.current!.position.x +=
+                0.03 + starSpeeds[idx] + starfieldState.starfieldBoostVal.get();
+              posRef.current!.position.z +=
+                0.015 + starfieldState.starfieldBoostVal.get() * 0.5;
             }
           }
         );
@@ -271,18 +279,11 @@ const Starfield = memo(() => {
     },
   ];
 
-  useEffect(() => {
-    setTimeout(() => {
-      setMainStarfieldVisible(true);
-      console.log("123");
-    }, 1800);
-  }, []);
-
   return (
     <>
       <a.group
         ref={introStarfieldGroupRef}
-        position={[-2, -20, -3.2]}
+        position={[-2, -35, -3.2]}
         rotation={[0, 0, 0]}
         visible={introStarfieldVisible}
       >

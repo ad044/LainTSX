@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { orthoCamPosYAtom } from "./OrthoCameraAtom";
 import { useSpring, a } from "@react-spring/three";
 import { orbVisibilityAtom } from "../Orb/OrbAtom";
-import { hudVisibilityAtom } from "../HUD/HUDActiveAtom";
+import { hudVisibilityAtom } from "../HUD/HUDElementAtom";
 
 const OrthoCamera = memo(() => {
   const { gl, scene, camera } = useThree();
