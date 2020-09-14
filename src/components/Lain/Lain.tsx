@@ -38,7 +38,13 @@ const LainConstructor = (props: LainConstructorProps) => {
     animator.animate();
   });
 
-  return <spriteMaterial attach="material" map={lainSpriteTexture} />;
+  return (
+    <spriteMaterial
+      attach="material"
+      map={lainSpriteTexture}
+      alphaTest={0.01}
+    />
+  );
 };
 
 export const LainIntro = () => {
