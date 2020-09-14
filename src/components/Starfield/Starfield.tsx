@@ -1,13 +1,5 @@
 import { a, useSpring } from "@react-spring/three";
-import React, {
-  createRef,
-  memo,
-  RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { createRef, memo, RefObject, useMemo, useRef } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 import {
@@ -174,7 +166,7 @@ const Starfield = memo(() => {
 
   const starSpeeds = Array.from(
     { length: 60 },
-    () => lcgInstance() / 100000000000
+    () => lcgInstance() / 100000000000 + 0.03
   );
 
   useFrame(() => {
@@ -191,7 +183,7 @@ const Starfield = memo(() => {
               posRef.current!.position.z = el[1][idx][2] - 2.5;
             }
             posRef.current!.position.x -=
-              0.03 + starSpeeds[idx] + starfieldState.starfieldBoostVal.get();
+              starSpeeds[idx] + starfieldState.starfieldBoostVal.get();
             posRef.current!.position.z +=
               0.035 + starfieldState.starfieldBoostVal.get() * 0.5;
           }
@@ -206,7 +198,7 @@ const Starfield = memo(() => {
               posRef.current!.position.z = el[1][idx][2] - 0.5;
             } else {
               posRef.current!.position.x +=
-                0.03 + starSpeeds[idx] +starfieldState.starfieldBoostVal.get();
+                starSpeeds[idx] + starfieldState.starfieldBoostVal.get()
               posRef.current!.position.z +=
                 0.015 + starfieldState.starfieldBoostVal.get() * 0.5;
             }
