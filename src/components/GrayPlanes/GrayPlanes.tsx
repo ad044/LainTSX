@@ -1,17 +1,9 @@
-import React, {
-  createRef,
-  memo,
-  MutableRefObject,
-  Ref,
-  RefObject,
-  useRef,
-} from "react";
+import React, { createRef, memo, RefObject, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
 import { grayPlanesPosYAtom, grayPlanesVisibleAtom } from "./GrayPlanesAtom";
-import { Object3D } from "three";
 
 const GrayPlanes = memo(() => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();

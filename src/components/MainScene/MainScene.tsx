@@ -18,6 +18,7 @@ import {
   mainGroupRotXAtom,
 } from "./MainGroupAtom";
 import GrayPlanes from "../GrayPlanes/GrayPlanes";
+import MiddleRing from "../MiddleRing/MiddleRing";
 
 const MainScene = () => {
   const setLainMoving = useSetRecoilState(lainMovingAtom);
@@ -72,6 +73,7 @@ const MainScene = () => {
           <Starfield />
           <GrayPlanes />
           <Lights />
+          <MiddleRing />
           <OrbitControls />
         </a.group>
         <Lain />
