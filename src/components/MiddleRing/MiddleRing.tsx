@@ -157,13 +157,17 @@ const MiddleRing = memo(() => {
     void main() {
         vUv = uv;
 
+        const float angleOffset = 0.0f;
+        const float wobbleStrength = 0.15f;
+
         // compute world position of the vertex
         // (ie, position after model rotation and translation)
-        vec3 worldPos = modelMatrix * vec3(position, 1.0f);
+        vec4 worldPos = modelMatrix * vec4(position, 0.0f);
+        float wobbleAngle = atan(worldPos.x, worldPos.z);
 
         // use the world position to move the original point up or down
         vec3 pos = position;
-        pos.y += 3.5 * sin(0.3 * worldPos.x) * sin(0.3 * worldPos.z);
+        pos.y += wobbleStrength * sin(wobbleAngle * 2.0f);
 
         // transform this position into final viewspace
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
@@ -199,7 +203,7 @@ const MiddleRing = memo(() => {
         position={[0, -0.15, 0.3]}
         scale={[0.8, 0.7, 0.8]}
         ref={middleRingRef}
-        rotation={[0, -0.9, 0]}
+        rotation={[0, -0.2, 0]}
       >
         <shaderMaterial
           attach="material"
