@@ -18,5 +18,7 @@
 
 @font-face {
   font-family: "lowres";
-  src: url("../fonts/04B_03.TTF") format("truetype");
+  /*src: url("../fonts/04B_03.TTF") format("truetype");*/
+  src: url("../fonts/Plain_Lain3.ttf") format("truetype");
+
 }

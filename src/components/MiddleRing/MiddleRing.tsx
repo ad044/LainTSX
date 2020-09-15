@@ -1,10 +1,19 @@
-import React, { memo, useRef } from "react";
+import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import middleRingTexture from "../../static/sprites/middle_ring_tex.png";
 
 import { draco } from "drei";
 import * as THREE from "three";
+import { useSpring, a } from "@react-spring/three";
+import {
+  middleRingNoiseAtom,
+  middleRingPosYAtom,
+  middleRingRotatingAtom,
+  middleRingRotXAtom,
+  middleRingWobbleStrengthAtom,
+} from "./MiddleRingAtom";
+import { useRecoilValue } from "recoil";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -15,7 +24,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-const MiddleRing = memo(() => {
+const MiddleRing = () => {
   const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring2.glb",
@@ -24,15 +33,40 @@ const MiddleRing = memo(() => {
 
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-  const uniforms = {
-    tex: { type: "t", value: middleRingTex },
-    uTime: { value: 1.0 },
-  };
+  const middleRingWobbleStrength = useRecoilValue(middleRingWobbleStrengthAtom);
+  const middleRingRotating = useRecoilValue(middleRingRotatingAtom);
+  const middleRingNoise = useRecoilValue(middleRingNoiseAtom);
+  const middleRingPosY = useRecoilValue(middleRingPosYAtom);
+  const middleRingRotX = useRecoilValue(middleRingRotXAtom);
+
+  const middleRingWobbleState = useSpring({
+    middleRingWobbleStrength: middleRingWobbleStrength,
+    config: { duration: 200 },
+  });
+
+  const middleRingPosState = useSpring({
+    middleRingPosY: middleRingPosY,
+    config: { duration: 500 },
+  });
+
+  const middleRingRotState = useSpring({
+    middleRingRotX: middleRingRotX,
+    config: { duration: 1000 },
+  });
+
+  const uniforms = useMemo(
+    () => ({
+      tex: { type: "t", value: middleRingTex },
+      uTime: { value: 1.0 },
+      wobbleStrength: { value: 0.0 },
+    }),
+    [middleRingTex]
+  );
 
   const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
   const middleRingRef = useRef<THREE.Object3D>();
 
-  const vertexShader = `
+  const noiseVertexShader = `
     varying vec2 vUv;
     uniform float uTime;
 
@@ -143,7 +177,7 @@ const MiddleRing = memo(() => {
 
       vec3 pos = position;
       float noiseFreq = 0.5;
-      float noiseAmp = 0.05; 
+      float noiseAmp = 0.03; 
       vec3 noisePos = vec3(pos.x * noiseFreq + uTime, pos.y, pos.z);
       pos.y += snoise(noisePos) * noiseAmp;
 
@@ -151,24 +185,28 @@ const MiddleRing = memo(() => {
     }
   `;
 
-  const testVertex = `
+  const sineVertexShader = `
     varying vec2 vUv;
+    uniform float wobbleStrength;
 
     void main() {
         vUv = uv;
 
+        const float angleOffset = -0.8f;
+
         // compute world position of the vertex
         // (ie, position after model rotation and translation)
-        vec3 worldPos = modelMatrix * vec3(position, 1.0f);
+        vec4 worldPos = modelMatrix * vec4(position, 0.0f);
+        float wobbleAngle = atan(worldPos.x, worldPos.z) + angleOffset;
 
         // use the world position to move the original point up or down
         vec3 pos = position;
-        pos.y += 3.5 * sin(0.3 * worldPos.x) * sin(0.3 * worldPos.z);
+        pos.y += wobbleStrength * sin(wobbleAngle * 2.0f);
 
         // transform this position into final viewspace
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
     }
-`
+`;
 
   const fragmentShader = `
     uniform sampler2D tex;
@@ -186,35 +224,50 @@ const MiddleRing = memo(() => {
   useFrame(() => {
     if (middleRingMaterialRef.current) {
       middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
+      middleRingMaterialRef.current.uniforms.wobbleStrength.value = middleRingWobbleState.middleRingWobbleStrength.get();
+      middleRingMaterialRef.current.needsUpdate = true;
     }
-    // middleRingRef.current!.rotation.y += 0.06;
+    if (middleRingRotating) {
+      middleRingRef.current!.rotation.y += 0.05;
+    }
   });
 
-  // -0.15, 03
   return (
-    <group>
-      <mesh
-        material={materials["Material.001"]}
-        geometry={nodes.BezierCircle.geometry}
-        position={[0, -0.15, 0.3]}
-        scale={[0.8, 0.7, 0.8]}
-        ref={middleRingRef}
-        rotation={[0, -0.9, 0]}
-      >
+    <a.mesh
+      material={materials["Material.001"]}
+      geometry={nodes.BezierCircle.geometry}
+      position={[0, 0, 0.3]}
+      position-y={middleRingPosState.middleRingPosY}
+      scale={[0.9, 0.7, 0.9]}
+      ref={middleRingRef}
+      rotation={[0, 0.9, 0]}
+      rotation-x={middleRingRotState.middleRingRotX}
+    >
+      {middleRingNoise ? (
         <shaderMaterial
           attach="material"
           color={0x8cffde}
           side={THREE.DoubleSide}
           uniforms={uniforms}
-          vertexShader={testVertex}
+          vertexShader={noiseVertexShader}
           fragmentShader={fragmentShader}
           ref={middleRingMaterialRef}
           transparent={true}
         />
-        <meshBasicMaterial />
-      </mesh>
-    </group>
+      ) : (
+        <shaderMaterial
+          attach="material"
+          color={0x8cffde}
+          side={THREE.DoubleSide}
+          uniforms={uniforms}
+          vertexShader={sineVertexShader}
+          fragmentShader={fragmentShader}
+          ref={middleRingMaterialRef}
+          transparent={true}
+        />
+      )}
+    </a.mesh>
   );
-});
+};
 
 export default MiddleRing;

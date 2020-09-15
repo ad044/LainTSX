@@ -7,7 +7,7 @@ import {
   LainStanding,
 } from "./Lain/Lain";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { hudActiveAtom, currentHUDAtom } from "./HUD/HUDElementAtom";
+import { currentHUDAtom, hudActiveAtom } from "./HUD/HUDElementAtom";
 import { currentSpriteAtom } from "./LevelSprite/CurrentSpriteAtom";
 import lain_animations from "../resources/lain_animations.json";
 import level_sprite_huds from "../resources/level_sprite_huds.json";
@@ -22,6 +22,13 @@ import { starfieldPosYAtom } from "./Starfield/StarfieldAtom";
 import { SpriteHuds } from "./HUD/HUDElement";
 import { orthoCamPosYAtom } from "./OrthoCamera/OrthoCameraAtom";
 import { grayPlanesPosYAtom } from "./GrayPlanes/GrayPlanesAtom";
+import {
+  middleRingNoiseAtom,
+  middleRingPosYAtom,
+  middleRingRotatingAtom,
+  middleRingRotXAtom,
+  middleRingWobbleStrengthAtom,
+} from "./MiddleRing/MiddleRingAtom";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -66,6 +73,14 @@ const InputHandler = () => {
 
   const setStarfieldPosY = useSetRecoilState(starfieldPosYAtom);
 
+  const setMiddleRingWobbleStrength = useSetRecoilState(
+    middleRingWobbleStrengthAtom
+  );
+  const setMiddleRingRotating = useSetRecoilState(middleRingRotatingAtom);
+  const setMiddleRingNoise = useSetRecoilState(middleRingNoiseAtom);
+  const setMiddleRingPosY = useSetRecoilState(middleRingPosYAtom);
+  const setMiddleRingRotX = useSetRecoilState(middleRingRotXAtom);
+
   const moveCamera = useCallback(
     (val: number) => {
       setCamPosY((prev: number) => prev + val);
@@ -73,6 +88,14 @@ const InputHandler = () => {
       setStarfieldPosY((prev: number) => prev - val);
       setOrthoCamPosY((prev: number) => prev - val);
       setGrayPlanePosY((prev: number) => prev - val);
+
+      setTimeout(() => {
+        setMiddleRingPosY((prev: number) => prev - (val - 0.2));
+      }, 1300);
+
+      setTimeout(() => {
+        setMiddleRingPosY((prev: number) => prev - 0.2);
+      }, 1800);
     },
     [
       setCamPosY,
@@ -80,6 +103,7 @@ const InputHandler = () => {
       setStarfieldPosY,
       setOrthoCamPosY,
       setGrayPlanePosY,
+      setMiddleRingPosY,
     ]
   );
 
@@ -119,9 +143,46 @@ const InputHandler = () => {
           break;
         case "up":
           setLainMoveState(<LainMoveUp />);
+
           setTimeout(() => {
             moveCamera(-1.87);
           }, 1300);
+
+          // change noise to 0, make the ring bend downwards
+          setTimeout(() => {
+            setMiddleRingNoise(false);
+            setMiddleRingWobbleStrength(0.2);
+          }, 300);
+
+          // disable rotation of the ring
+          setTimeout(() => {
+            setMiddleRingRotating(false);
+          }, 700);
+
+          // make the ring bend upwards
+          setTimeout(() => {
+            setMiddleRingWobbleStrength(-0.3);
+          }, 1300);
+
+          // reset the ring bend, set the rotation to slightly curve
+          // to replicate a motion effect (since its moving upwards)
+          // and enable rotation again
+          setTimeout(() => {
+            setMiddleRingWobbleStrength(0.0);
+            setMiddleRingRotX(-0.2);
+            setMiddleRingRotating(true);
+          }, 1500);
+
+          // reset the rotation value to 0
+          setTimeout(() => {
+            setMiddleRingRotX(0);
+          }, 2500);
+
+          // enable noise again in about 8~ secs
+          setTimeout(() => {
+            setMiddleRingNoise(true);
+          }, 7800);
+
           break;
         case "right":
           rotateCamera(-0.1);
@@ -143,7 +204,16 @@ const InputHandler = () => {
         }, 300);
       }, (lain_animations as LainAnimations)[key]["duration"]);
     },
-    [moveCamera, rotateCamera, setLainMoveState, setLainMoving]
+    [
+      moveCamera,
+      rotateCamera,
+      setLainMoveState,
+      setLainMoving,
+      setMiddleRingNoise,
+      setMiddleRingRotX,
+      setMiddleRingRotating,
+      setMiddleRingWobbleStrength,
+    ]
   );
 
   const updateHUD = useCallback(() => {
