@@ -12,7 +12,7 @@ export const middleRingRotatingAtom = atom({
 
 export const middleRingNoiseAtom = atom({
   key: "middleRingNoiseAtom",
-  default: true,
+  default: 0.03,
 });
 
 export const middleRingPosYAtom = atom({

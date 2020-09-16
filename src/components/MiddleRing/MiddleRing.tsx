@@ -41,6 +41,7 @@ const MiddleRing = () => {
 
   const middleRingWobbleState = useSpring({
     middleRingWobbleStrength: middleRingWobbleStrength,
+    middleRingNoise: middleRingNoise,
     config: { duration: 200 },
   });
 
@@ -59,6 +60,7 @@ const MiddleRing = () => {
       tex: { type: "t", value: middleRingTex },
       uTime: { value: 1.0 },
       wobbleStrength: { value: 0.0 },
+      noiseAmp: { value: 0.03 },
     }),
     [middleRingTex]
   );
@@ -66,9 +68,11 @@ const MiddleRing = () => {
   const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
   const middleRingRef = useRef<THREE.Object3D>();
 
-  const noiseVertexShader = `
+  const vertexShader = `
     varying vec2 vUv;
     uniform float uTime;
+    uniform float wobbleStrength;
+    uniform float noiseAmp;
 
     //
     // Description : Array and textureless GLSL 2D/3D/4D simplex
@@ -175,38 +179,25 @@ const MiddleRing = () => {
     void main() {
       vUv = uv;
 
+      // offset of the wobble when jumping
+      const float angleOffset = -0.8f;
+      
+      // compute world position of the vertex
+      // (ie, position after model rotation and translation)
+      vec4 worldPos = modelMatrix * vec4(position, 0.0f);
+      float wobbleAngle = atan(worldPos.x, worldPos.z) + angleOffset;
+      
       vec3 pos = position;
+      
+      // noise modifiers
       float noiseFreq = 0.5;
-      float noiseAmp = 0.03; 
+      
       vec3 noisePos = vec3(pos.x * noiseFreq + uTime, pos.y, pos.z);
-      pos.y += snoise(noisePos) * noiseAmp;
+      pos.y += snoise(noisePos) * noiseAmp + wobbleStrength * sin(wobbleAngle * 2.0f);
 
       gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
     }
   `;
-
-  const sineVertexShader = `
-    varying vec2 vUv;
-    uniform float wobbleStrength;
-
-    void main() {
-        vUv = uv;
-
-        const float angleOffset = -0.8f;
-
-        // compute world position of the vertex
-        // (ie, position after model rotation and translation)
-        vec4 worldPos = modelMatrix * vec4(position, 0.0f);
-        float wobbleAngle = atan(worldPos.x, worldPos.z) + angleOffset;
-
-        // use the world position to move the original point up or down
-        vec3 pos = position;
-        pos.y += wobbleStrength * sin(wobbleAngle * 2.0f);
-
-        // transform this position into final viewspace
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
-    }
-`;
 
   const fragmentShader = `
     uniform sampler2D tex;
@@ -225,6 +216,8 @@ const MiddleRing = () => {
     if (middleRingMaterialRef.current) {
       middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
       middleRingMaterialRef.current.uniforms.wobbleStrength.value = middleRingWobbleState.middleRingWobbleStrength.get();
+      middleRingMaterialRef.current.uniforms.noiseAmp.value = middleRingWobbleState.middleRingNoise.get();
+
       middleRingMaterialRef.current.needsUpdate = true;
     }
     if (middleRingRotating) {
@@ -243,29 +236,16 @@ const MiddleRing = () => {
       rotation={[0, 0.9, 0]}
       rotation-x={middleRingRotState.middleRingRotX}
     >
-      {middleRingNoise ? (
-        <shaderMaterial
-          attach="material"
-          color={0x8cffde}
-          side={THREE.DoubleSide}
-          uniforms={uniforms}
-          vertexShader={noiseVertexShader}
-          fragmentShader={fragmentShader}
-          ref={middleRingMaterialRef}
-          transparent={true}
-        />
-      ) : (
-        <shaderMaterial
-          attach="material"
-          color={0x8cffde}
-          side={THREE.DoubleSide}
-          uniforms={uniforms}
-          vertexShader={sineVertexShader}
-          fragmentShader={fragmentShader}
-          ref={middleRingMaterialRef}
-          transparent={true}
-        />
-      )}
+      <shaderMaterial
+        attach="material"
+        color={0x8cffde}
+        side={THREE.DoubleSide}
+        uniforms={uniforms}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        ref={middleRingMaterialRef}
+        transparent={true}
+      />
     </a.mesh>
   );
 };

@@ -132,9 +132,47 @@ const InputHandler = () => {
       switch (key) {
         case "down":
           setLainMoveState(<LainMoveDown />);
+
           setTimeout(() => {
             moveCamera(1.87);
           }, 1400);
+
+          // make noise appear again
+          setTimeout(() => {
+            setMiddleRingNoise(0.06);
+          }, 800);
+
+          // disable rotation of the ring
+          setTimeout(() => {
+            setMiddleRingRotating(false);
+          }, 700);
+
+          // set ring rotation on x axis to craete motion effect
+          setTimeout(() => {
+            setMiddleRingRotX(0.3);
+          }, 1500);
+
+          // rotate it again, set ring noise to 0
+          setTimeout(() => {
+            setMiddleRingRotX(-0.1);
+            setMiddleRingNoise(0);
+          }, 3500);
+
+          // rotate it back AGAIN (holy fuk psx game)
+          setTimeout(() => {
+            setMiddleRingRotX(0.05);
+          }, 4500);
+
+          // reset value, set noise to 0
+          setTimeout(() => {
+            setMiddleRingRotX(0);
+            setMiddleRingRotating(true);
+          }, 4800);
+
+          // enable noise again in about 11-12 secs
+          setTimeout(() => {
+            setMiddleRingNoise(0.03);
+          }, 11600);
 
           break;
         case "left":
@@ -150,7 +188,7 @@ const InputHandler = () => {
 
           // change noise to 0, make the ring bend downwards
           setTimeout(() => {
-            setMiddleRingNoise(false);
+            setMiddleRingNoise(0);
             setMiddleRingWobbleStrength(0.2);
           }, 300);
 
@@ -180,7 +218,7 @@ const InputHandler = () => {
 
           // enable noise again in about 8~ secs
           setTimeout(() => {
-            setMiddleRingNoise(true);
+            setMiddleRingNoise(0.03);
           }, 7800);
 
           break;
