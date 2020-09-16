@@ -105,7 +105,7 @@ const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
           transparent={true}
         />
       ) : (
-        <meshStandardMaterial
+        <meshBasicMaterial
           attach="material"
           map={nonActiveTexture}
           side={THREE.DoubleSide}

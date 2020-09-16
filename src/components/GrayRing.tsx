@@ -10,13 +10,15 @@ type GrayRingProps = {
 
 type GLTFResult = GLTF & {
   nodes: {
-    Circle: THREE.Mesh;
+    LainRing: THREE.Mesh;
   };
-  materials: {};
+  materials: {
+    RingTexture: THREE.MeshStandardMaterial;
+  };
 };
 
 const GrayRing = memo((props: GrayRingProps) => {
-  const { nodes } = useLoader<GLTFResult>(
+  const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
     "/models/ring0.glb",
     draco("/draco-gltf/")
@@ -27,15 +29,13 @@ const GrayRing = memo((props: GrayRingProps) => {
     <group
       scale={[1.3, 1.3, 1.3]}
       position={[0, props.grayRingPosY, 0]}
-      rotation={[0, 0.26, 0]}
+      rotation={[0, 2.6, 0]}
     >
-      <mesh geometry={nodes.Circle.geometry} rotation={[0, Math.PI / 4, 0]}>
-        <meshLambertMaterial
-          attach="material"
-          color={0x636363}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+      <mesh
+        geometry={nodes.LainRing.geometry}
+        rotation={[0, Math.PI / 4, 0]}
+        material={materials.RingTexture}
+      ></mesh>
     </group>
   );
 });
