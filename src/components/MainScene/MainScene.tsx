@@ -49,8 +49,8 @@ const MainScene = () => {
 
   // set lain intro spritesheet before the page loads fully
   useEffect(() => {
-    setLainMoving(true);
-    setLainMoveState(<LainIntro />);
+    // setLainMoving(true);
+    // setLainMoveState(<LainIntro />);
   }, [setLainMoveState, setLainMoving]);
 
   return (

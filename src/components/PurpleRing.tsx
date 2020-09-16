@@ -35,9 +35,9 @@ const PurpleRing = memo((props: PurpleRingProps) => {
       ref={purpleRingRef}
     >
       <mesh geometry={nodes.Circle002.geometry} rotation={[0, Math.PI / 4, 0]}>
-        <meshLambertMaterial
+        <meshStandardMaterial
           attach="material"
-          color={0x8b6ff7}
+          color={0x281f47}
           side={THREE.DoubleSide}
         />
       </mesh>

@@ -98,5 +98,26 @@
       "type": "normal",
       "initial_position": [1.48, -0.12, -8.6]
     }
+  },
+  "15": {
+    "long": {
+      "position": [-0.43, -0.32, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "normal",
+      "initial_position": [-1.45, -0.3, -8.6]
+    },
+    "boring": {
+      "position": [0.51, -0.3, -8.6],
+      "scale": [1, 0.03, 1],
+      "type": "normal",
+      "initial_position": [1.48, -0.3, -8.6]
+    },
+    "big": {
+      "position": [0.3, -0.28, -8.6],
+      "scale": [0.5, 0.06, 1],
+      "type": "normal",
+      "initial_position": [1.48, -0.12, -8.6]
+    }
   }
+
 }

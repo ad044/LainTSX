@@ -1,11 +1,11 @@
-import React, { memo, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import middleRingTexture from "../../static/sprites/middle_ring_tex.png";
 
 import { draco } from "drei";
 import * as THREE from "three";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import {
   middleRingNoiseAtom,
   middleRingPosYAtom,
@@ -184,7 +184,7 @@ const MiddleRing = () => {
       
       // compute world position of the vertex
       // (ie, position after model rotation and translation)
-      vec4 worldPos = modelMatrix * vec4(position, 0.0f);
+      vec4 worldPos = modelMatrix * vec4(position, 0.0);
       float wobbleAngle = atan(worldPos.x, worldPos.z) + angleOffset;
       
       vec3 pos = position;
@@ -193,7 +193,7 @@ const MiddleRing = () => {
       float noiseFreq = 0.5;
       
       vec3 noisePos = vec3(pos.x * noiseFreq + uTime, pos.y, pos.z);
-      pos.y += snoise(noisePos) * noiseAmp + wobbleStrength * sin(wobbleAngle * 2.0f);
+      pos.y += snoise(noisePos) * noiseAmp + wobbleStrength * sin(wobbleAngle * 2.0);
 
       gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
     }
@@ -206,7 +206,7 @@ const MiddleRing = () => {
 
     void main() {
         gl_FragColor = texture2D(tex, vUv);
-        gl_FragColor.a = 0.5;
+        gl_FragColor.a = 0.4;
     }
   `;
 

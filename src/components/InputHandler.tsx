@@ -176,7 +176,10 @@ const InputHandler = () => {
 
           break;
         case "left":
-          rotateCamera(0.15);
+          setTimeout(() => {
+            rotateCamera(0.45);
+          }, 1100);
+
           setLainMoveState(<LainMoveLeft />);
           break;
         case "up":
