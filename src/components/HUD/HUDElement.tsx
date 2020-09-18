@@ -119,7 +119,7 @@ const HUDElement = memo((props: HUDElementProps) => {
   );
 
   return (
-    <group visible={props.hudVisibility}>
+    <group visible={props.hudVisibility} renderOrder={1}>
       <a.sprite
         position-x={longHUDPosX}
         position-y={currentSpriteHUD["long"]["position"][1]}
