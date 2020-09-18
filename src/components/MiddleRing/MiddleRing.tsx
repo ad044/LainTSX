@@ -1,11 +1,8 @@
-import React, { useMemo, useRef } from "react";
-import { useFrame, useLoader } from "react-three-fiber";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import React, {useMemo, useRef} from "react";
+import {useFrame, useLoader} from "react-three-fiber";
 import middleRingTexture from "../../static/sprites/middle_ring_tex.png";
-
-import { draco } from "drei";
 import * as THREE from "three";
-import { a, useSpring } from "@react-spring/three";
+import {a, useSpring} from "@react-spring/three";
 import {
   middleRingNoiseAtom,
   middleRingPosYAtom,
@@ -13,24 +10,9 @@ import {
   middleRingRotXAtom,
   middleRingWobbleStrengthAtom,
 } from "./MiddleRingAtom";
-import { useRecoilValue } from "recoil";
-
-type GLTFResult = GLTF & {
-  nodes: {
-    BezierCircle: THREE.Mesh;
-  };
-  materials: {
-    ["Material.001"]: THREE.MeshStandardMaterial;
-  };
-};
+import {useRecoilValue} from "recoil";
 
 const MiddleRing = () => {
-  const { nodes, materials } = useLoader<GLTFResult>(
-    GLTFLoader,
-    "/models/ring2.glb",
-    draco("/draco-gltf/")
-  );
-
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
   const middleRingWobbleStrength = useRecoilValue(middleRingWobbleStrengthAtom);
@@ -205,8 +187,7 @@ const MiddleRing = () => {
     varying vec2 vUv;
 
     void main() {
-        gl_FragColor = texture2D(tex, vUv);
-        gl_FragColor.a = 0.4;
+      gl_FragColor = texture2D( tex, vUv);
     }
   `;
 
@@ -227,18 +208,18 @@ const MiddleRing = () => {
 
   return (
     <a.mesh
-      material={materials["Material.001"]}
-      geometry={nodes.BezierCircle.geometry}
       position={[0, 0, 0.3]}
       position-y={middleRingPosState.middleRingPosY}
-      scale={[0.9, 0.7, 0.9]}
       ref={middleRingRef}
       rotation={[0, 0.9, 0]}
       rotation-x={middleRingRotState.middleRingRotX}
     >
+      <cylinderBufferGeometry
+        args={[0.85, 0.85, 0.027, 64, 64, true]}
+        attach="geometry"
+      />
       <shaderMaterial
         attach="material"
-        color={0x8cffde}
         side={THREE.DoubleSide}
         uniforms={uniforms}
         vertexShader={vertexShader}

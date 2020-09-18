@@ -92,6 +92,7 @@ const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
       position={props.position}
       scale={props.scale}
       rotation={props.rotation}
+      renderOrder={1}
     >
       <planeBufferGeometry attach="geometry" />
       {props.active ? (

@@ -17,25 +17,25 @@ const Hub = memo(() => {
         <GrayRing grayRingPosY={1.6} />
         <PurpleRing purpleRingPosY={0.4} />
         <GrayRing grayRingPosY={-0.27} />
-        {Object.values(level_sprites).map((sprite) => {
-          return (
-            <LevelSprite
-              position={sprite.position as [number, number, number]}
-              scale={sprite.scale as [number, number, number]}
-              rotation={
-                sprite.rotation as [
-                  number,
-                  number,
-                  number,
-                  (string | undefined)?
-                ]
-              }
-              sprite={sprite.sprite}
-              key={sprite.id}
-              active={sprite.id === currentSprite}
-            />
-          );
-        })}
+        {/*{Object.values(level_sprites).map((sprite) => {*/}
+        {/*  return (*/}
+        {/*    <LevelSprite*/}
+        {/*      position={sprite.position as [number, number, number]}*/}
+        {/*      scale={sprite.scale as [number, number, number]}*/}
+        {/*      rotation={*/}
+        {/*        sprite.rotation as [*/}
+        {/*          number,*/}
+        {/*          number,*/}
+        {/*          number,*/}
+        {/*          (string | undefined)?*/}
+        {/*        ]*/}
+        {/*      }*/}
+        {/*      sprite={sprite.sprite}*/}
+        {/*      key={sprite.id}*/}
+        {/*      active={sprite.id === currentSprite}*/}
+        {/*    />*/}
+        {/*  );*/}
+        {/*})}*/}
       </Suspense>
     </>
   );
