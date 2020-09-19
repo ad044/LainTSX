@@ -15,12 +15,12 @@ const GrayRing = memo((props: GrayRingProps) => {
   const lifeTex = useLoader(THREE.TextureLoader, lifeTexture);
 
   const uniforms = useMemo(
-    () => ({
-      lof: { type: "t", value: lofTex },
-      hole: { type: "t", value: holeTex },
-      life: { type: "t", value: lifeTex },
-    }),
-    [lofTex, holeTex, lifeTex]
+      () => ({
+        lof: { type: "t", value: lofTex },
+        hole: { type: "t", value: holeTex },
+        life: { type: "t", value: lifeTex },
+      }),
+      [lofTex, holeTex, lifeTex]
   );
 
   const vertexShader = `
@@ -34,12 +34,13 @@ const GrayRing = memo((props: GrayRingProps) => {
     }
   `;
 
+
   const fragmentShader = `
     varying vec2 vUv;
     uniform sampler2D lof;
     uniform sampler2D hole;
     uniform sampler2D life;
-
+    
     // transform coordinates to uniform within segment
     float tolocal(float x, int segments, float step) {
       float period = 1.0/step*float(segments);
@@ -50,12 +51,12 @@ const GrayRing = memo((props: GrayRingProps) => {
     bool isheight(float y, float thin) {
         return y > 0.5-thin/2.0 && y < 0.5+thin/2.0;
     }
-
+    
     // sloping function
     float slope(float x, float thin) {
       return x*(1.0-thin)/2.0;
     }
-
+    
     // frag color / texture
     // #424252 hex in original textures
     vec4 color(vec2 vUv, int quadnum, bool textureexists, int thinperiod, int quadlen, float step) {
@@ -63,16 +64,19 @@ const GrayRing = memo((props: GrayRingProps) => {
         return vec4(0.259,0.259,0.322, 1);
       } else if (quadnum % 2 == 1) {
         return texture2D(hole, vec2(tolocal(vUv.x, quadlen-thinperiod, step), vUv.y));
+          // return vec4(tolocal(vUv.x, quadlen-thinperiod, step), 0, 0, 1);
       } else if (quadnum == 0) {
         return texture2D(lof, vec2(tolocal(vUv.x, quadlen-thinperiod, step), vUv.y));
       } else {
         return texture2D(life, vec2(tolocal(vUv.x, quadlen-thinperiod, step), vUv.y));
       }
     }
-
+    
     void main() {
       // number of segments
       float step = 64.0;
+      
+      // thin line height
       float thin = 0.3;
       
       // segment within circle
@@ -87,7 +91,7 @@ const GrayRing = memo((props: GrayRingProps) => {
       int quadnum = int(segment) / quadlen;
      
      // how big thin part is
-     int thinperiod = 12;
+     int thinperiod = 8;
      
       if (quadel < thinperiod && isheight(vUv.y, thin)) {
           // thin line
@@ -117,15 +121,16 @@ const GrayRing = memo((props: GrayRingProps) => {
   }
     `;
 
+
   return (
     <mesh
       position={[0, props.grayRingPosY, 0]}
-      rotation={[0, 3.7, 0]}
+      rotation={[0, 3.95, 0]}
       renderOrder={1}
-      scale={[5, 2.5, 5]}
+      scale={[25,25,25]}
     >
       <cylinderBufferGeometry
-        args={[0.25, 0.25, 0.027, 64, 64, true]}
+        args={[0.05, 0.05, 0.003, 64, 64, true]}
         attach="geometry"
       />
       <shaderMaterial
