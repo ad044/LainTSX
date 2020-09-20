@@ -17,25 +17,25 @@ const Site = memo(() => {
         <GrayRing grayRingPosY={1.59} />
         <PurpleRing purpleRingPosY={0.4} />
         <GrayRing grayRingPosY={-0.28} />
-        {/*{Object.values(blue_orbs).map((sprite) => {*/}
-        {/*  return (*/}
-        {/*    <BlueOrb*/}
-        {/*      position={sprite.position as [number, number, number]}*/}
-        {/*      scale={sprite.scale as [number, number, number]}*/}
-        {/*      rotation={*/}
-        {/*        sprite.rotation as [*/}
-        {/*          number,*/}
-        {/*          number,*/}
-        {/*          number,*/}
-        {/*          (string | undefined)?*/}
-        {/*        ]*/}
-        {/*      }*/}
-        {/*      sprite={sprite.sprite}*/}
-        {/*      key={sprite.id}*/}
-        {/*      active={sprite.id === currentBlueOrb}*/}
-        {/*    />*/}
-        {/*  );*/}
-        {/*})}*/}
+        {Object.values(blue_orbs).map((sprite) => {
+          return (
+            <BlueOrb
+              position={sprite.position as [number, number, number]}
+              scale={sprite.scale as [number, number, number]}
+              rotation={
+                sprite.rotation as [
+                  number,
+                  number,
+                  number,
+                  (string | undefined)?
+                ]
+              }
+              sprite={sprite.sprite}
+              key={sprite.id}
+              active={sprite.id === currentBlueOrb}
+            />
+          );
+        })}
       </Suspense>
     </>
   );

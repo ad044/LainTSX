@@ -72,16 +72,13 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     }
 
     // frag color
-    vec4 color(vec2 vUv, float step, bool textureexists, int quadnum) {
+    vec4 color(vec2 vUv, float step, bool textureexists) {
         if (!textureexists) {
             return vec4(0.325,0.325,0.698, 1);
-        } else if (quadnum == 1) {
-            float dist = 1.0-tolocal(1.0-vUv.x+0.5, 6, step);
-            return texture2D(siteA, vec2(dist, vUv.y));
         } else {
-            float dist = 1.0-tolocal(1.0-vUv.x, 6, step);
+            float dist = 1.0-tolocal(0.5 - mod(vUv.x, 0.5), 6, step);
             return texture2D(siteA, vec2(dist, vUv.y));
-        }
+        } 
     }
 
     void main() {
@@ -91,67 +88,59 @@ const PurpleRing = memo((props: PurpleRingProps) => {
       float thick = 1.0;
       float slopefactor = 1.0;
       
+      int halfc = int(step)/2;
+      
       // segment within circle
       int segment = int(floor(vUv.x * step));
-      
-      int quadlen = int(step)/2;
-      
-      // segment within circle's quad
-      int quadel = int(segment) % quadlen;
-      
-      // which quad
-      int quadnum = int(segment) / quadlen;
-      
-      int thinperiod = 48;
+      int thinperiod = halfc-8;
      
-      if (quadel < thinperiod-1 && istop(vUv.y, thin)) {
+     int halfel = segment % halfc;
+     
+      if (halfel < thinperiod-1 && istop(vUv.y, thin)) {
           // thin line top
-          gl_FragColor = color(vUv, step, false, quadnum);
-      } else if (quadel == thinperiod - 1) {
+          gl_FragColor = color(vUv, step, false);
+      } else if (halfel == thinperiod - 1) {
           // thin line and corner
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(1.0-dist, thin);
-          if (istop(vUv.y, thin) || (dist > 1.0-thin*slopefactor && 1.0-vUv.y < val-(1.0-thin*slopefactor))) {
-              gl_FragColor = color(vUv, step, false, quadnum);
+          if (istop(vUv.y, thin) || (1.0-vUv.y < val-(1.0-thin*slopefactor))) {
+              gl_FragColor = color(vUv, step, false);
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (quadel == thinperiod) {
+      } else if (halfel == thinperiod) {
           // slope down
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(dist, thin);
           if (vUv.y < val && vUv.y > val-thin*slopefactor) {
-              gl_FragColor = color(vUv, step, false, quadnum);
+              gl_FragColor = color(vUv, step, false);
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (quadel == thinperiod+1 && isbottom(vUv.y, thin)) {
+      } else if (halfel == thinperiod+1 && isbottom(vUv.y, thin)) {
           // thin line bottom
           gl_FragColor = vec4(0.325,0.325,0.698, 1);
-      } else if (quadel == thinperiod + 2) {
+      } else if (halfel == thinperiod + 2) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(1.0-dist, thin);
           if ((isbottom(vUv.y, thin) && dist < thin*slopefactor) || (vUv.y < val)) {
-              gl_FragColor = color(vUv, step, true, quadnum);
+              gl_FragColor = color(vUv, step, true);
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }        
-      } else if (quadel > thinperiod + 2 && quadel < thinperiod+7) {
+      } else if (halfel > thinperiod + 2 && halfel < thinperiod+7) {
           // thick part
-          gl_FragColor = color(vUv, step, true, quadnum);
-      } else if (quadel == thinperiod+7) {
+          gl_FragColor = color(vUv, step, true);
+      } else if (halfel == thinperiod+7) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           float val = slope(dist, thin);
           if (vUv.y > val) {
-              gl_FragColor = color(vUv, step, true, quadnum);
+              gl_FragColor = color(vUv, step, true);
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }        
-      } else if (quadel > thinperiod+7 && istop(vUv.y, thin)) {
-          // thin line top
-          gl_FragColor = color(vUv, step, false, quadnum);
       } else {
           // transparent
           gl_FragColor = vec4(0, 0, 0, 0);
@@ -159,9 +148,9 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   }
     `;
 
-  // useFrame(() => {
-  //   purpleRingRef.current!.rotation.y += 0.01;
-  // });
+  useFrame(() => {
+    purpleRingRef.current!.rotation.y += 0.005;
+  });
 
   return (
     <mesh

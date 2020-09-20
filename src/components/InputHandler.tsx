@@ -22,12 +22,15 @@ import {
   starfieldPosYAtom,
   starfieldRotYAtom,
 } from "./Starfield/StarfieldAtom";
-import { BlueOrbHuds} from "./HUD/HUDElement";
+import { BlueOrbHuds } from "./HUD/HUDElement";
 import {
   orthoCamPosYAtom,
   orthoCamRotYAtom,
 } from "./OrthoCamera/OrthoCameraAtom";
-import { grayPlanesPosYAtom } from "./GrayPlanes/GrayPlanesAtom";
+import {
+  grayPlanesPosYAtom,
+  grayPlanesRotYAtom,
+} from "./GrayPlanes/GrayPlanesAtom";
 import {
   middleRingNoiseAtom,
   middleRingPosYAtom,
@@ -57,7 +60,9 @@ type LainAnimations = {
 };
 
 const InputHandler = () => {
-  const [currentBlueOrb, setCurrentBlueOrb] = useRecoilState(currentBlueOrbAtom);
+  const [currentBlueOrb, setCurrentBlueOrb] = useRecoilState(
+    currentBlueOrbAtom
+  );
 
   const [lainMoving, setLainMoving] = useRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
@@ -77,6 +82,7 @@ const InputHandler = () => {
   const setLainPosY = useSetRecoilState(lainPosYAtom);
 
   const setGrayPlanePosY = useSetRecoilState(grayPlanesPosYAtom);
+  const setGrayPlaneRotY = useSetRecoilState(grayPlanesRotYAtom);
 
   const setStarfieldPosY = useSetRecoilState(starfieldPosYAtom);
   const setStarfieldRotY = useSetRecoilState(starfieldRotYAtom);
@@ -120,8 +126,9 @@ const InputHandler = () => {
       setCamRotY((prev: number) => prev + val);
       setStarfieldRotY((prev: number) => prev - val);
       setOrthoCamRotY((prev: number) => prev - val);
+      setGrayPlaneRotY((prev: number) => prev - val);
     },
-    [setCamRotY, setStarfieldRotY, setOrthoCamRotY]
+    [setCamRotY, setStarfieldRotY, setOrthoCamRotY, setGrayPlaneRotY]
   );
 
   const getMove = (currentLoc: string, key: string): string => {
