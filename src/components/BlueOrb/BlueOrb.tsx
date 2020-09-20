@@ -10,7 +10,7 @@ import SSKnActive from "../../static/sprites/SSkn_active.png";
 import Tda from "../../static/sprites/Tda.png";
 import TdaActive from "../../static/sprites/Tda_active.png";
 
-type LevelSpriteConstructorProps = {
+type BlueOrbContructorProps = {
   sprite: string;
   position: [number, number, number];
   scale: [number, number, number];
@@ -22,7 +22,7 @@ type SpriteToPath = {
   [key: string]: [string, string];
 };
 
-const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
+const BlueOrb = memo((props: BlueOrbContructorProps) => {
   // the game only has a couple of sprites that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -117,4 +117,4 @@ const LevelSprite = memo((props: LevelSpriteConstructorProps) => {
   );
 });
 
-export default LevelSprite;
+export default BlueOrb;

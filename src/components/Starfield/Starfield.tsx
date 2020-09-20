@@ -7,6 +7,7 @@ import {
   mainStarfieldBoostValAtom,
   mainStarfieldVisibilityAtom,
   starfieldPosYAtom,
+  starfieldRotYAtom,
 } from "./StarfieldAtom";
 import { useRecoilValue } from "recoil";
 
@@ -37,6 +38,7 @@ const Starfield = memo(() => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
 
   const starfieldPosY = useRecoilValue(starfieldPosYAtom);
+  const starfieldRotY = useRecoilValue(starfieldRotYAtom);
 
   const introStarfieldVisible = useRecoilValue(introStarfieldVisibilityAtom);
   const mainStarfieldVisible = useRecoilValue(mainStarfieldVisibilityAtom);
@@ -45,6 +47,7 @@ const Starfield = memo(() => {
 
   const starfieldState = useSpring({
     starfieldPosY: starfieldPosY,
+    starfieldRotY: starfieldRotY,
     starfieldBoostVal: mainStarfieldBoostVal,
     config: { duration: 1200 },
   });
@@ -198,7 +201,7 @@ const Starfield = memo(() => {
               posRef.current!.position.z = el[1][idx][2] - 0.5;
             } else {
               posRef.current!.position.x +=
-                starSpeeds[idx] + starfieldState.starfieldBoostVal.get()
+                starSpeeds[idx] + starfieldState.starfieldBoostVal.get();
               posRef.current!.position.z +=
                 0.015 + starfieldState.starfieldBoostVal.get() * 0.5;
             }
@@ -308,6 +311,7 @@ const Starfield = memo(() => {
         position={[-0.7, 0, -5]}
         rotation={[0, 0, 0]}
         position-y={starfieldState.starfieldPosY}
+        rotation-y={starfieldState.starfieldRotY}
         visible={mainStarfieldVisible}
       >
         {mainStarfieldObjects.map((obj: StarfieldObjectData) =>

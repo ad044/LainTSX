@@ -11,6 +11,8 @@ import { a, useSpring } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
 import { hudActiveAtom } from "./HUDElementAtom";
 import { currentHUDAtom } from "./HUDElementAtom";
+import level_y_values from "../../resources/level_y_values.json";
+import { currentBlueOrbAtom } from "../BlueOrb/CurrentBlueOrbAtom";
 
 export type HUDElementProps = {
   hudVisibility: boolean;
@@ -23,18 +25,24 @@ type HudShapeData = {
   initial_position: number[];
 };
 
-export type SpriteHudData = {
+export type BlueOrbHudData = {
   long: HudShapeData;
   boring: HudShapeData;
   big: HudShapeData;
 };
 
-export type SpriteHuds = {
-  [sprite_hud_id: string]: SpriteHudData;
+export type BlueOrbHuds = {
+  [blue_orb_hud_id: string]: BlueOrbHudData;
 };
 
+type LevelYValues = {
+  [level: string]: number;
+};
 const HUDElement = memo((props: HUDElementProps) => {
-  const currentSpriteHUD = useRecoilValue(currentHUDAtom);
+  const currentBlueOrbHUD = useRecoilValue(currentHUDAtom);
+
+  const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
+
   const hudActive = useRecoilValue(hudActiveAtom);
 
   const { bigHUDPositionX } = useSpring({
@@ -55,30 +63,30 @@ const HUDElement = memo((props: HUDElementProps) => {
   const bigHUDPosX = bigHUDPositionX.to(
     [0, 1],
     [
-      currentSpriteHUD["big"]["initial_position"][0],
-      currentSpriteHUD["big"]["position"][0],
+      currentBlueOrbHUD["big"]["initial_position"][0],
+      currentBlueOrbHUD["big"]["position"][0],
     ]
   );
 
   const boringHUDPosX = boringHUDPositionX.to(
     [0, 1],
     [
-      currentSpriteHUD["boring"]["initial_position"][0],
-      currentSpriteHUD["boring"]["position"][0],
+      currentBlueOrbHUD["boring"]["initial_position"][0],
+      currentBlueOrbHUD["boring"]["position"][0],
     ]
   );
 
   const longHUDPosX = longHUDPositionX.to(
     [0, 1],
     [
-      currentSpriteHUD["long"]["initial_position"][0],
-      currentSpriteHUD["long"]["position"][0],
+      currentBlueOrbHUD["long"]["initial_position"][0],
+      currentBlueOrbHUD["long"]["position"][0],
     ]
   );
 
   // these hud elements come in all shapes and forms, some of them are mirrored, rotated
   // you name it. this function allows me to specify whether i want a normal texture
-  // for the sprite or the mirrored/rotated one.
+  // for the blue orb or the mirrored/rotated one.
   const spriteTypeToSprite = (spriteType: string, hudElement: string) => {
     switch (spriteType) {
       case "normal":
@@ -105,26 +113,28 @@ const HUDElement = memo((props: HUDElementProps) => {
 
   const longHudTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentSpriteHUD["long"]["type"], "long")!
+    spriteTypeToSprite(currentBlueOrbHUD["long"]["type"], "long")!
   );
 
   const longHudBoringTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentSpriteHUD["boring"]["type"], "boring")!
+    spriteTypeToSprite(currentBlueOrbHUD["boring"]["type"], "boring")!
   );
 
   const bigHudTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentSpriteHUD["big"]["type"], "big")!
+    spriteTypeToSprite(currentBlueOrbHUD["big"]["type"], "big")!
   );
 
   return (
     <group visible={props.hudVisibility} renderOrder={1}>
       <a.sprite
         position-x={longHUDPosX}
-        position-y={currentSpriteHUD["long"]["position"][1]}
-        position-z={currentSpriteHUD["long"]["position"][2]}
-        scale={currentSpriteHUD["long"]["scale"] as [number, number, number]}
+        position-y={
+          currentBlueOrbHUD["long"]["position"][1]
+        }
+        position-z={currentBlueOrbHUD["long"]["position"][2]}
+        scale={currentBlueOrbHUD["long"]["scale"] as [number, number, number]}
       >
         <spriteMaterial
           attach="material"
@@ -134,9 +144,13 @@ const HUDElement = memo((props: HUDElementProps) => {
       </a.sprite>
       <a.sprite
         position-x={boringHUDPosX}
-        position-y={currentSpriteHUD!["boring"]["position"][1]}
-        position-z={currentSpriteHUD!["boring"]["position"][2]}
-        scale={currentSpriteHUD!["boring"]["scale"] as [number, number, number]}
+        position-y={
+          currentBlueOrbHUD!["boring"]["position"][1]
+        }
+        position-z={currentBlueOrbHUD!["boring"]["position"][2]}
+        scale={
+          currentBlueOrbHUD!["boring"]["scale"] as [number, number, number]
+        }
       >
         <spriteMaterial
           attach="material"
@@ -146,9 +160,11 @@ const HUDElement = memo((props: HUDElementProps) => {
       </a.sprite>
       <a.sprite
         position-x={bigHUDPosX}
-        position-y={currentSpriteHUD!["big"]["position"][1]}
-        position-z={currentSpriteHUD!["big"]["position"][2]}
-        scale={currentSpriteHUD!["big"]["scale"] as [number, number, number]}
+        position-y={
+          currentBlueOrbHUD!["big"]["position"][1]
+        }
+        position-z={currentBlueOrbHUD!["big"]["position"][2]}
+        scale={currentBlueOrbHUD!["big"]["scale"] as [number, number, number]}
       >
         <spriteMaterial
           attach="material"

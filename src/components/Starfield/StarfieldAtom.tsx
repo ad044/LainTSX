@@ -5,6 +5,11 @@ export const starfieldPosYAtom = atom({
   default: -1,
 });
 
+export const starfieldRotYAtom = atom({
+  key: "starfieldRotYAtom",
+  default: 0,
+});
+
 export const introStarfieldVisibilityAtom = atom({
   key: "introStarfieldVisibilityAtom",
   default: true,
