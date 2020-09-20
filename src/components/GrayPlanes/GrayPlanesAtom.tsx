@@ -5,6 +5,11 @@ export const grayPlanesPosYAtom = atom({
   default: 0,
 });
 
+export const grayPlanesRotYAtom = atom({
+  key: "grayPlanesRotYAtom",
+  default: 0,
+});
+
 export const grayPlanesVisibleAtom = atom({
   key: "grayPlanesVisibleAtom",
   default: false,

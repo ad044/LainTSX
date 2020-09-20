@@ -3,12 +3,17 @@ import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
-import { grayPlanesPosYAtom, grayPlanesVisibleAtom } from "./GrayPlanesAtom";
+import {
+  grayPlanesPosYAtom,
+  grayPlanesRotYAtom,
+  grayPlanesVisibleAtom,
+} from "./GrayPlanesAtom";
 
 const GrayPlanes = memo(() => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();
 
   const grayPlanePosY = useRecoilValue(grayPlanesPosYAtom);
+  const grayPlaneRotY = useRecoilValue(grayPlanesRotYAtom);
   const grayPlanesVisible = useRecoilValue(grayPlanesVisibleAtom);
 
   const grayPlanePoses = [
@@ -34,6 +39,7 @@ const GrayPlanes = memo(() => {
 
   const grayPlaneState = useSpring({
     grayPlanePosY: grayPlanePosY,
+    grayPlaneRotY: grayPlaneRotY,
     config: { duration: 1200 },
   });
 
@@ -42,6 +48,7 @@ const GrayPlanes = memo(() => {
       position={[0.1, 0, -2]}
       position-y={grayPlaneState.grayPlanePosY}
       rotation={[0, 0, 0]}
+      rotation-y={grayPlaneState.grayPlaneRotY}
       ref={grayPlaneGroupRef}
       visible={grayPlanesVisible}
     >
