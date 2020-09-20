@@ -20,13 +20,15 @@
     "recoil": "0.0.10",
     "three": "^0.119.1",
     "three-plain-animator": "^1.0.2",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "ts-node": "^9.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dump": "ts-node ./scripts/dump/index.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,5 +45,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "."
+  "homepage": ".",
+  "devDependencies": {
+    
+  }
 }
