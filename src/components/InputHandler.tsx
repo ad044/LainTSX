@@ -8,19 +8,25 @@ import {
 } from "./Lain/Lain";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentHUDAtom, hudActiveAtom } from "./HUD/HUDElementAtom";
-import { currentSpriteAtom } from "./LevelSprite/CurrentSpriteAtom";
+import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
 import lain_animations from "../resources/lain_animations.json";
-import level_sprite_huds from "../resources/level_sprite_huds.json";
-import level_sprite_directions from "../resources/level_sprite_directions.json";
+import blue_orb_huds from "../resources/blue_orb_huds.json";
+import blue_orb_directions from "../resources/blue_orb_directions.json";
 import {
   lainMoveStateAtom,
   lainMovingAtom,
   lainPosYAtom,
 } from "./Lain/LainAtom";
 import { camPosYAtom, camRotYAtom } from "./MainScene/CameraAtom";
-import { starfieldPosYAtom } from "./Starfield/StarfieldAtom";
-import { SpriteHuds } from "./HUD/HUDElement";
-import { orthoCamPosYAtom } from "./OrthoCamera/OrthoCameraAtom";
+import {
+  starfieldPosYAtom,
+  starfieldRotYAtom,
+} from "./Starfield/StarfieldAtom";
+import { BlueOrbHuds} from "./HUD/HUDElement";
+import {
+  orthoCamPosYAtom,
+  orthoCamRotYAtom,
+} from "./OrthoCamera/OrthoCameraAtom";
 import { grayPlanesPosYAtom } from "./GrayPlanes/GrayPlanesAtom";
 import {
   middleRingNoiseAtom,
@@ -51,7 +57,7 @@ type LainAnimations = {
 };
 
 const InputHandler = () => {
-  const [currentSprite, setCurrentSprite] = useRecoilState(currentSpriteAtom);
+  const [currentBlueOrb, setCurrentBlueOrb] = useRecoilState(currentBlueOrbAtom);
 
   const [lainMoving, setLainMoving] = useRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
@@ -66,12 +72,14 @@ const InputHandler = () => {
   const setCamRotY = useSetRecoilState(camRotYAtom);
 
   const setOrthoCamPosY = useSetRecoilState(orthoCamPosYAtom);
+  const setOrthoCamRotY = useSetRecoilState(orthoCamRotYAtom);
 
   const setLainPosY = useSetRecoilState(lainPosYAtom);
 
   const setGrayPlanePosY = useSetRecoilState(grayPlanesPosYAtom);
 
   const setStarfieldPosY = useSetRecoilState(starfieldPosYAtom);
+  const setStarfieldRotY = useSetRecoilState(starfieldRotYAtom);
 
   const setMiddleRingWobbleStrength = useSetRecoilState(
     middleRingWobbleStrengthAtom
@@ -110,12 +118,14 @@ const InputHandler = () => {
   const rotateCamera = useCallback(
     (val: number) => {
       setCamRotY((prev: number) => prev + val);
+      setStarfieldRotY((prev: number) => prev - val);
+      setOrthoCamRotY((prev: number) => prev - val);
     },
-    [setCamRotY]
+    [setCamRotY, setStarfieldRotY, setOrthoCamRotY]
   );
 
   const getMove = (currentLoc: string, key: string): string => {
-    return (level_sprite_directions as SpriteDirections)[currentLoc][key];
+    return (blue_orb_directions as SpriteDirections)[currentLoc][key];
   };
 
   const getKeyCodeAssociation = (keyCode: number): string => {
@@ -177,7 +187,7 @@ const InputHandler = () => {
           break;
         case "left":
           setTimeout(() => {
-            rotateCamera(0.45);
+            rotateCamera(0.55);
           }, 1100);
 
           setLainMoveState(<LainMoveLeft />);
@@ -226,9 +236,13 @@ const InputHandler = () => {
 
           break;
         case "right":
-          rotateCamera(-0.1);
+          setTimeout(() => {
+            rotateCamera(-0.55);
+          }, 1100);
+
           setLainMoveState(<LainMoveRight />);
           break;
+
         default:
           break;
       }
@@ -275,15 +289,15 @@ const InputHandler = () => {
             // hide the hud
             updateHUD();
             // disable glow on current sprite
-            setCurrentSprite("");
+            setCurrentBlueOrb("");
             setSpriteUpdateCooldown(true);
             setAnimationState(key);
             setTimeout(() => {
               updateHUD();
               // skip the "+"
-              setCurrentSprite(move.substr(1));
+              setCurrentBlueOrb(move.substr(1));
               setCurrentHUDElement(
-                (level_sprite_huds as SpriteHuds)[move.substr(3)]
+                (blue_orb_huds as BlueOrbHuds)[move.substr(3)]
               );
             }, (lain_animations as LainAnimations)[key]["duration"] + 200);
             setTimeout(() => {
@@ -294,14 +308,14 @@ const InputHandler = () => {
         // only change sprite focus
         default:
           if (!spriteUpdateCooldown) {
-            setCurrentSprite(move);
+            setCurrentBlueOrb(move);
             setSpriteUpdateCooldown(true);
             // toggle hud to go back in
             updateHUD();
             setTimeout(() => {
               // change hud while its hidden
               setCurrentHUDElement(
-                (level_sprite_huds as SpriteHuds)[move.substr(2)]
+                (blue_orb_huds as BlueOrbHuds)[move.substr(2)]
               );
               // toggle it again to be shown in the new position
               updateHUD();
@@ -317,7 +331,7 @@ const InputHandler = () => {
       updateHUD,
       spriteUpdateCooldown,
       setCurrentHUDElement,
-      setCurrentSprite,
+      setCurrentBlueOrb,
     ]
   );
 
@@ -328,12 +342,12 @@ const InputHandler = () => {
       const key = getKeyCodeAssociation(keyCode);
 
       if (key && !lainMoving) {
-        const move = getMove(currentSprite, key);
+        const move = getMove(currentBlueOrb, key);
 
         moveDispatcher(move, key);
       }
     },
-    [lainMoving, currentSprite, moveDispatcher]
+    [lainMoving, currentBlueOrb, moveDispatcher]
   );
 
   useEffect(() => {

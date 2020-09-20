@@ -4,7 +4,7 @@ import { Scene } from "three";
 import HUDElement from "../HUD/HUDElement";
 import Orb from "../Orb/Orb";
 import { useRecoilValue } from "recoil";
-import { orthoCamPosYAtom } from "./OrthoCameraAtom";
+import { orthoCamPosYAtom, orthoCamRotYAtom } from "./OrthoCameraAtom";
 import { useSpring, a } from "@react-spring/three";
 import { orbVisibilityAtom } from "../Orb/OrbAtom";
 import { hudVisibilityAtom } from "../HUD/HUDElementAtom";
@@ -14,6 +14,7 @@ const OrthoCamera = memo(() => {
   const virtualScene = useMemo(() => new Scene(), []);
   const virtualCam = useRef();
   const orthoCameraPosY = useRecoilValue(orthoCamPosYAtom);
+  const orthoCameraRotY = useRecoilValue(orthoCamRotYAtom);
 
   const orbVisible = useRecoilValue(orbVisibilityAtom);
 
@@ -21,6 +22,7 @@ const OrthoCamera = memo(() => {
 
   const orthoCameraState = useSpring({
     orthoCameraPosY: orthoCameraPosY,
+    orthoCameraRotY: orthoCameraRotY,
     config: { duration: 1200 },
   });
 
@@ -34,14 +36,17 @@ const OrthoCamera = memo(() => {
 
   //-0.6
   return (
-    <a.orthographicCamera
-      ref={virtualCam}
-      position={[0, 0, 10]}
-      position-y={orthoCameraState.orthoCameraPosY}
-    >
-      <HUDElement key={1} hudVisibility={hudVisible} />
-      <Orb orbVisibility={orbVisible} />
-    </a.orthographicCamera>
+    <a.group rotation={[0, 0, 0]} rotation-y={orthoCameraState.orthoCameraRotY}>
+      <a.orthographicCamera
+        ref={virtualCam}
+        position={[0, 0, 10]}
+        rotation={[0, 0, 0]}
+        position-y={orthoCameraState.orthoCameraPosY}
+      >
+        <HUDElement key={1} hudVisibility={hudVisible} />
+        <Orb orbVisibility={orbVisible} />
+      </a.orthographicCamera>
+    </a.group>
   );
 });
 

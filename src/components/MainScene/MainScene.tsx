@@ -1,7 +1,7 @@
 import { a, useSpring } from "@react-spring/three";
 import { OrbitControls } from "drei";
 import React, { Suspense, useEffect } from "react";
-import Hub from "../Hub";
+import Site from "../Site";
 import Lain, { LainIntro } from "../Lain/Lain";
 import Lights from "../Lights";
 import OrthoCamera from "../OrthoCamera/OrthoCamera";
@@ -68,7 +68,7 @@ const MainScene = () => {
         >
           <InputHandler />
           <Preloader />
-          <Hub />
+          <Site />
           <OrthoCamera />
           <Starfield />
           <GrayPlanes />

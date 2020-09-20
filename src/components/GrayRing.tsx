@@ -64,7 +64,6 @@ const GrayRing = memo((props: GrayRingProps) => {
         return vec4(0.259,0.259,0.322, 1);
       } else if (quadnum % 2 == 1) {
         return texture2D(hole, vec2(tolocal(vUv.x, quadlen-thinperiod, step), vUv.y));
-          // return vec4(tolocal(vUv.x, quadlen-thinperiod, step), 0, 0, 1);
       } else if (quadnum == 0) {
         return texture2D(lof, vec2(tolocal(vUv.x, quadlen-thinperiod, step), vUv.y));
       } else {
