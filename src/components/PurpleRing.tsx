@@ -88,18 +88,18 @@ const PurpleRing = memo((props: PurpleRingProps) => {
       float thick = 1.0;
       float slopefactor = 1.0;
       
-      int halfc = int(step)/2;
+      uint halfc = uint(step)/uint(2);
       
       // segment within circle
-      int segment = int(floor(vUv.x * step));
-      int thinperiod = halfc-8;
+      uint segment = uint(floor(vUv.x * step));
+      uint thinperiod = halfc-uint(8);
      
-     int halfel = segment % halfc;
+      uint halfel = segment % halfc;
      
-      if (halfel < thinperiod-1 && istop(vUv.y, thin)) {
+      if (halfel < thinperiod-uint(1) && istop(vUv.y, thin)) {
           // thin line top
           gl_FragColor = color(vUv, step, false);
-      } else if (halfel == thinperiod - 1) {
+      } else if (halfel == thinperiod - uint(1)) {
           // thin line and corner
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(1.0-dist, thin);
@@ -117,10 +117,10 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (halfel == thinperiod+1 && isbottom(vUv.y, thin)) {
+      } else if (halfel == thinperiod+uint(1) && isbottom(vUv.y, thin)) {
           // thin line bottom
           gl_FragColor = vec4(0.325,0.325,0.698, 1);
-      } else if (halfel == thinperiod + 2) {
+      } else if (halfel == thinperiod + uint(2)) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(1.0-dist, thin);
@@ -129,10 +129,10 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }        
-      } else if (halfel > thinperiod + 2 && halfel < thinperiod+7) {
+      } else if (halfel > thinperiod + uint(2) && halfel < thinperiod+uint(7)) {
           // thick part
           gl_FragColor = color(vUv, step, true);
-      } else if (halfel == thinperiod+7) {
+      } else if (halfel == thinperiod+uint(7)) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           float val = slope(dist, thin);

@@ -9,6 +9,8 @@ import SSkn from "../../static/sprites/SSkn.png";
 import SSKnActive from "../../static/sprites/SSkn_active.png";
 import Tda from "../../static/sprites/Tda.png";
 import TdaActive from "../../static/sprites/Tda_active.png";
+import GaTE from "../../static/sprites/GaTE.png";
+import GaTEActive from "../../static/sprites/GaTE_active.png";
 
 type BlueOrbContructorProps = {
   sprite: string;
@@ -33,6 +35,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
       Tda: [Tda, TdaActive],
       SSkn: [SSkn, SSKnActive],
       Cou: [Cou, CouActive],
+      GaTE: [GaTE, GaTEActive],
     } as SpriteToPath)[sprite];
   };
 
