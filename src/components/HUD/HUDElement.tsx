@@ -11,8 +11,6 @@ import { a, useSpring } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
 import { hudActiveAtom } from "./HUDElementAtom";
 import { currentHUDAtom } from "./HUDElementAtom";
-import level_y_values from "../../resources/level_y_values.json";
-import { currentBlueOrbAtom } from "../BlueOrb/CurrentBlueOrbAtom";
 
 export type HUDElementProps = {
   hudVisibility: boolean;
@@ -38,10 +36,9 @@ export type BlueOrbHuds = {
 type LevelYValues = {
   [level: string]: number;
 };
+
 const HUDElement = memo((props: HUDElementProps) => {
   const currentBlueOrbHUD = useRecoilValue(currentHUDAtom);
-
-  const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
 
   const hudActive = useRecoilValue(hudActiveAtom);
 

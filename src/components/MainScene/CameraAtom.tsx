@@ -7,7 +7,7 @@ export const camPosYAtom = atom({
 
 export const camRotYAtom = atom({
   key: "camRotYAtom",
-  default: -0.55,
+  default: 2.75,
 });
 
 // export const camPosYAtom = atom({
