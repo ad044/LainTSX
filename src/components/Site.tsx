@@ -5,6 +5,7 @@ import BlueOrb from "./BlueOrb/BlueOrb";
 import PurpleRing from "./PurpleRing";
 import { useRecoilValue } from "recoil";
 import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
+import CyanCrystal from "./CyanCrystal";
 
 const Site = memo(() => {
   const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
@@ -17,6 +18,7 @@ const Site = memo(() => {
         <GrayRing grayRingPosY={1.59} />
         <PurpleRing purpleRingPosY={0.4} />
         <GrayRing grayRingPosY={-0.28} />
+        <CyanCrystal crystalRingPosY={-0.45} />
         {Object.values(blue_orbs).map((sprite) => {
           return (
             <BlueOrb
