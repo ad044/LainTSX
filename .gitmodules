@@ -1,0 +1,3 @@
+[submodule "scripts/dump"]
+	path = scripts/dump
+	url = https://github.com/2-3/lain-psx-ts-dump
