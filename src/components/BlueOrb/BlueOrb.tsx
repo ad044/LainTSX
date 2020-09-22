@@ -9,15 +9,24 @@ import SSkn from "../../static/sprites/SSkn.png";
 import SSKnActive from "../../static/sprites/SSkn_active.png";
 import Tda from "../../static/sprites/Tda.png";
 import TdaActive from "../../static/sprites/Tda_active.png";
-import GaTE from "../../static/sprites/GaTE.png";
-import GaTEActive from "../../static/sprites/GaTE_active.png";
+import Dia from "../../static/sprites/Dia.png";
+import DiaActive from "../../static/sprites/Dia_active.png";
+import Lda from "../../static/sprites/Lda.png";
+import LdaActive from "../../static/sprites/Lda_active.png";
+import MULTI from "../../static/sprites/MULTI.png";
+import MULTIActive from "../../static/sprites/MULTI_active.png";
+import level_y_values from "../../resources/level_y_values.json";
 
 type BlueOrbContructorProps = {
   sprite: string;
   position: [number, number, number];
-  scale: [number, number, number];
   rotation: [number, number, number, (string | undefined)?];
   active: boolean;
+  level: string;
+};
+
+type LevelYValues = {
+  [level: string]: number;
 };
 
 type SpriteToPath = {
@@ -30,13 +39,28 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
   // so we import all of them here and then use this function to
   // associate a sprite with the path
   const spriteToPath = (sprite: string) => {
-    return ({
-      Dc: [Dc, DcActive],
-      Tda: [Tda, TdaActive],
-      SSkn: [SSkn, SSKnActive],
-      Cou: [Cou, CouActive],
-      GaTE: [GaTE, GaTEActive],
-    } as SpriteToPath)[sprite];
+    console.log(sprite);
+    if (sprite.startsWith("S")) {
+      return [SSkn, SSKnActive];
+    } else if (sprite.startsWith("P") || sprite.startsWith("G")) {
+      return [MULTI, MULTIActive];
+    } else if (sprite.includes("?")) {
+      return [MULTI, MULTIActive];
+    } else if (sprite.includes("Dc")) {
+      return [Dc, DcActive];
+    } else {
+      return ({
+        Tda: [Tda, TdaActive],
+        Cou: [Cou, CouActive],
+        Dia: [Dia, DiaActive],
+        Lda: [Lda, LdaActive],
+        Ere: [MULTI, MULTIActive],
+        Ekm: [MULTI, MULTIActive],
+        Eda: [MULTI, MULTIActive],
+        TaK: [MULTI, MULTIActive],
+        Env: [MULTI, MULTIActive],
+      } as SpriteToPath)[sprite.substr(0, 3)];
+    }
   };
 
   const materialRef = useRef<THREE.ShaderMaterial>();
@@ -91,32 +115,34 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
   });
 
   return (
-    <mesh
-      position={props.position}
-      scale={props.scale}
-      rotation={props.rotation}
-      renderOrder={1}
-    >
-      <planeBufferGeometry attach="geometry" />
-      {props.active ? (
-        <shaderMaterial
-          ref={materialRef}
-          attach="material"
-          uniforms={uniforms}
-          fragmentShader={fragmentShader}
-          vertexShader={vertexShader}
-          side={THREE.DoubleSide}
-          transparent={true}
-        />
-      ) : (
-        <meshBasicMaterial
-          attach="material"
-          map={nonActiveTexture}
-          side={THREE.DoubleSide}
-          transparent={true}
-        />
-      )}
-    </mesh>
+    <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
+      <mesh
+        position={props.position}
+        scale={[0.25, 0.15, 0.25]}
+        rotation={props.rotation}
+        renderOrder={1}
+      >
+        <planeBufferGeometry attach="geometry" />
+        {props.active ? (
+          <shaderMaterial
+            ref={materialRef}
+            attach="material"
+            uniforms={uniforms}
+            fragmentShader={fragmentShader}
+            vertexShader={vertexShader}
+            side={THREE.DoubleSide}
+            transparent={true}
+          />
+        ) : (
+          <meshBasicMaterial
+            attach="material"
+            map={nonActiveTexture}
+            side={THREE.DoubleSide}
+            transparent={true}
+          />
+        )}
+      </mesh>
+    </group>
   );
 });
 
