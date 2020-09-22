@@ -1,11 +1,11 @@
 import React, { memo, Suspense } from "react";
-import blue_orbs from "../resources/blue_orbs.json";
-import GrayRing from "./GrayRing";
+import site_a from "../resources/site_a.json";
+import blue_orb_positions from "../resources/blue_orb_positions.json";
 import BlueOrb from "./BlueOrb/BlueOrb";
-import PurpleRing from "./PurpleRing";
 import { useRecoilValue } from "recoil";
 import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
-import CyanCrystal from "./CyanCrystal";
+import Level from "./Level";
+import level_y_values from "../resources/level_y_values.json";
 
 const Site = memo(() => {
   const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
@@ -13,30 +13,32 @@ const Site = memo(() => {
   return (
     <>
       <Suspense fallback={<>loading...</>}>
-        {/* average distance between rings from my CALCULATIONS is 1.87 in  our case */}
-        <PurpleRing purpleRingPosY={2.27} />
-        <GrayRing grayRingPosY={1.59} />
-        <PurpleRing purpleRingPosY={0.4} />
-        <GrayRing grayRingPosY={-0.28} />
-        <CyanCrystal crystalRingPosY={-0.45} />
-        {Object.values(blue_orbs).map((sprite) => {
-          return (
-            <BlueOrb
-              position={sprite.position as [number, number, number]}
-              scale={sprite.scale as [number, number, number]}
-              rotation={
-                sprite.rotation as [
-                  number,
-                  number,
-                  number,
-                  (string | undefined)?
-                ]
-              }
-              sprite={sprite.sprite}
-              key={sprite.id}
-              active={sprite.id === currentBlueOrb}
-            />
-          );
+        {/* distance between LEVELS is 1.5 */}
+
+        {Object.values(level_y_values).map((yVal) => {
+          return <Level levelPosY={yVal} />;
+        })}
+
+        {Object.entries(site_a).map((blueOrb) => {
+          if ((blueOrb as any)[1]["unlocked_by"] === "-1")
+            return (
+              <BlueOrb
+                sprite={(blueOrb as any)[1]["node_name"]}
+                position={
+                  (blue_orb_positions as any)[(blueOrb as any)[0].substr(2)][
+                    "position"
+                  ]
+                }
+                rotation={
+                  (blue_orb_positions as any)[(blueOrb as any)[0].substr(2)][
+                    "rotation"
+                  ]
+                }
+                key={(blueOrb as any)[1]["node_name"]}
+                active={(blueOrb as any)[1] === currentBlueOrb}
+                level={(blueOrb as any)[0].substr(0, 2)}
+              />
+            );
         })}
       </Suspense>
     </>

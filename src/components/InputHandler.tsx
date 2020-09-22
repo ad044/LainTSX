@@ -151,8 +151,8 @@ const InputHandler = () => {
           setLainMoveState(<LainMoveDown />);
 
           setTimeout(() => {
-            moveCamera(1.87);
-          }, 1400);
+            moveCamera(1.5);
+          }, 1300);
 
           // make noise appear again
           setTimeout(() => {
@@ -203,7 +203,7 @@ const InputHandler = () => {
           setLainMoveState(<LainMoveUp />);
 
           setTimeout(() => {
-            moveCamera(-1.87);
+            moveCamera(-1.5);
           }, 1300);
 
           // change noise to 0, make the ring bend downwards
