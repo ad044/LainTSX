@@ -135,7 +135,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
             transparent={true}
           />
         ) : (
-          <meshBasicMaterial
+          <meshStandardMaterial
             attach="material"
             map={nonActiveTexture}
             side={THREE.DoubleSide}

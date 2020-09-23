@@ -38,6 +38,7 @@ import {
   middleRingRotXAtom,
   middleRingWobbleStrengthAtom,
 } from "./MiddleRing/MiddleRingAtom";
+import { lightPosYAtom, lightRotYAtom } from "./Lights/LightsAtom";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -95,6 +96,9 @@ const InputHandler = () => {
   const setMiddleRingPosY = useSetRecoilState(middleRingPosYAtom);
   const setMiddleRingRotX = useSetRecoilState(middleRingRotXAtom);
 
+  const setLightPosY = useSetRecoilState(lightPosYAtom);
+  const setLightRotY = useSetRecoilState(lightRotYAtom);
+
   const moveCamera = useCallback(
     (val: number) => {
       setCamPosY((prev: number) => prev + val);
@@ -102,6 +106,7 @@ const InputHandler = () => {
       setStarfieldPosY((prev: number) => prev - val);
       setOrthoCamPosY((prev: number) => prev - val);
       setGrayPlanePosY((prev: number) => prev - val);
+      setLightPosY((prev: number) => prev - val);
 
       setTimeout(() => {
         setMiddleRingPosY((prev: number) => prev - (val - 0.2));
@@ -127,8 +132,15 @@ const InputHandler = () => {
       setStarfieldRotY((prev: number) => prev - val);
       setOrthoCamRotY((prev: number) => prev - val);
       setGrayPlaneRotY((prev: number) => prev - val);
+      setLightRotY((prev: number) => prev - val);
     },
-    [setCamRotY, setStarfieldRotY, setOrthoCamRotY, setGrayPlaneRotY]
+    [
+      setCamRotY,
+      setStarfieldRotY,
+      setOrthoCamRotY,
+      setGrayPlaneRotY,
+      setLightRotY,
+    ]
   );
 
   const getMove = (currentLoc: string, key: string): string => {

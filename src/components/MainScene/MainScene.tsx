@@ -3,7 +3,7 @@ import { OrbitControls } from "drei";
 import React, { Suspense, useEffect } from "react";
 import Site from "../Site";
 import Lain, { LainIntro } from "../Lain/Lain";
-import Lights from "../Lights";
+import Lights from "../Lights/Lights";
 import OrthoCamera from "../OrthoCamera/OrthoCamera";
 import Preloader from "../Preloader";
 import Starfield from "../Starfield/Starfield";
