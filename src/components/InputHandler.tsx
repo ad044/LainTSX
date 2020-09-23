@@ -36,6 +36,8 @@ import {
   middleRingPosYAtom,
   middleRingRotatingAtom,
   middleRingRotXAtom,
+  middleRingRotYAtom,
+  middleRingRotZAtom,
   middleRingWobbleStrengthAtom,
 } from "./MiddleRing/MiddleRingAtom";
 import { lightPosYAtom, lightRotYAtom } from "./Lights/LightsAtom";
@@ -95,6 +97,8 @@ const InputHandler = () => {
   const setMiddleRingNoise = useSetRecoilState(middleRingNoiseAtom);
   const setMiddleRingPosY = useSetRecoilState(middleRingPosYAtom);
   const setMiddleRingRotX = useSetRecoilState(middleRingRotXAtom);
+  const setMiddleRingRotZ = useSetRecoilState(middleRingRotZAtom);
+  const setMiddleRingRotY = useSetRecoilState(middleRingRotYAtom);
 
   const setLightPosY = useSetRecoilState(lightPosYAtom);
   const setLightRotY = useSetRecoilState(lightRotYAtom);
@@ -123,6 +127,7 @@ const InputHandler = () => {
       setOrthoCamPosY,
       setGrayPlanePosY,
       setMiddleRingPosY,
+      setLightPosY,
     ]
   );
 
@@ -133,6 +138,10 @@ const InputHandler = () => {
       setOrthoCamRotY((prev: number) => prev - val);
       setGrayPlaneRotY((prev: number) => prev - val);
       setLightRotY((prev: number) => prev - val);
+
+      setTimeout(() => {
+        setMiddleRingRotY((prev: number) => prev - 0.55);
+      }, 1800);
     },
     [
       setCamRotY,
@@ -140,6 +149,7 @@ const InputHandler = () => {
       setOrthoCamRotY,
       setGrayPlaneRotY,
       setLightRotY,
+      setMiddleRingRotY,
     ]
   );
 
@@ -209,6 +219,18 @@ const InputHandler = () => {
             rotateCamera(0.55);
           }, 1100);
 
+          setTimeout(() => {
+            setMiddleRingRotZ(0.07);
+          }, 2300);
+
+          setTimeout(() => {
+            setMiddleRingRotZ(-0.03);
+          }, 3500);
+
+          setTimeout(() => {
+            setMiddleRingRotZ(0);
+          }, 4500);
+
           setLainMoveState(<LainMoveLeft />);
           break;
         case "up":
@@ -258,6 +280,18 @@ const InputHandler = () => {
           setTimeout(() => {
             rotateCamera(-0.55);
           }, 1100);
+
+          setTimeout(() => {
+            setMiddleRingRotZ(-0.07);
+          }, 2300);
+
+          setTimeout(() => {
+            setMiddleRingRotZ(0.03);
+          }, 3500);
+
+          setTimeout(() => {
+            setMiddleRingRotZ(0);
+          }, 4500);
 
           setLainMoveState(<LainMoveRight />);
           break;
