@@ -1,19 +1,12 @@
-import React, {memo, useMemo, useRef} from "react";
-import {useFrame, useLoader} from "react-three-fiber";
+import React, { memo, useMemo, useRef } from "react";
+import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import {GLTF} from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import siteATex from "../static/sprites/site_a.png";
 import siteBTex from "../static/sprites/site_b.png";
 
 type PurpleRingProps = {
   purpleRingPosY: number;
-};
-
-type GLTFResult = GLTF & {
-  nodes: {
-    Circle002: THREE.Mesh;
-  };
-  materials: {};
 };
 
 const PurpleRing = memo((props: PurpleRingProps) => {
@@ -22,21 +15,31 @@ const PurpleRing = memo((props: PurpleRingProps) => {
 
   const purpleRingRef = useRef<THREE.Object3D>();
 
-  const uniforms = useMemo(
-    () => ({
-      siteA: { type: "t", value: siteA },
-      siteB: { type: "t", value: siteB },
-    }),
-    [siteA, siteB]
-  );
+  // const uniforms = useMemo(
+  //   () => ({
+  //     siteA: { type: "t", value: siteA },
+  //     siteB: { type: "t", value: siteB },
+  //   }),
+  //   [siteA, siteB]
+  // );
+
+  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+
+  uniforms.siteA = { type: "t", value: siteA };
+  uniforms.siteB = { type: "t", value: siteB };
 
   const vertexShader = `
     varying vec2 vUv;
 
+    varying vec3 vPos;
+    varying vec3 vNormal;
 
     void main() {
       vUv = uv;
 
+      vPos = (modelMatrix * vec4(position, 1.0 )).xyz;
+      vNormal = normalMatrix * normal;
+      
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
     }
   `;
@@ -45,7 +48,18 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     varying vec2 vUv;
     uniform sampler2D siteA;
     uniform sampler2D siteB;
+    
+    // lights
+    varying vec3 vPos;
+    varying vec3 vNormal;
 
+    struct PointLight {
+      vec3 position;
+      vec3 color;
+      float distance;
+    };
+    
+    uniform PointLight pointLights[ NUM_POINT_LIGHTS ];
     
     // transform coordinates to uniform within segment
     float tolocal(float x, int segments, float step) {
@@ -77,11 +91,26 @@ const PurpleRing = memo((props: PurpleRingProps) => {
             return vec4(0.325,0.325,0.698, 1);
         } else {
             float dist = 1.0-tolocal(0.5 - mod(vUv.x, 0.5), 6, step);
-            return texture2D(siteA, vec2(dist, vUv.y));
+            return texture2D(siteA, vec2(dist, vUv.y)) ;
         } 
     }
 
     void main() {
+      // lights
+      vec4 addedLights = vec4(0.0,
+                            0.0,
+                            0.0,
+                            1.0);
+                            
+      for(int l = 0; l < NUM_POINT_LIGHTS; l++) {
+          vec3 lightDirection = normalize(vPos
+                                - pointLights[l].position);
+          addedLights.rgb += clamp(dot(-lightDirection,
+                                   vNormal), 0.0, 1.0)
+                             * pointLights[l].color
+                             * 50.0;
+      }
+  
       // number of segments
       float step = 128.0;
       float thin = 0.25;
@@ -98,13 +127,13 @@ const PurpleRing = memo((props: PurpleRingProps) => {
      
       if (halfel < thinperiod-uint(1) && istop(vUv.y, thin)) {
           // thin line top
-          gl_FragColor = color(vUv, step, false);
+          gl_FragColor = color(vUv, step, false) * addedLights;
       } else if (halfel == thinperiod - uint(1)) {
           // thin line and corner
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(1.0-dist, thin);
           if (istop(vUv.y, thin) || (1.0-vUv.y < val-(1.0-thin*slopefactor))) {
-              gl_FragColor = color(vUv, step, false);
+              gl_FragColor = color(vUv, step, false) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
@@ -113,31 +142,31 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(dist, thin);
           if (vUv.y < val && vUv.y > val-thin*slopefactor) {
-              gl_FragColor = color(vUv, step, false);
+              gl_FragColor = color(vUv, step, false) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
       } else if (halfel == thinperiod+uint(1) && isbottom(vUv.y, thin)) {
           // thin line bottom
-          gl_FragColor = vec4(0.325,0.325,0.698, 1);
+          gl_FragColor = vec4(0.325,0.325,0.698, 1) * addedLights;
       } else if (halfel == thinperiod + uint(2)) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(1.0-dist, thin);
           if ((isbottom(vUv.y, thin) && dist < thin*slopefactor) || (vUv.y < val)) {
-              gl_FragColor = color(vUv, step, true);
+              gl_FragColor = color(vUv, step, true) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }        
       } else if (halfel > thinperiod + uint(2) && halfel < thinperiod+uint(7)) {
           // thick part
-          gl_FragColor = color(vUv, step, true);
+          gl_FragColor = color(vUv, step, true) * addedLights ;
       } else if (halfel == thinperiod+uint(7)) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           float val = slope(dist, thin);
           if (vUv.y > val) {
-              gl_FragColor = color(vUv, step, true);
+              gl_FragColor = color(vUv, step, true) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }        
@@ -171,6 +200,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
         fragmentShader={fragmentShader}
         transparent={true}
         uniforms={uniforms}
+        lights={true}
       />
     </mesh>
   );

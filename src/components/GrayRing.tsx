@@ -14,26 +14,27 @@ const GrayRing = memo((props: GrayRingProps) => {
   const holeTex = useLoader(THREE.TextureLoader, holeTexture);
   const lifeTex = useLoader(THREE.TextureLoader, lifeTexture);
 
-  const uniforms = useMemo(
-      () => ({
-        lof: { type: "t", value: lofTex },
-        hole: { type: "t", value: holeTex },
-        life: { type: "t", value: lifeTex },
-      }),
-      [lofTex, holeTex, lifeTex]
-  );
+  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+
+  uniforms.lof = { type: "t", value: lofTex };
+  uniforms.hole = { type: "t", value: holeTex };
+  uniforms.life = { type: "t", value: lifeTex };
 
   const vertexShader = `
     varying vec2 vUv;
 
+    varying vec3 vPos;
+    varying vec3 vNormal;
 
     void main() {
       vUv = uv;
 
+      vPos = (modelMatrix * vec4(position, 1.0 )).xyz;
+      vNormal = normalMatrix * normal;
+      
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
     }
   `;
-
 
   const fragmentShader = `
     varying vec2 vUv;
@@ -41,6 +42,18 @@ const GrayRing = memo((props: GrayRingProps) => {
     uniform sampler2D hole;
     uniform sampler2D life;
     
+    // lights
+    varying vec3 vPos;
+    varying vec3 vNormal;
+
+    struct PointLight {
+      vec3 position;
+      vec3 color;
+      float distance;
+    };
+    
+    uniform PointLight pointLights[ NUM_POINT_LIGHTS ];
+
     // transform coordinates to uniform within segment
     float tolocal(float x, int segments, float step) {
       float period = 1.0/step*float(segments);
@@ -73,6 +86,23 @@ const GrayRing = memo((props: GrayRingProps) => {
     }
     
     void main() {
+    
+      //lights
+      vec4 addedLights = vec4(0.0,
+                        0.0,
+                        0.0,
+                        1.0);
+                            
+      for(int l = 0; l < NUM_POINT_LIGHTS; l++) {
+          vec3 lightDirection = normalize(vPos
+                                - pointLights[l].position);
+          addedLights.rgb += clamp(dot(-lightDirection,
+                                   vNormal), 0.0, 1.0)
+                             * pointLights[l].color
+                             * 50.0;
+      }
+  
+
       // number of segments
       float step = 64.0;
       
@@ -95,12 +125,12 @@ const GrayRing = memo((props: GrayRingProps) => {
      
       if (quadel < uint(thinperiod) && isheight(vUv.y, thin)) {
           // thin line
-          gl_FragColor = color(vUv, quadnum, false, thinperiod, quadlen, step);
+          gl_FragColor = color(vUv, quadnum, false, thinperiod, quadlen, step) * addedLights;
       } else if (quadel == uint(thinperiod)) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           if (vUv.y > slope(1.0-dist, thin) && vUv.y < 1.0-slope(1.0-dist, thin)) {
-              gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step);
+              gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
@@ -108,12 +138,12 @@ const GrayRing = memo((props: GrayRingProps) => {
           // slope down
           float dist = tolocal(vUv.x, 1, step);
           if (vUv.y > slope(dist, thin) && vUv.y < 1.0-slope(dist, thin)) {
-             gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step);
+             gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
       } else if (quadel > uint(thinperiod)) {
-            gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step);
+            gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step) * addedLights;
       } else {
           // transparent
             gl_FragColor = vec4(0, 0, 0, 0);
@@ -121,13 +151,12 @@ const GrayRing = memo((props: GrayRingProps) => {
   }
     `;
 
-
   return (
     <mesh
       position={[0, props.grayRingPosY, 0]}
       rotation={[0, 3.95, 0]}
       renderOrder={1}
-      scale={[25,25,25]}
+      scale={[25, 25, 25]}
     >
       <cylinderBufferGeometry
         args={[0.05, 0.05, 0.003, 64, 64, true]}
@@ -140,6 +169,7 @@ const GrayRing = memo((props: GrayRingProps) => {
         fragmentShader={fragmentShader}
         transparent={true}
         uniforms={uniforms}
+        lights={true}
       />
     </mesh>
   );
