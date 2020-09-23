@@ -19,8 +19,8 @@ import level_y_values from "../../resources/level_y_values.json";
 
 type BlueOrbContructorProps = {
   sprite: string;
-  position: [number, number, number];
-  rotation: [number, number, number, (string | undefined)?];
+  position: number[];
+  rotation: number[];
   active: boolean;
   level: string;
 };
@@ -39,12 +39,13 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
   // so we import all of them here and then use this function to
   // associate a sprite with the path
   const spriteToPath = (sprite: string) => {
-    console.log(sprite);
-    if (sprite.startsWith("S")) {
+    if (sprite.includes("S")) {
       return [SSkn, SSKnActive];
-    } else if (sprite.startsWith("P") || sprite.startsWith("G")) {
-      return [MULTI, MULTIActive];
-    } else if (sprite.includes("?")) {
+    } else if (
+      sprite.startsWith("P") ||
+      sprite.startsWith("G") ||
+      sprite.includes("?")
+    ) {
       return [MULTI, MULTIActive];
     } else if (sprite.includes("Dc")) {
       return [Dc, DcActive];
@@ -117,9 +118,9 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
   return (
     <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
       <mesh
-        position={props.position}
+        position={props.position as [number, number, number]}
         scale={[0.25, 0.15, 0.25]}
-        rotation={props.rotation}
+        rotation={props.rotation as [number, number, number]}
         renderOrder={1}
       >
         <planeBufferGeometry attach="geometry" />
