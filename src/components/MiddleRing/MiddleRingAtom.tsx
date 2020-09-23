@@ -24,3 +24,14 @@ export const middleRingRotXAtom = atom({
   key: "middleRingRotXAtom",
   default: 0,
 });
+
+export const middleRingRotZAtom = atom({
+  key: "middleRingRotZAtom",
+  default: 0,
+});
+
+export const middleRingRotYAtom = atom({
+  key: "middleRingRotYAtom",
+  default: 0,
+});
+
