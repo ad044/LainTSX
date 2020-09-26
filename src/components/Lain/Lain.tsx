@@ -10,139 +10,130 @@ import moveRightSpriteSheet from "../../static/sprites/move_right.png";
 import standingSpriteSheet from "../../static/sprites/standing.png";
 import introSpriteSheet from "../../static/sprites/intro.png";
 import { useRecoilValue } from "recoil";
-import {
-  lainMoveStateAtom,
-  lainMovingAtom,
-  lainPosYAtom,
-  lainRotYAtom,
-} from "./LainAtom";
+import { lainMoveStateAtom, lainMovingAtom, lainPosYAtom } from "./LainAtom";
 
 type LainConstructorProps = {
-  sprite: string;
-  frameCount: number;
-  framesVertical: number;
-  framesHorizontal: number;
+    sprite: string;
+    frameCount: number;
+    framesVertical: number;
+    framesHorizontal: number;
 };
 
 const LainConstructor = (props: LainConstructorProps) => {
-  // any here temporarily
-  const lainSpriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);
+    // any here temporarily
+    const lainSpriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);
 
-  const [animator] = useState(
-    () =>
-      new PlainSingularAnimator(
-        lainSpriteTexture,
-        props.framesHorizontal,
-        props.framesVertical,
-        props.frameCount,
-        props.frameCount * 0.27
-      )
-  );
+    const [animator] = useState(
+        () =>
+            new PlainSingularAnimator(
+                lainSpriteTexture,
+                props.framesHorizontal,
+                props.framesVertical,
+                props.frameCount,
+                props.frameCount * 0.27
+            )
+    );
 
-  useFrame(() => {
-    animator.animate();
-  });
+    useFrame(() => {
+        animator.animate();
+    });
 
-  return (
-    <spriteMaterial
-      attach="material"
-      map={lainSpriteTexture}
-      alphaTest={0.01}
-    />
-  );
+    return (
+        <spriteMaterial
+            attach="material"
+            map={lainSpriteTexture}
+            alphaTest={0.01}
+        />
+    );
 };
 
 export const LainIntro = () => {
-  return (
-    <LainConstructor
-      sprite={introSpriteSheet}
-      frameCount={50}
-      framesHorizontal={10}
-      framesVertical={5}
-    />
-  );
+    return (
+        <LainConstructor
+            sprite={introSpriteSheet}
+            frameCount={50}
+            framesHorizontal={10}
+            framesVertical={5}
+        />
+    );
 };
 
 export const LainStanding = () => {
-  return (
-    <LainConstructor
-      sprite={standingSpriteSheet}
-      frameCount={3}
-      framesHorizontal={3}
-      framesVertical={1}
-    />
-  );
+    return (
+        <LainConstructor
+            sprite={standingSpriteSheet}
+            frameCount={3}
+            framesHorizontal={3}
+            framesVertical={1}
+        />
+    );
 };
 
 export const LainMoveDown = () => {
-  return (
-    <LainConstructor
-      sprite={moveDownSpriteSheet}
-      frameCount={36}
-      framesHorizontal={6}
-      framesVertical={6}
-    />
-  );
+    return (
+        <LainConstructor
+            sprite={moveDownSpriteSheet}
+            frameCount={36}
+            framesHorizontal={6}
+            framesVertical={6}
+        />
+    );
 };
 
 export const LainMoveLeft = () => {
-  return (
-    <LainConstructor
-      sprite={moveLeftSpriteSheet}
-      frameCount={47}
-      framesHorizontal={8}
-      framesVertical={6}
-    />
-  );
+    return (
+        <LainConstructor
+            sprite={moveLeftSpriteSheet}
+            frameCount={47}
+            framesHorizontal={8}
+            framesVertical={6}
+        />
+    );
 };
 
 export const LainMoveRight = () => {
-  return (
-    <LainConstructor
-      sprite={moveRightSpriteSheet}
-      frameCount={47}
-      framesHorizontal={8}
-      framesVertical={6}
-    />
-  );
+    return (
+        <LainConstructor
+            sprite={moveRightSpriteSheet}
+            frameCount={47}
+            framesHorizontal={8}
+            framesVertical={6}
+        />
+    );
 };
 
 export const LainMoveUp = () => {
-  return (
-    <LainConstructor
-      sprite={moveUpSpriteSheet}
-      frameCount={36}
-      framesHorizontal={6}
-      framesVertical={6}
-    />
-  );
+    return (
+        <LainConstructor
+            sprite={moveUpSpriteSheet}
+            frameCount={36}
+            framesHorizontal={6}
+            framesVertical={6}
+        />
+    );
 };
 
 const Lain = () => {
-  const lainMoving = useRecoilValue(lainMovingAtom);
-  const lainMoveState = useRecoilValue(lainMoveStateAtom);
-  const lainPosY = useRecoilValue(lainPosYAtom);
-  const lainRotY = useRecoilValue(lainRotYAtom);
+    const lainMoving = useRecoilValue(lainMovingAtom);
+    const lainMoveState = useRecoilValue(lainMoveStateAtom);
+    const lainPosY = useRecoilValue(lainPosYAtom);
 
-  const lainPosYState = useSpring({
-    lainPosY: lainPosY,
-    lainRotY: lainRotY,
-    config: { duration: 1200 },
-  });
+    const lainPosYState = useSpring({
+        lainPosY: lainPosY,
+        config: { duration: 1200 },
+    });
 
-  return (
-    <Suspense fallback={<>loading...</>}>
-      <a.group rotation-y={lainPosYState.lainRotY}>
-        <a.sprite
-          position-y={lainPosYState.lainPosY}
-          position-z={0.05}
-          scale={[0.6, 0.6, 0.6]}
-        >
-          {lainMoving ? lainMoveState : <LainStanding />}
-        </a.sprite>
-      </a.group>
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<>loading...</>}>
+            <a.sprite
+                position-x={0.1}
+                position-y={lainPosYState.lainPosY}
+                scale={[4.9, 4.9, 4.9]}
+            >
+                {lainMoving ? lainMoveState : <LainStanding />}
+            </a.sprite>
+        </Suspense>
+    );
 };
 
 export default Lain;

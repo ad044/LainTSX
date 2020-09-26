@@ -3,7 +3,7 @@ import React from "react";
 
 export const lainPosYAtom = atom({
   key: "lainPosYAtom",
-  default: -0.02,
+  default: -0.15,
 });
 
 export const lainRotYAtom = atom({

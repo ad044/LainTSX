@@ -1,5 +1,5 @@
-import React, { useRef, useMemo, memo } from "react";
-import { useFrame, useLoader } from "react-three-fiber";
+import React, {useRef, useMemo, memo} from "react";
+import {useFrame, useLoader} from "react-three-fiber";
 import * as THREE from "three";
 import Cou from "../../static/sprites/Cou.png";
 import CouActive from "../../static/sprites/Cou_active.png";
@@ -18,69 +18,69 @@ import MULTIActive from "../../static/sprites/MULTI_active.png";
 import level_y_values from "../../resources/level_y_values.json";
 
 type BlueOrbContructorProps = {
-  sprite: string;
-  position: number[];
-  rotation: number[];
-  active: boolean;
-  level: string;
+    sprite: string;
+    position: number[];
+    rotation: number[];
+    active: boolean;
+    level: string;
 };
 
 type LevelYValues = {
-  [level: string]: number;
+    [level: string]: number;
 };
 
 type SpriteToPath = {
-  [key: string]: [string, string];
+    [key: string]: [string, string];
 };
 
 const BlueOrb = memo((props: BlueOrbContructorProps) => {
-  // the game only has a couple of sprites that it displays in the hub
-  // dynamically importnig them would be worse for performance,
-  // so we import all of them here and then use this function to
-  // associate a sprite with the path
-  const spriteToPath = (sprite: string) => {
-    if (sprite.includes("S")) {
-      return [SSkn, SSKnActive];
-    } else if (
-      sprite.startsWith("P") ||
-      sprite.startsWith("G") ||
-      sprite.includes("?")
-    ) {
-      return [MULTI, MULTIActive];
-    } else if (sprite.includes("Dc")) {
-      return [Dc, DcActive];
-    } else {
-      return ({
-        Tda: [Tda, TdaActive],
-        Cou: [Cou, CouActive],
-        Dia: [Dia, DiaActive],
-        Lda: [Lda, LdaActive],
-        Ere: [MULTI, MULTIActive],
-        Ekm: [MULTI, MULTIActive],
-        Eda: [MULTI, MULTIActive],
-        TaK: [MULTI, MULTIActive],
-        Env: [MULTI, MULTIActive],
-      } as SpriteToPath)[sprite.substr(0, 3)];
-    }
-  };
+    // the game only has a couple of sprites that it displays in the hub
+    // dynamically importnig them would be worse for performance,
+    // so we import all of them here and then use this function to
+    // associate a sprite with the path
+    const spriteToPath = (sprite: string) => {
+        if (sprite.includes("S")) {
+            return [SSkn, SSKnActive];
+        } else if (
+            sprite.startsWith("P") ||
+            sprite.startsWith("G") ||
+            sprite.includes("?")
+        ) {
+            return [MULTI, MULTIActive];
+        } else if (sprite.includes("Dc")) {
+            return [Dc, DcActive];
+        } else {
+            return ({
+                Tda: [Tda, TdaActive],
+                Cou: [Cou, CouActive],
+                Dia: [Dia, DiaActive],
+                Lda: [Lda, LdaActive],
+                Ere: [MULTI, MULTIActive],
+                Ekm: [MULTI, MULTIActive],
+                Eda: [MULTI, MULTIActive],
+                TaK: [MULTI, MULTIActive],
+                Env: [MULTI, MULTIActive],
+            } as SpriteToPath)[sprite.substr(0, 3)];
+        }
+    };
 
-  const materialRef = useRef<THREE.ShaderMaterial>();
+    const materialRef = useRef<THREE.ShaderMaterial>();
 
-  const spriteSheet = spriteToPath(props.sprite);
+    const spriteSheet = spriteToPath(props.sprite);
 
-  const nonActiveTexture = useLoader(THREE.TextureLoader, spriteSheet[0]);
-  const activeTexture = useLoader(THREE.TextureLoader, spriteSheet[1]);
+    const nonActiveTexture = useLoader(THREE.TextureLoader, spriteSheet[0]);
+    const activeTexture = useLoader(THREE.TextureLoader, spriteSheet[1]);
 
-  const uniforms = useMemo(
-    () => ({
-      tex1: { type: "t", value: nonActiveTexture },
-      tex2: { type: "t", value: activeTexture },
-      timeMSeconds: { value: (Date.now() % (Math.PI * 2000)) / 1000.0 },
-    }),
-    [nonActiveTexture, activeTexture]
-  );
+    const uniforms = useMemo(
+        () => ({
+            tex1: {type: "t", value: nonActiveTexture},
+            tex2: {type: "t", value: activeTexture},
+            timeMSeconds: {value: (Date.now() % (Math.PI * 2000)) / 1000.0},
+        }),
+        [nonActiveTexture, activeTexture]
+    );
 
-  const vertexShader = `
+    const vertexShader = `
     varying vec2 vUv;
 
     void main() {
@@ -89,7 +89,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   `;
 
-  const fragmentShader = `
+    const fragmentShader = `
     precision highp float;
 
     uniform sampler2D tex1;
@@ -108,43 +108,43 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   `;
 
-  useFrame(() => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.timeMSeconds.value =
-        (Date.now() % (Math.PI * 2000)) / 1000.0;
-    }
-  });
+    useFrame(() => {
+        if (materialRef.current) {
+            materialRef.current.uniforms.timeMSeconds.value =
+                (Date.now() % (Math.PI * 2000)) / 1000.0;
+        }
+    });
 
-  return (
-    <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
-      <mesh
-        position={props.position as [number, number, number]}
-        scale={[(0.046 * 90) / 100, (0.028 * 90) / 100, (0.046 * 90) / 100]}
-        rotation={props.rotation as [number, number, number]}
-        renderOrder={1}
-      >
-        <planeBufferGeometry attach="geometry" />
-        {props.active ? (
-          <shaderMaterial
-            ref={materialRef}
-            attach="material"
-            uniforms={uniforms}
-            fragmentShader={fragmentShader}
-            vertexShader={vertexShader}
-            side={THREE.DoubleSide}
-            transparent={true}
-          />
-        ) : (
-          <meshBasicMaterial
-            attach="material"
-            map={nonActiveTexture}
-            side={THREE.DoubleSide}
-            transparent={true}
-          />
-        )}
-      </mesh>
-    </group>
-  );
+    return (
+        <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
+            <mesh
+                position={props.position as [number, number, number]}
+                scale={[0.25, 0.15, 0.25]}
+                rotation={props.rotation as [number, number, number]}
+                renderOrder={1}
+            >
+                <planeBufferGeometry attach="geometry"/>
+                {props.active ? (
+                    <shaderMaterial
+                        ref={materialRef}
+                        attach="material"
+                        uniforms={uniforms}
+                        fragmentShader={fragmentShader}
+                        vertexShader={vertexShader}
+                        side={THREE.DoubleSide}
+                        transparent={true}
+                    />
+                ) : (
+                    <meshStandardMaterial
+                        attach="material"
+                        map={nonActiveTexture}
+                        side={THREE.DoubleSide}
+                        transparent={true}
+                    />
+                )}
+            </mesh>
+        </group>
+    );
 });
 
 export default BlueOrb;
