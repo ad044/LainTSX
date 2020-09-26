@@ -99,7 +99,7 @@ const GrayRing = memo((props: GrayRingProps) => {
           addedLights.rgb += clamp(dot(-lightDirection,
                                    vNormal), 0.0, 1.0)
                              * pointLights[l].color
-                             * 50.0;
+                             * 150.0;
       }
   
 
@@ -156,10 +156,10 @@ const GrayRing = memo((props: GrayRingProps) => {
       position={[0, props.grayRingPosY, 0]}
       rotation={[0, 3.95, 0]}
       renderOrder={1}
-      scale={[25, 25, 25]}
+      scale={[185, 185, 185]}
     >
       <cylinderBufferGeometry
-        args={[0.05, 0.05, 0.003, 64, 64, true]}
+        args={[0.001, 0.001, 0.000075, 64, 64, true]}
         attach="geometry"
       />
       <shaderMaterial
