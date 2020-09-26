@@ -21,7 +21,7 @@ const App = () => {
     <div id="game-root" className="game">
       {/*<Intro setMoveToGame={setMoveToGame} />*/}
       {/* {moveToGame ? <MainScene /> : <Intro setMoveToGame={setMoveToGame} />} */}
-        <Canvas concurrent >
+        <Canvas concurrent>
           <RecoilRoot>
             <MainScene />
           </RecoilRoot>
