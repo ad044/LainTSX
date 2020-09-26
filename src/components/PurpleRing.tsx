@@ -1,25 +1,34 @@
-import React, { memo, useRef } from "react";
+import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import siteATex from "../static/sprites/site_a.png";
 import siteBTex from "../static/sprites/site_b.png";
 
 type PurpleRingProps = {
-  purpleRingPosY: number;
+    purpleRingPosY: number;
 };
 
 const PurpleRing = memo((props: PurpleRingProps) => {
-  const siteA = useLoader(THREE.TextureLoader, siteATex);
-  const siteB = useLoader(THREE.TextureLoader, siteBTex);
+    const siteA = useLoader(THREE.TextureLoader, siteATex);
+    const siteB = useLoader(THREE.TextureLoader, siteBTex);
 
-  const purpleRingRef = useRef<THREE.Object3D>();
+    const purpleRingRef = useRef<THREE.Object3D>();
 
-  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+    // const uniforms = useMemo(
+    //   () => ({
+    //     siteA: { type: "t", value: siteA },
+    //     siteB: { type: "t", value: siteB },
+    //   }),
+    //   [siteA, siteB]
+    // );
 
-  uniforms.siteA = { type: "t", value: siteA };
-  uniforms.siteB = { type: "t", value: siteB };
+    const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
 
-  const vertexShader = `
+    uniforms.siteA = { type: "t", value: siteA };
+    uniforms.siteB = { type: "t", value: siteB };
+
+    const vertexShader = `
     varying vec2 vUv;
 
     varying vec3 vPos;
@@ -35,7 +44,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     }
   `;
 
-  const fragmentShader = `
+    const fragmentShader = `
     varying vec2 vUv;
     uniform sampler2D siteA;
     uniform sampler2D siteB;
@@ -99,7 +108,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           addedLights.rgb += clamp(dot(-lightDirection,
                                    vNormal), 0.0, 1.0)
                              * pointLights[l].color
-                             * 80.0;
+                             * 50.0;
       }
   
       // number of segments
@@ -168,33 +177,33 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   }
     `;
 
-  useFrame(() => {
-    purpleRingRef.current!.rotation.y += 0.005;
-  });
+    useFrame(() => {
+        purpleRingRef.current!.rotation.y += 0.005;
+    });
 
-  return (
-    <mesh
-      position={[0, props.purpleRingPosY, 0]}
-      rotation={[0, 0.5, 0]}
-      renderOrder={1}
-      scale={[95, 95, 95]}
-      ref={purpleRingRef}
-    >
-      <cylinderBufferGeometry
-        args={[0.0019, 0.0019, 0.00015, 64, 64, true]}
-        attach="geometry"
-      />
-      <shaderMaterial
-        attach="material"
-        side={THREE.DoubleSide}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        transparent={true}
-        uniforms={uniforms}
-        lights={true}
-      />
-    </mesh>
-  );
+    return (
+        <mesh
+            position={[0, props.purpleRingPosY, 0]}
+            rotation={[0, 0.5, 0]}
+            renderOrder={1}
+            scale={[25, 25, 25]}
+            ref={purpleRingRef}
+        >
+            <cylinderBufferGeometry
+                args={[0.05, 0.05, 0.0035, 64, 64, true]}
+                attach="geometry"
+            />
+            <shaderMaterial
+                attach="material"
+                side={THREE.DoubleSide}
+                vertexShader={vertexShader}
+                fragmentShader={fragmentShader}
+                transparent={true}
+                uniforms={uniforms}
+                lights={true}
+            />
+        </mesh>
+    );
 });
 
 export default PurpleRing;
