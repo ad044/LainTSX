@@ -119,7 +119,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
       <mesh
         position={props.position as [number, number, number]}
-        scale={[0.25, 0.15, 0.25]}
+        scale={[(0.046 * 90) / 100, (0.028 * 90) / 100, (0.046 * 90) / 100]}
         rotation={props.rotation as [number, number, number]}
         renderOrder={1}
       >
@@ -135,7 +135,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
             transparent={true}
           />
         ) : (
-          <meshStandardMaterial
+          <meshBasicMaterial
             attach="material"
             map={nonActiveTexture}
             side={THREE.DoubleSide}

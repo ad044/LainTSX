@@ -6,7 +6,7 @@ import {
   LainMoveUp,
   LainStanding,
 } from "./Lain/Lain";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { currentHUDAtom, hudActiveAtom } from "./HUD/HUDElementAtom";
 import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
 import lain_animations from "../resources/lain_animations.json";
@@ -16,6 +16,7 @@ import {
   lainMoveStateAtom,
   lainMovingAtom,
   lainPosYAtom,
+  lainRotYAtom,
 } from "./Lain/LainAtom";
 import { camPosYAtom, camRotYAtom } from "./MainScene/CameraAtom";
 import {
@@ -69,6 +70,7 @@ const InputHandler = () => {
 
   const [lainMoving, setLainMoving] = useRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
+  const setLainRotY = useSetRecoilState(lainRotYAtom);
 
   const [spriteUpdateCooldown, setSpriteUpdateCooldown] = useState(false);
 
@@ -138,6 +140,7 @@ const InputHandler = () => {
       setOrthoCamRotY((prev: number) => prev - val);
       setGrayPlaneRotY((prev: number) => prev - val);
       setLightRotY((prev: number) => prev - val);
+      setLainRotY((prev: number) => prev - val);
 
       setTimeout(() => {
         setMiddleRingRotY((prev: number) => prev - 0.55);
@@ -150,6 +153,7 @@ const InputHandler = () => {
       setGrayPlaneRotY,
       setLightRotY,
       setMiddleRingRotY,
+      setLainRotY,
     ]
   );
 
@@ -173,7 +177,7 @@ const InputHandler = () => {
           setLainMoveState(<LainMoveDown />);
 
           setTimeout(() => {
-            moveCamera(1.5);
+            moveCamera(0.25);
           }, 1300);
 
           // make noise appear again
@@ -186,7 +190,7 @@ const InputHandler = () => {
             setMiddleRingRotating(false);
           }, 700);
 
-          // set ring rotation on x axis to craete motion effect
+          // set ring rotation on x axis to create motion effect
           setTimeout(() => {
             setMiddleRingRotX(0.3);
           }, 1500);
@@ -237,7 +241,7 @@ const InputHandler = () => {
           setLainMoveState(<LainMoveUp />);
 
           setTimeout(() => {
-            moveCamera(-1.5);
+            moveCamera(-0.25);
           }, 1300);
 
           // change noise to 0, make the ring bend downwards
@@ -319,6 +323,7 @@ const InputHandler = () => {
       setLainMoving,
       setMiddleRingNoise,
       setMiddleRingRotX,
+      setMiddleRingRotZ,
       setMiddleRingRotating,
       setMiddleRingWobbleStrength,
     ]
@@ -395,12 +400,16 @@ const InputHandler = () => {
       const key = getKeyCodeAssociation(keyCode);
 
       if (key && !lainMoving) {
+        setTimeout(() => {
+          rotateCamera(0.785);
+        }, 1100);
+        //
         const move = getMove(currentBlueOrb, key);
 
         moveDispatcher(move, key);
       }
     },
-    [lainMoving, currentBlueOrb, moveDispatcher]
+    [lainMoving, currentBlueOrb, moveDispatcher, rotateCamera]
   );
 
   useEffect(() => {
