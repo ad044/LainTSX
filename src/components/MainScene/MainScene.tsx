@@ -1,7 +1,7 @@
 import { a, useSpring } from "@react-spring/three";
 import { OrbitControls } from "drei";
 import React, { Suspense, useEffect } from "react";
-import Site from "../Site";
+import Site from "../Site/Site";
 import Lain, { LainIntro } from "../Lain/Lain";
 import Lights from "../Lights/Lights";
 import OrthoCamera from "../OrthoCamera/OrthoCamera";
@@ -58,6 +58,7 @@ const MainScene = () => {
             position-z={3}
             position-y={cameraState.camPosY}
             rotation-y={cameraState.camRotY}
+            aspect={-1}
         >
             <Suspense fallback={null}>
                 <MainSceneIntro />
