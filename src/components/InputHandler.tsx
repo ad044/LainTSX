@@ -420,7 +420,7 @@ const InputHandler = () => {
           setBigHudText("Tda031");
           setBigLetterOffSetXCoeff(0);
         }, 1000);
-        rotateCamera(0.785);
+        rotateCamera(Math.PI / 4);
         moveDispatcher(move, key);
       }
     },

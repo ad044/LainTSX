@@ -1,41 +1,86 @@
-import React, { memo, Suspense, useMemo } from "react";
+import React, { memo, Suspense } from "react";
 import site_a from "../../resources/site_a.json";
 import Level from "../Level";
 import level_y_values from "../../resources/level_y_values.json";
-import Column from "../Column";
-import columns from "../../resources/columns.json";
+import blue_orb_positions from "../../resources/blue_orb_positions.json";
+import BlueOrb from "../BlueOrb/BlueOrb";
+import { useRecoilValue } from "recoil";
+import { currentBlueOrbAtom } from "../BlueOrb/CurrentBlueOrbAtom";
 
-type ColumnsJsonData = {
-  [id: string]: string[];
+type ImageTableIndices = {
+  1: string;
+  2: string;
+  3: string;
+};
+
+type ProtocolLines = {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+};
+
+type Words = {
+  1: string;
+  2: string;
+  3: string;
+};
+
+type BlueOrbData = {
+  "SLPS_016_0x offset": string;
+  image_table_indices: ImageTableIndices;
+  is_hidden: string;
+  media_file: string;
+  node_name: string;
+  protocol_lines: ProtocolLines;
+  site: string;
+  type: string;
+  unlocked_by: string;
+  upgrade_requirement: string;
+  words: Words;
+};
+
+type BlueOrbPositionData = {
+  position: number[];
+  rotation: number[];
+};
+
+type BlueOrbPositions = {
+  [orbPos: string]: BlueOrbPositionData;
 };
 
 const Site = memo(() => {
-  const siteData = useMemo(
-    () => ({
-      columnJson: columns as ColumnsJsonData,
-      siteA: Object.entries(site_a),
-    }),
-    []
-  );
+  const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
 
   return (
     <>
       <Suspense fallback={<>loading...</>}>
-        {/* distance between LEVELS is 1.5 */}
-        {/*{Object.values(level_y_values).map((yVal) => {*/}
-        {/*  return <Level levelPosY={yVal} key={yVal} />;*/}
-        {/*})}*/}
+        {/*distance between LEVELS is 1.5*/}
+        {Object.values(level_y_values).map((yVal) => {
+          return <Level levelPosY={yVal} key={yVal} />;
+        })}
 
-        {/*{Array.from(Array(8).keys()).map((colIdx: number) => {*/}
-        {/*  return (*/}
-        {/*    <Column*/}
-        {/*      columnData={siteData.siteA.filter((blueOrb) =>*/}
-        {/*        siteData.columnJson[colIdx].includes(blueOrb[0].substr(2))*/}
-        {/*      )}*/}
-        {/*      key={colIdx}*/}
-        {/*    />*/}
-        {/*  );*/}
-        {/*})}*/}
+        {Object.entries(site_a).map((blueOrb) => {
+          if ((blueOrb as any)[1]["unlocked_by"] === "-1")
+            return (
+              <BlueOrb
+                sprite={(blueOrb as any)[1]["node_name"]}
+                position={
+                  (blue_orb_positions as any)[(blueOrb as any)[0].substr(2)][
+                    "position"
+                  ]
+                }
+                rotation={
+                  (blue_orb_positions as any)[(blueOrb as any)[0].substr(2)][
+                    "rotation"
+                  ]
+                }
+                key={(blueOrb as any)[1]["node_name"]}
+                active={(blueOrb as any)[0] === currentBlueOrb}
+                level={(blueOrb as any)[0].substr(0, 2)}
+              />
+            );
+        })}
       </Suspense>
     </>
   );

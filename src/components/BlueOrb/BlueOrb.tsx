@@ -123,7 +123,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
       <a.mesh
         position={props.position as [number, number, number]}
         rotation-y={props.rotation[1]}
-        scale={[0.36, 0.2, 0.36]}
+        scale={[0.36, 0.18, 0.36]}
         renderOrder={1}
       >
         <planeBufferGeometry attach="geometry" />
