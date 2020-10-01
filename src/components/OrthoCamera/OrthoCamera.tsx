@@ -8,7 +8,7 @@ import { orthoCamPosYAtom, orthoCamRotYAtom } from "./OrthoCameraAtom";
 import { useSpring, a } from "@react-spring/three";
 import { orbVisibilityAtom } from "../Orb/OrbAtom";
 import { hudVisibilityAtom } from "../HUD/HUDElementAtom";
-import TextRenderer from "../TextRenderer";
+import TextRenderer from "../TextRenderer/TextRenderer";
 
 const OrthoCamera = memo(() => {
   const { gl, scene, camera } = useThree();

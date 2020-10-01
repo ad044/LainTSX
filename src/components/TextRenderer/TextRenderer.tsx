@@ -1,11 +1,12 @@
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { RepeatWrapping } from "three";
-import orangeFont from "../static/sprites/orange_font_texture.png";
-import yellowFont from "../static/sprites/yellow_font_texture.png";
-import orange_font_json from "../resources/orange_font.json";
-import { a } from "@react-spring/three";
-import React, { useMemo } from "react";
+import orangeFont from "../../static/sprites/orange_font_texture.png";
+import yellowFont from "../../static/sprites/yellow_font_texture.png";
+import orange_font_json from "../../resources/orange_font.json";
+import { a, useSpring } from "@react-spring/three";
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { bigLetterOffsetXCoeffAtom } from "./TextRendererAtom";
 
 type LetterProps = {
   color: string;
@@ -33,6 +34,8 @@ type BigFontData = {
 };
 
 const Letter = (props: LetterProps) => {
+  const bigLetterOffsetXCoeff = useRecoilValue(bigLetterOffsetXCoeffAtom);
+
   const colorToTexture = (color: string) => {
     return ({ orange: orangeFont, yellow: yellowFont } as ColorToTexture)[
       color
@@ -92,18 +95,29 @@ const Letter = (props: LetterProps) => {
     uvAttribute.setXY(i, u, v);
   }
 
+  const textRendererState = useSpring({
+    letterOffsetXCoeff:
+      props.kerningOffset === 0
+        ? props.kerningOffset + props.kerningOffset * bigLetterOffsetXCoeff
+        : props.kerningOffset +
+          0.3 +
+          (props.kerningOffset + 0.3) * bigLetterOffsetXCoeff,
+    config: { duration: 200 },
+  });
+
   return (
     <a.mesh
-      position-x={
-        props.kerningOffset === 0
-          ? props.kerningOffset
-          : props.kerningOffset + 0.3
-      }
+      position-x={textRendererState.letterOffsetXCoeff}
       position-y={props.kerningOffset === 0 ? -0.03 : 0}
       scale={props.kerningOffset === 0 ? [1.7, 1, 1.7] : [1, 1, 1]}
       geometry={geometry}
+      renderOrder={props.kerningOffset === 0 ? 2 : 1}
     >
-      <meshBasicMaterial map={colorTexture} attach="material" transparent={true} />
+      <meshBasicMaterial
+        map={colorTexture}
+        attach="material"
+        transparent={true}
+      />
     </a.mesh>
   );
 };

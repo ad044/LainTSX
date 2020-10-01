@@ -9,7 +9,7 @@ import boringHud from "../../static/sprites/long_hud_boring.png";
 import boringHudMirrored from "../../static/sprites/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
-import { hudActiveAtom } from "./HUDElementAtom";
+import { bigHudTextAtom, hudActiveAtom } from "./HUDElementAtom";
 import { currentHUDAtom } from "./HUDElementAtom";
 import HUDText from "./HUDText";
 
@@ -28,6 +28,7 @@ export type BlueOrbHudData = {
   long: HudShapeData;
   boring: HudShapeData;
   big: HudShapeData;
+  big_text: number[];
 };
 
 export type BlueOrbHuds = {
@@ -40,6 +41,8 @@ type LevelYValues = {
 
 const HUDElement = memo((props: HUDElementProps) => {
   const currentBlueOrbHUD = useRecoilValue(currentHUDAtom);
+
+  const currentBigHudText = useRecoilValue(bigHudTextAtom);
 
   const hudActive = useRecoilValue(hudActiveAtom);
 
@@ -164,7 +167,7 @@ const HUDElement = memo((props: HUDElementProps) => {
           transparent={true}
         />
       </a.sprite>
-      <HUDText text={"Tda028"} hudTextPos={[-0.35, 0.23, -8.7]} />
+      <HUDText text={currentBigHudText} />
     </group>
   );
 });
