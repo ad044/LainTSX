@@ -7,11 +7,18 @@ import {
   LainStanding,
 } from "./Lain/Lain";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { currentHUDAtom, hudActiveAtom } from "./HUD/HUDElementAtom";
+import {
+  bigHudTextAtom,
+  currentHUDAtom,
+  hudActiveAtom,
+  bigLetterPosXAtom,
+  bigLetterPosYAtom,
+} from "./HUD/HUDElementAtom";
 import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
 import lain_animations from "../resources/lain_animations.json";
 import blue_orb_huds from "../resources/blue_orb_huds.json";
 import blue_orb_directions from "../resources/blue_orb_directions.json";
+import site_a from "../resources/site_a.json";
 import {
   lainMoveStateAtom,
   lainMovingAtom,
@@ -41,7 +48,7 @@ import {
   middleRingWobbleStrengthAtom,
 } from "./MiddleRing/MiddleRingAtom";
 import { lightPosYAtom, lightRotYAtom } from "./Lights/LightsAtom";
-
+import { bigLetterOffsetXCoeffAtom } from "./TextRenderer/TextRendererAtom";
 type KeyCodeAssociations = {
   [keyCode: number]: string;
 };
@@ -389,6 +396,11 @@ const InputHandler = () => {
     ]
   );
 
+  const setBigLetterOffSetXCoeff = useSetRecoilState(bigLetterOffsetXCoeffAtom);
+  const setBigLetterPosY = useSetRecoilState(bigLetterPosYAtom);
+  const setBigLetterPosX = useSetRecoilState(bigLetterPosXAtom);
+  const setBigHudText = useSetRecoilState(bigHudTextAtom);
+
   const handleKeyPress = useCallback(
     (event) => {
       const { keyCode } = event;
@@ -398,6 +410,16 @@ const InputHandler = () => {
       if (key && !lainMoving) {
         const move = getMove(currentBlueOrb, key);
 
+        setBigLetterOffSetXCoeff(-1);
+
+        setTimeout(() => {
+          setBigLetterPosY(-0.2);
+          setBigLetterPosX(-0.5);
+        }, 400);
+        setTimeout(() => {
+          setBigHudText("Tda031");
+          setBigLetterOffSetXCoeff(0);
+        }, 1000);
         rotateCamera(0.785);
         moveDispatcher(move, key);
       }
