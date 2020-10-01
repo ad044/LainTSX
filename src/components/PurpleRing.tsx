@@ -184,9 +184,8 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     return (
         <mesh
             position={[0, props.purpleRingPosY, 0]}
-            rotation={[0, 0.5, 0]}
             renderOrder={1}
-            scale={[25, 25, 25]}
+            scale={[26, 26, 26]}
             ref={purpleRingRef}
         >
             <cylinderBufferGeometry

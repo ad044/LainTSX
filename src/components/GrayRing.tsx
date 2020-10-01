@@ -159,7 +159,7 @@ const GrayRing = memo((props: GrayRingProps) => {
             scale={[33, 33, 33]}
         >
             <cylinderBufferGeometry
-                args={[0.04, 0.04, 0.0025, 64, 64, true]}
+                args={[0.036, 0.036, 0.003, 64, 64, true]}
                 attach="geometry"
             />
             <shaderMaterial
