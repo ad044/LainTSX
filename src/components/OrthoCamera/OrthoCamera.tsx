@@ -46,7 +46,6 @@ const OrthoCamera = memo(() => {
       >
         <HUDElement key={1} hudVisibility={hudVisible} />
         <Orb orbVisibility={orbVisible} />
-        {/*<TextRenderer />*/}
       </a.orthographicCamera>
     </a.group>
   );
