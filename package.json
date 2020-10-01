@@ -20,8 +20,8 @@
     "recoil": "0.0.10",
     "three": "^0.119.1",
     "three-plain-animator": "^1.0.2",
-    "typescript": "^3.7.5",
-    "ts-node": "^9.0.0"
+    "ts-node": "^9.0.0",
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",

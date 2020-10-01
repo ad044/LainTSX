@@ -9,7 +9,7 @@ export const hudActiveAtom = atom({
 
 export const hudVisibilityAtom = atom({
   key: "hudVisibilityAtom",
-  default: false,
+  default: true,
 });
 
 export const currentHUDAtom = atom({
