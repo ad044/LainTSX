@@ -1,34 +1,58 @@
-import React, { memo, useMemo, useRef } from "react";
+import React, { memo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import siteATex from "../static/sprites/site_a.png";
 import siteBTex from "../static/sprites/site_b.png";
+import siteLevelTex from "../static/sprites/site_levels.png";
 
 type PurpleRingProps = {
-    purpleRingPosY: number;
+  purpleRingPosY: number;
+  level: string;
+};
+
+type SiteTextureDispatcher = {
+  [key: string]: number;
 };
 
 const PurpleRing = memo((props: PurpleRingProps) => {
-    const siteA = useLoader(THREE.TextureLoader, siteATex);
-    const siteB = useLoader(THREE.TextureLoader, siteBTex);
+  const siteA = useLoader(THREE.TextureLoader, siteATex);
+  const siteB = useLoader(THREE.TextureLoader, siteBTex);
+  const siteLevels = useLoader(THREE.TextureLoader, siteLevelTex);
 
-    const purpleRingRef = useRef<THREE.Object3D>();
+  const purpleRingRef = useRef<THREE.Object3D>();
 
-    // const uniforms = useMemo(
-    //   () => ({
-    //     siteA: { type: "t", value: siteA },
-    //     siteB: { type: "t", value: siteB },
-    //   }),
-    //   [siteA, siteB]
-    // );
+  console.log(props.level);
+  const dispatchSiteLevelTextureOffset = (level: string) => {
+    return ({
+      "9": 0.035,
+      "8": 0.039,
+      "7": 0.001,
+      "6": 0.005,
+      "5": 0.009,
+      "4": 0.0131,
+      "3": 0.0176,
+      "2": 0.0218,
+      "1": 0.026,
+      "0": 0.031,
+    } as SiteTextureDispatcher)[level];
+  };
 
-    const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
 
-    uniforms.siteA = { type: "t", value: siteA };
-    uniforms.siteB = { type: "t", value: siteB };
+  const formattedLevel =
+    props.level.length < 2 ? "0" + props.level : props.level;
 
-    const vertexShader = `
+  uniforms.siteA = { type: "t", value: siteA };
+  uniforms.siteB = { type: "t", value: siteB };
+  uniforms.siteLevels = { type: "t", value: siteLevels };
+  uniforms.siteLevelFirstCharacterOffset = {
+    value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(0)),
+  };
+  uniforms.siteLevelSecondCharacterOffset = {
+    value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(1)),
+  };
+
+  const vertexShader = `
     varying vec2 vUv;
 
     varying vec3 vPos;
@@ -44,10 +68,13 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     }
   `;
 
-    const fragmentShader = `
+  const fragmentShader = `
     varying vec2 vUv;
     uniform sampler2D siteA;
     uniform sampler2D siteB;
+    uniform sampler2D siteLevels;
+    uniform float siteLevelFirstCharacterOffset;
+    uniform float siteLevelSecondCharacterOffset;
     
     // lights
     varying vec3 vPos;
@@ -90,7 +117,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
         if (!textureexists) {
             return vec4(0.325,0.325,0.698, 1);
         } else {
-            float dist = 1.0-tolocal(0.5 - mod(vUv.x, 0.5), 6, step);
+            float dist = 1.0-tolocal(0.5 - mod(vUv.x+0.172, 0.5), 12, step);
             return texture2D(siteA, vec2(dist, vUv.y)) ;
         } 
     }
@@ -112,16 +139,16 @@ const PurpleRing = memo((props: PurpleRingProps) => {
       }
   
       // number of segments
-      float step = 128.0;
-      float thin = 0.25;
+      float step = 256.0;
+      float thin = 0.2;
       float thick = 1.0;
-      float slopefactor = 1.0;
+      float slopefactor = 2.0;
       
       uint halfc = uint(step)/uint(2);
       
       // segment within circle
       uint segment = uint(floor(vUv.x * step));
-      uint thinperiod = halfc-uint(8);
+      uint thinperiod = halfc-uint(16);
      
       uint halfel = segment % halfc;
      
@@ -137,7 +164,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (halfel == thinperiod) {
+      } else if (halfel > thinperiod-uint(2) && halfel < thinperiod+uint(1)) {
           // slope down
           float dist = tolocal(vUv.x, 1, step);
           float val = 1.0-slope(dist, thin);
@@ -146,30 +173,38 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (halfel == thinperiod+uint(1) && isbottom(vUv.y, thin)) {
+      } else if (halfel > thinperiod && halfel < thinperiod+uint(4) && isbottom(vUv.y, thin)) {
           // thin line bottom
           gl_FragColor = vec4(0.325,0.325,0.698, 1) * addedLights;
-      } else if (halfel == thinperiod + uint(2)) {
+      } else if (halfel > thinperiod + uint(3) && halfel < thinperiod + uint(6)) {
           // slope up
-          float dist = tolocal(vUv.x, 1, step);
+          float dist = tolocal(vUv.x, 2, step);
           float val = 1.0-slope(1.0-dist, thin);
           if ((isbottom(vUv.y, thin) && dist < thin*slopefactor) || (vUv.y < val)) {
               gl_FragColor = color(vUv, step, true) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }        
-      } else if (halfel > thinperiod + uint(2) && halfel < thinperiod+uint(7)) {
+      } else if (halfel > thinperiod + uint(5) && halfel < thinperiod+uint(12)) {
           // thick part
-          gl_FragColor = color(vUv, step, true) * addedLights ;
-      } else if (halfel == thinperiod+uint(7)) {
+          gl_FragColor = color(vUv, step, true) * addedLights;
+      } else if (halfel == thinperiod + uint(12)){
+          // level first char texture
+          float dist = 1.0-tolocal(0.5 - mod(vUv.x-siteLevelFirstCharacterOffset +0.004, 0.5), 11, step);
+          gl_FragColor = texture2D(siteLevels,  vec2(dist, vUv.y)) * addedLights;
+     } else if (halfel == thinperiod + uint(13)){
+          // level second char texture
+          float dist = 1.0-tolocal(0.5 - mod(vUv.x-siteLevelSecondCharacterOffset, 0.5), 11, step);
+          gl_FragColor = texture2D(siteLevels,  vec2(dist, vUv.y)) * addedLights;
+      } else if (halfel > thinperiod + uint(13) && halfel < thinperiod + uint(16)) {
           // slope up
-          float dist = tolocal(vUv.x, 1, step);
+          float dist = tolocal(vUv.x, 2, step);
           float val = slope(dist, thin);
           if (vUv.y > val) {
               gl_FragColor = color(vUv, step, true) * addedLights;
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
-          }        
+          }  
       } else {
           // transparent
           gl_FragColor = vec4(0, 0, 0, 0);
@@ -177,32 +212,32 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   }
     `;
 
-    useFrame(() => {
-        purpleRingRef.current!.rotation.y += 0.005;
-    });
+  useFrame(() => {
+    purpleRingRef.current!.rotation.y += 0.005;
+  });
 
-    return (
-        <mesh
-            position={[0, props.purpleRingPosY, 0]}
-            renderOrder={1}
-            scale={[26, 26, 26]}
-            ref={purpleRingRef}
-        >
-            <cylinderBufferGeometry
-                args={[0.05, 0.05, 0.0035, 64, 64, true]}
-                attach="geometry"
-            />
-            <shaderMaterial
-                attach="material"
-                side={THREE.DoubleSide}
-                vertexShader={vertexShader}
-                fragmentShader={fragmentShader}
-                transparent={true}
-                uniforms={uniforms}
-                lights={true}
-            />
-        </mesh>
-    );
+  return (
+    <mesh
+      position={[0, props.purpleRingPosY, 0]}
+      renderOrder={1}
+      scale={[26, 26, 26]}
+      ref={purpleRingRef}
+    >
+      <cylinderBufferGeometry
+        args={[0.05, 0.05, 0.0035, 64, 64, true]}
+        attach="geometry"
+      />
+      <shaderMaterial
+        attach="material"
+        side={THREE.DoubleSide}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        transparent={true}
+        uniforms={uniforms}
+        lights={true}
+      />
+    </mesh>
+  );
 });
 
 export default PurpleRing;
