@@ -135,7 +135,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
           addedLights.rgb += clamp(dot(-lightDirection,
                                    vNormal), 0.0, 1.0)
                              * pointLights[l].color
-                             * 50.0;
+                             * 30.0;
       }
   
       // number of segments
