@@ -18,11 +18,11 @@ const Lights = memo(() => {
             position-y={lightState.lightPosY}
             rotation-y={lightState.lightRotY}
         >
-            <ambientLight color={0x808080} intensity={0.6} />
-            <pointLight color={0xffffff} position={[0, 0, 7]} intensity={0.7} />
+            <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
             <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
-            <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.3} />
-            <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.3} />
+            <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
+            <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
+
         </a.group>
     );
 });
