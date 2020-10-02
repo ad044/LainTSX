@@ -11,8 +11,8 @@ type LevelProps = {
 const Level = (props: LevelProps) => {
     return (
         <group position={[0, props.levelPosY, 0]}>
-            <PurpleRing purpleRingPosY={0.43} />
-            <GrayRing grayRingPosY={-0.28} />
+            <PurpleRing purpleRingPosY={0.44} />
+            <GrayRing grayRingPosY={-0.29} />
             <CyanCrystal crystalRingPosY={-0.45} />
         </group>
     );

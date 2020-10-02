@@ -127,7 +127,7 @@ const Lain = () => {
         <Suspense fallback={<>loading...</>}>
             <a.sprite
                 position-y={lainPosYState.lainPosY}
-                scale={[4.8, 4.8, 4.8]}
+                scale={[4.5, 4.5, 4.5]}
             >
                 {lainMoving ? lainMoveState : <LainStanding />}
             </a.sprite>
