@@ -56,8 +56,10 @@ const Site = memo(() => {
     <>
       <Suspense fallback={<>loading...</>}>
         {/*distance between LEVELS is 1.5*/}
-        {Object.values(level_y_values).map((yVal) => {
-          return <Level levelPosY={yVal} key={yVal} />;
+        {Object.entries(level_y_values).map((level: [string, number]) => {
+          return (
+            <Level levelPosY={level[1]} key={level[1]} level={(level[0]).toString()} />
+          );
         })}
 
         {Object.entries(site_a).map((blueOrb) => {

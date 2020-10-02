@@ -225,7 +225,7 @@ const MiddleRing = () => {
                 rotation-x={middleRingRotState.middleRingRotX}
             >
                 <cylinderBufferGeometry
-                    args={[0.85, 0.85, 0.027, 64, 64, true]}
+                    args={[0.75, 0.75, 0.027, 64, 64, true]}
                     attach="geometry"
                 />
                 <shaderMaterial
