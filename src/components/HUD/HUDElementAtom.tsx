@@ -19,12 +19,12 @@ export const currentHUDAtom = atom({
 
 export const bigLetterPosYAtom = atom({
   key: "bigLetterPosYAtom",
-  default: 0.23,
+  default: (blue_orb_huds as BlueOrbHuds)["22"]["big_text"][1],
 });
 
 export const bigLetterPosXAtom = atom({
   key: "bigLetterPosXAtom",
-  default: -0.35,
+  default: (blue_orb_huds as BlueOrbHuds)["22"]["big_text"][0],
 });
 
 export const bigHudTextAtom = atom({

@@ -21,7 +21,6 @@ const PurpleRing = memo((props: PurpleRingProps) => {
 
   const purpleRingRef = useRef<THREE.Object3D>();
 
-  console.log(props.level);
   const dispatchSiteLevelTextureOffset = (level: string) => {
     return ({
       "9": 0.035,

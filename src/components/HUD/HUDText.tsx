@@ -24,7 +24,7 @@ const HUDText = (props: HUDTextProps) => {
     <>
       {letterTrail.map(({ bigLetterPosX, bigLetterPosY }, idx) => (
         <a.group
-          key={textArr[idx]}
+          key={idx}
           position-x={bigLetterPosX}
           position-y={bigLetterPosY}
           position-z={-8.7}

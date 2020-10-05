@@ -49,6 +49,7 @@ import {
 } from "./MiddleRing/MiddleRingAtom";
 import { lightPosYAtom, lightRotYAtom } from "./Lights/LightsAtom";
 import { bigLetterOffsetXCoeffAtom } from "./TextRenderer/TextRendererAtom";
+import { SiteData } from "./Site/Site";
 type KeyCodeAssociations = {
   [keyCode: number]: string;
 };
@@ -373,6 +374,20 @@ const InputHandler = () => {
             setSpriteUpdateCooldown(true);
             // toggle hud to go back in
             updateHUD();
+
+            // make current hud big text shrink
+            setBigLetterOffSetXCoeff(-1);
+
+            setTimeout(() => {
+              // animate it to new pos x/y
+              setBigLetterPosX(
+                (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][0]
+              );
+              setBigLetterPosY(
+                (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][1]
+              );
+            }, 400);
+
             setTimeout(() => {
               // change hud while its hidden
               setCurrentHUDElement(
@@ -381,9 +396,16 @@ const InputHandler = () => {
               // toggle it again to be shown in the new position
               updateHUD();
             }, 500);
+
             setTimeout(() => {
               setSpriteUpdateCooldown(false);
+              setBigHudText((site_a as SiteData)[move]["node_name"]);
             }, 1000);
+
+
+            setTimeout(() => {
+              setBigLetterOffSetXCoeff(0);
+            }, 1200);
           }
       }
     },
@@ -410,17 +432,6 @@ const InputHandler = () => {
       if (key && !lainMoving) {
         const move = getMove(currentBlueOrb, key);
 
-        setBigLetterOffSetXCoeff(-1);
-
-        setTimeout(() => {
-          setBigLetterPosY(-0.2);
-          setBigLetterPosX(-0.5);
-        }, 400);
-        setTimeout(() => {
-          setBigHudText("Tda031");
-          setBigLetterOffSetXCoeff(0);
-        }, 1000);
-        rotateCamera(Math.PI / 4);
         moveDispatcher(move, key);
       }
     },

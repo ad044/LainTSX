@@ -58,6 +58,7 @@ const MainScene = () => {
             position-z={3}
             position-y={cameraState.camPosY}
             rotation-y={cameraState.camRotY}
+            aspect={0.1}
         >
             <Suspense fallback={null}>
                 <MainSceneIntro />
@@ -70,7 +71,7 @@ const MainScene = () => {
                     <Preloader />
                     <Site />
                     <OrthoCamera />
-                    <Starfield />
+                    {/*<Starfield />*/}
                     <GrayPlanes />
                     <Lights />
                     <MiddleRing />
