@@ -63,8 +63,10 @@ const Letter = (props: LetterProps) => {
       return 1;
     } else if (lineTwo.includes(letter)) {
       return 2;
-    } else {
+    } else if (lineThree.includes(letter)){
       return 3;
+    } else {
+      return 4;
     }
   };
 
@@ -72,9 +74,12 @@ const Letter = (props: LetterProps) => {
     1: 0.884,
     2: 0.765,
     3: 0.65,
-  };
+    4: 0.47,
+};
 
   const letterData = (orange_font_json as BigFontData)["glyphs"][props.letter];
+
+  if (!letterData) debugger;
 
   const geometry = new THREE.PlaneBufferGeometry();
 
@@ -111,7 +116,7 @@ const Letter = (props: LetterProps) => {
       position-y={props.kerningOffset === 0 ? -0.03 : 0}
       scale={props.kerningOffset === 0 ? [1.7, 1, 1.7] : [1, 1, 1]}
       geometry={geometry}
-      renderOrder={props.kerningOffset === 0 ? 2 : 1}
+      renderOrder={props.kerningOffset === 0 ? 3 : 2}
     >
       <meshBasicMaterial
         map={colorTexture}

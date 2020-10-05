@@ -49,6 +49,10 @@ type BlueOrbPositions = {
   [orbPos: string]: BlueOrbPositionData;
 };
 
+export type SiteData = {
+  [id: string]: BlueOrbData
+}
+
 const Site = memo(() => {
   const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
 
