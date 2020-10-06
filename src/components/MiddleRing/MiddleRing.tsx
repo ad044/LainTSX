@@ -4,59 +4,62 @@ import middleRingTexture from "../../static/sprites/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import {
-    middleRingNoiseAtom,
-    middleRingPosYAtom,
-    middleRingRotatingAtom,
-    middleRingRotXAtom,
-    middleRingRotYAtom,
-    middleRingRotZAtom,
-    middleRingWobbleStrengthAtom,
+  middleRingAnimDurationAtom,
+  middleRingNoiseAtom,
+  middleRingPosYAtom,
+  middleRingRotatingAtom,
+  middleRingRotXAtom,
+  middleRingRotYAtom,
+  middleRingRotZAtom,
+  middleRingWobbleStrengthAtom,
 } from "./MiddleRingAtom";
 import { useRecoilValue } from "recoil";
 
 const MiddleRing = () => {
-    const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
+  const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-    const middleRingWobbleStrength = useRecoilValue(middleRingWobbleStrengthAtom);
-    const middleRingRotating = useRecoilValue(middleRingRotatingAtom);
-    const middleRingNoise = useRecoilValue(middleRingNoiseAtom);
-    const middleRingPosY = useRecoilValue(middleRingPosYAtom);
-    const middleRingRotX = useRecoilValue(middleRingRotXAtom);
-    const middleRingRotZ = useRecoilValue(middleRingRotZAtom);
-    const middleRingRotY = useRecoilValue(middleRingRotYAtom);
+  const middleRingWobbleStrength = useRecoilValue(middleRingWobbleStrengthAtom);
+  const middleRingRotating = useRecoilValue(middleRingRotatingAtom);
+  const middleRingNoise = useRecoilValue(middleRingNoiseAtom);
+  const middleRingPosY = useRecoilValue(middleRingPosYAtom);
+  const middleRingRotX = useRecoilValue(middleRingRotXAtom);
+  const middleRingRotZ = useRecoilValue(middleRingRotZAtom);
+  const middleRingRotY = useRecoilValue(middleRingRotYAtom);
 
-    const middleRingWobbleState = useSpring({
-        middleRingWobbleStrength: middleRingWobbleStrength,
-        middleRingNoise: middleRingNoise,
-        config: { duration: 200 },
-    });
+  const middleRingAnimDuration = useRecoilValue(middleRingAnimDurationAtom);
 
-    const middleRingPosState = useSpring({
-        middleRingPosY: middleRingPosY,
-        config: { duration: 500 },
-    });
+  const middleRingWobbleState = useSpring({
+    middleRingWobbleStrength: middleRingWobbleStrength,
+    middleRingNoise: middleRingNoise,
+    config: { duration: 200 },
+  });
 
-    const middleRingRotState = useSpring({
-        middleRingRotX: middleRingRotX,
-        middleRingRotZ: middleRingRotZ,
-        middleRingRotY: middleRingRotY,
-        config: { duration: 1000 },
-    });
+  const middleRingPosState = useSpring({
+    middleRingPosY: middleRingPosY,
+    config: { duration: middleRingAnimDuration },
+  });
 
-    const uniforms = useMemo(
-        () => ({
-            tex: { type: "t", value: middleRingTex },
-            uTime: { value: 1.0 },
-            wobbleStrength: { value: 0.0 },
-            noiseAmp: { value: 0.03 },
-        }),
-        [middleRingTex]
-    );
+  const middleRingRotState = useSpring({
+    middleRingRotX: middleRingRotX,
+    middleRingRotZ: middleRingRotZ,
+    middleRingRotY: middleRingRotY,
+    config: { duration: 1000 },
+  });
 
-    const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
-    const middleRingRef = useRef<THREE.Object3D>();
+  const uniforms = useMemo(
+    () => ({
+      tex: { type: "t", value: middleRingTex },
+      uTime: { value: 1.0 },
+      wobbleStrength: { value: 0.0 },
+      noiseAmp: { value: 0.03 },
+    }),
+    [middleRingTex]
+  );
 
-    const vertexShader = `
+  const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
+  const middleRingRef = useRef<THREE.Object3D>();
+
+  const vertexShader = `
     varying vec2 vUv;
     uniform float uTime;
     uniform float wobbleStrength;
@@ -187,7 +190,7 @@ const MiddleRing = () => {
     }
   `;
 
-    const fragmentShader = `
+  const fragmentShader = `
     uniform sampler2D tex;
 
     varying vec2 vUv;
@@ -197,49 +200,49 @@ const MiddleRing = () => {
     }
   `;
 
-    const clock = new THREE.Clock();
+  const clock = new THREE.Clock();
 
-    useFrame(() => {
-        if (middleRingMaterialRef.current) {
-            middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
-            middleRingMaterialRef.current.uniforms.wobbleStrength.value = middleRingWobbleState.middleRingWobbleStrength.get();
-            middleRingMaterialRef.current.uniforms.noiseAmp.value = middleRingWobbleState.middleRingNoise.get();
+  useFrame(() => {
+    if (middleRingMaterialRef.current) {
+      middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
+      middleRingMaterialRef.current.uniforms.wobbleStrength.value = middleRingWobbleState.middleRingWobbleStrength.get();
+      middleRingMaterialRef.current.uniforms.noiseAmp.value = middleRingWobbleState.middleRingNoise.get();
 
-            middleRingMaterialRef.current.needsUpdate = true;
-        }
-        if (middleRingRotating) {
-            middleRingRef.current!.rotation.y += 0.05;
-        }
-    });
+      middleRingMaterialRef.current.needsUpdate = true;
+    }
+    if (middleRingRotating) {
+      middleRingRef.current!.rotation.y += 0.05;
+    }
+  });
 
-    return (
-        <a.group
-            rotation-z={middleRingRotState.middleRingRotZ}
-            rotation-y={middleRingRotState.middleRingRotY}
-        >
-            <a.mesh
-                position={[0, 0, 0.3]}
-                position-y={middleRingPosState.middleRingPosY}
-                ref={middleRingRef}
-                rotation={[0, 0.9, 0]}
-                rotation-x={middleRingRotState.middleRingRotX}
-            >
-                <cylinderBufferGeometry
-                    args={[0.75, 0.75, 0.027, 64, 64, true]}
-                    attach="geometry"
-                />
-                <shaderMaterial
-                    attach="material"
-                    side={THREE.DoubleSide}
-                    uniforms={uniforms}
-                    vertexShader={vertexShader}
-                    fragmentShader={fragmentShader}
-                    ref={middleRingMaterialRef}
-                    transparent={true}
-                />
-            </a.mesh>
-        </a.group>
-    );
+  return (
+    <a.group
+      rotation-z={middleRingRotState.middleRingRotZ}
+      rotation-y={middleRingRotState.middleRingRotY}
+    >
+      <a.mesh
+        position={[0, 0, 0.3]}
+        position-y={middleRingPosState.middleRingPosY}
+        ref={middleRingRef}
+        rotation={[0, 0.9, 0]}
+        rotation-x={middleRingRotState.middleRingRotX}
+      >
+        <cylinderBufferGeometry
+          args={[0.75, 0.75, 0.027, 64, 64, true]}
+          attach="geometry"
+        />
+        <shaderMaterial
+          attach="material"
+          side={THREE.DoubleSide}
+          uniforms={uniforms}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          ref={middleRingMaterialRef}
+          transparent={true}
+        />
+      </a.mesh>
+    </a.group>
+  );
 };
 
 export default MiddleRing;

@@ -6,6 +6,8 @@ import blue_orb_positions from "../../resources/blue_orb_positions.json";
 import BlueOrb from "../BlueOrb/BlueOrb";
 import { useRecoilValue } from "recoil";
 import { currentBlueOrbAtom } from "../BlueOrb/CurrentBlueOrbAtom";
+import { useSpring, a } from "@react-spring/three";
+import {sitePosYAtom, siteRotYAtom} from "./SiteAtom";
 
 type ImageTableIndices = {
   1: string;
@@ -50,19 +52,32 @@ type BlueOrbPositions = {
 };
 
 export type SiteData = {
-  [id: string]: BlueOrbData
-}
+  [id: string]: BlueOrbData;
+};
 
 const Site = memo(() => {
   const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
 
+  const siteRotY = useRecoilValue(siteRotYAtom);
+  const sitePosY = useRecoilValue(sitePosYAtom);
+
+  const siteState = useSpring({
+    siteRotY: siteRotY,
+    sitePosY: sitePosY,
+    config: { duration: 1200 },
+  });
+
   return (
-    <>
-      <Suspense fallback={<>loading...</>}>
-        {/*distance between LEVELS is 1.5*/}
+    <Suspense fallback={<>loading...</>}>
+      {/*distance between LEVELS is 1.5*/}
+      <a.group rotation-y={siteState.siteRotY} position-y={siteState.sitePosY}>
         {Object.entries(level_y_values).map((level: [string, number]) => {
           return (
-            <Level levelPosY={level[1]} key={level[1]} level={(level[0]).toString()} />
+            <Level
+              levelPosY={level[1]}
+              key={level[1]}
+              level={level[0].toString()}
+            />
           );
         })}
 
@@ -87,8 +102,8 @@ const Site = memo(() => {
               />
             );
         })}
-      </Suspense>
-    </>
+      </a.group>
+    </Suspense>
   );
 });
 
