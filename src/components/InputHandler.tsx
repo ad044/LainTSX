@@ -9,47 +9,31 @@ import {
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   bigHudTextAtom,
-  currentHUDAtom,
-  hudActiveAtom,
   bigLetterPosXAtom,
   bigLetterPosYAtom,
+  currentHUDAtom,
+  hudActiveAtom,
 } from "./HUD/HUDElementAtom";
 import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
 import lain_animations from "../resources/lain_animations.json";
 import blue_orb_huds from "../resources/blue_orb_huds.json";
 import blue_orb_directions from "../resources/blue_orb_directions.json";
 import site_a from "../resources/site_a.json";
-import {
-  lainMoveStateAtom,
-  lainMovingAtom,
-  lainPosYAtom,
-} from "./Lain/LainAtom";
-import { camPosYAtom, camRotYAtom } from "./MainScene/CameraAtom";
-import {
-  starfieldPosYAtom,
-  starfieldRotYAtom,
-} from "./Starfield/StarfieldAtom";
+import { lainMoveStateAtom, lainMovingAtom } from "./Lain/LainAtom";
 import { BlueOrbHuds } from "./HUD/HUDElement";
 import {
-  orthoCamPosYAtom,
-  orthoCamRotYAtom,
-} from "./OrthoCamera/OrthoCameraAtom";
-import {
-  grayPlanesPosYAtom,
-  grayPlanesRotYAtom,
-} from "./GrayPlanes/GrayPlanesAtom";
-import {
+  middleRingAnimDurationAtom,
   middleRingNoiseAtom,
   middleRingPosYAtom,
   middleRingRotatingAtom,
   middleRingRotXAtom,
-  middleRingRotYAtom,
   middleRingRotZAtom,
   middleRingWobbleStrengthAtom,
 } from "./MiddleRing/MiddleRingAtom";
-import { lightPosYAtom, lightRotYAtom } from "./Lights/LightsAtom";
 import { bigLetterOffsetXCoeffAtom } from "./TextRenderer/TextRendererAtom";
 import { SiteData } from "./Site/Site";
+import { sitePosYAtom, siteRotYAtom } from "./Site/SiteAtom";
+
 type KeyCodeAssociations = {
   [keyCode: number]: string;
 };
@@ -70,6 +54,20 @@ type LainAnimations = {
   [sprite: string]: LainAnimationData;
 };
 
+// helpers
+const getMove = (currentLoc: string, key: string): string => {
+  return (blue_orb_directions as SpriteDirections)[currentLoc][key];
+};
+
+const getKeyCodeAssociation = (keyCode: number): string => {
+  return ({
+    40: "down",
+    37: "left",
+    38: "up",
+    39: "right",
+  } as KeyCodeAssociations)[keyCode];
+};
+
 const InputHandler = () => {
   const [currentBlueOrb, setCurrentBlueOrb] = useRecoilState(
     currentBlueOrbAtom
@@ -84,20 +82,6 @@ const InputHandler = () => {
 
   const setHudActive = useSetRecoilState(hudActiveAtom);
 
-  const setCamPosY = useSetRecoilState(camPosYAtom);
-  const setCamRotY = useSetRecoilState(camRotYAtom);
-
-  const setOrthoCamPosY = useSetRecoilState(orthoCamPosYAtom);
-  const setOrthoCamRotY = useSetRecoilState(orthoCamRotYAtom);
-
-  const setLainPosY = useSetRecoilState(lainPosYAtom);
-
-  const setGrayPlanePosY = useSetRecoilState(grayPlanesPosYAtom);
-  const setGrayPlaneRotY = useSetRecoilState(grayPlanesRotYAtom);
-
-  const setStarfieldPosY = useSetRecoilState(starfieldPosYAtom);
-  const setStarfieldRotY = useSetRecoilState(starfieldRotYAtom);
-
   const setMiddleRingWobbleStrength = useSetRecoilState(
     middleRingWobbleStrengthAtom
   );
@@ -106,73 +90,164 @@ const InputHandler = () => {
   const setMiddleRingPosY = useSetRecoilState(middleRingPosYAtom);
   const setMiddleRingRotX = useSetRecoilState(middleRingRotXAtom);
   const setMiddleRingRotZ = useSetRecoilState(middleRingRotZAtom);
-  const setMiddleRingRotY = useSetRecoilState(middleRingRotYAtom);
+  const setMiddleRingAnimDuration = useSetRecoilState(
+    middleRingAnimDurationAtom
+  );
 
-  const setLightPosY = useSetRecoilState(lightPosYAtom);
-  const setLightRotY = useSetRecoilState(lightRotYAtom);
+  const setSiteRotY = useSetRecoilState(siteRotYAtom);
+  const setSitePosY = useSetRecoilState(sitePosYAtom);
 
-  const moveCamera = useCallback(
-    (val: number) => {
-      setCamPosY((prev: number) => prev + val);
-      setLainPosY((prev: number) => prev - val);
-      setStarfieldPosY((prev: number) => prev - val);
-      setOrthoCamPosY((prev: number) => prev - val);
-      setGrayPlanePosY((prev: number) => prev - val);
-      setLightPosY((prev: number) => prev - val);
+  const setBigLetterOffSetXCoeff = useSetRecoilState(bigLetterOffsetXCoeffAtom);
+  const setBigLetterPosY = useSetRecoilState(bigLetterPosYAtom);
+  const setBigLetterPosX = useSetRecoilState(bigLetterPosXAtom);
+  const setBigHudText = useSetRecoilState(bigHudTextAtom);
+
+  // hud toggler (animating hud from left to right)
+  const toggleHud = useCallback(() => {
+    setHudActive((prev: number) => Number(!prev));
+  }, [setHudActive]);
+
+  //  ===================================== BIG TEXT ANIMATIONS ================================================
+
+  const animateBigText = useCallback(
+    (move: string) => {
+      // make current hud big text shrink
+      setBigLetterOffSetXCoeff(-1);
 
       setTimeout(() => {
-        setMiddleRingPosY((prev: number) => prev - (val - 0.2));
-      }, 1300);
+        // animate it to new pos x/y
+        setBigLetterPosX(
+          (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][0]
+        );
+        setBigLetterPosY(
+          (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][1]
+        );
+      }, 400);
 
       setTimeout(() => {
-        setMiddleRingPosY((prev: number) => prev - 0.2);
-      }, 1800);
+        // change hud while its hidden
+        setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[move.substr(2)]);
+        // toggle it again to be shown in the new position
+        toggleHud();
+      }, 500);
+
+      setTimeout(() => {
+        setBigHudText((site_a as SiteData)[move]["node_name"]);
+      }, 1000);
+
+      setTimeout(() => {
+        setBigLetterOffSetXCoeff(0);
+      }, 1200);
     },
     [
-      setCamPosY,
-      setLainPosY,
-      setStarfieldPosY,
-      setOrthoCamPosY,
-      setGrayPlanePosY,
-      setMiddleRingPosY,
-      setLightPosY,
+      setBigHudText,
+      setBigLetterOffSetXCoeff,
+      setBigLetterPosX,
+      setBigLetterPosY,
+      setCurrentHUDElement,
+      toggleHud,
     ]
   );
 
-  const rotateCamera = useCallback(
-    (val: number) => {
-      setCamRotY((prev: number) => prev + val);
-      setStarfieldRotY((prev: number) => prev - val);
-      setOrthoCamRotY((prev: number) => prev - val);
-      setGrayPlaneRotY((prev: number) => prev - val);
-      setLightRotY((prev: number) => prev - val);
+  //  ===================================== MIDDLE RING ANIMATIONS ================================================
+
+  const rotateMiddleRing = useCallback(
+    (direction: string) => {
+      setTimeout(() => {
+        setMiddleRingRotZ(direction === "left" ? 0.07 : -0.07);
+      }, 2300);
 
       setTimeout(() => {
-        setMiddleRingRotY((prev: number) => prev - 0.55);
-      }, 1800);
+        setMiddleRingRotZ(direction === "left" ? -0.03 : 0.03);
+      }, 3500);
+
+      setTimeout(() => {
+        setMiddleRingRotZ(0);
+      }, 4500);
     },
-    [
-      setCamRotY,
-      setStarfieldRotY,
-      setOrthoCamRotY,
-      setGrayPlaneRotY,
-      setLightRotY,
-      setMiddleRingRotY,
-    ]
+    [setMiddleRingRotZ]
   );
 
-  const getMove = (currentLoc: string, key: string): string => {
-    return (blue_orb_directions as SpriteDirections)[currentLoc][key];
-  };
+  const moveMiddleRingUp = useCallback(() => {
+    // make noise appear again
+    setTimeout(() => {
+      setMiddleRingNoise(0.06);
+    }, 800);
 
-  const getKeyCodeAssociation = (keyCode: number): string => {
-    return ({
-      40: "down",
-      37: "left",
-      38: "up",
-      39: "right",
-    } as KeyCodeAssociations)[keyCode];
-  };
+    // disable rotation of the ring
+    setTimeout(() => {
+      setMiddleRingRotating(false);
+    }, 700);
+
+    // set ring rotation on x axis to craete motion effect
+    setTimeout(() => {
+      setMiddleRingRotX(0.3);
+    }, 1500);
+
+    // rotate it again, set ring noise to 0
+    setTimeout(() => {
+      setMiddleRingRotX(-0.1);
+      setMiddleRingNoise(0);
+    }, 3500);
+
+    // rotate it back AGAIN (holy fuk psx game)
+    setTimeout(() => {
+      setMiddleRingRotX(0.05);
+    }, 4500);
+
+    // reset value, set noise to 0
+    setTimeout(() => {
+      setMiddleRingRotX(0);
+      setMiddleRingRotating(true);
+    }, 4800);
+
+    // enable noise again in about 11-12 secs
+    setTimeout(() => {
+      setMiddleRingNoise(0.03);
+    }, 11600);
+  }, [setMiddleRingNoise, setMiddleRingRotX, setMiddleRingRotating]);
+
+  const moveMiddleRingDown = useCallback(() => {
+    // change noise to 0, make the ring bend downwards
+    setTimeout(() => {
+      setMiddleRingNoise(0);
+      setMiddleRingWobbleStrength(0.2);
+    }, 300);
+
+    // disable rotation of the ring
+    setTimeout(() => {
+      setMiddleRingRotating(false);
+    }, 700);
+
+    // make the ring bend upwards
+    setTimeout(() => {
+      setMiddleRingWobbleStrength(-0.3);
+    }, 1300);
+
+    // reset the ring bend, set the rotation to slightly curve
+    // to replicate a motion effect (since its moving upwards)
+    // and enable rotation again
+    setTimeout(() => {
+      setMiddleRingWobbleStrength(0.0);
+      setMiddleRingRotX(-0.2);
+      setMiddleRingRotating(true);
+    }, 1500);
+
+    // reset the rotation value to 0
+    setTimeout(() => {
+      setMiddleRingRotX(0);
+    }, 2500);
+
+    // enable noise again in about 8~ secs
+    setTimeout(() => {
+      setMiddleRingNoise(0.03);
+    }, 7800);
+  }, [
+    setMiddleRingNoise,
+    setMiddleRingRotX,
+    setMiddleRingRotating,
+    setMiddleRingWobbleStrength,
+  ]);
 
   const setAnimationState = useCallback(
     (key: string) => {
@@ -181,129 +256,58 @@ const InputHandler = () => {
           setLainMoveState(<LainMoveDown />);
 
           setTimeout(() => {
-            moveCamera(1.5);
+            setSitePosY((prev: number) => prev + 1.5);
           }, 1300);
 
-          // make noise appear again
-          setTimeout(() => {
-            setMiddleRingNoise(0.06);
-          }, 800);
-
-          // disable rotation of the ring
-          setTimeout(() => {
-            setMiddleRingRotating(false);
-          }, 700);
-
-          // set ring rotation on x axis to craete motion effect
-          setTimeout(() => {
-            setMiddleRingRotX(0.3);
-          }, 1500);
-
-          // rotate it again, set ring noise to 0
-          setTimeout(() => {
-            setMiddleRingRotX(-0.1);
-            setMiddleRingNoise(0);
-          }, 3500);
-
-          // rotate it back AGAIN (holy fuk psx game)
-          setTimeout(() => {
-            setMiddleRingRotX(0.05);
-          }, 4500);
-
-          // reset value, set noise to 0
-          setTimeout(() => {
-            setMiddleRingRotX(0);
-            setMiddleRingRotating(true);
-          }, 4800);
-
-          // enable noise again in about 11-12 secs
-          setTimeout(() => {
-            setMiddleRingNoise(0.03);
-          }, 11600);
-
+          moveMiddleRingDown();
           break;
         case "left":
           setTimeout(() => {
-            rotateCamera(0.55);
+            setSiteRotY((prev: number) => prev + Math.PI / 4);
           }, 1100);
 
-          setTimeout(() => {
-            setMiddleRingRotZ(0.07);
-          }, 2300);
-
-          setTimeout(() => {
-            setMiddleRingRotZ(-0.03);
-          }, 3500);
-
-          setTimeout(() => {
-            setMiddleRingRotZ(0);
-          }, 4500);
-
           setLainMoveState(<LainMoveLeft />);
+
+          rotateMiddleRing("left");
           break;
         case "up":
           setLainMoveState(<LainMoveUp />);
 
           setTimeout(() => {
-            moveCamera(-1.5);
-          }, 1300);
+            setSitePosY((prev: number) => prev - 1.5);
+            // the middle ring stays in place, therefore we animate it
+            // in the same direction as the site, creating that illusion.
 
-          // change noise to 0, make the ring bend downwards
-          setTimeout(() => {
-            setMiddleRingNoise(0);
-            setMiddleRingWobbleStrength(0.2);
-          }, 300);
-
-          // disable rotation of the ring
-          setTimeout(() => {
-            setMiddleRingRotating(false);
-          }, 700);
-
-          // make the ring bend upwards
-          setTimeout(() => {
-            setMiddleRingWobbleStrength(-0.3);
-          }, 1300);
-
-          // reset the ring bend, set the rotation to slightly curve
-          // to replicate a motion effect (since its moving upwards)
-          // and enable rotation again
-          setTimeout(() => {
-            setMiddleRingWobbleStrength(0.0);
-            setMiddleRingRotX(-0.2);
-            setMiddleRingRotating(true);
-          }, 1500);
-
-          // reset the rotation value to 0
-          setTimeout(() => {
-            setMiddleRingRotX(0);
-          }, 2500);
-
-          // enable noise again in about 8~ secs
-          setTimeout(() => {
-            setMiddleRingNoise(0.03);
-          }, 7800);
-
-          break;
-        case "right":
-          setTimeout(() => {
-            rotateCamera(-0.55);
+            // set the anim duration value to match that of the site's
+            setMiddleRingAnimDuration(1500);
+            // animate it after
+            setMiddleRingPosY((prev: number) => prev - 1.5);
           }, 1100);
 
+          // reset anim duration back to default
           setTimeout(() => {
-            setMiddleRingRotZ(-0.07);
+            setMiddleRingAnimDuration(500);
           }, 2300);
 
           setTimeout(() => {
-            setMiddleRingRotZ(0.03);
-          }, 3500);
+            setMiddleRingPosY((prev: number) => prev + 1.7);
+          }, 2400);
 
           setTimeout(() => {
-            setMiddleRingRotZ(0);
-          }, 4500);
+            setMiddleRingPosY((prev: number) => prev - 0.2);
+          }, 2400);
+
+          moveMiddleRingUp();
+          break;
+        case "right":
+          setTimeout(() => {
+            setSiteRotY((prev: number) => prev - Math.PI / 4);
+          }, 1100);
 
           setLainMoveState(<LainMoveRight />);
-          break;
 
+          rotateMiddleRing("right");
+          break;
         default:
           break;
       }
@@ -321,23 +325,19 @@ const InputHandler = () => {
       }, (lain_animations as LainAnimations)[key]["duration"]);
     },
     [
-      moveCamera,
-      rotateCamera,
       setLainMoveState,
       setLainMoving,
-      setMiddleRingNoise,
-      setMiddleRingRotX,
-      setMiddleRingRotZ,
-      setMiddleRingRotating,
-      setMiddleRingWobbleStrength,
+      moveMiddleRingUp,
+      moveMiddleRingDown,
+      rotateMiddleRing,
+      setMiddleRingAnimDuration,
+      setMiddleRingPosY,
+      setSitePosY,
+      setSiteRotY,
     ]
   );
 
-  const updateHUD = useCallback(() => {
-    setHudActive((prev: number) => Number(!prev));
-  }, [setHudActive]);
-
-  const moveDispatcher = useCallback(
+  const dispatchAction = useCallback(
     (move: string, key: string) => {
       switch (move[0]) {
         // do nothing / cant move
@@ -348,20 +348,25 @@ const InputHandler = () => {
         // will be chosen.
         case "+":
           if (!spriteUpdateCooldown) {
-            // hide the hud
-            updateHUD();
+            // get rid of the +, since its useless after code execution is already here
+            const filteredMove = move.substr(1);
+
+            toggleHud();
             // disable glow on current sprite
             setCurrentBlueOrb("");
             setSpriteUpdateCooldown(true);
             setAnimationState(key);
             setTimeout(() => {
-              updateHUD();
+              toggleHud();
               // skip the "+"
-              setCurrentBlueOrb(move.substr(1));
+              setCurrentBlueOrb(filteredMove);
               setCurrentHUDElement(
-                (blue_orb_huds as BlueOrbHuds)[move.substr(3)]
+                (blue_orb_huds as BlueOrbHuds)[filteredMove.substr(2)]
               );
             }, (lain_animations as LainAnimations)[key]["duration"] + 200);
+
+            animateBigText(filteredMove);
+
             setTimeout(() => {
               setSpriteUpdateCooldown(false);
             }, 1000);
@@ -372,56 +377,24 @@ const InputHandler = () => {
           if (!spriteUpdateCooldown) {
             setCurrentBlueOrb(move);
             setSpriteUpdateCooldown(true);
-            // toggle hud to go back in
-            updateHUD();
+            toggleHud();
 
-            // make current hud big text shrink
-            setBigLetterOffSetXCoeff(-1);
-
-            setTimeout(() => {
-              // animate it to new pos x/y
-              setBigLetterPosX(
-                (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][0]
-              );
-              setBigLetterPosY(
-                (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][1]
-              );
-            }, 400);
-
-            setTimeout(() => {
-              // change hud while its hidden
-              setCurrentHUDElement(
-                (blue_orb_huds as BlueOrbHuds)[move.substr(2)]
-              );
-              // toggle it again to be shown in the new position
-              updateHUD();
-            }, 500);
-
+            animateBigText(move);
             setTimeout(() => {
               setSpriteUpdateCooldown(false);
-              setBigHudText((site_a as SiteData)[move]["node_name"]);
             }, 1000);
-
-
-            setTimeout(() => {
-              setBigLetterOffSetXCoeff(0);
-            }, 1200);
           }
       }
     },
     [
       setAnimationState,
-      updateHUD,
+      toggleHud,
       spriteUpdateCooldown,
       setCurrentHUDElement,
       setCurrentBlueOrb,
+      animateBigText,
     ]
   );
-
-  const setBigLetterOffSetXCoeff = useSetRecoilState(bigLetterOffsetXCoeffAtom);
-  const setBigLetterPosY = useSetRecoilState(bigLetterPosYAtom);
-  const setBigLetterPosX = useSetRecoilState(bigLetterPosXAtom);
-  const setBigHudText = useSetRecoilState(bigHudTextAtom);
 
   const handleKeyPress = useCallback(
     (event) => {
@@ -432,10 +405,10 @@ const InputHandler = () => {
       if (key && !lainMoving) {
         const move = getMove(currentBlueOrb, key);
 
-        moveDispatcher(move, key);
+        dispatchAction(move, key);
       }
     },
-    [lainMoving, currentBlueOrb, moveDispatcher, rotateCamera]
+    [lainMoving, currentBlueOrb, dispatchAction]
   );
 
   useEffect(() => {

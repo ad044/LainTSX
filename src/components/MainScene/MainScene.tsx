@@ -58,7 +58,6 @@ const MainScene = () => {
             position-z={3}
             position-y={cameraState.camPosY}
             rotation-y={cameraState.camRotY}
-            aspect={0.1}
         >
             <Suspense fallback={null}>
                 <MainSceneIntro />
