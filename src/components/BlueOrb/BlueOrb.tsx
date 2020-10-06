@@ -1,6 +1,6 @@
 import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
-import { a, useSpring } from "@react-spring/three";
+import { a } from "@react-spring/three";
 import * as THREE from "three";
 import Cou from "../../static/sprites/Cou.png";
 import CouActive from "../../static/sprites/Cou_active.png";
@@ -17,7 +17,6 @@ import LdaActive from "../../static/sprites/Lda_active.png";
 import MULTI from "../../static/sprites/MULTI.png";
 import MULTIActive from "../../static/sprites/MULTI_active.png";
 import level_y_values from "../../resources/level_y_values.json";
-import { useRecoilValue } from "recoil";
 
 type BlueOrbContructorProps = {
   sprite: string;
@@ -116,7 +115,6 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
         (Date.now() % (Math.PI * 2000)) / 1000.0;
     }
   });
-
 
   return (
     <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
