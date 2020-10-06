@@ -5,11 +5,9 @@ import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import {
   middleRingAnimDurationAtom,
-  middleRingNoiseAtom,
-  middleRingPosYAtom,
+  middleRingNoiseAtom, middleRingPosYAtom,
   middleRingRotatingAtom,
   middleRingRotXAtom,
-  middleRingRotYAtom,
   middleRingRotZAtom,
   middleRingWobbleStrengthAtom,
 } from "./MiddleRingAtom";
@@ -24,7 +22,6 @@ const MiddleRing = () => {
   const middleRingPosY = useRecoilValue(middleRingPosYAtom);
   const middleRingRotX = useRecoilValue(middleRingRotXAtom);
   const middleRingRotZ = useRecoilValue(middleRingRotZAtom);
-  const middleRingRotY = useRecoilValue(middleRingRotYAtom);
 
   const middleRingAnimDuration = useRecoilValue(middleRingAnimDurationAtom);
 
@@ -42,7 +39,6 @@ const MiddleRing = () => {
   const middleRingRotState = useSpring({
     middleRingRotX: middleRingRotX,
     middleRingRotZ: middleRingRotZ,
-    middleRingRotY: middleRingRotY,
     config: { duration: 1000 },
   });
 
@@ -218,7 +214,6 @@ const MiddleRing = () => {
   return (
     <a.group
       rotation-z={middleRingRotState.middleRingRotZ}
-      rotation-y={middleRingRotState.middleRingRotY}
     >
       <a.mesh
         position={[0, 0, 0.3]}

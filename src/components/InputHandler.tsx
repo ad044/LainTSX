@@ -24,10 +24,10 @@ import { BlueOrbHuds } from "./HUD/HUDElement";
 import {
   middleRingAnimDurationAtom,
   middleRingNoiseAtom,
-  middleRingPosYAtom,
   middleRingRotatingAtom,
   middleRingRotXAtom,
   middleRingRotZAtom,
+  middleRingPosYAtom,
   middleRingWobbleStrengthAtom,
 } from "./MiddleRing/MiddleRingAtom";
 import { bigLetterOffsetXCoeffAtom } from "./TextRenderer/TextRendererAtom";
@@ -168,7 +168,7 @@ const InputHandler = () => {
     [setMiddleRingRotZ]
   );
 
-  const moveMiddleRingUp = useCallback(() => {
+  const moveMiddleRingDown = useCallback(() => {
     // make noise appear again
     setTimeout(() => {
       setMiddleRingNoise(0.06);
@@ -207,7 +207,7 @@ const InputHandler = () => {
     }, 11600);
   }, [setMiddleRingNoise, setMiddleRingRotX, setMiddleRingRotating]);
 
-  const moveMiddleRingDown = useCallback(() => {
+  const moveMiddleRingUp = useCallback(() => {
     // change noise to 0, make the ring bend downwards
     setTimeout(() => {
       setMiddleRingNoise(0);
@@ -282,7 +282,7 @@ const InputHandler = () => {
             setMiddleRingAnimDuration(1500);
             // animate it after
             setMiddleRingPosY((prev: number) => prev - 1.5);
-          }, 1100);
+          }, 1300);
 
           // reset anim duration back to default
           setTimeout(() => {

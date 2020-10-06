@@ -6,8 +6,6 @@ import {
   introStarfieldVisibilityAtom,
   mainStarfieldBoostValAtom,
   mainStarfieldVisibilityAtom,
-  starfieldPosYAtom,
-  starfieldRotYAtom,
 } from "./StarfieldAtom";
 import { useRecoilValue } from "recoil";
 
@@ -37,17 +35,12 @@ type IntroStarfieldObjectData = {
 const Starfield = memo(() => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
 
-  const starfieldPosY = useRecoilValue(starfieldPosYAtom);
-  const starfieldRotY = useRecoilValue(starfieldRotYAtom);
-
   const introStarfieldVisible = useRecoilValue(introStarfieldVisibilityAtom);
   const mainStarfieldVisible = useRecoilValue(mainStarfieldVisibilityAtom);
 
   const mainStarfieldBoostVal = useRecoilValue(mainStarfieldBoostValAtom);
 
   const starfieldState = useSpring({
-    starfieldPosY: starfieldPosY,
-    starfieldRotY: starfieldRotY,
     starfieldBoostVal: mainStarfieldBoostVal,
     config: { duration: 1200 },
   });
@@ -310,8 +303,7 @@ const Starfield = memo(() => {
       <a.group
         position={[-0.7, 0, -5]}
         rotation={[0, 0, 0]}
-        position-y={starfieldState.starfieldPosY}
-        rotation-y={starfieldState.starfieldRotY}
+        position-y={-1}
         visible={mainStarfieldVisible}
       >
         {mainStarfieldObjects.map((obj: StarfieldObjectData) =>
