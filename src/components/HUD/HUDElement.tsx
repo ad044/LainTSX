@@ -9,7 +9,11 @@ import boringHud from "../../static/sprites/long_hud_boring.png";
 import boringHudMirrored from "../../static/sprites/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
-import { bigHudTextAtom, hudActiveAtom } from "./HUDElementAtom";
+import {
+  bigHudTextAtom,
+  hudActiveAtom,
+  mediumHudTextAtom,
+} from "./HUDElementAtom";
 import { currentHUDAtom } from "./HUDElementAtom";
 import HUDText from "./HUDText";
 
@@ -24,11 +28,17 @@ type HudShapeData = {
   initial_position: number[];
 };
 
+type MediumTextData = {
+  position: number[];
+  initial_position: number[];
+};
+
 export type BlueOrbHudData = {
   long: HudShapeData;
   boring: HudShapeData;
   big: HudShapeData;
   big_text: number[];
+  medium_text: MediumTextData;
 };
 
 export type BlueOrbHuds = {
@@ -40,9 +50,10 @@ type LevelYValues = {
 };
 
 const HUDElement = memo((props: HUDElementProps) => {
-  const currentBlueOrbHUD = useRecoilValue(currentHUDAtom);
+  const currentHud = useRecoilValue(currentHUDAtom);
 
   const currentBigHudText = useRecoilValue(bigHudTextAtom);
+  const currentMediumHudText = useRecoilValue(mediumHudTextAtom);
 
   const hudActive = useRecoilValue(hudActiveAtom);
 
@@ -63,25 +74,22 @@ const HUDElement = memo((props: HUDElementProps) => {
 
   const bigHUDPosX = bigHUDPositionX.to(
     [0, 1],
-    [
-      currentBlueOrbHUD["big"]["initial_position"][0],
-      currentBlueOrbHUD["big"]["position"][0],
-    ]
+    [currentHud["big"]["initial_position"][0], currentHud["big"]["position"][0]]
   );
 
   const boringHUDPosX = boringHUDPositionX.to(
     [0, 1],
     [
-      currentBlueOrbHUD["boring"]["initial_position"][0],
-      currentBlueOrbHUD["boring"]["position"][0],
+      currentHud["boring"]["initial_position"][0],
+      currentHud["boring"]["position"][0],
     ]
   );
 
   const longHUDPosX = longHUDPositionX.to(
     [0, 1],
     [
-      currentBlueOrbHUD["long"]["initial_position"][0],
-      currentBlueOrbHUD["long"]["position"][0],
+      currentHud["long"]["initial_position"][0],
+      currentHud["long"]["position"][0],
     ]
   );
 
@@ -114,60 +122,64 @@ const HUDElement = memo((props: HUDElementProps) => {
 
   const longHudTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentBlueOrbHUD["long"]["type"], "long")!
+    spriteTypeToSprite(currentHud["long"]["type"], "long")!
   );
 
   const longHudBoringTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentBlueOrbHUD["boring"]["type"], "boring")!
+    spriteTypeToSprite(currentHud["boring"]["type"], "boring")!
   );
 
   const bigHudTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentBlueOrbHUD["big"]["type"], "big")!
+    spriteTypeToSprite(currentHud["big"]["type"], "big")!
   );
 
   return (
-    <group visible={props.hudVisibility} renderOrder={1}>
+    <group visible={props.hudVisibility}>
       <a.sprite
         position-x={longHUDPosX}
-        position-y={currentBlueOrbHUD["long"]["position"][1]}
-        position-z={currentBlueOrbHUD["long"]["position"][2]}
-        scale={currentBlueOrbHUD["long"]["scale"] as [number, number, number]}
+        position-y={currentHud["long"]["position"][1]}
+        position-z={currentHud["long"]["position"][2]}
+        scale={currentHud["long"]["scale"] as [number, number, number]}
+        renderOrder={2}
       >
         <spriteMaterial
           attach="material"
           map={longHudTexture}
           transparent={true}
+          depthTest={false}
         />
       </a.sprite>
       <a.sprite
         position-x={boringHUDPosX}
-        position-y={currentBlueOrbHUD!["boring"]["position"][1]}
-        position-z={currentBlueOrbHUD!["boring"]["position"][2]}
-        scale={
-          currentBlueOrbHUD!["boring"]["scale"] as [number, number, number]
-        }
+        position-y={currentHud!["boring"]["position"][1]}
+        position-z={currentHud!["boring"]["position"][2]}
+        scale={currentHud!["boring"]["scale"] as [number, number, number]}
+        renderOrder={2}
       >
         <spriteMaterial
           attach="material"
           map={longHudBoringTexture}
           transparent={true}
+          depthTest={false}
         />
       </a.sprite>
       <a.sprite
         position-x={bigHUDPosX}
-        position-y={currentBlueOrbHUD!["big"]["position"][1]}
-        position-z={currentBlueOrbHUD!["big"]["position"][2]}
-        scale={currentBlueOrbHUD!["big"]["scale"] as [number, number, number]}
+        position-y={currentHud!["big"]["position"][1]}
+        position-z={currentHud!["big"]["position"][2]}
+        scale={currentHud!["big"]["scale"] as [number, number, number]}
+        renderOrder={2}
       >
         <spriteMaterial
           attach="material"
           map={bigHudTexture}
           transparent={true}
+          depthTest={false}
         />
       </a.sprite>
-      <HUDText text={currentBigHudText} />
+      <HUDText bigText={currentBigHudText} mediumText={currentMediumHudText} />
     </group>
   );
 });

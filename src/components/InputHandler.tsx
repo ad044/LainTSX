@@ -13,6 +13,7 @@ import {
   bigLetterPosYAtom,
   currentHUDAtom,
   hudActiveAtom,
+  mediumHudTextAtom,
 } from "./HUD/HUDElementAtom";
 import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
 import lain_animations from "../resources/lain_animations.json";
@@ -32,7 +33,11 @@ import {
 } from "./MiddleRing/MiddleRingAtom";
 import { bigLetterOffsetXCoeffAtom } from "./TextRenderer/TextRendererAtom";
 import { SiteData } from "./Site/Site";
-import { sitePosYAtom, siteRotYAtom } from "./Site/SiteAtom";
+import {
+  isSiteYChangingAtom,
+  sitePosYAtom,
+  siteRotYAtom,
+} from "./Site/SiteAtom";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -96,11 +101,14 @@ const InputHandler = () => {
 
   const setSiteRotY = useSetRecoilState(siteRotYAtom);
   const setSitePosY = useSetRecoilState(sitePosYAtom);
+  const setIsSiteYChanging = useSetRecoilState(isSiteYChangingAtom);
 
   const setBigLetterOffSetXCoeff = useSetRecoilState(bigLetterOffsetXCoeffAtom);
   const setBigLetterPosY = useSetRecoilState(bigLetterPosYAtom);
   const setBigLetterPosX = useSetRecoilState(bigLetterPosXAtom);
   const setBigHudText = useSetRecoilState(bigHudTextAtom);
+
+  const setMediumHudText = useSetRecoilState(mediumHudTextAtom);
 
   // hud toggler (animating hud from left to right)
   const toggleHud = useCallback(() => {
@@ -109,30 +117,69 @@ const InputHandler = () => {
 
   //  ===================================== BIG TEXT ANIMATIONS ================================================
 
-  const animateBigText = useCallback(
-    (move: string) => {
+  const animateBigTextWithMove = useCallback(
+    (targetBlueOrbId: string, moveDirection: string) => {
+      const targetHudId = targetBlueOrbId.substr(2);
+
+      setTimeout(() => {
+        switch (moveDirection) {
+          case "up":
+            setBigLetterPosY((prev: number) => prev - 1.5);
+
+            break;
+          case "down":
+            setBigLetterPosY((prev: number) => prev + 1.5);
+            break;
+          default:
+            break;
+        }
+      }, 1300);
+
+      setTimeout(() => {
+        // make current hud big text shrink
+        setBigLetterOffSetXCoeff(-1);
+      }, 2500);
+
+      setTimeout(() => {
+        setBigLetterPosX(
+          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][0]
+        );
+        setBigLetterPosY(
+          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][1]
+        );
+        setBigHudText((site_a as SiteData)[targetBlueOrbId]["node_name"]);
+      }, 3000);
+
+      setTimeout(() => {
+        setBigLetterOffSetXCoeff(0);
+      }, 3900);
+    },
+    [
+      setBigHudText,
+      setBigLetterOffSetXCoeff,
+      setBigLetterPosX,
+      setBigLetterPosY,
+    ]
+  );
+
+  const animateBigTextStatic = useCallback(
+    (targetBlueOrbId: string, moveDirection: string) => {
+      const targetHudId = targetBlueOrbId.substr(2);
       // make current hud big text shrink
       setBigLetterOffSetXCoeff(-1);
 
       setTimeout(() => {
         // animate it to new pos x/y
         setBigLetterPosX(
-          (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][0]
+          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][0]
         );
         setBigLetterPosY(
-          (blue_orb_huds as BlueOrbHuds)[move.substr(2)]["big_text"][1]
+          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][1]
         );
       }, 400);
 
       setTimeout(() => {
-        // change hud while its hidden
-        setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[move.substr(2)]);
-        // toggle it again to be shown in the new position
-        toggleHud();
-      }, 500);
-
-      setTimeout(() => {
-        setBigHudText((site_a as SiteData)[move]["node_name"]);
+        setBigHudText((site_a as SiteData)[targetBlueOrbId]["node_name"]);
       }, 1000);
 
       setTimeout(() => {
@@ -144,8 +191,6 @@ const InputHandler = () => {
       setBigLetterOffSetXCoeff,
       setBigLetterPosX,
       setBigLetterPosY,
-      setCurrentHUDElement,
-      toggleHud,
     ]
   );
 
@@ -169,6 +214,9 @@ const InputHandler = () => {
   );
 
   const moveMiddleRingDown = useCallback(() => {
+    // set the anim duration value to match that of the site's
+    setMiddleRingAnimDuration(1200);
+
     // make noise appear again
     setTimeout(() => {
       setMiddleRingNoise(0.06);
@@ -179,10 +227,26 @@ const InputHandler = () => {
       setMiddleRingRotating(false);
     }, 700);
 
+    setTimeout(() => {
+      setMiddleRingPosY((prev: number) => prev + 1.5);
+    }, 1300);
+
     // set ring rotation on x axis to craete motion effect
     setTimeout(() => {
       setMiddleRingRotX(0.3);
     }, 1500);
+
+    setTimeout(() => {
+      setMiddleRingAnimDuration(600);
+    }, 2900);
+
+    setTimeout(() => {
+      setMiddleRingPosY((prev: number) => prev - 1.7);
+    }, 3000);
+
+    setTimeout(() => {
+      setMiddleRingPosY((prev: number) => prev + 0.2);
+    }, 3150);
 
     // rotate it again, set ring noise to 0
     setTimeout(() => {
@@ -205,7 +269,13 @@ const InputHandler = () => {
     setTimeout(() => {
       setMiddleRingNoise(0.03);
     }, 11600);
-  }, [setMiddleRingNoise, setMiddleRingRotX, setMiddleRingRotating]);
+  }, [
+    setMiddleRingAnimDuration,
+    setMiddleRingNoise,
+    setMiddleRingPosY,
+    setMiddleRingRotX,
+    setMiddleRingRotating,
+  ]);
 
   const moveMiddleRingUp = useCallback(() => {
     // change noise to 0, make the ring bend downwards
@@ -222,6 +292,13 @@ const InputHandler = () => {
     // make the ring bend upwards
     setTimeout(() => {
       setMiddleRingWobbleStrength(-0.3);
+      // the middle ring stays in place, therefore we animate it
+      // in the same direction as the site, creating that illusion.
+
+      // set the anim duration value to match that of the site's
+      setMiddleRingAnimDuration(1200);
+      // animate it after
+      setMiddleRingPosY((prev: number) => prev - 1.5);
     }, 1300);
 
     // reset the ring bend, set the rotation to slightly curve
@@ -233,17 +310,29 @@ const InputHandler = () => {
       setMiddleRingRotating(true);
     }, 1500);
 
+    // reset anim duration back to default
+    setTimeout(() => {
+      setMiddleRingAnimDuration(600);
+    }, 2300);
+
+    setTimeout(() => {
+      setMiddleRingPosY((prev: number) => prev + 1.7);
+    }, 2400);
+
     // reset the rotation value to 0
     setTimeout(() => {
       setMiddleRingRotX(0);
-    }, 2500);
+      setMiddleRingPosY((prev: number) => prev - 0.2);
+    }, 2650);
 
     // enable noise again in about 8~ secs
     setTimeout(() => {
       setMiddleRingNoise(0.03);
     }, 7800);
   }, [
+    setMiddleRingAnimDuration,
     setMiddleRingNoise,
+    setMiddleRingPosY,
     setMiddleRingRotX,
     setMiddleRingRotating,
     setMiddleRingWobbleStrength,
@@ -275,27 +364,7 @@ const InputHandler = () => {
 
           setTimeout(() => {
             setSitePosY((prev: number) => prev - 1.5);
-            // the middle ring stays in place, therefore we animate it
-            // in the same direction as the site, creating that illusion.
-
-            // set the anim duration value to match that of the site's
-            setMiddleRingAnimDuration(1500);
-            // animate it after
-            setMiddleRingPosY((prev: number) => prev - 1.5);
           }, 1300);
-
-          // reset anim duration back to default
-          setTimeout(() => {
-            setMiddleRingAnimDuration(500);
-          }, 2300);
-
-          setTimeout(() => {
-            setMiddleRingPosY((prev: number) => prev + 1.7);
-          }, 2400);
-
-          setTimeout(() => {
-            setMiddleRingPosY((prev: number) => prev - 0.2);
-          }, 2400);
 
           moveMiddleRingUp();
           break;
@@ -330,16 +399,14 @@ const InputHandler = () => {
       moveMiddleRingUp,
       moveMiddleRingDown,
       rotateMiddleRing,
-      setMiddleRingAnimDuration,
-      setMiddleRingPosY,
       setSitePosY,
       setSiteRotY,
     ]
   );
 
   const dispatchAction = useCallback(
-    (move: string, key: string) => {
-      switch (move[0]) {
+    (targetBlueOrbId: string, moveDirection: string) => {
+      switch (targetBlueOrbId[0]) {
         // do nothing / cant move
         case undefined:
           break;
@@ -348,38 +415,61 @@ const InputHandler = () => {
         // will be chosen.
         case "+":
           if (!spriteUpdateCooldown) {
+            setIsSiteYChanging(true);
             // get rid of the +, since its useless after code execution is already here
-            const filteredMove = move.substr(1);
+            const filteredBlueOrbId = targetBlueOrbId.substr(1);
+            const targetHudId = filteredBlueOrbId.substr(2);
 
             toggleHud();
+
             // disable glow on current sprite
             setCurrentBlueOrb("");
+
             setSpriteUpdateCooldown(true);
-            setAnimationState(key);
+
+            setAnimationState(moveDirection);
+
             setTimeout(() => {
               toggleHud();
               // skip the "+"
-              setCurrentBlueOrb(filteredMove);
-              setCurrentHUDElement(
-                (blue_orb_huds as BlueOrbHuds)[filteredMove.substr(2)]
+              setCurrentBlueOrb(filteredBlueOrbId);
+              setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[targetHudId]);
+              setMediumHudText(
+                (site_a as SiteData)[filteredBlueOrbId]["green_text"]
               );
-            }, (lain_animations as LainAnimations)[key]["duration"] + 200);
+            }, (lain_animations as LainAnimations)[moveDirection]["duration"] + 200);
 
-            animateBigText(filteredMove);
+            animateBigTextWithMove(filteredBlueOrbId, moveDirection);
 
             setTimeout(() => {
               setSpriteUpdateCooldown(false);
             }, 1000);
+
+            setTimeout(() => {
+              setIsSiteYChanging(false);
+            }, 3000);
           }
           break;
         // only change sprite focus
         default:
           if (!spriteUpdateCooldown) {
-            setCurrentBlueOrb(move);
+            const targetHudId = targetBlueOrbId.substr(2);
+
+            setCurrentBlueOrb(targetBlueOrbId);
             setSpriteUpdateCooldown(true);
             toggleHud();
 
-            animateBigText(move);
+            setTimeout(() => {
+              // change hud while its hidden
+              setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[targetHudId]);
+              setMediumHudText(
+                  (site_a as SiteData)[targetBlueOrbId]["green_text"]
+              );
+              // toggle it again to be shown in the new position
+              toggleHud();
+            }, 500);
+
+            animateBigTextStatic(targetBlueOrbId, "none");
             setTimeout(() => {
               setSpriteUpdateCooldown(false);
             }, 1000);
@@ -387,12 +477,14 @@ const InputHandler = () => {
       }
     },
     [
-      setAnimationState,
-      toggleHud,
       spriteUpdateCooldown,
-      setCurrentHUDElement,
+      setIsSiteYChanging,
+      toggleHud,
       setCurrentBlueOrb,
-      animateBigText,
+      setAnimationState,
+      animateBigTextWithMove,
+      setCurrentHUDElement,
+      animateBigTextStatic,
     ]
   );
 

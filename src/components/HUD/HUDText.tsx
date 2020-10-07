@@ -1,43 +1,110 @@
 import React from "react";
-import Letter from "../TextRenderer/TextRenderer";
+import { BigLetter, MediumLetter } from "../TextRenderer/TextRenderer";
 import { a, useSpring, useTrail } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
-import { bigLetterPosXAtom, bigLetterPosYAtom } from "./HUDElementAtom";
+import {
+  bigLetterPosXAtom,
+  bigLetterPosYAtom, currentHUDAtom,
+  hudActiveAtom,
+} from "./HUDElementAtom";
+import { isSiteYChangingAtom } from "../Site/SiteAtom";
 
 type HUDTextProps = {
-  text: string;
+  bigText: string;
+  mediumText: string;
 };
 
 const HUDText = (props: HUDTextProps) => {
   const bigLetterPosX = useRecoilValue(bigLetterPosXAtom);
   const bigLetterPosY = useRecoilValue(bigLetterPosYAtom);
 
-  const textArr = props.text.split("");
+  const currentHud = useRecoilValue(currentHUDAtom);
 
-  const letterTrail = useTrail(textArr.length, {
+  const isSiteChangingY = useRecoilValue(isSiteYChangingAtom);
+
+  const hudActive = useRecoilValue(hudActiveAtom);
+
+  const { mediumTextHUDPositionX } = useSpring({
+    mediumTextHUDPositionX: hudActive,
+    config: { duration: 500 },
+  });
+
+  const mediumHudPosX = mediumTextHUDPositionX.to(
+    [0, 1],
+    [
+      currentHud["medium_text"]["initial_position"][0],
+      currentHud["medium_text"]["position"][0],
+    ]
+  );
+
+  const bigTextArr = props.bigText.split("");
+  const mediumTextArr = props.mediumText.split("");
+
+  // this one is used for letter animations
+  const letterTrail = useTrail(bigTextArr.length, {
     bigLetterPosX: bigLetterPosX,
     bigLetterPosY: bigLetterPosY,
-    config: { duration: 400 },
+    config: { duration: 280 },
+  });
+
+  // this one is used when the site moves up/down and
+  // the text has to stay stationary
+  const letterStaticState = useSpring({
+    bigLetterPosX: bigLetterPosX,
+    bigLetterPosY: bigLetterPosY,
+    config: { duration: 1200 },
   });
 
   return (
     <>
-      {letterTrail.map(({ bigLetterPosX, bigLetterPosY }, idx) => (
-        <a.group
-          key={idx}
-          position-x={bigLetterPosX}
-          position-y={bigLetterPosY}
-          position-z={-8.7}
-          scale={[0.04, 0.06, 0.04]}
-        >
-          <Letter
+      {isSiteChangingY
+        ? bigTextArr.map((letter, idx) => (
+            <a.group
+              key={idx}
+              position-x={letterStaticState.bigLetterPosX}
+              position-y={letterStaticState.bigLetterPosY}
+              position-z={-8.7}
+              scale={[0.04, 0.06, 0.04]}
+            >
+              <BigLetter
+                color={"yellow"}
+                letter={bigTextArr[idx]}
+                kerningOffset={idx}
+                key={idx}
+              />
+            </a.group>
+          ))
+        : letterTrail.map(({ bigLetterPosX, bigLetterPosY }, idx) => (
+            <a.group
+              key={idx}
+              position-x={bigLetterPosX}
+              position-y={bigLetterPosY}
+              position-z={-8.7}
+              scale={[0.04, 0.06, 0.04]}
+            >
+              <BigLetter
+                color={"yellow"}
+                letter={bigTextArr[idx]}
+                kerningOffset={idx}
+                key={idx}
+              />
+            </a.group>
+          ))}
+      <a.group
+        position-x={mediumHudPosX}
+        position-y={currentHud["medium_text"]["position"][1]}
+        position-z={-8.7}
+        scale={[0.02, 0.035, 0.02]}
+      >
+        {mediumTextArr.map((letter, idx) => (
+          <MediumLetter
             color={"yellow"}
-            letter={textArr[idx]}
+            letter={letter}
             kerningOffset={idx}
             key={idx}
           />
-        </a.group>
-      ))}
+        ))}
+      </a.group>
     </>
   );
 };

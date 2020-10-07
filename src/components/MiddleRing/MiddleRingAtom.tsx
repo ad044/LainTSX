@@ -32,5 +32,5 @@ export const middleRingRotZAtom = atom({
 
 export const middleRingAnimDurationAtom = atom({
   key: "middleRingAnimDurationAtom",
-  default: 500,
+  default: 600,
 });
