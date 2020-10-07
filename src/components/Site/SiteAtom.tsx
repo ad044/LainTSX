@@ -9,3 +9,8 @@ export const sitePosYAtom = atom({
   key: "sitePosYAtom",
   default: 0,
 });
+
+export const isSiteYChangingAtom = atom({
+  key: "isSiteYChangingAtom",
+  default: false,
+});

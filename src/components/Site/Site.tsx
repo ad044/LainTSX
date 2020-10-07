@@ -40,6 +40,7 @@ type BlueOrbData = {
   unlocked_by: string;
   upgrade_requirement: string;
   words: Words;
+  green_text: string;
 };
 
 type BlueOrbPositionData = {

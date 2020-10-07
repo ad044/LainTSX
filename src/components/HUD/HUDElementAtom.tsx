@@ -30,4 +30,19 @@ export const bigLetterPosXAtom = atom({
 export const bigHudTextAtom = atom({
   key: "bigHudTextAtom",
   default: "Tda031",
-})
+});
+
+export const mediumHudTextAtom = atom({
+  key: "mediumHudTextAtom",
+  default: "TOUKO's DIARY",
+});
+
+export const mediumHudTextPosYAtom = atom({
+  key: "mediumHudTextPosYAtom",
+  default: 0.16,
+});
+
+export const mediumHudTextPosXAtom = atom({
+  key: "mediumHudTextPosXAtom",
+  default: 0.18,
+});
