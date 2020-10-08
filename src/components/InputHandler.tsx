@@ -463,7 +463,7 @@ const InputHandler = () => {
               // change hud while its hidden
               setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[targetHudId]);
               setMediumHudText(
-                  (site_a as SiteData)[targetBlueOrbId]["green_text"]
+                (site_a as SiteData)[targetBlueOrbId]["green_text"]
               );
               // toggle it again to be shown in the new position
               toggleHud();
@@ -477,6 +477,7 @@ const InputHandler = () => {
       }
     },
     [
+      setMediumHudText,
       spriteUpdateCooldown,
       setIsSiteYChanging,
       toggleHud,
