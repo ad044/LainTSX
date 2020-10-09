@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useLoader } from "react-three-fiber";
+import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../static/sprites/big_hud.png";
 import bigHudMirrored from "../../static/sprites/big_hud_mirrored.png";
@@ -57,40 +57,26 @@ const HUDElement = memo((props: HUDElementProps) => {
 
   const hudActive = useRecoilValue(hudActiveAtom);
 
-  const { bigHUDPositionX } = useSpring({
+  const hudElementState = useSpring({
     bigHUDPositionX: hudActive,
-    config: { duration: 500 },
-  });
-
-  const { longHUDPositionX } = useSpring({
     longHUDPositionX: hudActive,
-    config: { duration: 500 },
-  });
-
-  const { boringHUDPositionX } = useSpring({
     boringHUDPositionX: hudActive,
-    config: { duration: 500 },
+    config: { duration: 500, friction: 0 },
   });
 
-  const bigHUDPosX = bigHUDPositionX.to(
+  const bigHUDPosX = hudElementState.bigHUDPositionX.to(
     [0, 1],
-    [currentHud["big"]["initial_position"][0], currentHud["big"]["position"][0]]
+    [currentHud.big.initial_position[0], currentHud.big.position[0]]
   );
 
-  const boringHUDPosX = boringHUDPositionX.to(
+  const boringHUDPosX = hudElementState.boringHUDPositionX.to(
     [0, 1],
-    [
-      currentHud["boring"]["initial_position"][0],
-      currentHud["boring"]["position"][0],
-    ]
+    [currentHud.boring.initial_position[0], currentHud.boring.position[0]]
   );
 
-  const longHUDPosX = longHUDPositionX.to(
+  const longHUDPosX = hudElementState.longHUDPositionX.to(
     [0, 1],
-    [
-      currentHud["long"]["initial_position"][0],
-      currentHud["long"]["position"][0],
-    ]
+    [currentHud.long.initial_position[0], currentHud.long.position[0]]
   );
 
   // these hud elements come in all shapes and forms, some of them are mirrored, rotated
@@ -122,26 +108,26 @@ const HUDElement = memo((props: HUDElementProps) => {
 
   const longHudTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentHud["long"]["type"], "long")!
+    spriteTypeToSprite(currentHud.long.type, "long")!
   );
 
   const longHudBoringTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentHud["boring"]["type"], "boring")!
+    spriteTypeToSprite(currentHud.boring.type, "boring")!
   );
 
   const bigHudTexture = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentHud["big"]["type"], "big")!
+    spriteTypeToSprite(currentHud.big.type, "big")!
   );
 
   return (
     <group visible={props.hudVisibility}>
       <a.sprite
         position-x={longHUDPosX}
-        position-y={currentHud["long"]["position"][1]}
-        position-z={currentHud["long"]["position"][2]}
-        scale={currentHud["long"]["scale"] as [number, number, number]}
+        position-y={currentHud!.long.position[1]}
+        position-z={currentHud!.long.position[2]}
+        scale={currentHud.long.scale as [number, number, number]}
         renderOrder={2}
       >
         <spriteMaterial
@@ -153,9 +139,9 @@ const HUDElement = memo((props: HUDElementProps) => {
       </a.sprite>
       <a.sprite
         position-x={boringHUDPosX}
-        position-y={currentHud!["boring"]["position"][1]}
-        position-z={currentHud!["boring"]["position"][2]}
-        scale={currentHud!["boring"]["scale"] as [number, number, number]}
+        position-y={currentHud!.boring.position[1]}
+        position-z={currentHud!.boring.position[2]}
+        scale={currentHud!.boring.scale as [number, number, number]}
         renderOrder={2}
       >
         <spriteMaterial
@@ -167,9 +153,9 @@ const HUDElement = memo((props: HUDElementProps) => {
       </a.sprite>
       <a.sprite
         position-x={bigHUDPosX}
-        position-y={currentHud!["big"]["position"][1]}
-        position-z={currentHud!["big"]["position"][2]}
-        scale={currentHud!["big"]["scale"] as [number, number, number]}
+        position-y={currentHud!.big.position[1]}
+        position-z={currentHud!.big.position[2]}
+        scale={currentHud!.big.scale as [number, number, number]}
         renderOrder={2}
       >
         <spriteMaterial
