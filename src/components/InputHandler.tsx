@@ -406,7 +406,7 @@ const InputHandler = () => {
     ]
   );
 
-  const moveAndChangeSpriteFocus = useCallback(
+  const moveAndChangeBlueOrbFocus = useCallback(
     (
       targetBlueOrbId: string,
       targetBlueOrbHudData: BlueOrbHudData,
@@ -457,7 +457,7 @@ const InputHandler = () => {
     ]
   );
 
-  const changeSpriteFocus = useCallback(
+  const changeBlueOrbFocus = useCallback(
     (
       targetBlueOrbId: string,
       targetBlueOrbHudData: BlueOrbHudData,
@@ -513,7 +513,7 @@ const InputHandler = () => {
           site_a[targetBlueOrbIdFiltered as keyof typeof site_a].green_text;
 
         if (targetBlueOrbIdUnfiltered[0] === "+") {
-          moveAndChangeSpriteFocus(
+          moveAndChangeBlueOrbFocus(
             targetBlueOrbIdFiltered,
             targetBlueOrbHudData,
             targetBlueOrbGreenText,
@@ -521,7 +521,7 @@ const InputHandler = () => {
             targetBlueOrbHudId
           );
         } else {
-          changeSpriteFocus(
+          changeBlueOrbFocus(
             targetBlueOrbIdFiltered,
             targetBlueOrbHudData,
             targetBlueOrbGreenText,
@@ -534,8 +534,8 @@ const InputHandler = () => {
       lainMoving,
       spriteUpdateCooldown,
       currentBlueOrb,
-      moveAndChangeSpriteFocus,
-      changeSpriteFocus,
+      moveAndChangeBlueOrbFocus,
+      changeBlueOrbFocus,
     ]
   );
 
