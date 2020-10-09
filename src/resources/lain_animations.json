@@ -1,22 +1,22 @@
 {
   "intro": {
     "frame_count": 50,
-    "duration": 3944.033
+    "duration": 2144.033
   },
   "up": {
     "frame_count": 36,
-    "duration": 3703.704
+    "duration": 3903.704
   },
   "down": {
     "frame_count": 36,
-    "duration": 3703.704
+    "duration": 3903.704
   },
   "left": {
     "frame_count": 47,
-    "duration": 3703.704
+    "duration": 3903.704
   },
   "right": {
     "frame_count": 47,
-    "duration": 3703.704
+    "duration": 3903.704
   }
 }

@@ -14,17 +14,17 @@ export const hudVisibilityAtom = atom({
 
 export const currentHUDAtom = atom({
   key: "currentHUDAtom",
-  default: (blue_orb_huds as BlueOrbHuds)["22"],
+  default: (blue_orb_huds as BlueOrbHuds)["fg_hud_1"],
 });
 
 export const bigLetterPosYAtom = atom({
   key: "bigLetterPosYAtom",
-  default: (blue_orb_huds as BlueOrbHuds)["22"]["big_text"][1],
+  default: (blue_orb_huds as BlueOrbHuds)["fg_hud_1"]["big_text"][1],
 });
 
 export const bigLetterPosXAtom = atom({
   key: "bigLetterPosXAtom",
-  default: (blue_orb_huds as BlueOrbHuds)["22"]["big_text"][0],
+  default: (blue_orb_huds as BlueOrbHuds)["fg_hud_1"]["big_text"][0],
 });
 
 export const bigHudTextAtom = atom({

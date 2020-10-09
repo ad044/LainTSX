@@ -21,7 +21,7 @@ import blue_orb_huds from "../resources/blue_orb_huds.json";
 import blue_orb_directions from "../resources/blue_orb_directions.json";
 import site_a from "../resources/site_a.json";
 import { lainMoveStateAtom, lainMovingAtom } from "./Lain/LainAtom";
-import { BlueOrbHuds } from "./HUD/HUDElement";
+import { BlueOrbHudData, BlueOrbHuds } from "./HUD/HUDElement";
 import {
   middleRingAnimDurationAtom,
   middleRingNoiseAtom,
@@ -43,12 +43,13 @@ type KeyCodeAssociations = {
   [keyCode: number]: string;
 };
 
-type SpriteDirectionData = {
-  [direction: string]: string;
+// any temporarily
+type BlueOrbDirectionData = {
+  [direction: string]: any;
 };
 
-type SpriteDirections = {
-  [sprite_id: string]: SpriteDirectionData;
+type BlueOrbDirections = {
+  [sprite_id: string]: BlueOrbDirectionData;
 };
 
 type LainAnimationData = {
@@ -60,8 +61,12 @@ type LainAnimations = {
 };
 
 // helpers
-const getMove = (currentLoc: string, key: string): string => {
-  return (blue_orb_directions as SpriteDirections)[currentLoc][key];
+const getTargetFrom = (
+  currentBlueOrb: string,
+  direction: string
+): { id: string; hud: string } => {
+  const key = `${currentBlueOrb}_${direction}`;
+  return blue_orb_directions[key as keyof typeof blue_orb_directions];
 };
 
 const getKeyCodeAssociation = (keyCode: number): string => {
@@ -118,9 +123,7 @@ const InputHandler = () => {
   //  ===================================== BIG TEXT ANIMATIONS ================================================
 
   const animateBigTextWithMove = useCallback(
-    (targetBlueOrbId: string, moveDirection: string) => {
-      const targetHudId = targetBlueOrbId.substr(2);
-
+    (targetBlueOrbId: string, targetHudId: string, moveDirection: string) => {
       setTimeout(() => {
         switch (moveDirection) {
           case "up":
@@ -142,12 +145,12 @@ const InputHandler = () => {
 
       setTimeout(() => {
         setBigLetterPosX(
-          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][0]
+          blue_orb_huds[targetHudId as keyof typeof blue_orb_huds].big_text[0]
         );
         setBigLetterPosY(
-          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][1]
+          blue_orb_huds[targetHudId as keyof typeof blue_orb_huds].big_text[1]
         );
-        setBigHudText((site_a as SiteData)[targetBlueOrbId]["node_name"]);
+        setBigHudText((site_a as SiteData)[targetBlueOrbId].node_name);
       }, 3000);
 
       setTimeout(() => {
@@ -163,23 +166,22 @@ const InputHandler = () => {
   );
 
   const animateBigTextStatic = useCallback(
-    (targetBlueOrbId: string, moveDirection: string) => {
-      const targetHudId = targetBlueOrbId.substr(2);
+    (targetBlueOrbId: string, targetHudId: string) => {
       // make current hud big text shrink
       setBigLetterOffSetXCoeff(-1);
 
       setTimeout(() => {
         // animate it to new pos x/y
         setBigLetterPosX(
-          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][0]
+          blue_orb_huds[targetHudId as keyof typeof blue_orb_huds].big_text[0]
         );
         setBigLetterPosY(
-          (blue_orb_huds as BlueOrbHuds)[targetHudId]["big_text"][1]
+          blue_orb_huds[targetHudId as keyof typeof blue_orb_huds].big_text[1]
         );
       }, 400);
 
       setTimeout(() => {
-        setBigHudText((site_a as SiteData)[targetBlueOrbId]["node_name"]);
+        setBigHudText(site_a[targetBlueOrbId as keyof typeof site_a].node_name);
       }, 1000);
 
       setTimeout(() => {
@@ -351,11 +353,11 @@ const InputHandler = () => {
           moveMiddleRingDown();
           break;
         case "left":
+          setLainMoveState(<LainMoveLeft />);
+
           setTimeout(() => {
             setSiteRotY((prev: number) => prev + Math.PI / 4);
           }, 1100);
-
-          setLainMoveState(<LainMoveLeft />);
 
           rotateMiddleRing("left");
           break;
@@ -369,11 +371,11 @@ const InputHandler = () => {
           moveMiddleRingUp();
           break;
         case "right":
+          setLainMoveState(<LainMoveRight />);
+
           setTimeout(() => {
             setSiteRotY((prev: number) => prev - Math.PI / 4);
           }, 1100);
-
-          setLainMoveState(<LainMoveRight />);
 
           rotateMiddleRing("right");
           break;
@@ -391,7 +393,7 @@ const InputHandler = () => {
         setTimeout(() => {
           setLainMoving(false);
         }, 300);
-      }, (lain_animations as LainAnimations)[key]["duration"]);
+      }, lain_animations[key as keyof typeof lain_animations].duration);
     },
     [
       setLainMoveState,
@@ -404,88 +406,86 @@ const InputHandler = () => {
     ]
   );
 
-  const dispatchAction = useCallback(
-    (targetBlueOrbId: string, moveDirection: string) => {
-      switch (targetBlueOrbId[0]) {
-        // do nothing / cant move
-        case undefined:
-          break;
-        // "+" in the json denotes that the sprite chosen by getMove is not currently on screen,
-        // therefore lain should first do a move (up/down/left/right) and then that sprite
-        // will be chosen.
-        case "+":
-          if (!spriteUpdateCooldown) {
-            setIsSiteYChanging(true);
-            // get rid of the +, since its useless after code execution is already here
-            const filteredBlueOrbId = targetBlueOrbId.substr(1);
-            const targetHudId = filteredBlueOrbId.substr(2);
+  const moveAndChangeSpriteFocus = useCallback(
+    (
+      targetBlueOrbId: string,
+      targetBlueOrbHudData: BlueOrbHudData,
+      targetBlueOrbGreenText: string,
+      moveDirection: string,
+      targetBlueOrbHudId: string
+    ) => {
+      setIsSiteYChanging(true);
+      toggleHud();
 
-            toggleHud();
+      // disable glow on current sprite
+      setCurrentBlueOrb("");
 
-            // disable glow on current sprite
-            setCurrentBlueOrb("");
+      setSpriteUpdateCooldown(true);
 
-            setSpriteUpdateCooldown(true);
+      setAnimationState(moveDirection);
 
-            setAnimationState(moveDirection);
+      setTimeout(() => {
+        toggleHud();
+        // skip the "+"
+        setCurrentBlueOrb(targetBlueOrbId);
+        setCurrentHUDElement(targetBlueOrbHudData);
+        setMediumHudText(targetBlueOrbGreenText);
+      }, lain_animations[moveDirection as keyof typeof lain_animations].duration);
 
-            setTimeout(() => {
-              toggleHud();
-              // skip the "+"
-              setCurrentBlueOrb(filteredBlueOrbId);
-              setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[targetHudId]);
-              setMediumHudText(
-                (site_a as SiteData)[filteredBlueOrbId]["green_text"]
-              );
-            }, (lain_animations as LainAnimations)[moveDirection]["duration"] + 200);
+      animateBigTextWithMove(
+        targetBlueOrbId,
+        targetBlueOrbHudId,
+        moveDirection
+      );
 
-            animateBigTextWithMove(filteredBlueOrbId, moveDirection);
+      setTimeout(() => {
+        setSpriteUpdateCooldown(false);
+      }, 1000);
 
-            setTimeout(() => {
-              setSpriteUpdateCooldown(false);
-            }, 1000);
-
-            setTimeout(() => {
-              setIsSiteYChanging(false);
-            }, 3000);
-          }
-          break;
-        // only change sprite focus
-        default:
-          if (!spriteUpdateCooldown) {
-            const targetHudId = targetBlueOrbId.substr(2);
-
-            setCurrentBlueOrb(targetBlueOrbId);
-            setSpriteUpdateCooldown(true);
-            toggleHud();
-
-            setTimeout(() => {
-              // change hud while its hidden
-              setCurrentHUDElement((blue_orb_huds as BlueOrbHuds)[targetHudId]);
-              setMediumHudText(
-                (site_a as SiteData)[targetBlueOrbId]["green_text"]
-              );
-              // toggle it again to be shown in the new position
-              toggleHud();
-            }, 500);
-
-            animateBigTextStatic(targetBlueOrbId, "none");
-            setTimeout(() => {
-              setSpriteUpdateCooldown(false);
-            }, 1000);
-          }
-      }
+      setTimeout(() => {
+        setIsSiteYChanging(false);
+      }, 3000);
     },
     [
-      setMediumHudText,
-      spriteUpdateCooldown,
-      setIsSiteYChanging,
-      toggleHud,
-      setCurrentBlueOrb,
-      setAnimationState,
       animateBigTextWithMove,
+      setAnimationState,
+      setCurrentBlueOrb,
       setCurrentHUDElement,
+      setIsSiteYChanging,
+      setMediumHudText,
+      toggleHud,
+    ]
+  );
+
+  const changeSpriteFocus = useCallback(
+    (
+      targetBlueOrbId: string,
+      targetBlueOrbHudData: BlueOrbHudData,
+      targetBlueOrbGreenText: string,
+      targetBlueOrbHudId: string
+    ) => {
+      setCurrentBlueOrb(targetBlueOrbId);
+      setSpriteUpdateCooldown(true);
+      toggleHud();
+
+      setTimeout(() => {
+        setCurrentHUDElement(targetBlueOrbHudData);
+        setMediumHudText(targetBlueOrbGreenText);
+        toggleHud();
+      }, 500);
+
+      animateBigTextStatic(targetBlueOrbId, targetBlueOrbHudId);
+
+      setTimeout(() => {
+        setSpriteUpdateCooldown(false);
+      }, 1300);
+    },
+    [
       animateBigTextStatic,
+      setCurrentBlueOrb,
+      setCurrentHUDElement,
+      setMediumHudText,
+      toggleHud,
     ]
   );
 
@@ -493,15 +493,50 @@ const InputHandler = () => {
     (event) => {
       const { keyCode } = event;
 
-      const key = getKeyCodeAssociation(keyCode);
+      const moveDirection = getKeyCodeAssociation(keyCode);
 
-      if (key && !lainMoving) {
-        const move = getMove(currentBlueOrb, key);
+      if (moveDirection && !lainMoving && !spriteUpdateCooldown) {
+        const targetBlueOrb = getTargetFrom(currentBlueOrb, moveDirection);
 
-        dispatchAction(move, key);
+        const targetBlueOrbHudId = targetBlueOrb.hud;
+        const targetBlueOrbHudData =
+          blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds];
+
+        const targetBlueOrbIdUnfiltered = targetBlueOrb.id;
+
+        const targetBlueOrbIdFiltered =
+          targetBlueOrbIdUnfiltered[0] === "+"
+            ? targetBlueOrbIdUnfiltered.substr(1)
+            : targetBlueOrbIdUnfiltered;
+
+        const targetBlueOrbGreenText =
+          site_a[targetBlueOrbIdFiltered as keyof typeof site_a].green_text;
+
+        if (targetBlueOrbIdUnfiltered[0] === "+") {
+          moveAndChangeSpriteFocus(
+            targetBlueOrbIdFiltered,
+            targetBlueOrbHudData,
+            targetBlueOrbGreenText,
+            moveDirection,
+            targetBlueOrbHudId
+          );
+        } else {
+          changeSpriteFocus(
+            targetBlueOrbIdFiltered,
+            targetBlueOrbHudData,
+            targetBlueOrbGreenText,
+            targetBlueOrbHudId
+          );
+        }
       }
     },
-    [lainMoving, currentBlueOrb, dispatchAction]
+    [
+      lainMoving,
+      spriteUpdateCooldown,
+      currentBlueOrb,
+      moveAndChangeSpriteFocus,
+      changeSpriteFocus,
+    ]
   );
 
   useEffect(() => {
