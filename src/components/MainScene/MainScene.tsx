@@ -8,7 +8,7 @@ import OrthoCamera from "../OrthoCamera/OrthoCamera";
 import Preloader from "../Preloader";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { lainMoveStateAtom, lainMovingAtom } from "../Lain/LainAtom";
-import InputHandler from "../InputHandler";
+import InputHandler from "../InputHandler/InputHandler";
 import MainSceneIntro from "./MainSceneIntro";
 import {
   mainGroupPosYAtom,

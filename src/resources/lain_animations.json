@@ -18,5 +18,9 @@
   "right": {
     "frame_count": 47,
     "duration": 3903.704
+  },
+  "throw_blue_orb": {
+    "frame_count": 47,
+    "duration": 3903.704
   }
 }
