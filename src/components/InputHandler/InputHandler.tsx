@@ -5,7 +5,8 @@ import {
   LainMoveRight,
   LainMoveUp,
   LainStanding,
-} from "./Lain/Lain";
+  LainThrowBlueOrb,
+} from "../Lain/Lain";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   bigHudTextAtom,
@@ -14,14 +15,21 @@ import {
   currentHUDAtom,
   hudActiveAtom,
   mediumHudTextAtom,
-} from "./HUD/HUDElementAtom";
-import { currentBlueOrbAtom } from "./BlueOrb/CurrentBlueOrbAtom";
-import lain_animations from "../resources/lain_animations.json";
-import blue_orb_huds from "../resources/blue_orb_huds.json";
-import blue_orb_directions from "../resources/blue_orb_directions.json";
-import site_a from "../resources/site_a.json";
-import { lainMoveStateAtom, lainMovingAtom } from "./Lain/LainAtom";
-import { BlueOrbHudData, BlueOrbHuds } from "./HUD/HUDElement";
+} from "../HUD/HUDElementAtom";
+import {
+  currentBlueOrbAnimatingAtom,
+  currentBlueOrbAtom,
+  currentBlueOrbPosXAtom,
+  currentBlueOrbPosYAtom,
+  currentBlueOrbPosZAtom,
+} from "../BlueOrb/CurrentBlueOrbAtom";
+import lain_animations from "../../resources/lain_animations.json";
+import blue_orb_huds from "../../resources/blue_orb_huds.json";
+import blue_orb_directions from "../../resources/blue_orb_directions.json";
+import blue_orb_positions from "../../resources/blue_orb_positions.json";
+import site_a from "../../resources/site_a.json";
+import { lainMoveStateAtom, lainMovingAtom } from "../Lain/LainAtom";
+import { BlueOrbHudData, BlueOrbHuds } from "../HUD/HUDElement";
 import {
   middleRingAnimDurationAtom,
   middleRingNoiseAtom,
@@ -30,14 +38,15 @@ import {
   middleRingRotZAtom,
   middleRingPosYAtom,
   middleRingWobbleStrengthAtom,
-} from "./MiddleRing/MiddleRingAtom";
-import { bigLetterOffsetXCoeffAtom } from "./TextRenderer/TextRendererAtom";
-import { SiteData } from "./Site/Site";
+} from "../MiddleRing/MiddleRingAtom";
+import { bigLetterOffsetXCoeffAtom } from "../TextRenderer/TextRendererAtom";
+import { SiteData } from "../Site/Site";
 import {
   isSiteYChangingAtom,
   sitePosYAtom,
   siteRotYAtom,
-} from "./Site/SiteAtom";
+} from "../Site/SiteAtom";
+import { sleep } from "./inputHandlerHelpers";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -75,6 +84,7 @@ const getKeyCodeAssociation = (keyCode: number): string => {
     37: "left",
     38: "up",
     39: "right",
+    88: "x",
   } as KeyCodeAssociations)[keyCode];
 };
 
@@ -82,6 +92,13 @@ const InputHandler = () => {
   const [currentBlueOrb, setCurrentBlueOrb] = useRecoilState(
     currentBlueOrbAtom
   );
+  const setCurrentBlueOrbAnimating = useSetRecoilState(
+    currentBlueOrbAnimatingAtom
+  );
+
+  const setCurrentBlueOrbPosX = useSetRecoilState(currentBlueOrbPosXAtom);
+  const setCurrentBlueOrbPosY = useSetRecoilState(currentBlueOrbPosYAtom);
+  const setCurrentBlueOrbPosZ = useSetRecoilState(currentBlueOrbPosZAtom);
 
   const [lainMoving, setLainMoving] = useRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
@@ -379,6 +396,9 @@ const InputHandler = () => {
 
           rotateMiddleRing("right");
           break;
+        case "throw_blue_orb":
+          setLainMoveState(<LainThrowBlueOrb />);
+          break;
         default:
           break;
       }
@@ -493,7 +513,16 @@ const InputHandler = () => {
     (event) => {
       const { keyCode } = event;
 
-      const moveDirection = getKeyCodeAssociation(keyCode);
+      const keyCodeAssoc = getKeyCodeAssociation(keyCode);
+
+      let moveDirection;
+      let action;
+
+      if (keyCodeAssoc !== "x") {
+        moveDirection = keyCodeAssoc;
+      } else {
+        action = "throw_blue_orb";
+      }
 
       if (moveDirection && !lainMoving && !spriteUpdateCooldown) {
         const targetBlueOrb = getTargetFrom(currentBlueOrb, moveDirection);
@@ -528,6 +557,29 @@ const InputHandler = () => {
             targetBlueOrbHudId
           );
         }
+      } else if (action && !lainMoving && !spriteUpdateCooldown) {
+        const currentBlueOrbPosId = currentBlueOrb.substr(2);
+
+        const currentBlueOrbPos =
+          blue_orb_positions[
+            currentBlueOrbPosId as keyof typeof blue_orb_positions
+          ].position;
+
+        setAnimationState(action);
+        setCurrentBlueOrbPosX(currentBlueOrbPos[0]);
+        setCurrentBlueOrbPosY(currentBlueOrbPos[1]);
+        setCurrentBlueOrbPosZ(currentBlueOrbPos[2]);
+
+        setTimeout(() => {
+          setCurrentBlueOrbAnimating(true);
+          setCurrentBlueOrbPosX(0.5);
+          setCurrentBlueOrbPosY(0);
+          setCurrentBlueOrbPosZ(0);
+        }, 1500);
+
+        setTimeout(() => {
+          setCurrentBlueOrbAnimating(false);
+        }, 4200);
       }
     },
     [
@@ -536,6 +588,11 @@ const InputHandler = () => {
       currentBlueOrb,
       moveAndChangeBlueOrbFocus,
       changeBlueOrbFocus,
+      setAnimationState,
+      setCurrentBlueOrbPosX,
+      setCurrentBlueOrbPosY,
+      setCurrentBlueOrbPosZ,
+      setCurrentBlueOrbAnimating,
     ]
   );
 

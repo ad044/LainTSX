@@ -8,6 +8,7 @@ import moveLeftSpriteSheet from "../../static/sprites/move_left.png";
 import moveRightSpriteSheet from "../../static/sprites/move_right.png";
 import standingSpriteSheet from "../../static/sprites/standing.png";
 import introSpriteSheet from "../../static/sprites/intro.png";
+import throwBlueOrbSpriteSheet from "../../static/sprites/throw_blue_orb.png";
 import { useRecoilValue } from "recoil";
 import { lainMoveStateAtom, lainMovingAtom } from "./LainAtom";
 
@@ -46,68 +47,67 @@ const LainConstructor = (props: LainConstructorProps) => {
   );
 };
 
-export const LainIntro = () => {
-  return (
-    <LainConstructor
-      sprite={introSpriteSheet}
-      frameCount={50}
-      framesHorizontal={10}
-      framesVertical={5}
-    />
-  );
-};
+export const LainIntro = () => (
+  <LainConstructor
+    sprite={introSpriteSheet}
+    frameCount={50}
+    framesHorizontal={10}
+    framesVertical={5}
+  />
+);
 
-export const LainStanding = () => {
-  return (
-    <LainConstructor
-      sprite={standingSpriteSheet}
-      frameCount={3}
-      framesHorizontal={3}
-      framesVertical={1}
-    />
-  );
-};
+export const LainStanding = () => (
+  <LainConstructor
+    sprite={standingSpriteSheet}
+    frameCount={3}
+    framesHorizontal={3}
+    framesVertical={1}
+  />
+);
 
-export const LainMoveDown = () => {
-  return (
-    <LainConstructor
-      sprite={moveDownSpriteSheet}
-      frameCount={36}
-      framesHorizontal={6}
-      framesVertical={6}
-    />
-  );
-};
+export const LainMoveDown = () => (
+  <LainConstructor
+    sprite={moveDownSpriteSheet}
+    frameCount={36}
+    framesHorizontal={6}
+    framesVertical={6}
+  />
+);
 
-export const LainMoveLeft = () => {
+export const LainMoveLeft = () => (
+  <LainConstructor
+    sprite={moveLeftSpriteSheet}
+    frameCount={47}
+    framesHorizontal={8}
+    framesVertical={6}
+  />
+);
+
+export const LainMoveRight = () => (
+  <LainConstructor
+    sprite={moveRightSpriteSheet}
+    frameCount={47}
+    framesHorizontal={8}
+    framesVertical={6}
+  />
+);
+
+export const LainMoveUp = () => (
+  <LainConstructor
+    sprite={moveUpSpriteSheet}
+    frameCount={36}
+    framesHorizontal={6}
+    framesVertical={6}
+  />
+);
+
+export const LainThrowBlueOrb = () => {
   return (
     <LainConstructor
-      sprite={moveLeftSpriteSheet}
+      sprite={throwBlueOrbSpriteSheet}
       frameCount={47}
-      framesHorizontal={8}
-      framesVertical={6}
-    />
-  );
-};
-
-export const LainMoveRight = () => {
-  return (
-    <LainConstructor
-      sprite={moveRightSpriteSheet}
-      frameCount={47}
-      framesHorizontal={8}
-      framesVertical={6}
-    />
-  );
-};
-
-export const LainMoveUp = () => {
-  return (
-    <LainConstructor
-      sprite={moveUpSpriteSheet}
-      frameCount={36}
-      framesHorizontal={6}
-      framesVertical={6}
+      framesHorizontal={7}
+      framesVertical={7}
     />
   );
 };
