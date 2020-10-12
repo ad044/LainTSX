@@ -61,7 +61,7 @@ const HUDElement = memo((props: HUDElementProps) => {
     bigHUDPositionX: hudActive,
     longHUDPositionX: hudActive,
     boringHUDPositionX: hudActive,
-    config: { duration: 500, friction: 0 },
+    config: { duration: 500 },
   });
 
   const bigHUDPosX = hudElementState.bigHUDPositionX.to(

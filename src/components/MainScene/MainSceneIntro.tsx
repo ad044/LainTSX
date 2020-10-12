@@ -61,6 +61,7 @@ const MainSceneIntro = memo(() => {
     }, 2800);
 
     setHudActive((prev: number) => Number(!prev));
+
     setTimeout(() => {
       setLainMoving(false);
       setLainMoveState(<LainStanding />);
