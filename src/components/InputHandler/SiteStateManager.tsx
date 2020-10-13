@@ -1,54 +1,58 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSetRecoilState } from "recoil";
 import {
   isSiteYChangingAtom,
   sitePosYAtom,
   siteRotYAtom,
 } from "../Site/SiteAtom";
-import { StateManagerProps } from "./InputHandler";
 
-const SiteStateManager = (props: StateManagerProps) => {
+const SiteStateManager = (props: any) => {
   const setSiteRotY = useSetRecoilState(siteRotYAtom);
   const setSitePosY = useSetRecoilState(sitePosYAtom);
   const setIsSiteYChanging = useSetRecoilState(isSiteYChangingAtom);
 
+  const dispatcherObjects = useMemo(
+    () => ({
+      moveUp: { action: "move", value: -1.5 },
+      moveDown: { action: "move", value: 1.5 },
+      rotateLeft: { action: "rotate", value: Math.PI / 4 },
+      rotateRight: { action: "rotate", value: -Math.PI / 4 },
+    }),
+    []
+  );
+
   useEffect(() => {
     if (props.eventState) {
-      const moveDirection = props.eventState.moveDirection;
+      const dispatchedAction =
+        dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
-      if (moveDirection) {
-        setIsSiteYChanging(true);
-        switch (moveDirection) {
-          case "up":
+      if (dispatchedAction) {
+        switch (dispatchedAction.action) {
+          case "rotate":
             setTimeout(() => {
-              setSitePosY((prev: number) => prev - 1.5);
-            }, 1300);
-            break;
-          case "down":
-            setTimeout(() => {
-              setSitePosY((prev: number) => prev + 1.5);
-            }, 1300);
-            break;
-          case "left":
-            setTimeout(() => {
-              setSiteRotY((prev: number) => prev + Math.PI / 4);
+              setSiteRotY((prev: number) => prev + dispatchedAction.value);
             }, 1100);
             break;
-          case "right":
+          case "move":
             setTimeout(() => {
-              setSiteRotY((prev: number) => prev - Math.PI / 4);
-            }, 1100);
+              setSitePosY((prev: number) => prev + dispatchedAction.value);
+            }, 1300);
             break;
           default:
             break;
         }
-
         setTimeout(() => {
           setIsSiteYChanging(false);
         }, 3000);
       }
     }
-  }, [props.eventState, setIsSiteYChanging, setSitePosY, setSiteRotY]);
+  }, [
+    dispatcherObjects,
+    props.eventState,
+    setIsSiteYChanging,
+    setSitePosY,
+    setSiteRotY,
+  ]);
   return null;
 };
 

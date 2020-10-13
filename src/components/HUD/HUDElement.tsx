@@ -21,34 +21,6 @@ export type HUDElementProps = {
   hudVisibility: boolean;
 };
 
-type HudShapeData = {
-  position: number[];
-  scale: number[];
-  type: string;
-  initial_position: number[];
-};
-
-type MediumTextData = {
-  position: number[];
-  initial_position: number[];
-};
-
-export type BlueOrbHudData = {
-  long: HudShapeData;
-  boring: HudShapeData;
-  big: HudShapeData;
-  big_text: number[];
-  medium_text: MediumTextData;
-};
-
-export type BlueOrbHuds = {
-  [blue_orb_hud_id: string]: BlueOrbHudData;
-};
-
-type LevelYValues = {
-  [level: string]: number;
-};
-
 const HUDElement = memo((props: HUDElementProps) => {
   const currentHud = useRecoilValue(currentHUDAtom);
 
@@ -127,7 +99,7 @@ const HUDElement = memo((props: HUDElementProps) => {
         position-x={longHUDPosX}
         position-y={currentHud!.long.position[1]}
         position-z={currentHud!.long.position[2]}
-        scale={currentHud.long.scale as [number, number, number]}
+        scale={[1, 0.03, 1]}
         renderOrder={2}
       >
         <spriteMaterial
@@ -141,7 +113,7 @@ const HUDElement = memo((props: HUDElementProps) => {
         position-x={boringHUDPosX}
         position-y={currentHud!.boring.position[1]}
         position-z={currentHud!.boring.position[2]}
-        scale={currentHud!.boring.scale as [number, number, number]}
+        scale={[1, 0.03, 1]}
         renderOrder={2}
       >
         <spriteMaterial
@@ -155,7 +127,7 @@ const HUDElement = memo((props: HUDElementProps) => {
         position-x={bigHUDPosX}
         position-y={currentHud!.big.position[1]}
         position-z={currentHud!.big.position[2]}
-        scale={currentHud!.big.scale as [number, number, number]}
+        scale={[0.5, 0.06, 1]}
         renderOrder={2}
       >
         <spriteMaterial
