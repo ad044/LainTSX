@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSetRecoilState } from "recoil";
 import { lainMoveStateAtom, lainMovingAtom } from "../Lain/LainAtom";
 import {
@@ -9,47 +9,35 @@ import {
   LainStanding,
   LainThrowBlueOrb,
 } from "../Lain/Lain";
-import lain_animations from "../../resources/lain_animations.json";
-import { StateManagerProps } from "./InputHandler";
 
-const LainStateManager = (props: StateManagerProps) => {
+const LainStateManager = (props: any) => {
   const setLainMoving = useSetRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
 
+  const dispatcherObjects = useMemo(
+    () => ({
+      moveUp: { animation: <LainMoveUp />, duration: 3903.704 },
+      moveDown: { animation: <LainMoveDown />, duration: 3903.704 },
+      rotateLeft: { animation: <LainMoveLeft />, duration: 3903.704 },
+      rotateRight: { animation: <LainMoveRight />, duration: 3903.704 },
+    }),
+    []
+  );
+
   useEffect(() => {
     if (props.eventState) {
-      const moveDirection = props.eventState.moveDirection;
+      const dispatchedAction =
+        dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
-      if (moveDirection) {
-        setLainMoving(true);
-        switch (moveDirection) {
-          case "down":
-            setLainMoveState(<LainMoveDown />);
-            break;
-          case "left":
-            setLainMoveState(<LainMoveLeft />);
-            break;
-          case "up":
-            setLainMoveState(<LainMoveUp />);
-            break;
-          case "right":
-            setLainMoveState(<LainMoveRight />);
-            break;
-          case "throw_blue_orb":
-            setLainMoveState(<LainThrowBlueOrb />);
-            break;
-          default:
-            break;
-        }
+      if (dispatchedAction) {
+        setLainMoveState(dispatchedAction.animation);
+
         setTimeout(() => {
           setLainMoveState(<LainStanding />);
-          setTimeout(() => {
-            setLainMoving(false);
-          }, 300);
-        }, lain_animations[moveDirection as keyof typeof lain_animations].duration);
+        }, dispatchedAction.duration);
       }
     }
-  }, [props.eventState, setLainMoveState, setLainMoving]);
+  }, [dispatcherObjects, props.eventState, setLainMoveState, setLainMoving]);
 
   return null;
 };

@@ -113,13 +113,12 @@ export const LainThrowBlueOrb = () => {
 };
 
 const Lain = () => {
-  const lainMoving = useRecoilValue(lainMovingAtom);
   const lainMoveState = useRecoilValue(lainMoveStateAtom);
 
   return (
     <Suspense fallback={<>loading...</>}>
       <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]}>
-        {lainMoving ? lainMoveState : <LainStanding />}
+        {lainMoveState}
       </sprite>
     </Suspense>
   );

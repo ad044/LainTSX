@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentBlueOrbAnimatingAtom,
@@ -9,28 +9,18 @@ import {
 } from "../BlueOrb/CurrentBlueOrbAtom";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
 import blue_orb_positions from "../../resources/blue_orb_positions.json";
+import level_y_values from "../../resources/level_y_values.json";
 import site_a from "../../resources/site_a.json";
 import { lainMovingAtom } from "../Lain/LainAtom";
-import BlueOrbStateManager from "./BlueOrbStateManager";
 import SiteStateManager from "./SiteStateManager";
-import HUDStateManager from "./HUDStateManager";
-import HUDTextStateManager from "./HUDTextStateManager";
-import LainStateManager from "./LainStateManager";
 import MiddleRingStateManager from "./MiddleRingStateManager";
+import LainStateManager from "./LainStateManager";
+import BlueOrbStateManager from "./BlueOrbStateManager";
+import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
+import BlueOrbHUDTextStateManager from "./BlueOrbHUDTextStateManager";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
-};
-
-type ActionObject = {
-  moveDirection: string | undefined;
-  targetBlueOrbId: string;
-  targetBlueOrbHudId: string;
-  targetBlueOrbGreenText: string;
-};
-
-export type StateManagerProps = {
-  eventState: ActionObject;
 };
 
 const getKeyCodeAssociation = (keyCode: number): string => {
@@ -43,71 +33,108 @@ const getKeyCodeAssociation = (keyCode: number): string => {
   } as KeyCodeAssociations)[keyCode];
 };
 
+type BlueOrbStateData = {
+  targetBlueOrbId: string;
+  targetBlueOrbHudId: string;
+  targetBlueOrbGreenText: string;
+};
+
 const InputHandler = () => {
-  const [eventState, setEventState] = useState<ActionObject>();
+  const [eventState, setEventState] = useState<string>();
   const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
   const setCurrentBlueOrbAnimating = useSetRecoilState(
     currentBlueOrbAnimatingAtom
   );
 
+  const [blueOrbStateData, setBlueOrbStateData] = useState<BlueOrbStateData>();
+
   const setCurrentBlueOrbPosX = useSetRecoilState(currentBlueOrbPosXAtom);
   const setCurrentBlueOrbPosY = useSetRecoilState(currentBlueOrbPosYAtom);
   const setCurrentBlueOrbPosZ = useSetRecoilState(currentBlueOrbPosZAtom);
 
-  const lainMoving = useRecoilValue(lainMovingAtom);
-
   const [inputCooldown, setInputCooldown] = useState(false);
+
+  const moveAndRotationEvents = useMemo(
+    () => ({
+      up: "moveUp",
+      down: "moveDown",
+      left: "rotateLeft",
+      right: "rotateRight",
+    }),
+    []
+  );
+
+  const blueOrbChangeEvents = useMemo(
+    () => ({
+      up: "changeBlueOrbUp",
+      down: "changeBlueOrbDown",
+      left: "changeBlueOrbLeft",
+      right: "changeBlueOrbRight",
+    }),
+    []
+  );
 
   const handleKeyPress = useCallback(
     (event) => {
       const { keyCode } = event;
 
-      const keyCodeAssoc = getKeyCodeAssociation(keyCode);
+      const keyPress = getKeyCodeAssociation(keyCode);
 
-      let moveDirection;
-      let action;
+      // changing blue orb focus/moving around the map
+      const arrowKeys = ["up", "down", "left", "right"];
 
-      if (keyCodeAssoc !== "x") {
-        moveDirection = keyCodeAssoc;
-      } else {
-        action = "throw_blue_orb";
-      }
+      // interacting with blue orbs
+      const blueOrbPressKeys = ["x"];
 
-      if (moveDirection && !lainMoving && !inputCooldown) {
-        const key = `${currentBlueOrb}_${moveDirection}`;
+      if (arrowKeys.includes(keyPress) && !inputCooldown) {
+        const targetBlueOrbDirectionId = `${currentBlueOrb}_${keyPress}`;
 
         const targetBlueOrb =
-          blue_orb_directions[key as keyof typeof blue_orb_directions];
-
-        const targetBlueOrbHudId = targetBlueOrb.hud;
+          blue_orb_directions[
+            targetBlueOrbDirectionId as keyof typeof blue_orb_directions
+          ];
 
         const targetBlueOrbIdUnfiltered = targetBlueOrb.id;
 
-        const targetBlueOrbIdFiltered =
+        // + in the json denotes that the target blue orb is not currently visible
+        // on screen (lain needs to move up/down/left/right), and then choose it.
+        const moveOrRotate = targetBlueOrbIdUnfiltered[0] === "+";
+
+        const targetBlueOrbId =
           targetBlueOrbIdUnfiltered[0] === "+"
             ? targetBlueOrbIdUnfiltered.substr(1)
             : targetBlueOrbIdUnfiltered;
 
-        const targetBlueOrbGreenText =
-          site_a[targetBlueOrbIdFiltered as keyof typeof site_a].green_text;
+        const targetBlueOrbHudId = targetBlueOrb.hud;
 
-        if (targetBlueOrbIdUnfiltered[0] === "+") {
-          setEventState({
-            moveDirection: moveDirection,
-            targetBlueOrbId: targetBlueOrbIdFiltered,
-            targetBlueOrbHudId: targetBlueOrbHudId,
-            targetBlueOrbGreenText: targetBlueOrbGreenText,
-          });
+        const targetBlueOrbGreenText =
+          site_a[targetBlueOrbId as keyof typeof site_a].green_text;
+
+        setBlueOrbStateData({
+          targetBlueOrbId: targetBlueOrbId,
+          targetBlueOrbHudId: targetBlueOrbHudId,
+          targetBlueOrbGreenText: targetBlueOrbGreenText,
+        });
+
+        if (moveOrRotate) {
+          const event =
+            moveAndRotationEvents[
+              keyPress as keyof typeof moveAndRotationEvents
+            ];
+
+          setEventState(event);
         } else {
-          setEventState({
-            moveDirection: undefined,
-            targetBlueOrbId: targetBlueOrbIdFiltered,
-            targetBlueOrbHudId: targetBlueOrbHudId,
-            targetBlueOrbGreenText: targetBlueOrbGreenText,
-          });
+          const event =
+            blueOrbChangeEvents[keyPress as keyof typeof blueOrbChangeEvents];
+
+          setEventState(event);
         }
-      } else if (action && !lainMoving && !inputCooldown) {
+      } else if (blueOrbPressKeys.includes(keyPress) && !inputCooldown) {
+        const currentBlueOrbLevel = currentBlueOrb.substr(0, 2);
         const currentBlueOrbPosId = currentBlueOrb.substr(2);
+
+        const levelYVal =
+          level_y_values[currentBlueOrbLevel as keyof typeof level_y_values];
 
         const currentBlueOrbPos =
           blue_orb_positions[
@@ -115,13 +142,13 @@ const InputHandler = () => {
           ].position;
 
         setCurrentBlueOrbPosX(currentBlueOrbPos[0]);
-        setCurrentBlueOrbPosY(currentBlueOrbPos[1]);
+        setCurrentBlueOrbPosY(currentBlueOrbPos[1] + levelYVal);
         setCurrentBlueOrbPosZ(currentBlueOrbPos[2]);
 
         setTimeout(() => {
           setCurrentBlueOrbAnimating(true);
           setCurrentBlueOrbPosX(0.5);
-          setCurrentBlueOrbPosY(0);
+          setCurrentBlueOrbPosY(levelYVal);
           setCurrentBlueOrbPosZ(0);
         }, 1500);
 
@@ -131,9 +158,10 @@ const InputHandler = () => {
       }
     },
     [
-      lainMoving,
       inputCooldown,
       currentBlueOrb,
+      moveAndRotationEvents,
+      blueOrbChangeEvents,
       setCurrentBlueOrbPosX,
       setCurrentBlueOrbPosY,
       setCurrentBlueOrbPosZ,
@@ -151,10 +179,21 @@ const InputHandler = () => {
 
   return (
     <>
-      <BlueOrbStateManager eventState={eventState!} />
+      <BlueOrbStateManager
+        eventState={eventState!}
+        targetBlueOrbId={blueOrbStateData?.targetBlueOrbId}
+      />
+      <BlueOrbHUDStateManager
+        eventState={eventState!}
+        targetBlueOrbHudId={blueOrbStateData?.targetBlueOrbHudId}
+        targetBlueOrbGreenText={blueOrbStateData?.targetBlueOrbGreenText}
+      />
+      <BlueOrbHUDTextStateManager
+        eventState={eventState!}
+        targetBlueOrbId={blueOrbStateData?.targetBlueOrbId}
+        targetBlueOrbHudId={blueOrbStateData?.targetBlueOrbHudId}
+      />
       <SiteStateManager eventState={eventState!} />
-      <HUDStateManager eventState={eventState!} />
-      <HUDTextStateManager eventState={eventState!} />
       <LainStateManager eventState={eventState!} />
       <MiddleRingStateManager eventState={eventState!} />
     </>
