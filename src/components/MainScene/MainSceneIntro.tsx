@@ -1,13 +1,13 @@
 import React, { memo, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { hudActiveAtom, hudVisibilityAtom } from "../HUD/HUDElementAtom";
+import { hudVisibilityAtom } from "../HUD/HUDElementAtom";
 import {
   mainGroupPosYAtom,
   mainGroupPosZAtom,
   mainGroupRotXAtom,
 } from "./MainGroupAtom";
 import { LainStanding } from "../Lain/Lain";
-import { lainMoveStateAtom, lainMovingAtom } from "../Lain/LainAtom";
+import { lainMoveStateAtom } from "../Lain/LainAtom";
 import { orbVisibilityAtom } from "../Orb/OrbAtom";
 import {
   introStarfieldVisibilityAtom,
@@ -15,19 +15,19 @@ import {
   mainStarfieldVisibilityAtom,
 } from "../Starfield/StarfieldAtom";
 import { grayPlanesVisibleAtom } from "../GrayPlanes/GrayPlanesAtom";
+import { useBlueOrbStore } from "../store";
 
-// ghost component to manipulate the intro animation for the main scene.
+// ghost component to manipulate the intro action for the main scene.
 
 // we separate this file because having something like this
 // inside <Suspense> tags makes it behave in a more stable manner
 // by waiting for the components to load and synchronously calling the functions.
 const MainSceneIntro = memo(() => {
-  const setHudActive = useSetRecoilState(hudActiveAtom);
+  const toggleHud = useBlueOrbStore((state) => state.toggleHud);
 
   const setHudVisible = useSetRecoilState(hudVisibilityAtom);
   const setOrbVisible = useSetRecoilState(orbVisibilityAtom);
 
-  const setLainMoving = useSetRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
 
   const setIntroStarfieldVisible = useSetRecoilState(
@@ -60,10 +60,9 @@ const MainSceneIntro = memo(() => {
       setMainStarfieldBoostVal(0);
     }, 2800);
 
-    setHudActive((prev: number) => Number(!prev));
+    toggleHud();
 
     setTimeout(() => {
-      setLainMoving(false);
       setLainMoveState(<LainStanding />);
 
       setOrbVisible(true);
@@ -71,8 +70,7 @@ const MainSceneIntro = memo(() => {
 
       setIntroStarfieldVisible(false);
 
-      setHudActive((prev: number) => Number(!prev));
-
+      toggleHud();
       setTimeout(() => {
         document.getElementsByTagName("canvas")[0].className = "hub-background";
       }, 300);
@@ -84,12 +82,11 @@ const MainSceneIntro = memo(() => {
     setHudVisible,
     setOrbVisible,
     setIntroStarfieldVisible,
-    setHudActive,
     setMainGroupRotX,
     setMainGroupPosZ,
     setMainGroupPosY,
-    setLainMoving,
     setLainMoveState,
+    toggleHud,
   ]);
 
   return <></>;

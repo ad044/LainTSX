@@ -5,12 +5,12 @@ import level_y_values from "../../resources/level_y_values.json";
 import blue_orb_positions from "../../resources/blue_orb_positions.json";
 import BlueOrb from "../BlueOrb/BlueOrb";
 import { useRecoilValue } from "recoil";
-import { currentBlueOrbAtom } from "../BlueOrb/CurrentBlueOrbAtom";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import { sitePosYAtom, siteRotYAtom } from "./SiteAtom";
+import { useBlueOrbStore } from "../store";
 
 const Site = memo(() => {
-  const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
+  const currentBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
 
   const siteRotY = useRecoilValue(siteRotYAtom);
   const sitePosY = useRecoilValue(sitePosYAtom);
@@ -51,7 +51,7 @@ const Site = memo(() => {
                   ]
                 }
                 key={(blueOrb as any)[1]["node_name"]}
-                active={(blueOrb as any)[0] === currentBlueOrb}
+                active={(blueOrb as any)[0] === currentBlueOrbId}
                 level={(blueOrb as any)[0].substr(0, 2)}
               />
             );

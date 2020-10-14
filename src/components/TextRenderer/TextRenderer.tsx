@@ -9,6 +9,7 @@ import { a, useSpring } from "@react-spring/three";
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { bigLetterOffsetXCoeffAtom } from "./TextRendererAtom";
+import { useBlueOrbStore } from "../store";
 
 type LetterProps = {
   color: string;
@@ -36,7 +37,9 @@ type FontData = {
 };
 
 export const BigLetter = (props: LetterProps) => {
-  const bigLetterOffsetXCoeff = useRecoilValue(bigLetterOffsetXCoeffAtom);
+  const yellowTextOffsetXCoeff = useBlueOrbStore(
+    (state) => state.yellowHudTextOffsetXCoeff
+  );
 
   const colorToTexture = (color: string) => {
     return ({ orange: orangeFont, yellow: yellowFont } as ColorToTexture)[
@@ -105,10 +108,10 @@ export const BigLetter = (props: LetterProps) => {
   const textRendererState = useSpring({
     letterOffsetXCoeff:
       props.kerningOffset === 0
-        ? props.kerningOffset + props.kerningOffset * bigLetterOffsetXCoeff
+        ? props.kerningOffset + props.kerningOffset * yellowTextOffsetXCoeff
         : props.kerningOffset +
           0.3 +
-          (props.kerningOffset + 0.3) * bigLetterOffsetXCoeff,
+          (props.kerningOffset + 0.3) * yellowTextOffsetXCoeff,
     config: { duration: 200 },
   });
 
@@ -167,7 +170,7 @@ export const MediumLetter = (props: LetterProps) => {
     2: 0.297,
     3: 0.238,
     4: 0.18,
-    5: 1
+    5: 1,
   };
 
   const letterData = (medium_font_json as FontData)["glyphs"][props.letter];

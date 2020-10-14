@@ -13,12 +13,16 @@ const SiteStateManager = (props: any) => {
 
   const dispatcherObjects = useMemo(
     () => ({
-      moveUp: { action: "move", value: -1.5 },
-      moveDown: { action: "move", value: 1.5 },
-      rotateLeft: { action: "rotate", value: Math.PI / 4 },
-      rotateRight: { action: "rotate", value: -Math.PI / 4 },
+      moveUp: { action: setSitePosY, value: -1.5, actionDelay: 1300 },
+      moveDown: { action: setSitePosY, value: 1.5, actionDelay: 1300 },
+      moveLeft: { action: setSiteRotY, value: Math.PI / 4, actionDelay: 1100 },
+      moveRight: {
+        action: setSiteRotY,
+        value: -Math.PI / 4,
+        actionDelay: 1100,
+      },
     }),
-    []
+    [setSitePosY, setSiteRotY]
   );
 
   useEffect(() => {
@@ -27,20 +31,14 @@ const SiteStateManager = (props: any) => {
         dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
       if (dispatchedAction) {
-        switch (dispatchedAction.action) {
-          case "rotate":
-            setTimeout(() => {
-              setSiteRotY((prev: number) => prev + dispatchedAction.value);
-            }, 1100);
-            break;
-          case "move":
-            setTimeout(() => {
-              setSitePosY((prev: number) => prev + dispatchedAction.value);
-            }, 1300);
-            break;
-          default:
-            break;
-        }
+        setIsSiteYChanging(true);
+
+        setTimeout(() => {
+          dispatchedAction.action(
+            (prev: number) => prev + dispatchedAction.value
+          );
+        }, dispatchedAction.actionDelay);
+
         setTimeout(() => {
           setIsSiteYChanging(false);
         }, 3000);

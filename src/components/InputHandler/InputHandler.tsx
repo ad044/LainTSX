@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
   currentBlueOrbAnimatingAtom,
-  currentBlueOrbAtom,
   currentBlueOrbPosXAtom,
   currentBlueOrbPosYAtom,
   currentBlueOrbPosZAtom,
@@ -11,13 +10,13 @@ import blue_orb_directions from "../../resources/blue_orb_directions.json";
 import blue_orb_positions from "../../resources/blue_orb_positions.json";
 import level_y_values from "../../resources/level_y_values.json";
 import site_a from "../../resources/site_a.json";
-import { lainMovingAtom } from "../Lain/LainAtom";
 import SiteStateManager from "./SiteStateManager";
 import MiddleRingStateManager from "./MiddleRingStateManager";
 import LainStateManager from "./LainStateManager";
 import BlueOrbStateManager from "./BlueOrbStateManager";
 import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
 import BlueOrbHUDTextStateManager from "./BlueOrbHUDTextStateManager";
+import { useBlueOrbStore } from "../store";
 
 type KeyCodeAssociations = {
   [keyCode: number]: string;
@@ -41,7 +40,7 @@ type BlueOrbStateData = {
 
 const InputHandler = () => {
   const [eventState, setEventState] = useState<string>();
-  const currentBlueOrb = useRecoilValue(currentBlueOrbAtom);
+  const currentBlueOrb = useBlueOrbStore((state) => state.blueOrbId);
   const setCurrentBlueOrbAnimating = useSetRecoilState(
     currentBlueOrbAnimatingAtom
   );
@@ -54,12 +53,12 @@ const InputHandler = () => {
 
   const [inputCooldown, setInputCooldown] = useState(false);
 
-  const moveAndRotationEvents = useMemo(
+  const moveEvents = useMemo(
     () => ({
       up: "moveUp",
       down: "moveDown",
-      left: "rotateLeft",
-      right: "rotateRight",
+      left: "moveLeft",
+      right: "moveRight",
     }),
     []
   );
@@ -117,10 +116,7 @@ const InputHandler = () => {
         });
 
         if (moveOrRotate) {
-          const event =
-            moveAndRotationEvents[
-              keyPress as keyof typeof moveAndRotationEvents
-            ];
+          const event = moveEvents[keyPress as keyof typeof moveEvents];
 
           setEventState(event);
         } else {
@@ -160,7 +156,7 @@ const InputHandler = () => {
     [
       inputCooldown,
       currentBlueOrb,
-      moveAndRotationEvents,
+      moveEvents,
       blueOrbChangeEvents,
       setCurrentBlueOrbPosX,
       setCurrentBlueOrbPosY,

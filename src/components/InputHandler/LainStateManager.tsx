@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { useSetRecoilState } from "recoil";
-import { lainMoveStateAtom, lainMovingAtom } from "../Lain/LainAtom";
+import { lainMoveStateAtom } from "../Lain/LainAtom";
 import {
   LainMoveDown,
   LainMoveLeft,
@@ -11,15 +11,14 @@ import {
 } from "../Lain/Lain";
 
 const LainStateManager = (props: any) => {
-  const setLainMoving = useSetRecoilState(lainMovingAtom);
   const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
 
   const dispatcherObjects = useMemo(
     () => ({
-      moveUp: { animation: <LainMoveUp />, duration: 3903.704 },
-      moveDown: { animation: <LainMoveDown />, duration: 3903.704 },
-      rotateLeft: { animation: <LainMoveLeft />, duration: 3903.704 },
-      rotateRight: { animation: <LainMoveRight />, duration: 3903.704 },
+      moveUp: { action: <LainMoveUp />, duration: 3903.704 },
+      moveDown: { action: <LainMoveDown />, duration: 3903.704 },
+      moveLeft: { action: <LainMoveLeft />, duration: 3903.704 },
+      moveRight: { action: <LainMoveRight />, duration: 3903.704 },
     }),
     []
   );
@@ -30,14 +29,14 @@ const LainStateManager = (props: any) => {
         dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
       if (dispatchedAction) {
-        setLainMoveState(dispatchedAction.animation);
+        setLainMoveState(dispatchedAction.action);
 
         setTimeout(() => {
           setLainMoveState(<LainStanding />);
         }, dispatchedAction.duration);
       }
     }
-  }, [dispatcherObjects, props.eventState, setLainMoveState, setLainMoving]);
+  }, [dispatcherObjects, props.eventState, setLainMoveState]);
 
   return null;
 };
