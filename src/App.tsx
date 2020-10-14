@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import MainScene from "./components/MainScene/MainScene";
+import MainScene from "./components/MainScene";
 import "./static/css/hub.css";
 import "./static/css/main.css";
 import { Canvas } from "react-three-fiber";
-import { RecoilRoot } from "recoil";
 import Boot from "./components/Boot";
 
 const App = () => {
@@ -21,11 +20,9 @@ const App = () => {
     <div id="game-root" className="game">
       {/*<Boot setMoveToGame={setMoveToGame} />*/}
       {/* {moveToGame ? <MainScene /> : <Boot setMoveToGame={setMoveToGame} />} */}
-        <Canvas concurrent>
-          <RecoilRoot>
-            <MainScene />
-          </RecoilRoot>
-        </Canvas>
+      <Canvas concurrent>
+        <MainScene />
+      </Canvas>
     </div>
   );
 };

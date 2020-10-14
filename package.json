@@ -17,7 +17,6 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "react-three-fiber": "^4.2.20",
-    "recoil": "0.0.10",
     "three": "^0.119.1",
     "three-plain-animator": "^1.0.2",
     "ts-node": "^9.0.0",

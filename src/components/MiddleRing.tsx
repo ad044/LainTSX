@@ -1,29 +1,27 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
-import middleRingTexture from "../../static/sprites/middle_ring_tex.png";
+import middleRingTexture from "../static/sprites/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import {
-  middleRingAnimDurationAtom,
-  middleRingNoiseAtom, middleRingPosYAtom,
-  middleRingRotatingAtom,
-  middleRingRotXAtom,
-  middleRingRotZAtom,
-  middleRingWobbleStrengthAtom,
-} from "./MiddleRingAtom";
-import { useRecoilValue } from "recoil";
+import { useMiddleRingStore } from "../store";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-  const middleRingWobbleStrength = useRecoilValue(middleRingWobbleStrengthAtom);
-  const middleRingRotating = useRecoilValue(middleRingRotatingAtom);
-  const middleRingNoise = useRecoilValue(middleRingNoiseAtom);
-  const middleRingPosY = useRecoilValue(middleRingPosYAtom);
-  const middleRingRotX = useRecoilValue(middleRingRotXAtom);
-  const middleRingRotZ = useRecoilValue(middleRingRotZAtom);
+  const middleRingWobbleStrength = useMiddleRingStore(
+    (state) => state.middleRingWobbleStrength
+  );
+  const middleRingRotating = useMiddleRingStore(
+    (state) => state.middleRingRotating
+  );
+  const middleRingNoise = useMiddleRingStore((state) => state.middleRingNoise);
+  const middleRingPosY = useMiddleRingStore((state) => state.middleRingPosY);
+  const middleRingRotX = useMiddleRingStore((state) => state.middleRingRotX);
+  const middleRingRotZ = useMiddleRingStore((state) => state.middleRingRotZ);
 
-  const middleRingAnimDuration = useRecoilValue(middleRingAnimDurationAtom);
+  const middleRingAnimDuration = useMiddleRingStore(
+    (state) => state.middleRingAnimDuration
+  );
 
   const middleRingWobbleState = useSpring({
     middleRingWobbleStrength: middleRingWobbleStrength,
@@ -212,9 +210,7 @@ const MiddleRing = () => {
   });
 
   return (
-    <a.group
-      rotation-z={middleRingRotState.middleRingRotZ}
-    >
+    <a.group rotation-z={middleRingRotState.middleRingRotZ}>
       <a.mesh
         position={[0, 0, 0.3]}
         position-y={middleRingPosState.middleRingPosY}

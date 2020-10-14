@@ -1,10 +1,7 @@
 import React, { useEffect, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
-import { currentBlueOrbAtom } from "../BlueOrb/CurrentBlueOrbAtom";
-import { useBlueOrbStore } from "../store";
+import { useBlueOrbStore } from "../../store";
 
 const BlueOrbStateManager = (props: any) => {
-  // const setCurrentBlueOrb = useSetRecoilState(currentBlueOrbAtom);
   const setCurrentBlueOrb = useBlueOrbStore(
     (state) => state.setCurrentBlueOrbId
   );

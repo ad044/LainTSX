@@ -1,25 +1,23 @@
 import React, { memo } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import bigHud from "../../static/sprites/big_hud.png";
-import bigHudMirrored from "../../static/sprites/big_hud_mirrored.png";
-import longHud from "../../static/sprites/long_hud.png";
-import longHudMirrored from "../../static/sprites/long_hud_mirrored.png";
-import boringHud from "../../static/sprites/long_hud_boring.png";
-import boringHudMirrored from "../../static/sprites/long_hud_boring_mirrored.png";
+import bigHud from "../static/sprites/big_hud.png";
+import bigHudMirrored from "../static/sprites/big_hud_mirrored.png";
+import longHud from "../static/sprites/long_hud.png";
+import longHudMirrored from "../static/sprites/long_hud_mirrored.png";
+import boringHud from "../static/sprites/long_hud_boring.png";
+import boringHudMirrored from "../static/sprites/long_hud_boring_mirrored.png";
 import { a, useSpring, useTrail } from "@react-spring/three";
-import { useRecoilValue } from "recoil";
-import { useBlueOrbStore } from "../store";
-import blue_orb_huds from "../../resources/blue_orb_huds.json";
-import site_a from "../../resources/site_a.json";
-import { BigLetter, MediumLetter } from "../TextRenderer/TextRenderer";
-import { isSiteYChangingAtom } from "../Site/SiteAtom";
+import { useBlueOrbStore, useSiteStore } from "../store";
+import blue_orb_huds from "../resources/blue_orb_huds.json";
+import site_a from "../resources/site_a.json";
+import { BigLetter, MediumLetter } from "./TextRenderer";
 
 export type HUDElementProps = {
   hudVisibility: boolean;
 };
 
-const HUDElement = memo((props: HUDElementProps) => {
+const HUD = memo((props: HUDElementProps) => {
   const hudActive = useBlueOrbStore((state) => state.hudActive);
 
   const currentBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
@@ -37,23 +35,22 @@ const HUDElement = memo((props: HUDElementProps) => {
   const yellowTextArr = currentYellowHudText.split("");
   const greenTextArr = currentGreenHudText.split("");
 
-  const yellowLetterPosY = yellowHudTextPosY;
-  const yellowLetterPosX = yellowHudTextPosX;
-
-  const isSiteChangingY = useRecoilValue(isSiteYChangingAtom);
+  const isSiteChangingY = useSiteStore((state) => state.isSiteChangingY);
 
   // this one is used for letter actions
   const letterTrail = useTrail(currentYellowHudText.length, {
-    yellowLetterPosX: yellowLetterPosX,
-    yellowLetterPosY: yellowLetterPosY,
+    yellowLetterPosX: yellowHudTextPosX,
+    yellowLetterPosY: yellowHudTextPosY,
     config: { duration: 280 },
   });
 
+  console.log(yellowHudTextPosY);
+  console.log(yellowHudTextPosX);
   // this one is used when the site moves up/down and
   // the text has to stay stationary
   const letterStaticState = useSpring({
-    yellowLetterPosX: yellowLetterPosX,
-    yellowLetterPosY: yellowLetterPosY,
+    yellowLetterPosX: yellowHudTextPosX,
+    yellowLetterPosY: yellowHudTextPosY,
     config: { duration: 1200 },
   });
 
@@ -230,4 +227,4 @@ const HUDElement = memo((props: HUDElementProps) => {
   );
 });
 
-export default HUDElement;
+export default HUD;

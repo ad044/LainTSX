@@ -2,28 +2,21 @@ import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { useSpring, a } from "@react-spring/three";
 import * as THREE from "three";
-import Cou from "../../static/sprites/Cou.png";
-import CouActive from "../../static/sprites/Cou_active.png";
-import Dc from "../../static/sprites/Dc.png";
-import DcActive from "../../static/sprites/Dc_active.png";
-import SSkn from "../../static/sprites/SSkn.png";
-import SSKnActive from "../../static/sprites/SSkn_active.png";
-import Tda from "../../static/sprites/Tda.png";
-import TdaActive from "../../static/sprites/Tda_active.png";
-import Dia from "../../static/sprites/Dia.png";
-import DiaActive from "../../static/sprites/Dia_active.png";
-import Lda from "../../static/sprites/Lda.png";
-import LdaActive from "../../static/sprites/Lda_active.png";
-import MULTI from "../../static/sprites/MULTI.png";
-import MULTIActive from "../../static/sprites/MULTI_active.png";
-import level_y_values from "../../resources/level_y_values.json";
-import { useRecoilValue } from "recoil";
-import {
-  currentBlueOrbAnimatingAtom,
-  currentBlueOrbPosXAtom,
-  currentBlueOrbPosYAtom,
-  currentBlueOrbPosZAtom,
-} from "./CurrentBlueOrbAtom";
+import Cou from "../static/sprites/Cou.png";
+import CouActive from "../static/sprites/Cou_active.png";
+import Dc from "../static/sprites/Dc.png";
+import DcActive from "../static/sprites/Dc_active.png";
+import SSkn from "../static/sprites/SSkn.png";
+import SSKnActive from "../static/sprites/SSkn_active.png";
+import Tda from "../static/sprites/Tda.png";
+import TdaActive from "../static/sprites/Tda_active.png";
+import Dia from "../static/sprites/Dia.png";
+import DiaActive from "../static/sprites/Dia_active.png";
+import Lda from "../static/sprites/Lda.png";
+import LdaActive from "../static/sprites/Lda_active.png";
+import MULTI from "../static/sprites/MULTI.png";
+import MULTIActive from "../static/sprites/MULTI_active.png";
+import level_y_values from "../resources/level_y_values.json";
 
 type BlueOrbContructorProps = {
   sprite: string;
@@ -46,10 +39,6 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
   // associate a sprite with the path
-  const currentBlueOrbAnimating = useRecoilValue(currentBlueOrbAnimatingAtom);
-  const currentBlueOrbPosX = useRecoilValue(currentBlueOrbPosXAtom);
-  const currentBlueOrbPosY = useRecoilValue(currentBlueOrbPosYAtom);
-  const currentBlueOrbPosZ = useRecoilValue(currentBlueOrbPosZAtom);
 
   const spriteToPath = (sprite: string) => {
     if (sprite.includes("S")) {
@@ -128,31 +117,12 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   });
 
-  const currentBlueOrbState = useSpring({
-    currentBlueOrbPosX: currentBlueOrbPosX,
-    currentBlueOrbPosY: currentBlueOrbPosY,
-    currentBlueOrbPosZ: currentBlueOrbPosZ,
-    config: { duration: 900 },
-  });
-
   return (
     <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
       <a.mesh
-        position-x={
-          props.active && currentBlueOrbAnimating
-            ? currentBlueOrbState.currentBlueOrbPosX
-            : props.position[0]
-        }
-        position-y={
-          props.active && currentBlueOrbAnimating
-            ? currentBlueOrbState.currentBlueOrbPosY
-            : props.position[1]
-        }
-        position-z={
-          props.active && currentBlueOrbAnimating
-            ? currentBlueOrbState.currentBlueOrbPosZ
-            : props.position[2]
-        }
+        position-x={props.position[0]}
+        position-y={props.position[1]}
+        position-z={props.position[2]}
         rotation-y={props.rotation[1]}
         scale={[0.36, 0.18, 0.36]}
         renderOrder={1}
