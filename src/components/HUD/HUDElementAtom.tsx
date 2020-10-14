@@ -1,11 +1,6 @@
 import { atom } from "recoil";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
 
-export const hudActiveAtom = atom({
-  key: "hudActiveAtom",
-  default: 1,
-});
-
 export const hudVisibilityAtom = atom({
   key: "hudVisibilityAtom",
   default: true,
@@ -16,13 +11,13 @@ export const currentHUDAtom = atom({
   default: blue_orb_huds.fg_hud_1,
 });
 
-export const bigLetterPosYAtom = atom({
-  key: "bigLetterPosYAtom",
+export const yellowLetterPosYAtom = atom({
+  key: "yellowLetterPosYAtom",
   default: blue_orb_huds.fg_hud_1.big_text[1],
 });
 
-export const bigLetterPosXAtom = atom({
-  key: "bigLetterPosXAtom",
+export const yellowLetterPosXAtom = atom({
+  key: "yellowLetterPosXAtom",
   default: blue_orb_huds.fg_hud_1.big_text[0],
 });
 

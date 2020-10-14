@@ -10,7 +10,7 @@ import standingSpriteSheet from "../../static/sprites/standing.png";
 import introSpriteSheet from "../../static/sprites/intro.png";
 import throwBlueOrbSpriteSheet from "../../static/sprites/throw_blue_orb.png";
 import { useRecoilValue } from "recoil";
-import { lainMoveStateAtom, lainMovingAtom } from "./LainAtom";
+import { lainMoveStateAtom } from "./LainAtom";
 
 type LainConstructorProps = {
   sprite: string;

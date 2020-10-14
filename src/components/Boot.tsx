@@ -50,7 +50,7 @@ type IntroProps = {
   setMoveToGame: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Intro = (props: IntroProps) => {
+const Boot = (props: IntroProps) => {
   const [looping, setLooping] = useState(true);
   const [isArrowUp, setIsArrowUp] = useState(true);
 
@@ -283,4 +283,4 @@ const Intro = (props: IntroProps) => {
   );
 };
 
-export default Intro;
+export default Boot;

@@ -178,10 +178,10 @@ const MiddleRingStateManager = (props: any) => {
 
   const dispatcherObjects = useMemo(
     () => ({
-      moveUp: { animation: moveMiddleRingUp },
-      moveDown: { animation: moveMiddleRingDown },
-      rotateLeft: { animation: rotateMiddleRingLeft },
-      rotateRight: { animation: rotateMiddleRingRight },
+      moveUp: { action: moveMiddleRingUp },
+      moveDown: { action: moveMiddleRingDown },
+      moveLeft: { action: rotateMiddleRingLeft },
+      moveRight: { action: rotateMiddleRingRight },
     }),
     [
       moveMiddleRingDown,
@@ -197,7 +197,7 @@ const MiddleRingStateManager = (props: any) => {
         dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
       if (dispatchedAction) {
-        dispatchedAction.animation();
+        dispatchedAction.action();
       }
     }
   }, [

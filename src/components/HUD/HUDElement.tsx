@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useFrame, useLoader } from "react-three-fiber";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../static/sprites/big_hud.png";
 import bigHudMirrored from "../../static/sprites/big_hud_mirrored.png";
@@ -7,27 +7,68 @@ import longHud from "../../static/sprites/long_hud.png";
 import longHudMirrored from "../../static/sprites/long_hud_mirrored.png";
 import boringHud from "../../static/sprites/long_hud_boring.png";
 import boringHudMirrored from "../../static/sprites/long_hud_boring_mirrored.png";
-import { a, useSpring } from "@react-spring/three";
+import { a, useSpring, useTrail } from "@react-spring/three";
 import { useRecoilValue } from "recoil";
-import {
-  bigHudTextAtom,
-  hudActiveAtom,
-  mediumHudTextAtom,
-} from "./HUDElementAtom";
-import { currentHUDAtom } from "./HUDElementAtom";
-import HUDText from "./HUDText";
+import { useBlueOrbStore } from "../store";
+import blue_orb_huds from "../../resources/blue_orb_huds.json";
+import site_a from "../../resources/site_a.json";
+import { BigLetter, MediumLetter } from "../TextRenderer/TextRenderer";
+import { isSiteYChangingAtom } from "../Site/SiteAtom";
 
 export type HUDElementProps = {
   hudVisibility: boolean;
 };
 
 const HUDElement = memo((props: HUDElementProps) => {
-  const currentHud = useRecoilValue(currentHUDAtom);
+  const hudActive = useBlueOrbStore((state) => state.hudActive);
 
-  const currentBigHudText = useRecoilValue(bigHudTextAtom);
-  const currentMediumHudText = useRecoilValue(mediumHudTextAtom);
+  const currentBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
+  const currentHudId = useBlueOrbStore((state) => state.hudId);
 
-  const hudActive = useRecoilValue(hudActiveAtom);
+  const yellowHudTextPosY = useBlueOrbStore((state) => state.yellowHudTextPosY);
+  const yellowHudTextPosX = useBlueOrbStore((state) => state.yellowHudTextPosX);
+
+  const currentHud = blue_orb_huds[currentHudId as keyof typeof blue_orb_huds];
+
+  const currentYellowHudText = useBlueOrbStore((state) => state.yellowHudText);
+  const currentGreenHudText =
+    site_a[currentBlueOrbId as keyof typeof site_a].green_text;
+
+  const yellowTextArr = currentYellowHudText.split("");
+  const greenTextArr = currentGreenHudText.split("");
+
+  const yellowLetterPosY = yellowHudTextPosY;
+  const yellowLetterPosX = yellowHudTextPosX;
+
+  const isSiteChangingY = useRecoilValue(isSiteYChangingAtom);
+
+  // this one is used for letter actions
+  const letterTrail = useTrail(currentYellowHudText.length, {
+    yellowLetterPosX: yellowLetterPosX,
+    yellowLetterPosY: yellowLetterPosY,
+    config: { duration: 280 },
+  });
+
+  // this one is used when the site moves up/down and
+  // the text has to stay stationary
+  const letterStaticState = useSpring({
+    yellowLetterPosX: yellowLetterPosX,
+    yellowLetterPosY: yellowLetterPosY,
+    config: { duration: 1200 },
+  });
+
+  const { greenTextHUDPositionX } = useSpring({
+    greenTextHUDPositionX: hudActive,
+    config: { duration: 500 },
+  });
+
+  const mediumHudPosX = greenTextHUDPositionX.to(
+    [0, 1],
+    [
+      currentHud["medium_text"]["initial_position"][0],
+      currentHud["medium_text"]["position"][0],
+    ]
+  );
 
   const hudElementState = useSpring({
     bigHUDPositionX: hudActive,
@@ -137,7 +178,54 @@ const HUDElement = memo((props: HUDElementProps) => {
           depthTest={false}
         />
       </a.sprite>
-      <HUDText bigText={currentBigHudText} mediumText={currentMediumHudText} />
+      {isSiteChangingY
+        ? yellowTextArr.map((letter, idx) => (
+            <a.group
+              key={idx}
+              position-x={letterStaticState.yellowLetterPosX}
+              position-y={letterStaticState.yellowLetterPosY}
+              position-z={-8.7}
+              scale={[0.04, 0.06, 0.04]}
+            >
+              <BigLetter
+                color={"yellow"}
+                letter={yellowTextArr[idx]}
+                kerningOffset={idx}
+                key={idx}
+              />
+            </a.group>
+          ))
+        : letterTrail.map(({ yellowLetterPosX, yellowLetterPosY }, idx) => (
+            <a.group
+              key={idx}
+              position-x={yellowLetterPosX}
+              position-y={yellowLetterPosY}
+              position-z={-8.7}
+              scale={[0.04, 0.06, 0.04]}
+            >
+              <BigLetter
+                color={"yellow"}
+                letter={yellowTextArr[idx]}
+                kerningOffset={idx}
+                key={idx}
+              />
+            </a.group>
+          ))}
+      <a.group
+        position-x={mediumHudPosX}
+        position-y={currentHud["medium_text"]["position"][1]}
+        position-z={-8.7}
+        scale={[0.02, 0.035, 0.02]}
+      >
+        {greenTextArr.map((letter, idx) => (
+          <MediumLetter
+            color={"yellow"}
+            letter={letter}
+            kerningOffset={idx}
+            key={idx}
+          />
+        ))}
+      </a.group>
     </group>
   );
 });

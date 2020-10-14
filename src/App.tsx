@@ -4,7 +4,7 @@ import "./static/css/hub.css";
 import "./static/css/main.css";
 import { Canvas } from "react-three-fiber";
 import { RecoilRoot } from "recoil";
-import Intro from "./components/Intro";
+import Boot from "./components/Boot";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);
@@ -19,8 +19,8 @@ const App = () => {
 
   return (
     <div id="game-root" className="game">
-      {/*<Intro setMoveToGame={setMoveToGame} />*/}
-      {/* {moveToGame ? <MainScene /> : <Intro setMoveToGame={setMoveToGame} />} */}
+      {/*<Boot setMoveToGame={setMoveToGame} />*/}
+      {/* {moveToGame ? <MainScene /> : <Boot setMoveToGame={setMoveToGame} />} */}
         <Canvas concurrent>
           <RecoilRoot>
             <MainScene />

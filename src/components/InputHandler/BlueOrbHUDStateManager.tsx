@@ -2,13 +2,14 @@ import React, { useEffect, useMemo } from "react";
 import { useSetRecoilState } from "recoil";
 import {
   currentHUDAtom,
-  hudActiveAtom,
   mediumHudTextAtom,
 } from "../HUD/HUDElementAtom";
-import blue_orb_huds from "../../resources/blue_orb_huds.json";
+import { useBlueOrbStore } from "../store";
 
 const BlueOrbHUDStateManager = (props: any) => {
-  const setHudActive = useSetRecoilState(hudActiveAtom);
+  const setCurrentHudId = useBlueOrbStore((state) => state.setCurrentHudId);
+  const toggleHud = useBlueOrbStore((state) => state.toggleHud);
+
   const setCurrentHUDElement = useSetRecoilState(currentHUDAtom);
   const setMediumHudText = useSetRecoilState(mediumHudTextAtom);
 
@@ -16,8 +17,8 @@ const BlueOrbHUDStateManager = (props: any) => {
     () => ({
       moveUp: { duration: 3903.704 },
       moveDown: { duration: 3903.704 },
-      rotateLeft: { duration: 3903.704 },
-      rotateRight: { duration: 3903.704 },
+      moveLeft: { duration: 3903.704 },
+      moveRight: { duration: 3903.704 },
       changeBlueOrbUp: { duration: 500 },
       changeBlueOrbDown: { duration: 500 },
       changeBlueOrbLeft: { duration: 500 },
@@ -29,21 +30,18 @@ const BlueOrbHUDStateManager = (props: any) => {
   useEffect(() => {
     if (props.eventState) {
       const targetBlueOrbHudId = props.targetBlueOrbHudId;
-      const targetBlueOrbGreenText = props.targetBlueOrbGreenText;
-
-      const targetBlueOrbHudData =
-        blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds];
 
       const dispatchedAction =
         dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
       // setHudActive((prev: boolean) => !prev);
-      setHudActive((prev: number) => Number(!prev));
+      toggleHud();
 
       setTimeout(() => {
-        setCurrentHUDElement(targetBlueOrbHudData);
-        setMediumHudText(targetBlueOrbGreenText);
-        setHudActive((prev: number) => Number(!prev));
+        setCurrentHudId(targetBlueOrbHudId);
+        // setCurrentHUDElement(targetBlueOrbHudData);
+        // setMediumHudText(targetBlueOrbGreenText);
+        toggleHud();
       }, dispatchedAction.duration);
     }
   }, [
@@ -52,8 +50,9 @@ const BlueOrbHUDStateManager = (props: any) => {
     props.targetBlueOrbGreenText,
     props.targetBlueOrbHudId,
     setCurrentHUDElement,
-    setHudActive,
+    setCurrentHudId,
     setMediumHudText,
+    toggleHud,
   ]);
   return null;
 };
