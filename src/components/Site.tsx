@@ -1,19 +1,17 @@
 import React, { memo, Suspense } from "react";
-import site_a from "../../resources/site_a.json";
-import Level from "../Level";
-import level_y_values from "../../resources/level_y_values.json";
-import blue_orb_positions from "../../resources/blue_orb_positions.json";
-import BlueOrb from "../BlueOrb/BlueOrb";
-import { useRecoilValue } from "recoil";
+import site_a from "../resources/site_a.json";
+import Level from "./Level";
+import level_y_values from "../resources/level_y_values.json";
+import blue_orb_positions from "../resources/blue_orb_positions.json";
+import BlueOrb from "./BlueOrb";
 import { a, useSpring } from "@react-spring/three";
-import { sitePosYAtom, siteRotYAtom } from "./SiteAtom";
-import { useBlueOrbStore } from "../store";
+import { useBlueOrbStore, useSiteStore } from "../store";
 
 const Site = memo(() => {
   const currentBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
 
-  const siteRotY = useRecoilValue(siteRotYAtom);
-  const sitePosY = useRecoilValue(sitePosYAtom);
+  const siteRotY = useSiteStore((state) => state.siteRotY);
+  const sitePosY = useSiteStore((state) => state.sitePosY);
 
   const siteState = useSpring({
     siteRotY: siteRotY,

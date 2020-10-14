@@ -1,21 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useSetRecoilState } from "recoil";
-import {
-  currentBlueOrbAnimatingAtom,
-  currentBlueOrbPosXAtom,
-  currentBlueOrbPosYAtom,
-  currentBlueOrbPosZAtom,
-} from "../BlueOrb/CurrentBlueOrbAtom";
-import blue_orb_directions from "../../resources/blue_orb_directions.json";
-import blue_orb_positions from "../../resources/blue_orb_positions.json";
-import level_y_values from "../../resources/level_y_values.json";
-import site_a from "../../resources/site_a.json";
-import SiteStateManager from "./SiteStateManager";
-import MiddleRingStateManager from "./MiddleRingStateManager";
-import LainStateManager from "./LainStateManager";
-import BlueOrbStateManager from "./BlueOrbStateManager";
-import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
-import BlueOrbHUDTextStateManager from "./BlueOrbHUDTextStateManager";
+import blue_orb_directions from "../resources/blue_orb_directions.json";
+import site_a from "../resources/site_a.json";
+import SiteStateManager from "./StateManagers/SiteStateManager";
+import MiddleRingStateManager from "./StateManagers/MiddleRingStateManager";
+import LainStateManager from "./StateManagers/LainStateManager";
+import BlueOrbStateManager from "./StateManagers/BlueOrbStateManager";
+import BlueOrbHUDStateManager from "./StateManagers/BlueOrbHUDStateManager";
+import BlueOrbHUDTextStateManager from "./StateManagers/BlueOrbHUDTextStateManager";
 import { useBlueOrbStore } from "../store";
 
 type KeyCodeAssociations = {
@@ -41,15 +32,8 @@ type BlueOrbStateData = {
 const InputHandler = () => {
   const [eventState, setEventState] = useState<string>();
   const currentBlueOrb = useBlueOrbStore((state) => state.blueOrbId);
-  const setCurrentBlueOrbAnimating = useSetRecoilState(
-    currentBlueOrbAnimatingAtom
-  );
 
   const [blueOrbStateData, setBlueOrbStateData] = useState<BlueOrbStateData>();
-
-  const setCurrentBlueOrbPosX = useSetRecoilState(currentBlueOrbPosXAtom);
-  const setCurrentBlueOrbPosY = useSetRecoilState(currentBlueOrbPosYAtom);
-  const setCurrentBlueOrbPosZ = useSetRecoilState(currentBlueOrbPosZAtom);
 
   const [inputCooldown, setInputCooldown] = useState(false);
 
@@ -126,43 +110,9 @@ const InputHandler = () => {
           setEventState(event);
         }
       } else if (blueOrbPressKeys.includes(keyPress) && !inputCooldown) {
-        const currentBlueOrbLevel = currentBlueOrb.substr(0, 2);
-        const currentBlueOrbPosId = currentBlueOrb.substr(2);
-
-        const levelYVal =
-          level_y_values[currentBlueOrbLevel as keyof typeof level_y_values];
-
-        const currentBlueOrbPos =
-          blue_orb_positions[
-            currentBlueOrbPosId as keyof typeof blue_orb_positions
-          ].position;
-
-        setCurrentBlueOrbPosX(currentBlueOrbPos[0]);
-        setCurrentBlueOrbPosY(currentBlueOrbPos[1] + levelYVal);
-        setCurrentBlueOrbPosZ(currentBlueOrbPos[2]);
-
-        setTimeout(() => {
-          setCurrentBlueOrbAnimating(true);
-          setCurrentBlueOrbPosX(0.5);
-          setCurrentBlueOrbPosY(levelYVal);
-          setCurrentBlueOrbPosZ(0);
-        }, 1500);
-
-        setTimeout(() => {
-          setCurrentBlueOrbAnimating(false);
-        }, 4200);
       }
     },
-    [
-      inputCooldown,
-      currentBlueOrb,
-      moveEvents,
-      blueOrbChangeEvents,
-      setCurrentBlueOrbPosX,
-      setCurrentBlueOrbPosY,
-      setCurrentBlueOrbPosZ,
-      setCurrentBlueOrbAnimating,
-    ]
+    [inputCooldown, currentBlueOrb, moveEvents, blueOrbChangeEvents]
   );
 
   useEffect(() => {

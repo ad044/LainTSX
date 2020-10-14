@@ -1,14 +1,12 @@
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import orangeFont from "../../static/sprites/orange_font_texture.png";
-import greenFont from "../../static/sprites/white_and_green_texture.png";
-import yellowFont from "../../static/sprites/yellow_font_texture.png";
-import orange_font_json from "../../resources/orange_font.json";
-import medium_font_json from "../../resources/medium_font.json";
+import orangeFont from "../static/sprites/orange_font_texture.png";
+import greenFont from "../static/sprites/white_and_green_texture.png";
+import yellowFont from "../static/sprites/yellow_font_texture.png";
+import orange_font_json from "../resources/orange_font.json";
+import medium_font_json from "../resources/medium_font.json";
 import { a, useSpring } from "@react-spring/three";
 import React from "react";
-import { useRecoilValue } from "recoil";
-import { bigLetterOffsetXCoeffAtom } from "./TextRendererAtom";
 import { useBlueOrbStore } from "../store";
 
 type LetterProps = {

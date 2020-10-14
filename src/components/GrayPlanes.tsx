@@ -1,13 +1,14 @@
 import React, { createRef, memo, RefObject, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { useRecoilValue } from "recoil";
-import { grayPlanesVisibleAtom } from "./GrayPlanesAtom";
+import { useGrayPlanesStore } from "../store";
 
 const GrayPlanes = memo(() => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();
 
-  const grayPlanesVisible = useRecoilValue(grayPlanesVisibleAtom);
+  const grayPlanesVisible = useGrayPlanesStore(
+    (state) => state.grayPlanesVisible
+  );
 
   const grayPlanePoses = [
     [1.2, 0, -1.2],

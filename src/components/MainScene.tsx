@@ -1,29 +1,23 @@
 import { a, useSpring } from "@react-spring/three";
 import { OrbitControls } from "drei";
 import React, { Suspense, useEffect } from "react";
-import Site from "../Site/Site";
-import Lain, { LainStanding } from "../Lain/Lain";
-import Lights from "../Lights";
-import OrthoCamera from "../OrthoCamera/OrthoCamera";
-import Preloader from "../Preloader";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { lainMoveStateAtom } from "../Lain/LainAtom";
-import InputHandler from "../InputHandler/InputHandler";
+import Site from "./Site";
+import Lain from "./Lain";
+import Lights from "./Lights";
+import OrthoCamera from "./OrthoCamera";
+import Preloader from "./Preloader";
+import InputHandler from "./InputHandler";
 import MainSceneIntro from "./MainSceneIntro";
-import {
-  mainGroupPosYAtom,
-  mainGroupPosZAtom,
-  mainGroupRotXAtom,
-} from "./MainGroupAtom";
-import GrayPlanes from "../GrayPlanes/GrayPlanes";
-import MiddleRing from "../MiddleRing/MiddleRing";
-import Starfield from "../Starfield/Starfield";
+import GrayPlanes from "./GrayPlanes";
+import MiddleRing from "./MiddleRing";
+import Starfield from "./Starfield";
+import { useLainStore, useMainGroupStore } from "../store";
 
 const MainScene = () => {
-  const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
-  const mainGroupPosY = useRecoilValue(mainGroupPosYAtom);
-  const mainGroupPosZ = useRecoilValue(mainGroupPosZAtom);
-  const mainGroupRotX = useRecoilValue(mainGroupRotXAtom);
+  const setLainMoveState = useLainStore((state) => state.setLainMoveState);
+  const mainGroupPosY = useMainGroupStore((state) => state.mainGroupPosY);
+  const mainGroupPosZ = useMainGroupStore((state) => state.mainGroupPosZ);
+  const mainGroupRotX = useMainGroupStore((state) => state.mainGroupRotX);
 
   const mainGroupStatePos = useSpring({
     mainGroupPosY: mainGroupPosY,
@@ -37,7 +31,7 @@ const MainScene = () => {
   });
 
   useEffect(() => {
-    setLainMoveState(<LainStanding />);
+    setLainMoveState("standing");
   }, [setLainMoveState]);
   // set lain intro spritesheet before the page loads fully
   useEffect(() => {

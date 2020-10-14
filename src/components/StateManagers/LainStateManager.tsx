@@ -1,24 +1,15 @@
 import React, { useEffect, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
-import { lainMoveStateAtom } from "../Lain/LainAtom";
-import {
-  LainMoveDown,
-  LainMoveLeft,
-  LainMoveRight,
-  LainMoveUp,
-  LainStanding,
-  LainThrowBlueOrb,
-} from "../Lain/Lain";
+import { useLainStore } from "../../store";
 
 const LainStateManager = (props: any) => {
-  const setLainMoveState = useSetRecoilState(lainMoveStateAtom);
+  const setLainMoveState = useLainStore((state) => state.setLainMoveState);
 
   const dispatcherObjects = useMemo(
     () => ({
-      moveUp: { action: <LainMoveUp />, duration: 3903.704 },
-      moveDown: { action: <LainMoveDown />, duration: 3903.704 },
-      moveLeft: { action: <LainMoveLeft />, duration: 3903.704 },
-      moveRight: { action: <LainMoveRight />, duration: 3903.704 },
+      moveUp: { action: "moveUp", duration: 3903.704 },
+      moveDown: { action: "moveDown", duration: 3903.704 },
+      moveLeft: { action: "moveLeft", duration: 3903.704 },
+      moveRight: { action: "moveRight", duration: 3903.704 },
     }),
     []
   );
@@ -32,7 +23,7 @@ const LainStateManager = (props: any) => {
         setLainMoveState(dispatchedAction.action);
 
         setTimeout(() => {
-          setLainMoveState(<LainStanding />);
+          setLainMoveState("standing");
         }, dispatchedAction.duration);
       }
     }

@@ -2,15 +2,14 @@ import React, { Suspense, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
-import moveDownSpriteSheet from "../../static/sprites/jump_down.png";
-import moveUpSpriteSheet from "../../static/sprites/jump_up.png";
-import moveLeftSpriteSheet from "../../static/sprites/move_left.png";
-import moveRightSpriteSheet from "../../static/sprites/move_right.png";
-import standingSpriteSheet from "../../static/sprites/standing.png";
-import introSpriteSheet from "../../static/sprites/intro.png";
-import throwBlueOrbSpriteSheet from "../../static/sprites/throw_blue_orb.png";
-import { useRecoilValue } from "recoil";
-import { lainMoveStateAtom } from "./LainAtom";
+import moveDownSpriteSheet from "../static/sprites/jump_down.png";
+import moveUpSpriteSheet from "../static/sprites/jump_up.png";
+import moveLeftSpriteSheet from "../static/sprites/move_left.png";
+import moveRightSpriteSheet from "../static/sprites/move_right.png";
+import standingSpriteSheet from "../static/sprites/standing.png";
+import introSpriteSheet from "../static/sprites/intro.png";
+import throwBlueOrbSpriteSheet from "../static/sprites/throw_blue_orb.png";
+import { useLainStore } from "../store";
 
 type LainConstructorProps = {
   sprite: string;
@@ -113,12 +112,24 @@ export const LainThrowBlueOrb = () => {
 };
 
 const Lain = () => {
-  const lainMoveState = useRecoilValue(lainMoveStateAtom);
+  const lainMoveState = useLainStore((state) => state.lainMoveState);
+
+  const lainAnimationDispatch = {
+    standing: <LainStanding />,
+    moveLeft: <LainMoveLeft />,
+    moveRight: <LainMoveRight />,
+    moveUp: <LainMoveUp />,
+    moveDown: <LainMoveDown />,
+  };
 
   return (
     <Suspense fallback={<>loading...</>}>
       <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]}>
-        {lainMoveState}
+        {
+          lainAnimationDispatch[
+            lainMoveState as keyof typeof lainAnimationDispatch
+          ]
+        }
       </sprite>
     </Suspense>
   );

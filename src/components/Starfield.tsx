@@ -2,12 +2,7 @@ import { a, useSpring } from "@react-spring/three";
 import React, { createRef, memo, RefObject, useMemo, useRef } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
-import {
-  introStarfieldVisibilityAtom,
-  mainStarfieldBoostValAtom,
-  mainStarfieldVisibilityAtom,
-} from "./StarfieldAtom";
-import { useRecoilValue } from "recoil";
+import { useStarfieldStore } from "../store";
 
 type StarRefsAndInitialPoses = [
   React.MutableRefObject<React.RefObject<THREE.Object3D>[]>,
@@ -35,10 +30,16 @@ type IntroStarfieldObjectData = {
 const Starfield = memo(() => {
   const introStarfieldGroupRef = useRef<THREE.Object3D>();
 
-  const introStarfieldVisible = useRecoilValue(introStarfieldVisibilityAtom);
-  const mainStarfieldVisible = useRecoilValue(mainStarfieldVisibilityAtom);
+  const introStarfieldVisible = useStarfieldStore(
+    (state) => state.introStarfieldVisible
+  );
+  const mainStarfieldVisible = useStarfieldStore(
+    (state) => state.mainStarfieldVisible
+  );
 
-  const mainStarfieldBoostVal = useRecoilValue(mainStarfieldBoostValAtom);
+  const mainStarfieldBoostVal = useStarfieldStore(
+    (state) => state.mainStarfieldBoostVal
+  );
 
   const starfieldState = useSpring({
     starfieldBoostVal: mainStarfieldBoostVal,

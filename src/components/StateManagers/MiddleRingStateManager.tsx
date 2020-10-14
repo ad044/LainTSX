@@ -1,26 +1,27 @@
 import React, { useCallback, useEffect, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
-import {
-  middleRingAnimDurationAtom,
-  middleRingNoiseAtom,
-  middleRingPosYAtom,
-  middleRingRotatingAtom,
-  middleRingRotXAtom,
-  middleRingRotZAtom,
-  middleRingWobbleStrengthAtom,
-} from "../MiddleRing/MiddleRingAtom";
+import { useMiddleRingStore } from "../../store";
 
 const MiddleRingStateManager = (props: any) => {
-  const setMiddleRingWobbleStrength = useSetRecoilState(
-    middleRingWobbleStrengthAtom
+  const setMiddleRingWobbleStrength = useMiddleRingStore(
+    (state) => state.setMiddleRingWobbleStrength
   );
-  const setMiddleRingRotating = useSetRecoilState(middleRingRotatingAtom);
-  const setMiddleRingNoise = useSetRecoilState(middleRingNoiseAtom);
-  const setMiddleRingPosY = useSetRecoilState(middleRingPosYAtom);
-  const setMiddleRingRotX = useSetRecoilState(middleRingRotXAtom);
-  const setMiddleRingRotZ = useSetRecoilState(middleRingRotZAtom);
-  const setMiddleRingAnimDuration = useSetRecoilState(
-    middleRingAnimDurationAtom
+  const setMiddleRingRotating = useMiddleRingStore(
+    (state) => state.setMiddleRingRotating
+  );
+  const setMiddleRingNoise = useMiddleRingStore(
+    (state) => state.setMiddleRingNoise
+  );
+  const addToMiddleRingPosY = useMiddleRingStore(
+    (state) => state.addToMiddleRingPosY
+  );
+  const setMiddleRingRotX = useMiddleRingStore(
+    (state) => state.setMiddleRingRotX
+  );
+  const setMiddleRingRotZ = useMiddleRingStore(
+    (state) => state.setMiddleRingRotZ
+  );
+  const setMiddleRingAnimDuration = useMiddleRingStore(
+    (state) => state.setMiddleRingAnimDuration
   );
 
   const rotateMiddleRingRight = useCallback(() => {
@@ -66,7 +67,7 @@ const MiddleRingStateManager = (props: any) => {
     }, 700);
 
     setTimeout(() => {
-      setMiddleRingPosY((prev: number) => prev + 1.5);
+      addToMiddleRingPosY(1.5);
     }, 1300);
 
     // set ring rotation on x axis to craete motion effect
@@ -79,11 +80,11 @@ const MiddleRingStateManager = (props: any) => {
     }, 2900);
 
     setTimeout(() => {
-      setMiddleRingPosY((prev: number) => prev - 1.7);
+      addToMiddleRingPosY(-1.7);
     }, 3000);
 
     setTimeout(() => {
-      setMiddleRingPosY((prev: number) => prev + 0.2);
+      addToMiddleRingPosY(0.2);
     }, 3150);
 
     // rotate it again, set ring noise to 0
@@ -108,9 +109,9 @@ const MiddleRingStateManager = (props: any) => {
       setMiddleRingNoise(0.03);
     }, 11600);
   }, [
+    addToMiddleRingPosY,
     setMiddleRingAnimDuration,
     setMiddleRingNoise,
-    setMiddleRingPosY,
     setMiddleRingRotX,
     setMiddleRingRotating,
   ]);
@@ -136,7 +137,7 @@ const MiddleRingStateManager = (props: any) => {
       // set the anim duration value to match that of the site's
       setMiddleRingAnimDuration(1200);
       // animate it after
-      setMiddleRingPosY((prev: number) => prev - 1.5);
+      addToMiddleRingPosY(-1.5);
     }, 1300);
 
     // reset the ring bend, set the rotation to slightly curve
@@ -154,13 +155,13 @@ const MiddleRingStateManager = (props: any) => {
     }, 2300);
 
     setTimeout(() => {
-      setMiddleRingPosY((prev: number) => prev + 1.7);
+      addToMiddleRingPosY(1.7);
     }, 2400);
 
     // reset the rotation value to 0
     setTimeout(() => {
       setMiddleRingRotX(0);
-      setMiddleRingPosY((prev: number) => prev - 0.2);
+      addToMiddleRingPosY(-0.2);
     }, 2650);
 
     // enable noise again in about 8~ secs
@@ -168,9 +169,9 @@ const MiddleRingStateManager = (props: any) => {
       setMiddleRingNoise(0.03);
     }, 7800);
   }, [
+    addToMiddleRingPosY,
     setMiddleRingAnimDuration,
     setMiddleRingNoise,
-    setMiddleRingPosY,
     setMiddleRingRotX,
     setMiddleRingRotating,
     setMiddleRingWobbleStrength,
@@ -205,7 +206,6 @@ const MiddleRingStateManager = (props: any) => {
     props.eventState,
     setMiddleRingAnimDuration,
     setMiddleRingNoise,
-    setMiddleRingPosY,
     setMiddleRingRotX,
     setMiddleRingRotZ,
     setMiddleRingRotating,

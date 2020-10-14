@@ -1,17 +1,9 @@
 import React, { useEffect, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
-import {
-  currentHUDAtom,
-  mediumHudTextAtom,
-} from "../HUD/HUDElementAtom";
-import { useBlueOrbStore } from "../store";
+import { useBlueOrbStore } from "../../store";
 
 const BlueOrbHUDStateManager = (props: any) => {
   const setCurrentHudId = useBlueOrbStore((state) => state.setCurrentHudId);
   const toggleHud = useBlueOrbStore((state) => state.toggleHud);
-
-  const setCurrentHUDElement = useSetRecoilState(currentHUDAtom);
-  const setMediumHudText = useSetRecoilState(mediumHudTextAtom);
 
   const dispatcherObjects = useMemo(
     () => ({
@@ -34,13 +26,11 @@ const BlueOrbHUDStateManager = (props: any) => {
       const dispatchedAction =
         dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
 
-      // setHudActive((prev: boolean) => !prev);
       toggleHud();
 
       setTimeout(() => {
         setCurrentHudId(targetBlueOrbHudId);
-        // setCurrentHUDElement(targetBlueOrbHudData);
-        // setMediumHudText(targetBlueOrbGreenText);
+
         toggleHud();
       }, dispatchedAction.duration);
     }
@@ -49,9 +39,7 @@ const BlueOrbHUDStateManager = (props: any) => {
     props.eventState,
     props.targetBlueOrbGreenText,
     props.targetBlueOrbHudId,
-    setCurrentHUDElement,
     setCurrentHudId,
-    setMediumHudText,
     toggleHud,
   ]);
   return null;
