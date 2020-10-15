@@ -5,13 +5,15 @@ type BlueOrbState = {
   hudId: string;
   hudActive: number;
   hudVisible: boolean;
+  isCurrentBlueOrbInteractedWith: boolean;
   yellowHudText: string;
   yellowHudTextPosY: number;
   yellowHudTextPosX: number;
   yellowHudTextOffsetXCoeff: number;
   setCurrentBlueOrbId: (to: string) => void;
-  setCurrentHudId: (to: string) => void;
+  setCurrentBlueOrbHudId: (to: string) => void;
   toggleHud: () => void;
+  setIsCurrentBlueOrbInteractedWith: (to: boolean) => void;
   setYellowHudText: (to: string) => void;
   incrementYellowHudTextPosY: (by: number) => void;
   setYellowHudTextPosY: (to: number) => void;
@@ -85,15 +87,17 @@ export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   blueOrbId: "0422",
   hudId: "fg_hud_1",
   hudActive: 1,
+  isCurrentBlueOrbInteractedWith: false,
   hudVisible: true,
-  yellowHudText: "",
+  yellowHudText: "Tda028",
   yellowHudTextPosY: 0,
   yellowHudTextPosX: 0,
   yellowHudTextOffsetXCoeff: 0,
   setCurrentBlueOrbId: (to) => set(() => ({ blueOrbId: to })),
-  setCurrentHudId: (to) => set(() => ({ hudId: to })),
+  setCurrentBlueOrbHudId: (to) => set(() => ({ hudId: to })),
   toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
   setYellowHudText: (to) => set(() => ({ yellowHudText: to })),
+  setIsCurrentBlueOrbInteractedWith: (to) => set(() => ({isCurrentBlueOrbInteractedWith: to})),
   incrementYellowHudTextPosY: (by) =>
     set((state) => ({ yellowHudTextPosY: state.yellowHudTextPosY + by })),
   setYellowHudTextPosY: (to) => set(() => ({ yellowHudTextPosY: to })),

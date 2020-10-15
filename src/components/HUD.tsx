@@ -44,8 +44,6 @@ const HUD = memo((props: HUDElementProps) => {
     config: { duration: 280 },
   });
 
-  console.log(yellowHudTextPosY);
-  console.log(yellowHudTextPosX);
   // this one is used when the site moves up/down and
   // the text has to stay stationary
   const letterStaticState = useSpring({

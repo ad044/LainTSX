@@ -1,43 +1,81 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useBlueOrbStore } from "../../store";
+
+// fix the typing on this
+type BlueOrbDispatchData = {
+  action: (value: any) => void;
+  value: string | boolean;
+  actionDelay: number;
+};
+
+type BlueOrbDispatcher = {
+  moveUp: BlueOrbDispatchData;
+  moveDown: BlueOrbDispatchData;
+  moveLeft: BlueOrbDispatchData;
+  moveRight: BlueOrbDispatchData;
+  changeBlueOrbFocus: BlueOrbDispatchData;
+  pickCurrentBlueOrb: BlueOrbDispatchData;
+};
 
 const BlueOrbStateManager = (props: any) => {
   const setCurrentBlueOrb = useBlueOrbStore(
     (state) => state.setCurrentBlueOrbId
   );
-
-  // this one is repetitive for now but ill leave them separated
-  // in case it comes in handy later on
-  const dispatcherObjects = useMemo(
-    () => ({
-      moveUp: { duration: 3903.704 },
-      moveDown: { duration: 3903.704 },
-      moveLeft: { duration: 3903.704 },
-      moveRight: { duration: 3903.704 },
-      changeBlueOrbUp: { duration: 0 },
-      changeBlueOrbDown: { duration: 0 },
-      changeBlueOrbLeft: { duration: 0 },
-      changeBlueOrbRight: { duration: 0 },
-    }),
-    []
+  const setIsCurrentBlueOrbInteractedWith = useBlueOrbStore(
+    (state) => state.setIsCurrentBlueOrbInteractedWith
   );
 
+  const dispatchObject = useCallback(
+    (event: string, targetBlueOrbId: string) => {
+      const dispatcherObjects: BlueOrbDispatcher = {
+        moveUp: {
+          action: setCurrentBlueOrb,
+          value: targetBlueOrbId,
+          actionDelay: 3903.704,
+        },
+        moveDown: {
+          action: setCurrentBlueOrb,
+          value: targetBlueOrbId,
+          actionDelay: 3903.704,
+        },
+        moveLeft: {
+          action: setCurrentBlueOrb,
+          value: targetBlueOrbId,
+          actionDelay: 3903.704,
+        },
+        moveRight: {
+          action: setCurrentBlueOrb,
+          value: targetBlueOrbId,
+          actionDelay: 3903.704,
+        },
+        changeBlueOrbFocus: {
+          action: setCurrentBlueOrb,
+          value: targetBlueOrbId,
+          actionDelay: 0,
+        },
+        pickCurrentBlueOrb: {
+          action: setIsCurrentBlueOrbInteractedWith,
+          value: true,
+          actionDelay: 0,
+        },
+      };
+
+      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+    },
+    []
+  );
   useEffect(() => {
     if (props.eventState) {
-      const dispatchedAction =
-        dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
+      const dispatchedObject = dispatchObject(
+        props.eventState,
+        props.targetBlueOrbId
+      );
 
-      // set new one after action ends
       setTimeout(() => {
-        setCurrentBlueOrb(props.targetBlueOrbId);
-      }, dispatchedAction.duration);
+        dispatchedObject.action(dispatchedObject.value);
+      }, dispatchedObject.actionDelay);
     }
-  }, [
-    dispatcherObjects,
-    props.eventState,
-    props.targetBlueOrbId,
-    setCurrentBlueOrb,
-  ]);
+  }, [props.eventState, props.targetBlueOrbId, setCurrentBlueOrb]);
   return null;
 };
 

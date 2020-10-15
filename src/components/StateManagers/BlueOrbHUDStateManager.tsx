@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { useBlueOrbStore } from "../../store";
 
 const BlueOrbHUDStateManager = (props: any) => {
-  const setCurrentHudId = useBlueOrbStore((state) => state.setCurrentHudId);
+  const setCurrentBlueOrbHudId = useBlueOrbStore((state) => state.setCurrentBlueOrbHudId);
   const toggleHud = useBlueOrbStore((state) => state.toggleHud);
 
   const dispatcherObjects = useMemo(
@@ -11,10 +11,7 @@ const BlueOrbHUDStateManager = (props: any) => {
       moveDown: { duration: 3903.704 },
       moveLeft: { duration: 3903.704 },
       moveRight: { duration: 3903.704 },
-      changeBlueOrbUp: { duration: 500 },
-      changeBlueOrbDown: { duration: 500 },
-      changeBlueOrbLeft: { duration: 500 },
-      changeBlueOrbRight: { duration: 500 },
+      changeBlueOrbFocus: { duration: 500 },
     }),
     []
   );
@@ -29,7 +26,7 @@ const BlueOrbHUDStateManager = (props: any) => {
       toggleHud();
 
       setTimeout(() => {
-        setCurrentHudId(targetBlueOrbHudId);
+        setCurrentBlueOrbHudId(targetBlueOrbHudId);
 
         toggleHud();
       }, dispatchedAction.duration);
@@ -39,7 +36,7 @@ const BlueOrbHUDStateManager = (props: any) => {
     props.eventState,
     props.targetBlueOrbGreenText,
     props.targetBlueOrbHudId,
-    setCurrentHudId,
+    setCurrentBlueOrbHudId,
     toggleHud,
   ]);
   return null;

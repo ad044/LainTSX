@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 import * as THREE from "three";
 import lofTexture from "../static/sprites/lof.png";
 import holeTexture from "../static/sprites/hole.png";
@@ -6,21 +6,21 @@ import lifeTexture from "../static/sprites/life.png";
 import { useLoader } from "react-three-fiber";
 
 type GrayRingProps = {
-    grayRingPosY: number;
+  grayRingPosY: number;
 };
 
 const GrayRing = memo((props: GrayRingProps) => {
-    const lofTex = useLoader(THREE.TextureLoader, lofTexture);
-    const holeTex = useLoader(THREE.TextureLoader, holeTexture);
-    const lifeTex = useLoader(THREE.TextureLoader, lifeTexture);
+  const lofTex = useLoader(THREE.TextureLoader, lofTexture);
+  const holeTex = useLoader(THREE.TextureLoader, holeTexture);
+  const lifeTex = useLoader(THREE.TextureLoader, lifeTexture);
 
-    const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
 
-    uniforms.lof = { type: "t", value: lofTex };
-    uniforms.hole = { type: "t", value: holeTex };
-    uniforms.life = { type: "t", value: lifeTex };
+  uniforms.lof = { type: "t", value: lofTex };
+  uniforms.hole = { type: "t", value: holeTex };
+  uniforms.life = { type: "t", value: lifeTex };
 
-    const vertexShader = `
+  const vertexShader = `
     varying vec2 vUv;
 
     varying vec3 vPos;
@@ -36,7 +36,7 @@ const GrayRing = memo((props: GrayRingProps) => {
     }
   `;
 
-    const fragmentShader = `
+  const fragmentShader = `
     varying vec2 vUv;
     uniform sampler2D lof;
     uniform sampler2D hole;
@@ -151,28 +151,28 @@ const GrayRing = memo((props: GrayRingProps) => {
   }
     `;
 
-    return (
-        <mesh
-            position={[0, props.grayRingPosY, 0]}
-            rotation={[0, 3.95, 0]}
-            renderOrder={1}
-            scale={[33, 33, 33]}
-        >
-            <cylinderBufferGeometry
-                args={[0.036, 0.036, 0.003, 64, 64, true]}
-                attach="geometry"
-            />
-            <shaderMaterial
-                attach="material"
-                side={THREE.DoubleSide}
-                vertexShader={vertexShader}
-                fragmentShader={fragmentShader}
-                transparent={true}
-                uniforms={uniforms}
-                lights={true}
-            />
-        </mesh>
-    );
+  return (
+    <mesh
+      position={[0, props.grayRingPosY, 0]}
+      rotation={[0, 3.95, 0]}
+      renderOrder={1}
+      scale={[33, 33, 33]}
+    >
+      <cylinderBufferGeometry
+        args={[0.036, 0.036, 0.003, 64, 64, true]}
+        attach="geometry"
+      />
+      <shaderMaterial
+        attach="material"
+        side={THREE.DoubleSide}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        transparent={true}
+        uniforms={uniforms}
+        lights={true}
+      />
+    </mesh>
+  );
 });
 
 export default GrayRing;
