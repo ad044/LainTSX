@@ -6,15 +6,22 @@ import Lain from "./Lain";
 import Lights from "./Lights";
 import OrthoCamera from "./OrthoCamera";
 import Preloader from "./Preloader";
-import InputHandler from "./InputHandler";
+import EventStateManager from "./StateManagers/EventStateManager";
 import MainSceneIntro from "./MainSceneIntro";
 import GrayPlanes from "./GrayPlanes";
 import MiddleRing from "./MiddleRing";
 import Starfield from "./Starfield";
-import { useLainStore, useMainGroupStore } from "../store";
+import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
+  const setCurrentBlueOrb = useBlueOrbStore(
+    (state) => state.setCurrentBlueOrbId
+  );
+  const setCurrentBlueOrbHudId = useBlueOrbStore(
+    (state) => state.setCurrentBlueOrbHudId
+  );
+
   const mainGroupPosY = useMainGroupStore((state) => state.mainGroupPosY);
   const mainGroupPosZ = useMainGroupStore((state) => state.mainGroupPosZ);
   const mainGroupRotX = useMainGroupStore((state) => state.mainGroupRotX);
@@ -32,7 +39,9 @@ const MainScene = () => {
 
   useEffect(() => {
     setLainMoveState("standing");
-  }, [setLainMoveState]);
+    setCurrentBlueOrb("0422");
+    setCurrentBlueOrbHudId("fg_hud_1");
+  }, [setCurrentBlueOrb, setCurrentBlueOrbHudId, setLainMoveState]);
   // set lain intro spritesheet before the page loads fully
   useEffect(() => {
     // setLainMoving(true);
@@ -48,7 +57,7 @@ const MainScene = () => {
           position-y={mainGroupStatePos.mainGroupPosY}
           position-z={mainGroupStatePos.mainGroupPosZ}
         >
-          <InputHandler />
+          <EventStateManager />
           <Preloader />
           <Site />
           <OrthoCamera />

@@ -1,60 +1,72 @@
 {
   "0422_down": {
+    "action": "changeBlueOrbFocus",
     "id": "0414",
     "hud": "fg_hud_2"
   },
   "0422_right": {
+    "action": "changeBlueOrbFocus",
     "id": "0417",
     "hud": "bg_hud_1"
   },
   "0422_up": {
-    "id": "+0506",
+    "action": "moveUp",
+    "id": "0506",
     "hud": "fg_hud_3"
   },
 
   "0414_up": {
+    "action": "changeBlueOrbFocus",
     "id": "0422",
     "hud": "fg_hud_1"
   },
   "0414_right": {
+    "action": "changeBlueOrbFocus",
     "id": "0417",
     "hud": "bg_hud_1"
   },
 
   "0413_down": {
+    "action": "changeBlueOrbFocus",
     "id": "0405",
     "hud": "fg_hud_6"
   },
   "0413_left": {
+    "action": "changeBlueOrbFocus",
     "id": "0417",
     "hud": "bg_hud_1"
   },
 
   "0405_left": {
+    "action": "changeBlueOrbFocus",
     "id": "0417",
     "hud": "bg_hud_1"
   },
   "0405_up": {
+    "action": "changeBlueOrbFocus",
     "id": "0413",
     "hud": "fg_hud_5"
   },
 
-
   "0417_left": {
+    "action": "changeBlueOrbFocus",
     "id": "0422",
     "hud": "fg_hud_1"
   },
   "0417_down": {
+    "action": "changeBlueOrbFocus",
     "id": "0414",
     "hud": "fg_hud_2"
   },
   "0417_right": {
+    "action": "changeBlueOrbFocus",
     "id": "0413",
     "hud": "fg_hud_5"
   },
 
   "0506_down": {
-    "id": "+0422",
+    "action": "moveDown",
+    "id": "0422",
     "hud": "fg_hud_1"
   }
 }
