@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useMiddleRingStore } from "../../store";
+import blue_orb_directions from "../../resources/blue_orb_directions.json";
 
 const MiddleRingStateManager = (props: any) => {
   const setMiddleRingWobbleStrength = useMiddleRingStore(
@@ -194,11 +195,18 @@ const MiddleRingStateManager = (props: any) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const dispatchedAction =
-        dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
+      const eventObject =
+        blue_orb_directions[
+          props.eventState as keyof typeof blue_orb_directions
+        ];
 
-      if (dispatchedAction) {
-        dispatchedAction.action();
+      const eventAction = eventObject.action;
+
+      const dispatchedObject =
+        dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
+
+      if (dispatchedObject) {
+        dispatchedObject.action();
       }
     }
   }, [

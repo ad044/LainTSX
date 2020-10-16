@@ -1,9 +1,12 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useBlueOrbStore } from "../../store";
+import blue_orb_directions from "../../resources/blue_orb_directions.json";
 
-// fix the typing on this
+type SetCurrentBlueOrb = (value: string) => void;
+type SetIsCurrentBlueOrbInteractedWith = (value: boolean) => void;
+
 type BlueOrbDispatchData = {
-  action: (value: any) => void;
+  action: SetCurrentBlueOrb | SetIsCurrentBlueOrbInteractedWith;
   value: string | boolean;
   actionDelay: number;
 };
@@ -18,10 +21,10 @@ type BlueOrbDispatcher = {
 };
 
 const BlueOrbStateManager = (props: any) => {
-  const setCurrentBlueOrb = useBlueOrbStore(
+  const setCurrentBlueOrb: SetCurrentBlueOrb = useBlueOrbStore(
     (state) => state.setCurrentBlueOrbId
   );
-  const setIsCurrentBlueOrbInteractedWith = useBlueOrbStore(
+  const setIsCurrentBlueOrbInteractedWith: SetIsCurrentBlueOrbInteractedWith = useBlueOrbStore(
     (state) => state.setIsCurrentBlueOrbInteractedWith
   );
 
@@ -64,16 +67,27 @@ const BlueOrbStateManager = (props: any) => {
     },
     []
   );
+
   useEffect(() => {
     if (props.eventState) {
-      const dispatchedObject = dispatchObject(
-        props.eventState,
-        props.targetBlueOrbId
-      );
+      const eventObject =
+        blue_orb_directions[
+          props.eventState as keyof typeof blue_orb_directions
+        ];
 
-      setTimeout(() => {
-        dispatchedObject.action(dispatchedObject.value);
-      }, dispatchedObject.actionDelay);
+      const eventAction = eventObject.action;
+      const targetBlueOrbId = eventObject.target_blue_orb_id;
+
+      const dispatchedObject = dispatchObject(eventAction, targetBlueOrbId);
+
+      if (dispatchedObject) {
+        // set current to dummy blue orb for disabling the glowing effect for the current sprite.
+        setCurrentBlueOrb("dummy");
+
+        setTimeout(() => {
+          dispatchedObject.action(dispatchedObject.value as never);
+        }, dispatchedObject.actionDelay);
+      }
     }
   }, [props.eventState, props.targetBlueOrbId, setCurrentBlueOrb]);
   return null;

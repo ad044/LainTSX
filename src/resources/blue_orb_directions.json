@@ -1,72 +1,72 @@
 {
   "0422_down": {
     "action": "changeBlueOrbFocus",
-    "id": "0414",
-    "hud": "fg_hud_2"
+    "target_blue_orb_id": "0414",
+    "target_hud_id": "fg_hud_2"
   },
   "0422_right": {
     "action": "changeBlueOrbFocus",
-    "id": "0417",
-    "hud": "bg_hud_1"
+    "target_blue_orb_id": "0417",
+    "target_hud_id": "bg_hud_1"
   },
   "0422_up": {
     "action": "moveUp",
-    "id": "0506",
-    "hud": "fg_hud_3"
+    "target_blue_orb_id": "0506",
+    "target_hud_id": "fg_hud_3"
   },
 
   "0414_up": {
     "action": "changeBlueOrbFocus",
-    "id": "0422",
-    "hud": "fg_hud_1"
+    "target_blue_orb_id": "0422",
+    "target_hud_id": "fg_hud_1"
   },
   "0414_right": {
     "action": "changeBlueOrbFocus",
-    "id": "0417",
-    "hud": "bg_hud_1"
+    "target_blue_orb_id": "0417",
+    "target_hud_id": "bg_hud_1"
   },
 
   "0413_down": {
     "action": "changeBlueOrbFocus",
-    "id": "0405",
-    "hud": "fg_hud_6"
+    "target_blue_orb_id": "0405",
+    "target_hud_id": "fg_hud_6"
   },
   "0413_left": {
     "action": "changeBlueOrbFocus",
-    "id": "0417",
-    "hud": "bg_hud_1"
+    "target_blue_orb_id": "0417",
+    "target_hud_id": "bg_hud_1"
   },
 
   "0405_left": {
     "action": "changeBlueOrbFocus",
-    "id": "0417",
-    "hud": "bg_hud_1"
+    "target_blue_orb_id": "0417",
+    "target_hud_id": "bg_hud_1"
   },
   "0405_up": {
     "action": "changeBlueOrbFocus",
-    "id": "0413",
-    "hud": "fg_hud_5"
+    "target_blue_orb_id": "0413",
+    "target_hud_id": "fg_hud_5"
   },
 
   "0417_left": {
     "action": "changeBlueOrbFocus",
-    "id": "0422",
-    "hud": "fg_hud_1"
+    "target_blue_orb_id": "0422",
+    "target_hud_id": "fg_hud_1"
   },
   "0417_down": {
     "action": "changeBlueOrbFocus",
-    "id": "0414",
-    "hud": "fg_hud_2"
+    "target_blue_orb_id": "0414",
+    "target_hud_id": "fg_hud_2"
   },
   "0417_right": {
     "action": "changeBlueOrbFocus",
-    "id": "0413",
-    "hud": "fg_hud_5"
+    "target_blue_orb_id": "0413",
+    "target_hud_id": "fg_hud_5"
   },
 
   "0506_down": {
     "action": "moveDown",
-    "id": "0422",
-    "hud": "fg_hud_1"
+    "target_blue_orb_id": "0422",
+    "target_hud_id": "fg_hud_1"
   }
 }

@@ -120,6 +120,7 @@ const Lain = () => {
     moveRight: <LainMoveRight />,
     moveUp: <LainMoveUp />,
     moveDown: <LainMoveDown />,
+    throwBlueOrb: <LainThrowBlueOrb />,
   };
 
   return (
