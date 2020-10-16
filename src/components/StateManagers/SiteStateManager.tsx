@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { useSiteStore } from "../../store";
+import blue_orb_directions from "../../resources/blue_orb_directions.json";
 
 const SiteStateManager = (props: any) => {
   const incrementSiteRotY = useSiteStore((state) => state.incrementSiteRotY);
@@ -26,15 +27,22 @@ const SiteStateManager = (props: any) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const dispatchedAction =
-        dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
+      const eventObject =
+        blue_orb_directions[
+          props.eventState as keyof typeof blue_orb_directions
+        ];
 
-      if (dispatchedAction) {
+      const eventAction = eventObject.action;
+
+      const dispatchedObject =
+        dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
+
+      if (dispatchedObject) {
         setIsSiteYChanging(true);
 
         setTimeout(() => {
-          dispatchedAction.action(dispatchedAction.value);
-        }, dispatchedAction.actionDelay);
+          dispatchedObject.action(dispatchedObject.value);
+        }, dispatchedObject.actionDelay);
 
         setTimeout(() => {
           setIsSiteYChanging(false);

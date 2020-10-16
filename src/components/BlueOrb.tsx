@@ -110,6 +110,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   `;
 
+  const activeBlueOrbRef = useRef<THREE.Object3D>();
   useFrame(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.timeMSeconds.value =
@@ -124,6 +125,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
         position-y={props.position[1]}
         position-z={props.position[2]}
         rotation-y={props.rotation[1]}
+        ref={props.active ? activeBlueOrbRef : undefined}
         scale={[0.36, 0.18, 0.36]}
         renderOrder={1}
       >

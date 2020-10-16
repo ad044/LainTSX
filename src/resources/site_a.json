@@ -11986,5 +11986,33 @@
             "2": "64",
             "3": "227"
         }
+    },
+    "dummy": {
+        "SLPS_016_0x offset": "",
+        "green_text": "",
+        "image_table_indices": {
+            "1": "",
+            "2": "",
+            "3": ""
+        },
+        "is_hidden": "0",
+        "media_file": "",
+        "node_name": "",
+        "protocol_lines": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": ""
+        },
+        "site": "",
+        "type": "",
+        "unlocked_by": "",
+        "upgrade_requirement": "",
+        "words": {
+            "1": "",
+            "2": "",
+            "3": ""
+        }
     }
+
 }

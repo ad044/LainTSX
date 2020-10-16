@@ -2,6 +2,31 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
 import site_a from "../../resources/site_a.json";
 import { useBlueOrbStore } from "../../store";
+import blue_orb_directions from "../../resources/blue_orb_directions.json";
+
+type AnimateYellowTextWithMove = (
+  yellowLetterPosYOffset: number,
+  targetBlueOrbHudId: string,
+  targetBlueOrbId: string
+) => void;
+
+type AnimateYellowTextWithoutMove = (
+  targetBlueOrbHudId: string,
+  targetBlueOrbId: string
+) => void;
+
+type BlueOrbHUDTextDispatchData = {
+  action: AnimateYellowTextWithMove | AnimateYellowTextWithoutMove;
+  value: any;
+};
+
+type BlueOrbHUDTextDispatcher = {
+  moveUp: BlueOrbHUDTextDispatchData;
+  moveDown: BlueOrbHUDTextDispatchData;
+  moveLeft: BlueOrbHUDTextDispatchData;
+  moveRight: BlueOrbHUDTextDispatchData;
+  changeBlueOrbFocus: BlueOrbHUDTextDispatchData;
+};
 
 const BlueOrbHUDTextStateManager = (props: any) => {
   const setYellowHudText = useBlueOrbStore((state) => state.setYellowHudText);
@@ -19,8 +44,12 @@ const BlueOrbHUDTextStateManager = (props: any) => {
     (state) => state.setYellowHudTextPosX
   );
 
-  const animateYellowTextWithMove = useCallback(
-    (yellowLetterPosYOffset: number, targ1: string, targ2: string) => {
+  const animateYellowTextWithMove: AnimateYellowTextWithMove = useCallback(
+    (
+      yellowLetterPosYOffset: number,
+      targetBlueOrbHudId: string,
+      targetBlueOrbId: string
+    ) => {
       // animate the letters to match that of site's
       // to create an illusion of not moving
       setTimeout(() => {
@@ -35,13 +64,17 @@ const BlueOrbHUDTextStateManager = (props: any) => {
       setTimeout(() => {
         // animate it to new pos x/y
         setYellowHudTextPosX(
-          blue_orb_huds[targ1 as keyof typeof blue_orb_huds].big_text[0]
+          blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
+            .big_text[0]
         );
         setYellowHudTextPosY(
-          blue_orb_huds[targ1 as keyof typeof blue_orb_huds].big_text[1]
+          blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
+            .big_text[1]
         );
         // set new text according to the node name
-        setYellowHudText(site_a[targ2 as keyof typeof site_a].node_name);
+        setYellowHudText(
+          site_a[targetBlueOrbId as keyof typeof site_a].node_name
+        );
       }, 3000);
 
       // unshrink text
@@ -58,24 +91,28 @@ const BlueOrbHUDTextStateManager = (props: any) => {
     ]
   );
 
-  const animateYellowTextWithoutMove = useCallback(
-    (targ1: string, targ2: string) => {
+  const animateYellowTextWithoutMove: AnimateYellowTextWithoutMove = useCallback(
+    (targetBlueOrbHudId: string, targetBlueOrbId: string) => {
       // make current hud big text shrink
       setYellowHudTextOffsetXCoeff(-1);
 
       setTimeout(() => {
         setYellowHudTextPosX(
-          blue_orb_huds[targ1 as keyof typeof blue_orb_huds].big_text[0]
+          blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
+            .big_text[0]
         );
         setYellowHudTextPosY(
-          blue_orb_huds[targ1 as keyof typeof blue_orb_huds].big_text[1]
+          blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
+            .big_text[1]
         );
       }, 400);
       // animate it to new pos x/y
 
       setTimeout(() => {
         // set new text according to the node name
-        setYellowHudText(site_a[targ2 as keyof typeof site_a].node_name);
+        setYellowHudText(
+          site_a[targetBlueOrbId as keyof typeof site_a].node_name
+        );
       }, 1000);
 
       setTimeout(() => {
@@ -91,59 +128,60 @@ const BlueOrbHUDTextStateManager = (props: any) => {
     ]
   );
 
-  const dispatcherObjects = useMemo(
-    () => ({
-      moveUp: {
-        action: "animateWithMove",
-        actionFunction: animateYellowTextWithMove,
-        yellowLetterPosYOffset: -1.5,
-      },
-      moveDown: {
-        action: "animateWithMove",
-        actionFunction: animateYellowTextWithMove,
-        yellowLetterPosYOffset: 1.5,
-      },
-      moveLeft: {
-        action: "animateWithMove",
-        actionFunction: animateYellowTextWithMove,
-        yellowLetterPosYOffset: 0,
-      },
-      moveRight: {
-        action: "animateWithMove",
-        actionFunction: animateYellowTextWithMove,
-        yellowLetterPosYOffset: 0,
-      },
-      changeBlueOrbFocus: {
-        action: "animateWithoutMove",
-        actionFunction: animateYellowTextWithoutMove,
-        yellowLetterPosYOffset: 0,
-      },
-    }),
-    [animateYellowTextWithMove, animateYellowTextWithoutMove]
+  const dispatchObject = useCallback(
+    (event: string, targetBlueOrbHudId: string, targetBlueOrbId: string) => {
+      const dispatcherObjects: BlueOrbHUDTextDispatcher = {
+        moveUp: {
+          action: animateYellowTextWithMove,
+          value: [-1.5, targetBlueOrbHudId, targetBlueOrbId],
+        },
+        moveDown: {
+          action: animateYellowTextWithMove,
+          value: [1.5, targetBlueOrbHudId, targetBlueOrbId],
+        },
+        moveLeft: {
+          action: animateYellowTextWithMove,
+          value: [targetBlueOrbHudId, targetBlueOrbId],
+        },
+        moveRight: {
+          action: animateYellowTextWithMove,
+          value: [targetBlueOrbHudId, targetBlueOrbId],
+        },
+        changeBlueOrbFocus: {
+          action: animateYellowTextWithoutMove,
+          value: [targetBlueOrbHudId, targetBlueOrbId],
+        },
+      };
+
+      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+    },
+    []
   );
 
   useEffect(() => {
     if (props.eventState) {
-      const dispatchedAction =
-        dispatcherObjects[props.eventState as keyof typeof dispatcherObjects];
+      const eventObject =
+        blue_orb_directions[
+          props.eventState as keyof typeof blue_orb_directions
+        ];
 
-      if (dispatchedAction.action === "animateWithMove") {
-        animateYellowTextWithMove(
-          dispatchedAction.yellowLetterPosYOffset,
-          props.targetBlueOrbHudId,
-          props.targetBlueOrbId
-        );
-      } else {
-        animateYellowTextWithoutMove(
-          props.targetBlueOrbHudId,
-          props.targetBlueOrbId
-        );
+      const eventAction = eventObject.action;
+      const targetBlueOrbId = eventObject.target_blue_orb_id;
+      const targetBlueOrbHudId = eventObject.target_hud_id;
+
+      const dispatchedObject = dispatchObject(
+        eventAction,
+        targetBlueOrbHudId,
+        targetBlueOrbId
+      );
+
+      if (dispatchedObject) {
+        (dispatchedObject.action as any).apply(null, dispatchedObject.value);
       }
     }
   }, [
     animateYellowTextWithMove,
     animateYellowTextWithoutMove,
-    dispatcherObjects,
     props.eventState,
     props.targetBlueOrbHudId,
     props.targetBlueOrbId,
