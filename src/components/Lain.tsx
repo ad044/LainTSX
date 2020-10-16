@@ -22,16 +22,21 @@ const LainConstructor = (props: LainConstructorProps) => {
   // any here temporarily
   const lainSpriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);
 
-  const [animator] = useState(
-    () =>
-      new PlainSingularAnimator(
+  const [animator] = useState(() => {
+    const anim = new PlainSingularAnimator(
         lainSpriteTexture,
         props.framesHorizontal,
         props.framesVertical,
         props.frameCount,
         props.frameCount * 0.27
-      )
-  );
+    );
+    anim.init(0);
+    return anim;
+  });
+
+  useFrame(() => {
+    animator.animate();
+  });
 
   useFrame(() => {
     animator.animate();
