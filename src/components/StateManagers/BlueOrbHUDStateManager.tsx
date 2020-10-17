@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useBlueOrbStore } from "../../store";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
+import { StateManagerProps } from "./EventStateManager";
 
-const BlueOrbHUDStateManager = (props: any) => {
-  const setCurrentBlueOrbHudId = useBlueOrbStore(
-    (state) => state.setCurrentBlueOrbHudId
+const BlueOrbHUDStateManager = (props: StateManagerProps) => {
+  const setActiveBlueOrbHudId = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbHudId
   );
   const toggleHud = useBlueOrbStore((state) => state.toggleHud);
 
@@ -12,27 +13,27 @@ const BlueOrbHUDStateManager = (props: any) => {
     (event: string, targetBlueOrbHudId: string) => {
       const dispatcherObjects = {
         moveUp: {
-          action: setCurrentBlueOrbHudId,
+          action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
         moveDown: {
-          action: setCurrentBlueOrbHudId,
+          action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
         moveLeft: {
-          action: setCurrentBlueOrbHudId,
+          action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
         moveRight: {
-          action: setCurrentBlueOrbHudId,
+          action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
         changeBlueOrbFocus: {
-          action: setCurrentBlueOrbHudId,
+          action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 500,
         },
@@ -40,7 +41,7 @@ const BlueOrbHUDStateManager = (props: any) => {
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    []
+    [setActiveBlueOrbHudId]
   );
 
   useEffect(() => {
@@ -64,13 +65,7 @@ const BlueOrbHUDStateManager = (props: any) => {
         }, dispatchedObject.actionDelay);
       }
     }
-  }, [
-    props.eventState,
-    props.targetBlueOrbGreenText,
-    props.targetBlueOrbHudId,
-    setCurrentBlueOrbHudId,
-    toggleHud,
-  ]);
+  }, [props.eventState, setActiveBlueOrbHudId, toggleHud, dispatchObject]);
   return null;
 };
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo } from "react";
 import { useSiteStore } from "../../store";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
+import { StateManagerProps } from "./EventStateManager";
 
-const SiteStateManager = (props: any) => {
+const SiteStateManager = (props: StateManagerProps) => {
   const incrementSiteRotY = useSiteStore((state) => state.incrementSiteRotY);
   const incrementSitePosY = useSiteStore((state) => state.incrementSitePosY);
   const setIsSiteYChanging = useSiteStore((state) => state.setIsSiteChanging);

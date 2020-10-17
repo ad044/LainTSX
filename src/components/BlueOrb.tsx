@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useRef } from "react";
+import React, {memo, useEffect, useMemo, useRef} from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { useSpring, a } from "@react-spring/three";
 import * as THREE from "three";
@@ -17,6 +17,7 @@ import LdaActive from "../static/sprites/Lda_active.png";
 import MULTI from "../static/sprites/MULTI.png";
 import MULTIActive from "../static/sprites/MULTI_active.png";
 import level_y_values from "../resources/level_y_values.json";
+import { useBlueOrbStore } from "../store";
 
 type BlueOrbContructorProps = {
   sprite: string;
@@ -26,15 +27,14 @@ type BlueOrbContructorProps = {
   level: string;
 };
 
-type LevelYValues = {
-  [level: string]: number;
-};
-
-type SpriteToPath = {
-  [key: string]: [string, string];
-};
-
 const BlueOrb = memo((props: BlueOrbContructorProps) => {
+  const isActiveBlueOrbInteractedWith = useBlueOrbStore(
+    (state) => state.isActiveBlueOrbInteractedWith
+  );
+  const activeBlueOrbPosX = useBlueOrbStore((state) => state.activeBlueOrbPosX);
+  const activeBlueOrbPosZ = useBlueOrbStore((state) => state.activeBlueOrbPosZ);
+  const activeBlueOrbRotZ = useBlueOrbStore((state) => state.activeBlueOrbRotZ);
+
   // the game only has a couple of sprites that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -52,7 +52,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     } else if (sprite.includes("Dc")) {
       return [Dc, DcActive];
     } else {
-      return ({
+      const spriteAssocs = {
         Tda: [Tda, TdaActive],
         Cou: [Cou, CouActive],
         Dia: [Dia, DiaActive],
@@ -62,7 +62,9 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
         Eda: [MULTI, MULTIActive],
         TaK: [MULTI, MULTIActive],
         Env: [MULTI, MULTIActive],
-      } as SpriteToPath)[sprite.substr(0, 3)];
+      };
+
+      return spriteAssocs[sprite.substr(0, 3) as keyof typeof spriteAssocs];
     }
   };
 
@@ -110,7 +112,6 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   `;
 
-  const activeBlueOrbRef = useRef<THREE.Object3D>();
   useFrame(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.timeMSeconds.value =
@@ -118,19 +119,41 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   });
 
+  const activeBlueOrbState = useSpring({
+    activeBlueOrbPosX: isActiveBlueOrbInteractedWith
+      ? activeBlueOrbPosX
+      : props.position[0],
+    activeBlueOrbPosY: isActiveBlueOrbInteractedWith
+      ? level_y_values[props.level as keyof typeof level_y_values]
+      : props.position[1],
+    activeBlueOrbPosZ: isActiveBlueOrbInteractedWith
+      ? activeBlueOrbPosZ
+      : props.position[2],
+    activeBlueOrbRotZ: isActiveBlueOrbInteractedWith
+      ? activeBlueOrbRotZ
+      : 0.001,
+    config: { duration: 800 },
+  });
+
   return (
-    <group position={[0, (level_y_values as LevelYValues)[props.level], 0]}>
-      <a.mesh
-        position-x={props.position[0]}
-        position-y={props.position[1]}
-        position-z={props.position[2]}
-        rotation-y={props.rotation[1]}
-        ref={props.active ? activeBlueOrbRef : undefined}
-        scale={[0.36, 0.18, 0.36]}
-        renderOrder={1}
-      >
-        <planeBufferGeometry attach="geometry" />
-        {props.active ? (
+    <group
+      position={[
+        0,
+        level_y_values[props.level as keyof typeof level_y_values],
+        0,
+      ]}
+    >
+      {props.active ? (
+        <a.mesh
+          position-x={activeBlueOrbState.activeBlueOrbPosX}
+          position-y={activeBlueOrbState.activeBlueOrbPosY}
+          position-z={activeBlueOrbState.activeBlueOrbPosZ}
+          rotation-z={activeBlueOrbState.activeBlueOrbRotZ}
+          rotation-y={props.rotation[1]}
+          scale={[0.36, 0.18, 0.36]}
+          renderOrder={1}
+        >
+          <planeBufferGeometry attach="geometry" />
           <shaderMaterial
             ref={materialRef}
             attach="material"
@@ -140,15 +163,26 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
             side={THREE.DoubleSide}
             transparent={true}
           />
-        ) : (
+        </a.mesh>
+      ) : (
+        <a.mesh
+          position-x={props.position[0]}
+          position-y={props.position[1]}
+          position-z={props.position[2]}
+          rotation-y={props.rotation[1]}
+          rotation-z={0}
+          scale={[0.36, 0.18, 0.36]}
+          renderOrder={1}
+        >
+          <planeBufferGeometry attach="geometry" />
           <meshStandardMaterial
             attach="material"
             map={nonActiveTexture}
             side={THREE.DoubleSide}
             transparent={true}
           />
-        )}
-      </a.mesh>
+        </a.mesh>
+      )}
     </group>
   );
 });

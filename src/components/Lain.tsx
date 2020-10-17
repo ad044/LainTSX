@@ -38,10 +38,6 @@ const LainConstructor = (props: LainConstructorProps) => {
     animator.animate();
   });
 
-  useFrame(() => {
-    animator.animate();
-  });
-
   return (
     <spriteMaterial
       attach="material"

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect } from "react";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
 import site_a from "../../resources/site_a.json";
 import { useBlueOrbStore } from "../../store";
@@ -30,6 +30,7 @@ type BlueOrbHUDTextDispatcher = {
 
 const BlueOrbHUDTextStateManager = (props: any) => {
   const setYellowHudText = useBlueOrbStore((state) => state.setYellowHudText);
+
   const setYellowHudTextOffsetXCoeff = useBlueOrbStore(
     (state) => state.setYellowHudTextOffsetXCoeff
   );
@@ -155,7 +156,7 @@ const BlueOrbHUDTextStateManager = (props: any) => {
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    []
+    [animateYellowTextWithMove, animateYellowTextWithoutMove]
   );
 
   useEffect(() => {
@@ -185,6 +186,7 @@ const BlueOrbHUDTextStateManager = (props: any) => {
     props.eventState,
     props.targetBlueOrbHudId,
     props.targetBlueOrbId,
+    dispatchObject,
   ]);
 
   return null;

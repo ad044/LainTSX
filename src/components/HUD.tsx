@@ -20,7 +20,7 @@ export type HUDElementProps = {
 const HUD = memo((props: HUDElementProps) => {
   const hudActive = useBlueOrbStore((state) => state.hudActive);
 
-  const currentBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
+  const activeBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
   const currentHudId = useBlueOrbStore((state) => state.hudId);
 
   const yellowHudTextPosY = useBlueOrbStore((state) => state.yellowHudTextPosY);
@@ -30,7 +30,7 @@ const HUD = memo((props: HUDElementProps) => {
 
   const currentYellowHudText = useBlueOrbStore((state) => state.yellowHudText);
   const currentGreenHudText =
-    site_a[currentBlueOrbId as keyof typeof site_a].green_text;
+    site_a[activeBlueOrbId as keyof typeof site_a].green_text;
 
   const yellowTextArr = currentYellowHudText.split("");
   const greenTextArr = currentGreenHudText.split("");

@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import { useBlueOrbStore } from "../../store";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
+import { StateManagerProps } from "./EventStateManager";
 
-type SetCurrentBlueOrb = (value: string) => void;
-type SetIsCurrentBlueOrbInteractedWith = (value: boolean) => void;
+type SetActiveBlueOrb = (value: string) => void;
+type SetIsActiveBlueOrbInteractedWith = (value: boolean) => void;
 
 type BlueOrbDispatchData = {
-  action: SetCurrentBlueOrb | SetIsCurrentBlueOrbInteractedWith;
+  action: SetActiveBlueOrb | SetIsActiveBlueOrbInteractedWith;
   value: string | boolean;
   actionDelay: number;
 };
@@ -17,47 +18,87 @@ type BlueOrbDispatcher = {
   moveLeft: BlueOrbDispatchData;
   moveRight: BlueOrbDispatchData;
   changeBlueOrbFocus: BlueOrbDispatchData;
-  pickCurrentBlueOrb: BlueOrbDispatchData;
+  pickActiveBlueOrb: BlueOrbDispatchData;
 };
 
-const BlueOrbStateManager = (props: any) => {
-  const setCurrentBlueOrb: SetCurrentBlueOrb = useBlueOrbStore(
-    (state) => state.setCurrentBlueOrbId
+const BlueOrbStateManager = (props: StateManagerProps) => {
+  const setActiveBlueOrb: SetActiveBlueOrb = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbId
   );
-  const setIsCurrentBlueOrbInteractedWith: SetIsCurrentBlueOrbInteractedWith = useBlueOrbStore(
-    (state) => state.setIsCurrentBlueOrbInteractedWith
+  const setIsActiveBlueOrbInteractedWith: SetIsActiveBlueOrbInteractedWith = useBlueOrbStore(
+    (state) => state.setIsActiveBlueOrbInteractedWith
   );
+  const setActiveBlueOrbPosX = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbPosX
+  );
+  const setActiveBlueOrbPosZ = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbPosZ
+  );
+  const setActiveBlueOrbRotZ = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbRotZ
+  );
+
+  const animateActiveBlueOrbThrow = useCallback(() => {
+    setIsActiveBlueOrbInteractedWith(true);
+
+    setActiveBlueOrbPosZ(0.3);
+    setActiveBlueOrbPosX(0.9);
+
+    setTimeout(() => {
+      setActiveBlueOrbPosZ(0.2);
+      setActiveBlueOrbPosX(0.5);
+    }, 800);
+    setTimeout(() => {
+      setActiveBlueOrbPosX(0.55);
+      setActiveBlueOrbRotZ(-0.005);
+    }, 2000);
+    setTimeout(() => {
+      setActiveBlueOrbPosZ(2);
+      setActiveBlueOrbPosX(0);
+      setActiveBlueOrbRotZ(-0.5);
+    }, 2450);
+
+    setTimeout(() => {
+      setActiveBlueOrbRotZ(0);
+      setIsActiveBlueOrbInteractedWith(false);
+    }, 3800);
+  }, [
+    setActiveBlueOrbPosX,
+    setActiveBlueOrbPosZ,
+    setActiveBlueOrbRotZ,
+    setIsActiveBlueOrbInteractedWith,
+  ]);
 
   const dispatchObject = useCallback(
     (event: string, targetBlueOrbId: string) => {
       const dispatcherObjects: BlueOrbDispatcher = {
         moveUp: {
-          action: setCurrentBlueOrb,
+          action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
         moveDown: {
-          action: setCurrentBlueOrb,
+          action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
         moveLeft: {
-          action: setCurrentBlueOrb,
+          action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
         moveRight: {
-          action: setCurrentBlueOrb,
+          action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
         changeBlueOrbFocus: {
-          action: setCurrentBlueOrb,
+          action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 0,
         },
-        pickCurrentBlueOrb: {
-          action: setIsCurrentBlueOrbInteractedWith,
+        pickActiveBlueOrb: {
+          action: animateActiveBlueOrbThrow,
           value: true,
           actionDelay: 0,
         },
@@ -65,7 +106,7 @@ const BlueOrbStateManager = (props: any) => {
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    []
+    [animateActiveBlueOrbThrow, setActiveBlueOrb]
   );
 
   useEffect(() => {
@@ -81,15 +122,12 @@ const BlueOrbStateManager = (props: any) => {
       const dispatchedObject = dispatchObject(eventAction, targetBlueOrbId);
 
       if (dispatchedObject) {
-        // set current to dummy blue orb for disabling the glowing effect for the current sprite.
-        setCurrentBlueOrb("dummy");
-
         setTimeout(() => {
           dispatchedObject.action(dispatchedObject.value as never);
         }, dispatchedObject.actionDelay);
       }
     }
-  }, [props.eventState, props.targetBlueOrbId, setCurrentBlueOrb]);
+  }, [props.eventState, setActiveBlueOrb, dispatchObject]);
   return null;
 };
 

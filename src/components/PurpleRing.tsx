@@ -10,10 +10,6 @@ type PurpleRingProps = {
   level: string;
 };
 
-type SiteTextureDispatcher = {
-  [key: string]: number;
-};
-
 const PurpleRing = memo((props: PurpleRingProps) => {
   const siteA = useLoader(THREE.TextureLoader, siteATex);
   const siteB = useLoader(THREE.TextureLoader, siteBTex);
@@ -22,7 +18,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   const purpleRingRef = useRef<THREE.Object3D>();
 
   const dispatchSiteLevelTextureOffset = (level: string) => {
-    return ({
+    const siteTextures = {
       "9": 0.035,
       "8": 0.039,
       "7": 0.001,
@@ -33,7 +29,8 @@ const PurpleRing = memo((props: PurpleRingProps) => {
       "2": 0.0218,
       "1": 0.026,
       "0": 0.031,
-    } as SiteTextureDispatcher)[level];
+    };
+    return siteTextures[level as keyof typeof siteTextures];
   };
 
   const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);

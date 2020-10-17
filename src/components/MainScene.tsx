@@ -15,11 +15,11 @@ import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
-  const setCurrentBlueOrb = useBlueOrbStore(
-    (state) => state.setCurrentBlueOrbId
+  const setActiveBlueOrb = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbId
   );
-  const setCurrentBlueOrbHudId = useBlueOrbStore(
-    (state) => state.setCurrentBlueOrbHudId
+  const setActiveBlueOrbHudId = useBlueOrbStore(
+    (state) => state.setActiveBlueOrbHudId
   );
 
   const mainGroupPosY = useMainGroupStore((state) => state.mainGroupPosY);
@@ -39,9 +39,9 @@ const MainScene = () => {
 
   useEffect(() => {
     setLainMoveState("standing");
-    setCurrentBlueOrb("0422");
-    setCurrentBlueOrbHudId("fg_hud_1");
-  }, [setCurrentBlueOrb, setCurrentBlueOrbHudId, setLainMoveState]);
+    setActiveBlueOrb("0422");
+    setActiveBlueOrbHudId("fg_hud_1");
+  }, [setActiveBlueOrb, setActiveBlueOrbHudId, setLainMoveState]);
   // set lain intro spritesheet before the page loads fully
   useEffect(() => {
     // setLainMoving(true);
