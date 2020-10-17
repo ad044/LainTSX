@@ -7,28 +7,24 @@ import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
 import BlueOrbHUDTextStateManager from "./BlueOrbHUDTextStateManager";
 import { useBlueOrbStore } from "../../store";
 
-type KeyCodeAssociations = {
-  [keyCode: number]: string;
-};
-
 const getKeyCodeAssociation = (keyCode: number): string => {
-  return ({
-    40: "down",
-    37: "left",
-    38: "up",
-    39: "right",
-    88: "x",
-  } as KeyCodeAssociations)[keyCode];
+  const keyCodeAssocs = {
+    40: "down", // down arrow
+    37: "left", // left arrow
+    38: "up", // up arrow
+    39: "right", // right arrow
+    88: "pick", // x key
+  };
+  return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };
 
-type BlueOrbStateData = {
-  targetBlueOrbId: string;
-  targetBlueOrbHudId: string;
+export type StateManagerProps = {
+  eventState: string;
 };
 
 const EventStateManager = () => {
   const [eventState, setEventState] = useState<string>();
-  const currentBlueOrb = useBlueOrbStore((state) => state.blueOrbId);
+  const activeBlueOrb = useBlueOrbStore((state) => state.blueOrbId);
 
   const [inputCooldown, setInputCooldown] = useState(false);
 
@@ -38,23 +34,17 @@ const EventStateManager = () => {
 
       const keyPress = getKeyCodeAssociation(keyCode);
 
-      // changing blue orb focus/moving around the map
-      const arrowKeys = ["up", "down", "left", "right"];
-
-      // interacting with blue orbs
-      const blueOrbPressKeys = ["x"];
-
-      if (arrowKeys.includes(keyPress) && !inputCooldown) {
+      if (keyPress && !inputCooldown) {
         // event id consists of the CURRENT blue orb id (to calculate where we're at currently)
         // and the keypress.
         // this id is later on used to get the needed corresponding data for each component
         // from blue_orb_directions.json file.
-        const eventId = `${currentBlueOrb}_${keyPress}`;
+        const eventId = `${activeBlueOrb}_${keyPress}`;
 
         setEventState(eventId);
       }
     },
-    [inputCooldown, currentBlueOrb]
+    [inputCooldown, activeBlueOrb]
   );
 
   useEffect(() => {

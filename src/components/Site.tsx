@@ -8,7 +8,7 @@ import { a, useSpring } from "@react-spring/three";
 import { useBlueOrbStore, useSiteStore } from "../store";
 
 const Site = memo(() => {
-  const currentBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
+  const activeBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
 
   const siteRotY = useSiteStore((state) => state.siteRotY);
   const sitePosY = useSiteStore((state) => state.sitePosY);
@@ -49,7 +49,7 @@ const Site = memo(() => {
                   ]
                 }
                 key={(blueOrb as any)[1]["node_name"]}
-                active={(blueOrb as any)[0] === currentBlueOrbId}
+                active={(blueOrb as any)[0] === activeBlueOrbId}
                 level={(blueOrb as any)[0].substr(0, 2)}
               />
             );
