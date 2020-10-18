@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useMemo, useRef} from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { useSpring, a } from "@react-spring/three";
 import * as THREE from "three";
@@ -28,13 +28,6 @@ type BlueOrbContructorProps = {
 };
 
 const BlueOrb = memo((props: BlueOrbContructorProps) => {
-  const isActiveBlueOrbInteractedWith = useBlueOrbStore(
-    (state) => state.isActiveBlueOrbInteractedWith
-  );
-  const activeBlueOrbPosX = useBlueOrbStore((state) => state.activeBlueOrbPosX);
-  const activeBlueOrbPosZ = useBlueOrbStore((state) => state.activeBlueOrbPosZ);
-  const activeBlueOrbRotZ = useBlueOrbStore((state) => state.activeBlueOrbRotZ);
-
   // the game only has a couple of sprites that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -119,21 +112,48 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     }
   });
 
-  const activeBlueOrbState = useSpring({
-    activeBlueOrbPosX: isActiveBlueOrbInteractedWith
-      ? activeBlueOrbPosX
+  // these pieces of state get updated transiently rather than reactively
+  // to avoid excess unnecessary renders (this is absolutely crucial for performance).
+  const [
+    {
+      activeBlueOrbPosX,
+      activeBlueOrbPosY,
+      activeBlueOrbPosZ,
+      activeBlueOrbRotZ,
+    },
+    set,
+  ] = useSpring(() => ({
+    activeBlueOrbPosX: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
+      ? useBlueOrbStore.getState().activeBlueOrbPosX
       : props.position[0],
-    activeBlueOrbPosY: isActiveBlueOrbInteractedWith
+    activeBlueOrbPosY: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
       ? level_y_values[props.level as keyof typeof level_y_values]
       : props.position[1],
-    activeBlueOrbPosZ: isActiveBlueOrbInteractedWith
-      ? activeBlueOrbPosZ
+    activeBlueOrbPosZ: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
+      ? useBlueOrbStore.getState().activeBlueOrbPosZ
       : props.position[2],
-    activeBlueOrbRotZ: isActiveBlueOrbInteractedWith
-      ? activeBlueOrbRotZ
-      : 0.001,
+    activeBlueOrbRotZ: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
+      ? useBlueOrbStore.getState().activeBlueOrbRotZ
+      : 0,
     config: { duration: 800 },
-  });
+  }));
+
+  useEffect(() => {
+    useBlueOrbStore.subscribe(set, (state) => ({
+      activeBlueOrbPosX: useBlueOrbStore.getState()
+        .isActiveBlueOrbInteractedWith
+        ? state.activeBlueOrbPosX
+        : props.position[0],
+      activeBlueOrbPosZ: useBlueOrbStore.getState()
+        .isActiveBlueOrbInteractedWith
+        ? state.activeBlueOrbPosZ
+        : props.position[2],
+      activeBlueOrbRotZ: useBlueOrbStore.getState()
+        .isActiveBlueOrbInteractedWith
+        ? state.activeBlueOrbRotZ
+        : 0,
+    }));
+  }, [activeBlueOrbPosX, activeBlueOrbPosZ, activeBlueOrbRotZ, set]);
 
   return (
     <group
@@ -145,10 +165,10 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
     >
       {props.active ? (
         <a.mesh
-          position-x={activeBlueOrbState.activeBlueOrbPosX}
-          position-y={activeBlueOrbState.activeBlueOrbPosY}
-          position-z={activeBlueOrbState.activeBlueOrbPosZ}
-          rotation-z={activeBlueOrbState.activeBlueOrbRotZ}
+          position-x={activeBlueOrbPosX}
+          position-y={activeBlueOrbPosY}
+          position-z={activeBlueOrbPosZ}
+          rotation-z={activeBlueOrbRotZ}
           rotation-y={props.rotation[1]}
           scale={[0.36, 0.18, 0.36]}
           renderOrder={1}

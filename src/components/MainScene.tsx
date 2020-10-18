@@ -43,10 +43,6 @@ const MainScene = () => {
     setActiveBlueOrbHudId("fg_hud_1");
   }, [setActiveBlueOrb, setActiveBlueOrbHudId, setLainMoveState]);
   // set lain intro spritesheet before the page loads fully
-  useEffect(() => {
-    // setLainMoving(true);
-    // setLainMoveState(<LainIntro />);
-  }, [setLainMoveState]);
 
   return (
     <perspectiveCamera position-z={3}>

@@ -5,10 +5,12 @@ import level_y_values from "../resources/level_y_values.json";
 import blue_orb_positions from "../resources/blue_orb_positions.json";
 import BlueOrb from "./BlueOrb";
 import { a, useSpring } from "@react-spring/three";
-import { useBlueOrbStore, useSiteStore } from "../store";
+import { useBlueOrbStore, useLevelStore, useSiteStore } from "../store";
 
 const Site = memo(() => {
   const activeBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
+
+  const activeLevels = useLevelStore((state) => state.activeLevels);
 
   const siteRotY = useSiteStore((state) => state.siteRotY);
   const sitePosY = useSiteStore((state) => state.sitePosY);
@@ -24,17 +26,21 @@ const Site = memo(() => {
       {/*distance between LEVELS is 1.5*/}
       <a.group rotation-y={siteState.siteRotY} position-y={siteState.sitePosY}>
         {Object.entries(level_y_values).map((level: [string, number]) => {
-          return (
-            <Level
-              levelPosY={level[1]}
-              key={level[1]}
-              level={level[0].toString()}
-            />
-          );
+          if (activeLevels.includes(level[0].toString()))
+            return (
+              <Level
+                levelPosY={level[1]}
+                key={level[1]}
+                level={level[0].toString()}
+              />
+            );
         })}
 
         {Object.entries(site_a).map((blueOrb) => {
-          if ((blueOrb as any)[1]["unlocked_by"] === "-1")
+          if (
+            (blueOrb as any)[1]["unlocked_by"] === "-1" &&
+            activeLevels.includes((blueOrb as any)[0].substr(0, 2))
+          )
             return (
               <BlueOrb
                 sprite={(blueOrb as any)[1]["node_name"]}
