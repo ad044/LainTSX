@@ -71,6 +71,11 @@ type SiteState = {
   setIsSiteChanging: (to: boolean) => void;
 };
 
+type LevelState = {
+  activeLevels: string[];
+  setActiveLevels: (to: string[]) => void;
+};
+
 type MiddleRingState = {
   middleRingWobbleStrength: number;
   middleRingRotating: boolean;
@@ -187,4 +192,9 @@ export const useMiddleRingStore = create<MiddleRingState>((set) => ({
   setMiddleRingRotZ: (to) => set(() => ({ middleRingRotZ: to })),
   setMiddleRingAnimDuration: (to) =>
     set(() => ({ middleRingAnimDuration: to })),
+}));
+
+export const useLevelStore = create<LevelState>((set) => ({
+  activeLevels: ["03", "04", "05"],
+  setActiveLevels: (to) => set(() => ({ activeLevels: to })),
 }));
