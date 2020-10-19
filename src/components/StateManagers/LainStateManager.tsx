@@ -48,15 +48,17 @@ const LainStateManager = (props: StateManagerProps) => {
           props.eventState as keyof typeof blue_orb_directions
         ];
 
-      const eventAction = eventObject.action;
-      const dispatchedObject = dispatchObject(eventAction);
+      if (eventObject) {
+        const eventAction = eventObject.action;
+        const dispatchedObject = dispatchObject(eventAction);
 
-      if (dispatchedObject) {
-        dispatchedObject.action(dispatchedObject.value);
+        if (dispatchedObject) {
+          dispatchedObject.action(dispatchedObject.value);
 
-        setTimeout(() => {
-          setLainMoveState("standing");
-        }, dispatchedObject.duration);
+          setTimeout(() => {
+            setLainMoveState("standing");
+          }, dispatchedObject.duration);
+        }
       }
     }
   }, [props.eventState, setLainMoveState, dispatchObject]);

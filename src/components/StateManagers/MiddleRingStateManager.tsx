@@ -200,13 +200,15 @@ const MiddleRingStateManager = (props: any) => {
           props.eventState as keyof typeof blue_orb_directions
         ];
 
-      const eventAction = eventObject.action;
+      if (eventObject) {
+        const eventAction = eventObject.action;
 
-      const dispatchedObject =
-        dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
+        const dispatchedObject =
+          dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
 
-      if (dispatchedObject) {
-        dispatchedObject.action();
+        if (dispatchedObject) {
+          dispatchedObject.action();
+        }
       }
     }
   }, [

@@ -51,18 +51,23 @@ const BlueOrbHUDStateManager = (props: StateManagerProps) => {
           props.eventState as keyof typeof blue_orb_directions
         ];
 
-      const eventAction = eventObject.action;
-      const targetBlueOrbHudId = eventObject.target_hud_id;
+      if (eventObject) {
+        const eventAction = eventObject.action;
+        const targetBlueOrbHudId = eventObject.target_hud_id;
 
-      const dispatchedObject = dispatchObject(eventAction, targetBlueOrbHudId);
+        const dispatchedObject = dispatchObject(
+          eventAction,
+          targetBlueOrbHudId
+        );
 
-      if (dispatchedObject) {
-        toggleHud();
-
-        setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value);
+        if (dispatchedObject) {
           toggleHud();
-        }, dispatchedObject.actionDelay);
+
+          setTimeout(() => {
+            dispatchedObject.action(dispatchedObject.value);
+            toggleHud();
+          }, dispatchedObject.actionDelay);
+        }
       }
     }
   }, [props.eventState, setActiveBlueOrbHudId, toggleHud, dispatchObject]);
