@@ -33,21 +33,23 @@ const SiteStateManager = (props: StateManagerProps) => {
           props.eventState as keyof typeof blue_orb_directions
         ];
 
-      const eventAction = eventObject.action;
+      if (eventObject) {
+        const eventAction = eventObject.action;
 
-      const dispatchedObject =
-        dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
+        const dispatchedObject =
+          dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
 
-      if (dispatchedObject) {
-        setIsSiteYChanging(true);
+        if (dispatchedObject) {
+          setIsSiteYChanging(true);
 
-        setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value);
-        }, dispatchedObject.actionDelay);
+          setTimeout(() => {
+            dispatchedObject.action(dispatchedObject.value);
+          }, dispatchedObject.actionDelay);
 
-        setTimeout(() => {
-          setIsSiteYChanging(false);
-        }, 3000);
+          setTimeout(() => {
+            setIsSiteYChanging(false);
+          }, 3000);
+        }
       }
     }
   }, [dispatcherObjects, props.eventState, setIsSiteYChanging]);

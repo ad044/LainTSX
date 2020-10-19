@@ -166,18 +166,20 @@ const BlueOrbHUDTextStateManager = (props: any) => {
           props.eventState as keyof typeof blue_orb_directions
         ];
 
-      const eventAction = eventObject.action;
-      const targetBlueOrbId = eventObject.target_blue_orb_id;
-      const targetBlueOrbHudId = eventObject.target_hud_id;
+      if (eventObject) {
+        const eventAction = eventObject.action;
+        const targetBlueOrbId = eventObject.target_blue_orb_id;
+        const targetBlueOrbHudId = eventObject.target_hud_id;
 
-      const dispatchedObject = dispatchObject(
-        eventAction,
-        targetBlueOrbHudId,
-        targetBlueOrbId
-      );
+        const dispatchedObject = dispatchObject(
+          eventAction,
+          targetBlueOrbHudId,
+          targetBlueOrbId
+        );
 
-      if (dispatchedObject) {
-        (dispatchedObject.action as any).apply(null, dispatchedObject.value);
+        if (dispatchedObject) {
+          (dispatchedObject.action as any).apply(null, dispatchedObject.value);
+        }
       }
     }
   }, [

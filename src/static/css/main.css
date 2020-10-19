@@ -12,13 +12,20 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  overflow:hidden;
-  font-family:Arial;
+  overflow: hidden;
+  font-family: Arial, serif;
+}
+
+.canvas {
+}
+
+.react-player {
+  width: 100% !important;
+  height: 100% !important;
+  margin-top: -600px;
 }
 
 @font-face {
   font-family: "lowres";
-  /*src: url("../fonts/04B_03.TTF") format("truetype");*/
-  src: url("../fonts/Plain_Lain3.ttf") format("truetype");
-
+  src: url("../font/Plain_Lain3.ttf") format("truetype");
 }

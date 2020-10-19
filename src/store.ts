@@ -94,6 +94,14 @@ type MiddleRingState = {
   setMiddleRingAnimDuration: (to: number) => void;
 };
 
+type MediaState = {
+  activeMediaElement: string;
+  activeLeftColElementIdx: number;
+  activeLeftColElement: { text: string; position: number[] };
+  leftColElements: { text: string; position: number[] }[];
+  toggleLeftColActiveElement: () => void;
+};
+
 export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   blueOrbId: "0422",
   hudId: "fg_hud_1",
@@ -197,4 +205,22 @@ export const useMiddleRingStore = create<MiddleRingState>((set) => ({
 export const useLevelStore = create<LevelState>((set) => ({
   activeLevels: ["03", "04", "05"],
   setActiveLevels: (to) => set(() => ({ activeLevels: to })),
+}));
+
+export const useMediaStore = create<MediaState>((set) => ({
+  // we can't have one global activeElement because both right and left col
+  // elements need to be stored (when you switch back and forth between the columns,
+  // you end up on the last active element FROM THAT COLUMN).
+  activeMediaElement: "play",
+  activeLeftColElementIdx: 0,
+  activeLeftColElement: { text: "Play", position: [-2.7, -0.9, 0.6] },
+  leftColElements: [
+    { text: "Play", position: [-2.7, -0.9, 0.6] },
+    { text: "Exit", position: [-3.5, -1.6, 0.6] },
+  ],
+  toggleLeftColActiveElement: () =>
+    set((state) => ({
+      activeLeftColElement:
+        state.leftColElements[Number(!state.activeLeftColElementIdx)],
+    })),
 }));

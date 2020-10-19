@@ -1,12 +1,12 @@
 import React, { memo } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import bigHud from "../static/sprites/big_hud.png";
-import bigHudMirrored from "../static/sprites/big_hud_mirrored.png";
-import longHud from "../static/sprites/long_hud.png";
-import longHudMirrored from "../static/sprites/long_hud_mirrored.png";
-import boringHud from "../static/sprites/long_hud_boring.png";
-import boringHudMirrored from "../static/sprites/long_hud_boring_mirrored.png";
+import bigHud from "../static/sprite/big_hud.png";
+import bigHudMirrored from "../static/sprite/big_hud_mirrored.png";
+import longHud from "../static/sprite/long_hud.png";
+import longHudMirrored from "../static/sprite/long_hud_mirrored.png";
+import boringHud from "../static/sprite/long_hud_boring.png";
+import boringHudMirrored from "../static/sprite/long_hud_boring_mirrored.png";
 import { a, useSpring, useTrail } from "@react-spring/three";
 import { useBlueOrbStore, useSiteStore } from "../store";
 import blue_orb_huds from "../resources/blue_orb_huds.json";

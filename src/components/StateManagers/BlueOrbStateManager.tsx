@@ -49,14 +49,14 @@ const BlueOrbStateManager = (props: StateManagerProps) => {
       setActiveBlueOrbPosX(0.5);
     }, 800);
     setTimeout(() => {
-      setActiveBlueOrbPosX(0.55);
+      setActiveBlueOrbPosX(1.55);
       setActiveBlueOrbRotZ(-0.005);
-    }, 2000);
+    }, 2600);
     setTimeout(() => {
       setActiveBlueOrbPosZ(2);
       setActiveBlueOrbPosX(0);
       setActiveBlueOrbRotZ(-0.5);
-    }, 2450);
+    }, 2700);
 
     setTimeout(() => {
       setActiveBlueOrbRotZ(0);
@@ -116,15 +116,17 @@ const BlueOrbStateManager = (props: StateManagerProps) => {
           props.eventState as keyof typeof blue_orb_directions
         ];
 
-      const eventAction = eventObject.action;
-      const targetBlueOrbId = eventObject.target_blue_orb_id;
+      if (eventObject) {
+        const eventAction = eventObject.action;
+        const targetBlueOrbId = eventObject.target_blue_orb_id;
 
-      const dispatchedObject = dispatchObject(eventAction, targetBlueOrbId);
+        const dispatchedObject = dispatchObject(eventAction, targetBlueOrbId);
 
-      if (dispatchedObject) {
-        setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value as never);
-        }, dispatchedObject.actionDelay);
+        if (dispatchedObject) {
+          setTimeout(() => {
+            dispatchedObject.action(dispatchedObject.value as never);
+          }, dispatchedObject.actionDelay);
+        }
       }
     }
   }, [props.eventState, setActiveBlueOrb, dispatchObject]);

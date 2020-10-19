@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-import networkLogo from "../static/img/network_os_logo.png";
-import introBox from "../static/img/load_screen_box.png";
-import introTextBetween from "../static/img/intro_text_thing.png";
-import introTextArrow from "../static/img/intro_text_arrow.png";
-import mask from "../static/img/load_screen_mask.png";
-import loop from "../static/img/loop.webp";
+import networkLogo from "../static/sprite/network_os_logo.png";
+import introBox from "../static/sprite/gray_box.png";
+import introTextBetween from "../static/sprite/intro_text_thing.png";
+import introTextArrow from "../static/sprite/intro_text_arrow.png";
+import mask from "../static/sprite/load_screen_mask.png";
+import loop from "../static/sprite/loop.webp";
 
 import "../static/css/intro.css";
 

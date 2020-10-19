@@ -2,20 +2,20 @@ import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { useSpring, a } from "@react-spring/three";
 import * as THREE from "three";
-import Cou from "../static/sprites/Cou.png";
-import CouActive from "../static/sprites/Cou_active.png";
-import Dc from "../static/sprites/Dc.png";
-import DcActive from "../static/sprites/Dc_active.png";
-import SSkn from "../static/sprites/SSkn.png";
-import SSKnActive from "../static/sprites/SSkn_active.png";
-import Tda from "../static/sprites/Tda.png";
-import TdaActive from "../static/sprites/Tda_active.png";
-import Dia from "../static/sprites/Dia.png";
-import DiaActive from "../static/sprites/Dia_active.png";
-import Lda from "../static/sprites/Lda.png";
-import LdaActive from "../static/sprites/Lda_active.png";
-import MULTI from "../static/sprites/MULTI.png";
-import MULTIActive from "../static/sprites/MULTI_active.png";
+import Cou from "../static/sprite/Cou.png";
+import CouActive from "../static/sprite/Cou_active.png";
+import Dc from "../static/sprite/Dc.png";
+import DcActive from "../static/sprite/Dc_active.png";
+import SSkn from "../static/sprite/SSkn.png";
+import SSKnActive from "../static/sprite/SSkn_active.png";
+import Tda from "../static/sprite/Tda.png";
+import TdaActive from "../static/sprite/Tda_active.png";
+import Dia from "../static/sprite/Dia.png";
+import DiaActive from "../static/sprite/Dia_active.png";
+import Lda from "../static/sprite/Lda.png";
+import LdaActive from "../static/sprite/Lda_active.png";
+import MULTI from "../static/sprite/MULTI.png";
+import MULTIActive from "../static/sprite/MULTI_active.png";
 import level_y_values from "../resources/level_y_values.json";
 import { useBlueOrbStore } from "../store";
 
@@ -28,7 +28,7 @@ type BlueOrbContructorProps = {
 };
 
 const BlueOrb = memo((props: BlueOrbContructorProps) => {
-  // the game only has a couple of sprites that it displays in the hub
+  // the game only has a couple of sprite that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
   // associate a sprite with the path
@@ -144,6 +144,10 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
         .isActiveBlueOrbInteractedWith
         ? state.activeBlueOrbPosX
         : props.position[0],
+      activeBlueOrbPosY: useBlueOrbStore.getState()
+        .isActiveBlueOrbInteractedWith
+        ? level_y_values[props.level as keyof typeof level_y_values]
+        : props.position[1],
       activeBlueOrbPosZ: useBlueOrbStore.getState()
         .isActiveBlueOrbInteractedWith
         ? state.activeBlueOrbPosZ
@@ -153,7 +157,13 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
         ? state.activeBlueOrbRotZ
         : 0,
     }));
-  }, [activeBlueOrbPosX, activeBlueOrbPosZ, activeBlueOrbRotZ, set]);
+  }, [
+    activeBlueOrbPosX,
+    activeBlueOrbPosZ,
+    activeBlueOrbRotZ,
+    props.position,
+    set,
+  ]);
 
   return (
     <group

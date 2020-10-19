@@ -37,7 +37,7 @@
   margin-left: 300px;
   color: #102d39;
   text-align: center;
-  background: url(../img/distorted_text.png);
+  background: url(../sprite/distorted_text.png);
   height: 100%;
   width: 200px;
 }
@@ -98,7 +98,7 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  background: url(../img/load_screen_mask.png);
+  background: url(../sprite/load_screen_mask.png);
   background-size:cover
 }
 

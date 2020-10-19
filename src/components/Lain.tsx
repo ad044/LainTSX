@@ -2,13 +2,13 @@ import React, { Suspense, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
-import moveDownSpriteSheet from "../static/sprites/jump_down.png";
-import moveUpSpriteSheet from "../static/sprites/jump_up.png";
-import moveLeftSpriteSheet from "../static/sprites/move_left.png";
-import moveRightSpriteSheet from "../static/sprites/move_right.png";
-import standingSpriteSheet from "../static/sprites/standing.png";
-import introSpriteSheet from "../static/sprites/intro.png";
-import throwBlueOrbSpriteSheet from "../static/sprites/throw_blue_orb.png";
+import moveDownSpriteSheet from "../static/sprite/jump_down.png";
+import moveUpSpriteSheet from "../static/sprite/jump_up.png";
+import moveLeftSpriteSheet from "../static/sprite/move_left.png";
+import moveRightSpriteSheet from "../static/sprite/move_right.png";
+import standingSpriteSheet from "../static/sprite/standing.png";
+import introSpriteSheet from "../static/sprite/intro.png";
+import throwBlueOrbSpriteSheet from "../static/sprite/throw_blue_orb.png";
 import { useLainStore } from "../store";
 
 type LainConstructorProps = {

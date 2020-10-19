@@ -1,9 +1,9 @@
 import React, { memo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import siteATex from "../static/sprites/site_a.png";
-import siteBTex from "../static/sprites/site_b.png";
-import siteLevelTex from "../static/sprites/site_levels.png";
+import siteATex from "../static/sprite/site_a.png";
+import siteBTex from "../static/sprite/site_b.png";
+import siteLevelTex from "../static/sprite/site_levels.png";
 
 type PurpleRingProps = {
   purpleRingPosY: number;

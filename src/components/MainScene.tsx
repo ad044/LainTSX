@@ -15,9 +15,7 @@ import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
-  const setActiveBlueOrb = useBlueOrbStore(
-    (state) => state.setActiveBlueOrbId
-  );
+  const setActiveBlueOrb = useBlueOrbStore((state) => state.setActiveBlueOrbId);
   const setActiveBlueOrbHudId = useBlueOrbStore(
     (state) => state.setActiveBlueOrbHudId
   );
@@ -53,7 +51,6 @@ const MainScene = () => {
           position-y={mainGroupStatePos.mainGroupPosY}
           position-z={mainGroupStatePos.mainGroupPosZ}
         >
-          <EventStateManager />
           <Preloader />
           <Site />
           <OrthoCamera />

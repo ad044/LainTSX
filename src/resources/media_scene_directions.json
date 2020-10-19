@@ -1,0 +1,8 @@
+{
+  "play_down": {
+    "action": "toggleLeftColActiveElement"
+  },
+  "exit_up": {
+    "action": "toggleLeftColActiveElement"
+  }
+}
