@@ -2,7 +2,7 @@ import orangeFont from "../../static/sprite/orange_font_texture.png";
 import yellowFont from "../../static/sprite/yellow_font_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import orange_font_json from "../../resources/orange_font.json";
+import orange_font_json from "../../resources/big_font.json";
 import { a, useSpring } from "@react-spring/three";
 import React, { useMemo } from "react";
 import { LetterProps } from "./TextRenderer";
@@ -48,7 +48,7 @@ const BigLetter = (props: BigLetterProps) => {
   const lineYOffsets = {
     1: 0.884,
     2: 0.765,
-    3: 0.65,
+    3: 0.648,
     4: 0.47,
   };
 
@@ -70,14 +70,13 @@ const BigLetter = (props: BigLetterProps) => {
 
       v =
         (v * letterData[3]) / 136 +
-        letterData[4] / 136 +
-        lineYOffsets[getLineNum(props.letter) as keyof typeof lineYOffsets] -
+        lineYOffsets[getLineNum(props.letter)] -
         letterData[4] / 136;
 
       uvAttribute.setXY(i, u, v);
     }
     return geometry;
-  }, []);
+  }, [letterData, lineYOffsets, props.letter]);
 
   const textRendererState = useSpring({
     letterOffsetXCoeff:
@@ -92,8 +91,8 @@ const BigLetter = (props: BigLetterProps) => {
   return (
     <a.mesh
       position-x={textRendererState.letterOffsetXCoeff}
-      position-y={props.letterIdx === 0 ? -0.03 : 0}
-      scale={props.letterIdx === 0 ? [1.7, 1, 1.7] : [1, 1, 1]}
+      position-y={props.letterIdx === 0 ? -0.03 : 0 - letterData[4] / 12.5}
+      scale={props.letterIdx === 0 ? [1.5, 1, 1.5] : [1, 1, 1]}
       geometry={geom}
       renderOrder={props.letterIdx === 0 ? 4 : 3}
     >

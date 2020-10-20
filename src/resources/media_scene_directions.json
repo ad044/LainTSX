@@ -1,14 +1,14 @@
 {
   "play_down": {
-    "action": "setActiveMediaElement",
+    "action": "setActivePlay",
     "target_media_element": "exit",
     "target_media_element_text": "Exit",
-    "target_media_element_text_position": [-3.5, -1.6, 0.6]
+    "target_media_element_text_position": [-0.8, -0.08, 0.6]
   },
   "exit_up": {
-    "action": "setActiveMediaElement",
+    "action": "setActiveExit",
     "target_media_element": "play",
     "target_media_element_text": "Play",
-    "target_media_element_text_position": [-2.7, -0.9, 0.6]
+    "target_media_element_text_position": [-0.8, 0.05, 0.6]
   }
 }

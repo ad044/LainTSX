@@ -22,7 +22,7 @@ const GreenTextStateManager = (props: StateManagerProps) => {
         toggleGreenText();
       }, delay);
     },
-    []
+    [setGreenText, toggleGreenText]
   );
 
   const dispatchObject = useCallback(
