@@ -44,7 +44,7 @@ const TextRenderer = () => {
   // ==================================== GREEN TEXT ============================================
 
   const greenText = useTextRendererStore((state) => state.greenText);
-  const greenTextArr = useMemo(() => greenText.split(""), []);
+  const greenTextArr = useMemo(() => greenText.split(""), [greenText]);
   const greenTextActive = useTextRendererStore(
     (state) => state.greenTextActive
   );

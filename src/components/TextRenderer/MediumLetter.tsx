@@ -60,7 +60,6 @@ const MediumLetter = (props: LetterProps) => {
 
       v =
         (v * letterData[3]) / 136 +
-        letterData[4] / 136 +
         lineYOffsets[getLineNum(props.letter)] -
         letterData[4] / 136;
 
@@ -73,6 +72,7 @@ const MediumLetter = (props: LetterProps) => {
   return (
     <a.mesh
       position-x={props.letterIdx * 1.6}
+      position-y={0 - letterData[4] / 12.5}
       scale={[1.7, 1, 1.7]}
       geometry={geom}
       renderOrder={100}

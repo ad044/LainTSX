@@ -8,6 +8,7 @@ import YellowTextStateManager from "./YellowTextStateManager";
 import { useBlueOrbStore, useMediaStore } from "../../store";
 import MediaSceneStateManager from "./MediaSceneStateManager";
 import GreenTextStateManager from "./GreenTextStateManager";
+import ActiveMediaElementStateManager from "./ActiveMediaElementStateManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -22,6 +23,16 @@ const getKeyCodeAssociation = (keyCode: number): string => {
 
 export type StateManagerProps = {
   eventState: string;
+};
+
+export type EventObject = {
+  action: string;
+
+  target_blue_orb_id?: string;
+  target_hud_id?: string;
+  target_media_element?: string;
+  target_media_element_text?: string;
+  target_media_element_text_position?: number[];
 };
 
 const EventStateManager = () => {
@@ -44,7 +55,7 @@ const EventStateManager = () => {
         // from blue_orb_directions.json file.
         // const eventId = `${activeBlueOrb}_${keyPress}`;
         //
-        const eventId = `${activeBlueOrb}_${keyPress}`;
+        const eventId = `${activeMediaElement}_${keyPress}`;
         setEventState(eventId);
       }
     },
@@ -68,7 +79,7 @@ const EventStateManager = () => {
       <SiteStateManager eventState={eventState!} />
       <LainStateManager eventState={eventState!} />
       <MiddleRingStateManager eventState={eventState!} />
-      <MediaSceneStateManager eventState={eventState!} />
+      <ActiveMediaElementStateManager eventState={eventState!} />
     </>
   );
 };

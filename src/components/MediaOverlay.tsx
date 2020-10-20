@@ -202,7 +202,10 @@ const MediaOverlay = () => {
         <spriteMaterial attach="material" map={mediaHudOverlayTex} />
       </sprite>
       <group position={[0.4, -0.3, 0]}>
-        <TextRenderer />
+        <group position={[0, 0, 13]} scale={[1, 1, 1]}>
+          <TextRenderer />
+        </group>
+
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 3]} />
 
         <GrayCube position={[-2.7, -1.6, 0.6]} active={grayCubesActive} />

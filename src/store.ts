@@ -114,7 +114,7 @@ type TextRendererState = {
 
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
-  yellowText: "Tda028",
+  yellowText: "Play",
   yellowTextPosY: 0.23,
   yellowTextPosX: -0.35,
   yellowTextOffsetXCoeff: 0,

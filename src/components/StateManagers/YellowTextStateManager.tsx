@@ -3,6 +3,8 @@ import blue_orb_huds from "../../resources/blue_orb_huds.json";
 import site_a from "../../resources/site_a.json";
 import { useTextRendererStore } from "../../store";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
+import media_scene_directions from "../../resources/media_scene_directions.json";
+import { EventObject } from "./EventStateManager";
 
 type AnimateYellowTextWithMove = (
   yellowLetterPosYOffset: number,
@@ -15,8 +17,16 @@ type AnimateYellowTextWithoutMove = (
   targetBlueOrbId: string
 ) => void;
 
+type AnimateMediaYellowText = (
+  targetMediaText: string,
+  targetMediaTextPos: number[]
+) => void;
+
 type YellowTextDispatchData = {
-  action: AnimateYellowTextWithMove | AnimateYellowTextWithoutMove;
+  action:
+    | AnimateYellowTextWithMove
+    | AnimateYellowTextWithoutMove
+    | AnimateMediaYellowText;
   value: any;
 };
 
@@ -26,6 +36,8 @@ type YellowTextDispatcher = {
   moveLeft: YellowTextDispatchData;
   moveRight: YellowTextDispatchData;
   changeBlueOrbFocus: YellowTextDispatchData;
+  setActivePlay: YellowTextDispatchData;
+  setActiveExit: YellowTextDispatchData;
 };
 
 const YellowTextStateManager = (props: any) => {
@@ -125,8 +137,41 @@ const YellowTextStateManager = (props: any) => {
     ]
   );
 
+  const animateMediaYellowText: AnimateMediaYellowText = useCallback(
+    (targetMediaElementText: string, targetMediaElementTextPos: number[]) => {
+      // make current text shrink
+      setYellowTextOffsetXCoeff(-1);
+
+      setTimeout(() => {
+        setYellowTextPosX(targetMediaElementTextPos[0]);
+        setYellowTextPosY(targetMediaElementTextPos[1]);
+      }, 400);
+
+      setTimeout(() => {
+        setYellowText(targetMediaElementText);
+      }, 1000);
+
+      setTimeout(() => {
+        // unshrink text
+        setYellowTextOffsetXCoeff(0);
+      }, 1200);
+    },
+    [
+      setYellowText,
+      setYellowTextOffsetXCoeff,
+      setYellowTextPosX,
+      setYellowTextPosY,
+    ]
+  );
+
   const dispatchObject = useCallback(
-    (event: string, targetBlueOrbHudId: string, targetBlueOrbId: string) => {
+    (
+      event: string,
+      targetBlueOrbHudId: string | undefined,
+      targetBlueOrbId: string | undefined,
+      targetMediaElementText: string | undefined,
+      targetMediaElementTextPos: number[] | undefined
+    ) => {
       const dispatcherObjects: YellowTextDispatcher = {
         moveUp: {
           action: animateYellowTextWithMove,
@@ -148,29 +193,53 @@ const YellowTextStateManager = (props: any) => {
           action: animateYellowTextWithoutMove,
           value: [targetBlueOrbHudId, targetBlueOrbId],
         },
+        setActivePlay: {
+          action: animateMediaYellowText,
+          value: [targetMediaElementText, targetMediaElementTextPos],
+        },
+        setActiveExit: {
+          action: animateMediaYellowText,
+          value: [targetMediaElementText, targetMediaElementTextPos],
+        },
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [animateYellowTextWithMove, animateYellowTextWithoutMove]
+    [
+      animateYellowTextWithMove,
+      animateYellowTextWithoutMove,
+      animateMediaYellowText,
+    ]
   );
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
+      const eventObject: EventObject =
         blue_orb_directions[
           props.eventState as keyof typeof blue_orb_directions
+        ] ||
+        media_scene_directions[
+          props.eventState as keyof typeof media_scene_directions
         ];
 
       if (eventObject) {
         const eventAction = eventObject.action;
+
+        // main scene specific
         const targetBlueOrbId = eventObject.target_blue_orb_id;
         const targetBlueOrbHudId = eventObject.target_hud_id;
+
+        // media scene specific
+        const targetMediaElementText = eventObject.target_media_element_text;
+        const targetMediaElementTextPos =
+          eventObject.target_media_element_text_position;
 
         const dispatchedObject = dispatchObject(
           eventAction,
           targetBlueOrbHudId,
-          targetBlueOrbId
+          targetBlueOrbId,
+          targetMediaElementText,
+          targetMediaElementTextPos
         );
 
         if (dispatchedObject) {
