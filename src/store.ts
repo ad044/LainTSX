@@ -6,10 +6,6 @@ type BlueOrbState = {
   hudActive: number;
   hudVisible: boolean;
   isActiveBlueOrbInteractedWith: boolean;
-  yellowHudText: string;
-  yellowHudTextPosY: number;
-  yellowHudTextPosX: number;
-  yellowHudTextOffsetXCoeff: number;
   activeBlueOrbPosX: number;
   activeBlueOrbPosZ: number;
   activeBlueOrbRotZ: number;
@@ -20,11 +16,6 @@ type BlueOrbState = {
   setActiveBlueOrbHudId: (to: string) => void;
   toggleHud: () => void;
   setIsActiveBlueOrbInteractedWith: (to: boolean) => void;
-  setYellowHudText: (to: string) => void;
-  incrementYellowHudTextPosY: (by: number) => void;
-  setYellowHudTextPosY: (to: number) => void;
-  setYellowHudTextPosX: (to: number) => void;
-  setYellowHudTextOffsetXCoeff: (to: number) => void;
 };
 
 type LainState = {
@@ -96,11 +87,51 @@ type MiddleRingState = {
 
 type MediaState = {
   activeMediaElement: string;
-  activeLeftColElementIdx: number;
-  activeLeftColElement: { text: string; position: number[] };
-  leftColElements: { text: string; position: number[] }[];
-  toggleLeftColActiveElement: () => void;
+  leftColActiveMediaElement: string;
+  leftColActiveMediaElementText: string;
+  leftColActiveMediaElementTextPos: number[];
+  setActiveMediaElement: (to: string) => void;
+  setLeftColActiveMediaElement: (to: string) => void;
+  setLeftColActiveMediaElementText: (to: string) => void;
+  setLeftColActiveMediaElementTextPos: (to: number[]) => void;
 };
+
+type TextRendererState = {
+  yellowText: string;
+  yellowTextPosY: number;
+  yellowTextPosX: number;
+  yellowTextOffsetXCoeff: number;
+  setYellowText: (to: string) => void;
+  incrementYellowTextPosY: (by: number) => void;
+  setYellowTextPosY: (to: number) => void;
+  setYellowTextPosX: (to: number) => void;
+  setYellowTextOffsetXCoeff: (to: number) => void;
+  greenText: string;
+  greenTextActive: number;
+  setGreenText: (to: string) => void;
+  toggleGreenText: () => void;
+};
+
+export const useTextRendererStore = create<TextRendererState>((set) => ({
+  // yellow text
+  yellowText: "Tda028",
+  yellowTextPosY: 0.23,
+  yellowTextPosX: -0.35,
+  yellowTextOffsetXCoeff: 0,
+  setYellowText: (to) => set(() => ({ yellowText: to })),
+  incrementYellowTextPosY: (by) =>
+    set((state) => ({ yellowTextPosY: state.yellowTextPosY + by })),
+  setYellowTextPosY: (to) => set(() => ({ yellowTextPosY: to })),
+  setYellowTextPosX: (to) => set(() => ({ yellowTextPosX: to })),
+  setYellowTextOffsetXCoeff: (to) =>
+    set(() => ({ yellowTextOffsetXCoeff: to })),
+  // green text
+  greenText: "TOUKO's DIARY",
+  greenTextActive: 1,
+  setGreenText: (to) => set(() => ({ greenText: to })),
+  toggleGreenText: () =>
+    set((state) => ({ greenTextActive: Number(!state.greenTextActive) })),
+}));
 
 export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   blueOrbId: "0422",
@@ -108,10 +139,6 @@ export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   hudActive: 1,
   isActiveBlueOrbInteractedWith: false,
   hudVisible: true,
-  yellowHudText: "Tda028",
-  yellowHudTextPosY: 0.23,
-  yellowHudTextPosX: -0.35,
-  yellowHudTextOffsetXCoeff: 0,
   activeBlueOrbPosX: 0,
   activeBlueOrbPosZ: 0,
   activeBlueOrbRotZ: 0,
@@ -121,15 +148,8 @@ export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   setActiveBlueOrbId: (to) => set(() => ({ blueOrbId: to })),
   setActiveBlueOrbHudId: (to) => set(() => ({ hudId: to })),
   toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
-  setYellowHudText: (to) => set(() => ({ yellowHudText: to })),
   setIsActiveBlueOrbInteractedWith: (to) =>
     set(() => ({ isActiveBlueOrbInteractedWith: to })),
-  incrementYellowHudTextPosY: (by) =>
-    set((state) => ({ yellowHudTextPosY: state.yellowHudTextPosY + by })),
-  setYellowHudTextPosY: (to) => set(() => ({ yellowHudTextPosY: to })),
-  setYellowHudTextPosX: (to) => set(() => ({ yellowHudTextPosX: to })),
-  setYellowHudTextOffsetXCoeff: (to) =>
-    set(() => ({ yellowHudTextOffsetXCoeff: to })),
 }));
 
 export const useLainStore = create<LainState>((set) => ({
@@ -208,19 +228,19 @@ export const useLevelStore = create<LevelState>((set) => ({
 }));
 
 export const useMediaStore = create<MediaState>((set) => ({
-  // we can't have one global activeElement because both right and left col
+  // we can't have one global activeMediaElement because both right and left col
   // elements need to be stored (when you switch back and forth between the columns,
   // you end up on the last active element FROM THAT COLUMN).
+  // so we store leftColActiveMediaElement as well as rightCol.
   activeMediaElement: "play",
-  activeLeftColElementIdx: 0,
-  activeLeftColElement: { text: "Play", position: [-2.7, -0.9, 0.6] },
-  leftColElements: [
-    { text: "Play", position: [-2.7, -0.9, 0.6] },
-    { text: "Exit", position: [-3.5, -1.6, 0.6] },
-  ],
-  toggleLeftColActiveElement: () =>
-    set((state) => ({
-      activeLeftColElement:
-        state.leftColElements[Number(!state.activeLeftColElementIdx)],
-    })),
+  leftColActiveMediaElement: "play",
+  leftColActiveMediaElementText: "Play",
+  leftColActiveMediaElementTextPos: [-2.7, -0.9, 0.6],
+  setActiveMediaElement: (to) => set(() => ({ activeMediaElement: to })),
+  setLeftColActiveMediaElement: (to) =>
+    set(() => ({ leftColActiveMediaElement: to })),
+  setLeftColActiveMediaElementText: (to) =>
+    set(() => ({ leftColActiveMediaElementText: to })),
+  setLeftColActiveMediaElementTextPos: (to) =>
+    set(() => ({ leftColActiveMediaElementTextPos: to })),
 }));

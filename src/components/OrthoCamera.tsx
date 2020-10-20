@@ -4,6 +4,7 @@ import { Scene } from "three";
 import HUD from "./HUD";
 import YellowOrb from "./YellowOrb";
 import { useBlueOrbStore } from "../store";
+import TextRenderer from "./TextRenderer/TextRenderer";
 
 const OrthoCamera = memo(() => {
   const { gl, scene, camera } = useThree();
@@ -28,6 +29,7 @@ const OrthoCamera = memo(() => {
       rotation={[0, 0, 0]}
     >
       <HUD key={1} hudVisibility={hudVisible} />
+      <TextRenderer />
       <YellowOrb />
     </orthographicCamera>
   );

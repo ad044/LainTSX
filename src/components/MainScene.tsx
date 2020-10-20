@@ -12,6 +12,7 @@ import GrayPlanes from "./GrayPlanes";
 import MiddleRing from "./MiddleRing";
 import Starfield from "./Starfield";
 import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
+import TextRenderer from "./TextRenderer/TextRenderer";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);

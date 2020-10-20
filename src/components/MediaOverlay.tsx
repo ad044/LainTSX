@@ -9,7 +9,9 @@ import * as THREE from "three";
 import { OrbitControls } from "drei";
 import { a, useTrail } from "@react-spring/three";
 import { useMediaStore } from "../store";
-import { BigLetter, MediumLetter } from "./TextRenderer";
+import BigLetter from "./TextRenderer/BigLetter";
+import MediumLetter from "./TextRenderer/MediumLetter";
+import TextRenderer from "./TextRenderer/TextRenderer";
 
 type ShapeProps = {
   position: number[];
@@ -191,17 +193,7 @@ const MediaOverlay = () => {
   const [grayCubesActive, setGrayCubesActive] = useState(false);
   const mediaHudOverlayTex = useLoader(THREE.TextureLoader, mediaOverlayHud);
 
-  const activeLeftColElement = useMediaStore(
-    (state) => state.activeLeftColElement
-  );
-
-  const letterTrailText = activeLeftColElement.text;
-
-  const letterTrail = useTrail(letterTrailText.length, {
-    yellowLetterPosX: activeLeftColElement.position[0],
-    yellowLetterPosY: activeLeftColElement.position[1],
-    config: { duration: 280 },
-  });
+  const activeMediaElement = useMediaStore((state) => state.activeMediaElement);
 
   return (
     <>
@@ -210,33 +202,7 @@ const MediaOverlay = () => {
         <spriteMaterial attach="material" map={mediaHudOverlayTex} />
       </sprite>
       <group position={[0.4, -0.3, 0]}>
-        <a.group position-x={2.65} position-y={2.55} scale={[0.16, 0.3, 0.2]}>
-          {"Tda028".split("").map((letter, idx) => (
-            <MediumLetter
-              color={"yellow"}
-              letter={letter}
-              kerningOffset={idx}
-              key={idx}
-            />
-          ))}
-        </a.group>
-
-        {letterTrail.map(({ yellowLetterPosX, yellowLetterPosY }, idx) => (
-          <a.group
-            key={idx}
-            position-x={yellowLetterPosX}
-            position-y={yellowLetterPosY}
-            position-z={-8.7}
-            scale={[1, 1.5, 1]}
-          >
-            <BigLetter
-              color={"yellow"}
-              letter={letterTrailText[idx]}
-              kerningOffset={idx}
-              key={idx}
-            />
-          </a.group>
-        ))}
+        <TextRenderer />
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 3]} />
 
         <GrayCube position={[-2.7, -1.6, 0.6]} active={grayCubesActive} />

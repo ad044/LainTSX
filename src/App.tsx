@@ -26,10 +26,10 @@ const App = () => {
       <span className="canvas">
         <EventStateManager />
         <Canvas concurrent>
-          <Suspense fallback={null}>
-            <MediaOverlay />
-          </Suspense>
-          {/*<MainScene />*/}
+          {/*<Suspense fallback={null}>*/}
+          {/*  <MediaOverlay />*/}
+          {/*</Suspense>*/}
+          <MainScene />
         </Canvas>
       </span>
       <MediaPlayer />

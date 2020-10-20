@@ -7,11 +7,9 @@ import longHud from "../static/sprite/long_hud.png";
 import longHudMirrored from "../static/sprite/long_hud_mirrored.png";
 import boringHud from "../static/sprite/long_hud_boring.png";
 import boringHudMirrored from "../static/sprite/long_hud_boring_mirrored.png";
-import { a, useSpring, useTrail } from "@react-spring/three";
-import { useBlueOrbStore, useSiteStore } from "../store";
+import { a, useSpring } from "@react-spring/three";
+import { useBlueOrbStore } from "../store";
 import blue_orb_huds from "../resources/blue_orb_huds.json";
-import site_a from "../resources/site_a.json";
-import { BigLetter, MediumLetter } from "./TextRenderer";
 
 export type HUDElementProps = {
   hudVisibility: boolean;
@@ -19,51 +17,9 @@ export type HUDElementProps = {
 
 const HUD = memo((props: HUDElementProps) => {
   const hudActive = useBlueOrbStore((state) => state.hudActive);
-
-  const activeBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
   const currentHudId = useBlueOrbStore((state) => state.hudId);
 
-  const yellowHudTextPosY = useBlueOrbStore((state) => state.yellowHudTextPosY);
-  const yellowHudTextPosX = useBlueOrbStore((state) => state.yellowHudTextPosX);
-
   const currentHud = blue_orb_huds[currentHudId as keyof typeof blue_orb_huds];
-
-  const currentYellowHudText = useBlueOrbStore((state) => state.yellowHudText);
-  const currentGreenHudText =
-    site_a[activeBlueOrbId as keyof typeof site_a].green_text;
-
-  const yellowTextArr = currentYellowHudText.split("");
-  const greenTextArr = currentGreenHudText.split("");
-
-  const isSiteChangingY = useSiteStore((state) => state.isSiteChangingY);
-
-  // this one is used for letter actions
-  const letterTrail = useTrail(currentYellowHudText.length, {
-    yellowLetterPosX: yellowHudTextPosX,
-    yellowLetterPosY: yellowHudTextPosY,
-    config: { duration: 280 },
-  });
-
-  // this one is used when the site moves up/down and
-  // the text has to stay stationary
-  const letterStaticState = useSpring({
-    yellowLetterPosX: yellowHudTextPosX,
-    yellowLetterPosY: yellowHudTextPosY,
-    config: { duration: 1200 },
-  });
-
-  const { greenTextHUDPositionX } = useSpring({
-    greenTextHUDPositionX: hudActive,
-    config: { duration: 500 },
-  });
-
-  const mediumHudPosX = greenTextHUDPositionX.to(
-    [0, 1],
-    [
-      currentHud["medium_text"]["initial_position"][0],
-      currentHud["medium_text"]["position"][0],
-    ]
-  );
 
   const hudElementState = useSpring({
     bigHUDPositionX: hudActive,
@@ -173,54 +129,6 @@ const HUD = memo((props: HUDElementProps) => {
           depthTest={false}
         />
       </a.sprite>
-      {isSiteChangingY
-        ? yellowTextArr.map((letter, idx) => (
-            <a.group
-              key={idx}
-              position-x={letterStaticState.yellowLetterPosX}
-              position-y={letterStaticState.yellowLetterPosY}
-              position-z={-8.7}
-              scale={[0.04, 0.06, 0.04]}
-            >
-              <BigLetter
-                color={"yellow"}
-                letter={yellowTextArr[idx]}
-                kerningOffset={idx}
-                key={idx}
-              />
-            </a.group>
-          ))
-        : letterTrail.map(({ yellowLetterPosX, yellowLetterPosY }, idx) => (
-            <a.group
-              key={idx}
-              position-x={yellowLetterPosX}
-              position-y={yellowLetterPosY}
-              position-z={-8.7}
-              scale={[0.04, 0.06, 0.04]}
-            >
-              <BigLetter
-                color={"yellow"}
-                letter={yellowTextArr[idx]}
-                kerningOffset={idx}
-                key={idx}
-              />
-            </a.group>
-          ))}
-      <a.group
-        position-x={mediumHudPosX}
-        position-y={currentHud["medium_text"]["position"][1]}
-        position-z={-8.7}
-        scale={[0.02, 0.035, 0.02]}
-      >
-        {greenTextArr.map((letter, idx) => (
-          <MediumLetter
-            color={"yellow"}
-            letter={letter}
-            kerningOffset={idx}
-            key={idx}
-          />
-        ))}
-      </a.group>
     </group>
   );
 });
