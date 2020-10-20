@@ -85,6 +85,17 @@ type MiddleRingState = {
   setMiddleRingAnimDuration: (to: number) => void;
 };
 
+type MediaWordState = {
+  words: string[];
+  fstWordPos: number[];
+  sndWordPos: number[];
+  thirdWordPos: number[];
+  setWords: (to: string[]) => void;
+  setFstWordPos: (to: number[]) => void;
+  setSndWordPos: (to: number[]) => void;
+  setThirdWordPos: (to: number[]) => void;
+};
+
 type MediaState = {
   activeMediaElement: string;
   leftColActiveMediaElement: string;
@@ -243,4 +254,15 @@ export const useMediaStore = create<MediaState>((set) => ({
     set(() => ({ leftColActiveMediaElementText: to })),
   setLeftColActiveMediaElementTextPos: (to) =>
     set(() => ({ leftColActiveMediaElementTextPos: to })),
+}));
+
+export const useMediaWordStore = create<MediaWordState>((set) => ({
+  words: ["eye", "quiet", "hallucination"],
+  fstWordPos: [0, 0, 0],
+  sndWordPos: [0, 0, 0],
+  thirdWordPos: [0, 0, 0],
+  setWords: (to) => set(() => ({ words: to })),
+  setFstWordPos: (to) => set(() => ({ fstWordPos: to })),
+  setSndWordPos: (to) => set(() => ({ sndWordPos: to })),
+  setThirdWordPos: (to) => set(() => ({ thirdWordPos: to })),
 }));

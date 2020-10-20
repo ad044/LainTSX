@@ -4,8 +4,8 @@ import "./static/css/hub.css";
 import "./static/css/main.css";
 import { Canvas } from "react-three-fiber";
 import Boot from "./components/Boot";
-import MediaPlayer from "./components/MediaPlayer";
-import MediaOverlay from "./components/MediaOverlay";
+import MediaPlayer from "./components/MediaScene/MediaPlayer";
+import MediaScene from "./components/MediaScene/MediaScene";
 import EventStateManager from "./components/StateManagers/EventStateManager";
 
 const App = () => {
@@ -27,12 +27,12 @@ const App = () => {
         <EventStateManager />
         <Canvas concurrent>
           <Suspense fallback={null}>
-            <MediaOverlay />
+            <MediaScene />
           </Suspense>
           {/*<MainScene />*/}
         </Canvas>
       </span>
-      <MediaPlayer />
+      {/*<MediaPlayer />*/}
     </div>
   );
 };
