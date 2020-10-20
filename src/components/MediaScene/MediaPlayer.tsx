@@ -1,6 +1,6 @@
 import React from "react";
 import ReactPlayer from "react-player";
-import test from "../static/movie/test.webm";
+import test from "../../static/movie/test.webm";
 
 const MediaPlayer = () => {
   return (

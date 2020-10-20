@@ -8,3 +8,5 @@ declare module "threejs-slice-geometry" {
   const src: any;
   export default src;
 }
+
+declare module '*.ttf';
