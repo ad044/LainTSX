@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
 import site_a from "../../resources/site_a.json";
-import { useBlueOrbStore } from "../../store";
+import { useTextRendererStore } from "../../store";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
 
 type AnimateYellowTextWithMove = (
@@ -15,34 +15,34 @@ type AnimateYellowTextWithoutMove = (
   targetBlueOrbId: string
 ) => void;
 
-type BlueOrbHUDTextDispatchData = {
+type YellowTextDispatchData = {
   action: AnimateYellowTextWithMove | AnimateYellowTextWithoutMove;
   value: any;
 };
 
-type BlueOrbHUDTextDispatcher = {
-  moveUp: BlueOrbHUDTextDispatchData;
-  moveDown: BlueOrbHUDTextDispatchData;
-  moveLeft: BlueOrbHUDTextDispatchData;
-  moveRight: BlueOrbHUDTextDispatchData;
-  changeBlueOrbFocus: BlueOrbHUDTextDispatchData;
+type YellowTextDispatcher = {
+  moveUp: YellowTextDispatchData;
+  moveDown: YellowTextDispatchData;
+  moveLeft: YellowTextDispatchData;
+  moveRight: YellowTextDispatchData;
+  changeBlueOrbFocus: YellowTextDispatchData;
 };
 
-const BlueOrbHUDTextStateManager = (props: any) => {
-  const setYellowHudText = useBlueOrbStore((state) => state.setYellowHudText);
+const YellowTextStateManager = (props: any) => {
+  const setYellowText = useTextRendererStore((state) => state.setYellowText);
 
-  const setYellowHudTextOffsetXCoeff = useBlueOrbStore(
-    (state) => state.setYellowHudTextOffsetXCoeff
+  const setYellowTextOffsetXCoeff = useTextRendererStore(
+    (state) => state.setYellowTextOffsetXCoeff
   );
 
-  const incrementYellowHudTextPosY = useBlueOrbStore(
-    (state) => state.incrementYellowHudTextPosY
+  const incrementYellowTextPosY = useTextRendererStore(
+    (state) => state.incrementYellowTextPosY
   );
-  const setYellowHudTextPosY = useBlueOrbStore(
-    (state) => state.setYellowHudTextPosY
+  const setYellowTextPosY = useTextRendererStore(
+    (state) => state.setYellowTextPosY
   );
-  const setYellowHudTextPosX = useBlueOrbStore(
-    (state) => state.setYellowHudTextPosX
+  const setYellowTextPosX = useTextRendererStore(
+    (state) => state.setYellowTextPosX
   );
 
   const animateYellowTextWithMove: AnimateYellowTextWithMove = useCallback(
@@ -54,55 +54,53 @@ const BlueOrbHUDTextStateManager = (props: any) => {
       // animate the letters to match that of site's
       // to create an illusion of not moving
       setTimeout(() => {
-        incrementYellowHudTextPosY(yellowLetterPosYOffset);
+        incrementYellowTextPosY(yellowLetterPosYOffset);
       }, 1300);
 
       setTimeout(() => {
         // make current hud big text shrink
-        setYellowHudTextOffsetXCoeff(-1);
+        setYellowTextOffsetXCoeff(-1);
       }, 2500);
 
       setTimeout(() => {
         // animate it to new pos x/y
-        setYellowHudTextPosX(
+        setYellowTextPosX(
           blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
             .big_text[0]
         );
-        setYellowHudTextPosY(
+        setYellowTextPosY(
           blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
             .big_text[1]
         );
         // set new text according to the node name
-        setYellowHudText(
-          site_a[targetBlueOrbId as keyof typeof site_a].node_name
-        );
+        setYellowText(site_a[targetBlueOrbId as keyof typeof site_a].node_name);
       }, 3000);
 
       // unshrink text
       setTimeout(() => {
-        setYellowHudTextOffsetXCoeff(0);
+        setYellowTextOffsetXCoeff(0);
       }, 3900);
     },
     [
-      incrementYellowHudTextPosY,
-      setYellowHudText,
-      setYellowHudTextOffsetXCoeff,
-      setYellowHudTextPosX,
-      setYellowHudTextPosY,
+      incrementYellowTextPosY,
+      setYellowText,
+      setYellowTextOffsetXCoeff,
+      setYellowTextPosX,
+      setYellowTextPosY,
     ]
   );
 
   const animateYellowTextWithoutMove: AnimateYellowTextWithoutMove = useCallback(
     (targetBlueOrbHudId: string, targetBlueOrbId: string) => {
       // make current hud big text shrink
-      setYellowHudTextOffsetXCoeff(-1);
+      setYellowTextOffsetXCoeff(-1);
 
       setTimeout(() => {
-        setYellowHudTextPosX(
+        setYellowTextPosX(
           blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
             .big_text[0]
         );
-        setYellowHudTextPosY(
+        setYellowTextPosY(
           blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
             .big_text[1]
         );
@@ -111,27 +109,25 @@ const BlueOrbHUDTextStateManager = (props: any) => {
 
       setTimeout(() => {
         // set new text according to the node name
-        setYellowHudText(
-          site_a[targetBlueOrbId as keyof typeof site_a].node_name
-        );
+        setYellowText(site_a[targetBlueOrbId as keyof typeof site_a].node_name);
       }, 1000);
 
       setTimeout(() => {
         // unshrink text
-        setYellowHudTextOffsetXCoeff(0);
+        setYellowTextOffsetXCoeff(0);
       }, 1200);
     },
     [
-      setYellowHudText,
-      setYellowHudTextOffsetXCoeff,
-      setYellowHudTextPosX,
-      setYellowHudTextPosY,
+      setYellowText,
+      setYellowTextOffsetXCoeff,
+      setYellowTextPosX,
+      setYellowTextPosY,
     ]
   );
 
   const dispatchObject = useCallback(
     (event: string, targetBlueOrbHudId: string, targetBlueOrbId: string) => {
-      const dispatcherObjects: BlueOrbHUDTextDispatcher = {
+      const dispatcherObjects: YellowTextDispatcher = {
         moveUp: {
           action: animateYellowTextWithMove,
           value: [-1.5, targetBlueOrbHudId, targetBlueOrbId],
@@ -194,4 +190,4 @@ const BlueOrbHUDTextStateManager = (props: any) => {
   return null;
 };
 
-export default BlueOrbHUDTextStateManager;
+export default YellowTextStateManager;

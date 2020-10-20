@@ -4,9 +4,10 @@ import MiddleRingStateManager from "./MiddleRingStateManager";
 import LainStateManager from "./LainStateManager";
 import BlueOrbStateManager from "./BlueOrbStateManager";
 import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
-import BlueOrbHUDTextStateManager from "./BlueOrbHUDTextStateManager";
+import YellowTextStateManager from "./YellowTextStateManager";
 import { useBlueOrbStore, useMediaStore } from "../../store";
 import MediaSceneStateManager from "./MediaSceneStateManager";
+import GreenTextStateManager from "./GreenTextStateManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -43,12 +44,11 @@ const EventStateManager = () => {
         // from blue_orb_directions.json file.
         // const eventId = `${activeBlueOrb}_${keyPress}`;
         //
-        const eventId = `${activeMediaElement}_${keyPress}`;
-        console.log(eventId)
+        const eventId = `${activeBlueOrb}_${keyPress}`;
         setEventState(eventId);
       }
     },
-    [inputCooldown, activeBlueOrb]
+    [inputCooldown, activeBlueOrb, activeMediaElement]
   );
 
   useEffect(() => {
@@ -63,7 +63,8 @@ const EventStateManager = () => {
     <>
       <BlueOrbStateManager eventState={eventState!} />
       <BlueOrbHUDStateManager eventState={eventState!} />
-      <BlueOrbHUDTextStateManager eventState={eventState!} />
+      <YellowTextStateManager eventState={eventState!} />
+      <GreenTextStateManager eventState={eventState!} />
       <SiteStateManager eventState={eventState!} />
       <LainStateManager eventState={eventState!} />
       <MiddleRingStateManager eventState={eventState!} />
