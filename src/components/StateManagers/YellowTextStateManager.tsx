@@ -3,7 +3,7 @@ import blue_orb_huds from "../../resources/blue_orb_huds.json";
 import site_a from "../../resources/site_a.json";
 import { useTextRendererStore } from "../../store";
 import blue_orb_directions from "../../resources/blue_orb_directions.json";
-import media_scene_directions from "../../resources/media_scene_directions.json";
+import media_scene_directions from "../../resources/media_scene_actions.json";
 import { EventObject } from "./EventStateManager";
 
 type AnimateYellowTextWithMove = (
@@ -168,11 +168,10 @@ const YellowTextStateManager = (props: any) => {
     (
       event: string,
       targetBlueOrbHudId: string | undefined,
-      targetBlueOrbId: string | undefined,
-      targetMediaElementText: string | undefined,
-      targetMediaElementTextPos: number[] | undefined
+      targetBlueOrbId: string | undefined
     ) => {
       const dispatcherObjects: YellowTextDispatcher = {
+        // main scene
         moveUp: {
           action: animateYellowTextWithMove,
           value: [-1.5, targetBlueOrbHudId, targetBlueOrbId],
@@ -193,13 +192,14 @@ const YellowTextStateManager = (props: any) => {
           action: animateYellowTextWithoutMove,
           value: [targetBlueOrbHudId, targetBlueOrbId],
         },
+        // media scene
         setActivePlay: {
           action: animateMediaYellowText,
-          value: [targetMediaElementText, targetMediaElementTextPos],
+          value: ["Play", [-0.8, 0.05, 0.6]],
         },
         setActiveExit: {
           action: animateMediaYellowText,
-          value: [targetMediaElementText, targetMediaElementTextPos],
+          value: ["Exit", [-0.8, -0.08, 0.6]],
         },
       };
 
@@ -229,17 +229,10 @@ const YellowTextStateManager = (props: any) => {
         const targetBlueOrbId = eventObject.target_blue_orb_id;
         const targetBlueOrbHudId = eventObject.target_hud_id;
 
-        // media scene specific
-        const targetMediaElementText = eventObject.target_media_element_text;
-        const targetMediaElementTextPos =
-          eventObject.target_media_element_text_position;
-
         const dispatchedObject = dispatchObject(
           eventAction,
           targetBlueOrbHudId,
-          targetBlueOrbId,
-          targetMediaElementText,
-          targetMediaElementTextPos
+          targetBlueOrbId
         );
 
         if (dispatchedObject) {

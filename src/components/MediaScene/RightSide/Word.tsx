@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
-import wordInactiveTexture from "../../static/sprite/word_background.png";
-import wordActiveTexture from "../../static/sprite/word_background_active.png";
+import wordInactiveTexture from "../../../static/sprite/word_background.png";
+import wordActiveTexture from "../../../static/sprite/word_background_active.png";
 import { useLoader } from "react-three-fiber";
+import { a, SpringValue } from "@react-spring/three";
 
 type WordProps = {
   word: string;
-  posX: number;
-  posY: number;
+  posX: SpringValue<number>;
+  posY: SpringValue<number>;
+  active: boolean;
 };
 
 const Word = (props: WordProps) => {
@@ -24,13 +26,13 @@ const Word = (props: WordProps) => {
   const wordActiveTex = useLoader(THREE.TextureLoader, wordActiveTexture);
 
   return (
-    <group position-x={props.posX} position-y={props.posY}>
+    <a.group position-x={props.posX} position-y={props.posY}>
       <mesh scale={[0.4, 0.4, 0]} position={[-3.9, 1.915, 0]} renderOrder={3}>
         <planeBufferGeometry attach="geometry" />
         <textGeometry attach="geometry" args={[props.word, config]} />
         <meshBasicMaterial
           attach="material"
-          color={0x000000}
+          color={props.active ? 0xffffff : 0x000000}
           transparent={true}
         />
       </mesh>
@@ -38,11 +40,11 @@ const Word = (props: WordProps) => {
       <sprite scale={[4.2, 0.45, 1]} position={[-2, 2, 0]} renderOrder={2}>
         <spriteMaterial
           attach="material"
-          map={wordInactiveTex}
+          map={props.active ? wordActiveTex : wordInactiveTex}
           alphaTest={0.01}
         />
       </sprite>
-    </group>
+    </a.group>
   );
 };
 

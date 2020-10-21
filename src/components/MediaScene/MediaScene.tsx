@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 import grayTextureFile from "../../static/sprite/gray_box.png";
 import darkGrayTextureFile from "../../static/sprite/dark_gray_box.png";
@@ -10,12 +10,12 @@ import { OrbitControls } from "drei";
 import { useMediaStore, useMediaWordStore } from "../../store";
 import TextRenderer from "../TextRenderer/TextRenderer";
 import LeftSide from "./LeftSide/LeftSide";
-import Word from "./Word";
+import Word from "./RightSide/Word";
+import RightSide from "./RightSide/RightSide";
 
 const MediaScene = () => {
   const [grayCubesActive, setGrayCubesActive] = useState(false);
   const mediaHudOverlayTex = useLoader(THREE.TextureLoader, mediaOverlayHud);
-  const words = useMediaWordStore((state) => state.words);
 
   const activeMediaElement = useMediaStore((state) => state.activeMediaElement);
 
@@ -31,10 +31,8 @@ const MediaScene = () => {
         </group>
 
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 3]} />
-        <LeftSide active={"cube"} />
-        <Word word={words[0]} posX={1} posY={1} />
-        <Word word={words[1]} posX={0} posY={0} />
-        <Word word={words[2]} posX={-1} posY={-1} />
+        <LeftSide activeMediaElement={activeMediaElement} />
+        <RightSide activeMediaElement={activeMediaElement} />
       </group>
     </>
   );
