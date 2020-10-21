@@ -6,9 +6,8 @@ import BlueOrbStateManager from "./BlueOrbStateManager";
 import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
 import YellowTextStateManager from "./YellowTextStateManager";
 import { useBlueOrbStore, useMediaStore } from "../../store";
-import MediaSceneStateManager from "./MediaSceneStateManager";
 import GreenTextStateManager from "./GreenTextStateManager";
-import ActiveMediaElementStateManager from "./ActiveMediaElementStateManager";
+import ActiveMediaElementStateManager from "./MediaScene/ActiveMediaElementStateManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -56,6 +55,7 @@ const EventStateManager = () => {
         // const eventId = `${activeBlueOrb}_${keyPress}`;
         //
         const eventId = `${activeMediaElement}_${keyPress}`;
+        console.log(activeMediaElement)
         setEventState(eventId);
       }
     },

@@ -85,15 +85,25 @@ type MiddleRingState = {
   setMiddleRingAnimDuration: (to: number) => void;
 };
 
+type MediaWordData = {
+  activeWord: string;
+  positions: {
+    fstWord: { posX: number; posY: number };
+    sndWord: { posX: number; posY: number };
+    thirdWord: { posX: number; posY: number };
+  };
+};
+
 type MediaWordState = {
+  wordStateDataStruct: MediaWordData[];
+  wordStateDataStructIdx: number;
   words: string[];
-  fstWordPos: number[];
-  sndWordPos: number[];
-  thirdWordPos: number[];
+  activeWordIdx: number;
+  lastActiveWordIdx: number;
   setWords: (to: string[]) => void;
-  setFstWordPos: (to: number[]) => void;
-  setSndWordPos: (to: number[]) => void;
-  setThirdWordPos: (to: number[]) => void;
+  addToActiveWordIdx: (val: number) => void;
+  addToWordStateDataStructIdx: (val: number) => void;
+  setLastActiveWordIdx: (to: number) => void;
 };
 
 type MediaState = {
@@ -257,12 +267,36 @@ export const useMediaStore = create<MediaState>((set) => ({
 }));
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
+  wordStateDataStruct: [
+    {
+      activeWord: "fstWord",
+      positions: {
+        fstWord: { posX: 0, posY: 0 },
+        sndWord: { posX: 3, posY: -3 },
+        thirdWord: { posX: 3.7, posY: -4.3 },
+      },
+    },
+    {
+      activeWord: "sndWord",
+      positions: {
+        fstWord: { posX: 1.8, posY: -2.5 },
+        sndWord: { posX: 1.5, posY: -1.5 },
+        thirdWord: { posX: 3.3, posY: -3.7 },
+      },
+    },
+  ],
+  wordStateDataStructIdx: 0,
   words: ["eye", "quiet", "hallucination"],
-  fstWordPos: [0, 0, 0],
-  sndWordPos: [0, 0, 0],
-  thirdWordPos: [0, 0, 0],
+  activeWordIdx: 0,
+  lastActiveWordIdx: 0,
   setWords: (to) => set(() => ({ words: to })),
-  setFstWordPos: (to) => set(() => ({ fstWordPos: to })),
-  setSndWordPos: (to) => set(() => ({ sndWordPos: to })),
-  setThirdWordPos: (to) => set(() => ({ thirdWordPos: to })),
+  setLastActiveWordIdx: (to) => set(() => ({ lastActiveWordIdx: to })),
+  addToWordStateDataStructIdx: (val) =>
+    set((state) => ({
+      wordStateDataStructIdx: state.wordStateDataStructIdx + val,
+    })),
+  addToActiveWordIdx: (val) =>
+    set((state) => ({
+      activeWordIdx: state.activeWordIdx + val,
+    })),
 }));

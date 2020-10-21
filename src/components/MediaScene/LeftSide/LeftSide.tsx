@@ -2,8 +2,8 @@ import React from "react";
 import TriangularPrism from "./TriangularPrism";
 import Cube from "./Cube";
 
-type LeftSideShapesProps = {
-  active: "cube" | "triangle" | "";
+type LeftSideProps = {
+  activeMediaElement: string;
 };
 
 export type ShapeProps = {
@@ -12,9 +12,9 @@ export type ShapeProps = {
   active?: boolean;
 };
 
-const LeftSide = (props: LeftSideShapesProps) => {
-  const cubesActive = props.active === "cube";
-  const trianglesActive = props.active === "triangle";
+const LeftSide = (props: LeftSideProps) => {
+  const cubesActive = props.activeMediaElement === "exit";
+  const trianglesActive = props.activeMediaElement === "play";
 
   return (
     <>
