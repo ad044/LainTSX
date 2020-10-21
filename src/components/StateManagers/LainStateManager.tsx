@@ -12,27 +12,27 @@ const LainStateManager = (props: StateManagerProps) => {
         moveUp: {
           action: setLainMoveState,
           value: "moveUp",
-          duration: 3903.704,
+          duration: 3904.704,
         },
         moveDown: {
           action: setLainMoveState,
           value: "moveDown",
-          duration: 3903.704,
+          duration: 3904.704,
         },
         moveLeft: {
           action: setLainMoveState,
           value: "moveLeft",
-          duration: 3903.704,
+          duration: 3904.704,
         },
         moveRight: {
           action: setLainMoveState,
           value: "moveRight",
-          duration: 3903.704,
+          duration: 3904.704,
         },
         pickActiveBlueOrb: {
           action: setLainMoveState,
           value: "throwBlueOrb",
-          duration: 3903.704,
+          duration: 3904.704,
         },
       };
 
