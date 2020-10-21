@@ -8,6 +8,8 @@ import YellowTextStateManager from "./YellowTextStateManager";
 import { useBlueOrbStore, useMediaStore } from "../../store";
 import GreenTextStateManager from "./GreenTextStateManager";
 import ActiveMediaElementStateManager from "./MediaScene/ActiveMediaElementStateManager";
+import MediaWordStateManager from "./MediaScene/MediaWordStateManager";
+import MediaYellowTextStateManager from "./MediaScene/MediaYellowTextStateManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -22,16 +24,6 @@ const getKeyCodeAssociation = (keyCode: number): string => {
 
 export type StateManagerProps = {
   eventState: string;
-};
-
-export type EventObject = {
-  action: string;
-
-  target_blue_orb_id?: string;
-  target_hud_id?: string;
-  target_media_element?: string;
-  target_media_element_text?: string;
-  target_media_element_text_position?: number[];
 };
 
 const EventStateManager = () => {
@@ -55,7 +47,6 @@ const EventStateManager = () => {
         // const eventId = `${activeBlueOrb}_${keyPress}`;
         //
         const eventId = `${activeMediaElement}_${keyPress}`;
-        console.log(activeMediaElement)
         setEventState(eventId);
       }
     },
@@ -80,6 +71,8 @@ const EventStateManager = () => {
       <LainStateManager eventState={eventState!} />
       <MiddleRingStateManager eventState={eventState!} />
       <ActiveMediaElementStateManager eventState={eventState!} />
+      <MediaWordStateManager eventState={eventState!} />
+      <MediaYellowTextStateManager eventState={eventState!} />
     </>
   );
 };

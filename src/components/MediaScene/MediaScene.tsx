@@ -1,16 +1,12 @@
-import React, { useCallback, useRef, useState } from "react";
-
-import grayTextureFile from "../../static/sprite/gray_box.png";
-import darkGrayTextureFile from "../../static/sprite/dark_gray_box.png";
+import React, { useState } from "react";
 import mediaOverlayHud from "../../static/sprite/media_hud.png";
 
-import { useFrame, useLoader } from "react-three-fiber";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { OrbitControls } from "drei";
-import { useMediaStore, useMediaWordStore } from "../../store";
+import { useMediaStore } from "../../store";
 import TextRenderer from "../TextRenderer/TextRenderer";
 import LeftSide from "./LeftSide/LeftSide";
-import Word from "./RightSide/Word";
 import RightSide from "./RightSide/RightSide";
 
 const MediaScene = () => {

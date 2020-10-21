@@ -85,36 +85,26 @@ type MiddleRingState = {
   setMiddleRingAnimDuration: (to: number) => void;
 };
 
-type MediaWordData = {
-  activeWord: string;
-  positions: {
-    fstWord: { posX: number; posY: number };
-    sndWord: { posX: number; posY: number };
-    thirdWord: { posX: number; posY: number };
-  };
-};
-
 type MediaWordState = {
-  wordStateDataStruct: MediaWordData[];
-  wordStateDataStructIdx: number;
+  wordPositionDataStruct: {
+    positions: {
+      fstWord: { posX: number; posY: number };
+      sndWord: { posX: number; posY: number };
+      thirdWord: { posX: number; posY: number };
+    };
+  }[];
+  wordPositionDataStructIdx: number;
   words: string[];
-  activeWordIdx: number;
-  lastActiveWordIdx: number;
-  setWords: (to: string[]) => void;
-  addToActiveWordIdx: (val: number) => void;
-  addToWordStateDataStructIdx: (val: number) => void;
-  setLastActiveWordIdx: (to: number) => void;
+  addToWordPositionDataStructIdx: (val: number) => void;
 };
 
 type MediaState = {
   activeMediaElement: string;
-  leftColActiveMediaElement: string;
-  leftColActiveMediaElementText: string;
-  leftColActiveMediaElementTextPos: number[];
   setActiveMediaElement: (to: string) => void;
-  setLeftColActiveMediaElement: (to: string) => void;
-  setLeftColActiveMediaElementText: (to: string) => void;
-  setLeftColActiveMediaElementTextPos: (to: number[]) => void;
+  lastActiveLeftSideElement: string;
+  setLastActiveLeftSideElement: (to: string) => void;
+  lastActiveRightSideElement: string;
+  setLastActiveRightSideElement: (to: string) => void;
 };
 
 type TextRendererState = {
@@ -254,22 +244,19 @@ export const useMediaStore = create<MediaState>((set) => ({
   // you end up on the last active element FROM THAT COLUMN).
   // so we store leftColActiveMediaElement as well as rightCol.
   activeMediaElement: "play",
-  leftColActiveMediaElement: "play",
-  leftColActiveMediaElementText: "Play",
-  leftColActiveMediaElementTextPos: [-2.7, -0.9, 0.6],
   setActiveMediaElement: (to) => set(() => ({ activeMediaElement: to })),
-  setLeftColActiveMediaElement: (to) =>
-    set(() => ({ leftColActiveMediaElement: to })),
-  setLeftColActiveMediaElementText: (to) =>
-    set(() => ({ leftColActiveMediaElementText: to })),
-  setLeftColActiveMediaElementTextPos: (to) =>
-    set(() => ({ leftColActiveMediaElementTextPos: to })),
+  lastActiveLeftSideElement: "play",
+  lastActiveRightSideElement: "fstWord",
+  setLastActiveLeftSideElement: (to) =>
+    set(() => ({ lastActiveLeftSideElement: to })),
+  setLastActiveRightSideElement: (to) =>
+    set(() => ({ lastActiveRightSideElement: to })),
 }));
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
-  wordStateDataStruct: [
+  words: ["eye", "quiet", "hallucination"],
+  wordPositionDataStruct: [
     {
-      activeWord: "fstWord",
       positions: {
         fstWord: { posX: 0, posY: 0 },
         sndWord: { posX: 3, posY: -3 },
@@ -277,26 +264,23 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
       },
     },
     {
-      activeWord: "sndWord",
       positions: {
         fstWord: { posX: 1.8, posY: -2.5 },
         sndWord: { posX: 1.5, posY: -1.5 },
         thirdWord: { posX: 3.3, posY: -3.7 },
       },
     },
+    {
+      positions: {
+        fstWord: { posX: 3.7, posY: -4.3 },
+        sndWord: { posX: 0, posY: 0 },
+        thirdWord: { posX: 3, posY: -3 },
+      },
+    },
   ],
-  wordStateDataStructIdx: 0,
-  words: ["eye", "quiet", "hallucination"],
-  activeWordIdx: 0,
-  lastActiveWordIdx: 0,
-  setWords: (to) => set(() => ({ words: to })),
-  setLastActiveWordIdx: (to) => set(() => ({ lastActiveWordIdx: to })),
-  addToWordStateDataStructIdx: (val) =>
+  wordPositionDataStructIdx: 0,
+  addToWordPositionDataStructIdx: (val) =>
     set((state) => ({
-      wordStateDataStructIdx: state.wordStateDataStructIdx + val,
-    })),
-  addToActiveWordIdx: (val) =>
-    set((state) => ({
-      activeWordIdx: state.activeWordIdx + val,
+      wordPositionDataStructIdx: state.wordPositionDataStructIdx + val,
     })),
 }));
