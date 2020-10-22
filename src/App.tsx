@@ -32,7 +32,7 @@ const App = () => {
           {/*<MainScene />*/}
         </Canvas>
       </span>
-      {/*<MediaPlayer />*/}
+      <MediaPlayer />
     </div>
   );
 };
