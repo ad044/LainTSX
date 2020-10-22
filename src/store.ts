@@ -87,11 +87,10 @@ type MiddleRingState = {
 
 type MediaWordState = {
   wordPositionDataStruct: {
-    positions: {
-      fstWord: { posX: number; posY: number };
-      sndWord: { posX: number; posY: number };
-      thirdWord: { posX: number; posY: number };
-    };
+    line: { posX: number; posY: number };
+    fstWord: { posX: number; posY: number };
+    sndWord: { posX: number; posY: number };
+    thirdWord: { posX: number; posY: number };
   }[];
   wordPositionDataStructIdx: number;
   words: string[];
@@ -99,12 +98,16 @@ type MediaWordState = {
 };
 
 type MediaState = {
+  mediaDuration: number;
+  mediaTimeElapsed: number;
   activeMediaElement: string;
   setActiveMediaElement: (to: string) => void;
   lastActiveLeftSideElement: string;
   setLastActiveLeftSideElement: (to: string) => void;
   lastActiveRightSideElement: string;
   setLastActiveRightSideElement: (to: string) => void;
+  setMediaDuration: (to: number) => void;
+  setMediaTimeElapsed: (to: number) => void;
 };
 
 type TextRendererState = {
@@ -243,6 +246,8 @@ export const useMediaStore = create<MediaState>((set) => ({
   // elements need to be stored (when you switch back and forth between the columns,
   // you end up on the last active element FROM THAT COLUMN).
   // so we store leftColActiveMediaElement as well as rightCol.
+  mediaDuration: 0,
+  mediaTimeElapsed: 0,
   activeMediaElement: "play",
   setActiveMediaElement: (to) => set(() => ({ activeMediaElement: to })),
   lastActiveLeftSideElement: "play",
@@ -251,36 +256,75 @@ export const useMediaStore = create<MediaState>((set) => ({
     set(() => ({ lastActiveLeftSideElement: to })),
   setLastActiveRightSideElement: (to) =>
     set(() => ({ lastActiveRightSideElement: to })),
+  setMediaDuration: (to) => set(() => ({ mediaDuration: to })),
+  setMediaTimeElapsed: (to) => set(() => ({ mediaTimeElapsed: to })),
 }));
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
   words: ["eye", "quiet", "hallucination"],
   wordPositionDataStruct: [
     {
-      positions: {
-        fstWord: { posX: 0, posY: 0 },
-        sndWord: { posX: 3, posY: -3 },
-        thirdWord: { posX: 3.7, posY: -4.3 },
+      line: {
+        posX: -2,
+        posY: 2,
       },
+      fstWord: { posX: 0, posY: 0 },
+      sndWord: { posX: 3, posY: -3 },
+      thirdWord: { posX: 3.7, posY: -4.3 },
     },
     {
-      positions: {
-        fstWord: { posX: 1.8, posY: -2.5 },
-        sndWord: { posX: 1.5, posY: -1.5 },
-        thirdWord: { posX: 3.3, posY: -3.7 },
+      line: {
+        posX: -0.5,
+        posY: 0.5,
       },
+      fstWord: { posX: 1.8, posY: -2.5 },
+      sndWord: { posX: 1.5, posY: -1.5 },
+      thirdWord: { posX: 3.3, posY: -3.7 },
     },
     {
-      positions: {
-        fstWord: { posX: 3.7, posY: -4.3 },
-        sndWord: { posX: 0, posY: 0 },
-        thirdWord: { posX: 3, posY: -3 },
+      line: {
+        posX: 1,
+        posY: -1,
       },
+      fstWord: { posX: 3.7, posY: -4.3 },
+      sndWord: { posX: 0, posY: 0 },
+      thirdWord: { posX: 3, posY: -3 },
+    },
+    {
+      line: {
+        posX: 1.3,
+        posY: -1.7,
+      },
+      fstWord: { posX: 3.3, posY: -3.7 },
+      sndWord: { posX: 1.8, posY: -2.5 },
+      thirdWord: { posX: 1.5, posY: -1.5 },
+    },
+    {
+      line: {
+        posX: 1.7,
+        posY: -2.3,
+      },
+      fstWord: { posX: 3, posY: -3 },
+      sndWord: { posX: 3.7, posY: -4.3 },
+      thirdWord: { posX: 0, posY: 0 },
+    },
+    {
+      line: {
+        posX: -0.4,
+        posY: -0.5,
+      },
+      fstWord: { posX: 1.5, posY: -1.5 },
+      sndWord: { posX: 3.3, posY: -3.7 },
+      thirdWord: { posX: 1.8, posY: -2.5 },
     },
   ],
   wordPositionDataStructIdx: 0,
   addToWordPositionDataStructIdx: (val) =>
     set((state) => ({
-      wordPositionDataStructIdx: state.wordPositionDataStructIdx + val,
+      wordPositionDataStructIdx:
+        state.wordPositionDataStructIdx > 4 ||
+        state.wordPositionDataStructIdx < -4
+          ? 0
+          : state.wordPositionDataStructIdx + val,
     })),
 }));

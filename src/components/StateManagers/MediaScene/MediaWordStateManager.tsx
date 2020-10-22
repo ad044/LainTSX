@@ -6,25 +6,39 @@ const MediaWordStateManager = (props: StateManagerProps) => {
   const addToWordPositionDataStructIdx = useMediaWordStore(
     (state) => state.addToWordPositionDataStructIdx
   );
-  const dispatchObject = useCallback((event: string) => {
-    const dispatcherObjects = {
-      fstWord_down: {
-        action: addToWordPositionDataStructIdx,
-        value: 1,
-      },
-      sndWord_up: {
-        action: addToWordPositionDataStructIdx,
-        value: -1,
-      },
-      sndWord_down: {
-        action: addToWordPositionDataStructIdx,
-        value: 1,
+  const dispatchObject = useCallback(
+    (event: string) => {
+      const dispatcherObjects = {
+        fstWord_down: {
+          action: addToWordPositionDataStructIdx,
+          value: 1,
+        },
+        fstWord_up: {
+          action: addToWordPositionDataStructIdx,
+          value: -1,
+        },
+        sndWord_down: {
+          action: addToWordPositionDataStructIdx,
+          value: 1,
+        },
+        sndWord_up: {
+          action: addToWordPositionDataStructIdx,
+          value: -1,
+        },
+        thirdWord_down: {
+          action: addToWordPositionDataStructIdx,
+          value: 1,
+        },
+        thirdWord_up: {
+          action: addToWordPositionDataStructIdx,
+          value: -1,
+        },
+      };
 
-      }
-    };
-
-    return dispatcherObjects[event as keyof typeof dispatcherObjects];
-  }, []);
+      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+    },
+    [addToWordPositionDataStructIdx]
+  );
 
   useEffect(() => {
     if (props.eventState) {

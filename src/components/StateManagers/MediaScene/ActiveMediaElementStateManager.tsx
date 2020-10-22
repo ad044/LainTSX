@@ -63,6 +63,10 @@ const ActiveMediaElementStateManager = (props: StateManagerProps) => {
           action: switchToLeftSide,
           value: "fstWord",
         },
+        fstWord_up: {
+          action: setActiveMediaElement,
+          value: "thirdWord"
+        },
         fstWord_down: {
           action: setActiveMediaElement,
           value: "sndWord",
@@ -75,6 +79,22 @@ const ActiveMediaElementStateManager = (props: StateManagerProps) => {
           action: setActiveMediaElement,
           value: "thirdWord",
         },
+        sndWord_left: {
+          action: switchToLeftSide,
+          value: "sndWord"
+        },
+        thirdWord_down: {
+          action: setActiveMediaElement,
+          value: "fstWord",
+        },
+        thirdWord_up: {
+          action: setActiveMediaElement,
+          value: "sndWord",
+        },
+        thirdWord_left: {
+          action: switchToLeftSide,
+          value: "thirdWord"
+        }
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];

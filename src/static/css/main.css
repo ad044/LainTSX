@@ -17,6 +17,7 @@
 }
 
 .canvas {
+  pointer-events: none;
 }
 
 .react-player {
