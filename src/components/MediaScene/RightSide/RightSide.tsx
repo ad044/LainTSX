@@ -3,6 +3,8 @@ import { useMediaWordStore } from "../../../store";
 import Word from "./Word";
 import { useSpring, a } from "@react-spring/three";
 import * as THREE from "three";
+import Lof from "./Lof";
+import TopRightHUD from "./TopRightHUD/TopRightHUD";
 
 type RightSideProps = {
   activeMediaElement: string;
@@ -35,8 +37,8 @@ const RightSide = (props: RightSideProps) => {
     sndWordPosY: wordPositionState.sndWord.posY,
     thirdWordPosX: wordPositionState.thirdWord.posX,
     thirdWordPosY: wordPositionState.thirdWord.posY,
-    linePosX: wordPositionState.line.posX,
-    linePosY: wordPositionState.line.posY,
+    crossPosX: wordPositionState.cross.posX,
+    crossPosY: wordPositionState.cross.posY,
     config: { duration: 300 },
   });
 
@@ -52,8 +54,8 @@ const RightSide = (props: RightSideProps) => {
   return (
     <>
       <a.group
-        position-x={wordPositionStateSpring.linePosX}
-        position-y={wordPositionStateSpring.linePosY}
+        position-x={wordPositionStateSpring.crossPosX}
+        position-y={wordPositionStateSpring.crossPosY}
       >
         <line>
           <geometry attach="geometry" vertices={horizontalPoints} />
@@ -92,6 +94,8 @@ const RightSide = (props: RightSideProps) => {
         posY={wordPositionStateSpring.thirdWordPosY}
         active={props.activeMediaElement === "thirdWord"}
       />
+      <Lof />
+      <TopRightHUD />
     </>
   );
 };
