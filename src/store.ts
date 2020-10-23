@@ -87,7 +87,7 @@ type MiddleRingState = {
 
 type MediaWordState = {
   wordPositionDataStruct: {
-    line: { posX: number; posY: number };
+    cross: { posX: number; posY: number };
     fstWord: { posX: number; posY: number };
     sndWord: { posX: number; posY: number };
     thirdWord: { posX: number; posY: number };
@@ -98,16 +98,14 @@ type MediaWordState = {
 };
 
 type MediaState = {
-  mediaDuration: number;
-  mediaTimeElapsed: number;
+  mediaPercentageElapsed: number;
   activeMediaElement: string;
   setActiveMediaElement: (to: string) => void;
   lastActiveLeftSideElement: string;
   setLastActiveLeftSideElement: (to: string) => void;
   lastActiveRightSideElement: string;
   setLastActiveRightSideElement: (to: string) => void;
-  setMediaDuration: (to: number) => void;
-  setMediaTimeElapsed: (to: number) => void;
+  setMediaPercentageElapsed: (to: number) => void;
 };
 
 type TextRendererState = {
@@ -246,8 +244,7 @@ export const useMediaStore = create<MediaState>((set) => ({
   // elements need to be stored (when you switch back and forth between the columns,
   // you end up on the last active element FROM THAT COLUMN).
   // so we store leftColActiveMediaElement as well as rightCol.
-  mediaDuration: 0,
-  mediaTimeElapsed: 0,
+  mediaPercentageElapsed: 0,
   activeMediaElement: "play",
   setActiveMediaElement: (to) => set(() => ({ activeMediaElement: to })),
   lastActiveLeftSideElement: "play",
@@ -256,15 +253,14 @@ export const useMediaStore = create<MediaState>((set) => ({
     set(() => ({ lastActiveLeftSideElement: to })),
   setLastActiveRightSideElement: (to) =>
     set(() => ({ lastActiveRightSideElement: to })),
-  setMediaDuration: (to) => set(() => ({ mediaDuration: to })),
-  setMediaTimeElapsed: (to) => set(() => ({ mediaTimeElapsed: to })),
+  setMediaPercentageElapsed: (to) => set(() => ({ mediaPercentageElapsed: to })),
 }));
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
   words: ["eye", "quiet", "hallucination"],
   wordPositionDataStruct: [
     {
-      line: {
+      cross: {
         posX: -2,
         posY: 2,
       },
@@ -273,7 +269,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
       thirdWord: { posX: 3.7, posY: -4.3 },
     },
     {
-      line: {
+      cross: {
         posX: -0.5,
         posY: 0.5,
       },
@@ -282,7 +278,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
       thirdWord: { posX: 3.3, posY: -3.7 },
     },
     {
-      line: {
+      cross: {
         posX: 1,
         posY: -1,
       },
@@ -291,7 +287,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
       thirdWord: { posX: 3, posY: -3 },
     },
     {
-      line: {
+      cross: {
         posX: 1.3,
         posY: -1.7,
       },
@@ -300,7 +296,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
       thirdWord: { posX: 1.5, posY: -1.5 },
     },
     {
-      line: {
+      cross: {
         posX: 1.7,
         posY: -2.3,
       },
@@ -309,7 +305,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
       thirdWord: { posX: 0, posY: 0 },
     },
     {
-      line: {
+      cross: {
         posX: -0.4,
         posY: -0.5,
       },

@@ -20,9 +20,11 @@
   pointer-events: none;
 }
 
-.react-player {
+video {
   width: 100% !important;
   height: 100% !important;
+  position: absolute;
+  z-index: -1;
   margin-top: -600px;
 }
 
