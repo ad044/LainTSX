@@ -1,6 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
-import ReactPlayer from "react-player";
-import test from "../../static/movie/test.webm";
+import React, { useCallback, useRef } from "react";
+import test from "../../static/movie/LAIN01.XA[18].ogg";
 import { useMediaStore } from "../../store";
 
 const MediaPlayer = () => {
