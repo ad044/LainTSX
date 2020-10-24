@@ -124,6 +124,11 @@ type TextRendererState = {
   toggleGreenText: () => void;
 };
 
+type AudioVisualizerState = {
+  frequency: Uint8Array;
+  setFrequency: (to: Uint8Array) => void;
+};
+
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -253,7 +258,8 @@ export const useMediaStore = create<MediaState>((set) => ({
     set(() => ({ lastActiveLeftSideElement: to })),
   setLastActiveRightSideElement: (to) =>
     set(() => ({ lastActiveRightSideElement: to })),
-  setMediaPercentageElapsed: (to) => set(() => ({ mediaPercentageElapsed: to })),
+  setMediaPercentageElapsed: (to) =>
+    set(() => ({ mediaPercentageElapsed: to })),
 }));
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
@@ -323,4 +329,9 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
           ? 0
           : state.wordPositionDataStructIdx + val,
     })),
+}));
+
+export const useAudioVisualizerStore = create<AudioVisualizerState>((set) => ({
+  frequency: new Uint8Array(),
+  setFrequency: (to) => set(() => ({ frequency: to })),
 }));
