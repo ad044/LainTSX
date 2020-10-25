@@ -124,11 +124,6 @@ type TextRendererState = {
   toggleGreenText: () => void;
 };
 
-type AudioVisualizerState = {
-  frequency: Uint8Array;
-  setFrequency: (to: Uint8Array) => void;
-};
-
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -331,7 +326,3 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
     })),
 }));
 
-export const useAudioVisualizerStore = create<AudioVisualizerState>((set) => ({
-  frequency: new Uint8Array(),
-  setFrequency: (to) => set(() => ({ frequency: to })),
-}));

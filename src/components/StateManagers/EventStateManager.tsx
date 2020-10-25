@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import SiteStateManager from "./SiteStateManager";
-import MiddleRingStateManager from "./MiddleRingStateManager";
-import LainStateManager from "./LainStateManager";
-import BlueOrbStateManager from "./BlueOrbStateManager";
-import BlueOrbHUDStateManager from "./BlueOrbHUDStateManager";
-import YellowTextStateManager from "./YellowTextStateManager";
+import SiteManager from "./MainScene/SiteManager";
+import MiddleRingManager from "./MainScene/MiddleRingManager";
+import LainManager from "./MainScene/LainManager";
+import BlueOrbManager from "./MainScene/BlueOrbManager";
+import BlueOrbHUDManager from "./MainScene/BlueOrbHUDManager";
+import MainYellowTextManager from "./MainScene/MainYellowTextManager";
 import { useBlueOrbStore, useMediaStore } from "../../store";
-import GreenTextStateManager from "./GreenTextStateManager";
-import ActiveMediaElementStateManager from "./MediaScene/ActiveMediaElementStateManager";
-import MediaWordStateManager from "./MediaScene/MediaWordStateManager";
-import MediaYellowTextStateManager from "./MediaScene/MediaYellowTextStateManager";
+import GreenTextManager from "./MainScene/GreenTextManager";
+import ActiveMediaElementManager from "./MediaScene/ActiveMediaElementManager";
+import WordManager from "./MediaScene/WordManager";
+import MediaYellowTextManager from "./MediaScene/MediaYellowTextManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -46,7 +46,7 @@ const EventStateManager = () => {
         // from blue_orb_directions.json file.
         // const eventId = `${activeBlueOrb}_${keyPress}`;
         //
-        const eventId = `${activeMediaElement}_${keyPress}`;
+        const eventId = `${activeBlueOrb}_${keyPress}`;
         setEventState(eventId);
       }
     },
@@ -63,16 +63,16 @@ const EventStateManager = () => {
 
   return (
     <>
-      <BlueOrbStateManager eventState={eventState!} />
-      <BlueOrbHUDStateManager eventState={eventState!} />
-      <YellowTextStateManager eventState={eventState!} />
-      <GreenTextStateManager eventState={eventState!} />
-      <SiteStateManager eventState={eventState!} />
-      <LainStateManager eventState={eventState!} />
-      <MiddleRingStateManager eventState={eventState!} />
-      <ActiveMediaElementStateManager eventState={eventState!} />
-      <MediaWordStateManager eventState={eventState!} />
-      <MediaYellowTextStateManager eventState={eventState!} />
+      <BlueOrbManager eventState={eventState!} />
+      <BlueOrbHUDManager eventState={eventState!} />
+      <MainYellowTextManager eventState={eventState!} />
+      <GreenTextManager eventState={eventState!} />
+      <SiteManager eventState={eventState!} />
+      <LainManager eventState={eventState!} />
+      <MiddleRingManager eventState={eventState!} />
+      <ActiveMediaElementManager eventState={eventState!} />
+      <WordManager eventState={eventState!} />
+      <MediaYellowTextManager eventState={eventState!} />
     </>
   );
 };

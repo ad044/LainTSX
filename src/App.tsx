@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Suspense } from "react";
-import MainScene from "./components/MainScene";
+import MainScene from "./scenes/MainScene";
 import "./static/css/hub.css";
 import "./static/css/main.css";
 import { Canvas } from "react-three-fiber";
 import Boot from "./components/Boot";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
-import MediaScene from "./components/MediaScene/MediaScene";
+import MediaScene from "./scenes/MediaScene";
 import EventStateManager from "./components/StateManagers/EventStateManager";
 
 const App = () => {
@@ -26,13 +26,13 @@ const App = () => {
       <span className="canvas">
         <EventStateManager />
         <Canvas concurrent>
-          <Suspense fallback={null}>
-            <MediaScene />
-          </Suspense>
-          {/*<MainScene />*/}
+          {/*<Suspense fallback={null}>*/}
+          {/*  <MediaScene />*/}
+          {/*</Suspense>*/}
+          <MainScene />
         </Canvas>
       </span>
-      <MediaPlayer />
+      {/*<MediaPlayer />*/}
     </div>
   );
 };

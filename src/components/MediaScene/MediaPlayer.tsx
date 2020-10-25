@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { createRef, useCallback, useRef } from "react";
 import test from "../../static/movie/LAIN01.XA[18].ogg";
 import { useMediaStore } from "../../store";
 
@@ -8,12 +8,13 @@ const MediaPlayer = () => {
   );
 
   const requestRef = useRef();
+  const videoRef = createRef<HTMLVideoElement>();
 
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
-    if (t.current) {
-      const timeElapsed = t.current.getCurrentTime();
-      const duration = t.current.getDuration();
+    if (videoRef.current) {
+      const timeElapsed = videoRef.current.currentTime;
+      const duration = videoRef.current.duration;
       const percentageElapsed = Math.floor((timeElapsed / duration) * 100);
 
       if (percentageElapsed % 5 === 0) {
@@ -27,10 +28,8 @@ const MediaPlayer = () => {
     return () => cancelAnimationFrame(requestRef.current as any);
   }, [updateTime]);
 
-  const t = useRef<any>();
-
   return (
-    <video width="800" height="600" controls autoPlay id="media">
+    <video width="800" height="600" controls autoPlay id="media" ref={videoRef}>
       <source src={test} />
     </video>
   );
