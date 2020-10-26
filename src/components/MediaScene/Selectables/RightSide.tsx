@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from "react";
-import { useMediaWordStore } from "../../../../store";
-import Word from "./Word";
+import { useMediaWordStore } from "../../../store";
+import Word from "./RightSide/Word";
 import { useSpring, a } from "@react-spring/three";
 import * as THREE from "three";
 
 type RightSideProps = {
-  activeMediaElement: string;
+  activeMediaComponent: string;
 };
 
 const RightSide = (props: RightSideProps) => {
@@ -50,7 +50,7 @@ const RightSide = (props: RightSideProps) => {
   );
 
   return (
-    <>
+    <group position={[0, 0, -3]}>
       <a.group
         position-x={wordPositionStateSpring.crossPosX}
         position-y={wordPositionStateSpring.crossPosY}
@@ -78,21 +78,21 @@ const RightSide = (props: RightSideProps) => {
         word={words[0]}
         posX={wordPositionStateSpring.fstWordPosX}
         posY={wordPositionStateSpring.fstWordPosY}
-        active={props.activeMediaElement === "fstWord"}
+        active={props.activeMediaComponent === "fstWord"}
       />
       <Word
         word={words[1]}
         posX={wordPositionStateSpring.sndWordPosX}
         posY={wordPositionStateSpring.sndWordPosY}
-        active={props.activeMediaElement === "sndWord"}
+        active={props.activeMediaComponent === "sndWord"}
       />
       <Word
         word={words[2]}
         posX={wordPositionStateSpring.thirdWordPosX}
         posY={wordPositionStateSpring.thirdWordPosY}
-        active={props.activeMediaElement === "thirdWord"}
+        active={props.activeMediaComponent === "thirdWord"}
       />
-    </>
+    </group>
   );
 };
 

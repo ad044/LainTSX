@@ -108,7 +108,7 @@ const YellowOrb = memo(() => {
   });
 
   return (
-    <group position={[0, -0.1, -9]} visible={yellowOrbVisible}>
+    <group position={[0, -0.1, 1]} visible={yellowOrbVisible}>
       <sprite scale={[0.5, 0.5, 0.5]} ref={orbRef} renderOrder={renderOrder}>
         <spriteMaterial
           attach="material"

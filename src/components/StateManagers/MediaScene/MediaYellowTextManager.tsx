@@ -31,17 +31,17 @@ const MediaYellowTextManager = (props: any) => {
   );
 
   const animateMediaYellowText: AnimateMediaYellowText = useCallback(
-    (targetMediaElementText: string, targetMediaElementTextPos: number[]) => {
+    (targetMediaComponentText: string, targetMediaComponentTextPos: number[]) => {
       // make current text shrink
       setYellowTextOffsetXCoeff(-1);
 
       setTimeout(() => {
-        setYellowTextPosX(targetMediaElementTextPos[0]);
-        setYellowTextPosY(targetMediaElementTextPos[1]);
+        setYellowTextPosX(targetMediaComponentTextPos[0]);
+        setYellowTextPosY(targetMediaComponentTextPos[1]);
       }, 400);
 
       setTimeout(() => {
-        setYellowText(targetMediaElementText);
+        setYellowText(targetMediaComponentText);
       }, 1000);
 
       setTimeout(() => {

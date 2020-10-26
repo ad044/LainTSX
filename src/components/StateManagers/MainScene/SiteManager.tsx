@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useSiteStore } from "../../../store";
 import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import { StateManagerProps } from "../EventStateManager";
+import { StateManagerProps } from "../EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
   const incrementSiteRotY = useSiteStore((state) => state.incrementSiteRotY);
@@ -10,14 +10,14 @@ const SiteManager = (props: StateManagerProps) => {
 
   const dispatcherObjects = useMemo(
     () => ({
-      moveUp: { action: incrementSitePosY, value: -1.5, actionDelay: 1300 },
-      moveDown: { action: incrementSitePosY, value: 1.5, actionDelay: 1300 },
-      moveLeft: {
+      move_up: { action: incrementSitePosY, value: -1.5, actionDelay: 1300 },
+      move_down: { action: incrementSitePosY, value: 1.5, actionDelay: 1300 },
+      move_left: {
         action: incrementSiteRotY,
         value: Math.PI / 4,
         actionDelay: 1100,
       },
-      moveRight: {
+      move_right: {
         action: incrementSiteRotY,
         value: -Math.PI / 4,
         actionDelay: 1100,

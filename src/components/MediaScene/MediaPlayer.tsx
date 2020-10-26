@@ -1,8 +1,9 @@
 import React, { createRef, useCallback, useRef } from "react";
 import test from "../../static/movie/LAIN01.XA[18].ogg";
-import { useMediaStore } from "../../store";
+import { useMediaStore, useSceneStore } from "../../store";
 
 const MediaPlayer = () => {
+  const currentScene = useSceneStore((state) => state.currentScene);
   const setMediaPercentageElapsed = useMediaStore(
     (state) => state.setMediaPercentageElapsed
   );
@@ -21,15 +22,24 @@ const MediaPlayer = () => {
         setMediaPercentageElapsed(percentageElapsed);
       }
     }
-  }, [setMediaPercentageElapsed]);
+  }, [setMediaPercentageElapsed, videoRef]);
 
   React.useEffect(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
-    return () => cancelAnimationFrame(requestRef.current as any);
+    const curr = requestRef.current;
+    return () => cancelAnimationFrame(curr as any);
   }, [updateTime]);
 
   return (
-    <video width="800" height="600" controls autoPlay id="media" ref={videoRef}>
+    <video
+      width="800"
+      height="600"
+      controls
+      autoPlay
+      id="media"
+      ref={videoRef}
+      style={{ display: currentScene === "media" ? "block" : "none" }}
+    >
       <source src={test} />
     </video>
   );

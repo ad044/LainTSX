@@ -1,15 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import SiteManager from "./MainScene/SiteManager";
 import MiddleRingManager from "./MainScene/MiddleRingManager";
 import LainManager from "./MainScene/LainManager";
 import BlueOrbManager from "./MainScene/BlueOrbManager";
 import BlueOrbHUDManager from "./MainScene/BlueOrbHUDManager";
 import MainYellowTextManager from "./MainScene/MainYellowTextManager";
-import { useBlueOrbStore, useMediaStore } from "../../store";
+import { useBlueOrbStore, useMediaStore, useSceneStore } from "../../store";
 import GreenTextManager from "./MainScene/GreenTextManager";
-import ActiveMediaElementManager from "./MediaScene/ActiveMediaElementManager";
+import MediaComponentManager from "./MediaScene/MediaComponentManager";
 import WordManager from "./MediaScene/WordManager";
 import MediaYellowTextManager from "./MediaScene/MediaYellowTextManager";
+import MediaElementManager from "./MediaScene/MediaElementManager";
+import SceneManager from "./SceneManager";
+import ImageManager from "./MediaScene/ImageManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -17,7 +20,7 @@ const getKeyCodeAssociation = (keyCode: number): string => {
     37: "left", // left arrow
     38: "up", // up arrow
     39: "right", // right arrow
-    88: "pick", // x key
+    88: "select", // x key
   };
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };
@@ -26,12 +29,23 @@ export type StateManagerProps = {
   eventState: string;
 };
 
-const EventStateManager = () => {
+const EventManager = () => {
   const [eventState, setEventState] = useState<string>();
-  const activeBlueOrb = useBlueOrbStore((state) => state.blueOrbId);
-  const activeMediaElement = useMediaStore((state) => state.activeMediaElement);
+  const activeBlueOrb = useBlueOrbStore((state) => state.activeBlueOrbId);
+  const activeMediaComponent = useMediaStore(
+    (state) => state.activeMediaComponent
+  );
+  const currentScene = useSceneStore((state) => state.currentScene);
 
   const [inputCooldown, setInputCooldown] = useState(false);
+
+  const sceneEventKey = useMemo(() => {
+    const keys = {
+      main: activeBlueOrb,
+      media: activeMediaComponent,
+    };
+    return keys[currentScene as keyof typeof keys];
+  }, [activeBlueOrb, activeMediaComponent, currentScene]);
 
   const handleKeyPress = useCallback(
     (event) => {
@@ -46,11 +60,11 @@ const EventStateManager = () => {
         // from blue_orb_directions.json file.
         // const eventId = `${activeBlueOrb}_${keyPress}`;
         //
-        const eventId = `${activeBlueOrb}_${keyPress}`;
+        const eventId = `${sceneEventKey}_${keyPress}`;
         setEventState(eventId);
       }
     },
-    [inputCooldown, activeBlueOrb, activeMediaElement]
+    [inputCooldown, sceneEventKey]
   );
 
   useEffect(() => {
@@ -70,11 +84,14 @@ const EventStateManager = () => {
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
-      <ActiveMediaElementManager eventState={eventState!} />
+      <MediaComponentManager eventState={eventState!} />
       <WordManager eventState={eventState!} />
       <MediaYellowTextManager eventState={eventState!} />
+      <MediaElementManager eventState={eventState!} />
+      <SceneManager eventState={eventState!} />
+      <ImageManager eventState={eventState!} />
     </>
   );
 };
 
-export default EventStateManager;
+export default EventManager;

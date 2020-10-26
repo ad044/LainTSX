@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useLainStore } from "../../../store";
 import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import { StateManagerProps } from "../EventStateManager";
+import { StateManagerProps } from "../EventManager";
 
 const LainManager = (props: StateManagerProps) => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
@@ -9,27 +9,27 @@ const LainManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string) => {
       const dispatcherObjects = {
-        moveUp: {
+        move_up: {
           action: setLainMoveState,
-          value: "moveUp",
+          value: "move_up",
           duration: 3904.704,
         },
-        moveDown: {
+        move_down: {
           action: setLainMoveState,
-          value: "moveDown",
+          value: "move_down",
           duration: 3904.704,
         },
-        moveLeft: {
+        move_left: {
           action: setLainMoveState,
-          value: "moveLeft",
+          value: "move_left",
           duration: 3904.704,
         },
-        moveRight: {
+        move_right: {
           action: setLainMoveState,
-          value: "moveRight",
+          value: "move_right",
           duration: 3904.704,
         },
-        pickActiveBlueOrb: {
+        select_blue_orb: {
           action: setLainMoveState,
           value: "throwBlueOrb",
           duration: 3904.704,

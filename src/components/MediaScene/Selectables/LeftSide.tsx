@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import TriangularPrism from "./TriangularPrism";
-import Cube from "./Cube";
+import React from "react";
+import TriangularPrism from "./LeftSide/TriangularPrism";
+import Cube from "./LeftSide/Cube";
 
 type LeftSideProps = {
-  activeMediaElement: string;
+  activeMediaComponent: string;
 };
 
 export type ShapeProps = {
@@ -13,11 +13,11 @@ export type ShapeProps = {
 };
 
 const LeftSide = (props: LeftSideProps) => {
-  const cubesActive = props.activeMediaElement === "exit";
-  const trianglesActive = props.activeMediaElement === "play";
+  const cubesActive = props.activeMediaComponent === "exit";
+  const trianglesActive = props.activeMediaComponent === "play";
 
   return (
-    <>
+    <group position={[0, 0, -3]}>
       <Cube position={[-2.7, -1.6, 0.6]} active={cubesActive} />
       <TriangularPrism position={[-3.5, -1.6, 0.6]} active={!trianglesActive} />
       <Cube position={[-3.5, -0.9, 0.6]} active={cubesActive} />
@@ -36,7 +36,7 @@ const LeftSide = (props: LeftSideProps) => {
         active={trianglesActive}
         selectable={true}
       />
-    </>
+    </group>
   );
 };
 

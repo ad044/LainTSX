@@ -158,6 +158,7 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
         : 0,
     }));
   }, [
+    props.level,
     activeBlueOrbPosX,
     activeBlueOrbPosZ,
     activeBlueOrbRotZ,

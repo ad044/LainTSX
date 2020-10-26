@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { StateManagerProps } from "../EventStateManager";
+import { StateManagerProps } from "../EventManager";
 import { useMediaWordStore } from "../../../store";
 
 const WordManager = (props: StateManagerProps) => {

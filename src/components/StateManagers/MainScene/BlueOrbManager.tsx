@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useBlueOrbStore } from "../../../store";
 import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import { StateManagerProps } from "../EventStateManager";
+import { StateManagerProps } from "../EventManager";
 
 type SetActiveBlueOrb = (value: string) => void;
 type SetIsActiveBlueOrbInteractedWith = (value: boolean) => void;
@@ -13,12 +13,12 @@ type BlueOrbDispatchData = {
 };
 
 type BlueOrbDispatcher = {
-  moveUp: BlueOrbDispatchData;
-  moveDown: BlueOrbDispatchData;
-  moveLeft: BlueOrbDispatchData;
-  moveRight: BlueOrbDispatchData;
-  changeBlueOrbFocus: BlueOrbDispatchData;
-  pickActiveBlueOrb: BlueOrbDispatchData;
+  move_up: BlueOrbDispatchData;
+  move_down: BlueOrbDispatchData;
+  move_left: BlueOrbDispatchData;
+  move_right: BlueOrbDispatchData;
+  change_blue_orb: BlueOrbDispatchData;
+  select_blue_orb: BlueOrbDispatchData;
 };
 
 const BlueOrbManager = (props: StateManagerProps) => {
@@ -72,32 +72,32 @@ const BlueOrbManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, targetBlueOrbId: string) => {
       const dispatcherObjects: BlueOrbDispatcher = {
-        moveUp: {
+        move_up: {
           action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
-        moveDown: {
+        move_down: {
           action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
-        moveLeft: {
+        move_left: {
           action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
-        moveRight: {
+        move_right: {
           action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 3903.704,
         },
-        changeBlueOrbFocus: {
+        change_blue_orb: {
           action: setActiveBlueOrb,
           value: targetBlueOrbId,
           actionDelay: 0,
         },
-        pickActiveBlueOrb: {
+        select_blue_orb: {
           action: animateActiveBlueOrbThrow,
           value: true,
           actionDelay: 0,

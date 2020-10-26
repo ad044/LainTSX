@@ -1,4 +1,4 @@
-import React, { createRef, MutableRefObject, useEffect, useMemo } from "react";
+import React, { createRef, MutableRefObject, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import AudioVisualizerColumn from "./AudioVisualizerColumn";
@@ -16,12 +16,11 @@ const AudioVisualizer = () => {
   }, []);
 
   const columnRefs = useMemo(() => {
-    let ref1, ref2, ref3, ref4;
     return Array.from({ length: 15 }, () => [
-      (ref1 = createRef<THREE.Object3D>()),
-      (ref2 = createRef<THREE.Object3D>()),
-      (ref3 = createRef<THREE.Object3D>()),
-      (ref4 = createRef<THREE.Object3D>()),
+      createRef<THREE.Object3D>(),
+      createRef<THREE.Object3D>(),
+      createRef<THREE.Object3D>(),
+      createRef<THREE.Object3D>(),
     ]);
   }, []);
 
@@ -74,7 +73,7 @@ const AudioVisualizer = () => {
   });
 
   return (
-    <>
+    <group position={[0, 0, -3]}>
       {columnRefs.map((refArray, idx: number) => (
         <AudioVisualizerColumn
           position={[0, -idx / 2, 0]}
@@ -87,7 +86,7 @@ const AudioVisualizer = () => {
           key={idx}
         />
       ))}
-    </>
+    </group>
   );
 };
 

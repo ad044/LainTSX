@@ -145,6 +145,10 @@ const MediaLoadingBar = () => {
   }, [
     mediaLoadingBar10PercTex,
     mediaLoadingBar20PercTex,
+    mediaLoadingBar30PercTex,
+    mediaLoadingBar40PercTex,
+    mediaLoadingBar50PercTex,
+    mediaLoadingBarTex,
     mediaPercentageElapsed,
   ]);
 

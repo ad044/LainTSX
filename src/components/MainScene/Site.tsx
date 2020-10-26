@@ -8,7 +8,7 @@ import { a, useSpring } from "@react-spring/three";
 import { useBlueOrbStore, useLevelStore, useSiteStore } from "../../store";
 
 const Site = memo(() => {
-  const activeBlueOrbId = useBlueOrbStore((state) => state.blueOrbId);
+  const activeBlueOrbId = useBlueOrbStore((state) => state.activeBlueOrbId);
 
   const activeLevels = useLevelStore((state) => state.activeLevels);
 
@@ -22,7 +22,7 @@ const Site = memo(() => {
   });
 
   return (
-    <Suspense fallback={<>loading...</>}>
+    <Suspense fallback={null}>
       {/*distance between LEVELS is 1.5*/}
       <a.group rotation-y={siteState.siteRotY} position-y={siteState.sitePosY}>
         {Object.entries(level_y_values).map((level: [string, number]) => {

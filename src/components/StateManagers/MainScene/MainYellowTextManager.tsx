@@ -21,11 +21,11 @@ type YellowTextDispatchData = {
 };
 
 type YellowTextDispatcher = {
-  moveUp: YellowTextDispatchData;
-  moveDown: YellowTextDispatchData;
-  moveLeft: YellowTextDispatchData;
-  moveRight: YellowTextDispatchData;
-  changeBlueOrbFocus: YellowTextDispatchData;
+  move_up: YellowTextDispatchData;
+  move_down: YellowTextDispatchData;
+  move_left: YellowTextDispatchData;
+  move_right: YellowTextDispatchData;
+  change_blue_orb: YellowTextDispatchData;
 };
 
 const MainYellowTextManager = (props: any) => {
@@ -132,23 +132,23 @@ const MainYellowTextManager = (props: any) => {
       targetBlueOrbId: string | undefined
     ) => {
       const dispatcherObjects: YellowTextDispatcher = {
-        moveUp: {
+        move_up: {
           action: animateYellowTextWithMove,
           value: [-1.5, targetBlueOrbHudId, targetBlueOrbId],
         },
-        moveDown: {
+        move_down: {
           action: animateYellowTextWithMove,
           value: [1.5, targetBlueOrbHudId, targetBlueOrbId],
         },
-        moveLeft: {
+        move_left: {
           action: animateYellowTextWithMove,
           value: [targetBlueOrbHudId, targetBlueOrbId],
         },
-        moveRight: {
+        move_right: {
           action: animateYellowTextWithMove,
           value: [targetBlueOrbHudId, targetBlueOrbId],
         },
-        changeBlueOrbFocus: {
+        change_blue_orb: {
           action: animateYellowTextWithoutMove,
           value: [targetBlueOrbHudId, targetBlueOrbId],
         },
