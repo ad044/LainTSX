@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from "react";
-import { StateManagerProps } from "../EventStateManager";
+import { StateManagerProps } from "../EventManager";
 import { useMediaStore } from "../../../store";
 
-const ActiveMediaElementManager = (props: StateManagerProps) => {
-  const setActiveMediaElement = useMediaStore(
-    (state) => state.setActiveMediaElement
+const MediaComponentManager = (props: StateManagerProps) => {
+  const setActiveMediaComponent = useMediaStore(
+    (state) => state.setActiveMediaComponent
   );
 
   const setLastActiveLeftSideElement = useMediaStore(
@@ -22,26 +22,26 @@ const ActiveMediaElementManager = (props: StateManagerProps) => {
 
   const switchToLeftSide = useCallback(
     (from: string) => {
-      setActiveMediaElement(lastActiveLeftSideElement);
+      setActiveMediaComponent(lastActiveLeftSideElement);
       // store last active right side elem
       setLastActiveRightSideElement(from);
     },
     [
       lastActiveLeftSideElement,
-      setActiveMediaElement,
+      setActiveMediaComponent,
       setLastActiveRightSideElement,
     ]
   );
 
   const switchToRightSide = useCallback(
     (from: string) => {
-      setActiveMediaElement(lastActiveRightSideElement);
+      setActiveMediaComponent(lastActiveRightSideElement);
       // store last active left side elem
       setLastActiveLeftSideElement(from);
     },
     [
       lastActiveRightSideElement,
-      setActiveMediaElement,
+      setActiveMediaComponent,
       setLastActiveLeftSideElement,
     ]
   );
@@ -49,8 +49,8 @@ const ActiveMediaElementManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string) => {
       const dispatcherObjects = {
-        play_down: { action: setActiveMediaElement, value: "exit" },
-        exit_up: { action: setActiveMediaElement, value: "play" },
+        play_down: { action: setActiveMediaComponent, value: "exit" },
+        exit_up: { action: setActiveMediaComponent, value: "play" },
         play_right: {
           action: switchToRightSide,
           value: "play",
@@ -64,19 +64,19 @@ const ActiveMediaElementManager = (props: StateManagerProps) => {
           value: "fstWord",
         },
         fstWord_up: {
-          action: setActiveMediaElement,
+          action: setActiveMediaComponent,
           value: "thirdWord"
         },
         fstWord_down: {
-          action: setActiveMediaElement,
+          action: setActiveMediaComponent,
           value: "sndWord",
         },
         sndWord_up: {
-          action: setActiveMediaElement,
+          action: setActiveMediaComponent,
           value: "fstWord",
         },
         sndWord_down: {
-          action: setActiveMediaElement,
+          action: setActiveMediaComponent,
           value: "thirdWord",
         },
         sndWord_left: {
@@ -84,11 +84,11 @@ const ActiveMediaElementManager = (props: StateManagerProps) => {
           value: "sndWord"
         },
         thirdWord_down: {
-          action: setActiveMediaElement,
+          action: setActiveMediaComponent,
           value: "fstWord",
         },
         thirdWord_up: {
-          action: setActiveMediaElement,
+          action: setActiveMediaComponent,
           value: "sndWord",
         },
         thirdWord_left: {
@@ -99,7 +99,7 @@ const ActiveMediaElementManager = (props: StateManagerProps) => {
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [setActiveMediaElement, switchToLeftSide, switchToRightSide]
+    [setActiveMediaComponent, switchToLeftSide, switchToRightSide]
   );
 
   useEffect(() => {
@@ -115,4 +115,4 @@ const ActiveMediaElementManager = (props: StateManagerProps) => {
   return null;
 };
 
-export default ActiveMediaElementManager;
+export default MediaComponentManager;

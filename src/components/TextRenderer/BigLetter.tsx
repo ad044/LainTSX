@@ -2,7 +2,7 @@ import orangeFont from "../../static/sprite/orange_font_texture.png";
 import yellowFont from "../../static/sprite/yellow_font_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import orange_font_json from "../../resources/big_font.json";
+import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
 import React, { useMemo } from "react";
 import { LetterProps } from "./TextRenderer";

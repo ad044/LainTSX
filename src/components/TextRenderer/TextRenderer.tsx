@@ -1,13 +1,8 @@
 import { a, useSpring, useTrail } from "@react-spring/three";
 import React, { useMemo } from "react";
-import {
-  useBlueOrbStore,
-  useSiteStore,
-  useTextRendererStore,
-} from "../../store";
+import { useSiteStore, useTextRendererStore } from "../../store";
 import BigLetter from "./BigLetter";
 import MediumLetter from "./MediumLetter";
-import blue_orb_huds from "../../resources/blue_orb_huds.json";
 
 export type LetterProps = {
   color: string;
@@ -44,14 +39,12 @@ const TextRenderer = () => {
   // ==================================== GREEN TEXT ============================================
 
   const greenText = useTextRendererStore((state) => state.greenText);
+  const greenTextPosY = useTextRendererStore((state) => state.greenTextPosY);
+  const greenTextPosXObj = useTextRendererStore((state) => state.greenTextPosX);
   const greenTextArr = useMemo(() => greenText.split(""), [greenText]);
   const greenTextActive = useTextRendererStore(
     (state) => state.greenTextActive
   );
-
-  // instead of setting this part of state directly, green text reads off of the json file.
-  const currentHudId = useBlueOrbStore((state) => state.hudId);
-  const currentHud = blue_orb_huds[currentHudId as keyof typeof blue_orb_huds];
 
   const { greenTextPosXToggle } = useSpring({
     greenTextPosXToggle: greenTextActive,
@@ -60,14 +53,11 @@ const TextRenderer = () => {
 
   const greenTextPosX = greenTextPosXToggle.to(
     [0, 1],
-    [
-      currentHud.medium_text.initial_position[0],
-      currentHud.medium_text.position[0],
-    ]
+    [greenTextPosXObj.initial, greenTextPosXObj.final]
   );
 
   return (
-    <>
+    <group position={[0, 0, 10]}>
       {isSiteChangingY
         ? yellowTextArr.map((letter, idx) => (
             <a.group
@@ -108,7 +98,7 @@ const TextRenderer = () => {
 
       <a.group
         position-x={greenTextPosX}
-        position-y={currentHud["medium_text"]["position"][1]}
+        position-y={greenTextPosY}
         position-z={-8.7}
         scale={[0.02, 0.035, 0.02]}
       >
@@ -121,7 +111,7 @@ const TextRenderer = () => {
           />
         ))}
       </a.group>
-    </>
+    </group>
   );
 };
 

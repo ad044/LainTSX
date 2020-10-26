@@ -1,8 +1,14 @@
 import create from "zustand";
+import { SpriteMaterial } from "three";
+
+type SceneState = {
+  currentScene: string;
+  setScene: (to: string) => void;
+};
 
 type BlueOrbState = {
-  blueOrbId: string;
-  hudId: string;
+  activeBlueOrbId: string;
+  activeHudId: string;
   hudActive: number;
   hudVisible: boolean;
   isActiveBlueOrbInteractedWith: boolean;
@@ -94,13 +100,14 @@ type MediaWordState = {
   }[];
   wordPositionDataStructIdx: number;
   words: string[];
+  setWords: (to: string[]) => void;
   addToWordPositionDataStructIdx: (val: number) => void;
 };
 
 type MediaState = {
   mediaPercentageElapsed: number;
-  activeMediaElement: string;
-  setActiveMediaElement: (to: string) => void;
+  activeMediaComponent: string;
+  setActiveMediaComponent: (to: string) => void;
   lastActiveLeftSideElement: string;
   setLastActiveLeftSideElement: (to: string) => void;
   lastActiveRightSideElement: string;
@@ -118,10 +125,19 @@ type TextRendererState = {
   setYellowTextPosY: (to: number) => void;
   setYellowTextPosX: (to: number) => void;
   setYellowTextOffsetXCoeff: (to: number) => void;
+  greenTextPosY: number;
+  greenTextPosX: { initial: number; final: number };
   greenText: string;
   greenTextActive: number;
+  setGreenTextPosY: (to: number) => void;
+  setGreenTextPosX: (to: { initial: number; final: number }) => void;
   setGreenText: (to: string) => void;
   toggleGreenText: () => void;
+};
+
+type ImageState = {
+  img: any;
+  setImg: (to: any) => void;
 };
 
 export const useTextRendererStore = create<TextRendererState>((set) => ({
@@ -139,15 +155,19 @@ export const useTextRendererStore = create<TextRendererState>((set) => ({
     set(() => ({ yellowTextOffsetXCoeff: to })),
   // green text
   greenText: "TOUKO's DIARY",
+  greenTextPosY: 0,
+  greenTextPosX: { initial: 0, final: 0 },
   greenTextActive: 1,
+  setGreenTextPosY: (to) => set(() => ({ greenTextPosY: to })),
+  setGreenTextPosX: (to) => set({ greenTextPosX: to }),
   setGreenText: (to) => set(() => ({ greenText: to })),
   toggleGreenText: () =>
     set((state) => ({ greenTextActive: Number(!state.greenTextActive) })),
 }));
 
 export const useBlueOrbStore = create<BlueOrbState>((set) => ({
-  blueOrbId: "0422",
-  hudId: "fg_hud_1",
+  activeBlueOrbId: "0422",
+  activeHudId: "fg_hud_1",
   hudActive: 1,
   isActiveBlueOrbInteractedWith: false,
   hudVisible: true,
@@ -157,8 +177,8 @@ export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   setActiveBlueOrbPosX: (to) => set(() => ({ activeBlueOrbPosX: to })),
   setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
   setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
-  setActiveBlueOrbId: (to) => set(() => ({ blueOrbId: to })),
-  setActiveBlueOrbHudId: (to) => set(() => ({ hudId: to })),
+  setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
+  setActiveBlueOrbHudId: (to) => set(() => ({ activeHudId: to })),
   toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
   setIsActiveBlueOrbInteractedWith: (to) =>
     set(() => ({ isActiveBlueOrbInteractedWith: to })),
@@ -240,13 +260,13 @@ export const useLevelStore = create<LevelState>((set) => ({
 }));
 
 export const useMediaStore = create<MediaState>((set) => ({
-  // we can't have one global activeMediaElement because both right and left col
+  // we can't have one global activeMediaComponent because both right and left col
   // elements need to be stored (when you switch back and forth between the columns,
   // you end up on the last active element FROM THAT COLUMN).
-  // so we store leftColActiveMediaElement as well as rightCol.
+  // so we store leftColActiveMediaComponent as well as rightCol.
   mediaPercentageElapsed: 0,
-  activeMediaElement: "play",
-  setActiveMediaElement: (to) => set(() => ({ activeMediaElement: to })),
+  activeMediaComponent: "play",
+  setActiveMediaComponent: (to) => set(() => ({ activeMediaComponent: to })),
   lastActiveLeftSideElement: "play",
   lastActiveRightSideElement: "fstWord",
   setLastActiveLeftSideElement: (to) =>
@@ -324,5 +344,15 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
           ? 0
           : state.wordPositionDataStructIdx + val,
     })),
+  setWords: (to) => set(() => ({ words: to })),
 }));
 
+export const useSceneStore = create<SceneState>((set) => ({
+  currentScene: "media",
+  setScene: (to) => set(() => ({ currentScene: to })),
+}));
+
+export const useImageStore = create<ImageState>((set) => ({
+  img: 0,
+  setImg: (to) => set(() => ({ img: to })),
+}));

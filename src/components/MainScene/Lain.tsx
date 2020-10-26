@@ -24,11 +24,11 @@ const LainConstructor = (props: LainConstructorProps) => {
 
   const [animator] = useState(() => {
     const anim = new PlainSingularAnimator(
-        lainSpriteTexture,
-        props.framesHorizontal,
-        props.framesVertical,
-        props.frameCount,
-        props.frameCount * 0.27
+      lainSpriteTexture,
+      props.framesHorizontal,
+      props.framesVertical,
+      props.frameCount,
+      props.frameCount * 0.27
     );
     anim.init(0);
     return anim;
@@ -117,15 +117,15 @@ const Lain = () => {
 
   const lainAnimationDispatch = {
     standing: <LainStanding />,
-    moveLeft: <LainMoveLeft />,
-    moveRight: <LainMoveRight />,
-    moveUp: <LainMoveUp />,
-    moveDown: <LainMoveDown />,
+    move_left: <LainMoveLeft />,
+    move_right: <LainMoveRight />,
+    move_up: <LainMoveUp />,
+    move_down: <LainMoveDown />,
     throwBlueOrb: <LainThrowBlueOrb />,
   };
 
   return (
-    <Suspense fallback={<>loading...</>}>
+    <Suspense fallback={null}>
       <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]}>
         {
           lainAnimationDispatch[

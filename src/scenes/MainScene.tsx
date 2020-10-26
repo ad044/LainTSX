@@ -4,15 +4,15 @@ import React, { Suspense, useEffect } from "react";
 import Site from "../components/MainScene/Site";
 import Lain from "../components/MainScene/Lain";
 import Lights from "../components/MainScene/Lights";
-import OrthoCamera from "../components/MainScene/OrthoCamera";
 import Preloader from "../components/Preloader";
-import EventStateManager from "../components/StateManagers/EventStateManager";
 import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import Starfield from "../components/MainScene/Starfield";
 import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
+import HUD from "../components/MainScene/HUD";
+import YellowOrb from "../components/MainScene/YellowOrb";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
@@ -54,7 +54,9 @@ const MainScene = () => {
         >
           <Preloader />
           <Site />
-          <OrthoCamera />
+          <HUD />
+          <TextRenderer />
+          <YellowOrb />
           <Starfield />
           <GrayPlanes />
           <Lights />

@@ -11,13 +11,11 @@ import { a, useSpring } from "@react-spring/three";
 import { useBlueOrbStore } from "../../store";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
 
-export type HUDElementProps = {
-  hudVisibility: boolean;
-};
-
-const HUD = memo((props: HUDElementProps) => {
+const HUD = memo(() => {
   const hudActive = useBlueOrbStore((state) => state.hudActive);
-  const currentHudId = useBlueOrbStore((state) => state.hudId);
+  const currentHudId = useBlueOrbStore((state) => state.activeHudId);
+
+  const hudVisible = useBlueOrbStore((state) => state.hudVisible);
 
   const currentHud = blue_orb_huds[currentHudId as keyof typeof blue_orb_huds];
 
@@ -86,7 +84,7 @@ const HUD = memo((props: HUDElementProps) => {
   );
 
   return (
-    <group visible={props.hudVisibility}>
+    <group visible={hudVisible} position={[0, 0, 10]}>
       <a.sprite
         position-x={longHUDPosX}
         position-y={currentHud!.long.position[1]}

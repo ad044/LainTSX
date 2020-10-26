@@ -3,7 +3,7 @@ import * as THREE from "three";
 import grayTextureFile from "../../../../static/sprite/gray_box.png";
 import darkGrayTextureFile from "../../../../static/sprite/dark_gray_box.png";
 import React, { useRef } from "react";
-import { ShapeProps } from "./LeftSide";
+import { ShapeProps } from "../LeftSide";
 
 const Cube = (props: ShapeProps) => {
   const grayTex = useLoader(THREE.TextureLoader, grayTextureFile);

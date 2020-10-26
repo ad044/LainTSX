@@ -180,10 +180,10 @@ const MiddleRingManager = (props: any) => {
 
   const dispatcherObjects = useMemo(
     () => ({
-      moveUp: { action: moveMiddleRingUp },
-      moveDown: { action: moveMiddleRingDown },
-      moveLeft: { action: rotateMiddleRingLeft },
-      moveRight: { action: rotateMiddleRingRight },
+      move_up: { action: moveMiddleRingUp },
+      move_down: { action: moveMiddleRingDown },
+      move_left: { action: rotateMiddleRingLeft },
+      move_right: { action: rotateMiddleRingRight },
     }),
     [
       moveMiddleRingDown,

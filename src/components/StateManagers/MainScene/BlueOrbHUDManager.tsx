@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useBlueOrbStore } from "../../../store";
 import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import { StateManagerProps } from "../EventStateManager";
+import { StateManagerProps } from "../EventManager";
 
 const BlueOrbHUDManager = (props: StateManagerProps) => {
   const setActiveBlueOrbHudId = useBlueOrbStore(
@@ -12,27 +12,27 @@ const BlueOrbHUDManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, targetBlueOrbHudId: string) => {
       const dispatcherObjects = {
-        moveUp: {
+        move_up: {
           action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
-        moveDown: {
+        move_down: {
           action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
-        moveLeft: {
+        move_left: {
           action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
-        moveRight: {
+        move_right: {
           action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 3903.704,
         },
-        changeBlueOrbFocus: {
+        change_blue_orb: {
           action: setActiveBlueOrbHudId,
           value: targetBlueOrbHudId,
           actionDelay: 500,

@@ -1,7 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import * as THREE from "three";
-import wordInactiveTexture from "../../static/sprite/word_background.png";
-import wordActiveTexture from "../../static/sprite/word_background_active.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import lofSpriteSheet from "../../static/sprite/lof_spritesheet.png";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
@@ -20,7 +18,7 @@ const Lof = () => {
   });
 
   return (
-    <sprite position={[-2, 1.8, 0]} scale={[0.8, 0.8, 0.8]}>
+    <sprite position={[-2, 1.8, -3]} scale={[0.8, 0.8, 0.8]}>
       <spriteMaterial attach="material" map={lofTex} />
     </sprite>
   );

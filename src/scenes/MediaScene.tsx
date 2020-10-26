@@ -1,29 +1,41 @@
 import React from "react";
 import { useMediaStore } from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
-import LeftSide from "../components/MediaScene/Selectables/LeftSide/LeftSide";
-import RightSide from "../components/MediaScene/Selectables/RightSide/RightSide";
+import LeftSide from "../components/MediaScene/Selectables/LeftSide";
+import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
+import Lof from "../components/MediaScene/Lof";
+import MediaSceneInitializer from "./Initializers/MediaSceneInitializer";
+import { OrbitControls } from "drei";
+import Images from "../components/MediaScene/Images";
 
 const MediaScene = () => {
-  const activeMediaElement = useMediaStore((state) => state.activeMediaElement);
+  const activeMediaComponent = useMediaStore(
+    (state) => state.activeMediaComponent
+  );
 
   return (
-    <group position={[0.4, -0.3, 0]}>
-      <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 3]} />
-      <LeftSide activeMediaElement={activeMediaElement} />
-      <RightSide activeMediaElement={activeMediaElement} />
-      <AudioVisualizer />
-      <group position={[0, 0.5, 0]}>
-        <MediaLoadingBar />
-        <NodeNameContainer />
+    <perspectiveCamera position-z={3}>
+      <group position={[0.4, -0.3, 0]}>
+        <OrbitControls />
+        <MediaSceneInitializer />
+        <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
+        <LeftSide activeMediaComponent={activeMediaComponent} />
+        <RightSide activeMediaComponent={activeMediaComponent} />
+        <AudioVisualizer />
+        <group position={[0, 0.5, -3]}>
+          <MediaLoadingBar />
+          <NodeNameContainer />
+        </group>
+        <group position={[0, 0, 0]}>
+          <TextRenderer />
+        </group>
+        <Lof />
+        <Images />
       </group>
-      <group position={[0, 0, 13]} scale={[1, 1, 1]}>
-        <TextRenderer />
-      </group>
-    </group>
+    </perspectiveCamera>
   );
 };
 
