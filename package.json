@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dump": "ts-node ./scripts/dump/index.ts"
+    "dump": "ts-node asset-dump/dump/index.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
