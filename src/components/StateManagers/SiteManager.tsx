@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from "react";
-import { useSiteStore } from "../../../store";
-import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import { StateManagerProps } from "../EventManager";
+import { useEffect, useMemo } from "react";
+import { useSiteStore } from "../../store";
+import game_action_mappings from "../../resources/game_action_mappings.json";
+import { StateManagerProps } from "./EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
   const incrementSiteRotY = useSiteStore((state) => state.incrementSiteRotY);
@@ -29,8 +29,8 @@ const SiteManager = (props: StateManagerProps) => {
   useEffect(() => {
     if (props.eventState) {
       const eventObject =
-        blue_orb_directions[
-          props.eventState as keyof typeof blue_orb_directions
+        game_action_mappings[
+          props.eventState as keyof typeof game_action_mappings
         ];
 
       if (eventObject) {

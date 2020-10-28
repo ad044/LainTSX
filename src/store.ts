@@ -1,5 +1,5 @@
 import create from "zustand";
-import { SpriteMaterial } from "three";
+import { combine } from "zustand/middleware";
 
 type SceneState = {
   currentScene: string;
@@ -102,6 +102,7 @@ type MediaWordState = {
   words: string[];
   setWords: (to: string[]) => void;
   addToWordPositionDataStructIdx: (val: number) => void;
+  resetWordPositionDataStructIdx: () => void;
 };
 
 type MediaState = {
@@ -135,11 +136,27 @@ type TextRendererState = {
   toggleGreenText: () => void;
 };
 
-type ImageState = {
-  img: any;
-  setImg: (to: any) => void;
+export type ImageSrc = {
+  default: string;
 };
 
+type ImageState = {
+  images: {
+    1: ImageSrc | undefined;
+    2: ImageSrc | undefined;
+    3: ImageSrc | undefined;
+  };
+};
+
+// type ImageState = {
+//   fstImg: ImageSrc | undefined;
+//   sndImg: ImageSrc | undefined;
+//   thirdImg: ImageSrc | undefined;
+//   setFstImg: (to: ImageSrc) => void;
+//   setSndImg: (to: ImageSrc) => void;
+//   setThirdImg: (to: ImageSrc) => void;
+// };
+//
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -345,14 +362,23 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
           : state.wordPositionDataStructIdx + val,
     })),
   setWords: (to) => set(() => ({ words: to })),
+  resetWordPositionDataStructIdx: () =>
+    set(() => ({ wordPositionDataStructIdx: 0 })),
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "media",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
-export const useImageStore = create<ImageState>((set) => ({
-  img: 0,
-  setImg: (to) => set(() => ({ img: to })),
-}));
+export const useImageStore = create(
+  combine(
+    {
+      images: { 1: undefined, 2: undefined, 3: undefined },
+    } as ImageState,
+    (set) => ({
+      setImages: (to: ImageSrc, idx: number) =>
+        set((state) => ({ images: { ...state.images, [idx]: to } })),
+    })
+  )
+);

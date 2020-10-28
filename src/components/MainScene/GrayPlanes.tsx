@@ -21,6 +21,7 @@ const GrayPlanes = memo(() => {
   ];
 
   const grayPlaneRefs = grayPlanePoses.map((poses: number[]) =>
+      // eslint-disable-next-line react-hooks/rules-of-hooks
     useRef<RefObject<THREE.Object3D>[]>(
       poses.map(() => createRef<THREE.Object3D>())
     )

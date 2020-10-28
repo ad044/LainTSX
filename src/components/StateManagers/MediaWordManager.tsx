@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from "react";
-import { StateManagerProps } from "../EventManager";
-import { useMediaWordStore } from "../../../store";
+import { useCallback, useEffect } from "react";
+import { StateManagerProps } from "./EventManager";
+import { useMediaWordStore } from "../../store";
 
-const WordManager = (props: StateManagerProps) => {
+const MediaWordManager = (props: StateManagerProps) => {
   const addToWordPositionDataStructIdx = useMediaWordStore(
     (state) => state.addToWordPositionDataStructIdx
   );
@@ -53,4 +53,4 @@ const WordManager = (props: StateManagerProps) => {
   return null;
 };
 
-export default WordManager;
+export default MediaWordManager;

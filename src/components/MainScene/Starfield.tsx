@@ -90,6 +90,7 @@ const Starfield = memo(() => {
     "blue",
     "cyan",
     "gray",
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   ].map((color: string) => useMemo(() => uniformConstructor(color), [color]));
 
   const [
@@ -122,6 +123,7 @@ const Starfield = memo(() => {
     posesWhiteFromRight,
     posesWhiteFromLeft,
   ].map((poses) =>
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useRef<RefObject<THREE.Object3D>[]>(
       poses.map(() => createRef<THREE.Object3D>())
     )
@@ -144,6 +146,7 @@ const Starfield = memo(() => {
     introPosesCyan,
     introPosesWhite,
   ].map((poses) =>
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useRef<RefObject<THREE.Object3D>[]>(
       poses.map(() => createRef<THREE.Object3D>())
     )

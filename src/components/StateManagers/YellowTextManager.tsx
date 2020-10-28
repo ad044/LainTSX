@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from "react";
-import blue_orb_huds from "../../../resources/blue_orb_huds.json";
-import site_a from "../../../resources/site_a.json";
-import { useTextRendererStore } from "../../../store";
-import blue_orb_directions from "../../../resources/blue_orb_directions.json";
+import { useCallback, useEffect } from "react";
+import blue_orb_huds from "../../resources/blue_orb_huds.json";
+import site_a from "../../resources/site_a.json";
+import { useTextRendererStore } from "../../store";
+import game_action_mappings from "../../resources/game_action_mappings.json";
 
 type AnimateYellowTextWithMove = (
   yellowLetterPosYOffset: number,
@@ -15,8 +15,16 @@ type AnimateYellowTextWithoutMove = (
   targetBlueOrbId: string
 ) => void;
 
+type AnimateMediaYellowText = (
+  targetMediaText: string,
+  targetMediaTextPos: number[]
+) => void;
+
 type YellowTextDispatchData = {
-  action: AnimateYellowTextWithMove | AnimateYellowTextWithoutMove;
+  action:
+    | AnimateYellowTextWithMove
+    | AnimateYellowTextWithoutMove
+    | AnimateMediaYellowText;
   value: any;
 };
 
@@ -26,9 +34,11 @@ type YellowTextDispatcher = {
   move_left: YellowTextDispatchData;
   move_right: YellowTextDispatchData;
   change_blue_orb: YellowTextDispatchData;
+  play_down: YellowTextDispatchData;
+  exit_up: YellowTextDispatchData;
 };
 
-const MainYellowTextManager = (props: any) => {
+const YellowTextManager = (props: any) => {
   const setYellowText = useTextRendererStore((state) => state.setYellowText);
 
   const setYellowTextOffsetXCoeff = useTextRendererStore(
@@ -125,6 +135,36 @@ const MainYellowTextManager = (props: any) => {
     ]
   );
 
+  const animateMediaYellowText: AnimateMediaYellowText = useCallback(
+    (
+      targetMediaComponentText: string,
+      targetMediaComponentTextPos: number[]
+    ) => {
+      // make current text shrink
+      setYellowTextOffsetXCoeff(-1);
+
+      setTimeout(() => {
+        setYellowTextPosX(targetMediaComponentTextPos[0]);
+        setYellowTextPosY(targetMediaComponentTextPos[1]);
+      }, 400);
+
+      setTimeout(() => {
+        setYellowText(targetMediaComponentText);
+      }, 1000);
+
+      setTimeout(() => {
+        // unshrink text
+        setYellowTextOffsetXCoeff(0);
+      }, 1200);
+    },
+    [
+      setYellowText,
+      setYellowTextOffsetXCoeff,
+      setYellowTextPosX,
+      setYellowTextPosY,
+    ]
+  );
+
   const dispatchObject = useCallback(
     (
       event: string,
@@ -152,18 +192,30 @@ const MainYellowTextManager = (props: any) => {
           action: animateYellowTextWithoutMove,
           value: [targetBlueOrbHudId, targetBlueOrbId],
         },
+        exit_up: {
+          action: animateMediaYellowText,
+          value: ["Play", [-0.8, 0.05, 0.6]],
+        },
+        play_down: {
+          action: animateMediaYellowText,
+          value: ["Exit", [-0.8, -0.08, 0.6]],
+        },
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [animateYellowTextWithMove, animateYellowTextWithoutMove]
+    [
+      animateMediaYellowText,
+      animateYellowTextWithMove,
+      animateYellowTextWithoutMove,
+    ]
   );
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        blue_orb_directions[
-          props.eventState as keyof typeof blue_orb_directions
+      const eventObject: any =
+        game_action_mappings[
+          props.eventState as keyof typeof game_action_mappings
         ];
 
       if (eventObject) {
@@ -181,7 +233,6 @@ const MainYellowTextManager = (props: any) => {
         if (dispatchedObject) {
           (dispatchedObject.action as any).apply(null, dispatchedObject.value);
         }
-      } else {
       }
     }
   }, [
@@ -196,4 +247,4 @@ const MainYellowTextManager = (props: any) => {
   return null;
 };
 
-export default MainYellowTextManager;
+export default YellowTextManager;

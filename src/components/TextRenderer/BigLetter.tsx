@@ -45,12 +45,15 @@ const BigLetter = (props: BigLetterProps) => {
     }
   };
 
-  const lineYOffsets = {
-    1: 0.884,
-    2: 0.765,
-    3: 0.648,
-    4: 0.47,
-  };
+  const lineYOffsets = useMemo(
+    () => ({
+      1: 0.884,
+      2: 0.765,
+      3: 0.648,
+      4: 0.47,
+    }),
+    []
+  );
 
   const letterData =
     orange_font_json.glyphs[

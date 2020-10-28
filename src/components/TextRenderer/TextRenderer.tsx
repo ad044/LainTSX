@@ -1,5 +1,5 @@
 import { a, useSpring, useTrail } from "@react-spring/three";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSiteStore, useTextRendererStore } from "../../store";
 import BigLetter from "./BigLetter";
 import MediumLetter from "./MediumLetter";

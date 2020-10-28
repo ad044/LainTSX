@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect } from "react";
-import { StateManagerProps } from "../EventManager";
-import { useMediaStore } from "../../../store";
+import { useCallback, useEffect } from "react";
+import { StateManagerProps } from "./EventManager";
+import { useMediaStore } from "../../store";
+import game_action_mappings from "../../resources/game_action_mappings.json";
+import blue_orb_directions from "../../resources/blue_orb_directions.json";
 
 const MediaComponentManager = (props: StateManagerProps) => {
   const setActiveMediaComponent = useMediaStore(
@@ -47,54 +49,60 @@ const MediaComponentManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (event: string) => {
+    (event: string, targetMediaComponent: string) => {
       const dispatcherObjects = {
-        play_down: { action: setActiveMediaComponent, value: "exit" },
-        exit_up: { action: setActiveMediaComponent, value: "play" },
-        play_right: {
-          action: switchToRightSide,
-          value: "play",
-        },
-        exit_right: {
-          action: switchToRightSide,
-          value: "exit",
-        },
-        fstWord_left: {
-          action: switchToLeftSide,
-          value: "fstWord",
-        },
         fstWord_up: {
           action: setActiveMediaComponent,
-          value: "thirdWord"
+          value: targetMediaComponent,
         },
         fstWord_down: {
           action: setActiveMediaComponent,
-          value: "sndWord",
+          value: targetMediaComponent,
         },
         sndWord_up: {
           action: setActiveMediaComponent,
-          value: "fstWord",
+          value: targetMediaComponent,
         },
         sndWord_down: {
           action: setActiveMediaComponent,
-          value: "thirdWord",
-        },
-        sndWord_left: {
-          action: switchToLeftSide,
-          value: "sndWord"
+          value: targetMediaComponent,
         },
         thirdWord_down: {
           action: setActiveMediaComponent,
-          value: "fstWord",
+          value: targetMediaComponent,
         },
         thirdWord_up: {
           action: setActiveMediaComponent,
+          value: targetMediaComponent,
+        },
+        play_down: {
+          action: setActiveMediaComponent,
+          value: targetMediaComponent,
+        },
+        exit_up: {
+          action: setActiveMediaComponent,
+          value: targetMediaComponent,
+        },
+        switch_to_right_side_from_play: {
+          action: switchToRightSide,
+          value: "play",
+        },
+        switch_to_right_side_from_exit: {
+          action: switchToRightSide,
+          value: "exit",
+        },
+        switch_to_left_side_from_fstWord: {
+          action: switchToLeftSide,
+          value: "fstWord",
+        },
+        switch_to_left_side_from_sndWord: {
+          action: switchToLeftSide,
           value: "sndWord",
         },
-        thirdWord_left: {
+        switch_to_left_side_from_thirdWord: {
           action: switchToLeftSide,
-          value: "thirdWord"
-        }
+          value: "thirdWord",
+        },
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
@@ -104,10 +112,23 @@ const MediaComponentManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const dispatchedObject = dispatchObject(props.eventState);
+      const eventObject: any =
+        game_action_mappings[
+          props.eventState as keyof typeof blue_orb_directions
+        ];
 
-      if (dispatchedObject) {
-        dispatchedObject.action(dispatchedObject.value);
+      if (eventObject) {
+        const eventAction = eventObject.action;
+        const targetMediaComponent = eventObject.target_media_component;
+
+        const dispatchedObject = dispatchObject(
+          eventAction,
+          targetMediaComponent
+        );
+
+        if (dispatchedObject) {
+          dispatchedObject.action(dispatchedObject.value);
+        }
       }
     }
   }, [props.eventState, dispatchObject]);

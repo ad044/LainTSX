@@ -1,7 +1,7 @@
 {
   "0100": {
     "SLPS_016_0x offset": "428584",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "266",
       "2": "665",
@@ -28,7 +28,7 @@
   },
   "0101": {
     "SLPS_016_0x offset": "428624",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "666",
       "2": "592",
@@ -55,7 +55,7 @@
   },
   "0104": {
     "SLPS_016_0x offset": "411864",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -82,7 +82,7 @@
   },
   "0109": {
     "SLPS_016_0x offset": "428664",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "462",
       "2": "678",
@@ -109,7 +109,7 @@
   },
   "0110": {
     "SLPS_016_0x offset": "428704",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "463",
       "2": "204",
@@ -136,7 +136,7 @@
   },
   "0112": {
     "SLPS_016_0x offset": "432264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -163,7 +163,7 @@
   },
   "0114": {
     "SLPS_016_0x offset": "432304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -190,7 +190,7 @@
   },
   "0116": {
     "SLPS_016_0x offset": "418064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "680",
       "2": "692",
@@ -217,7 +217,7 @@
   },
   "0118": {
     "SLPS_016_0x offset": "428744",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "467",
       "2": "454",
@@ -244,7 +244,7 @@
   },
   "0119": {
     "SLPS_016_0x offset": "428784",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "468",
       "2": "38",
@@ -271,7 +271,7 @@
   },
   "0120": {
     "SLPS_016_0x offset": "432344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -298,7 +298,7 @@
   },
   "0121": {
     "SLPS_016_0x offset": "432384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -325,7 +325,7 @@
   },
   "0123": {
     "SLPS_016_0x offset": "432424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -352,7 +352,7 @@
   },
   "01?": {
     "SLPS_016_0x offset": "418664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "402",
       "2": "397",
@@ -379,7 +379,7 @@
   },
   "0201": {
     "SLPS_016_0x offset": "418104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "693",
       "2": "628",
@@ -406,7 +406,7 @@
   },
   "0202": {
     "SLPS_016_0x offset": "411904",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -433,7 +433,7 @@
   },
   "0203": {
     "SLPS_016_0x offset": "428824",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "469",
       "2": "211",
@@ -460,7 +460,7 @@
   },
   "0204": {
     "SLPS_016_0x offset": "428864",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "488",
       "2": "475",
@@ -487,7 +487,7 @@
   },
   "0205": {
     "SLPS_016_0x offset": "432464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -514,7 +514,7 @@
   },
   "0206": {
     "SLPS_016_0x offset": "437144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -541,7 +541,7 @@
   },
   "0207": {
     "SLPS_016_0x offset": "437104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -568,7 +568,7 @@
   },
   "0208": {
     "SLPS_016_0x offset": "432544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -595,7 +595,7 @@
   },
   "0209": {
     "SLPS_016_0x offset": "437184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -622,7 +622,7 @@
   },
   "0210": {
     "SLPS_016_0x offset": "418144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "188",
       "2": "174",
@@ -649,7 +649,7 @@
   },
   "0211": {
     "SLPS_016_0x offset": "432584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -676,7 +676,7 @@
   },
   "0212": {
     "SLPS_016_0x offset": "428904",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "496",
       "2": "41",
@@ -703,7 +703,7 @@
   },
   "0213": {
     "SLPS_016_0x offset": "428944",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "594",
       "2": "245",
@@ -730,7 +730,7 @@
   },
   "0215": {
     "SLPS_016_0x offset": "432504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -757,7 +757,7 @@
   },
   "0217": {
     "SLPS_016_0x offset": "432624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -784,7 +784,7 @@
   },
   "0218": {
     "SLPS_016_0x offset": "437224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -811,7 +811,7 @@
   },
   "0219": {
     "SLPS_016_0x offset": "418184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "163",
       "2": "171",
@@ -838,7 +838,7 @@
   },
   "0221": {
     "SLPS_016_0x offset": "428984",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "14",
       "2": "-1",
@@ -865,7 +865,7 @@
   },
   "0222": {
     "SLPS_016_0x offset": "429024",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "507",
       "2": "58",
@@ -892,7 +892,7 @@
   },
   "0223": {
     "SLPS_016_0x offset": "429064",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "521",
       "2": "277",
@@ -919,7 +919,7 @@
   },
   "0300": {
     "SLPS_016_0x offset": "429184",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "68",
       "2": "280",
@@ -946,7 +946,7 @@
   },
   "0301": {
     "SLPS_016_0x offset": "432664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -973,7 +973,7 @@
   },
   "0303": {
     "SLPS_016_0x offset": "432704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1000,7 +1000,7 @@
   },
   "0304": {
     "SLPS_016_0x offset": "418224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "173",
       "2": "177",
@@ -1027,7 +1027,7 @@
   },
   "0306": {
     "SLPS_016_0x offset": "429104",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "15",
       "2": "-1",
@@ -1054,7 +1054,7 @@
   },
   "0307": {
     "SLPS_016_0x offset": "429144",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "279",
       "2": "67",
@@ -1081,7 +1081,7 @@
   },
   "0308": {
     "SLPS_016_0x offset": "429264",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "548",
       "2": "70",
@@ -1108,7 +1108,7 @@
   },
   "0310": {
     "SLPS_016_0x offset": "437264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1135,7 +1135,7 @@
   },
   "0312": {
     "SLPS_016_0x offset": "437304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1162,7 +1162,7 @@
   },
   "0313": {
     "SLPS_016_0x offset": "418264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "702",
       "2": "661",
@@ -1189,7 +1189,7 @@
   },
   "0314": {
     "SLPS_016_0x offset": "437344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1216,7 +1216,7 @@
   },
   "0315": {
     "SLPS_016_0x offset": "429224",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "69",
       "2": "547",
@@ -1243,7 +1243,7 @@
   },
   "0316": {
     "SLPS_016_0x offset": "429304",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "549",
       "2": "335",
@@ -1270,7 +1270,7 @@
   },
   "0317": {
     "SLPS_016_0x offset": "429344",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "337",
       "2": "550",
@@ -1297,7 +1297,7 @@
   },
   "0318": {
     "SLPS_016_0x offset": "432744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1324,7 +1324,7 @@
   },
   "0319": {
     "SLPS_016_0x offset": "432784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1351,7 +1351,7 @@
   },
   "0321": {
     "SLPS_016_0x offset": "432824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1378,7 +1378,7 @@
   },
   "0322": {
     "SLPS_016_0x offset": "432864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1405,7 +1405,7 @@
   },
   "0400": {
     "SLPS_016_0x offset": "432904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1432,7 +1432,7 @@
   },
   "0401": {
     "SLPS_016_0x offset": "429384",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "350",
       "2": "74",
@@ -1459,7 +1459,7 @@
   },
   "0402": {
     "SLPS_016_0x offset": "429424",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "76",
       "2": "351",
@@ -1486,7 +1486,7 @@
   },
   "0403": {
     "SLPS_016_0x offset": "432944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1513,7 +1513,7 @@
   },
   "0404": {
     "SLPS_016_0x offset": "437384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1540,7 +1540,7 @@
   },
   "0405": {
     "SLPS_016_0x offset": "412104",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1567,7 +1567,7 @@
   },
   "0406": {
     "SLPS_016_0x offset": "432984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1594,7 +1594,7 @@
   },
   "0407": {
     "SLPS_016_0x offset": "437424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1621,7 +1621,7 @@
   },
   "0408": {
     "SLPS_016_0x offset": "415944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "265",
       "2": "54",
@@ -1648,7 +1648,7 @@
   },
   "0409": {
     "SLPS_016_0x offset": "415984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "43",
       "2": "44",
@@ -1675,7 +1675,7 @@
   },
   "0410": {
     "SLPS_016_0x offset": "429464",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "79",
       "2": "556",
@@ -1702,7 +1702,7 @@
   },
   "0411": {
     "SLPS_016_0x offset": "429504",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "16",
       "2": "-1",
@@ -1729,7 +1729,7 @@
   },
   "0412": {
     "SLPS_016_0x offset": "429544",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "558",
       "2": "353",
@@ -1756,7 +1756,7 @@
   },
   "0413": {
     "SLPS_016_0x offset": "439904",
-    "green_text": "mT up-date App.",
+    "title": "mT up-date App.",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1783,7 +1783,7 @@
   },
   "0414": {
     "SLPS_016_0x offset": "413824",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "31",
       "2": "584",
@@ -1810,7 +1810,7 @@
   },
   "0415": {
     "SLPS_016_0x offset": "413864",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "577",
       "2": "583",
@@ -1837,7 +1837,7 @@
   },
   "0416": {
     "SLPS_016_0x offset": "413944",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "546",
       "2": "529",
@@ -1864,7 +1864,7 @@
   },
   "0417": {
     "SLPS_016_0x offset": "439504",
-    "green_text": "nT APPLICATION",
+    "title": "nT APPLICATION",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -1891,7 +1891,7 @@
   },
   "0418": {
     "SLPS_016_0x offset": "416024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "28",
       "2": "53",
@@ -1918,7 +1918,7 @@
   },
   "0419": {
     "SLPS_016_0x offset": "416064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "105",
       "2": "249",
@@ -1945,7 +1945,7 @@
   },
   "0420": {
     "SLPS_016_0x offset": "429584",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "354",
       "2": "559",
@@ -1972,7 +1972,7 @@
   },
   "0421": {
     "SLPS_016_0x offset": "429624",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "355",
       "2": "83",
@@ -1999,7 +1999,7 @@
   },
   "0422": {
     "SLPS_016_0x offset": "429664",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "93",
       "2": "356",
@@ -2026,7 +2026,7 @@
   },
   "0423": {
     "SLPS_016_0x offset": "413904",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "495",
       "2": "490",
@@ -2053,7 +2053,7 @@
   },
   "0500": {
     "SLPS_016_0x offset": "412224",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -2080,7 +2080,7 @@
   },
   "0501": {
     "SLPS_016_0x offset": "413984",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "443",
       "2": "445",
@@ -2107,7 +2107,7 @@
   },
   "0503": {
     "SLPS_016_0x offset": "416104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "256",
       "2": "55",
@@ -2134,7 +2134,7 @@
   },
   "0504": {
     "SLPS_016_0x offset": "416144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "322",
       "2": "324",
@@ -2161,7 +2161,7 @@
   },
   "0505": {
     "SLPS_016_0x offset": "416184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "331",
       "2": "330",
@@ -2188,7 +2188,7 @@
   },
   "0506": {
     "SLPS_016_0x offset": "429704",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "94",
       "2": "564",
@@ -2215,7 +2215,7 @@
   },
   "0507": {
     "SLPS_016_0x offset": "429744",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "565",
       "2": "95",
@@ -2242,7 +2242,7 @@
   },
   "0508": {
     "SLPS_016_0x offset": "429824",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "360",
       "2": "569",
@@ -2269,7 +2269,7 @@
   },
   "0509": {
     "SLPS_016_0x offset": "429864",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "361",
       "2": "114",
@@ -2296,7 +2296,7 @@
   },
   "0510": {
     "SLPS_016_0x offset": "414024",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "442",
       "2": "439",
@@ -2323,7 +2323,7 @@
   },
   "0511": {
     "SLPS_016_0x offset": "414064",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "464",
       "2": "461",
@@ -2350,7 +2350,7 @@
   },
   "0512": {
     "SLPS_016_0x offset": "433024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -2377,7 +2377,7 @@
   },
   "0513": {
     "SLPS_016_0x offset": "411664",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -2404,7 +2404,7 @@
   },
   "0514": {
     "SLPS_016_0x offset": "416224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "670",
       "2": "347",
@@ -2431,7 +2431,7 @@
   },
   "0515": {
     "SLPS_016_0x offset": "429784",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "566",
       "2": "359",
@@ -2458,7 +2458,7 @@
   },
   "0516": {
     "SLPS_016_0x offset": "416304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "380",
       "2": "390",
@@ -2485,7 +2485,7 @@
   },
   "0517": {
     "SLPS_016_0x offset": "429904",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "115",
       "2": "362",
@@ -2512,7 +2512,7 @@
   },
   "0518": {
     "SLPS_016_0x offset": "429944",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "116",
       "2": "572",
@@ -2539,7 +2539,7 @@
   },
   "0520": {
     "SLPS_016_0x offset": "414104",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "408",
       "2": "409",
@@ -2566,7 +2566,7 @@
   },
   "0521": {
     "SLPS_016_0x offset": "414144",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "412",
       "2": "545",
@@ -2593,7 +2593,7 @@
   },
   "0522": {
     "SLPS_016_0x offset": "414184",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "608",
       "2": "586",
@@ -2620,7 +2620,7 @@
   },
   "0523": {
     "SLPS_016_0x offset": "416264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "267",
       "2": "348",
@@ -2647,7 +2647,7 @@
   },
   "0600": {
     "SLPS_016_0x offset": "416384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "455",
       "2": "421",
@@ -2674,7 +2674,7 @@
   },
   "0601": {
     "SLPS_016_0x offset": "416344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "393",
       "2": "427",
@@ -2701,7 +2701,7 @@
   },
   "0602": {
     "SLPS_016_0x offset": "429984",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "579",
       "2": "118",
@@ -2728,7 +2728,7 @@
   },
   "0603": {
     "SLPS_016_0x offset": "430024",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "580",
       "2": "365",
@@ -2755,7 +2755,7 @@
   },
   "0604": {
     "SLPS_016_0x offset": "433064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -2782,7 +2782,7 @@
   },
   "0606": {
     "SLPS_016_0x offset": "414224",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "392",
       "2": "395",
@@ -2809,7 +2809,7 @@
   },
   "0607": {
     "SLPS_016_0x offset": "414264",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "349",
       "2": "257",
@@ -2836,7 +2836,7 @@
   },
   "0608": {
     "SLPS_016_0x offset": "414344",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "0",
       "2": "-1",
@@ -2863,7 +2863,7 @@
   },
   "0609": {
     "SLPS_016_0x offset": "416424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "428",
       "2": "465",
@@ -2890,7 +2890,7 @@
   },
   "0610": {
     "SLPS_016_0x offset": "416464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "502",
       "2": "429",
@@ -2917,7 +2917,7 @@
   },
   "0611": {
     "SLPS_016_0x offset": "416504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "371",
       "2": "491",
@@ -2944,7 +2944,7 @@
   },
   "0612": {
     "SLPS_016_0x offset": "433104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -2971,7 +2971,7 @@
   },
   "0613": {
     "SLPS_016_0x offset": "419104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "1",
       "2": "-1",
@@ -2998,7 +2998,7 @@
   },
   "0614": {
     "SLPS_016_0x offset": "433144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3025,7 +3025,7 @@
   },
   "0615": {
     "SLPS_016_0x offset": "414304",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "29",
       "2": "253",
@@ -3052,7 +3052,7 @@
   },
   "0616": {
     "SLPS_016_0x offset": "414384",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "258",
       "2": "179",
@@ -3079,7 +3079,7 @@
   },
   "0617": {
     "SLPS_016_0x offset": "414424",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "180",
       "2": "259",
@@ -3106,7 +3106,7 @@
   },
   "0618": {
     "SLPS_016_0x offset": "439944",
-    "green_text": "mT up-date App.",
+    "title": "mT up-date App.",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3133,7 +3133,7 @@
   },
   "0619": {
     "SLPS_016_0x offset": "416544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "516",
       "2": "372",
@@ -3160,7 +3160,7 @@
   },
   "0620": {
     "SLPS_016_0x offset": "437464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3187,7 +3187,7 @@
   },
   "0621": {
     "SLPS_016_0x offset": "439544",
-    "green_text": "nT APPLICATION",
+    "title": "nT APPLICATION",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3214,7 +3214,7 @@
   },
   "0622": {
     "SLPS_016_0x offset": "433184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3241,7 +3241,7 @@
   },
   "0623": {
     "SLPS_016_0x offset": "437504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3268,7 +3268,7 @@
   },
   "0700": {
     "SLPS_016_0x offset": "419144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "238",
       "2": "220",
@@ -3295,7 +3295,7 @@
   },
   "0701": {
     "SLPS_016_0x offset": "414464",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "181",
       "2": "49",
@@ -3322,7 +3322,7 @@
   },
   "0702": {
     "SLPS_016_0x offset": "414504",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "50",
       "2": "182",
@@ -3349,7 +3349,7 @@
   },
   "0704": {
     "SLPS_016_0x offset": "416584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "517",
       "2": "411",
@@ -3376,7 +3376,7 @@
   },
   "0705": {
     "SLPS_016_0x offset": "439664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3403,7 +3403,7 @@
   },
   "0706": {
     "SLPS_016_0x offset": "430064",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "17",
       "2": "-1",
@@ -3430,7 +3430,7 @@
   },
   "0708": {
     "SLPS_016_0x offset": "433224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3457,7 +3457,7 @@
   },
   "0709": {
     "SLPS_016_0x offset": "419184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "2",
       "2": "-1",
@@ -3484,7 +3484,7 @@
   },
   "0710": {
     "SLPS_016_0x offset": "419224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "191",
       "2": "193",
@@ -3511,7 +3511,7 @@
   },
   "0712": {
     "SLPS_016_0x offset": "412024",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3538,7 +3538,7 @@
   },
   "0713": {
     "SLPS_016_0x offset": "433264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3565,7 +3565,7 @@
   },
   "0714": {
     "SLPS_016_0x offset": "437544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3592,7 +3592,7 @@
   },
   "0716": {
     "SLPS_016_0x offset": "433384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3619,7 +3619,7 @@
   },
   "0718": {
     "SLPS_016_0x offset": "419264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "240",
       "2": "150",
@@ -3646,7 +3646,7 @@
   },
   "0719": {
     "SLPS_016_0x offset": "419304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "133",
       "2": "117",
@@ -3673,7 +3673,7 @@
   },
   "0720": {
     "SLPS_016_0x offset": "414544",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "52",
       "2": "262",
@@ -3700,7 +3700,7 @@
   },
   "0722": {
     "SLPS_016_0x offset": "416624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "413",
       "2": "519",
@@ -3727,7 +3727,7 @@
   },
   "0723": {
     "SLPS_016_0x offset": "433304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3754,7 +3754,7 @@
   },
   "0800": {
     "SLPS_016_0x offset": "439584",
-    "green_text": "nT APPLICATION",
+    "title": "nT APPLICATION",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3781,7 +3781,7 @@
   },
   "0801": {
     "SLPS_016_0x offset": "433344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3808,7 +3808,7 @@
   },
   "0802": {
     "SLPS_016_0x offset": "437584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3835,7 +3835,7 @@
   },
   "0803": {
     "SLPS_016_0x offset": "419344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "99",
       "2": "420",
@@ -3862,7 +3862,7 @@
   },
   "0804": {
     "SLPS_016_0x offset": "419384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "36",
       "2": "703",
@@ -3889,7 +3889,7 @@
   },
   "0805": {
     "SLPS_016_0x offset": "419424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "154",
       "2": "187",
@@ -3916,7 +3916,7 @@
   },
   "0806": {
     "SLPS_016_0x offset": "419464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "3",
       "2": "-1",
@@ -3943,7 +3943,7 @@
   },
   "0809": {
     "SLPS_016_0x offset": "433424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3970,7 +3970,7 @@
   },
   "0810": {
     "SLPS_016_0x offset": "437624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -3997,7 +3997,7 @@
   },
   "0812": {
     "SLPS_016_0x offset": "419504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "593",
       "2": "578",
@@ -4024,7 +4024,7 @@
   },
   "0813": {
     "SLPS_016_0x offset": "419544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "4",
       "2": "-1",
@@ -4051,7 +4051,7 @@
   },
   "0814": {
     "SLPS_016_0x offset": "419584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "5",
       "2": "-1",
@@ -4078,7 +4078,7 @@
   },
   "0815": {
     "SLPS_016_0x offset": "433464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4105,7 +4105,7 @@
   },
   "0816": {
     "SLPS_016_0x offset": "414584",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "263",
       "2": "63",
@@ -4132,7 +4132,7 @@
   },
   "0817": {
     "SLPS_016_0x offset": "414624",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "264",
       "2": "185",
@@ -4159,7 +4159,7 @@
   },
   "0818": {
     "SLPS_016_0x offset": "416664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "414",
       "2": "377",
@@ -4186,7 +4186,7 @@
   },
   "0819": {
     "SLPS_016_0x offset": "433504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4213,7 +4213,7 @@
   },
   "0820": {
     "SLPS_016_0x offset": "437664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4240,7 +4240,7 @@
   },
   "0821": {
     "SLPS_016_0x offset": "419624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "6",
       "2": "-1",
@@ -4267,7 +4267,7 @@
   },
   "0822": {
     "SLPS_016_0x offset": "419664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "7",
       "2": "-1",
@@ -4294,7 +4294,7 @@
   },
   "0823": {
     "SLPS_016_0x offset": "419704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "8",
       "2": "-1",
@@ -4321,7 +4321,7 @@
   },
   "0900": {
     "SLPS_016_0x offset": "419824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "674",
       "2": "673",
@@ -4348,7 +4348,7 @@
   },
   "0901": {
     "SLPS_016_0x offset": "414664",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "186",
       "2": "268",
@@ -4375,7 +4375,7 @@
   },
   "0902": {
     "SLPS_016_0x offset": "414704",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "190",
       "2": "85",
@@ -4402,7 +4402,7 @@
   },
   "0904": {
     "SLPS_016_0x offset": "411824",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4429,7 +4429,7 @@
   },
   "0905": {
     "SLPS_016_0x offset": "433544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4456,7 +4456,7 @@
   },
   "0906": {
     "SLPS_016_0x offset": "419744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "687",
       "2": "686",
@@ -4483,7 +4483,7 @@
   },
   "0907": {
     "SLPS_016_0x offset": "419784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "691",
       "2": "701",
@@ -4510,7 +4510,7 @@
   },
   "0908": {
     "SLPS_016_0x offset": "419864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "155",
       "2": "518",
@@ -4537,7 +4537,7 @@
   },
   "0909": {
     "SLPS_016_0x offset": "419904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "688",
       "2": "769",
@@ -4564,7 +4564,7 @@
   },
   "0911": {
     "SLPS_016_0x offset": "412144",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4591,7 +4591,7 @@
   },
   "0912": {
     "SLPS_016_0x offset": "430104",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "366",
       "2": "121",
@@ -4618,7 +4618,7 @@
   },
   "0913": {
     "SLPS_016_0x offset": "433584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4645,7 +4645,7 @@
   },
   "0914": {
     "SLPS_016_0x offset": "437704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4672,7 +4672,7 @@
   },
   "0917": {
     "SLPS_016_0x offset": "419944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "21",
       "2": "425",
@@ -4699,7 +4699,7 @@
   },
   "0918": {
     "SLPS_016_0x offset": "419984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "22",
       "2": "27",
@@ -4726,7 +4726,7 @@
   },
   "0919": {
     "SLPS_016_0x offset": "433624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4753,7 +4753,7 @@
   },
   "0920": {
     "SLPS_016_0x offset": "437744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4780,7 +4780,7 @@
   },
   "0921": {
     "SLPS_016_0x offset": "433664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4807,7 +4807,7 @@
   },
   "0922": {
     "SLPS_016_0x offset": "433704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4834,7 +4834,7 @@
   },
   "0923": {
     "SLPS_016_0x offset": "437784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4861,7 +4861,7 @@
   },
   "1000": {
     "SLPS_016_0x offset": "433744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -4888,7 +4888,7 @@
   },
   "1002": {
     "SLPS_016_0x offset": "420024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "9",
       "2": "-1",
@@ -4915,7 +4915,7 @@
   },
   "1003": {
     "SLPS_016_0x offset": "420064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "20",
       "2": "448",
@@ -4942,7 +4942,7 @@
   },
   "1004": {
     "SLPS_016_0x offset": "414744",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "87",
       "2": "194",
@@ -4969,7 +4969,7 @@
   },
   "1005": {
     "SLPS_016_0x offset": "414784",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "88",
       "2": "291",
@@ -4996,7 +4996,7 @@
   },
   "1006": {
     "SLPS_016_0x offset": "416704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "378",
       "2": "415",
@@ -5023,7 +5023,7 @@
   },
   "1007": {
     "SLPS_016_0x offset": "433784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5050,7 +5050,7 @@
   },
   "1008": {
     "SLPS_016_0x offset": "430144",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "18",
       "2": "-1",
@@ -5077,7 +5077,7 @@
   },
   "1009": {
     "SLPS_016_0x offset": "430184",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "123",
       "2": "42",
@@ -5104,7 +5104,7 @@
   },
   "1011": {
     "SLPS_016_0x offset": "420104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "449",
       "2": "164",
@@ -5131,7 +5131,7 @@
   },
   "1012": {
     "SLPS_016_0x offset": "420144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "451",
       "2": "25",
@@ -5158,7 +5158,7 @@
   },
   "1013": {
     "SLPS_016_0x offset": "420184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "342",
       "2": "453",
@@ -5185,7 +5185,7 @@
   },
   "1014": {
     "SLPS_016_0x offset": "420224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "45",
       "2": "-1",
@@ -5212,7 +5212,7 @@
   },
   "1015": {
     "SLPS_016_0x offset": "437824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5239,7 +5239,7 @@
   },
   "1016": {
     "SLPS_016_0x offset": "414824",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "323",
       "2": "92",
@@ -5266,7 +5266,7 @@
   },
   "1017": {
     "SLPS_016_0x offset": "414864",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "326",
       "2": "198",
@@ -5293,7 +5293,7 @@
   },
   "1018": {
     "SLPS_016_0x offset": "430224",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "595",
       "2": "124",
@@ -5320,7 +5320,7 @@
   },
   "1019": {
     "SLPS_016_0x offset": "430264",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "600",
       "2": "368",
@@ -5347,7 +5347,7 @@
   },
   "1020": {
     "SLPS_016_0x offset": "416744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "379",
       "2": "523",
@@ -5374,7 +5374,7 @@
   },
   "1021": {
     "SLPS_016_0x offset": "420264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "167",
       "2": "-1",
@@ -5401,7 +5401,7 @@
   },
   "1022": {
     "SLPS_016_0x offset": "420304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "170",
       "2": "456",
@@ -5428,7 +5428,7 @@
   },
   "1100": {
     "SLPS_016_0x offset": "433824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5455,7 +5455,7 @@
   },
   "1101": {
     "SLPS_016_0x offset": "433864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5482,7 +5482,7 @@
   },
   "1102": {
     "SLPS_016_0x offset": "437864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5509,7 +5509,7 @@
   },
   "1103": {
     "SLPS_016_0x offset": "433904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5536,7 +5536,7 @@
   },
   "1104": {
     "SLPS_016_0x offset": "412384",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5563,7 +5563,7 @@
   },
   "1105": {
     "SLPS_016_0x offset": "420344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "457",
       "2": "189",
@@ -5590,7 +5590,7 @@
   },
   "1106": {
     "SLPS_016_0x offset": "420384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "458",
       "2": "51",
@@ -5617,7 +5617,7 @@
   },
   "1107": {
     "SLPS_016_0x offset": "420424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "56",
       "2": "33",
@@ -5644,7 +5644,7 @@
   },
   "1109": {
     "SLPS_016_0x offset": "433944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5671,7 +5671,7 @@
   },
   "1110": {
     "SLPS_016_0x offset": "437904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5698,7 +5698,7 @@
   },
   "1111": {
     "SLPS_016_0x offset": "439704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5725,7 +5725,7 @@
   },
   "1112": {
     "SLPS_016_0x offset": "439984",
-    "green_text": "mT up-date App.",
+    "title": "mT up-date App.",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5752,7 +5752,7 @@
   },
   "1113": {
     "SLPS_016_0x offset": "439744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5779,7 +5779,7 @@
   },
   "1114": {
     "SLPS_016_0x offset": "420464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "59",
       "2": "241",
@@ -5806,7 +5806,7 @@
   },
   "1115": {
     "SLPS_016_0x offset": "420504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "242",
       "2": "60",
@@ -5833,7 +5833,7 @@
   },
   "1116": {
     "SLPS_016_0x offset": "420584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "470",
       "2": "255",
@@ -5860,7 +5860,7 @@
   },
   "1117": {
     "SLPS_016_0x offset": "420624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "471",
       "2": "65",
@@ -5887,7 +5887,7 @@
   },
   "1118": {
     "SLPS_016_0x offset": "420664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "73",
       "2": "472",
@@ -5914,7 +5914,7 @@
   },
   "1119": {
     "SLPS_016_0x offset": "411544",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -5941,7 +5941,7 @@
   },
   "1120": {
     "SLPS_016_0x offset": "414904",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "199",
       "2": "327",
@@ -5968,7 +5968,7 @@
   },
   "1121": {
     "SLPS_016_0x offset": "414944",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "200",
       "2": "106",
@@ -5995,7 +5995,7 @@
   },
   "1122": {
     "SLPS_016_0x offset": "416784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "532",
       "2": "382",
@@ -6022,7 +6022,7 @@
   },
   "1123": {
     "SLPS_016_0x offset": "420544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "243",
       "2": "460",
@@ -6049,7 +6049,7 @@
   },
   "1201": {
     "SLPS_016_0x offset": "433984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6076,7 +6076,7 @@
   },
   "1202": {
     "SLPS_016_0x offset": "420704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "77",
       "2": "313",
@@ -6103,7 +6103,7 @@
   },
   "1203": {
     "SLPS_016_0x offset": "420744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "314",
       "2": "78",
@@ -6130,7 +6130,7 @@
   },
   "1204": {
     "SLPS_016_0x offset": "420784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "315",
       "2": "477",
@@ -6157,7 +6157,7 @@
   },
   "1206": {
     "SLPS_016_0x offset": "434024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6184,7 +6184,7 @@
   },
   "1207": {
     "SLPS_016_0x offset": "437944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6211,7 +6211,7 @@
   },
   "1208": {
     "SLPS_016_0x offset": "434104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6238,7 +6238,7 @@
   },
   "1209": {
     "SLPS_016_0x offset": "437984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6265,7 +6265,7 @@
   },
   "1211": {
     "SLPS_016_0x offset": "420824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "478",
       "2": "316",
@@ -6292,7 +6292,7 @@
   },
   "1212": {
     "SLPS_016_0x offset": "420864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "624",
       "2": "90",
@@ -6319,7 +6319,7 @@
   },
   "1213": {
     "SLPS_016_0x offset": "420904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "91",
       "2": "278",
@@ -6346,7 +6346,7 @@
   },
   "1214": {
     "SLPS_016_0x offset": "434064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6373,7 +6373,7 @@
   },
   "1215": {
     "SLPS_016_0x offset": "412424",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6400,7 +6400,7 @@
   },
   "1216": {
     "SLPS_016_0x offset": "414984",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "107",
       "2": "201",
@@ -6427,7 +6427,7 @@
   },
   "1217": {
     "SLPS_016_0x offset": "415024",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "108",
       "2": "333",
@@ -6454,7 +6454,7 @@
   },
   "1218": {
     "SLPS_016_0x offset": "416824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "535",
       "2": "432",
@@ -6481,7 +6481,7 @@
   },
   "1219": {
     "SLPS_016_0x offset": "434144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6508,7 +6508,7 @@
   },
   "1220": {
     "SLPS_016_0x offset": "420944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "96",
       "2": "319",
@@ -6535,7 +6535,7 @@
   },
   "1221": {
     "SLPS_016_0x offset": "420984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "345",
       "2": "97",
@@ -6562,7 +6562,7 @@
   },
   "1223": {
     "SLPS_016_0x offset": "434304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6589,7 +6589,7 @@
   },
   "1300": {
     "SLPS_016_0x offset": "421144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "113",
       "2": "485",
@@ -6616,7 +6616,7 @@
   },
   "1302": {
     "SLPS_016_0x offset": "434184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6643,7 +6643,7 @@
   },
   "1303": {
     "SLPS_016_0x offset": "438024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6670,7 +6670,7 @@
   },
   "1305": {
     "SLPS_016_0x offset": "421024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "10",
       "2": "-1",
@@ -6697,7 +6697,7 @@
   },
   "1306": {
     "SLPS_016_0x offset": "421064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "483",
       "2": "436",
@@ -6724,7 +6724,7 @@
   },
   "1307": {
     "SLPS_016_0x offset": "421104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "484",
       "2": "101",
@@ -6751,7 +6751,7 @@
   },
   "1308": {
     "SLPS_016_0x offset": "421264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "784",
       "2": "493",
@@ -6778,7 +6778,7 @@
   },
   "1309": {
     "SLPS_016_0x offset": "412264",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6805,7 +6805,7 @@
   },
   "1310": {
     "SLPS_016_0x offset": "434224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6832,7 +6832,7 @@
   },
   "1312": {
     "SLPS_016_0x offset": "434264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6859,7 +6859,7 @@
   },
   "1313": {
     "SLPS_016_0x offset": "438064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -6886,7 +6886,7 @@
   },
   "1314": {
     "SLPS_016_0x offset": "421184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "120",
       "2": "288",
@@ -6913,7 +6913,7 @@
   },
   "1315": {
     "SLPS_016_0x offset": "421224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "626",
       "2": "127",
@@ -6940,7 +6940,7 @@
   },
   "1317": {
     "SLPS_016_0x offset": "421304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "494",
       "2": "420",
@@ -6967,7 +6967,7 @@
   },
   "1318": {
     "SLPS_016_0x offset": "421344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "232",
       "2": "130",
@@ -6994,7 +6994,7 @@
   },
   "1319": {
     "SLPS_016_0x offset": "421384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "131",
       "2": "497",
@@ -7021,7 +7021,7 @@
   },
   "1320": {
     "SLPS_016_0x offset": "421424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "132",
       "2": "675",
@@ -7048,7 +7048,7 @@
   },
   "1321": {
     "SLPS_016_0x offset": "415064",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "334",
       "2": "109",
@@ -7075,7 +7075,7 @@
   },
   "1322": {
     "SLPS_016_0x offset": "415104",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "336",
       "2": "244",
@@ -7102,7 +7102,7 @@
   },
   "1323": {
     "SLPS_016_0x offset": "416864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "433",
       "2": "537",
@@ -7129,7 +7129,7 @@
   },
   "1400": {
     "SLPS_016_0x offset": "439784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7156,7 +7156,7 @@
   },
   "1402": {
     "SLPS_016_0x offset": "421464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "676",
       "2": "134",
@@ -7183,7 +7183,7 @@
   },
   "1403": {
     "SLPS_016_0x offset": "421504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "681",
       "2": "503",
@@ -7210,7 +7210,7 @@
   },
   "1406": {
     "SLPS_016_0x offset": "434344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7237,7 +7237,7 @@
   },
   "1408": {
     "SLPS_016_0x offset": "412184",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7264,7 +7264,7 @@
   },
   "1409": {
     "SLPS_016_0x offset": "434384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7291,7 +7291,7 @@
   },
   "1410": {
     "SLPS_016_0x offset": "438144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7318,7 +7318,7 @@
   },
   "1411": {
     "SLPS_016_0x offset": "421544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "11",
       "2": "-1",
@@ -7345,7 +7345,7 @@
   },
   "1412": {
     "SLPS_016_0x offset": "421584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "505",
       "2": "136",
@@ -7372,7 +7372,7 @@
   },
   "1414": {
     "SLPS_016_0x offset": "434424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7399,7 +7399,7 @@
   },
   "1415": {
     "SLPS_016_0x offset": "438104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7426,7 +7426,7 @@
   },
   "1416": {
     "SLPS_016_0x offset": "434464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7453,7 +7453,7 @@
   },
   "1417": {
     "SLPS_016_0x offset": "438184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7480,7 +7480,7 @@
   },
   "1418": {
     "SLPS_016_0x offset": "439824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7507,7 +7507,7 @@
   },
   "1419": {
     "SLPS_016_0x offset": "434504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7534,7 +7534,7 @@
   },
   "1420": {
     "SLPS_016_0x offset": "421624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "137",
       "2": "506",
@@ -7561,7 +7561,7 @@
   },
   "1421": {
     "SLPS_016_0x offset": "421664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "138",
       "2": "685",
@@ -7588,7 +7588,7 @@
   },
   "1422": {
     "SLPS_016_0x offset": "411584",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7615,7 +7615,7 @@
   },
   "1500": {
     "SLPS_016_0x offset": "411624",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7642,7 +7642,7 @@
   },
   "1502": {
     "SLPS_016_0x offset": "434544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7669,7 +7669,7 @@
   },
   "1503": {
     "SLPS_016_0x offset": "438224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7696,7 +7696,7 @@
   },
   "1505": {
     "SLPS_016_0x offset": "421704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "690",
       "2": "139",
@@ -7723,7 +7723,7 @@
   },
   "1506": {
     "SLPS_016_0x offset": "421744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "695",
       "2": "510",
@@ -7750,7 +7750,7 @@
   },
   "1507": {
     "SLPS_016_0x offset": "421784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "343",
       "2": "697",
@@ -7777,7 +7777,7 @@
   },
   "1508": {
     "SLPS_016_0x offset": "421904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "147",
       "2": "700",
@@ -7804,7 +7804,7 @@
   },
   "1509": {
     "SLPS_016_0x offset": "421944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "705",
       "2": "148",
@@ -7831,7 +7831,7 @@
   },
   "1510": {
     "SLPS_016_0x offset": "415144",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "246",
       "2": "338",
@@ -7858,7 +7858,7 @@
   },
   "1511": {
     "SLPS_016_0x offset": "416904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "434",
       "2": "385",
@@ -7885,7 +7885,7 @@
   },
   "1512": {
     "SLPS_016_0x offset": "411704",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7912,7 +7912,7 @@
   },
   "1513": {
     "SLPS_016_0x offset": "434584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -7939,7 +7939,7 @@
   },
   "1514": {
     "SLPS_016_0x offset": "421824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "511",
       "2": "143",
@@ -7966,7 +7966,7 @@
   },
   "1515": {
     "SLPS_016_0x offset": "421864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "146",
       "2": "512",
@@ -7993,7 +7993,7 @@
   },
   "1516": {
     "SLPS_016_0x offset": "422024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "525",
       "2": "707",
@@ -8020,7 +8020,7 @@
   },
   "1517": {
     "SLPS_016_0x offset": "422064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "149",
       "2": "526",
@@ -8047,7 +8047,7 @@
   },
   "1518": {
     "SLPS_016_0x offset": "411744",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8074,7 +8074,7 @@
   },
   "1520": {
     "SLPS_016_0x offset": "434624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8101,7 +8101,7 @@
   },
   "1521": {
     "SLPS_016_0x offset": "438264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8128,7 +8128,7 @@
   },
   "1523": {
     "SLPS_016_0x offset": "421984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "12",
       "2": "-1",
@@ -8155,7 +8155,7 @@
   },
   "1600": {
     "SLPS_016_0x offset": "422104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "151",
       "2": "709",
@@ -8182,7 +8182,7 @@
   },
   "1601": {
     "SLPS_016_0x offset": "422144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "710",
       "2": "152",
@@ -8209,7 +8209,7 @@
   },
   "1602": {
     "SLPS_016_0x offset": "422184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "711",
       "2": "534",
@@ -8236,7 +8236,7 @@
   },
   "1603": {
     "SLPS_016_0x offset": "422224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "538",
       "2": "712",
@@ -8263,7 +8263,7 @@
   },
   "1604": {
     "SLPS_016_0x offset": "434664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8290,7 +8290,7 @@
   },
   "1605": {
     "SLPS_016_0x offset": "415184",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "247",
       "2": "112",
@@ -8317,7 +8317,7 @@
   },
   "1606": {
     "SLPS_016_0x offset": "411784",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8344,7 +8344,7 @@
   },
   "1607": {
     "SLPS_016_0x offset": "416944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "386",
       "2": "435",
@@ -8371,7 +8371,7 @@
   },
   "1608": {
     "SLPS_016_0x offset": "411944",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8398,7 +8398,7 @@
   },
   "1609": {
     "SLPS_016_0x offset": "422264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "422",
       "2": "157",
@@ -8425,7 +8425,7 @@
   },
   "1610": {
     "SLPS_016_0x offset": "422304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "158",
       "2": "541",
@@ -8452,7 +8452,7 @@
   },
   "1611": {
     "SLPS_016_0x offset": "422344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "159",
       "2": "715",
@@ -8479,7 +8479,7 @@
   },
   "1612": {
     "SLPS_016_0x offset": "422384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "716",
       "2": "160",
@@ -8506,7 +8506,7 @@
   },
   "1614": {
     "SLPS_016_0x offset": "434704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8533,7 +8533,7 @@
   },
   "1615": {
     "SLPS_016_0x offset": "438304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8560,7 +8560,7 @@
   },
   "1618": {
     "SLPS_016_0x offset": "422424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "13",
       "2": "-1",
@@ -8587,7 +8587,7 @@
   },
   "1619": {
     "SLPS_016_0x offset": "422464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "552",
       "2": "717",
@@ -8614,7 +8614,7 @@
   },
   "1620": {
     "SLPS_016_0x offset": "422504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "554",
       "2": "162",
@@ -8641,7 +8641,7 @@
   },
   "1621": {
     "SLPS_016_0x offset": "422544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "168",
       "2": "560",
@@ -8668,7 +8668,7 @@
   },
   "1622": {
     "SLPS_016_0x offset": "411984",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8695,7 +8695,7 @@
   },
   "1700": {
     "SLPS_016_0x offset": "440024",
-    "green_text": "mT up-date App.",
+    "title": "mT up-date App.",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8722,7 +8722,7 @@
   },
   "1701": {
     "SLPS_016_0x offset": "439624",
-    "green_text": "nT APPLICATION",
+    "title": "nT APPLICATION",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8749,7 +8749,7 @@
   },
   "1703": {
     "SLPS_016_0x offset": "422584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "423",
       "2": "720",
@@ -8776,7 +8776,7 @@
   },
   "1704": {
     "SLPS_016_0x offset": "422624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "721",
       "2": "169",
@@ -8803,7 +8803,7 @@
   },
   "1705": {
     "SLPS_016_0x offset": "422664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "722",
       "2": "574",
@@ -8830,7 +8830,7 @@
   },
   "1707": {
     "SLPS_016_0x offset": "412304",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8857,7 +8857,7 @@
   },
   "1709": {
     "SLPS_016_0x offset": "434744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8884,7 +8884,7 @@
   },
   "1710": {
     "SLPS_016_0x offset": "438344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8911,7 +8911,7 @@
   },
   "1711": {
     "SLPS_016_0x offset": "434784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -8938,7 +8938,7 @@
   },
   "1712": {
     "SLPS_016_0x offset": "422704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "575",
       "2": "723",
@@ -8965,7 +8965,7 @@
   },
   "1713": {
     "SLPS_016_0x offset": "422744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "576",
       "2": "207",
@@ -8992,7 +8992,7 @@
   },
   "1714": {
     "SLPS_016_0x offset": "422784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "208",
       "2": "581",
@@ -9019,7 +9019,7 @@
   },
   "1716": {
     "SLPS_016_0x offset": "422944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "590",
       "2": "729",
@@ -9046,7 +9046,7 @@
   },
   "1717": {
     "SLPS_016_0x offset": "412064",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9073,7 +9073,7 @@
   },
   "1719": {
     "SLPS_016_0x offset": "434824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9100,7 +9100,7 @@
   },
   "1720": {
     "SLPS_016_0x offset": "438384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9127,7 +9127,7 @@
   },
   "1721": {
     "SLPS_016_0x offset": "422824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "424",
       "2": "726",
@@ -9154,7 +9154,7 @@
   },
   "1722": {
     "SLPS_016_0x offset": "422864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "727",
       "2": "209",
@@ -9181,7 +9181,7 @@
   },
   "1723": {
     "SLPS_016_0x offset": "422904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "728",
       "2": "589",
@@ -9208,7 +9208,7 @@
   },
   "1800": {
     "SLPS_016_0x offset": "423064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "215",
       "2": "732",
@@ -9235,7 +9235,7 @@
   },
   "1801": {
     "SLPS_016_0x offset": "423104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "302",
       "2": "216",
@@ -9262,7 +9262,7 @@
   },
   "1804": {
     "SLPS_016_0x offset": "434864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9289,7 +9289,7 @@
   },
   "1806": {
     "SLPS_016_0x offset": "422984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "591",
       "2": "213",
@@ -9316,7 +9316,7 @@
   },
   "1807": {
     "SLPS_016_0x offset": "423024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "214",
       "2": "-1",
@@ -9343,7 +9343,7 @@
   },
   "1808": {
     "SLPS_016_0x offset": "423184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "601",
       "2": "734",
@@ -9370,7 +9370,7 @@
   },
   "1809": {
     "SLPS_016_0x offset": "423224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "602",
       "2": "219",
@@ -9397,7 +9397,7 @@
   },
   "1810": {
     "SLPS_016_0x offset": "423264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "221",
       "2": "603",
@@ -9424,7 +9424,7 @@
   },
   "1811": {
     "SLPS_016_0x offset": "434904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9451,7 +9451,7 @@
   },
   "1812": {
     "SLPS_016_0x offset": "438424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9478,7 +9478,7 @@
   },
   "1813": {
     "SLPS_016_0x offset": "434944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9505,7 +9505,7 @@
   },
   "1815": {
     "SLPS_016_0x offset": "423144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "733",
       "2": "599",
@@ -9532,7 +9532,7 @@
   },
   "1816": {
     "SLPS_016_0x offset": "423304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "222",
       "2": "737",
@@ -9559,7 +9559,7 @@
   },
   "1817": {
     "SLPS_016_0x offset": "423344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "738",
       "2": "223",
@@ -9586,7 +9586,7 @@
   },
   "1818": {
     "SLPS_016_0x offset": "423384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "739",
       "2": "609",
@@ -9613,7 +9613,7 @@
   },
   "1819": {
     "SLPS_016_0x offset": "434984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9640,7 +9640,7 @@
   },
   "1820": {
     "SLPS_016_0x offset": "438464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9667,7 +9667,7 @@
   },
   "1821": {
     "SLPS_016_0x offset": "435024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9694,7 +9694,7 @@
   },
   "1822": {
     "SLPS_016_0x offset": "435064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9721,7 +9721,7 @@
   },
   "1823": {
     "SLPS_016_0x offset": "438504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9748,7 +9748,7 @@
   },
   "1901": {
     "SLPS_016_0x offset": "423424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "610",
       "2": "740",
@@ -9775,7 +9775,7 @@
   },
   "1902": {
     "SLPS_016_0x offset": "423464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "611",
       "2": "226",
@@ -9802,7 +9802,7 @@
   },
   "1903": {
     "SLPS_016_0x offset": "423504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "227",
       "2": "612",
@@ -9829,7 +9829,7 @@
   },
   "1904": {
     "SLPS_016_0x offset": "423544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "228",
       "2": "743",
@@ -9856,7 +9856,7 @@
   },
   "1905": {
     "SLPS_016_0x offset": "435104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9883,7 +9883,7 @@
   },
   "1906": {
     "SLPS_016_0x offset": "435144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9910,7 +9910,7 @@
   },
   "1907": {
     "SLPS_016_0x offset": "438544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9937,7 +9937,7 @@
   },
   "1908": {
     "SLPS_016_0x offset": "435224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9964,7 +9964,7 @@
   },
   "1909": {
     "SLPS_016_0x offset": "438584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -9991,7 +9991,7 @@
   },
   "1910": {
     "SLPS_016_0x offset": "423584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "731",
       "2": "229",
@@ -10018,7 +10018,7 @@
   },
   "1911": {
     "SLPS_016_0x offset": "423624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "745",
       "2": "616",
@@ -10045,7 +10045,7 @@
   },
   "1912": {
     "SLPS_016_0x offset": "423664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "617",
       "2": "746",
@@ -10072,7 +10072,7 @@
   },
   "1913": {
     "SLPS_016_0x offset": "423704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "619",
       "2": "234",
@@ -10099,7 +10099,7 @@
   },
   "1914": {
     "SLPS_016_0x offset": "412344",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10126,7 +10126,7 @@
   },
   "1915": {
     "SLPS_016_0x offset": "435184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10153,7 +10153,7 @@
   },
   "1917": {
     "SLPS_016_0x offset": "439864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10180,7 +10180,7 @@
   },
   "1918": {
     "SLPS_016_0x offset": "435264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10207,7 +10207,7 @@
   },
   "1919": {
     "SLPS_016_0x offset": "423744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "270",
       "2": "620",
@@ -10234,7 +10234,7 @@
   },
   "1920": {
     "SLPS_016_0x offset": "423784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "271",
       "2": "749",
@@ -10261,7 +10261,7 @@
   },
   "1921": {
     "SLPS_016_0x offset": "423824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "750",
       "2": "273",
@@ -10288,7 +10288,7 @@
   },
   "1922": {
     "SLPS_016_0x offset": "423864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "751",
       "2": "623",
@@ -10315,7 +10315,7 @@
   },
   "2000": {
     "SLPS_016_0x offset": "435544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10342,7 +10342,7 @@
   },
   "2001": {
     "SLPS_016_0x offset": "435304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10369,7 +10369,7 @@
   },
   "2002": {
     "SLPS_016_0x offset": "438624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10396,7 +10396,7 @@
   },
   "2004": {
     "SLPS_016_0x offset": "423904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "479",
       "2": "752",
@@ -10423,7 +10423,7 @@
   },
   "2005": {
     "SLPS_016_0x offset": "423944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "625",
       "2": "276",
@@ -10450,7 +10450,7 @@
   },
   "2006": {
     "SLPS_016_0x offset": "423984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "480",
       "2": "627",
@@ -10477,7 +10477,7 @@
   },
   "2007": {
     "SLPS_016_0x offset": "424024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "283",
       "2": "755",
@@ -10504,7 +10504,7 @@
   },
   "2008": {
     "SLPS_016_0x offset": "424184",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "636",
       "2": "287",
@@ -10531,7 +10531,7 @@
   },
   "2009": {
     "SLPS_016_0x offset": "412584",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10558,7 +10558,7 @@
   },
   "2010": {
     "SLPS_016_0x offset": "415224",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "122",
       "2": "248",
@@ -10585,7 +10585,7 @@
   },
   "2011": {
     "SLPS_016_0x offset": "416984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "387",
       "2": "567",
@@ -10612,7 +10612,7 @@
   },
   "2012": {
     "SLPS_016_0x offset": "435344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10639,7 +10639,7 @@
   },
   "2013": {
     "SLPS_016_0x offset": "424064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "756",
       "2": "284",
@@ -10666,7 +10666,7 @@
   },
   "2014": {
     "SLPS_016_0x offset": "424104",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "757",
       "2": "634",
@@ -10693,7 +10693,7 @@
   },
   "2015": {
     "SLPS_016_0x offset": "424144",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "635",
       "2": "758",
@@ -10720,7 +10720,7 @@
   },
   "2016": {
     "SLPS_016_0x offset": "424304",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "762",
       "2": "290",
@@ -10747,7 +10747,7 @@
   },
   "2017": {
     "SLPS_016_0x offset": "424344",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "763",
       "2": "640",
@@ -10774,7 +10774,7 @@
   },
   "2019": {
     "SLPS_016_0x offset": "435504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10801,7 +10801,7 @@
   },
   "2020": {
     "SLPS_016_0x offset": "435384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10828,7 +10828,7 @@
   },
   "2021": {
     "SLPS_016_0x offset": "438664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -10855,7 +10855,7 @@
   },
   "2022": {
     "SLPS_016_0x offset": "424224",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "628",
       "2": "637",
@@ -10882,7 +10882,7 @@
   },
   "2023": {
     "SLPS_016_0x offset": "424264",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "289",
       "2": "761",
@@ -10909,7 +10909,7 @@
   },
   "2100": {
     "SLPS_016_0x offset": "424424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "642",
       "2": "294",
@@ -10936,7 +10936,7 @@
   },
   "2101": {
     "SLPS_016_0x offset": "424464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "295",
       "2": "643",
@@ -10963,7 +10963,7 @@
   },
   "2102": {
     "SLPS_016_0x offset": "424504",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "296",
       "2": "767",
@@ -10990,7 +10990,7 @@
   },
   "2104": {
     "SLPS_016_0x offset": "435424",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11017,7 +11017,7 @@
   },
   "2105": {
     "SLPS_016_0x offset": "435464",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11044,7 +11044,7 @@
   },
   "2106": {
     "SLPS_016_0x offset": "438704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11071,7 +11071,7 @@
   },
   "2107": {
     "SLPS_016_0x offset": "424384",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "641",
       "2": "764",
@@ -11098,7 +11098,7 @@
   },
   "2108": {
     "SLPS_016_0x offset": "424544",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "768",
       "2": "297",
@@ -11125,7 +11125,7 @@
   },
   "2109": {
     "SLPS_016_0x offset": "424584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "629",
       "2": "646",
@@ -11152,7 +11152,7 @@
   },
   "2110": {
     "SLPS_016_0x offset": "424624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "649",
       "2": "771",
@@ -11179,7 +11179,7 @@
   },
   "2112": {
     "SLPS_016_0x offset": "415264",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "140",
       "2": "341",
@@ -11206,7 +11206,7 @@
   },
   "2113": {
     "SLPS_016_0x offset": "417024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "568",
       "2": "388",
@@ -11233,7 +11233,7 @@
   },
   "2115": {
     "SLPS_016_0x offset": "438744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11260,7 +11260,7 @@
   },
   "2117": {
     "SLPS_016_0x offset": "424664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "663",
       "2": "300",
@@ -11287,7 +11287,7 @@
   },
   "2118": {
     "SLPS_016_0x offset": "424704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "301",
       "2": "650",
@@ -11314,7 +11314,7 @@
   },
   "2119": {
     "SLPS_016_0x offset": "424744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "231",
       "2": "774",
@@ -11341,7 +11341,7 @@
   },
   "2120": {
     "SLPS_016_0x offset": "424784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "775",
       "2": "303",
@@ -11368,7 +11368,7 @@
   },
   "2121": {
     "SLPS_016_0x offset": "435624",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11395,7 +11395,7 @@
   },
   "2200": {
     "SLPS_016_0x offset": "435584",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11422,7 +11422,7 @@
   },
   "2201": {
     "SLPS_016_0x offset": "438784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11449,7 +11449,7 @@
   },
   "2202": {
     "SLPS_016_0x offset": "424824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "776",
       "2": "654",
@@ -11476,7 +11476,7 @@
   },
   "2203": {
     "SLPS_016_0x offset": "424864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "656",
       "2": "777",
@@ -11503,7 +11503,7 @@
   },
   "2204": {
     "SLPS_016_0x offset": "424904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "657",
       "2": "306",
@@ -11530,7 +11530,7 @@
   },
   "2205": {
     "SLPS_016_0x offset": "435664",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11557,7 +11557,7 @@
   },
   "2207": {
     "SLPS_016_0x offset": "438824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11584,7 +11584,7 @@
   },
   "2208": {
     "SLPS_016_0x offset": "435704",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11611,7 +11611,7 @@
   },
   "2209": {
     "SLPS_016_0x offset": "435744",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11638,7 +11638,7 @@
   },
   "2210": {
     "SLPS_016_0x offset": "438864",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11665,7 +11665,7 @@
   },
   "2211": {
     "SLPS_016_0x offset": "424944",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "307",
       "2": "659",
@@ -11692,7 +11692,7 @@
   },
   "2212": {
     "SLPS_016_0x offset": "424984",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "308",
       "2": "780",
@@ -11719,7 +11719,7 @@
   },
   "2214": {
     "SLPS_016_0x offset": "435824",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11746,7 +11746,7 @@
   },
   "2215": {
     "SLPS_016_0x offset": "438904",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11773,7 +11773,7 @@
   },
   "2216": {
     "SLPS_016_0x offset": "435784",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11800,7 +11800,7 @@
   },
   "2217": {
     "SLPS_016_0x offset": "412464",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11827,7 +11827,7 @@
   },
   "2218": {
     "SLPS_016_0x offset": "430304",
-    "green_text": "TOUKO's DIARY",
+    "title": "TOUKO's DIARY",
     "image_table_indices": {
       "1": "369",
       "2": "605",
@@ -11854,7 +11854,7 @@
   },
   "2219": {
     "SLPS_016_0x offset": "412624",
-    "green_text": "DATA of CLN01",
+    "title": "DATA of CLN01",
     "image_table_indices": {
       "1": "-1",
       "2": "-1",
@@ -11881,7 +11881,7 @@
   },
   "2220": {
     "SLPS_016_0x offset": "425024",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "781",
       "2": "309",
@@ -11908,7 +11908,7 @@
   },
   "2221": {
     "SLPS_016_0x offset": "425064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "782",
       "2": "662",
@@ -11935,7 +11935,7 @@
   },
   "2222": {
     "SLPS_016_0x offset": "415304",
-    "green_text": "COUNSELING REC.",
+    "title": "COUNSELING REC.",
     "image_table_indices": {
       "1": "35",
       "2": "145",
@@ -11962,7 +11962,7 @@
   },
   "2223": {
     "SLPS_016_0x offset": "417064",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "585",
       "2": "441",
@@ -11989,7 +11989,7 @@
   },
   "dummy": {
     "SLPS_016_0x offset": "",
-    "green_text": "",
+    "title": "",
     "image_table_indices": {
       "1": "",
       "2": "",

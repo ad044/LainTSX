@@ -13,6 +13,7 @@ import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
+import MainSceneInitializer from "./Initializers/MainSceneInitializer";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
@@ -46,7 +47,8 @@ const MainScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
-        <MainSceneIntro />
+        {/*<MainSceneIntro />*/}
+        {/*<MainSceneInitializer />*/}
         <a.group
           rotation-x={mainGroupStateRot.mainGroupRotX}
           position-y={mainGroupStatePos.mainGroupPosY}

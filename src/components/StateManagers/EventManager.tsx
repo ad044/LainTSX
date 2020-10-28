@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import SiteManager from "./MainScene/SiteManager";
-import MiddleRingManager from "./MainScene/MiddleRingManager";
-import LainManager from "./MainScene/LainManager";
-import BlueOrbManager from "./MainScene/BlueOrbManager";
-import BlueOrbHUDManager from "./MainScene/BlueOrbHUDManager";
-import MainYellowTextManager from "./MainScene/MainYellowTextManager";
+import SiteManager from "./SiteManager";
+import MiddleRingManager from "./MiddleRingManager";
+import LainManager from "./LainManager";
+import BlueOrbManager from "./BlueOrbManager";
+import BlueOrbHUDManager from "./BlueOrbHUDManager";
 import { useBlueOrbStore, useMediaStore, useSceneStore } from "../../store";
-import GreenTextManager from "./MainScene/GreenTextManager";
-import MediaComponentManager from "./MediaScene/MediaComponentManager";
-import WordManager from "./MediaScene/WordManager";
-import MediaYellowTextManager from "./MediaScene/MediaYellowTextManager";
-import MediaElementManager from "./MediaScene/MediaElementManager";
+import GreenTextManager from "./GreenTextManager";
+import MediaComponentManager from "./MediaComponentManager";
+import MediaWordManager from "./MediaWordManager";
+import MediaElementManager from "./MediaElementManager";
 import SceneManager from "./SceneManager";
-import ImageManager from "./MediaScene/ImageManager";
+import YellowTextManager from "./YellowTextManager";
+import MediaImageManager from "./MediaImageManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -79,17 +78,16 @@ const EventManager = () => {
     <>
       <BlueOrbManager eventState={eventState!} />
       <BlueOrbHUDManager eventState={eventState!} />
-      <MainYellowTextManager eventState={eventState!} />
       <GreenTextManager eventState={eventState!} />
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
       <MediaComponentManager eventState={eventState!} />
-      <WordManager eventState={eventState!} />
-      <MediaYellowTextManager eventState={eventState!} />
+      <MediaWordManager eventState={eventState!} />
       <MediaElementManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
-      <ImageManager eventState={eventState!} />
+      <YellowTextManager eventState={eventState!} />
+      <MediaImageManager eventState={eventState!} />
     </>
   );
 };
