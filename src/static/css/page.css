@@ -17,6 +17,9 @@
 }
 
 .canvas {
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
 }
 
 video {
@@ -30,4 +33,8 @@ video {
 @font-face {
   font-family: "lowres";
   src: url("../font/Plain_Lain3.ttf") format("truetype");
+}
+
+::cue {
+  z-index: 10;
 }

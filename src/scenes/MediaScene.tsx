@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMediaStore } from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
@@ -16,11 +16,16 @@ const MediaScene = () => {
     (state) => state.activeMediaComponent
   );
 
+  useEffect(() => {
+    document.getElementsByTagName("canvas")[0].className =
+      "media-scene-background";
+  }, []);
+
   return (
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
         <OrbitControls />
-        <MediaSceneInitializer />
+        {/*<MediaSceneInitializer />*/}
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
         <LeftSide activeMediaComponent={activeMediaComponent} />
         <RightSide activeMediaComponent={activeMediaComponent} />

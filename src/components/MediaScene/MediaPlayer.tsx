@@ -1,6 +1,7 @@
 import React, { createRef, useCallback, useRef } from "react";
 import test from "../../static/movie/LAIN01.XA[18].ogg";
 import { useMediaStore, useSceneStore } from "../../store";
+import t from "../../static/webvtt/test.vtt";
 
 const MediaPlayer = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -41,6 +42,7 @@ const MediaPlayer = () => {
       style={{ display: currentScene === "media" ? "block" : "none" }}
     >
       <source src={test} />
+      <track src={t} kind="captions" default />
     </video>
   );
 };

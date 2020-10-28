@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from "react";
-import { useBlueOrbStore } from "../../../store";
-import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import { StateManagerProps } from "../EventManager";
+import { useCallback, useEffect } from "react";
+import { useBlueOrbStore } from "../../store";
+import game_action_mappings from "../../resources/game_action_mappings.json";
+import { StateManagerProps } from "./EventManager";
 
 const BlueOrbHUDManager = (props: StateManagerProps) => {
   const setActiveBlueOrbHudId = useBlueOrbStore(
@@ -46,9 +46,9 @@ const BlueOrbHUDManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        blue_orb_directions[
-          props.eventState as keyof typeof blue_orb_directions
+      const eventObject: any =
+        game_action_mappings[
+          props.eventState as keyof typeof game_action_mappings
         ];
 
       if (eventObject) {

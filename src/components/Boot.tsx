@@ -143,7 +143,7 @@ const Boot = (props: IntroProps) => {
 
   const handleUserKeyPress = useCallback(
     (event) => {
-      const { _, keyCode } = event;
+      const { keyCode } = event;
 
       if (keyCode === 40 || keyCode === 38) {
         setAuthorizeActive(!authorizeActive);

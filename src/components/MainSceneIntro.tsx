@@ -67,7 +67,7 @@ const MainSceneIntro = memo(() => {
 
       toggleHud();
       setTimeout(() => {
-        document.getElementsByTagName("canvas")[0].className = "hub-background";
+        document.getElementsByTagName("canvas")[0].className = "main-scene-background";
       }, 300);
     }, 3860);
   }, [

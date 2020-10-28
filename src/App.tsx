@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense, useMemo } from "react";
 import MainScene from "./scenes/MainScene";
-import "./static/css/hub.css";
-import "./static/css/main.css";
+import "./static/css/main_scene.css";
+import "./static/css/page.css";
 import { Canvas } from "react-three-fiber";
 import Boot from "./components/Boot";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";

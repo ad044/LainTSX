@@ -1,5 +1,3 @@
-import orangeFont from "../../static/sprite/orange_font_texture.png";
-import yellowFont from "../../static/sprite/yellow_font_texture.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import greenFont from "../../static/sprite/white_and_green_texture.png";
@@ -34,13 +32,16 @@ const MediumLetter = (props: LetterProps) => {
   };
 
   // 5th one is just a space, this is my hacky way of doing it.
-  const lineYOffsets = {
-    1: 0.355,
-    2: 0.297,
-    3: 0.238,
-    4: 0.18,
-    5: 1,
-  };
+  const lineYOffsets = useMemo(
+    () => ({
+      1: 0.355,
+      2: 0.297,
+      3: 0.238,
+      4: 0.18,
+      5: 1,
+    }),
+    []
+  );
 
   const letterData =
     medium_font_json.glyphs[

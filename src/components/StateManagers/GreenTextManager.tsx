@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect } from "react";
-import { useTextRendererStore } from "../../../store";
-import blue_orb_directions from "../../../resources/blue_orb_directions.json";
-import site_a from "../../../resources/site_a.json";
-import { StateManagerProps } from "../EventManager";
-import blue_orb_huds from "../../../resources/blue_orb_huds.json";
+import { useCallback, useEffect } from "react";
+import { useTextRendererStore } from "../../store";
+import game_action_mappings from "../../resources/game_action_mappings.json";
+import site_a from "../../resources/site_a.json";
+import { StateManagerProps } from "./EventManager";
+import blue_orb_huds from "../../resources/blue_orb_huds.json";
 
 const GreenTextManager = (props: StateManagerProps) => {
   const setGreenText = useTextRendererStore((state) => state.setGreenText);
@@ -20,7 +20,7 @@ const GreenTextManager = (props: StateManagerProps) => {
   const toggleAndSetGreenText = useCallback(
     (targetBlueOrbId: string, targetBlueOrbHudId: string, delay: number) => {
       const targetGreenText =
-        site_a[targetBlueOrbId as keyof typeof site_a].green_text;
+        site_a[targetBlueOrbId as keyof typeof site_a].title;
 
       const targetGreenTextPosData =
         blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
@@ -73,9 +73,9 @@ const GreenTextManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        blue_orb_directions[
-          props.eventState as keyof typeof blue_orb_directions
+      const eventObject: any =
+        game_action_mappings[
+          props.eventState as keyof typeof game_action_mappings
         ];
 
       if (eventObject) {
