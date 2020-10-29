@@ -7,7 +7,6 @@ import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisua
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Lof from "../components/MediaScene/Lof";
-import MediaSceneInitializer from "./Initializers/MediaSceneInitializer";
 import { OrbitControls } from "drei";
 import Images from "../components/MediaScene/Images";
 
@@ -25,7 +24,6 @@ const MediaScene = () => {
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
         <OrbitControls />
-        {/*<MediaSceneInitializer />*/}
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
         <LeftSide activeMediaComponent={activeMediaComponent} />
         <RightSide activeMediaComponent={activeMediaComponent} />

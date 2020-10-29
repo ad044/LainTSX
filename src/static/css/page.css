@@ -17,7 +17,7 @@
 }
 
 .canvas {
-  pointer-events: none;
+  /*pointer-events: none;*/
   position: relative;
   z-index: -1;
 }

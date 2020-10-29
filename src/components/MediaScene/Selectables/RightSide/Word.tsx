@@ -28,7 +28,6 @@ const Word = (props: WordProps) => {
   return (
     <a.group position-x={props.posX} position-y={props.posY}>
       <mesh scale={[0.4, 0.4, 0]} position={[-3.9, 1.915, 0]} renderOrder={3}>
-        <planeBufferGeometry attach="geometry" />
         <textGeometry attach="geometry" args={[props.word, config]} />
         <meshBasicMaterial
           attach="material"

@@ -9,16 +9,15 @@ import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import Starfield from "../components/MainScene/Starfield";
-import { useBlueOrbStore, useLainStore, useMainGroupStore } from "../store";
+import {useBlueOrbStore, useHudStore, useLainStore, useMainGroupStore} from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
-import MainSceneInitializer from "./Initializers/MainSceneInitializer";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
   const setActiveBlueOrb = useBlueOrbStore((state) => state.setActiveBlueOrbId);
-  const setActiveBlueOrbHudId = useBlueOrbStore(
+  const setActiveBlueOrbHudId = useHudStore(
     (state) => state.setActiveBlueOrbHudId
   );
 
@@ -47,8 +46,7 @@ const MainScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
-        {/*<MainSceneIntro />*/}
-        {/*<MainSceneInitializer />*/}
+        <MainSceneIntro />
         <a.group
           rotation-x={mainGroupStateRot.mainGroupRotX}
           position-y={mainGroupStatePos.mainGroupPosY}
@@ -59,7 +57,7 @@ const MainScene = () => {
           <HUD />
           <TextRenderer />
           <YellowOrb />
-          <Starfield />
+          {/*<Starfield />*/}
           <GrayPlanes />
           <Lights />
           <MiddleRing />

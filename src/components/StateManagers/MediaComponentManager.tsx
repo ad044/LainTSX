@@ -103,6 +103,10 @@ const MediaComponentManager = (props: StateManagerProps) => {
           action: switchToLeftSide,
           value: "thirdWord",
         },
+        select_blue_orb: {
+          action: setActiveMediaComponent,
+          value: "play",
+        },
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
