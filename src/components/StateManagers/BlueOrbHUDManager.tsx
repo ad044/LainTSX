@@ -1,13 +1,13 @@
 import { useCallback, useEffect } from "react";
-import { useBlueOrbStore } from "../../store";
+import { useHudStore } from "../../store";
 import game_action_mappings from "../../resources/game_action_mappings.json";
 import { StateManagerProps } from "./EventManager";
 
 const BlueOrbHUDManager = (props: StateManagerProps) => {
-  const setActiveBlueOrbHudId = useBlueOrbStore(
+  const setActiveBlueOrbHudId = useHudStore(
     (state) => state.setActiveBlueOrbHudId
   );
-  const toggleHud = useBlueOrbStore((state) => state.toggleHud);
+  const toggleHud = useHudStore((state) => state.toggleHud);
 
   const dispatchObject = useCallback(
     (event: string, targetBlueOrbHudId: string) => {

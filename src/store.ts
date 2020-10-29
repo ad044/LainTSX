@@ -6,11 +6,16 @@ type SceneState = {
   setScene: (to: string) => void;
 };
 
-type BlueOrbState = {
-  activeBlueOrbId: string;
+type HUDState = {
   activeHudId: string;
   hudActive: number;
   hudVisible: boolean;
+  setActiveBlueOrbHudId: (to: string) => void;
+  toggleHud: () => void;
+};
+
+type BlueOrbState = {
+  activeBlueOrbId: string;
   isActiveBlueOrbInteractedWith: boolean;
   activeBlueOrbPosX: number;
   activeBlueOrbPosZ: number;
@@ -19,9 +24,11 @@ type BlueOrbState = {
   setActiveBlueOrbPosZ: (to: number) => void;
   setActiveBlueOrbRotZ: (to: number) => void;
   setActiveBlueOrbId: (to: string) => void;
-  setActiveBlueOrbHudId: (to: string) => void;
-  toggleHud: () => void;
   setIsActiveBlueOrbInteractedWith: (to: boolean) => void;
+  blueOrbRowIdx: number;
+  blueOrbColIdx: number;
+  setBlueOrbRowIdx: (to: number) => void;
+  setBlueOrbColIdx: (to: number) => void;
 };
 
 type LainState = {
@@ -66,6 +73,8 @@ type SiteState = {
   setSiteRotY: (to: number) => void;
   setSitePosY: (to: number) => void;
   setIsSiteChanging: (to: boolean) => void;
+  siteRotIdx: number;
+  setSiteRotIdx: (to: number) => void;
 };
 
 type LevelState = {
@@ -148,15 +157,6 @@ type ImageState = {
   };
 };
 
-// type ImageState = {
-//   fstImg: ImageSrc | undefined;
-//   sndImg: ImageSrc | undefined;
-//   thirdImg: ImageSrc | undefined;
-//   setFstImg: (to: ImageSrc) => void;
-//   setSndImg: (to: ImageSrc) => void;
-//   setThirdImg: (to: ImageSrc) => void;
-// };
-//
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -182,12 +182,17 @@ export const useTextRendererStore = create<TextRendererState>((set) => ({
     set((state) => ({ greenTextActive: Number(!state.greenTextActive) })),
 }));
 
-export const useBlueOrbStore = create<BlueOrbState>((set) => ({
-  activeBlueOrbId: "0422",
+export const useHudStore = create<HUDState>((set) => ({
   activeHudId: "fg_hud_1",
   hudActive: 1,
-  isActiveBlueOrbInteractedWith: false,
   hudVisible: true,
+  setActiveBlueOrbHudId: (to) => set(() => ({ activeHudId: to })),
+  toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
+}));
+
+export const useBlueOrbStore = create<BlueOrbState>((set) => ({
+  activeBlueOrbId: "0422",
+  isActiveBlueOrbInteractedWith: false,
   activeBlueOrbPosX: 0,
   activeBlueOrbPosZ: 0,
   activeBlueOrbRotZ: 0,
@@ -195,10 +200,12 @@ export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
   setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
   setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
-  setActiveBlueOrbHudId: (to) => set(() => ({ activeHudId: to })),
-  toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
   setIsActiveBlueOrbInteractedWith: (to) =>
     set(() => ({ isActiveBlueOrbInteractedWith: to })),
+  blueOrbRowIdx: 0,
+  setBlueOrbRowIdx: (to) => set(() => ({ blueOrbRowIdx: to })),
+  blueOrbColIdx: 0,
+  setBlueOrbColIdx: (to) => set(() => ({ blueOrbColIdx: to })),
 }));
 
 export const useLainStore = create<LainState>((set) => ({
@@ -248,6 +255,8 @@ export const useSiteStore = create<SiteState>((set) => ({
   setSitePosY: (to) => set(() => ({ sitePosY: to })),
   setSiteRotY: (to) => set(() => ({ siteRotY: to })),
   setIsSiteChanging: (to) => set(() => ({ isSiteChangingY: to })),
+  siteRotIdx: 6,
+  setSiteRotIdx: (to) => set(() => ({ siteRotIdx: to })),
 }));
 
 export const useMiddleRingStore = create<MiddleRingState>((set) => ({

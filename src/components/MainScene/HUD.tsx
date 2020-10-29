@@ -8,14 +8,14 @@ import longHudMirrored from "../../static/sprite/long_hud_mirrored.png";
 import boringHud from "../../static/sprite/long_hud_boring.png";
 import boringHudMirrored from "../../static/sprite/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
-import { useBlueOrbStore } from "../../store";
+import {useBlueOrbStore, useHudStore} from "../../store";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
 
 const HUD = memo(() => {
-  const hudActive = useBlueOrbStore((state) => state.hudActive);
-  const currentHudId = useBlueOrbStore((state) => state.activeHudId);
+  const hudActive = useHudStore((state) => state.hudActive);
+  const currentHudId = useHudStore((state) => state.activeHudId);
 
-  const hudVisible = useBlueOrbStore((state) => state.hudVisible);
+  const hudVisible = useHudStore((state) => state.hudVisible);
 
   const currentHud = blue_orb_huds[currentHudId as keyof typeof blue_orb_huds];
 

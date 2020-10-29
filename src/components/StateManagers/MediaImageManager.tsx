@@ -14,7 +14,6 @@ const MediaImageManager = (props: StateManagerProps) => {
     const images = image_table[node_name as keyof typeof image_table];
 
     Object.values(images).forEach((img) => {
-      console.log(images);
       switch (img.substr(img.length - 1)) {
         case "0":
           import("../../static/media_images/site_a/" + img + ".png").then(

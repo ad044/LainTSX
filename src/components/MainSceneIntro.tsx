@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from "react";
 import {
-  useBlueOrbStore,
   useGrayPlanesStore,
+  useHudStore,
   useLainStore,
   useMainGroupStore,
   useStarfieldStore,
@@ -14,7 +14,7 @@ import {
 // inside <Suspense> tags makes it behave in a more stable manner
 // by waiting for the components to load and synchronously calling the functions.
 const MainSceneIntro = memo(() => {
-  const toggleHud = useBlueOrbStore((state) => state.toggleHud);
+  const toggleHud = useHudStore((state) => state.toggleHud);
 
   //const setHudVisible = useSetRecoilState(hudVisibilityAtom);
   const setOrbVisible = useYellowOrbStore((state) => state.setYellowOrbVisible);
@@ -67,7 +67,8 @@ const MainSceneIntro = memo(() => {
 
       toggleHud();
       setTimeout(() => {
-        document.getElementsByTagName("canvas")[0].className = "main-scene-background";
+        document.getElementsByTagName("canvas")[0].className =
+          "main-scene-background";
       }, 300);
     }, 3860);
   }, [
