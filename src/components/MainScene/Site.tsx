@@ -40,7 +40,7 @@ const Site = memo(() => {
 
         {Object.entries(site_a).map((blueOrb) => {
           if (
-            (blueOrb as any)[1]["unlocked_by"] === "-1" &&
+            // (blueOrb as any)[1]["unlocked_by"] === "-1" &&
             activeLevels.includes((blueOrb as any)[0].substr(0, 2))
           )
             return (

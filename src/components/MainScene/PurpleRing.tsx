@@ -35,8 +35,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
 
   const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
 
-  const formattedLevel =
-    props.level.length < 2 ? "0" + props.level : props.level;
+  const formattedLevel = props.level.padStart(2, "0");
 
   uniforms.siteA = { type: "t", value: siteA };
   uniforms.siteB = { type: "t", value: siteB };
