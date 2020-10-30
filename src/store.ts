@@ -1,5 +1,6 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
+import available_blue_orbs_on_projection from "./resources/available_blue_orbs_on_projection.json";
 
 type SceneState = {
   currentScene: string;
@@ -73,13 +74,15 @@ type SiteState = {
   setSiteRotY: (to: number) => void;
   setSitePosY: (to: number) => void;
   setIsSiteChanging: (to: boolean) => void;
-  siteRotIdx: number;
-  setSiteRotIdx: (to: number) => void;
+  siteRotIdx: string;
+  setSiteRotIdx: (to: string) => void;
 };
 
 type LevelState = {
+  currentLevel: string;
   activeLevels: string[];
   setActiveLevels: (to: string[]) => void;
+  setCurrentLevel: (to: string) => void;
 };
 
 type MiddleRingState = {
@@ -190,23 +193,25 @@ export const useHudStore = create<HUDState>((set) => ({
   toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
 }));
 
-export const useBlueOrbStore = create<BlueOrbState>((set) => ({
-  activeBlueOrbId: "0422",
-  isActiveBlueOrbInteractedWith: false,
-  activeBlueOrbPosX: 0,
-  activeBlueOrbPosZ: 0,
-  activeBlueOrbRotZ: 0,
-  setActiveBlueOrbPosX: (to) => set(() => ({ activeBlueOrbPosX: to })),
-  setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
-  setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
-  setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
-  setIsActiveBlueOrbInteractedWith: (to) =>
-    set(() => ({ isActiveBlueOrbInteractedWith: to })),
-  blueOrbRowIdx: 0,
-  setBlueOrbRowIdx: (to) => set(() => ({ blueOrbRowIdx: to })),
-  blueOrbColIdx: 0,
-  setBlueOrbColIdx: (to) => set(() => ({ blueOrbColIdx: to })),
-}));
+export const useBlueOrbStore = create<BlueOrbState>((set) => {
+  return {
+    activeBlueOrbId: "0422",
+    isActiveBlueOrbInteractedWith: false,
+    activeBlueOrbPosX: 0,
+    activeBlueOrbPosZ: 0,
+    activeBlueOrbRotZ: 0,
+    setActiveBlueOrbPosX: (to) => set(() => ({ activeBlueOrbPosX: to })),
+    setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
+    setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
+    setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
+    setIsActiveBlueOrbInteractedWith: (to) =>
+      set(() => ({ isActiveBlueOrbInteractedWith: to })),
+    blueOrbRowIdx: 0,
+    setBlueOrbRowIdx: (to) => set(() => ({ blueOrbRowIdx: to })),
+    blueOrbColIdx: 0,
+    setBlueOrbColIdx: (to) => set(() => ({ blueOrbColIdx: to })),
+  };
+});
 
 export const useLainStore = create<LainState>((set) => ({
   lainMoveState: "standing",
@@ -255,7 +260,7 @@ export const useSiteStore = create<SiteState>((set) => ({
   setSitePosY: (to) => set(() => ({ sitePosY: to })),
   setSiteRotY: (to) => set(() => ({ siteRotY: to })),
   setIsSiteChanging: (to) => set(() => ({ isSiteChangingY: to })),
-  siteRotIdx: 6,
+  siteRotIdx: "7",
   setSiteRotIdx: (to) => set(() => ({ siteRotIdx: to })),
 }));
 
@@ -281,8 +286,10 @@ export const useMiddleRingStore = create<MiddleRingState>((set) => ({
 }));
 
 export const useLevelStore = create<LevelState>((set) => ({
+  currentLevel: "04",
   activeLevels: ["03", "04", "05"],
   setActiveLevels: (to) => set(() => ({ activeLevels: to })),
+  setCurrentLevel: (to) => set(() => ({ currentLevel: to })),
 }));
 
 export const useMediaStore = create<MediaState>((set) => ({

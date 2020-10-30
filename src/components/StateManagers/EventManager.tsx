@@ -6,6 +6,7 @@ import BlueOrbManager from "./BlueOrbManager";
 import BlueOrbHUDManager from "./BlueOrbHUDManager";
 import {
   useBlueOrbStore,
+  useLevelStore,
   useMediaStore,
   useSceneStore,
   useSiteStore,
@@ -17,6 +18,8 @@ import MediaElementManager from "./MediaElementManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
 import MediaImageManager from "./MediaImageManager";
+import computeAction from "../../core/computeAction";
+import available_blue_orbs_on_projection from "../../resources/available_blue_orbs_on_projection.json";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -33,12 +36,29 @@ export type StateManagerProps = {
   eventState: string;
 };
 
+export type GameContext = {
+  keyPress?: string;
+  scene: string;
+  blueOrbRowIdx: number;
+  blueOrbColIdx: number;
+  currentLevel: string;
+  siteRotIdx: string;
+};
+
 const EventManager = () => {
   const activeBlueOrb = useBlueOrbStore((state) => state.activeBlueOrbId);
   const blueOrbRowIdx = useBlueOrbStore((state) => state.blueOrbRowIdx);
   const blueOrbColIdx = useBlueOrbStore((state) => state.blueOrbColIdx);
 
   const siteRotIdx = useSiteStore((state) => state.siteRotIdx);
+  const currentLevel = useLevelStore((state) => state.currentLevel);
+
+  const availableBlueOrbsForSelection = available_blue_orbs_on_projection[
+    siteRotIdx as keyof typeof available_blue_orbs_on_projection
+  ].map((posIdxArr) => posIdxArr.map((posIdx) => currentLevel + posIdx));
+
+  const selectedBlueOrb =
+    availableBlueOrbsForSelection[blueOrbRowIdx][blueOrbColIdx];
 
   const [eventState, setEventState] = useState<string>();
   const activeMediaComponent = useMediaStore(
@@ -56,39 +76,32 @@ const EventManager = () => {
     return keys[currentScene as keyof typeof keys];
   }, [activeBlueOrb, activeMediaComponent, currentScene]);
 
+  const gameContext: GameContext = useMemo(
+    () => ({
+      scene: currentScene,
+      siteRotIdx: siteRotIdx,
+      blueOrbRowIdx: blueOrbRowIdx,
+      blueOrbColIdx: blueOrbColIdx,
+      currentLevel: currentLevel,
+    }),
+    [blueOrbColIdx, blueOrbRowIdx, currentLevel, currentScene, siteRotIdx]
+  );
+
   const handleKeyPress = useCallback(
     (event) => {
       const { keyCode } = event;
 
       const keyPress = getKeyCodeAssociation(keyCode);
 
-      const gameContext = {
-        scene: currentScene,
-        keyPress: keyPress,
-        siteRotIdx: siteRotIdx,
-        blueOrbRowIdx: blueOrbRowIdx,
-        blueOrbColIdx: blueOrbColIdx,
-      };
-
       if (keyPress && !inputCooldown) {
-        // event id consists of the CURRENT blue orb id (to calculate where we're at currently)
-        // and the keypress.
-        // this id is later on used to get the needed corresponding data for each component
-        // from blue_orb_directions.json file.
-        // const eventId = `${activeBlueOrb}_${keyPress}`;
-        //
+        gameContext.keyPress = keyPress;
+        const event = computeAction(gameContext);
+        console.log(event);
         const eventId = `${sceneEventKey}_${keyPress}`;
         setEventState(eventId);
       }
     },
-    [
-      blueOrbColIdx,
-      blueOrbRowIdx,
-      currentScene,
-      inputCooldown,
-      sceneEventKey,
-      siteRotIdx,
-    ]
+    [gameContext, inputCooldown, sceneEventKey]
   );
 
   useEffect(() => {
