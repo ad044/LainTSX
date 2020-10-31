@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
 import { useLainStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
 import { StateManagerProps } from "./EventManager";
 
 const LainManager = (props: StateManagerProps) => {
@@ -43,22 +42,15 @@ const LainManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        game_action_mappings[
-          props.eventState as keyof typeof game_action_mappings
-        ];
+      const eventAction = props.eventState.event;
+      const dispatchedObject = dispatchObject(eventAction);
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
-        const dispatchedObject = dispatchObject(eventAction);
+      if (dispatchedObject) {
+        dispatchedObject.action(dispatchedObject.value);
 
-        if (dispatchedObject) {
-          dispatchedObject.action(dispatchedObject.value);
-
-          setTimeout(() => {
-            setLainMoveState("standing");
-          }, dispatchedObject.duration);
-        }
+        setTimeout(() => {
+          setLainMoveState("standing");
+        }, dispatchedObject.duration);
       }
     }
   }, [props.eventState, setLainMoveState, dispatchObject]);

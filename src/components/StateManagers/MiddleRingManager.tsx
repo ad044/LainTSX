@@ -195,20 +195,13 @@ const MiddleRingManager = (props: any) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        game_action_mappings[
-          props.eventState as keyof typeof game_action_mappings
-        ];
+      const eventAction = props.eventState.event;
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
+      const dispatchedObject =
+        dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
 
-        const dispatchedObject =
-          dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
-
-        if (dispatchedObject) {
-          dispatchedObject.action();
-        }
+      if (dispatchedObject) {
+        dispatchedObject.action();
       }
     }
   }, [

@@ -1,58 +1,62 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSiteStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
 import { StateManagerProps } from "./EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
-  const incrementSiteRotY = useSiteStore((state) => state.incrementSiteRotY);
-  const incrementSitePosY = useSiteStore((state) => state.incrementSitePosY);
+  const addToSiteRotY = useSiteStore((state) => state.addToSiteRotY);
+  const addToSitePosY = useSiteStore((state) => state.addToSitePosY);
+  const setSiteRotIdx = useSiteStore((state) => state.setSiteRotIdx);
   const setIsSiteYChanging = useSiteStore((state) => state.setIsSiteChanging);
 
-  const dispatcherObjects = useMemo(
-    () => ({
-      move_up: { action: incrementSitePosY, value: -1.5, actionDelay: 1300 },
-      move_down: { action: incrementSitePosY, value: 1.5, actionDelay: 1300 },
-      move_left: {
-        action: incrementSiteRotY,
-        value: Math.PI / 4,
-        actionDelay: 1100,
-      },
-      move_right: {
-        action: incrementSiteRotY,
-        value: -Math.PI / 4,
-        actionDelay: 1100,
-      },
-    }),
-    [incrementSitePosY, incrementSiteRotY]
+  const rotateSite = useCallback(
+    (value: number, newSiteRotIdx: string) => {
+      addToSiteRotY(value);
+      setSiteRotIdx(newSiteRotIdx);
+    },
+    [addToSiteRotY, setSiteRotIdx]
+  );
+
+  const dispatchObject = useCallback(
+    (event: string, newSiteRotIdx: string) => {
+      const dispatcherObjects = {
+        move_up: { action: addToSitePosY, value: [-1.5], actionDelay: 1300 },
+        move_down: { action: addToSitePosY, value: [1.5], actionDelay: 1300 },
+        move_left: {
+          action: rotateSite,
+          value: [Math.PI / 4, newSiteRotIdx],
+          actionDelay: 1100,
+        },
+        move_right: {
+          action: rotateSite,
+          value: [-Math.PI / 4, newSiteRotIdx],
+          actionDelay: 1100,
+        },
+      };
+
+      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+    },
+    [addToSitePosY, rotateSite]
   );
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        game_action_mappings[
-          props.eventState as keyof typeof game_action_mappings
-        ];
+      const eventAction = props.eventState.event;
+      const newSiteRotIdx = props.eventState.newSiteRotIdx;
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
+      const dispatchedObject = dispatchObject(eventAction, newSiteRotIdx);
+      if (dispatchedObject) {
+        setIsSiteYChanging(true);
 
-        const dispatchedObject =
-          dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
+        setTimeout(() => {
+          (dispatchedObject.action as any).apply(null, dispatchedObject.value);
+        }, dispatchedObject.actionDelay);
 
-        if (dispatchedObject) {
-          setIsSiteYChanging(true);
-
-          setTimeout(() => {
-            dispatchedObject.action(dispatchedObject.value);
-          }, dispatchedObject.actionDelay);
-
-          setTimeout(() => {
-            setIsSiteYChanging(false);
-          }, 3000);
-        }
+        setTimeout(() => {
+          setIsSiteYChanging(false);
+        }, 3000);
       }
     }
-  }, [dispatcherObjects, props.eventState, setIsSiteYChanging]);
+  }, [dispatchObject, props.eventState, setIsSiteYChanging]);
   return null;
 };
 

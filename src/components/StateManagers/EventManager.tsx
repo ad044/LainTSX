@@ -20,6 +20,7 @@ import YellowTextManager from "./YellowTextManager";
 import MediaImageManager from "./MediaImageManager";
 import computeAction from "../../core/computeAction";
 import available_blue_orbs_on_projection from "../../resources/available_blue_orbs_on_projection.json";
+import LevelManager from "./LevelManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -32,8 +33,16 @@ const getKeyCodeAssociation = (keyCode: number): string => {
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };
 
+type EventState = {
+  event: string;
+  newBlueOrbColIdx: number;
+  newBlueOrbRowIdx: number;
+  newLevel: string;
+  newActiveBlueOrbId: string;
+  newSiteRotIdx: string;
+};
 export type StateManagerProps = {
-  eventState: string;
+  eventState: any;
 };
 
 export type GameContext = {
@@ -46,35 +55,16 @@ export type GameContext = {
 };
 
 const EventManager = () => {
-  const activeBlueOrb = useBlueOrbStore((state) => state.activeBlueOrbId);
   const blueOrbRowIdx = useBlueOrbStore((state) => state.blueOrbRowIdx);
   const blueOrbColIdx = useBlueOrbStore((state) => state.blueOrbColIdx);
 
   const siteRotIdx = useSiteStore((state) => state.siteRotIdx);
   const currentLevel = useLevelStore((state) => state.currentLevel);
 
-  const availableBlueOrbsForSelection = available_blue_orbs_on_projection[
-    siteRotIdx as keyof typeof available_blue_orbs_on_projection
-  ].map((posIdxArr) => posIdxArr.map((posIdx) => currentLevel + posIdx));
-
-  const selectedBlueOrb =
-    availableBlueOrbsForSelection[blueOrbRowIdx][blueOrbColIdx];
-
-  const [eventState, setEventState] = useState<string>();
-  const activeMediaComponent = useMediaStore(
-    (state) => state.activeMediaComponent
-  );
+  const [eventState, setEventState] = useState<any>();
   const currentScene = useSceneStore((state) => state.currentScene);
 
   const [inputCooldown, setInputCooldown] = useState(false);
-
-  const sceneEventKey = useMemo(() => {
-    const keys = {
-      main: activeBlueOrb,
-      media: activeMediaComponent,
-    };
-    return keys[currentScene as keyof typeof keys];
-  }, [activeBlueOrb, activeMediaComponent, currentScene]);
 
   const gameContext: GameContext = useMemo(
     () => ({
@@ -96,12 +86,11 @@ const EventManager = () => {
       if (keyPress && !inputCooldown) {
         gameContext.keyPress = keyPress;
         const event = computeAction(gameContext);
-        console.log(event);
-        const eventId = `${sceneEventKey}_${keyPress}`;
-        setEventState(eventId);
+        console.log(event)
+        setEventState(event);
       }
     },
-    [gameContext, inputCooldown, sceneEventKey]
+    [gameContext, inputCooldown]
   );
 
   useEffect(() => {
@@ -120,12 +109,13 @@ const EventManager = () => {
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
-      <MediaComponentManager eventState={eventState!} />
-      <MediaWordManager eventState={eventState!} />
-      <MediaElementManager eventState={eventState!} />
+      {/*<MediaComponentManager eventState={eventState!} />*/}
+      {/*<MediaWordManager eventState={eventState!} />*/}
+      {/*<MediaElementManager eventState={eventState!} />*/}
       <SceneManager eventState={eventState!} />
       <YellowTextManager eventState={eventState!} />
-      <MediaImageManager eventState={eventState!} />
+      {/*<MediaImageManager eventState={eventState!} />*/}
+      <LevelManager eventState={eventState!} />
     </>
   );
 };
