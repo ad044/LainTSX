@@ -1,14 +1,18 @@
 import { useCallback, useEffect } from "react";
 import { useBlueOrbStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
 import { StateManagerProps } from "./EventManager";
 
-type SetActiveBlueOrb = (value: string) => void;
+type UpdateActiveBlueOrb = (
+  newActiveBlueOrbId: string,
+  newBlueOrbColIdx: number,
+  newBlueOrbRowIdx: number
+) => void;
+
 type SetIsActiveBlueOrbInteractedWith = (value: boolean) => void;
 
 type BlueOrbDispatchData = {
-  action: SetActiveBlueOrb | SetIsActiveBlueOrbInteractedWith;
-  value: string | boolean;
+  action: any;
+  value: any;
   actionDelay: number;
 };
 
@@ -22,9 +26,10 @@ type BlueOrbDispatcher = {
 };
 
 const BlueOrbManager = (props: StateManagerProps) => {
-  const setActiveBlueOrb: SetActiveBlueOrb = useBlueOrbStore(
-    (state) => state.setActiveBlueOrbId
-  );
+  const setActiveBlueOrb = useBlueOrbStore((state) => state.setActiveBlueOrbId);
+  const setBlueOrbRowIdx = useBlueOrbStore((state) => state.setBlueOrbRowIdx);
+  const setBlueOrbColIdx = useBlueOrbStore((state) => state.setBlueOrbColIdx);
+
   const setIsActiveBlueOrbInteractedWith: SetIsActiveBlueOrbInteractedWith = useBlueOrbStore(
     (state) => state.setIsActiveBlueOrbInteractedWith
   );
@@ -69,32 +74,50 @@ const BlueOrbManager = (props: StateManagerProps) => {
     setIsActiveBlueOrbInteractedWith,
   ]);
 
+  const updateActiveBlueOrb = useCallback(
+    (
+      newActiveBlueOrbId: string,
+      newBlueOrbColIdx: number,
+      newBlueOrbRowIdx: number
+    ) => {
+      setActiveBlueOrb(newActiveBlueOrbId);
+      setBlueOrbColIdx(newBlueOrbColIdx);
+      setBlueOrbRowIdx(newBlueOrbRowIdx);
+    },
+    [setActiveBlueOrb, setBlueOrbColIdx, setBlueOrbRowIdx]
+  );
+
   const dispatchObject = useCallback(
-    (event: string, targetBlueOrbId: string) => {
+    (
+      event: string,
+      newActiveBlueOrbId: string,
+      newBlueOrbColIdx: number,
+      newBlueOrbRowIdx: number
+    ) => {
       const dispatcherObjects: BlueOrbDispatcher = {
         move_up: {
-          action: setActiveBlueOrb,
-          value: targetBlueOrbId,
+          action: updateActiveBlueOrb,
+          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
           actionDelay: 3903.704,
         },
         move_down: {
-          action: setActiveBlueOrb,
-          value: targetBlueOrbId,
+          action: updateActiveBlueOrb,
+          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
           actionDelay: 3903.704,
         },
         move_left: {
-          action: setActiveBlueOrb,
-          value: targetBlueOrbId,
+          action: updateActiveBlueOrb,
+          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
           actionDelay: 3903.704,
         },
         move_right: {
-          action: setActiveBlueOrb,
-          value: targetBlueOrbId,
+          action: updateActiveBlueOrb,
+          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
           actionDelay: 3903.704,
         },
         change_blue_orb: {
-          action: setActiveBlueOrb,
-          value: targetBlueOrbId,
+          action: updateActiveBlueOrb,
+          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
           actionDelay: 0,
         },
         select_blue_orb: {
@@ -106,27 +129,29 @@ const BlueOrbManager = (props: StateManagerProps) => {
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [animateActiveBlueOrbThrow, setActiveBlueOrb]
+    [animateActiveBlueOrbThrow, updateActiveBlueOrb]
   );
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject: any =
-        game_action_mappings[
-          props.eventState as keyof typeof game_action_mappings
-        ];
+      const eventAction = props.eventState.event;
+      const newActiveBlueOrbId = props.eventState.newActiveBlueOrbId;
+      const newBlueOrbRowIdx = props.eventState.newBlueOrbRowIdx;
+      const newBlueOrbColIdx = props.eventState.newBlueOrbColIdx;
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
-        const targetBlueOrbId = eventObject.target_blue_orb_id;
+      const dispatchedObject = dispatchObject(
+        eventAction,
+        newActiveBlueOrbId,
+        newBlueOrbColIdx,
+        newBlueOrbRowIdx
+      );
 
-        const dispatchedObject = dispatchObject(eventAction, targetBlueOrbId);
+      console.log(dispatchedObject)
 
-        if (dispatchedObject) {
-          setTimeout(() => {
-            dispatchedObject.action(dispatchedObject.value as never);
-          }, dispatchedObject.actionDelay);
-        }
+      if (dispatchedObject) {
+        setTimeout(() => {
+          dispatchedObject.action.apply(null, dispatchedObject.value);
+        }, dispatchedObject.actionDelay);
       }
     }
   }, [props.eventState, setActiveBlueOrb, dispatchObject]);

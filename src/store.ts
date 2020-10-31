@@ -69,8 +69,8 @@ type SiteState = {
   siteRotY: number;
   sitePosY: number;
   isSiteChangingY: boolean;
-  incrementSiteRotY: (by: number) => void;
-  incrementSitePosY: (by: number) => void;
+  addToSiteRotY: (by: number) => void;
+  addToSitePosY: (by: number) => void;
   setSiteRotY: (to: number) => void;
   setSitePosY: (to: number) => void;
   setIsSiteChanging: (to: boolean) => void;
@@ -193,25 +193,23 @@ export const useHudStore = create<HUDState>((set) => ({
   toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
 }));
 
-export const useBlueOrbStore = create<BlueOrbState>((set) => {
-  return {
-    activeBlueOrbId: "0422",
-    isActiveBlueOrbInteractedWith: false,
-    activeBlueOrbPosX: 0,
-    activeBlueOrbPosZ: 0,
-    activeBlueOrbRotZ: 0,
-    setActiveBlueOrbPosX: (to) => set(() => ({ activeBlueOrbPosX: to })),
-    setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
-    setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
-    setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
-    setIsActiveBlueOrbInteractedWith: (to) =>
-      set(() => ({ isActiveBlueOrbInteractedWith: to })),
-    blueOrbRowIdx: 0,
-    setBlueOrbRowIdx: (to) => set(() => ({ blueOrbRowIdx: to })),
-    blueOrbColIdx: 0,
-    setBlueOrbColIdx: (to) => set(() => ({ blueOrbColIdx: to })),
-  };
-});
+export const useBlueOrbStore = create<BlueOrbState>((set) => ({
+  activeBlueOrbId: "0422",
+  isActiveBlueOrbInteractedWith: false,
+  activeBlueOrbPosX: 0,
+  activeBlueOrbPosZ: 0,
+  activeBlueOrbRotZ: 0,
+  setActiveBlueOrbPosX: (to) => set(() => ({ activeBlueOrbPosX: to })),
+  setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
+  setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
+  setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
+  setIsActiveBlueOrbInteractedWith: (to) =>
+    set(() => ({ isActiveBlueOrbInteractedWith: to })),
+  blueOrbRowIdx: 0,
+  setBlueOrbRowIdx: (to) => set(() => ({ blueOrbRowIdx: to })),
+  blueOrbColIdx: 0,
+  setBlueOrbColIdx: (to) => set(() => ({ blueOrbColIdx: to })),
+}));
 
 export const useLainStore = create<LainState>((set) => ({
   lainMoveState: "standing",
@@ -253,10 +251,8 @@ export const useSiteStore = create<SiteState>((set) => ({
   sitePosY: 0,
   siteRotY: 0,
   isSiteChangingY: false,
-  incrementSitePosY: (by) =>
-    set((state) => ({ sitePosY: state.sitePosY + by })),
-  incrementSiteRotY: (by) =>
-    set((state) => ({ siteRotY: state.siteRotY + by })),
+  addToSitePosY: (by) => set((state) => ({ sitePosY: state.sitePosY + by })),
+  addToSiteRotY: (by) => set((state) => ({ siteRotY: state.siteRotY + by })),
   setSitePosY: (to) => set(() => ({ sitePosY: to })),
   setSiteRotY: (to) => set(() => ({ siteRotY: to })),
   setIsSiteChanging: (to) => set(() => ({ isSiteChangingY: to })),
