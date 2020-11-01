@@ -379,7 +379,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "main",
+  currentScene: "media",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 

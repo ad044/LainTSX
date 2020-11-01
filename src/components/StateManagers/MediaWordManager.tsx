@@ -1,8 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
 import { useMediaWordStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
-import blue_orb_directions from "../../resources/blue_orb_directions.json";
 
 type MediaWordDispatcher = {
   action: any;
@@ -16,7 +14,7 @@ type MediaWordDispatchData = {
   sndWord_up: MediaWordDispatcher;
   thirdWord_down: MediaWordDispatcher;
   thirdWord_up: MediaWordDispatcher;
-  select_blue_orb: MediaWordDispatcher;
+  throw_blue_orb: MediaWordDispatcher;
 };
 
 const MediaWordManager = (props: StateManagerProps) => {
@@ -54,7 +52,7 @@ const MediaWordManager = (props: StateManagerProps) => {
           action: addToWordPositionDataStructIdx,
           value: -1,
         },
-        select_blue_orb: {
+        throw_blue_orb: {
           action: resetWordPositionDataStructIdx,
         },
       };
@@ -66,19 +64,12 @@ const MediaWordManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject: any =
-        game_action_mappings[
-          props.eventState as keyof typeof blue_orb_directions
-        ];
+      const eventAction = props.eventState.event;
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
+      const dispatchedObject = dispatchObject(eventAction);
 
-        const dispatchedObject = dispatchObject(eventAction);
-
-        if (dispatchedObject) {
-          dispatchedObject.action(dispatchedObject.value);
-        }
+      if (dispatchedObject) {
+        dispatchedObject.action(dispatchedObject.value);
       }
     }
   }, [props.eventState, dispatchObject]);

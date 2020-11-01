@@ -52,17 +52,24 @@ export type GameContext = {
   blueOrbColIdx: number;
   currentLevel: string;
   siteRotIdx: string;
+  activeMediaComponent: string;
 };
 
 const EventManager = () => {
+  const currentScene = useSceneStore((state) => state.currentScene);
+
+  // main scene
   const blueOrbRowIdx = useBlueOrbStore((state) => state.blueOrbRowIdx);
   const blueOrbColIdx = useBlueOrbStore((state) => state.blueOrbColIdx);
-
   const siteRotIdx = useSiteStore((state) => state.siteRotIdx);
   const currentLevel = useLevelStore((state) => state.currentLevel);
 
+  // media scene
+  const activeMediaComponent = useMediaStore(
+    (state) => state.activeMediaComponent
+  );
+
   const [eventState, setEventState] = useState<any>();
-  const currentScene = useSceneStore((state) => state.currentScene);
 
   const [inputCooldown, setInputCooldown] = useState(false);
 
@@ -73,8 +80,16 @@ const EventManager = () => {
       blueOrbRowIdx: blueOrbRowIdx,
       blueOrbColIdx: blueOrbColIdx,
       currentLevel: currentLevel,
+      activeMediaComponent: activeMediaComponent,
     }),
-    [blueOrbColIdx, blueOrbRowIdx, currentLevel, currentScene, siteRotIdx]
+    [
+      activeMediaComponent,
+      blueOrbColIdx,
+      blueOrbRowIdx,
+      currentLevel,
+      currentScene,
+      siteRotIdx,
+    ]
   );
 
   const handleKeyPress = useCallback(
@@ -86,7 +101,7 @@ const EventManager = () => {
       if (keyPress && !inputCooldown) {
         gameContext.keyPress = keyPress;
         const event = computeAction(gameContext);
-        console.log(event)
+        console.log(event);
         setEventState(event);
       }
     },
@@ -109,12 +124,12 @@ const EventManager = () => {
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
-      {/*<MediaComponentManager eventState={eventState!} />*/}
-      {/*<MediaWordManager eventState={eventState!} />*/}
-      {/*<MediaElementManager eventState={eventState!} />*/}
+      <MediaComponentManager eventState={eventState!} />
+      <MediaWordManager eventState={eventState!} />
+      <MediaElementManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
       <YellowTextManager eventState={eventState!} />
-      {/*<MediaImageManager eventState={eventState!} />*/}
+      <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
     </>
   );

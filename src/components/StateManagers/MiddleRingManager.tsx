@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useMiddleRingStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
 
 const MiddleRingManager = (props: any) => {
   const setMiddleRingWobbleStrength = useMiddleRingStore(

@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
 import { useTextRendererStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
 import site_a from "../../resources/site_a.json";
 import { StateManagerProps } from "./EventManager";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
@@ -18,13 +17,12 @@ const GreenTextManager = (props: StateManagerProps) => {
   );
 
   const toggleAndSetGreenText = useCallback(
-    (targetBlueOrbId: string, targetBlueOrbHudId: string, delay: number) => {
+    (newActiveBlueOrbId: string, newActiveHudId: string, delay: number) => {
       const targetGreenText =
-        site_a[targetBlueOrbId as keyof typeof site_a].title;
+        site_a[newActiveBlueOrbId as keyof typeof site_a].title;
 
       const targetGreenTextPosData =
-        blue_orb_huds[targetBlueOrbHudId as keyof typeof blue_orb_huds]
-          .medium_text;
+        blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds].medium_text;
 
       toggleGreenText();
 
@@ -42,27 +40,27 @@ const GreenTextManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (event: string, targetBlueOrbId: string, targetBlueOrbHudId: string) => {
+    (event: string, newActiveBlueOrbId: string, newActiveHudId: string) => {
       const dispatcherObjects = {
         move_up: {
           action: toggleAndSetGreenText,
-          value: [targetBlueOrbId, targetBlueOrbHudId, 3903.704],
+          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
         },
         move_down: {
           action: toggleAndSetGreenText,
-          value: [targetBlueOrbId, targetBlueOrbHudId, 3903.704],
+          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
         },
         move_left: {
           action: toggleAndSetGreenText,
-          value: [targetBlueOrbId, targetBlueOrbHudId, 3903.704],
+          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
         },
         move_right: {
           action: toggleAndSetGreenText,
-          value: [targetBlueOrbId, targetBlueOrbHudId, 3903.704],
+          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
         },
         change_blue_orb: {
           action: toggleAndSetGreenText,
-          value: [targetBlueOrbId, targetBlueOrbHudId, 500],
+          value: [newActiveBlueOrbId, newActiveHudId, 500],
         },
       };
 
@@ -73,25 +71,18 @@ const GreenTextManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject: any =
-        game_action_mappings[
-          props.eventState as keyof typeof game_action_mappings
-        ];
+      const eventAction = props.eventState.event;
+      const newActiveBlueOrbId = props.eventState.newActiveBlueOrbId;
+      const newActiveHudId = props.eventState.newActiveHudId;
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
-        const targetBlueOrbId = eventObject.target_blue_orb_id;
-        const targetBlueOrbHudId = eventObject.target_hud_id;
+      const dispatchedObject = dispatchObject(
+        eventAction,
+        newActiveBlueOrbId,
+        newActiveHudId
+      );
 
-        const dispatchedObject = dispatchObject(
-          eventAction,
-          targetBlueOrbId,
-          targetBlueOrbHudId
-        );
-
-        if (dispatchedObject) {
-          dispatchedObject.action.apply(null, dispatchedObject.value as any);
-        }
+      if (dispatchedObject) {
+        dispatchedObject.action.apply(null, dispatchedObject.value as any);
       }
     }
   }, [props.eventState, dispatchObject]);
