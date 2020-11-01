@@ -1,22 +1,21 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
-import blue_orb_directions from "../../resources/blue_orb_directions.json";
 import { useSceneStore } from "../../store";
 
 const SceneManager = (props: StateManagerProps) => {
   const setScene = useSceneStore((state) => state.setScene);
 
   const dispatchObject = useCallback(
-    (event: string) => {
+    (event: string, newScene: string) => {
       const dispatcherObjects = {
-        select_blue_orb: {
+        throw_blue_orb: {
           action: setScene,
-          value: "media",
+          value: newScene,
           delay: 3904.704,
         },
         exit_select: {
           action: setScene,
-          value: "main",
+          value: newScene,
           delay: 0,
         },
       };
@@ -27,24 +26,10 @@ const SceneManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject =
-        blue_orb_directions[
-          props.eventState as keyof typeof blue_orb_directions
-        ];
+      const eventAction = props.eventState.event;
+      const newScene = props.eventState.newScene;
 
-      let dispatchedObject: {
-        action: (to: string) => void;
-        value: string;
-        delay: number;
-      };
-
-      if (eventObject) {
-        const eventAction = eventObject.action;
-        dispatchedObject = dispatchObject(eventAction);
-      } else {
-        const eventAction = props.eventState;
-        dispatchedObject = dispatchObject(eventAction);
-      }
+      const dispatchedObject = dispatchObject(eventAction, newScene);
 
       if (dispatchedObject) {
         setTimeout(() => {

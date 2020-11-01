@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
 import { useHudStore } from "../../store";
-import game_action_mappings from "../../resources/game_action_mappings.json";
 import { StateManagerProps } from "./EventManager";
 
 const BlueOrbHUDManager = (props: StateManagerProps) => {
@@ -46,28 +45,18 @@ const BlueOrbHUDManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventObject: any =
-        game_action_mappings[
-          props.eventState as keyof typeof game_action_mappings
-        ];
+      const eventAction = props.eventState.event;
+      const newActiveHudId = props.eventState.newActiveHudId;
 
-      if (eventObject) {
-        const eventAction = eventObject.action;
-        const targetBlueOrbHudId = eventObject.target_hud_id;
+      const dispatchedObject = dispatchObject(eventAction, newActiveHudId);
 
-        const dispatchedObject = dispatchObject(
-          eventAction,
-          targetBlueOrbHudId
-        );
+      if (dispatchedObject) {
+        toggleHud();
 
-        if (dispatchedObject) {
+        setTimeout(() => {
+          dispatchedObject.action(dispatchedObject.value);
           toggleHud();
-
-          setTimeout(() => {
-            dispatchedObject.action(dispatchedObject.value);
-            toggleHud();
-          }, dispatchedObject.actionDelay);
-        }
+        }, dispatchedObject.actionDelay);
       }
     }
   }, [props.eventState, setActiveBlueOrbHudId, toggleHud, dispatchObject]);

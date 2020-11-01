@@ -22,7 +22,7 @@ type BlueOrbDispatcher = {
   move_left: BlueOrbDispatchData;
   move_right: BlueOrbDispatchData;
   change_blue_orb: BlueOrbDispatchData;
-  select_blue_orb: BlueOrbDispatchData;
+  throw_blue_orb: BlueOrbDispatchData;
 };
 
 const BlueOrbManager = (props: StateManagerProps) => {
@@ -120,9 +120,9 @@ const BlueOrbManager = (props: StateManagerProps) => {
           value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
           actionDelay: 0,
         },
-        select_blue_orb: {
+        throw_blue_orb: {
           action: animateActiveBlueOrbThrow,
-          value: true,
+          value: [true],
           actionDelay: 0,
         },
       };
