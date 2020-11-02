@@ -71,7 +71,7 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       if (newBlueOrbColIdx > 3) {
         event = "move_right";
         newSiteRotIdx = (parseInt(gameContext.siteRotIdx) - 1).toString();
-        newBlueOrbColIdx = 0;
+        newBlueOrbColIdx = 3;
       } else {
         event = "change_blue_orb";
       }

@@ -101,7 +101,6 @@ const EventManager = () => {
       if (keyPress && !inputCooldown) {
         gameContext.keyPress = keyPress;
         const event = computeAction(gameContext);
-        console.log(event);
         setEventState(event);
       }
     },
