@@ -4,23 +4,39 @@ import { useLevelStore } from "../../store";
 
 const LevelManager = (props: StateManagerProps) => {
   const setCurrentLevel = useLevelStore((state) => state.setCurrentLevel);
+  const setActiveLevels = useLevelStore((state) => state.setActiveLevels);
 
+  const updateLevel = useCallback(
+    (newLevel: string) => {
+      setCurrentLevel(newLevel);
+      setTimeout(() => {
+        setActiveLevels([
+          (parseInt(newLevel) - 2).toString().padStart(2, "0"),
+          (parseInt(newLevel) - 1).toString().padStart(2, "0"),
+          parseInt(newLevel).toString().padStart(2, "0"),
+          (parseInt(newLevel) + 1).toString().padStart(2, "0"),
+          (parseInt(newLevel) + 2).toString().padStart(2, "0"),
+        ]);
+      }, 1500);
+    },
+    [setActiveLevels, setCurrentLevel]
+  );
   const dispatchObject = useCallback(
     (event: string, newLevel: string) => {
       const dispatcherObjects = {
         move_up: {
-          action: setCurrentLevel,
+          action: updateLevel,
           value: newLevel,
         },
         move_down: {
-          action: setCurrentLevel,
+          action: updateLevel,
           value: newLevel,
         },
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [setCurrentLevel]
+    [updateLevel]
   );
 
   useEffect(() => {

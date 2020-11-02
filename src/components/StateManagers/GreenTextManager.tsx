@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from "react";
-import { useTextRendererStore } from "../../store";
+import { MutableRefObject, useCallback, useEffect, useRef } from "react";
+import { useBlueOrbStore, useTextRendererStore } from "../../store";
 import site_a from "../../resources/site_a.json";
 import { StateManagerProps } from "./EventManager";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
@@ -16,8 +16,19 @@ const GreenTextManager = (props: StateManagerProps) => {
     (state) => state.toggleGreenText
   );
 
+  const blueOrbDataRef: MutableRefObject<
+    { activeBlueOrbId: string } | undefined
+  > = useRef();
+
+  const activeBlueOrbId = useBlueOrbStore((state) => state.activeBlueOrbId);
+
+  blueOrbDataRef.current = {
+    activeBlueOrbId: activeBlueOrbId,
+  };
+
   const toggleAndSetGreenText = useCallback(
     (newActiveBlueOrbId: string, newActiveHudId: string, delay: number) => {
+      console.log('s')
       const targetGreenText =
         site_a[newActiveBlueOrbId as keyof typeof site_a].title;
 
@@ -38,6 +49,17 @@ const GreenTextManager = (props: StateManagerProps) => {
     },
     [setGreenText, setGreenTextPosX, setGreenTextPosY, toggleGreenText]
   );
+
+  const initializeGreenTextForMediaScene = useCallback(() => {
+    setTimeout(() => {
+      setGreenText(
+        site_a[blueOrbDataRef.current!.activeBlueOrbId as keyof typeof site_a]
+          .node_name
+      );
+      setGreenTextPosX({ initial: 0.0, final: 0.009 });
+      setGreenTextPosY(0.675);
+    }, 3950);
+  }, [setGreenText, setGreenTextPosX, setGreenTextPosY]);
 
   const dispatchObject = useCallback(
     (event: string, newActiveBlueOrbId: string, newActiveHudId: string) => {
@@ -62,11 +84,15 @@ const GreenTextManager = (props: StateManagerProps) => {
           action: toggleAndSetGreenText,
           value: [newActiveBlueOrbId, newActiveHudId, 500],
         },
+        throw_blue_orb: {
+          action: initializeGreenTextForMediaScene,
+          value: [],
+        },
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [toggleAndSetGreenText]
+    [initializeGreenTextForMediaScene, toggleAndSetGreenText]
   );
 
   useEffect(() => {

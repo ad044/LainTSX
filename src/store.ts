@@ -134,7 +134,8 @@ type TextRendererState = {
   yellowTextPosX: number;
   yellowTextOffsetXCoeff: number;
   setYellowText: (to: string) => void;
-  incrementYellowTextPosY: (by: number) => void;
+  addToYellowTextPosY: (val: number) => void;
+  addToYellowTextPosX: (val: number) => void;
   setYellowTextPosY: (to: number) => void;
   setYellowTextPosX: (to: number) => void;
   setYellowTextOffsetXCoeff: (to: number) => void;
@@ -167,8 +168,10 @@ export const useTextRendererStore = create<TextRendererState>((set) => ({
   yellowTextPosX: -0.35,
   yellowTextOffsetXCoeff: 0,
   setYellowText: (to) => set(() => ({ yellowText: to })),
-  incrementYellowTextPosY: (by) =>
-    set((state) => ({ yellowTextPosY: state.yellowTextPosY + by })),
+  addToYellowTextPosY: (val) =>
+    set((state) => ({ yellowTextPosY: state.yellowTextPosY + val })),
+  addToYellowTextPosX: (val) =>
+    set((state) => ({ yellowTextPosX: state.yellowTextPosX + val })),
   setYellowTextPosY: (to) => set(() => ({ yellowTextPosY: to })),
   setYellowTextPosX: (to) => set(() => ({ yellowTextPosX: to })),
   setYellowTextOffsetXCoeff: (to) =>
@@ -283,7 +286,7 @@ export const useMiddleRingStore = create<MiddleRingState>((set) => ({
 
 export const useLevelStore = create<LevelState>((set) => ({
   currentLevel: "04",
-  activeLevels: ["03", "04", "05"],
+  activeLevels: ["02", "03", "04", "05", "06"],
   setActiveLevels: (to) => set(() => ({ activeLevels: to })),
   setCurrentLevel: (to) => set(() => ({ currentLevel: to })),
 }));
@@ -379,7 +382,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "media",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 

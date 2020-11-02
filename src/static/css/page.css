@@ -17,9 +17,9 @@
 }
 
 .canvas {
-  /*pointer-events: none;*/
-  position: relative;
-  z-index: -1;
+  pointer-events: none;
+  /*position: relative;*/
+  /*z-index: -1;*/
 }
 
 video {

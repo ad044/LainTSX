@@ -9,8 +9,10 @@ import {
 
 type AnimateYellowTextWithMove = (
   yellowLetterPosYOffset: number,
+  yellowLetterPosXOffset: number,
   newActiveHudId: string,
-  newActiveBlueOrbId: string
+  newActiveBlueOrbId: string,
+  delay: number
 ) => void;
 
 type AnimateYellowTextWithoutMove = (
@@ -62,8 +64,11 @@ const YellowTextManager = (props: any) => {
     (state) => state.setYellowTextOffsetXCoeff
   );
 
-  const incrementYellowTextPosY = useTextRendererStore(
-    (state) => state.incrementYellowTextPosY
+  const addToYellowTextPosY = useTextRendererStore(
+    (state) => state.addToYellowTextPosY
+  );
+  const addToYellowTextPosX = useTextRendererStore(
+    (state) => state.addToYellowTextPosX
   );
   const setYellowTextPosY = useTextRendererStore(
     (state) => state.setYellowTextPosY
@@ -74,15 +79,18 @@ const YellowTextManager = (props: any) => {
 
   const animateYellowTextWithMove: AnimateYellowTextWithMove = useCallback(
     (
+      yellowLetterPosXOffset: number,
       yellowLetterPosYOffset: number,
       newActiveHudId: string,
-      newActiveBlueOrbId: string
+      newActiveBlueOrbId: string,
+      delay: number
     ) => {
       // animate the letters to match that of site's
       // to create an illusion of not moving
       setTimeout(() => {
-        incrementYellowTextPosY(yellowLetterPosYOffset);
-      }, 1300);
+        addToYellowTextPosY(yellowLetterPosYOffset);
+        addToYellowTextPosX(yellowLetterPosXOffset);
+      }, delay);
 
       setTimeout(() => {
         // make current hud big text shrink
@@ -91,6 +99,7 @@ const YellowTextManager = (props: any) => {
 
       setTimeout(() => {
         // animate it to new pos x/y
+        console.log(newActiveHudId);
         setYellowTextPosX(
           blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds]
             .big_text[0]
@@ -111,7 +120,8 @@ const YellowTextManager = (props: any) => {
       }, 3900);
     },
     [
-      incrementYellowTextPosY,
+      addToYellowTextPosX,
+      addToYellowTextPosY,
       setYellowText,
       setYellowTextOffsetXCoeff,
       setYellowTextPosX,
@@ -222,19 +232,19 @@ const YellowTextManager = (props: any) => {
       const dispatcherObjects: YellowTextDispatcher = {
         move_up: {
           action: animateYellowTextWithMove,
-          value: [-1.5, newActiveHudId, newActiveBlueOrbId],
+          value: [0, -1.5, newActiveHudId, newActiveBlueOrbId, 1300],
         },
         move_down: {
           action: animateYellowTextWithMove,
-          value: [1.5, newActiveHudId, newActiveBlueOrbId],
+          value: [0, 1.5, newActiveHudId, newActiveBlueOrbId, 1300],
         },
         move_left: {
           action: animateYellowTextWithMove,
-          value: [newActiveHudId, newActiveBlueOrbId],
+          value: [Math.PI / 4, 0, newActiveHudId, newActiveBlueOrbId, 1100],
         },
         move_right: {
           action: animateYellowTextWithMove,
-          value: [newActiveHudId, newActiveBlueOrbId],
+          value: [-Math.PI / 4, 0, newActiveHudId, newActiveBlueOrbId, 1100],
         },
         change_blue_orb: {
           action: animateYellowTextWithoutMove,

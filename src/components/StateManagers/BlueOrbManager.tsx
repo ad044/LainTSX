@@ -13,7 +13,6 @@ type SetIsActiveBlueOrbInteractedWith = (value: boolean) => void;
 type BlueOrbDispatchData = {
   action: any;
   value: any;
-  actionDelay: number;
 };
 
 type BlueOrbDispatcher = {
@@ -76,13 +75,17 @@ const BlueOrbManager = (props: StateManagerProps) => {
 
   const updateActiveBlueOrb = useCallback(
     (
+      delay: number,
       newActiveBlueOrbId: string,
       newBlueOrbColIdx: number,
       newBlueOrbRowIdx: number
     ) => {
-      setActiveBlueOrb(newActiveBlueOrbId);
-      setBlueOrbColIdx(newBlueOrbColIdx);
-      setBlueOrbRowIdx(newBlueOrbRowIdx);
+      setActiveBlueOrb("");
+      setTimeout(() => {
+        setActiveBlueOrb(newActiveBlueOrbId);
+        setBlueOrbColIdx(newBlueOrbColIdx);
+        setBlueOrbRowIdx(newBlueOrbRowIdx);
+      }, delay);
     },
     [setActiveBlueOrb, setBlueOrbColIdx, setBlueOrbRowIdx]
   );
@@ -97,33 +100,47 @@ const BlueOrbManager = (props: StateManagerProps) => {
       const dispatcherObjects: BlueOrbDispatcher = {
         move_up: {
           action: updateActiveBlueOrb,
-          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
-          actionDelay: 3903.704,
+          value: [
+            3903.704,
+            newActiveBlueOrbId,
+            newBlueOrbColIdx,
+            newBlueOrbRowIdx,
+          ],
         },
         move_down: {
           action: updateActiveBlueOrb,
-          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
-          actionDelay: 3903.704,
+          value: [
+            3903.704,
+            newActiveBlueOrbId,
+            newBlueOrbColIdx,
+            newBlueOrbRowIdx,
+          ],
         },
         move_left: {
           action: updateActiveBlueOrb,
-          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
-          actionDelay: 3903.704,
+          value: [
+            3903.704,
+            newActiveBlueOrbId,
+            newBlueOrbColIdx,
+            newBlueOrbRowIdx,
+          ],
         },
         move_right: {
           action: updateActiveBlueOrb,
-          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
-          actionDelay: 3903.704,
+          value: [
+            3903.704,
+            newActiveBlueOrbId,
+            newBlueOrbColIdx,
+            newBlueOrbRowIdx,
+          ],
         },
         change_blue_orb: {
           action: updateActiveBlueOrb,
-          value: [newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
-          actionDelay: 0,
+          value: [0, newActiveBlueOrbId, newBlueOrbColIdx, newBlueOrbRowIdx],
         },
         throw_blue_orb: {
           action: animateActiveBlueOrbThrow,
-          value: [true],
-          actionDelay: 0,
+          value: [0, true],
         },
       };
 
@@ -146,12 +163,8 @@ const BlueOrbManager = (props: StateManagerProps) => {
         newBlueOrbRowIdx
       );
 
-      console.log(dispatchedObject)
-
       if (dispatchedObject) {
-        setTimeout(() => {
-          dispatchedObject.action.apply(null, dispatchedObject.value);
-        }, dispatchedObject.actionDelay);
+        dispatchedObject.action.apply(null, dispatchedObject.value);
       }
     }
   }, [props.eventState, setActiveBlueOrb, dispatchObject]);
