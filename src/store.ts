@@ -26,10 +26,8 @@ type BlueOrbState = {
   setActiveBlueOrbRotZ: (to: number) => void;
   setActiveBlueOrbId: (to: string) => void;
   setIsActiveBlueOrbInteractedWith: (to: boolean) => void;
-  blueOrbRowIdx: number;
-  blueOrbColIdx: number;
-  setBlueOrbRowIdx: (to: number) => void;
-  setBlueOrbColIdx: (to: number) => void;
+  blueOrbMatrixIndices: { rowIdx: number; colIdx: number };
+  setBlueOrbMatrixIndices: (to: { rowIdx: number; colIdx: number }) => void;
 };
 
 type LainState = {
@@ -128,7 +126,7 @@ type MediaState = {
   setMediaPercentageElapsed: (to: number) => void;
 };
 
-type TextRendererState = {
+export type TextRendererState = {
   yellowText: string;
   yellowTextPosY: number;
   yellowTextPosX: number;
@@ -209,9 +207,9 @@ export const useBlueOrbStore = create<BlueOrbState>((set) => ({
   setIsActiveBlueOrbInteractedWith: (to) =>
     set(() => ({ isActiveBlueOrbInteractedWith: to })),
   blueOrbRowIdx: 0,
-  setBlueOrbRowIdx: (to) => set(() => ({ blueOrbRowIdx: to })),
-  blueOrbColIdx: 0,
-  setBlueOrbColIdx: (to) => set(() => ({ blueOrbColIdx: to })),
+
+  blueOrbMatrixIndices: { rowIdx: 0, colIdx: 0 },
+  setBlueOrbMatrixIndices: (to) => set(() => ({ blueOrbMatrixIndices: to })),
 }));
 
 export const useLainStore = create<LainState>((set) => ({
@@ -382,7 +380,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "main",
+  currentScene: "gate",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 

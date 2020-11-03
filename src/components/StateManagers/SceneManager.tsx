@@ -8,7 +8,12 @@ const SceneManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, newScene: string) => {
       const dispatcherObjects = {
-        throw_blue_orb: {
+        throw_blue_orb_media: {
+          action: setScene,
+          value: newScene,
+          delay: 3904.704,
+        },
+        throw_blue_orb_gate: {
           action: setScene,
           value: newScene,
           delay: 3904.704,

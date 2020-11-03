@@ -1,4 +1,4 @@
-import React, { memo, Suspense, useMemo } from "react";
+import React, { memo, Suspense } from "react";
 import site_a from "../../resources/site_a.json";
 import Level from "./Level";
 import level_y_values from "../../resources/level_y_values.json";
@@ -6,8 +6,6 @@ import blue_orb_positions from "../../resources/blue_orb_positions.json";
 import BlueOrb from "./BlueOrb";
 import { a, useSpring } from "@react-spring/three";
 import { useBlueOrbStore, useLevelStore, useSiteStore } from "../../store";
-import { useLoader } from "react-three-fiber";
-import * as THREE from "three";
 
 const Site = memo(() => {
   const activeBlueOrbId = useBlueOrbStore((state) => state.activeBlueOrbId);

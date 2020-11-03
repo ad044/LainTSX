@@ -84,7 +84,7 @@ const GreenTextManager = (props: StateManagerProps) => {
           action: toggleAndSetGreenText,
           value: [newActiveBlueOrbId, newActiveHudId, 500],
         },
-        throw_blue_orb: {
+        throw_blue_orb_media: {
           action: initializeGreenTextForMediaScene,
           value: [],
         },

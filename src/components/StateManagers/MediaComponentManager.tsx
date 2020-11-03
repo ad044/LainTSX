@@ -101,7 +101,7 @@ const MediaComponentManager = (props: StateManagerProps) => {
           action: switchToLeftSide,
           value: "thirdWord",
         },
-        throw_blue_orb: {
+        throw_blue_orb_media: {
           action: setActiveMediaComponent,
           value: "play",
         },

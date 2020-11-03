@@ -28,7 +28,12 @@ const LainManager = (props: StateManagerProps) => {
           value: "move_right",
           duration: 3904.704,
         },
-        throw_blue_orb: {
+        throw_blue_orb_media: {
+          action: setLainMoveState,
+          value: "throwBlueOrb",
+          duration: 3904.704,
+        },
+        throw_blue_orb_gate: {
           action: setLainMoveState,
           value: "throwBlueOrb",
           duration: 3904.704,

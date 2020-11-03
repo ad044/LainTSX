@@ -41,7 +41,7 @@ type YellowTextDispatcher = {
   change_blue_orb: YellowTextDispatchData;
   play_down: YellowTextDispatchData;
   exit_up: YellowTextDispatchData;
-  throw_blue_orb: YellowTextDispatchData;
+  throw_blue_orb_media: YellowTextDispatchData;
   exit_media_scene: YellowTextDispatchData;
 };
 
@@ -258,7 +258,7 @@ const YellowTextManager = (props: any) => {
           action: animateMediaYellowText,
           value: ["Exit", [-0.8, -0.08, 0.6]],
         },
-        throw_blue_orb: {
+        throw_blue_orb_media: {
           action: initializeYellowTextForMediaScene,
         },
         exit_media_scene: {

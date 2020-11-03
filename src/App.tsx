@@ -8,6 +8,7 @@ import MediaPlayer from "./components/MediaScene/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
 import EventManager from "./components/StateManagers/EventManager";
 import { useSceneStore } from "./store";
+import GateScene from "./scenes/GateScene";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
     return {
       main: <MainScene />,
       media: <MediaScene />,
+      gate: <GateScene />,
     };
   }, []);
 
