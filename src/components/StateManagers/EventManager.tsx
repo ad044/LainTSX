@@ -48,8 +48,7 @@ export type StateManagerProps = {
 export type GameContext = {
   keyPress?: string;
   scene: string;
-  blueOrbRowIdx: number;
-  blueOrbColIdx: number;
+  blueOrbMatrixIndices: { rowIdx: number; colIdx: number };
   currentLevel: string;
   siteRotIdx: string;
   activeMediaComponent: string;
@@ -59,8 +58,9 @@ const EventManager = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
 
   // main scene
-  const blueOrbRowIdx = useBlueOrbStore((state) => state.blueOrbRowIdx);
-  const blueOrbColIdx = useBlueOrbStore((state) => state.blueOrbColIdx);
+  const blueOrbMatrixIndices = useBlueOrbStore(
+    (state) => state.blueOrbMatrixIndices
+  );
   const siteRotIdx = useSiteStore((state) => state.siteRotIdx);
   const currentLevel = useLevelStore((state) => state.currentLevel);
 
@@ -77,15 +77,13 @@ const EventManager = () => {
     () => ({
       scene: currentScene,
       siteRotIdx: siteRotIdx,
-      blueOrbRowIdx: blueOrbRowIdx,
-      blueOrbColIdx: blueOrbColIdx,
+      blueOrbMatrixIndices: blueOrbMatrixIndices,
       currentLevel: currentLevel,
       activeMediaComponent: activeMediaComponent,
     }),
     [
       activeMediaComponent,
-      blueOrbColIdx,
-      blueOrbRowIdx,
+      blueOrbMatrixIndices,
       currentLevel,
       currentScene,
       siteRotIdx,

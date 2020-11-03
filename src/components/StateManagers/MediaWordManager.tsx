@@ -14,7 +14,7 @@ type MediaWordDispatchData = {
   sndWord_up: MediaWordDispatcher;
   thirdWord_down: MediaWordDispatcher;
   thirdWord_up: MediaWordDispatcher;
-  throw_blue_orb: MediaWordDispatcher;
+  throw_blue_orb_media: MediaWordDispatcher;
 };
 
 const MediaWordManager = (props: StateManagerProps) => {
@@ -52,7 +52,7 @@ const MediaWordManager = (props: StateManagerProps) => {
           action: addToWordPositionDataStructIdx,
           value: -1,
         },
-        throw_blue_orb: {
+        throw_blue_orb_media: {
           action: resetWordPositionDataStructIdx,
         },
       };

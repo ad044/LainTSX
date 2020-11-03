@@ -49,7 +49,7 @@ const MediaImageManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, newActiveBlueOrbId: string) => {
       const dispatcherObjects = {
-        throw_blue_orb: {
+        throw_blue_orb_media: {
           action: updateSceneImages,
           value: newActiveBlueOrbId,
         },
