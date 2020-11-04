@@ -1,54 +1,37 @@
-import React, { useMemo } from "react";
+import React from "react";
+import gateText from "../../static/sprite/gate_pass.png";
+import gateTextUnderline from "../../static/sprite/gate_pass_underline.png";
+import gateBlueBinarySingularOne from "../../static/sprite/blue_binary_singular_one.png";
+import gateBlueBinarySingularZero from "../../static/sprite/blue_binary_singular_zero.png";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
+import GateMiddleObject from "./GateMiddleObject";
 
 const GateMiddle = () => {
-  const uniforms = useMemo(
-    () => ({
-      color1: {
-        value: new THREE.Color("white"),
-      },
-      color2: {
-        value: new THREE.Color("red"),
-      },
-    }),
-    []
-  );
-
-  const vertexShader = `
-    varying vec2 vUv;
-
-    void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-    `;
-
-  const fragmentShader = `
-    uniform vec3 color1;
-    uniform vec3 color2;
-    uniform float alpha;
-
-    varying vec2 vUv;
-    
-    void main() {
-        float alpha = smoothstep(0.0, 1.0, vUv.y);
-        float colorMix = smoothstep(1.0, 2.0, 1.8);
-
-        gl_FragColor = vec4(mix(color1, color2, colorMix), alpha);
-    }
-      `;
+  const gatePassTexture = useLoader(THREE.TextureLoader, gateText);
+  const gatePassUnderline = useLoader(THREE.TextureLoader, gateTextUnderline);
 
   return (
     <>
-      <mesh scale={[2,2,2]}>
-        <planeBufferGeometry attach="geometry"></planeBufferGeometry>
-        <shaderMaterial
+      <sprite scale={[1.5, 0.24, 0]} position={[0, 1.1, 0.07]} renderOrder={3}>
+        <spriteMaterial
           attach="material"
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-          uniforms={uniforms}
+          map={gatePassTexture}
+          transparent={true}
+          depthTest={false}
         />
-      </mesh>
+      </sprite>
+
+      <sprite scale={[4.2, 0.01, 0]} position={[0, 0.98, 0.07]} renderOrder={3}>
+        <spriteMaterial
+          attach="material"
+          map={gatePassUnderline}
+          transparent={true}
+          depthTest={false}
+        />
+      </sprite>
+
+      <GateMiddleObject />
     </>
   );
 };
