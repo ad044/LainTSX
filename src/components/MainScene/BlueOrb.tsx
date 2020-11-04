@@ -27,7 +27,7 @@ type BlueOrbContructorProps = {
   level: string;
 };
 
-const BlueOrb = memo((props: BlueOrbContructorProps) => {
+const BlueOrb = (props: BlueOrbContructorProps) => {
   // the game only has a couple of sprite that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -216,6 +216,6 @@ const BlueOrb = memo((props: BlueOrbContructorProps) => {
       )}
     </group>
   );
-});
+};
 
 export default BlueOrb;

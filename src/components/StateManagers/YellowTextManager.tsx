@@ -99,7 +99,6 @@ const YellowTextManager = (props: any) => {
 
       setTimeout(() => {
         // animate it to new pos x/y
-        console.log(newActiveHudId);
         setYellowTextPosX(
           blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds]
             .big_text[0]

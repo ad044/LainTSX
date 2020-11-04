@@ -57,7 +57,7 @@ const MainScene = () => {
           <HUD />
           <TextRenderer />
           <YellowOrb />
-          {/*<Starfield />*/}
+          <Starfield />
           <GrayPlanes />
           <Lights />
           <MiddleRing />

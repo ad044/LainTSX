@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, { useMemo } from "react";
+import React, {useEffect, useMemo} from "react";
 import { LetterProps } from "./TextRenderer";
 
 interface BigLetterProps extends LetterProps {

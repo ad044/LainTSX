@@ -28,7 +28,6 @@ const GreenTextManager = (props: StateManagerProps) => {
 
   const toggleAndSetGreenText = useCallback(
     (newActiveBlueOrbId: string, newActiveHudId: string, delay: number) => {
-      console.log('s')
       const targetGreenText =
         site_a[newActiveBlueOrbId as keyof typeof site_a].title;
 

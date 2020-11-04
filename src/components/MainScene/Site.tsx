@@ -39,24 +39,24 @@ const Site = memo(() => {
         {Object.entries(site_a).map((blueOrb) => {
           if (
             // (blueOrb as any)[1]["unlocked_by"] === "-1" &&
-            activeLevels.includes((blueOrb as any)[0].substr(0, 2))
+            activeLevels.includes(blueOrb[0].substr(0, 2))
           )
             return (
               <BlueOrb
-                sprite={(blueOrb as any)[1]["node_name"]}
+                sprite={blueOrb[1].node_name}
                 position={
-                  (blue_orb_positions as any)[(blueOrb as any)[0].substr(2)][
-                    "position"
-                  ]
+                  blue_orb_positions[
+                    blueOrb[0].substr(2) as keyof typeof blue_orb_positions
+                  ].position
                 }
                 rotation={
-                  (blue_orb_positions as any)[(blueOrb as any)[0].substr(2)][
-                    "rotation"
-                  ]
+                  blue_orb_positions[
+                    blueOrb[0].substr(2) as keyof typeof blue_orb_positions
+                  ].rotation
                 }
-                key={(blueOrb as any)[1]["node_name"]}
-                active={(blueOrb as any)[0] === activeBlueOrbId}
-                level={(blueOrb as any)[0].substr(0, 2)}
+                key={blueOrb[1].node_name}
+                active={blueOrb[0] === activeBlueOrbId}
+                level={blueOrb[0].substr(0, 2)}
               />
             );
         })}

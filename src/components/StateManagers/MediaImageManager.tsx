@@ -14,7 +14,6 @@ const MediaImageManager = (props: StateManagerProps) => {
         site_a[newActiveBlueOrbId as keyof typeof site_a].node_name;
       const images = image_table[node_name as keyof typeof image_table];
 
-      console.log(newActiveBlueOrbId);
       Object.values(images).forEach((img) => {
         switch (img.substr(img.length - 1)) {
           case "0":
@@ -64,9 +63,6 @@ const MediaImageManager = (props: StateManagerProps) => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
       const newActiveBlueOrbId = props.eventState.newActiveBlueOrbId;
-
-      console.log(eventAction);
-      console.log(newActiveBlueOrbId);
       const dispatchedObject = dispatchObject(eventAction, newActiveBlueOrbId);
 
       if (dispatchedObject) {
