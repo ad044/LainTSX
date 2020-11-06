@@ -1,5 +1,5 @@
 import { a, useSpring } from "@react-spring/three";
-import { OrbitControls } from "drei";
+import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect } from "react";
 import Site from "../components/MainScene/Site";
 import Lain from "../components/MainScene/Lain";
