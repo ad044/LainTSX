@@ -7,7 +7,7 @@ import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisua
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Lof from "../components/MediaScene/Lof";
-import { OrbitControls } from "drei";
+import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
 
 const MediaScene = () => {

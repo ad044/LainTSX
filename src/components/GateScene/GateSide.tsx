@@ -2,7 +2,7 @@ import React, { useMemo, useRef } from "react";
 import blueBinary from "../../static/sprite/blue_binary.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { OrbitControls } from "drei";
+import { OrbitControls } from "@react-three/drei";
 
 const GateSide = () => {
   const blueBinaryTex = useLoader(THREE.TextureLoader, blueBinary);

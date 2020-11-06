@@ -1,6 +1,6 @@
 import React from "react";
 import GateSide from "../components/GateScene/GateSide";
-import { OrbitControls } from "drei";
+import { OrbitControls } from "@react-three/drei";
 import GateMiddle from "../components/GateScene/GateMiddle";
 
 const GateScene = () => {
