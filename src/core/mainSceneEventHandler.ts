@@ -1,4 +1,4 @@
-import { GameContext } from "../components/StateManagers/EventManager";
+import { GameContext } from "./StateManagers/EventManager";
 import available_blue_orbs_on_projection from "../resources/available_blue_orbs_on_projection.json";
 import site_a from "../resources/site_a.json";
 

@@ -1,4 +1,4 @@
-import { GameContext } from "../components/StateManagers/EventManager";
+import { GameContext } from "./StateManagers/EventManager";
 import handleMainSceneEvent from "./mainSceneEventHandler";
 import handleMediaSceneEvent from "./mediaSceneEventHandler";
 

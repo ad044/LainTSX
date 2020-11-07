@@ -380,7 +380,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "gate",
+  currentScene: "boot",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
