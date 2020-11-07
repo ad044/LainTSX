@@ -18,7 +18,7 @@ import MediaElementManager from "./MediaElementManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
 import MediaImageManager from "./MediaImageManager";
-import computeAction from "../../core/computeAction";
+import computeAction from "../computeAction";
 import available_blue_orbs_on_projection from "../../resources/available_blue_orbs_on_projection.json";
 import LevelManager from "./LevelManager";
 

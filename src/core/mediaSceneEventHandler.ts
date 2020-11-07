@@ -1,4 +1,4 @@
-import { GameContext } from "../components/StateManagers/EventManager";
+import { GameContext } from "./StateManagers/EventManager";
 
 const handleMediaSceneEvent = (gameContext: GameContext) => {
   const keyPress = gameContext.keyPress;

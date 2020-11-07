@@ -6,9 +6,10 @@ import { Canvas } from "react-three-fiber";
 import Boot from "./components/Boot";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
-import EventManager from "./components/StateManagers/EventManager";
+import EventManager from "./core/StateManagers/EventManager";
 import { useSceneStore } from "./store";
 import GateScene from "./scenes/GateScene";
+import BootScene from "./scenes/BootScene";
 
 const App = () => {
   const [moveToGame, setMoveToGame] = useState(false);
@@ -26,6 +27,7 @@ const App = () => {
       main: <MainScene />,
       media: <MediaScene />,
       gate: <GateScene />,
+      boot: <BootScene />,
     };
   }, []);
 
