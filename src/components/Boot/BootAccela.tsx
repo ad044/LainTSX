@@ -5,7 +5,11 @@ import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
 
-const BootAccela = () => {
+type BootAccelaProps = {
+  visible: boolean;
+};
+
+const BootAccela = (props: BootAccelaProps) => {
   const accelaBootTex: any = useLoader(
     THREE.TextureLoader,
     accelaBootSpriteSheet
@@ -24,10 +28,18 @@ const BootAccela = () => {
 
   return (
     <>
-      <sprite scale={[0.35, 0.6, 0.35]} position={[0, 0.2, 0]}>
+      <sprite
+        scale={[0.35, 0.6, 0.35]}
+        position={[0, 0.2, 0]}
+        visible={props.visible}
+      >
         <spriteMaterial attach="material" map={accelaBootTex} />
       </sprite>
-      <sprite scale={[0.4, 0.6, 0.4]} position={[0, -0.5, 0]}>
+      <sprite
+        scale={[0.4, 0.6, 0.4]}
+        position={[0, -0.5, 0]}
+        visible={props.visible}
+      >
         <spriteMaterial attach="material" map={makeMeSadTex} />
       </sprite>
     </>
