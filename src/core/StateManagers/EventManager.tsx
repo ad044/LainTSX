@@ -21,6 +21,7 @@ import MediaImageManager from "./MediaImageManager";
 import computeAction from "../computeAction";
 import available_blue_orbs_on_projection from "../../resources/available_blue_orbs_on_projection.json";
 import LevelManager from "./LevelManager";
+import MainMenuManager from "./MainMenuManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -128,6 +129,7 @@ const EventManager = () => {
       <YellowTextManager eventState={eventState!} />
       <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
+      <MainMenuManager eventState={eventState!} />
     </>
   );
 };

@@ -159,6 +159,11 @@ type ImageState = {
   };
 };
 
+type MainMenuState ={
+  activeMainMenuElement: string;
+  setActiveMainMenuElement: (to: string) => void;
+}
+
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -383,6 +388,11 @@ export const useSceneStore = create<SceneState>((set) => ({
   currentScene: "boot",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
+
+export const useMainMenuStore = create<MainMenuState>(set=> ({
+  activeMainMenuElement: "authorize_user",
+  setActiveMainMenuElement: (to) => set(() => ({activeMainMenuElement: to}))
+}))
 
 export const useImageStore = create(
   combine(

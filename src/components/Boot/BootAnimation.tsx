@@ -8,12 +8,24 @@ import bootDangoText from "../../static/sprite/dango_text.png";
 import bootMisoShio from "../../static/sprite/miso_shio.png";
 import bootArrows from "../../static/sprite/boot_arrows.png";
 import bootStatusTexts from "../../static/sprite/boot_status_texts.png";
+import bootBackgroundText from "../../static/sprite/boot_background_text.png";
+import bootBackgroundDistortedTex from "../../static/sprite/distorted_text.png";
 
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
+import { OrbitControls } from "@react-three/drei";
 
-const BootAnimation = () => {
+type BootAnimationProps = {
+  visible: boolean;
+};
+
+const BootAnimation = (props: BootAnimationProps) => {
+  const [
+    backgroundFloatingTextShown,
+    setBackgroundFloatingTextShown,
+  ] = useState(false);
+
   const bootLofTex = useLoader(THREE.TextureLoader, bootLof);
   const bootBottomBarLeftTex = useLoader(
     THREE.TextureLoader,
@@ -29,6 +41,14 @@ const BootAnimation = () => {
   const bootMisoShioTex = useLoader(THREE.TextureLoader, bootMisoShio);
   const bootArrowsTex = useLoader(THREE.TextureLoader, bootArrows);
   const bootStatusTextsTex = useLoader(THREE.TextureLoader, bootStatusTexts);
+  const bootBackgroundTextTex = useLoader(
+    THREE.TextureLoader,
+    bootBackgroundText
+  );
+  const bootBackgroundDistortedTextTex = useLoader(
+    THREE.TextureLoader,
+    bootBackgroundDistortedTex
+  );
 
   const graySquareRef = useRef<THREE.SpriteMaterial>();
   const arrowRef = useRef<THREE.Object3D>();
@@ -41,6 +61,45 @@ const BootAnimation = () => {
       arrowRef.current.position.y =
         arrowRef.current.position.y === -1.04 ? -0.96 : -1.04;
     }
+
+    if (
+      backgroundFloatingTextShown &&
+      firstBackgroundTextRef.current &&
+      sndBackgroundTextRef.current &&
+      firstDistortedBackgroundTextRef.current &&
+      sndDistortedBackgroundTextRef.current
+    ) {
+      if (firstBackgroundTextRef.current.position.y > 3.5) {
+        firstBackgroundTextRef.current.position.y = -3.5;
+        firstBackgroundTextRef.current.position.x = -0.85;
+      } else {
+        firstBackgroundTextRef.current.position.y += 0.01;
+        firstBackgroundTextRef.current.position.x += 0.001;
+      }
+      if (sndBackgroundTextRef.current.position.y > 3.5) {
+        sndBackgroundTextRef.current.position.y = -3.5;
+        sndBackgroundTextRef.current.position.x = -0.85;
+      } else {
+        sndBackgroundTextRef.current.position.y += 0.01;
+        sndBackgroundTextRef.current.position.x += 0.001;
+      }
+
+      if (firstDistortedBackgroundTextRef.current.position.y > 2.8) {
+        firstDistortedBackgroundTextRef.current.position.y = -3;
+        firstDistortedBackgroundTextRef.current.position.x = 0;
+      } else {
+        firstDistortedBackgroundTextRef.current.position.y += 0.025;
+        firstDistortedBackgroundTextRef.current.position.x -= 0.013;
+      }
+
+      if (sndDistortedBackgroundTextRef.current.position.y > 2.8) {
+        sndDistortedBackgroundTextRef.current.position.y = -3;
+        sndDistortedBackgroundTextRef.current.position.x = 0;
+      } else {
+        sndDistortedBackgroundTextRef.current.position.y += 0.025;
+        sndDistortedBackgroundTextRef.current.position.x -= 0.013;
+      }
+    }
   });
 
   const currentBootStatusTextTex = useMemo(() => {
@@ -50,45 +109,49 @@ const BootAnimation = () => {
   }, [bootStatusTextsTex]);
 
   useEffect(() => {
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.y = 0.528;
-    }, 900);
+    if (props.visible) {
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.y = 0.528;
+      }, 900);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.y = 0.79;
-    }, 1200);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.y = 0.79;
+      }, 1200);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.y = 0.264;
-    }, 1500);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.y = 0.264;
+      }, 1500);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.y = 0.79;
-    }, 1600);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.y = 0.79;
+      }, 1600);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.x = 0.5;
-      currentBootStatusTextTex.offset.y = 0.264;
-    }, 2100);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.x = 0.5;
+        currentBootStatusTextTex.offset.y = 0.264;
+      }, 2100);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.x = 0;
-      currentBootStatusTextTex.offset.y = 0.005;
-    }, 2400);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.x = 0;
+        currentBootStatusTextTex.offset.y = 0.005;
+      }, 2400);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.y = 0.79;
-    }, 2500);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.y = 0.79;
+      }, 2500);
 
-    setTimeout(() => {
-      currentBootStatusTextTex.offset.x = 0.5;
-      currentBootStatusTextTex.offset.y = 0.005;
-      setBootOpacity(0);
-      setGraySquarePosY(0);
-      setLofPosX(1.3);
-      setLofPosY(1);
-    }, 4000);
-  }, [currentBootStatusTextTex.offset]);
+      setTimeout(() => {
+        currentBootStatusTextTex.offset.x = 0.5;
+        currentBootStatusTextTex.offset.y = 0.005;
+        setBootOpacity(0);
+        setGraySquarePosY(0);
+        setLofPosX(1.3);
+        setLofPosY(1);
+
+        setBackgroundFloatingTextShown(true);
+      }, 4200);
+    }
+  }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
 
   const [bootOpacity, setBootOpacity] = useState(1);
   const [graySquarePosY, setGraySquarePosY] = useState(-0.8);
@@ -107,73 +170,150 @@ const BootAnimation = () => {
     config: { duration: 600 },
   });
 
+  const firstBackgroundTextRef = useRef<THREE.Object3D>();
+  const sndBackgroundTextRef = useRef<THREE.Object3D>();
+  const firstDistortedBackgroundTextRef = useRef<THREE.Object3D>();
+  const sndDistortedBackgroundTextRef = useRef<THREE.Object3D>();
+
   return (
     <>
-      <a.sprite
-        scale={[1.2, 0.4, 0]}
-        position-x={positionState.lofPosX}
-        position-y={positionState.lofPosY}
-      >
-        <spriteMaterial attach="material" map={bootLofTex} />
-      </a.sprite>
-      <sprite scale={[2.2, 0.66, 0]} position={[-1.1, -0.8, 0]}>
-        <a.spriteMaterial
-          attach="material"
-          map={bootBottomBarLeftTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
-      <sprite scale={[2.2, 0.66, 0]} position={[1.1, -0.8, 0]}>
-        <a.spriteMaterial
-          attach="material"
-          map={bootBottomBarRightTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
-      <sprite scale={[0.2, 0.2, 0]} position={[0, -0.8, 0]}>
-        <a.spriteMaterial
-          attach="material"
-          map={bootPurpleSquareTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
-      <sprite scale={[1.4, 0.5, 0]} position={[-1.2, -1.17, 0]}>
-        <a.spriteMaterial
-          attach="material"
-          map={bootDangoTextTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
-      <sprite scale={[0.6, 0.15, 0]} position={[0.9, -1, 0]}>
-        <a.spriteMaterial
-          attach="material"
-          map={bootMisoShioTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
-      <sprite scale={[0.12, 0.06, 0]} position={[0.5, -0.96, 0]} ref={arrowRef}>
-        <a.spriteMaterial
-          attach="material"
-          map={bootArrowsTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
+      {props.visible ? (
+        <>
+          {/*we have two of each to create looping effect*/}
+          <a.sprite
+            scale={[1.5, 3.5, 0]}
+            renderOrder={-1}
+            position={[-0.85, -3.5, 0]}
+            ref={firstBackgroundTextRef}
+          >
+            <spriteMaterial
+              attach="material"
+              rotation={-0.1}
+              map={bootBackgroundTextTex}
+              transparent={true}
+              opacity={0.6}
+            />
+          </a.sprite>
+          <a.sprite
+            scale={[1.5, 3.5, 0]}
+            renderOrder={-1}
+            position={[-1.2, -7, 0]}
+            ref={sndBackgroundTextRef}
+          >
+            <spriteMaterial
+              attach="material"
+              rotation={-0.1}
+              map={bootBackgroundTextTex}
+              transparent={true}
+              opacity={0.6}
+            />
+          </a.sprite>
 
-      <sprite scale={[1.4, 0.2, 0]} position={[1.15, -1.2, 0]}>
-        <a.spriteMaterial
-          attach="material"
-          map={currentBootStatusTextTex}
-          opacity={bootState.bootOpacity}
-        />
-      </sprite>
+          <group position={[1, 0, 0]}>
+            <a.sprite
+              scale={[1, 3.5, 0]}
+              renderOrder={-1}
+              position={[0, -3.5, 0]}
+              ref={firstDistortedBackgroundTextRef}
+            >
+              <spriteMaterial
+                attach="material"
+                rotation={0.5}
+                map={bootBackgroundDistortedTextTex}
+                transparent={true}
+              />
+            </a.sprite>
+            <a.sprite
+              scale={[1, 3.5, 0]}
+              renderOrder={-1}
+              position={[1.55, -6.5, 0]}
+              ref={sndDistortedBackgroundTextRef}
+            >
+              <spriteMaterial
+                attach="material"
+                rotation={0.5}
+                map={bootBackgroundDistortedTextTex}
+                transparent={true}
+              />
+            </a.sprite>
+          </group>
 
-      <a.sprite scale={[0.2, 0.2, 0]} position-y={positionState.graySquarePosY}>
-        <spriteMaterial
-          attach="material"
-          map={bootGraySquareTex}
-          ref={graySquareRef}
-        />
-      </a.sprite>
+          <a.sprite
+            scale={[1.2, 0.4, 0]}
+            position-x={positionState.lofPosX}
+            position-y={positionState.lofPosY}
+          >
+            <spriteMaterial attach="material" map={bootLofTex} />
+          </a.sprite>
+          <sprite scale={[2.2, 0.66, 0]} position={[-1.1, -0.8, 0]}>
+            <a.spriteMaterial
+              attach="material"
+              map={bootBottomBarLeftTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+          <sprite scale={[2.2, 0.66, 0]} position={[1.1, -0.8, 0]}>
+            <a.spriteMaterial
+              attach="material"
+              map={bootBottomBarRightTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+          <sprite scale={[0.2, 0.2, 0]} position={[0, -0.8, 0]}>
+            <a.spriteMaterial
+              attach="material"
+              map={bootPurpleSquareTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+          <sprite scale={[1.4, 0.5, 0]} position={[-1.2, -1.17, 0]}>
+            <a.spriteMaterial
+              attach="material"
+              map={bootDangoTextTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+          <sprite scale={[0.6, 0.15, 0]} position={[0.9, -1, 0]}>
+            <a.spriteMaterial
+              attach="material"
+              map={bootMisoShioTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+          <sprite
+            scale={[0.12, 0.06, 0]}
+            position={[0.5, -0.96, 0]}
+            ref={arrowRef}
+          >
+            <a.spriteMaterial
+              attach="material"
+              map={bootArrowsTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+
+          <sprite scale={[1.4, 0.2, 0]} position={[1.15, -1.2, 0]}>
+            <a.spriteMaterial
+              attach="material"
+              map={currentBootStatusTextTex}
+              opacity={bootState.bootOpacity}
+            />
+          </sprite>
+
+          <a.sprite
+            scale={[0.2, 0.2, 0]}
+            position-y={positionState.graySquarePosY}
+          >
+            <spriteMaterial
+              attach="material"
+              map={bootGraySquareTex}
+              ref={graySquareRef}
+            />
+          </a.sprite>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

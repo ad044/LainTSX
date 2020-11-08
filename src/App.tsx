@@ -3,7 +3,6 @@ import MainScene from "./scenes/MainScene";
 import "./static/css/main_scene.css";
 import "./static/css/page.css";
 import { Canvas } from "react-three-fiber";
-import Boot from "./components/Boot";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
 import EventManager from "./core/StateManagers/EventManager";
@@ -12,7 +11,6 @@ import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
 
 const App = () => {
-  const [moveToGame, setMoveToGame] = useState(false);
   const currentScene = useSceneStore((state) => state.currentScene);
   useEffect(() => {
     document.title = "< index >";
@@ -33,8 +31,6 @@ const App = () => {
 
   return (
     <div id="game-root" className="game">
-      {/*<Boot setMoveToGame={setMoveToGame} />*/}
-      {/* {moveToGame ? <MainScene /> : <Boot setMoveToGame={setMoveToGame} />} */}
       <span className="canvas">
         <EventManager />
         <Canvas concurrent>
