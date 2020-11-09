@@ -1,6 +1,5 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
-import available_blue_orbs_on_projection from "./resources/available_blue_orbs_on_projection.json";
 
 type SceneState = {
   currentScene: string;
@@ -159,10 +158,17 @@ type ImageState = {
   };
 };
 
-type MainMenuState ={
+type BootState = {
+  activeBootSubScene: string;
+  setActiveBootSubScene: (to: string) => void;
+};
+
+type MainMenuState = {
   activeMainMenuElement: string;
+  authorizeUserPos: { x: number; y: number };
+  setAuthorizeUserPos: (to: { x: number; y: number }) => void;
   setActiveMainMenuElement: (to: string) => void;
-}
+};
 
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
@@ -389,10 +395,21 @@ export const useSceneStore = create<SceneState>((set) => ({
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
-export const useMainMenuStore = create<MainMenuState>(set=> ({
+export const useBootStore = create<BootState>((set) => ({
+  activeBootSubScene: "authorize_user",
+  setActiveBootSubScene: (to) => set(() => ({ activeBootSubScene: to })),
+}));
+
+export const useBootMainMenuStore = create<MainMenuState>((set) => ({
   activeMainMenuElement: "authorize_user",
-  setActiveMainMenuElement: (to) => set(() => ({activeMainMenuElement: to}))
-}))
+  authorizeUserPos: { x: 0, y: 0.5 },
+  setActiveMainMenuElement: (to: string) =>
+    set(() => ({ activeMainMenuElement: to })),
+  setAuthorizeUserPos: (to: { x: number; y: number }) =>
+    set(() => ({
+      authorizeUserPos: to,
+    })),
+}));
 
 export const useImageStore = create(
   combine(
