@@ -6,6 +6,7 @@ import BlueOrbManager from "./BlueOrbManager";
 import BlueOrbHUDManager from "./BlueOrbHUDManager";
 import {
   useBlueOrbStore,
+  useBootMainMenuStore,
   useLevelStore,
   useMediaStore,
   useSceneStore,
@@ -19,9 +20,9 @@ import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
 import MediaImageManager from "./MediaImageManager";
 import computeAction from "../computeAction";
-import available_blue_orbs_on_projection from "../../resources/available_blue_orbs_on_projection.json";
 import LevelManager from "./LevelManager";
 import MainMenuManager from "./MainMenuManager";
+import SubSceneManager from "./SubSceneManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -53,6 +54,7 @@ export type GameContext = {
   currentLevel: string;
   siteRotIdx: string;
   activeMediaComponent: string;
+  activeMainMenuElement: string;
 };
 
 const EventManager = () => {
@@ -70,6 +72,11 @@ const EventManager = () => {
     (state) => state.activeMediaComponent
   );
 
+  // boot scene
+  const activeMainMenuElement = useBootMainMenuStore(
+    (state) => state.activeMainMenuElement
+  );
+
   const [eventState, setEventState] = useState<any>();
 
   const [inputCooldown, setInputCooldown] = useState(false);
@@ -81,8 +88,10 @@ const EventManager = () => {
       blueOrbMatrixIndices: blueOrbMatrixIndices,
       currentLevel: currentLevel,
       activeMediaComponent: activeMediaComponent,
+      activeMainMenuElement: activeMainMenuElement,
     }),
     [
+      activeMainMenuElement,
       activeMediaComponent,
       blueOrbMatrixIndices,
       currentLevel,
@@ -130,6 +139,7 @@ const EventManager = () => {
       <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <MainMenuManager eventState={eventState!} />
+      <SubSceneManager eventState={eventState!} />
     </>
   );
 };

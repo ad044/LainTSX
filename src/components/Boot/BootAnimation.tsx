@@ -14,10 +14,10 @@ import bootBackgroundDistortedTex from "../../static/sprite/distorted_text.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
 
 type BootAnimationProps = {
   visible: boolean;
+  activeSubScene: string;
 };
 
 const BootAnimation = (props: BootAnimationProps) => {
@@ -149,7 +149,8 @@ const BootAnimation = (props: BootAnimationProps) => {
         setLofPosY(1);
 
         setBackgroundFloatingTextShown(true);
-      }, 4200);
+        //4200
+      }, 0);
     }
   }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
 
@@ -163,11 +164,12 @@ const BootAnimation = (props: BootAnimationProps) => {
     config: { duration: 300 },
   });
 
-  const positionState = useSpring({
+  const animationState = useSpring({
     graySquarePosY: graySquarePosY,
     lofPosX: lofPosX,
     lofPosY: lofPosY,
-    config: { duration: 600 },
+    lofOpacity: props.activeSubScene === "main_menu" ? 1 : 0,
+    config: { duration: 500 },
   });
 
   const firstBackgroundTextRef = useRef<THREE.Object3D>();
@@ -177,7 +179,18 @@ const BootAnimation = (props: BootAnimationProps) => {
 
   return (
     <>
-      {props.visible ? (
+      <a.sprite
+        scale={[1.2, 0.4, 0]}
+        position-x={animationState.lofPosX}
+        position-y={animationState.lofPosY}
+      >
+        <a.spriteMaterial
+          attach="material"
+          map={bootLofTex}
+          opacity={animationState.lofOpacity}
+        />
+      </a.sprite>
+      {props.visible && props.activeSubScene === "main_menu" ? (
         <>
           {/*we have two of each to create looping effect*/}
           <a.sprite
@@ -237,14 +250,6 @@ const BootAnimation = (props: BootAnimationProps) => {
               />
             </a.sprite>
           </group>
-
-          <a.sprite
-            scale={[1.2, 0.4, 0]}
-            position-x={positionState.lofPosX}
-            position-y={positionState.lofPosY}
-          >
-            <spriteMaterial attach="material" map={bootLofTex} />
-          </a.sprite>
           <sprite scale={[2.2, 0.66, 0]} position={[-1.1, -0.8, 0]}>
             <a.spriteMaterial
               attach="material"
@@ -302,7 +307,7 @@ const BootAnimation = (props: BootAnimationProps) => {
 
           <a.sprite
             scale={[0.2, 0.2, 0]}
-            position-y={positionState.graySquarePosY}
+            position-y={animationState.graySquarePosY}
           >
             <spriteMaterial
               attach="material"
