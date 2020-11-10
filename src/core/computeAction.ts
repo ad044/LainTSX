@@ -1,7 +1,7 @@
 import { GameContext } from "./StateManagers/EventManager";
 import handleMainSceneEvent from "./mainSceneEventHandler";
 import handleMediaSceneEvent from "./mediaSceneEventHandler";
-import handleBootMainMenuEvent from "./bootMainMenuEventHandler";
+import handleBootMainMenuEvent from "./bootEventHandler";
 
 const computeAction = (gameContext: GameContext) => {
   switch (gameContext.scene) {

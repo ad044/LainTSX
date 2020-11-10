@@ -6,11 +6,12 @@ import BlueOrbManager from "./BlueOrbManager";
 import BlueOrbHUDManager from "./BlueOrbHUDManager";
 import {
   useBlueOrbStore,
-  useBootMainMenuStore,
+  useBootStore,
   useLevelStore,
   useMediaStore,
   useSceneStore,
   useSiteStore,
+  useSubsceneStore,
 } from "../../store";
 import GreenTextManager from "./GreenTextManager";
 import MediaComponentManager from "./MediaComponentManager";
@@ -21,7 +22,7 @@ import YellowTextManager from "./YellowTextManager";
 import MediaImageManager from "./MediaImageManager";
 import computeAction from "../computeAction";
 import LevelManager from "./LevelManager";
-import MainMenuManager from "./MainMenuManager";
+import BootManager from "./BootManager";
 import SubSceneManager from "./SubSceneManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
@@ -50,6 +51,7 @@ export type StateManagerProps = {
 export type GameContext = {
   keyPress?: string;
   scene: string;
+  subscene: string;
   blueOrbMatrixIndices: { rowIdx: number; colIdx: number };
   currentLevel: string;
   siteRotIdx: string;
@@ -59,6 +61,7 @@ export type GameContext = {
 
 const EventManager = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
+  const currentSubscene = useSubsceneStore((state) => state.activeSubscene);
 
   // main scene
   const blueOrbMatrixIndices = useBlueOrbStore(
@@ -73,7 +76,7 @@ const EventManager = () => {
   );
 
   // boot scene
-  const activeMainMenuElement = useBootMainMenuStore(
+  const activeMainMenuElement = useBootStore(
     (state) => state.activeMainMenuElement
   );
 
@@ -84,6 +87,7 @@ const EventManager = () => {
   const gameContext: GameContext = useMemo(
     () => ({
       scene: currentScene,
+      subscene: currentSubscene,
       siteRotIdx: siteRotIdx,
       blueOrbMatrixIndices: blueOrbMatrixIndices,
       currentLevel: currentLevel,
@@ -96,6 +100,7 @@ const EventManager = () => {
       blueOrbMatrixIndices,
       currentLevel,
       currentScene,
+      currentSubscene,
       siteRotIdx,
     ]
   );
@@ -138,7 +143,7 @@ const EventManager = () => {
       <YellowTextManager eventState={eventState!} />
       <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
-      <MainMenuManager eventState={eventState!} />
+      <BootManager eventState={eventState!} />
       <SubSceneManager eventState={eventState!} />
     </>
   );

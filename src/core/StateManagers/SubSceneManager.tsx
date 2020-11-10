@@ -1,24 +1,29 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
-import { useBootStore } from "../../store";
+import { useSubsceneStore } from "../../store";
 
 const SubSceneManager = (props: StateManagerProps) => {
-  const setActiveBootSubScene = useBootStore(
-    (state) => state.setActiveBootSubScene
+  const setActiveSubscene = useSubsceneStore(
+    (state) => state.setActiveSubScene
   );
 
   const dispatchObject = useCallback(
     (event: string) => {
       const dispatcherObjects = {
         select_authorize_user: {
-          action: setActiveBootSubScene,
+          action: setActiveSubscene,
           value: "authorize_user",
+          delay: 0,
+        },
+        select_load_data: {
+          action: setActiveSubscene,
+          value: "load_data",
           delay: 0,
         },
       };
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [setActiveBootSubScene]
+    [setActiveSubscene]
   );
 
   useEffect(() => {
