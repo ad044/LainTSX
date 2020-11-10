@@ -169,6 +169,7 @@ const BootAnimation = (props: BootAnimationProps) => {
     lofPosX: lofPosX,
     lofPosY: lofPosY,
     lofOpacity: props.activeSubScene === "main_menu" ? 1 : 0,
+    graySquareOpacity: props.activeSubScene === "main_menu" ? 1 : 0,
     config: { duration: 500 },
   });
 
@@ -190,7 +191,18 @@ const BootAnimation = (props: BootAnimationProps) => {
           opacity={animationState.lofOpacity}
         />
       </a.sprite>
-      {props.visible && props.activeSubScene === "main_menu" ? (
+      <a.sprite
+        scale={[0.2, 0.2, 0]}
+        position-y={animationState.graySquarePosY}
+      >
+        <a.spriteMaterial
+          attach="material"
+          map={bootGraySquareTex}
+          ref={graySquareRef}
+          opacity={animationState.graySquareOpacity}
+        />
+      </a.sprite>
+      {props.visible && props.activeSubScene !== "authorize_user" ? (
         <>
           {/*we have two of each to create looping effect*/}
           <a.sprite
@@ -304,17 +316,6 @@ const BootAnimation = (props: BootAnimationProps) => {
               opacity={bootState.bootOpacity}
             />
           </sprite>
-
-          <a.sprite
-            scale={[0.2, 0.2, 0]}
-            position-y={animationState.graySquarePosY}
-          >
-            <spriteMaterial
-              attach="material"
-              map={bootGraySquareTex}
-              ref={graySquareRef}
-            />
-          </a.sprite>
         </>
       ) : (
         <></>

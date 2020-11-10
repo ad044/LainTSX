@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import BootAccela from "../components/Boot/BootAccela";
 import BootAnimation from "../components/Boot/BootAnimation";
 import BootMainMenuComponents from "../components/Boot/BootMainMenuComponents";
-import { useBootStore } from "../store";
+import { useSubsceneStore } from "../store";
 import BootAuthorizeUser from "../components/Boot/BootAuthorizeUser";
+import BootLoadData from "../components/Boot/BootLoadData";
 
 const BootScene = () => {
-  const activeBootSubScene = useBootStore((state) => state.activeBootSubScene);
+  const activeSubscene = useSubsceneStore((state) => state.activeSubscene);
 
   const [accelaVisible, setAccelaVisible] = useState(true);
   const [mainMenuVisible, setMainMenuVisible] = useState(false);
@@ -27,13 +28,14 @@ const BootScene = () => {
       <BootAccela visible={accelaVisible} />
       <BootAnimation
         visible={!accelaVisible}
-        activeSubScene={activeBootSubScene}
+        activeSubScene={activeSubscene}
       />
       <BootMainMenuComponents
         visible={mainMenuVisible}
-        activeSubScene={activeBootSubScene}
+        activeSubScene={activeSubscene}
       />
-      <BootAuthorizeUser visible={activeBootSubScene === "authorize_user"} />
+      <BootAuthorizeUser visible={activeSubscene === "authorize_user"} />
+      <BootLoadData visible={activeSubscene === "load_data"} />
     </perspectiveCamera>
   );
 };
