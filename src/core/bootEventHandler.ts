@@ -3,7 +3,7 @@ import { GameContext } from "./StateManagers/EventManager";
 const handleBootEvent = (gameContext: GameContext) => {
   const keyPress = gameContext.keyPress;
 
-  const activeMainMenuElement = gameContext.activeMainMenuElement;
+  const activeBootElement = gameContext.activeBootElement;
   const currentSubscene = gameContext.subscene;
 
   switch (keyPress) {
@@ -11,9 +11,10 @@ const handleBootEvent = (gameContext: GameContext) => {
     case "up":
     case "left":
     case "right":
+    case "back":
       return { event: `${currentSubscene}_${keyPress}` };
     case "select":
-      return { event: `select_${activeMainMenuElement}` };
+      return { event: `select_${activeBootElement}` };
   }
 };
 

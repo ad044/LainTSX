@@ -32,6 +32,7 @@ const getKeyCodeAssociation = (keyCode: number): string => {
     38: "up", // up arrow
     39: "right", // right arrow
     88: "select", // x key
+    90: "back", // z key
   };
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };
@@ -44,6 +45,7 @@ type EventState = {
   newActiveBlueOrbId: string;
   newSiteRotIdx: string;
 };
+
 export type StateManagerProps = {
   eventState: any;
 };
@@ -56,7 +58,7 @@ export type GameContext = {
   currentLevel: string;
   siteRotIdx: string;
   activeMediaComponent: string;
-  activeMainMenuElement: string;
+  activeBootElement: string;
 };
 
 const EventManager = () => {
@@ -76,9 +78,7 @@ const EventManager = () => {
   );
 
   // boot scene
-  const activeMainMenuElement = useBootStore(
-    (state) => state.activeMainMenuElement
-  );
+  const activeBootElement = useBootStore((state) => state.activeBootElement);
 
   const [eventState, setEventState] = useState<any>();
 
@@ -92,10 +92,10 @@ const EventManager = () => {
       blueOrbMatrixIndices: blueOrbMatrixIndices,
       currentLevel: currentLevel,
       activeMediaComponent: activeMediaComponent,
-      activeMainMenuElement: activeMainMenuElement,
+      activeBootElement: activeBootElement,
     }),
     [
-      activeMainMenuElement,
+      activeBootElement,
       activeMediaComponent,
       blueOrbMatrixIndices,
       currentLevel,

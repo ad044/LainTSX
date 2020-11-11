@@ -164,14 +164,8 @@ type SubsceneState = {
 };
 
 type MainMenuState = {
-  activeMainMenuElement: string;
-  authorizeUserPos: { x: number; y: number };
-  loadDataPos: { x: number; y: number };
-  setAuthorizeUserPos: (to: { x: number; y: number }) => void;
-  setActiveMainMenuElement: (to: string) => void;
-  setLoadDataPos: (to: { x: number; y: number }) => void;
-  activeLoadDataElement: string;
-  setActiveLoadDataElement: (to: string) => void;
+  activeBootElement: string;
+  setActiveBootElement: (to: string) => void;
 };
 
 export const useTextRendererStore = create<TextRendererState>((set) => ({
@@ -405,19 +399,8 @@ export const useSubsceneStore = create<SubsceneState>((set) => ({
 }));
 
 export const useBootStore = create<MainMenuState>((set) => ({
-  activeMainMenuElement: "authorize_user",
-  authorizeUserPos: { x: 0, y: 0.5 },
-  loadDataPos: { x: 0, y: -0.5 },
-  setActiveMainMenuElement: (to: string) =>
-    set(() => ({ activeMainMenuElement: to })),
-  setAuthorizeUserPos: (to) =>
-    set(() => ({
-      authorizeUserPos: to,
-    })),
-  setLoadDataPos: (to) => set(() => ({ loadDataPos: to })),
-  activeLoadDataElement: "yes",
-  setActiveLoadDataElement: (to: string) =>
-    set(() => ({ activeLoadDataElement: to })),
+  activeBootElement: "load_data_yes",
+  setActiveBootElement: (to: string) => set(() => ({ activeBootElement: to })),
 }));
 
 export const useImageStore = create(
