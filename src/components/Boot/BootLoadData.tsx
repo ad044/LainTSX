@@ -30,9 +30,7 @@ const BootLoadData = (props: BootLoadDataProps) => {
   const yesTex = useLoader(THREE.TextureLoader, yes);
   const noTex = useLoader(THREE.TextureLoader, no);
 
-  const activeLoadDataElement = useBootStore(
-    (state) => state.activeLoadDataElement
-  );
+  const activeBootElement = useBootStore((state) => state.activeBootElement);
 
   return (
     <>
@@ -67,7 +65,9 @@ const BootLoadData = (props: BootLoadDataProps) => {
             scale={[0.7, 0.3, 0]}
             renderOrder={2}
             position={
-              activeLoadDataElement === "yes" ? [-1.2, -0.2, 0] : [1.2, -0.2, 0]
+              activeBootElement === "load_data_yes"
+                ? [-1.2, -0.2, 0]
+                : [1.2, -0.2, 0]
             }
           >
             <spriteMaterial

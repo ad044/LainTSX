@@ -10,15 +10,21 @@ const SubSceneManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string) => {
       const dispatcherObjects = {
+        authorize_user_back: {
+          action: setActiveSubscene,
+          value: "main_menu",
+        },
         select_authorize_user: {
           action: setActiveSubscene,
           value: "authorize_user",
-          delay: 0,
         },
         select_load_data: {
           action: setActiveSubscene,
           value: "load_data",
-          delay: 0,
+        },
+        select_load_data_no: {
+          action: setActiveSubscene,
+          value: "main_menu",
         },
       };
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
@@ -33,9 +39,7 @@ const SubSceneManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction);
 
       if (dispatchedObject) {
-        setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value);
-        }, dispatchedObject.delay);
+        dispatchedObject.action(dispatchedObject.value);
       }
     }
   }, [props.eventState, dispatchObject]);

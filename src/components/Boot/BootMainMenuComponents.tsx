@@ -16,12 +16,7 @@ type BootMainMenuProps = {
 };
 
 const BootMainMenuComponents = (props: BootMainMenuProps) => {
-  const activeMainMenuElement = useBootStore(
-    (state) => state.activeMainMenuElement
-  );
-  const authorizeUserPos = useBootStore(
-    (state) => state.authorizeUserPos
-  );
+  const activeBootElement = useBootStore((state) => state.activeBootElement);
 
   const authorizeActiveTex = useLoader(THREE.TextureLoader, authorizeActive);
   const authorizeInactiveTex = useLoader(
@@ -37,57 +32,65 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
   const loadDataInactiveTex = useLoader(THREE.TextureLoader, loadDataInactive);
   const loadDataHeaderTex = useLoader(THREE.TextureLoader, loadDataHeader);
 
-  const loadDataPos = useBootStore((state) => state.loadDataPos);
-
-  const mainMenuAnimationState = useSpring({
-    authorizeUserPosX: authorizeUserPos.x,
-    authorizeUserPosY: authorizeUserPos.y,
-    authorizeUserOpacity: props.activeSubScene !== "load_data" ? 1 : 0,
-    loadDataOpacity: props.activeSubScene !== "authorize_user" ? 1 : 0,
-    loadDataPosX: loadDataPos.x,
-    loadDataPosY: loadDataPos.y,
-    config: { duration: 500 },
-  });
+  const loadDataTextState = useMemo(() => {
+    if (props.activeSubScene === "load_data") {
+      return {
+        scale: [1.4, 0.16, 0],
+        texture: loadDataHeaderTex,
+        position: { x: -1.13, y: -1 },
+      };
+    } else {
+      return {
+        scale: [1.4, 0.3, 0],
+        texture:
+          activeBootElement === "load_data"
+            ? loadDataActiveTex
+            : loadDataInactiveTex,
+        position: { x: 0, y: -0.5 },
+      };
+    }
+  }, [
+    activeBootElement,
+    loadDataActiveTex,
+    loadDataHeaderTex,
+    loadDataInactiveTex,
+    props.activeSubScene,
+  ]);
 
   const authorizeUserTextState = useMemo(() => {
     if (props.activeSubScene === "authorize_user") {
-      return { scale: [1.8, 0.16, 0], texture: authorizeUserHeaderTex };
+      return {
+        scale: [1.8, 0.16, 0],
+        texture: authorizeUserHeaderTex,
+        position: { x: 1.13, y: 1.2 },
+      };
     } else {
       return {
         scale: [1.8, 0.3, 0],
         texture:
-          activeMainMenuElement === "authorize_user"
+          activeBootElement === "authorize_user"
             ? authorizeActiveTex
             : authorizeInactiveTex,
+        position: { x: 0, y: 0.5 },
       };
     }
   }, [
-    activeMainMenuElement,
+    activeBootElement,
     authorizeActiveTex,
     authorizeInactiveTex,
     authorizeUserHeaderTex,
     props.activeSubScene,
   ]);
 
-  const loadDataTextState = useMemo(() => {
-    if (props.activeSubScene === "load_data") {
-      return { scale: [1.4, 0.16, 0], texture: loadDataHeaderTex };
-    } else {
-      return {
-        scale: [1.4, 0.3, 0],
-        texture:
-          activeMainMenuElement === "load_data"
-            ? loadDataActiveTex
-            : loadDataInactiveTex,
-      };
-    }
-  }, [
-    activeMainMenuElement,
-    loadDataActiveTex,
-    loadDataHeaderTex,
-    loadDataInactiveTex,
-    props.activeSubScene,
-  ]);
+  const mainMenuAnimationState = useSpring({
+    authorizeUserOpacity: props.activeSubScene !== "load_data" ? 1 : 0,
+    authorizeUserPosX: authorizeUserTextState.position.x,
+    authorizeUserPosY: authorizeUserTextState.position.y,
+    loadDataOpacity: props.activeSubScene !== "authorize_user" ? 1 : 0,
+    loadDataPosX: loadDataTextState.position.x,
+    loadDataPosY: loadDataTextState.position.y,
+    config: { duration: 500 },
+  });
 
   return (
     <>

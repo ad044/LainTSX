@@ -3,54 +3,50 @@ import { StateManagerProps } from "./EventManager";
 import { useBootStore } from "../../store";
 
 const BootManager = (props: StateManagerProps) => {
-  const setActiveMainMenuElement = useBootStore(
-    (state) => state.setActiveMainMenuElement
+  const setActiveBootElement = useBootStore(
+    (state) => state.setActiveBootElement
   );
-  const setActiveLoadDataElement = useBootStore(
-    (state) => state.setActiveLoadDataElement
-  );
-  const setAuthorizeUserPos = useBootStore(
-    (state) => state.setAuthorizeUserPos
-  );
-  const setLoadDataPos = useBootStore((state) => state.setLoadDataPos);
 
   const dispatchObject = useCallback(
     (event: string) => {
       const dispatcherObjects = {
         main_menu_down: {
-          action: setActiveMainMenuElement,
+          action: setActiveBootElement,
           value: "load_data",
         },
         main_menu_up: {
-          action: setActiveMainMenuElement,
+          action: setActiveBootElement,
           value: "authorize_user",
         },
         load_data_left: {
-          action: setActiveLoadDataElement,
-          value: "yes",
+          action: setActiveBootElement,
+          value: "load_data_yes",
         },
         load_data_right: {
-          action: setActiveLoadDataElement,
-          value: "no",
+          action: setActiveBootElement,
+          value: "load_data_no",
+        },
+        authorize_user_back: {
+          action: setActiveBootElement,
+          value: "authorize_user",
         },
         select_authorize_user: {
-          action: setAuthorizeUserPos,
-          value: { x: 1.13, y: 1.2 },
+          action: setActiveBootElement,
+          value: "authorize_user",
+        },
+        select_load_data_no: {
+          action: setActiveBootElement,
+          value: "load_data",
         },
         select_load_data: {
-          action: setLoadDataPos,
-          value: { x: -1.13, y: -1 },
-        },
+          action: setActiveBootElement,
+          value: "load_data_yes"
+        }
       };
 
       return dispatcherObjects[event as keyof typeof dispatcherObjects];
     },
-    [
-      setActiveLoadDataElement,
-      setActiveMainMenuElement,
-      setAuthorizeUserPos,
-      setLoadDataPos,
-    ]
+    [setActiveBootElement]
   );
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
 import authorizeGlass from "../../static/sprite/authorize_glass.png";
 import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
@@ -98,7 +98,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
           </sprite>
 
           <mesh
-            scale={[5*1.5, 1.28*1.5, 0]}
+            scale={[5 * 1.5, 1.28 * 1.5, 0]}
             position={[-1.06, -0.42, 0]}
             rotation={[-0.8, 0, -0.3]}
             renderOrder={-1}
