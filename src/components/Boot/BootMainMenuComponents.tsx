@@ -35,13 +35,11 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
   const loadDataTextState = useMemo(() => {
     if (props.activeSubScene === "load_data") {
       return {
-        scale: [1.4, 0.16, 0],
         texture: loadDataHeaderTex,
         position: { x: -1.13, y: -1 },
       };
     } else {
       return {
-        scale: [1.4, 0.3, 0],
         texture:
           activeBootElement === "load_data"
             ? loadDataActiveTex
@@ -111,7 +109,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
           </a.sprite>
 
           <a.sprite
-            scale={loadDataTextState.scale as [number, number, number]}
+            scale={[1.4, 0.3, 0]}
             renderOrder={1}
             position-x={mainMenuAnimationState.loadDataPosX}
             position-y={mainMenuAnimationState.loadDataPosY}

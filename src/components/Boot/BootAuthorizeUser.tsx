@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
 import authorizeGlass from "../../static/sprite/authorize_glass.png";
 import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
 import authorizeOrangeSquare from "../../static/sprite/authorize_orange_square.png";
 import authorizeStartToFinish from "../../static/sprite/authorize_start_to_finish.png";
 import authorizeInactiveLetters from "../../static/sprite/authorize_inactive_letters.png";
-import { useLoader } from "react-three-fiber";
+import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
 type BootAuthorizeUserProps = {
@@ -34,6 +34,8 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     THREE.TextureLoader,
     authorizeInactiveLetters
   );
+
+  const backgroundLetterRef = useRef<THREE.Object3D>();
 
   return (
     <>
@@ -98,10 +100,11 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
           </sprite>
 
           <mesh
-            scale={[5 * 1.5, 1.28 * 1.5, 0]}
-            position={[-1.06, -0.42, 0]}
-            rotation={[-0.8, 0, -0.3]}
+            scale={[4, 1.28, 0]}
+            position={[-1.06, 0.3, -0.3]}
+            rotation={[-1, 0, -0.3]}
             renderOrder={-1}
+            ref={backgroundLetterRef}
           >
             <planeBufferGeometry attach="geometry" />
             <meshBasicMaterial
