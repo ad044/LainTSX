@@ -5,7 +5,12 @@ import { a, useSpring, useSprings } from "@react-spring/three";
 import blue_digit_positions from "../../resources/blue_digit_positions.json";
 import Mirror from "./GateMiddleObject/Mirror";
 
-const GateMiddleObject = () => {
+type GateMiddleObjectProps = {
+  intro: boolean;
+  gateLvl: number;
+};
+
+const GateMiddleObject = (props: GateMiddleObjectProps) => {
   const [middleGroupPos, setMiddleGroupPos] = useState<number[]>();
 
   const [springs, set] = useSprings(44, (intIdx) => {
@@ -57,6 +62,7 @@ const GateMiddleObject = () => {
         position-x={middleObjectGroupState.posX}
         position-y={middleObjectGroupState.posY}
         position-z={middleObjectGroupState.posZ}
+        visible={props.intro}
       >
         {springs.map((item, idx) => {
           if (item.type) {
@@ -78,7 +84,24 @@ const GateMiddleObject = () => {
           }
         })}
       </a.group>
-      <Mirror />
+      <Mirror
+        visible={props.gateLvl === 1 ? !props.intro : props.gateLvl > 0}
+        rotation={[0, Math.PI / 2, 0]}
+        position={[0, 0, -0.4]}
+      />
+      <Mirror
+        visible={props.gateLvl === 2 ? !props.intro : props.gateLvl > 1}
+        rotation={[0, Math.PI / 2, 0]}
+        position={[0, 0, 0.5]}
+      />
+      <Mirror
+        visible={props.gateLvl === 3 ? !props.intro : props.gateLvl > 2}
+        position={[0.4, 0, 0.05]}
+      />
+      <Mirror
+        visible={props.gateLvl === 4 ? !props.intro : props.gateLvl > 3}
+        position={[-0.4, 0, 0.05]}
+      />
     </>
   );
 };

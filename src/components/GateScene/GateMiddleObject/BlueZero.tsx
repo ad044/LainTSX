@@ -59,7 +59,7 @@ const BlueZero = (props: BlueZeroProps) => {
       scale={[0.08, 0.1, 0]}
       position-x={props.posX}
       position-y={props.posY}
-      renderOrder={3}
+      renderOrder={5}
       visible={props.visibility}
     >
       <planeBufferGeometry attach="geometry"></planeBufferGeometry>
