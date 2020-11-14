@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GateSide from "../components/GateScene/GateSide";
 import { OrbitControls } from "@react-three/drei";
-import GateMiddle from "../components/GateScene/GateMiddle";
+import GateHUD from "../components/GateScene/GateHUD";
+import GateMiddleObject from "../components/GateScene/GateMiddleObject";
+import { useGateStore } from "../store";
 
 const GateScene = () => {
+  const gateLvl = useGateStore((state) => state.gateLvl);
+  const [introAnim, setIntroAnim] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIntroAnim(false);
+    }, 2500);
+  }, []);
+
   return (
     <perspectiveCamera position-z={3}>
       <pointLight intensity={5.2} color={0xffffff} position={[-2, 0, 0]} />
       <OrbitControls />
       <GateSide />
-      <GateMiddle />
+      <GateHUD intro={introAnim} gateLvl={gateLvl} />
+      <GateMiddleObject intro={introAnim} gateLvl={gateLvl} />
     </perspectiveCamera>
   );
 };

@@ -9,7 +9,12 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import GateMiddleObject from "./GateMiddleObject";
 
-const GateMiddle = () => {
+type GateMiddleProps = {
+  intro: boolean;
+  gateLvl: number;
+};
+
+const GateHUD = (props: GateMiddleProps) => {
   const gatePassTexture = useLoader(THREE.TextureLoader, gateText);
   const gatePassUnderline = useLoader(THREE.TextureLoader, gateTextUnderline);
   const gateAccessPassTexture = useLoader(
@@ -44,7 +49,12 @@ const GateMiddle = () => {
         />
       </sprite>
 
-      <sprite scale={[1.6, 0.1, 1]} position={[0, 0.8, 0.2]} renderOrder={3}>
+      <sprite
+        scale={[1.6, 0.1, 1]}
+        position={[0, 0.8, 0.2]}
+        renderOrder={3}
+        visible={!props.intro && props.gateLvl === 4}
+      >
         <spriteMaterial
           attach="material"
           map={changeSiteEnableTexture}
@@ -59,6 +69,7 @@ const GateMiddle = () => {
           map={gatePassUnderline}
           transparent={true}
           depthTest={false}
+          visible={!props.intro && props.gateLvl === 4}
         />
       </sprite>
 
@@ -72,6 +83,7 @@ const GateMiddle = () => {
           map={gateLeftThingTexture}
           transparent={true}
           depthTest={false}
+          visible={!props.intro && props.gateLvl === 4}
         />
       </sprite>
 
@@ -85,6 +97,7 @@ const GateMiddle = () => {
           map={gateRightThingTexture}
           transparent={true}
           depthTest={false}
+          visible={!props.intro && props.gateLvl === 4}
         />
       </sprite>
 
@@ -94,12 +107,11 @@ const GateMiddle = () => {
           map={gateAccessPassTexture}
           transparent={true}
           depthTest={false}
+          visible={!props.intro && props.gateLvl === 4}
         />
       </sprite>
-
-      <GateMiddleObject />
     </>
   );
 };
 
-export default GateMiddle;
+export default GateHUD;

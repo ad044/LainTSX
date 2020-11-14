@@ -168,6 +168,11 @@ type MainMenuState = {
   setActiveBootElement: (to: string) => void;
 };
 
+type GateState = {
+  gateLvl: number;
+  incrementGateLvl: () => void;
+};
+
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -389,12 +394,12 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "boot",
+  currentScene: "gate",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
 export const useSubsceneStore = create<SubsceneState>((set) => ({
-  activeSubscene: "load_data",
+  activeSubscene: "authorize_user",
   setActiveSubScene: (to) => set(() => ({ activeSubscene: to })),
 }));
 
@@ -414,3 +419,8 @@ export const useImageStore = create(
     })
   )
 );
+
+export const useGateStore = create<GateState>((set) => ({
+  gateLvl: 4,
+  incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
+}));

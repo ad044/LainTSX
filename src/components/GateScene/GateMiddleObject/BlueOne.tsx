@@ -58,7 +58,7 @@ const BlueOne = (props: BlueOneProps) => {
       scale={[0.04, 0.1, 0]}
       position-x={props.posX}
       position-y={props.posY}
-      renderOrder={3}
+      renderOrder={5}
       visible={props.visibility}
     >
       <planeBufferGeometry attach="geometry"></planeBufferGeometry>
