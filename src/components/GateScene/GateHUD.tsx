@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import gateText from "../../static/sprite/gate_pass.png";
 import gateTextUnderline from "../../static/sprite/gate_pass_underline.png";
 import gateTextAccessPass from "../../static/sprite/you_got_an_access_pass.png";
 import changeSiteEnable from "../../static/sprite/change_site_enable.png";
 import gateLeftThing from "../../static/sprite/left_gate_thing.png";
 import gateRightThing from "../../static/sprite/right_gate_thing.png";
-import { useLoader } from "react-three-fiber";
+import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import GateMiddleObject from "./GateMiddleObject";
 
 type GateMiddleProps = {
   intro: boolean;
@@ -15,6 +14,15 @@ type GateMiddleProps = {
 };
 
 const GateHUD = (props: GateMiddleProps) => {
+  const wordFont = useLoader(THREE.FontLoader, "/3d_fonts/MediaWord.blob");
+  const config = useMemo(
+    () => ({
+      font: wordFont,
+      size: 1,
+    }),
+    [wordFont]
+  );
+
   const gatePassTexture = useLoader(THREE.TextureLoader, gateText);
   const gatePassUnderline = useLoader(THREE.TextureLoader, gateTextUnderline);
   const gateAccessPassTexture = useLoader(
@@ -28,6 +36,16 @@ const GateHUD = (props: GateMiddleProps) => {
 
   const gateLeftThingTexture = useLoader(THREE.TextureLoader, gateLeftThing);
   const gateRightThingTexture = useLoader(THREE.TextureLoader, gateRightThing);
+
+  const pressAnyRef = useRef<THREE.Object3D>();
+
+  useEffect(() => {
+    setInterval(() => {
+      if (pressAnyRef.current && !props.intro) {
+        pressAnyRef.current.visible = !pressAnyRef.current.visible;
+      }
+    }, 500);
+  }, [props.intro]);
 
   return (
     <>
@@ -110,6 +128,35 @@ const GateHUD = (props: GateMiddleProps) => {
           visible={!props.intro && props.gateLvl === 4}
         />
       </sprite>
+
+      <group ref={pressAnyRef} visible={false}>
+        <mesh
+          scale={[0.17, 0.14, 0]}
+          position={[-0.8, -1.3, 0]}
+          renderOrder={5}
+        >
+          <textGeometry attach="geometry" args={["press ANY button", config]} />
+          <meshBasicMaterial
+            attach="material"
+            color={0xdb9200}
+            transparent={true}
+            depthTest={false}
+          />
+        </mesh>
+        <mesh
+          scale={[0.17, 0.14, 0]}
+          position={[-0.793, -1.308, 0]}
+          renderOrder={4}
+        >
+          <textGeometry attach="geometry" args={["press ANY button", config]} />
+          <meshBasicMaterial
+            attach="material"
+            color={0xad7400}
+            transparent={true}
+            depthTest={false}
+          />
+        </mesh>
+      </group>
     </>
   );
 };

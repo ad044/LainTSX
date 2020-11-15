@@ -81,23 +81,23 @@ const MediaComponentManager = (props: StateManagerProps) => {
           action: setActiveMediaComponent,
           value: "play",
         },
-        switch_to_right_side_from_play: {
+        play_right: {
           action: switchToRightSide,
           value: "play",
         },
-        switch_to_right_side_from_exit: {
+        exit_right: {
           action: switchToRightSide,
           value: "exit",
         },
-        switch_to_left_side_from_fstWord: {
+        fstWord_left: {
           action: switchToLeftSide,
           value: "fstWord",
         },
-        switch_to_left_side_from_sndWord: {
+        sndWord_left: {
           action: switchToLeftSide,
           value: "sndWord",
         },
-        switch_to_left_side_from_thirdWord: {
+        thirdWord_left: {
           action: switchToLeftSide,
           value: "thirdWord",
         },
