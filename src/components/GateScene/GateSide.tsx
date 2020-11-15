@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import blueBinary from "../../static/sprite/blue_binary.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
@@ -15,11 +15,13 @@ const GateSide = () => {
     return blueBinaryTex;
   }, [blueBinaryTex]);
 
-  useFrame(() => {
-    if (Date.now() % 2 === 0 && matRef.current) {
-      matRef.current.uniforms.offset.value += 0.5;
-    }
-  });
+  useEffect(() => {
+    setInterval(() => {
+      if (matRef.current) {
+        matRef.current.uniforms.offset.value += 0.5;
+      }
+    }, 50);
+  }, []);
 
   const matRef = useRef<THREE.ShaderMaterial>();
 
@@ -48,11 +50,11 @@ const GateSide = () => {
     varying vec2 vUv;
     
     void main() {
-        float alpha = smoothstep(0.7, 1.0, vUv.x);
+        float alpha = smoothstep(0.9, 1.0, vUv.x);
 
         vec4 t1 = texture2D(tex1,vUv * 5.0 + offset);
         
-        gl_FragColor = mix(t1, vec4(0,0,0,0), alpha);
+        gl_FragColor = mix(t1, vec4(0,0,0,0), alpha) * 0.8;
     }
       `;
 
@@ -64,21 +66,21 @@ const GateSide = () => {
     varying vec2 vUv;
     
     void main() {
-        float alpha = smoothstep(0.3, 1.0, vUv.x);
+        float alpha = smoothstep(1.0, 0.9, vUv.x);
 
         vec4 t1 = texture2D(tex1,vUv * 5.0 + offset);
         
-        gl_FragColor = mix(vec4(0,0,0,0), t1, alpha) * 1.4;
+        gl_FragColor = mix(vec4(0,0,0,0), t1, alpha) * 0.8;
     }
       `;
 
   return (
     <>
-      <OrbitControls />
       <mesh
         rotation={[0, 0.2, 0]}
-        position={[-1.4, 0, 1.5]}
+        position={[-1.7, 0, 1.5]}
         scale={[3, 1.5, 0]}
+        renderOrder={1}
       >
         <planeBufferGeometry attach="geometry"></planeBufferGeometry>
         <shaderMaterial
@@ -92,8 +94,9 @@ const GateSide = () => {
       </mesh>
       <mesh
         rotation={[0, -0.2, 0]}
-        position={[0.05, 0, 1.3]}
-        scale={[3, 1.5, 0]}
+        position={[1.7, 0, 1.5]}
+        scale={[-3, 1.5, 0]}
+        renderOrder={1}
       >
         <planeBufferGeometry attach="geometry"></planeBufferGeometry>
         <shaderMaterial
@@ -103,6 +106,7 @@ const GateSide = () => {
           fragmentShader={fragmentShaderRight}
           transparent={true}
           ref={matRef}
+          side={THREE.DoubleSide}
         />
       </mesh>
     </>

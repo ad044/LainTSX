@@ -20,7 +20,12 @@ const SceneManager = (props: StateManagerProps) => {
         },
         exit_select: {
           action: setScene,
-          value: newScene,
+          value: "main",
+          delay: 0,
+        },
+        exit_gate: {
+          action: setScene,
+          value: "main",
           delay: 0,
         },
       };

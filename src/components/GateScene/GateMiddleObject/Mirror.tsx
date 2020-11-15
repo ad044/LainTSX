@@ -36,7 +36,7 @@ const Mirror = (props: MirrorProps) => {
       mirrorGroupRef.current.rotation.y -= 0.03;
     }
     if (materialRef.current) {
-      tex.offset.y -= 0.01;
+      tex.offset.x -= 0.0025;
     }
   });
 
