@@ -8,12 +8,11 @@ const LevelManager = (props: StateManagerProps) => {
 
   const updateLevel = useCallback(
     (newLevel: string) => {
-      setCurrentLevel(newLevel);
       setTimeout(() => {
+        setCurrentLevel(newLevel);
         setActiveLevels([
           (parseInt(newLevel) - 2).toString().padStart(2, "0"),
           (parseInt(newLevel) - 1).toString().padStart(2, "0"),
-          parseInt(newLevel).toString().padStart(2, "0"),
           (parseInt(newLevel) + 1).toString().padStart(2, "0"),
           (parseInt(newLevel) + 2).toString().padStart(2, "0"),
         ]);

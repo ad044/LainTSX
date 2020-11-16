@@ -1,8 +1,9 @@
-import { MutableRefObject, useCallback, useEffect, useRef } from "react";
-import { useBlueOrbStore, useTextRendererStore } from "../../store";
-import site_a from "../../resources/site_a.json";
+import { useCallback, useEffect } from "react";
+import { useTextRendererStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 import blue_orb_huds from "../../resources/blue_orb_huds.json";
+import site_a from "../../resources/site_a.json";
+import { SiteType } from "../../components/MainScene/Site";
 
 const GreenTextManager = (props: StateManagerProps) => {
   const setGreenText = useTextRendererStore((state) => state.setGreenText);
@@ -16,20 +17,15 @@ const GreenTextManager = (props: StateManagerProps) => {
     (state) => state.toggleGreenText
   );
 
-  const blueOrbDataRef: MutableRefObject<
-    { activeBlueOrbId: string } | undefined
-  > = useRef();
-
-  const activeBlueOrbId = useBlueOrbStore((state) => state.activeBlueOrbId);
-
-  blueOrbDataRef.current = {
-    activeBlueOrbId: activeBlueOrbId,
-  };
-
   const toggleAndSetGreenText = useCallback(
-    (newActiveBlueOrbId: string, newActiveHudId: string, delay: number) => {
-      const targetGreenText =
-        site_a[newActiveBlueOrbId as keyof typeof site_a].title;
+    (
+      newActiveBlueOrbId: string,
+      newActiveHudId: string,
+      newLevel: string,
+      delay: number
+    ) => {
+      const targetGreenText = (site_a as SiteType)[newLevel][newActiveBlueOrbId]
+        .title;
 
       const targetGreenTextPosData =
         blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds].medium_text;
@@ -49,47 +45,44 @@ const GreenTextManager = (props: StateManagerProps) => {
     [setGreenText, setGreenTextPosX, setGreenTextPosY, toggleGreenText]
   );
 
-  const initializeGreenTextForMediaScene = useCallback(() => {
-    setTimeout(() => {
-      setGreenText(
-        site_a[blueOrbDataRef.current!.activeBlueOrbId as keyof typeof site_a]
-          .node_name
-      );
-      setGreenTextPosX({ initial: 0.0, final: 0.009 });
-      setGreenTextPosY(0.675);
-    }, 3950);
-  }, [setGreenText, setGreenTextPosX, setGreenTextPosY]);
+  const initializeGreenTextForMediaScene = useCallback(
+    (activeBlueOrbId: string, level: string) => {
+      setTimeout(() => {
+        setGreenText((site_a as SiteType)[level][activeBlueOrbId].node_name);
+        setGreenTextPosX({ initial: 0.0, final: 0.009 });
+        setGreenTextPosY(0.675);
+      }, 3950);
+    },
+    [setGreenText, setGreenTextPosX, setGreenTextPosY]
+  );
 
   const dispatchObject = useCallback(
-    (event: string, newActiveBlueOrbId: string, newActiveHudId: string) => {
-      const dispatcherObjects = {
-        move_up: {
-          action: toggleAndSetGreenText,
-          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
-        },
-        move_down: {
-          action: toggleAndSetGreenText,
-          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
-        },
-        move_left: {
-          action: toggleAndSetGreenText,
-          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
-        },
-        move_right: {
-          action: toggleAndSetGreenText,
-          value: [newActiveBlueOrbId, newActiveHudId, 3903.704],
-        },
-        change_blue_orb: {
-          action: toggleAndSetGreenText,
-          value: [newActiveBlueOrbId, newActiveHudId, 500],
-        },
-        throw_blue_orb_media: {
-          action: initializeGreenTextForMediaScene,
-          value: [],
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+    (
+      event: string,
+      newActiveBlueOrbId: string,
+      newActiveHudId: string,
+      newLevel: string
+    ) => {
+      switch (event) {
+        case "move_up":
+        case "move_down":
+        case "move_left":
+        case "move_right":
+          return {
+            action: toggleAndSetGreenText,
+            value: [newActiveBlueOrbId, newActiveHudId, newLevel, 3903.704],
+          };
+        case "change_blue_orb":
+          return {
+            action: toggleAndSetGreenText,
+            value: [newActiveBlueOrbId, newActiveHudId, newLevel, 500],
+          };
+        case "throw_blue_orb_media":
+          return {
+            action: initializeGreenTextForMediaScene,
+            value: [newActiveBlueOrbId, newLevel],
+          };
+      }
     },
     [initializeGreenTextForMediaScene, toggleAndSetGreenText]
   );
@@ -99,11 +92,13 @@ const GreenTextManager = (props: StateManagerProps) => {
       const eventAction = props.eventState.event;
       const newActiveBlueOrbId = props.eventState.newActiveBlueOrbId;
       const newActiveHudId = props.eventState.newActiveHudId;
+      const newLevel = props.eventState.newLevel;
 
       const dispatchedObject = dispatchObject(
         eventAction,
         newActiveBlueOrbId,
-        newActiveHudId
+        newActiveHudId,
+        newLevel
       );
 
       if (dispatchedObject) {

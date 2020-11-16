@@ -10,35 +10,23 @@ const BlueOrbHUDManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string, targetBlueOrbHudId: string) => {
-      const dispatcherObjects = {
-        move_up: {
-          action: setActiveBlueOrbHudId,
-          value: targetBlueOrbHudId,
-          actionDelay: 3903.704,
-        },
-        move_down: {
-          action: setActiveBlueOrbHudId,
-          value: targetBlueOrbHudId,
-          actionDelay: 3903.704,
-        },
-        move_left: {
-          action: setActiveBlueOrbHudId,
-          value: targetBlueOrbHudId,
-          actionDelay: 3903.704,
-        },
-        move_right: {
-          action: setActiveBlueOrbHudId,
-          value: targetBlueOrbHudId,
-          actionDelay: 3903.704,
-        },
-        change_blue_orb: {
-          action: setActiveBlueOrbHudId,
-          value: targetBlueOrbHudId,
-          actionDelay: 500,
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "move_up":
+        case "move_down":
+        case "move_left":
+        case "move_right":
+          return {
+            action: setActiveBlueOrbHudId,
+            value: targetBlueOrbHudId,
+            actionDelay: 3903.704,
+          };
+        case "change_blue_orb":
+          return {
+            action: setActiveBlueOrbHudId,
+            value: targetBlueOrbHudId,
+            actionDelay: 500,
+          };
+      }
     },
     [setActiveBlueOrbHudId]
   );

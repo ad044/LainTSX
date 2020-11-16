@@ -23,7 +23,7 @@ type BlueOrbContructorProps = {
   sprite: string;
   position: number[];
   rotation: number[];
-  active: boolean;
+  active?: boolean;
   level: string;
 };
 
