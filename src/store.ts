@@ -298,7 +298,7 @@ export const useMiddleRingStore = create<MiddleRingState>((set) => ({
 
 export const useLevelStore = create<LevelState>((set) => ({
   currentLevel: "04",
-  activeLevels: ["02", "03", "04", "05", "06"],
+  activeLevels: ["02", "03", "05", "06"],
   setActiveLevels: (to) => set(() => ({ activeLevels: to })),
   setCurrentLevel: (to) => set(() => ({ currentLevel: to })),
 }));
@@ -394,7 +394,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "gate",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 

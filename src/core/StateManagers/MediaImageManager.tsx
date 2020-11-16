@@ -1,18 +1,24 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 import { StateManagerProps } from "./EventManager";
 import site_a from "../../resources/site_a.json";
 import image_table from "../../resources/image_table.json";
-import { ImageSrc, useImageStore } from "../../store";
+import { ImageSrc, useImageStore, useLevelStore } from "../../store";
+import { LevelType } from "../../components/MainScene/Site";
 
 const MediaImageManager = (props: StateManagerProps) => {
   const setImages = useImageStore((state) => state.setImages);
 
+  const currentLevel = useLevelStore((state) => state.currentLevel);
+  const currentLevelData: LevelType = useMemo(
+    () => site_a[currentLevel as keyof typeof site_a],
+    [currentLevel]
+  );
+
   const updateSceneImages = useCallback(
     (newActiveBlueOrbId: string) => {
-      const node_name =
-        site_a[newActiveBlueOrbId as keyof typeof site_a].node_name;
-      const images = image_table[node_name as keyof typeof image_table];
+      const nodeName = currentLevelData[newActiveBlueOrbId].node_name;
+      const images = image_table[nodeName as keyof typeof image_table];
 
       Object.values(images).forEach((img) => {
         switch (img.substr(img.length - 1)) {
@@ -42,7 +48,7 @@ const MediaImageManager = (props: StateManagerProps) => {
         }
       });
     },
-    [setImages]
+    [currentLevelData, setImages]
   );
 
   const dispatchObject = useCallback(

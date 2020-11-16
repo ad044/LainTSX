@@ -83,7 +83,6 @@ const BlueOrbManager = (props: StateManagerProps) => {
       newBlueOrbColIdx: number,
       newBlueOrbRowIdx: number
     ) => {
-      if (isMoving) setActiveBlueOrb("");
       setTimeout(() => {
         setActiveBlueOrb(newActiveBlueOrbId);
         setBlueOrbMatrixIndices({
@@ -102,68 +101,39 @@ const BlueOrbManager = (props: StateManagerProps) => {
       newBlueOrbColIdx: number,
       newBlueOrbRowIdx: number
     ) => {
-      const dispatcherObjects: BlueOrbDispatcher = {
-        move_up: {
-          action: updateActiveBlueOrb,
-          value: [
-            3903.704,
-            true,
-            newActiveBlueOrbId,
-            newBlueOrbColIdx,
-            newBlueOrbRowIdx,
-          ],
-        },
-        move_down: {
-          action: updateActiveBlueOrb,
-          value: [
-            3903.704,
-            true,
-            newActiveBlueOrbId,
-            newBlueOrbColIdx,
-            newBlueOrbRowIdx,
-          ],
-        },
-        move_left: {
-          action: updateActiveBlueOrb,
-          value: [
-            3903.704,
-            true,
-            newActiveBlueOrbId,
-            newBlueOrbColIdx,
-            newBlueOrbRowIdx,
-          ],
-        },
-        move_right: {
-          action: updateActiveBlueOrb,
-          value: [
-            3903.704,
-            true,
-            newActiveBlueOrbId,
-            newBlueOrbColIdx,
-            newBlueOrbRowIdx,
-          ],
-        },
-        change_blue_orb: {
-          action: updateActiveBlueOrb,
-          value: [
-            0,
-            false,
-            newActiveBlueOrbId,
-            newBlueOrbColIdx,
-            newBlueOrbRowIdx,
-          ],
-        },
-        throw_blue_orb_media: {
-          action: animateActiveBlueOrbThrow,
-          value: [0, true],
-        },
-        throw_blue_orb_gate: {
-          action: animateActiveBlueOrbThrow,
-          value: [0, true],
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "move_up":
+        case "move_down":
+        case "move_left":
+        case "move_right":
+          return {
+            action: updateActiveBlueOrb,
+            value: [
+              3903.704,
+              true,
+              newActiveBlueOrbId,
+              newBlueOrbColIdx,
+              newBlueOrbRowIdx,
+            ],
+          };
+        case "change_blue_orb":
+          return {
+            action: updateActiveBlueOrb,
+            value: [
+              0,
+              false,
+              newActiveBlueOrbId,
+              newBlueOrbColIdx,
+              newBlueOrbRowIdx,
+            ],
+          };
+        case "throw_blue_orb_media":
+        case "throw_blue_orb_gate":
+          return {
+            action: animateActiveBlueOrbThrow,
+            value: [0, true],
+          };
+      }
     },
     [animateActiveBlueOrbThrow, updateActiveBlueOrb]
   );
@@ -183,7 +153,7 @@ const BlueOrbManager = (props: StateManagerProps) => {
       );
 
       if (dispatchedObject) {
-        dispatchedObject.action.apply(null, dispatchedObject.value);
+        dispatchedObject.action.apply(null, dispatchedObject.value as never);
       }
     }
   }, [props.eventState, setActiveBlueOrb, dispatchObject]);

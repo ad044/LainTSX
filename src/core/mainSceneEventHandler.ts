@@ -96,8 +96,8 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
           newSiteRotIdx as keyof typeof available_blue_orbs_on_projection
         ][newBlueOrbRowIdx as number][newBlueOrbColIdx as number];
 
-      const blueOrbType =
-        site_a[newActiveBlueOrbId as keyof typeof site_a].type;
+      const blueOrbType = (site_a as any)[newLevel][newActiveBlueOrbId]
+        .type;
 
       const eventAnimation = "throw_blue_orb_";
 

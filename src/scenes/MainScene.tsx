@@ -9,10 +9,16 @@ import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import Starfield from "../components/MainScene/Starfield";
-import {useBlueOrbStore, useHudStore, useLainStore, useMainGroupStore} from "../store";
+import {
+  useBlueOrbStore,
+  useHudStore,
+  useLainStore,
+  useMainGroupStore,
+} from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
+import CurrentLevelNodes from "../components/MainScene/CurrentLevelNodes";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
@@ -54,6 +60,7 @@ const MainScene = () => {
         >
           <Preloader />
           <Site />
+          <CurrentLevelNodes />
           <HUD />
           <TextRenderer />
           <YellowOrb />

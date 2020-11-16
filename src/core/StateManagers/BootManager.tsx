@@ -9,42 +9,41 @@ const BootManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string) => {
-      const dispatcherObjects = {
-        main_menu_down: {
-          action: setActiveBootElement,
-          value: "load_data",
-        },
-        main_menu_up: {
-          action: setActiveBootElement,
-          value: "authorize_user",
-        },
-        load_data_left: {
-          action: setActiveBootElement,
-          value: "load_data_yes",
-        },
-        load_data_right: {
-          action: setActiveBootElement,
-          value: "load_data_no",
-        },
-        authorize_user_back: {
-          action: setActiveBootElement,
-          value: "authorize_user",
-        },
-        select_authorize_user: {
-          action: setActiveBootElement,
-          value: "authorize_user",
-        },
-        select_load_data_no: {
-          action: setActiveBootElement,
-          value: "load_data",
-        },
-        select_load_data: {
-          action: setActiveBootElement,
-          value: "load_data_yes"
-        }
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "main_menu_down":
+          return {
+            action: setActiveBootElement,
+            value: "load_data",
+          };
+        case "main_menu_up":
+          return {
+            action: setActiveBootElement,
+            value: "authorize_user",
+          };
+        case "load_data_left":
+          return {
+            action: setActiveBootElement,
+            value: "load_data_yes",
+          };
+        case "load_data_right":
+          return {
+            action: setActiveBootElement,
+            value: "load_data_no",
+          };
+        case "authorize_user_back":
+        case "select_authorize_user":
+          return {
+            action: setActiveBootElement,
+            value: "authorize_user",
+          };
+        case "load_data_no":
+          return {
+            action: setActiveBootElement,
+            value: "load_data",
+          };
+        case "select_load_data":
+          return { action: setActiveBootElement, value: "load_data_yes" };
+      }
     },
     [setActiveBootElement]
   );
