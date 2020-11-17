@@ -10,7 +10,7 @@ import longHudSpriteSheet from "../static/sprite/long_hud.png";
 import longHudMirroredSpriteSheet from "../static/sprite/long_hud_mirrored.png";
 import boringHudSpriteSheet from "../static/sprite/long_hud_boring.png";
 import boringHudMirroredSpriteSheet from "../static/sprite/long_hud_boring_mirrored.png";
-import throwBlueOrbSpriteSheet from "../static/sprite/throw_blue_orb.png";
+import throwNodeSpriteSheet from "../static/sprite/throw_node.png";
 
 import * as THREE from "three";
 import { useLoader, useThree } from "react-three-fiber";
@@ -25,7 +25,7 @@ const Preloader = () => {
   const moveLeft = useLoader(THREE.TextureLoader, moveLeftSpriteSheet);
   const moveRight = useLoader(THREE.TextureLoader, moveRightSpriteSheet);
   const stand = useLoader(THREE.TextureLoader, standingSpriteSheet);
-  const throwBlueOrb = useLoader(THREE.TextureLoader, throwBlueOrbSpriteSheet);
+  const throwNode = useLoader(THREE.TextureLoader, throwNodeSpriteSheet);
   const bigHud = useLoader(THREE.TextureLoader, bigHudSpriteSheet);
   const bigHudMirrored = useLoader(
     THREE.TextureLoader,
@@ -56,7 +56,7 @@ const Preloader = () => {
     gl.initTexture(longHudMirrored);
     gl.initTexture(boringHud);
     gl.initTexture(boringHudMirrored);
-    gl.initTexture(throwBlueOrb);
+    gl.initTexture(throwNode);
   }, [
     moveDown,
     moveUp,
@@ -71,7 +71,7 @@ const Preloader = () => {
     longHud,
     longHudMirrored,
     intro,
-    throwBlueOrb,
+    throwNode,
   ]);
   return null;
 };

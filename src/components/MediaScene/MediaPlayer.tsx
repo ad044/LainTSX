@@ -5,8 +5,8 @@ import t from "../../static/webvtt/test.vtt";
 
 const MediaPlayer = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
-  const setMediaPercentageElapsed = useMediaStore(
-    (state) => state.setMediaPercentageElapsed
+  const setPercentageElapsed = useMediaStore(
+    (state) => state.setPercentageElapsed
   );
 
   const requestRef = useRef();
@@ -20,10 +20,10 @@ const MediaPlayer = () => {
       const percentageElapsed = Math.floor((timeElapsed / duration) * 100);
 
       if (percentageElapsed % 5 === 0) {
-        setMediaPercentageElapsed(percentageElapsed);
+        setPercentageElapsed(percentageElapsed);
       }
     }
-  }, [setMediaPercentageElapsed, videoRef]);
+  }, [setPercentageElapsed, videoRef]);
 
   React.useEffect(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);

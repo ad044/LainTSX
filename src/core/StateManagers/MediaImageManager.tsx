@@ -16,8 +16,8 @@ const MediaImageManager = (props: StateManagerProps) => {
   );
 
   const updateSceneImages = useCallback(
-    (newActiveBlueOrbId: string) => {
-      const nodeName = currentLevelData[newActiveBlueOrbId].node_name;
+    (newActiveNodeId: string) => {
+      const nodeName = currentLevelData[newActiveNodeId].node_name;
       const images = image_table[nodeName as keyof typeof image_table];
 
       Object.values(images).forEach((img) => {
@@ -52,11 +52,11 @@ const MediaImageManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (event: string, newActiveBlueOrbId: string) => {
+    (event: string, newActiveNodeId: string) => {
       const dispatcherObjects = {
-        throw_blue_orb_media: {
+        throw_node_media: {
           action: updateSceneImages,
-          value: newActiveBlueOrbId,
+          value: newActiveNodeId,
         },
       };
 
@@ -68,8 +68,8 @@ const MediaImageManager = (props: StateManagerProps) => {
   useEffect(() => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
-      const newActiveBlueOrbId = props.eventState.newActiveBlueOrbId;
-      const dispatchedObject = dispatchObject(eventAction, newActiveBlueOrbId);
+      const newActiveNodeId = props.eventState.newActiveNodeId;
+      const dispatchedObject = dispatchObject(eventAction, newActiveNodeId);
 
       if (dispatchedObject) {
         dispatchedObject.action(dispatchedObject.value);

@@ -1,8 +1,8 @@
 import React, { memo, Suspense, useMemo } from "react";
 import site_a from "../../resources/site_a.json";
 import level_y_values from "../../resources/level_y_values.json";
-import blue_orb_positions from "../../resources/blue_orb_positions.json";
-import BlueOrb from "./BlueOrb";
+import node_positions from "../../resources/node_positions.json";
+import Node from "./Node";
 import { a, useSpring } from "@react-spring/three";
 import { useLevelStore, useSiteStore } from "../../store";
 import PurpleRing from "./PurpleRing";
@@ -66,21 +66,21 @@ const Site = memo(() => {
             <CyanCrystal crystalRingPosY={-0.45} />
           </group>
         ))}
-        {Object.entries(visibleNodes).map((blueOrb: [string, any]) => (
-          <BlueOrb
-            sprite={blueOrb[1].node_name}
+        {Object.entries(visibleNodes).map((node: [string, any]) => (
+          <Node
+            sprite={node[1].node_name}
             position={
-              blue_orb_positions[
-                blueOrb[0].substr(2) as keyof typeof blue_orb_positions
+              node_positions[
+                node[0].substr(2) as keyof typeof node_positions
               ].position
             }
             rotation={
-              blue_orb_positions[
-                blueOrb[0].substr(2) as keyof typeof blue_orb_positions
+              node_positions[
+                node[0].substr(2) as keyof typeof node_positions
               ].rotation
             }
-            key={blueOrb[1].node_name}
-            level={blueOrb[0].substr(0, 2)}
+            key={node[1].node_name}
+            level={node[0].substr(0, 2)}
           />
         ))}
         )

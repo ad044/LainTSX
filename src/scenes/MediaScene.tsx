@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useMediaStore } from "../store";
 import TextRenderer from "../components/TextRenderer/TextRenderer";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
@@ -11,8 +11,20 @@ import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
 
 const MediaScene = () => {
+  const mediaComponentMatrixIndices = useMediaStore(
+    (state) => state.componentMatrixIndices
+  );
+
   const activeMediaComponent = useMediaStore(
-    (state) => state.activeMediaComponent
+    useCallback(
+      (state) =>
+        state.componentMatrix[mediaComponentMatrixIndices.sideIdx][
+          mediaComponentMatrixIndices.sideIdx === 0
+            ? mediaComponentMatrixIndices.leftSideIdx
+            : mediaComponentMatrixIndices.rightSideIdx
+        ],
+      [mediaComponentMatrixIndices]
+    )
   );
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import moveLeftSpriteSheet from "../../static/sprite/move_left.png";
 import moveRightSpriteSheet from "../../static/sprite/move_right.png";
 import standingSpriteSheet from "../../static/sprite/standing.png";
 import introSpriteSheet from "../../static/sprite/intro.png";
-import throwBlueOrbSpriteSheet from "../../static/sprite/throw_blue_orb.png";
+import throwNodeSpriteSheet from "../../static/sprite/throw_node.png";
 import { useLainStore } from "../../store";
 
 type LainConstructorProps = {
@@ -101,10 +101,10 @@ export const LainMoveUp = () => (
   />
 );
 
-export const LainThrowBlueOrb = () => {
+export const LainThrowNode = () => {
   return (
     <LainConstructor
-      sprite={throwBlueOrbSpriteSheet}
+      sprite={throwNodeSpriteSheet}
       frameCount={47}
       framesHorizontal={7}
       framesVertical={7}
@@ -121,7 +121,7 @@ const Lain = () => {
     move_right: <LainMoveRight />,
     move_up: <LainMoveUp />,
     move_down: <LainMoveDown />,
-    throwBlueOrb: <LainThrowBlueOrb />,
+    throwNode: <LainThrowNode />,
   };
 
   return (

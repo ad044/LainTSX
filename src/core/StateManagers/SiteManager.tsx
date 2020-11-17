@@ -18,22 +18,32 @@ const SiteManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string, newSiteRotIdx: string) => {
-      const dispatcherObjects = {
-        move_up: { action: addToSitePosY, value: [-1.5], actionDelay: 1300 },
-        move_down: { action: addToSitePosY, value: [1.5], actionDelay: 1300 },
-        move_left: {
-          action: rotateSite,
-          value: [Math.PI / 4, newSiteRotIdx],
-          actionDelay: 1100,
-        },
-        move_right: {
-          action: rotateSite,
-          value: [-Math.PI / 4, newSiteRotIdx],
-          actionDelay: 1100,
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "move_up":
+          return {
+            action: addToSitePosY,
+            value: [-1.5],
+            actionDelay: 1300,
+          };
+        case "move_down":
+          return {
+            action: addToSitePosY,
+            value: [1.5],
+            actionDelay: 1300,
+          };
+        case "move_left":
+          return {
+            action: rotateSite,
+            value: [Math.PI / 4, newSiteRotIdx],
+            actionDelay: 1100,
+          };
+        case "move_right":
+          return {
+            action: rotateSite,
+            value: [-Math.PI / 4, newSiteRotIdx],
+            actionDelay: 1100,
+          };
+      }
     },
     [addToSitePosY, rotateSite]
   );

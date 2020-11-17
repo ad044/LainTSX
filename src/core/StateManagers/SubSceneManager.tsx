@@ -9,25 +9,25 @@ const SubSceneManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string) => {
-      const dispatcherObjects = {
-        authorize_user_back: {
-          action: setActiveSubscene,
-          value: "main_menu",
-        },
-        select_authorize_user: {
-          action: setActiveSubscene,
-          value: "authorize_user",
-        },
-        select_load_data: {
-          action: setActiveSubscene,
-          value: "load_data",
-        },
-        select_load_data_no: {
-          action: setActiveSubscene,
-          value: "main_menu",
-        },
-      };
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "authorize_user_back":
+          return {
+            action: setActiveSubscene,
+            value: "main_menu",
+          };
+        case "select_authorize_user":
+          return { action: setActiveSubscene, value: "authorize_user" };
+        case "select_load_data":
+          return {
+            action: setActiveSubscene,
+            value: "load_data",
+          };
+        case "select_load_data_no":
+          return {
+            action: setActiveSubscene,
+            value: "main_menu",
+          };
+      }
     },
     [setActiveSubscene]
   );

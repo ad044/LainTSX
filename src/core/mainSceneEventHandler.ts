@@ -1,5 +1,5 @@
 import { GameContext } from "./StateManagers/EventManager";
-import available_blue_orbs_on_projection from "../resources/available_blue_orbs_on_projection.json";
+import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 
 const hudAssocs = {
@@ -22,86 +22,86 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
 
   const keyPress = gameContext.keyPress;
 
-  const blueOrbColIdx = gameContext.blueOrbMatrixIndices.colIdx;
-  const blueOrbRowIdx = gameContext.blueOrbMatrixIndices.rowIdx;
+  const nodeColIdx = gameContext.nodeMatrixIndices.colIdx;
+  const nodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
 
-  let newBlueOrbColIdx = gameContext.blueOrbMatrixIndices.colIdx;
-  let newBlueOrbRowIdx = gameContext.blueOrbMatrixIndices.rowIdx;
+  let newNodeColIdx = gameContext.nodeMatrixIndices.colIdx;
+  let newNodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
   let newLevel = gameContext.currentLevel;
   let newSiteRotIdx = gameContext.siteRotIdx;
   let newScene = gameContext.scene;
 
   switch (keyPress) {
     case "left":
-      newBlueOrbColIdx = blueOrbColIdx - 1;
-      if (newBlueOrbColIdx < 0) {
+      newNodeColIdx = nodeColIdx - 1;
+      if (newNodeColIdx < 0) {
         event = "move_left";
         newSiteRotIdx =
           parseInt(gameContext.siteRotIdx) + 1 > 8
             ? "1"
             : (parseInt(gameContext.siteRotIdx) + 1).toString();
-        newBlueOrbColIdx = 0;
+        newNodeColIdx = 0;
       } else {
-        event = "change_blue_orb";
+        event = "change_node";
       }
       break;
     case "down":
-      newBlueOrbRowIdx = blueOrbRowIdx + 1;
-      if (newBlueOrbRowIdx > 2) {
+      newNodeRowIdx = nodeRowIdx + 1;
+      if (newNodeRowIdx > 2) {
         event = "move_down";
 
         newLevel = (parseInt(gameContext.currentLevel) - 1)
           .toString()
           .padStart(2, "0");
-        newBlueOrbRowIdx = 0;
+        newNodeRowIdx = 0;
       } else {
-        event = "change_blue_orb";
+        event = "change_node";
       }
       break;
     case "up":
-      newBlueOrbRowIdx = blueOrbRowIdx - 1;
-      if (newBlueOrbRowIdx < 0) {
+      newNodeRowIdx = nodeRowIdx - 1;
+      if (newNodeRowIdx < 0) {
         event = "move_up";
 
         newLevel = (parseInt(gameContext.currentLevel) + 1)
           .toString()
           .padStart(2, "0");
 
-        newBlueOrbRowIdx = 2;
+        newNodeRowIdx = 2;
       } else {
-        event = "change_blue_orb";
+        event = "change_node";
       }
       break;
     case "right":
-      newBlueOrbColIdx = blueOrbColIdx + 1;
-      if (newBlueOrbColIdx > 3) {
+      newNodeColIdx = nodeColIdx + 1;
+      if (newNodeColIdx > 3) {
         event = "move_right";
         newSiteRotIdx =
           parseInt(gameContext.siteRotIdx) - 1 < 1
             ? "8"
             : (parseInt(gameContext.siteRotIdx) - 1).toString();
 
-        newBlueOrbColIdx = 3;
+        newNodeColIdx = 3;
       } else {
-        event = "change_blue_orb";
+        event = "change_node";
       }
       break;
     case "select":
       // in this case we have to check the type of the blue orb
       // and dispatch an action depending on that, so we have to precalculate the
       // new active blue orb here.
-      const newActiveBlueOrbId =
+      const newActiveNodeId =
         newLevel +
-        available_blue_orbs_on_projection[
-          newSiteRotIdx as keyof typeof available_blue_orbs_on_projection
-        ][newBlueOrbRowIdx as number][newBlueOrbColIdx as number];
+        node_matrices[
+          newSiteRotIdx as keyof typeof node_matrices
+        ][newNodeRowIdx as number][newNodeColIdx as number];
 
-      const blueOrbType = (site_a as any)[newLevel][newActiveBlueOrbId]
+      const nodeType = (site_a as any)[newLevel][newActiveNodeId]
         .type;
 
-      const eventAnimation = "throw_blue_orb_";
+      const eventAnimation = "throw_node_";
 
-      switch (parseInt(blueOrbType)) {
+      switch (parseInt(nodeType)) {
         case 0:
         case 2:
           event = eventAnimation + "media";
@@ -114,25 +114,25 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       }
   }
 
-  const newActiveBlueOrbId =
+  const newActiveNodeId =
     newLevel +
-    available_blue_orbs_on_projection[
-      newSiteRotIdx as keyof typeof available_blue_orbs_on_projection
-    ][newBlueOrbRowIdx as number][newBlueOrbColIdx as number];
+    node_matrices[
+      newSiteRotIdx as keyof typeof node_matrices
+    ][newNodeRowIdx as number][newNodeColIdx as number];
 
   const newActiveHudId =
     hudAssocs[
-      `${newBlueOrbRowIdx}${newBlueOrbColIdx}` as keyof typeof hudAssocs
+      `${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs
     ];
 
   return {
     event: event,
-    newBlueOrbColIdx: newBlueOrbColIdx,
-    newBlueOrbRowIdx: newBlueOrbRowIdx,
+    newNodeColIdx: newNodeColIdx,
+    newNodeRowIdx: newNodeRowIdx,
     newSiteRotIdx: newSiteRotIdx,
     newLevel: newLevel,
     newScene: newScene,
-    newActiveBlueOrbId: newActiveBlueOrbId,
+    newActiveNodeId: newActiveNodeId,
     newActiveHudId: newActiveHudId,
   };
 };

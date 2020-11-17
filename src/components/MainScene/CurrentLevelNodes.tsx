@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
-import BlueOrb from "./BlueOrb";
-import blue_orb_positions from "../../resources/blue_orb_positions.json";
+import Node from "./Node";
+import node_positions from "../../resources/node_positions.json";
 import site_a from "../../resources/site_a.json";
-import { useBlueOrbStore, useLevelStore, useSiteStore } from "../../store";
+import { useNodeStore, useLevelStore, useSiteStore } from "../../store";
 import { a, useSpring } from "@react-spring/three";
 
 const CurrentLevelNodes = () => {
-  const activeBlueOrbId = useBlueOrbStore((state) => state.activeBlueOrbId);
+  const activeNodeId = useNodeStore((state) => state.activeNodeId);
   const currentLevel = useLevelStore((state) => state.currentLevel);
 
   const currentLevelNodes = useMemo(
@@ -25,23 +25,23 @@ const CurrentLevelNodes = () => {
 
   return (
     <a.group rotation-y={siteState.siteRotY} position-y={siteState.sitePosY}>
-      {Object.entries(currentLevelNodes).map((blueOrb: [string, any]) => {
+      {Object.entries(currentLevelNodes).map((node: [string, any]) => {
         return (
-          <BlueOrb
-            sprite={blueOrb[1].node_name}
+          <Node
+            sprite={node[1].node_name}
             position={
-              blue_orb_positions[
-                blueOrb[0].substr(2) as keyof typeof blue_orb_positions
+              node_positions[
+                node[0].substr(2) as keyof typeof node_positions
               ].position
             }
             rotation={
-              blue_orb_positions[
-                blueOrb[0].substr(2) as keyof typeof blue_orb_positions
+              node_positions[
+                node[0].substr(2) as keyof typeof node_positions
               ].rotation
             }
-            key={blueOrb[1].node_name}
-            active={blueOrb[0] === activeBlueOrbId}
-            level={blueOrb[0].substr(0, 2)}
+            key={node[1].node_name}
+            active={node[0] === activeNodeId}
+            level={node[0].substr(0, 2)}
           />
         );
       })}

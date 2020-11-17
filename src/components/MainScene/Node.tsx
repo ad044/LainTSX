@@ -17,9 +17,9 @@ import LdaActive from "../../static/sprite/Lda_active.png";
 import MULTI from "../../static/sprite/MULTI.png";
 import MULTIActive from "../../static/sprite/MULTI_active.png";
 import level_y_values from "../../resources/level_y_values.json";
-import { useBlueOrbStore } from "../../store";
+import { useNodeStore } from "../../store";
 
-type BlueOrbContructorProps = {
+type NodeContructorProps = {
   sprite: string;
   position: number[];
   rotation: number[];
@@ -27,7 +27,7 @@ type BlueOrbContructorProps = {
   level: string;
 };
 
-const BlueOrb = (props: BlueOrbContructorProps) => {
+const Node = (props: NodeContructorProps) => {
   // the game only has a couple of sprite that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -116,52 +116,52 @@ const BlueOrb = (props: BlueOrbContructorProps) => {
   // to avoid excess unnecessary renders (this is absolutely crucial for performance).
   const [
     {
-      activeBlueOrbPosX,
-      activeBlueOrbPosY,
-      activeBlueOrbPosZ,
-      activeBlueOrbRotZ,
+      activeNodePosX,
+      activeNodePosY,
+      activeNodePosZ,
+      activeNodeRotZ,
     },
     set,
   ] = useSpring(() => ({
-    activeBlueOrbPosX: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
-      ? useBlueOrbStore.getState().activeBlueOrbPosX
+    activeNodePosX: useNodeStore.getState().isActiveNodeInteractedWith
+      ? useNodeStore.getState().activeNodePosX
       : props.position[0],
-    activeBlueOrbPosY: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
+    activeNodePosY: useNodeStore.getState().isActiveNodeInteractedWith
       ? level_y_values[props.level as keyof typeof level_y_values]
       : props.position[1],
-    activeBlueOrbPosZ: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
-      ? useBlueOrbStore.getState().activeBlueOrbPosZ
+    activeNodePosZ: useNodeStore.getState().isActiveNodeInteractedWith
+      ? useNodeStore.getState().activeNodePosZ
       : props.position[2],
-    activeBlueOrbRotZ: useBlueOrbStore.getState().isActiveBlueOrbInteractedWith
-      ? useBlueOrbStore.getState().activeBlueOrbRotZ
+    activeNodeRotZ: useNodeStore.getState().isActiveNodeInteractedWith
+      ? useNodeStore.getState().activeNodeRotZ
       : 0,
     config: { duration: 800 },
   }));
 
   useEffect(() => {
-    useBlueOrbStore.subscribe(set, (state) => ({
-      activeBlueOrbPosX: useBlueOrbStore.getState()
-        .isActiveBlueOrbInteractedWith
-        ? state.activeBlueOrbPosX
+    useNodeStore.subscribe(set, (state) => ({
+      activeNodePosX: useNodeStore.getState()
+        .isActiveNodeInteractedWith
+        ? state.activeNodePosX
         : props.position[0],
-      activeBlueOrbPosY: useBlueOrbStore.getState()
-        .isActiveBlueOrbInteractedWith
+      activeNodePosY: useNodeStore.getState()
+        .isActiveNodeInteractedWith
         ? level_y_values[props.level as keyof typeof level_y_values]
         : props.position[1],
-      activeBlueOrbPosZ: useBlueOrbStore.getState()
-        .isActiveBlueOrbInteractedWith
-        ? state.activeBlueOrbPosZ
+      activeNodePosZ: useNodeStore.getState()
+        .isActiveNodeInteractedWith
+        ? state.activeNodePosZ
         : props.position[2],
-      activeBlueOrbRotZ: useBlueOrbStore.getState()
-        .isActiveBlueOrbInteractedWith
-        ? state.activeBlueOrbRotZ
+      activeNodeRotZ: useNodeStore.getState()
+        .isActiveNodeInteractedWith
+        ? state.activeNodeRotZ
         : 0,
     }));
   }, [
     props.level,
-    activeBlueOrbPosX,
-    activeBlueOrbPosZ,
-    activeBlueOrbRotZ,
+    activeNodePosX,
+    activeNodePosZ,
+    activeNodeRotZ,
     props.position,
     set,
   ]);
@@ -176,10 +176,10 @@ const BlueOrb = (props: BlueOrbContructorProps) => {
     >
       {props.active ? (
         <a.mesh
-          position-x={activeBlueOrbPosX}
-          position-y={activeBlueOrbPosY}
-          position-z={activeBlueOrbPosZ}
-          rotation-z={activeBlueOrbRotZ}
+          position-x={activeNodePosX}
+          position-y={activeNodePosY}
+          position-z={activeNodePosZ}
+          rotation-z={activeNodeRotZ}
           rotation-y={props.rotation[1]}
           scale={[0.36, 0.18, 0.36]}
           renderOrder={1}
@@ -218,4 +218,4 @@ const BlueOrb = (props: BlueOrbContructorProps) => {
   );
 };
 
-export default BlueOrb;
+export default Node;

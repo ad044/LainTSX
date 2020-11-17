@@ -2,33 +2,33 @@ import { useCallback, useEffect } from "react";
 import { useHudStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 
-const BlueOrbHUDManager = (props: StateManagerProps) => {
-  const setActiveBlueOrbHudId = useHudStore(
-    (state) => state.setActiveBlueOrbHudId
+const NodeHUDManager = (props: StateManagerProps) => {
+  const setActiveNodeHudId = useHudStore(
+    (state) => state.setActiveNodeHudId
   );
   const toggleHud = useHudStore((state) => state.toggleHud);
 
   const dispatchObject = useCallback(
-    (event: string, targetBlueOrbHudId: string) => {
+    (event: string, targetNodeHudId: string) => {
       switch (event) {
         case "move_up":
         case "move_down":
         case "move_left":
         case "move_right":
           return {
-            action: setActiveBlueOrbHudId,
-            value: targetBlueOrbHudId,
+            action: setActiveNodeHudId,
+            value: targetNodeHudId,
             actionDelay: 3903.704,
           };
-        case "change_blue_orb":
+        case "change_node":
           return {
-            action: setActiveBlueOrbHudId,
-            value: targetBlueOrbHudId,
+            action: setActiveNodeHudId,
+            value: targetNodeHudId,
             actionDelay: 500,
           };
       }
     },
-    [setActiveBlueOrbHudId]
+    [setActiveNodeHudId]
   );
 
   useEffect(() => {
@@ -47,8 +47,8 @@ const BlueOrbHUDManager = (props: StateManagerProps) => {
         }, dispatchedObject.actionDelay);
       }
     }
-  }, [props.eventState, setActiveBlueOrbHudId, toggleHud, dispatchObject]);
+  }, [props.eventState, setActiveNodeHudId, toggleHud, dispatchObject]);
   return null;
 };
 
-export default BlueOrbHUDManager;
+export default NodeHUDManager;

@@ -28,14 +28,14 @@ const LainManager = (props: StateManagerProps) => {
           value: "move_right",
           duration: 3904.704,
         },
-        throw_blue_orb_media: {
+        throw_node_media: {
           action: setLainMoveState,
-          value: "throwBlueOrb",
+          value: "throwNode",
           duration: 3904.704,
         },
-        throw_blue_orb_gate: {
+        throw_node_gate: {
           action: setLainMoveState,
-          value: "throwBlueOrb",
+          value: "throwNode",
           duration: 3904.704,
         },
       };
