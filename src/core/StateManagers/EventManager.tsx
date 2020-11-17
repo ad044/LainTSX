@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import SiteManager from "./SiteManager";
 import MiddleRingManager from "./MiddleRingManager";
 import LainManager from "./LainManager";
-import BlueOrbManager from "./BlueOrbManager";
-import BlueOrbHUDManager from "./BlueOrbHUDManager";
+import NodeManager from "./NodeManager";
+import NodeHUDManager from "./NodeHUDManager";
 import {
-  useBlueOrbStore,
+  useNodeStore,
   useBootStore,
   useLevelStore,
   useMediaStore,
@@ -39,10 +39,10 @@ const getKeyCodeAssociation = (keyCode: number): string => {
 
 type EventState = {
   event: string;
-  newBlueOrbColIdx: number;
-  newBlueOrbRowIdx: number;
+  newNodeColIdx: number;
+  newNodeRowIdx: number;
   newLevel: string;
-  newActiveBlueOrbId: string;
+  newActiveNodeId: string;
   newSiteRotIdx: string;
 };
 
@@ -54,7 +54,7 @@ export type GameContext = {
   keyPress?: string;
   scene: string;
   subscene: string;
-  blueOrbMatrixIndices: { rowIdx: number; colIdx: number };
+  nodeMatrixIndices: { rowIdx: number; colIdx: number };
   currentLevel: string;
   siteRotIdx: string;
   activeMediaComponent: string;
@@ -66,16 +66,28 @@ const EventManager = () => {
   const currentSubscene = useSubsceneStore((state) => state.activeSubscene);
 
   // main scene
-  const blueOrbMatrixIndices = useBlueOrbStore(
-    (state) => state.blueOrbMatrixIndices
-  );
+  const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
   const siteRotIdx = useSiteStore((state) => state.siteRotIdx);
   const currentLevel = useLevelStore((state) => state.currentLevel);
 
   // media scene
-  const activeMediaComponent = useMediaStore(
-    (state) => state.activeMediaComponent
+  const mediaComponentMatrixIndices = useMediaStore(
+    (state) => state.componentMatrixIndices
   );
+
+  const activeMediaComponent = useMediaStore(
+    useCallback(
+      (state) =>
+        state.componentMatrix[mediaComponentMatrixIndices.sideIdx][
+          mediaComponentMatrixIndices.sideIdx === 0
+            ? mediaComponentMatrixIndices.leftSideIdx
+            : mediaComponentMatrixIndices.rightSideIdx
+        ],
+      [mediaComponentMatrixIndices]
+    )
+  );
+
+  console.log(activeMediaComponent)
 
   // boot scene
   const activeBootElement = useBootStore((state) => state.activeBootElement);
@@ -89,7 +101,7 @@ const EventManager = () => {
       scene: currentScene,
       subscene: currentSubscene,
       siteRotIdx: siteRotIdx,
-      blueOrbMatrixIndices: blueOrbMatrixIndices,
+      nodeMatrixIndices: nodeMatrixIndices,
       currentLevel: currentLevel,
       activeMediaComponent: activeMediaComponent,
       activeBootElement: activeBootElement,
@@ -97,7 +109,7 @@ const EventManager = () => {
     [
       activeBootElement,
       activeMediaComponent,
-      blueOrbMatrixIndices,
+      nodeMatrixIndices,
       currentLevel,
       currentScene,
       currentSubscene,
@@ -130,8 +142,8 @@ const EventManager = () => {
 
   return (
     <>
-      <BlueOrbManager eventState={eventState!} />
-      <BlueOrbHUDManager eventState={eventState!} />
+      <NodeManager eventState={eventState!} />
+      <NodeHUDManager eventState={eventState!} />
       <GreenTextManager eventState={eventState!} />
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />

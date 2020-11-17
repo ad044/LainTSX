@@ -7,29 +7,22 @@ const SceneManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string, newScene: string) => {
-      const dispatcherObjects = {
-        throw_blue_orb_media: {
-          action: setScene,
-          value: newScene,
-          delay: 3904.704,
-        },
-        throw_blue_orb_gate: {
-          action: setScene,
-          value: newScene,
-          delay: 3904.704,
-        },
-        exit_select: {
-          action: setScene,
-          value: "main",
-          delay: 0,
-        },
-        exit_gate: {
-          action: setScene,
-          value: "main",
-          delay: 0,
-        },
-      };
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "throw_node_media":
+        case "throw_node_gate":
+          return {
+            action: setScene,
+            value: newScene,
+            delay: 3904.704,
+          };
+        case "exit_select":
+        case "exit_gate":
+          return {
+            action: setScene,
+            value: "main",
+            delay: 0,
+          };
+      }
     },
     [setScene]
   );

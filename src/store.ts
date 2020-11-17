@@ -10,23 +10,23 @@ type HUDState = {
   activeHudId: string;
   hudActive: number;
   hudVisible: boolean;
-  setActiveBlueOrbHudId: (to: string) => void;
+  setActiveNodeHudId: (to: string) => void;
   toggleHud: () => void;
 };
 
-type BlueOrbState = {
-  activeBlueOrbId: string;
-  isActiveBlueOrbInteractedWith: boolean;
-  activeBlueOrbPosX: number;
-  activeBlueOrbPosZ: number;
-  activeBlueOrbRotZ: number;
-  setActiveBlueOrbPosX: (to: number) => void;
-  setActiveBlueOrbPosZ: (to: number) => void;
-  setActiveBlueOrbRotZ: (to: number) => void;
-  setActiveBlueOrbId: (to: string) => void;
-  setIsActiveBlueOrbInteractedWith: (to: boolean) => void;
-  blueOrbMatrixIndices: { rowIdx: number; colIdx: number };
-  setBlueOrbMatrixIndices: (to: { rowIdx: number; colIdx: number }) => void;
+type NodeState = {
+  activeNodeId: string;
+  isActiveNodeInteractedWith: boolean;
+  activeNodePosX: number;
+  activeNodePosZ: number;
+  activeNodeRotZ: number;
+  setActiveNodePosX: (to: number) => void;
+  setActiveNodePosZ: (to: number) => void;
+  setActiveNodeRotZ: (to: number) => void;
+  setActiveNodeId: (to: string) => void;
+  setIsActiveNodeInteractedWith: (to: boolean) => void;
+  nodeMatrixIndices: { rowIdx: number; colIdx: number };
+  setNodeMatrixIndices: (to: { rowIdx: number; colIdx: number }) => void;
 };
 
 type LainState = {
@@ -122,7 +122,7 @@ type MediaState = {
   setLastActiveLeftSideElement: (to: string) => void;
   lastActiveRightSideElement: string;
   setLastActiveRightSideElement: (to: string) => void;
-  setMediaPercentageElapsed: (to: number) => void;
+  setPercentageElapsed: (to: number) => void;
 };
 
 export type TextRendererState = {
@@ -204,26 +204,26 @@ export const useHudStore = create<HUDState>((set) => ({
   activeHudId: "fg_hud_1",
   hudActive: 1,
   hudVisible: true,
-  setActiveBlueOrbHudId: (to) => set(() => ({ activeHudId: to })),
+  setActiveNodeHudId: (to) => set(() => ({ activeHudId: to })),
   toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
 }));
 
-export const useBlueOrbStore = create<BlueOrbState>((set) => ({
-  activeBlueOrbId: "0422",
-  isActiveBlueOrbInteractedWith: false,
-  activeBlueOrbPosX: 0,
-  activeBlueOrbPosZ: 0,
-  activeBlueOrbRotZ: 0,
-  setActiveBlueOrbPosX: (to) => set(() => ({ activeBlueOrbPosX: to })),
-  setActiveBlueOrbPosZ: (to) => set(() => ({ activeBlueOrbPosZ: to })),
-  setActiveBlueOrbRotZ: (to) => set(() => ({ activeBlueOrbRotZ: to })),
-  setActiveBlueOrbId: (to) => set(() => ({ activeBlueOrbId: to })),
-  setIsActiveBlueOrbInteractedWith: (to) =>
-    set(() => ({ isActiveBlueOrbInteractedWith: to })),
-  blueOrbRowIdx: 0,
+export const useNodeStore = create<NodeState>((set) => ({
+  activeNodeId: "0422",
+  isActiveNodeInteractedWith: false,
+  activeNodePosX: 0,
+  activeNodePosZ: 0,
+  activeNodeRotZ: 0,
+  setActiveNodePosX: (to) => set(() => ({ activeNodePosX: to })),
+  setActiveNodePosZ: (to) => set(() => ({ activeNodePosZ: to })),
+  setActiveNodeRotZ: (to) => set(() => ({ activeNodeRotZ: to })),
+  setActiveNodeId: (to) => set(() => ({ activeNodeId: to })),
+  setIsActiveNodeInteractedWith: (to) =>
+    set(() => ({ isActiveNodeInteractedWith: to })),
+  nodeRowIdx: 0,
 
-  blueOrbMatrixIndices: { rowIdx: 0, colIdx: 0 },
-  setBlueOrbMatrixIndices: (to) => set(() => ({ blueOrbMatrixIndices: to })),
+  nodeMatrixIndices: { rowIdx: 0, colIdx: 0 },
+  setNodeMatrixIndices: (to) => set(() => ({ nodeMatrixIndices: to })),
 }));
 
 export const useLainStore = create<LainState>((set) => ({
@@ -303,23 +303,69 @@ export const useLevelStore = create<LevelState>((set) => ({
   setCurrentLevel: (to) => set(() => ({ currentLevel: to })),
 }));
 
-export const useMediaStore = create<MediaState>((set) => ({
-  // we can't have one global activeMediaComponent because both right and left col
-  // elements need to be stored (when you switch back and forth between the columns,
-  // you end up on the last active element FROM THAT COLUMN).
-  // so we store leftColActiveMediaComponent as well as rightCol.
-  mediaPercentageElapsed: 0,
-  activeMediaComponent: "play",
-  setActiveMediaComponent: (to) => set(() => ({ activeMediaComponent: to })),
-  lastActiveLeftSideElement: "play",
-  lastActiveRightSideElement: "fstWord",
-  setLastActiveLeftSideElement: (to) =>
-    set(() => ({ lastActiveLeftSideElement: to })),
-  setLastActiveRightSideElement: (to) =>
-    set(() => ({ lastActiveRightSideElement: to })),
-  setMediaPercentageElapsed: (to) =>
-    set(() => ({ mediaPercentageElapsed: to })),
-}));
+export const useMediaStore = create(
+  combine(
+    {
+      mediaPercentageElapsed: 0,
+      componentMatrix: [
+        ["play", "exit"],
+        ["fstWord", "sndWord", "thirdWord"],
+      ],
+      componentMatrixIndices: {
+        // 0 or 1 (left/right)
+        sideIdx: 0,
+        // 0 or 1 ("play" or "exit")
+        leftSideIdx: 0,
+        // 0 or 1 or 2 ("fstWord", "sndWord" or "thirdWord")
+        rightSideIdx: 0,
+      },
+    } as any,
+    (set) => ({
+      toggleSide: () =>
+        set((state) => ({
+          componentMatrixIndices: {
+            ...state.componentMatrixIndices,
+            sideIdx: Number(!state.componentMatrixIndices.sideIdx),
+          },
+        })),
+      toggleLeftComponent: () =>
+        set((state) => ({
+          componentMatrixIndices: {
+            ...state.componentMatrixIndices,
+            leftSideIdx: Number(!state.componentMatrixIndices.leftSideIdx),
+          },
+        })),
+      addToRightComponentMatrixIdx: (val: number) =>
+        set((state) => {
+          let finalVal;
+          const newSum = state.componentMatrixIndices["rightSideIdx"] + val;
+          if (newSum > 2) {
+            finalVal = 0;
+          } else if (newSum < 0) {
+            finalVal = 2;
+          } else {
+            finalVal = newSum;
+          }
+          return {
+            componentMatrixIndices: {
+              ...state.componentMatrixIndices,
+              rightSideIdx: finalVal,
+            },
+          };
+        }),
+      resetComponentMatrixIndices: () =>
+        set(() => ({
+          componentMatrixIndices: {
+            sideIdx: 0,
+            leftSideIdx: 0,
+            rightSideIdx: 0,
+          },
+        })),
+      setPercentageElapsed: (to: number) =>
+        set(() => ({ mediaPercentageElapsed: to })),
+    })
+  )
+);
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
   words: ["eye", "quiet", "hallucination"],
@@ -394,7 +440,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "main",
+  currentScene: "media",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 

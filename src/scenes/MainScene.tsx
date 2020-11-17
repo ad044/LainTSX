@@ -10,7 +10,7 @@ import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import Starfield from "../components/MainScene/Starfield";
 import {
-  useBlueOrbStore,
+  useNodeStore,
   useHudStore,
   useLainStore,
   useMainGroupStore,
@@ -22,9 +22,9 @@ import CurrentLevelNodes from "../components/MainScene/CurrentLevelNodes";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
-  const setActiveBlueOrb = useBlueOrbStore((state) => state.setActiveBlueOrbId);
-  const setActiveBlueOrbHudId = useHudStore(
-    (state) => state.setActiveBlueOrbHudId
+  const setActiveNode = useNodeStore((state) => state.setActiveNodeId);
+  const setActiveNodeHudId = useHudStore(
+    (state) => state.setActiveNodeHudId
   );
 
   const mainGroupPosY = useMainGroupStore((state) => state.mainGroupPosY);
@@ -44,9 +44,9 @@ const MainScene = () => {
 
   useEffect(() => {
     setLainMoveState("standing");
-    setActiveBlueOrb("0422");
-    setActiveBlueOrbHudId("fg_hud_1");
-  }, [setActiveBlueOrb, setActiveBlueOrbHudId, setLainMoveState]);
+    setActiveNode("0422");
+    setActiveNodeHudId("fg_hud_1");
+  }, [setActiveNode, setActiveNodeHudId, setLainMoveState]);
   // set lain intro spritesheet before the page loads fully
 
   return (

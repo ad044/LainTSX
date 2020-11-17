@@ -2,21 +2,6 @@ import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
 import { useMediaWordStore } from "../../store";
 
-type MediaWordDispatcher = {
-  action: any;
-  value?: number;
-};
-
-type MediaWordDispatchData = {
-  fstWord_down: MediaWordDispatcher;
-  fstWord_up: MediaWordDispatcher;
-  sndWord_down: MediaWordDispatcher;
-  sndWord_up: MediaWordDispatcher;
-  thirdWord_down: MediaWordDispatcher;
-  thirdWord_up: MediaWordDispatcher;
-  throw_blue_orb_media: MediaWordDispatcher;
-};
-
 const MediaWordManager = (props: StateManagerProps) => {
   const addToWordPositionDataStructIdx = useMediaWordStore(
     (state) => state.addToWordPositionDataStructIdx
@@ -27,37 +12,26 @@ const MediaWordManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string) => {
-      const dispatcherObjects: MediaWordDispatchData = {
-        fstWord_down: {
-          action: addToWordPositionDataStructIdx,
-          value: 1,
-        },
-        fstWord_up: {
-          action: addToWordPositionDataStructIdx,
-          value: -1,
-        },
-        sndWord_down: {
-          action: addToWordPositionDataStructIdx,
-          value: 1,
-        },
-        sndWord_up: {
-          action: addToWordPositionDataStructIdx,
-          value: -1,
-        },
-        thirdWord_down: {
-          action: addToWordPositionDataStructIdx,
-          value: 1,
-        },
-        thirdWord_up: {
-          action: addToWordPositionDataStructIdx,
-          value: -1,
-        },
-        throw_blue_orb_media: {
-          action: resetWordPositionDataStructIdx,
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "fstWord_down":
+        case "sndWord_down":
+        case "thirdWord_down":
+          return {
+            action: addToWordPositionDataStructIdx,
+            value: 1,
+          };
+        case "fstWord_up":
+        case "sndWord_up":
+        case "thirdWord_up":
+          return {
+            action: addToWordPositionDataStructIdx,
+            value: -1,
+          };
+        case "throw_node_media":
+          return {
+            action: resetWordPositionDataStructIdx,
+          };
+      }
     },
     [addToWordPositionDataStructIdx, resetWordPositionDataStructIdx]
   );
@@ -69,7 +43,7 @@ const MediaWordManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction);
 
       if (dispatchedObject) {
-        dispatchedObject.action(dispatchedObject.value);
+        dispatchedObject.action(dispatchedObject.value as any);
       }
     }
   }, [props.eventState, dispatchObject]);

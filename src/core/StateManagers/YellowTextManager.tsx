@@ -1,28 +1,8 @@
 import { useCallback, useEffect } from "react";
-import blue_orb_huds from "../../resources/blue_orb_huds.json";
+import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
 import { useTextRendererStore } from "../../store";
 import { SiteType } from "../../components/MainScene/Site";
-
-type AnimateYellowTextWithMove = (
-  yellowLetterPosYOffset: number,
-  yellowLetterPosXOffset: number,
-  newActiveHudId: string,
-  newActiveBlueOrbId: string,
-  newLevel: string,
-  delay: number
-) => void;
-
-type AnimateYellowTextWithoutMove = (
-  newActiveHudId: string,
-  newActiveBlueOrbId: string,
-  newLevel: string
-) => void;
-
-type AnimateMediaYellowText = (
-  targetMediaText: string,
-  targetMediaTextPos: number[]
-) => void;
 
 const YellowTextManager = (props: any) => {
   const setYellowText = useTextRendererStore((state) => state.setYellowText);
@@ -44,12 +24,12 @@ const YellowTextManager = (props: any) => {
     (state) => state.setYellowTextPosX
   );
 
-  const animateYellowTextWithMove: AnimateYellowTextWithMove = useCallback(
+  const animateYellowTextWithMove = useCallback(
     (
       yellowLetterPosXOffset: number,
       yellowLetterPosYOffset: number,
       newActiveHudId: string,
-      newActiveBlueOrbId: string,
+      newActiveNodeId: string,
       newLevel: string,
       delay: number
     ) => {
@@ -68,16 +48,14 @@ const YellowTextManager = (props: any) => {
       setTimeout(() => {
         // animate it to new pos x/y
         setYellowTextPosX(
-          blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds]
-            .big_text[0]
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0]
         );
         setYellowTextPosY(
-          blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds]
-            .big_text[1]
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1]
         );
         // set new text according to the node name
         setYellowText(
-          (site_a as SiteType)[newLevel][newActiveBlueOrbId].node_name
+          (site_a as SiteType)[newLevel][newActiveNodeId].node_name
         );
       }, 3000);
 
@@ -96,28 +74,24 @@ const YellowTextManager = (props: any) => {
     ]
   );
 
-  const animateYellowTextWithoutMove: AnimateYellowTextWithoutMove = useCallback(
-    (newActiveHudId: string, newActiveBlueOrbId: string, level: string) => {
+  const animateYellowTextWithoutMove = useCallback(
+    (newActiveHudId: string, newActiveNodeId: string, level: string) => {
       // make current hud big text shrink
       setYellowTextOffsetXCoeff(-1);
 
       setTimeout(() => {
         setYellowTextPosX(
-          blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds]
-            .big_text[0]
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0]
         );
         setYellowTextPosY(
-          blue_orb_huds[newActiveHudId as keyof typeof blue_orb_huds]
-            .big_text[1]
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1]
         );
       }, 400);
       // animate it to new pos x/y
 
       setTimeout(() => {
         // set new text according to the node name
-        setYellowText(
-          (site_a as SiteType)[level][newActiveBlueOrbId].node_name
-        );
+        setYellowText((site_a as SiteType)[level][newActiveNodeId].node_name);
       }, 1000);
 
       setTimeout(() => {
@@ -133,7 +107,7 @@ const YellowTextManager = (props: any) => {
     ]
   );
 
-  const animateMediaYellowText: AnimateMediaYellowText = useCallback(
+  const animateMediaYellowText = useCallback(
     (
       targetMediaComponentText: string,
       targetMediaComponentTextPos: number[]
@@ -172,13 +146,13 @@ const YellowTextManager = (props: any) => {
   }, [setYellowText, setYellowTextPosX, setYellowTextPosY]);
 
   const initializeYellowTextForMainScene = useCallback(
-    (activeBlueOrbId: string, level: string) => {
-      setYellowText((site_a as SiteType)[level][activeBlueOrbId].node_name);
+    (activeNodeId: string, level: string) => {
+      setYellowText((site_a as SiteType)[level][activeNodeId].node_name);
       setYellowTextPosX(
-        blue_orb_huds[activeBlueOrbId as keyof typeof blue_orb_huds].big_text[0]
+        node_huds[activeNodeId as keyof typeof node_huds].big_text[0]
       );
       setYellowTextPosY(
-        blue_orb_huds[activeBlueOrbId as keyof typeof blue_orb_huds].big_text[1]
+        node_huds[activeNodeId as keyof typeof node_huds].big_text[1]
       );
     },
     [setYellowText, setYellowTextPosX, setYellowTextPosY]
@@ -188,26 +162,19 @@ const YellowTextManager = (props: any) => {
     (
       event: string,
       newActiveHudId: string | undefined,
-      newActiveBlueOrbId: string | undefined,
+      newActiveNodeId: string | undefined,
       newLevel: string
     ) => {
       switch (event) {
         case "move_up":
           return {
             action: animateYellowTextWithMove,
-            value: [
-              0,
-              -1.5,
-              newActiveHudId,
-              newActiveBlueOrbId,
-              newLevel,
-              1300,
-            ],
+            value: [0, -1.5, newActiveHudId, newActiveNodeId, newLevel, 1300],
           };
         case "move_down":
           return {
             action: animateYellowTextWithMove,
-            value: [0, 1.5, newActiveHudId, newActiveBlueOrbId, newLevel, 1300],
+            value: [0, 1.5, newActiveHudId, newActiveNodeId, newLevel, 1300],
           };
         case "move_left":
           return {
@@ -216,7 +183,7 @@ const YellowTextManager = (props: any) => {
               Math.PI / 4,
               0,
               newActiveHudId,
-              newActiveBlueOrbId,
+              newActiveNodeId,
               newLevel,
               1100,
             ],
@@ -228,7 +195,7 @@ const YellowTextManager = (props: any) => {
               -Math.PI / 4,
               0,
               newActiveHudId,
-              newActiveBlueOrbId,
+              newActiveNodeId,
               newLevel,
               1100,
             ],
@@ -238,24 +205,24 @@ const YellowTextManager = (props: any) => {
             action: animateMediaYellowText,
             value: ["Play", [-0.8, 0.05, 0.6]],
           };
-        case "change_blue_orb":
+        case "change_node":
           return {
             action: animateYellowTextWithoutMove,
-            value: [newActiveHudId, newActiveBlueOrbId, newLevel],
+            value: [newActiveHudId, newActiveNodeId, newLevel],
           };
         case "play_down":
           return {
             action: animateMediaYellowText,
             value: ["Exit", [-0.8, -0.08, 0.6]],
           };
-        case "throw_blue_orb_media":
+        case "throw_node_media":
           return {
             action: initializeYellowTextForMediaScene,
           };
         case "exit_media_scene":
           return {
             action: initializeYellowTextForMainScene,
-            value: [newActiveBlueOrbId, newLevel],
+            value: [newActiveNodeId, newLevel],
           };
       }
     },
@@ -272,14 +239,14 @@ const YellowTextManager = (props: any) => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
 
-      const newActiveBlueOrbId = props.eventState.newActiveBlueOrbId;
+      const newActiveNodeId = props.eventState.newActiveNodeId;
       const newActiveHudId = props.eventState.newActiveHudId;
       const newLevel = props.eventState.newLevel;
 
       const dispatchedObject = dispatchObject(
         eventAction,
         newActiveHudId,
-        newActiveBlueOrbId,
+        newActiveNodeId,
         newLevel
       );
 
@@ -292,7 +259,7 @@ const YellowTextManager = (props: any) => {
     animateYellowTextWithoutMove,
     props.eventState,
     props.newActiveHudId,
-    props.newActiveBlueOrbId,
+    props.newActiveNodeId,
     dispatchObject,
   ]);
 
