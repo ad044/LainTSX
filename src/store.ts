@@ -173,6 +173,15 @@ type GateState = {
   incrementGateLvl: () => void;
 };
 
+type SSknState = {
+  componentMatrix: string[];
+  componentMatrixIdx: number;
+  toggleComponentMatrixIdx: () => void;
+  resetComponentMatrixIdx: () => void;
+  loading: boolean;
+  toggleLoading: () => void;
+};
+
 export const useTextRendererStore = create<TextRendererState>((set) => ({
   // yellow text
   yellowText: "Play",
@@ -439,8 +448,18 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
     set(() => ({ wordPositionDataStructIdx: 0 })),
 }));
 
+export const useSSknStore = create<SSknState>((set) => ({
+  componentMatrix: ["sskn_ok", "sskn_cancel"],
+  componentMatrixIdx: 0,
+  loading: false,
+  toggleComponentMatrixIdx: () =>
+    set((state) => ({ componentMatrixIdx: Number(!state.componentMatrixIdx) })),
+  resetComponentMatrixIdx: () => set(() => ({ componentMatrixIdx: 0 })),
+  toggleLoading: () => set(() => ({ loading: true })),
+}));
+
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "media",
+  currentScene: "sskn",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 

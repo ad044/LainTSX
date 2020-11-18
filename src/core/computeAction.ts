@@ -3,6 +3,7 @@ import handleMainSceneEvent from "./mainSceneEventHandler";
 import handleMediaSceneEvent from "./mediaSceneEventHandler";
 import handleBootMainMenuEvent from "./bootEventHandler";
 import handleGateSceneEvent from "./gateSceneEventHandler";
+import handleSSknSceneEvent from "./ssknSceneEventHandler";
 
 const computeAction = (gameContext: GameContext) => {
   switch (gameContext.scene) {
@@ -14,6 +15,8 @@ const computeAction = (gameContext: GameContext) => {
       return handleBootMainMenuEvent(gameContext);
     case "gate":
       return handleGateSceneEvent();
+    case "sskn":
+      return handleSSknSceneEvent(gameContext);
   }
 };
 
