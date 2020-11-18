@@ -15,6 +15,11 @@ const MediaComponentManager = (props: StateManagerProps) => {
     (state) => state.resetComponentMatrixIndices
   );
 
+  const playMedia = useCallback(() => {
+    const mediaElement = document.getElementById("media") as HTMLMediaElement;
+    if (mediaElement) mediaElement.play().then((r) => console.log(r));
+  }, []);
+
   const dispatchObject = useCallback(
     (event: string) => {
       switch (event) {
@@ -49,10 +54,13 @@ const MediaComponentManager = (props: StateManagerProps) => {
           return {
             action: resetComponentMatrixIndices,
           };
+        case "play_select":
+          return { action: playMedia };
       }
     },
     [
       addToRightComponentMatrixIdx,
+      playMedia,
       resetComponentMatrixIndices,
       toggleLeftComponent,
       toggleSide,

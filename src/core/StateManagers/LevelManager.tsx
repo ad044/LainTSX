@@ -22,18 +22,14 @@ const LevelManager = (props: StateManagerProps) => {
   );
   const dispatchObject = useCallback(
     (event: string, newLevel: string) => {
-      const dispatcherObjects = {
-        move_up: {
-          action: updateLevel,
-          value: newLevel,
-        },
-        move_down: {
-          action: updateLevel,
-          value: newLevel,
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "move_up":
+        case "move_down":
+          return {
+            action: updateLevel,
+            value: newLevel,
+          };
+      }
     },
     [updateLevel]
   );

@@ -12,11 +12,11 @@ import {
   useSceneStore,
   useSiteStore,
   useSubsceneStore,
+  useSSknStore,
 } from "../../store";
 import GreenTextManager from "./GreenTextManager";
 import MediaComponentManager from "./MediaComponentManager";
 import MediaWordManager from "./MediaWordManager";
-import MediaElementManager from "./MediaElementManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
 import MediaImageManager from "./MediaImageManager";
@@ -24,6 +24,7 @@ import computeAction from "../computeAction";
 import LevelManager from "./LevelManager";
 import BootManager from "./BootManager";
 import SubSceneManager from "./SubSceneManager";
+import SSknComponentManager from "./SSknComponentManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -59,6 +60,7 @@ export type GameContext = {
   siteRotIdx: string;
   activeMediaComponent: string;
   activeBootElement: string;
+  activeSSknComponent: string;
 };
 
 const EventManager = () => {
@@ -87,7 +89,16 @@ const EventManager = () => {
     )
   );
 
-  console.log(activeMediaComponent)
+  // sskn scene
+
+  const ssknComponentMatrixIdx = useSSknStore(
+    (state) => state.componentMatrixIdx
+  );
+  const activeSSknComponent = useSSknStore(
+    useCallback((state) => state.componentMatrix[ssknComponentMatrixIdx], [
+      ssknComponentMatrixIdx,
+    ])
+  );
 
   // boot scene
   const activeBootElement = useBootStore((state) => state.activeBootElement);
@@ -105,15 +116,17 @@ const EventManager = () => {
       currentLevel: currentLevel,
       activeMediaComponent: activeMediaComponent,
       activeBootElement: activeBootElement,
+      activeSSknComponent: activeSSknComponent,
     }),
     [
-      activeBootElement,
-      activeMediaComponent,
-      nodeMatrixIndices,
-      currentLevel,
       currentScene,
       currentSubscene,
       siteRotIdx,
+      nodeMatrixIndices,
+      currentLevel,
+      activeMediaComponent,
+      activeBootElement,
+      activeSSknComponent,
     ]
   );
 
@@ -150,13 +163,13 @@ const EventManager = () => {
       <MiddleRingManager eventState={eventState!} />
       <MediaComponentManager eventState={eventState!} />
       <MediaWordManager eventState={eventState!} />
-      <MediaElementManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
       <YellowTextManager eventState={eventState!} />
       <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <BootManager eventState={eventState!} />
       <SubSceneManager eventState={eventState!} />
+      <SSknComponentManager eventState={eventState!} />
     </>
   );
 };

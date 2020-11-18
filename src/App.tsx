@@ -9,6 +9,7 @@ import EventManager from "./core/StateManagers/EventManager";
 import { useSceneStore } from "./store";
 import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
+import SSknScene from "./scenes/SSknScene";
 
 const App = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -26,6 +27,7 @@ const App = () => {
       media: <MediaScene />,
       gate: <GateScene />,
       boot: <BootScene />,
+      sskn: <SSknScene />,
     };
   }, []);
 
