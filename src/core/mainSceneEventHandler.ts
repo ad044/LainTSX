@@ -92,12 +92,11 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       // new active blue orb here.
       const newActiveNodeId =
         newLevel +
-        node_matrices[
-          newSiteRotIdx as keyof typeof node_matrices
-        ][newNodeRowIdx as number][newNodeColIdx as number];
+        node_matrices[newSiteRotIdx as keyof typeof node_matrices][
+          newNodeRowIdx as number
+        ][newNodeColIdx as number];
 
-      const nodeType = (site_a as any)[newLevel][newActiveNodeId]
-        .type;
+      const nodeType = (site_a as any)[newLevel][newActiveNodeId].type;
 
       const eventAnimation = "throw_node_";
 
@@ -111,19 +110,21 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
           event = eventAnimation + "gate";
           newScene = "gate";
           break;
+        case 7:
+          event = eventAnimation + "sskn";
+          newScene = "sskn";
+          break;
       }
   }
 
   const newActiveNodeId =
     newLevel +
-    node_matrices[
-      newSiteRotIdx as keyof typeof node_matrices
-    ][newNodeRowIdx as number][newNodeColIdx as number];
+    node_matrices[newSiteRotIdx as keyof typeof node_matrices][
+      newNodeRowIdx as number
+    ][newNodeColIdx as number];
 
   const newActiveHudId =
-    hudAssocs[
-      `${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs
-    ];
+    hudAssocs[`${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs];
 
   return {
     event: event,

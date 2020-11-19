@@ -10,6 +10,7 @@ const SceneManager = (props: StateManagerProps) => {
       switch (event) {
         case "throw_node_media":
         case "throw_node_gate":
+        case "throw_node_sskn":
           return {
             action: setScene,
             value: newScene,
@@ -17,10 +18,17 @@ const SceneManager = (props: StateManagerProps) => {
           };
         case "exit_select":
         case "exit_gate":
+        case "sskn_cancel_select":
           return {
             action: setScene,
             value: "main",
             delay: 0,
+          };
+        case "sskn_ok_select":
+          return {
+            action: setScene,
+            value: "main",
+            delay: 6000,
           };
       }
     },
