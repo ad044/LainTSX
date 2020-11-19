@@ -7,40 +7,25 @@ const LainManager = (props: StateManagerProps) => {
 
   const dispatchObject = useCallback(
     (event: string) => {
-      const dispatcherObjects = {
-        move_up: {
-          action: setLainMoveState,
-          value: "move_up",
-          duration: 3904.704,
-        },
-        move_down: {
-          action: setLainMoveState,
-          value: "move_down",
-          duration: 3904.704,
-        },
-        move_left: {
-          action: setLainMoveState,
-          value: "move_left",
-          duration: 3904.704,
-        },
-        move_right: {
-          action: setLainMoveState,
-          value: "move_right",
-          duration: 3904.704,
-        },
-        throw_node_media: {
-          action: setLainMoveState,
-          value: "throwNode",
-          duration: 3904.704,
-        },
-        throw_node_gate: {
-          action: setLainMoveState,
-          value: "throwNode",
-          duration: 3904.704,
-        },
-      };
-
-      return dispatcherObjects[event as keyof typeof dispatcherObjects];
+      switch (event) {
+        case "move_up":
+        case "move_down":
+        case "move_left":
+        case "move_right":
+          return {
+            action: setLainMoveState,
+            value: event,
+            duration: 3900,
+          };
+        case "throw_node_media":
+        case "throw_node_gate":
+        case "throw_node_sskn":
+          return {
+            action: setLainMoveState,
+            value: "throw_node",
+            duration: 3904.704,
+          };
+      }
     },
     [setLainMoveState]
   );

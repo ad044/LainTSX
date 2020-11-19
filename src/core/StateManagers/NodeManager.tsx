@@ -96,6 +96,7 @@ const NodeManager = (props: StateManagerProps) => {
           };
         case "throw_node_media":
         case "throw_node_gate":
+        case "throw_node_sskn":
           return {
             action: animateActiveNodeThrow,
             value: [0, true],
