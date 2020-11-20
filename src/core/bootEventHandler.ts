@@ -4,7 +4,7 @@ const handleBootEvent = (gameContext: GameContext) => {
   const keyPress = gameContext.keyPress;
 
   const activeBootElement = gameContext.activeBootElement;
-  const currentSubscene = gameContext.subscene;
+  const currentSubscene = gameContext.bootSubscene;
 
   switch (keyPress) {
     case "down":
@@ -14,7 +14,7 @@ const handleBootEvent = (gameContext: GameContext) => {
     case "back":
       return { event: `${currentSubscene}_${keyPress}` };
     case "select":
-      return { event: `select_${activeBootElement}` };
+      return { event: `${activeBootElement}_${keyPress}` };
   }
 };
 

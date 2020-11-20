@@ -32,6 +32,7 @@ const AudioVisualizerColumn = (props: AudioVisualizerColumnProps) => {
         scale={[0.4, 0.4, 0.4]}
         position={[-5.2, 3.8, 0]}
         renderOrder={10}
+        visible={false}
         ref={ref1}
       >
         <meshBasicMaterial
@@ -47,6 +48,7 @@ const AudioVisualizerColumn = (props: AudioVisualizerColumnProps) => {
         scale={[0.4, 0.4, 0.4]}
         position={[-4.65, 3.8, 0]}
         ref={ref2}
+        visible={false}
         renderOrder={5}
       >
         <meshBasicMaterial
@@ -63,6 +65,7 @@ const AudioVisualizerColumn = (props: AudioVisualizerColumnProps) => {
         scale={[0.4, 0.4, 0.4]}
         position={[-4.1, 3.8, 0]}
         ref={ref3}
+        visible={false}
         renderOrder={5}
       >
         <meshBasicMaterial
@@ -78,6 +81,7 @@ const AudioVisualizerColumn = (props: AudioVisualizerColumnProps) => {
         scale={[0.4, 0.4, 0.4]}
         position={[-3.55, 3.8, 0]}
         renderOrder={10}
+        visible={false}
         ref={ref4}
       >
         <meshBasicMaterial

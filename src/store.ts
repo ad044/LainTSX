@@ -1,5 +1,6 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
+import * as THREE from "three";
 
 type SceneState = {
   currentScene: string;
@@ -114,17 +115,6 @@ type MediaWordState = {
   resetWordPositionDataStructIdx: () => void;
 };
 
-type MediaState = {
-  mediaPercentageElapsed: number;
-  activeMediaComponent: string;
-  setActiveMediaComponent: (to: string) => void;
-  lastActiveLeftSideElement: string;
-  setLastActiveLeftSideElement: (to: string) => void;
-  lastActiveRightSideElement: string;
-  setLastActiveRightSideElement: (to: string) => void;
-  setPercentageElapsed: (to: number) => void;
-};
-
 export type TextRendererState = {
   yellowText: string;
   yellowTextPosY: number;
@@ -156,16 +146,6 @@ type ImageState = {
     2: ImageSrc | undefined;
     3: ImageSrc | undefined;
   };
-};
-
-type SubsceneState = {
-  activeSubscene: string;
-  setActiveSubScene: (to: string) => void;
-};
-
-type MainMenuState = {
-  activeBootElement: string;
-  setActiveBootElement: (to: string) => void;
 };
 
 type GateState = {
@@ -315,6 +295,7 @@ export const useLevelStore = create<LevelState>((set) => ({
 export const useMediaStore = create(
   combine(
     {
+      audioAnalyser: undefined,
       mediaPercentageElapsed: 0,
       componentMatrix: [
         ["play", "exit"],
@@ -372,6 +353,8 @@ export const useMediaStore = create(
         })),
       setPercentageElapsed: (to: number) =>
         set(() => ({ mediaPercentageElapsed: to })),
+      setAudioAnalyser: (to: THREE.AudioAnalyser) =>
+        set(() => ({ audioAnalyser: to })),
     })
   )
 );
@@ -459,19 +442,58 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "sskn",
+  currentScene: "boot",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
-export const useSubsceneStore = create<SubsceneState>((set) => ({
-  activeSubscene: "authorize_user",
-  setActiveSubScene: (to) => set(() => ({ activeSubscene: to })),
-}));
-
-export const useBootStore = create<MainMenuState>((set) => ({
-  activeBootElement: "load_data_yes",
-  setActiveBootElement: (to: string) => set(() => ({ activeBootElement: to })),
-}));
+export const useBootStore = create(
+  combine(
+    {
+      componentMatrix: {
+        main_menu: ["authorize_user", "load_data"],
+        load_data: ["load_data_yes", "load_data_no"],
+        authorize_user: ["authorize_user_letters"],
+      },
+      authorizeUserLetterMatrix: {
+        xIndices: [
+          3.35,
+          3.05,
+          2.75,
+          2.45,
+          2.15,
+          1.85,
+          1.55,
+          1.25,
+          0.75,
+          0.45,
+          0.15,
+          -0.15,
+          -0.45,
+        ],
+      },
+      componentMatrixIndices: {
+        // 0 or 1
+        main_menu: 0,
+        // 0 or 1
+        load_data: 0,
+        // only 0 (depends on external dataset)
+        authorize_user: 0,
+      },
+      // main_menu, load_data or authorize_user
+      subscene: "authorize_user",
+    } as any,
+    (set) => ({
+      toggleComponentMatrixIdx: (subscene: string) =>
+        set((state) => ({
+          componentMatrixIndices: {
+            ...state.componentMatrixIndices,
+            [subscene]: Number(!state.componentMatrixIndices[subscene]),
+          },
+        })),
+      setSubscene: (to: string) => set(() => ({ subscene: to })),
+    })
+  )
+);
 
 export const useImageStore = create(
   combine(

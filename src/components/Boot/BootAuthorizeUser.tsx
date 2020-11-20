@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef } from "react";
 import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
 import authorizeGlass from "../../static/sprite/authorize_glass.png";
 import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
@@ -37,6 +37,12 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
 
   const backgroundLetterRef = useRef<THREE.Object3D>();
 
+  useFrame(() => {
+    if (backgroundLetterRef.current) {
+      // backgroundLetterRef.current.position.x += 0.01
+    }
+  });
+
   return (
     <>
       {props.visible ? (
@@ -73,6 +79,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
               map={authorizeGlassTex}
               attach="material"
               transparent={true}
+              depthTest={false}
             />
           </sprite>
           <sprite
@@ -84,6 +91,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
               map={authorizeOrangeSquareTex}
               attach="material"
               transparent={true}
+              depthTest={false}
             />
           </sprite>
 
@@ -96,23 +104,25 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
               map={authorizeGlassUnderlineTex}
               attach="material"
               transparent={true}
+              depthTest={false}
             />
           </sprite>
 
-          <mesh
-            scale={[4, 1.28, 0]}
-            position={[-1.06, 0.3, -0.3]}
-            rotation={[-1, 0, -0.3]}
-            renderOrder={-1}
-            ref={backgroundLetterRef}
-          >
-            <planeBufferGeometry attach="geometry" />
-            <meshBasicMaterial
-              map={authorizeInactiveLettersTex}
-              attach="material"
-              transparent={true}
-            />
-          </mesh>
+          <group position={[-1.15, 0.4, 0.3]} rotation={[-0.8, 0, -0.3]}>
+            <mesh
+              scale={[4, 1.28, 0]}
+              renderOrder={-1}
+              position={[-0.45, -0.6, 0]}
+              ref={backgroundLetterRef}
+            >
+              <planeBufferGeometry attach="geometry" />
+              <meshBasicMaterial
+                map={authorizeInactiveLettersTex}
+                attach="material"
+                transparent={true}
+              />
+            </mesh>
+          </group>
         </>
       ) : (
         <></>
