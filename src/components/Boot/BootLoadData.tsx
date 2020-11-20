@@ -7,10 +7,10 @@ import yes from "../../static/sprite/Yes.png";
 import no from "../../static/sprite/No.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import { useBootStore } from "../../store";
 
 type BootLoadDataProps = {
   visible: boolean;
+  activeBootElement: string;
 };
 
 const BootLoadData = (props: BootLoadDataProps) => {
@@ -29,8 +29,6 @@ const BootLoadData = (props: BootLoadDataProps) => {
   const areYouSureTex = useLoader(THREE.TextureLoader, areYouSure);
   const yesTex = useLoader(THREE.TextureLoader, yes);
   const noTex = useLoader(THREE.TextureLoader, no);
-
-  const activeBootElement = useBootStore((state) => state.activeBootElement);
 
   return (
     <>
@@ -65,7 +63,7 @@ const BootLoadData = (props: BootLoadDataProps) => {
             scale={[0.7, 0.3, 0]}
             renderOrder={2}
             position={
-              activeBootElement === "load_data_yes"
+              props.activeBootElement === "load_data_yes"
                 ? [-1.2, -0.2, 0]
                 : [1.2, -0.2, 0]
             }

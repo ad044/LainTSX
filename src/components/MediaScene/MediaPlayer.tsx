@@ -35,8 +35,6 @@ const MediaPlayer = () => {
     <video
       width="800"
       height="600"
-      controls
-      autoPlay
       id="media"
       ref={videoRef}
       style={{ display: currentScene === "media" ? "block" : "none" }}

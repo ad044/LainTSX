@@ -3,49 +3,42 @@ import { StateManagerProps } from "./EventManager";
 import { useBootStore } from "../../store";
 
 const BootManager = (props: StateManagerProps) => {
-  const setActiveBootElement = useBootStore(
-    (state) => state.setActiveBootElement
+  const toggleComponentMatrixIdx = useBootStore(
+    (state) => state.toggleComponentMatrixIdx
   );
+  const setBootSubscene = useBootStore((state) => state.setSubscene);
 
   const dispatchObject = useCallback(
     (event: string) => {
       switch (event) {
         case "main_menu_down":
-          return {
-            action: setActiveBootElement,
-            value: "load_data",
-          };
         case "main_menu_up":
           return {
-            action: setActiveBootElement,
-            value: "authorize_user",
+            action: toggleComponentMatrixIdx,
+            value: "main_menu",
           };
         case "load_data_left":
-          return {
-            action: setActiveBootElement,
-            value: "load_data_yes",
-          };
         case "load_data_right":
           return {
-            action: setActiveBootElement,
-            value: "load_data_no",
-          };
-        case "authorize_user_back":
-        case "select_authorize_user":
-          return {
-            action: setActiveBootElement,
-            value: "authorize_user",
-          };
-        case "load_data_no":
-          return {
-            action: setActiveBootElement,
+            action: toggleComponentMatrixIdx,
             value: "load_data",
           };
-        case "select_load_data":
-          return { action: setActiveBootElement, value: "load_data_yes" };
+        case "authorize_user_back":
+        case "load_data_no_select":
+          return {
+            action: setBootSubscene,
+            value: "main_menu",
+          };
+        case "authorize_user_select":
+          return {
+            action: setBootSubscene,
+            value: "authorize_user",
+          };
+        case "load_data_select":
+          return { action: setBootSubscene, value: "load_data" };
       }
     },
-    [setActiveBootElement]
+    [setBootSubscene, toggleComponentMatrixIdx]
   );
 
   useEffect(() => {

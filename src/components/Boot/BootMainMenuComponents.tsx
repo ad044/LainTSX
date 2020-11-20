@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
 import authorizeActive from "../../static/sprite/authorize_user_active.png";
 import authorizeInactive from "../../static/sprite/authorize_user_inactive.png";
@@ -6,18 +6,16 @@ import loadDataActive from "../../static/sprite/load_data_active.png";
 import loadDataInactive from "../../static/sprite/load_data_inactive.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { useBootStore } from "../../store";
 import authorizeUserHeader from "../../static/sprite/authorize_user_scene_header.png";
 import loadDataHeader from "../../static/sprite/load_data_header.png";
 
 type BootMainMenuProps = {
   visible: boolean;
   activeSubScene: string;
+  activeBootElement: string;
 };
 
 const BootMainMenuComponents = (props: BootMainMenuProps) => {
-  const activeBootElement = useBootStore((state) => state.activeBootElement);
-
   const authorizeActiveTex = useLoader(THREE.TextureLoader, authorizeActive);
   const authorizeInactiveTex = useLoader(
     THREE.TextureLoader,
@@ -41,17 +39,17 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
     } else {
       return {
         texture:
-          activeBootElement === "load_data"
+          props.activeBootElement === "load_data"
             ? loadDataActiveTex
             : loadDataInactiveTex,
         position: { x: 0, y: -0.5 },
       };
     }
   }, [
-    activeBootElement,
     loadDataActiveTex,
     loadDataHeaderTex,
     loadDataInactiveTex,
+    props.activeBootElement,
     props.activeSubScene,
   ]);
 
@@ -66,17 +64,17 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
       return {
         scale: [1.8, 0.3, 0],
         texture:
-          activeBootElement === "authorize_user"
+          props.activeBootElement === "authorize_user"
             ? authorizeActiveTex
             : authorizeInactiveTex,
         position: { x: 0, y: 0.5 },
       };
     }
   }, [
-    activeBootElement,
     authorizeActiveTex,
     authorizeInactiveTex,
     authorizeUserHeaderTex,
+    props.activeBootElement,
     props.activeSubScene,
   ]);
 

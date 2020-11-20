@@ -2,74 +2,70 @@ import React, { createRef, MutableRefObject, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import AudioVisualizerColumn from "./AudioVisualizerColumn";
+import { useMediaStore } from "../../../store";
 
 const AudioVisualizer = () => {
-  const analyser = useMemo(() => {
-    const listener = new THREE.AudioListener();
+  const analyser = useMediaStore((state) => state.audioAnalyser);
 
-    const audio = new THREE.Audio(listener);
-    audio.setMediaElementSource(
-      document.getElementById("media") as HTMLMediaElement
-    );
-
-    return new THREE.AudioAnalyser(audio, 2048);
-  }, []);
-
-  const columnRefs = useMemo(() => {
-    return Array.from({ length: 15 }, () => [
-      createRef<THREE.Object3D>(),
-      createRef<THREE.Object3D>(),
-      createRef<THREE.Object3D>(),
-      createRef<THREE.Object3D>(),
-    ]);
-  }, []);
+  const columnRefs = useMemo(
+    () =>
+      Array.from({ length: 15 }, () => [
+        createRef<THREE.Object3D>(),
+        createRef<THREE.Object3D>(),
+        createRef<THREE.Object3D>(),
+        createRef<THREE.Object3D>(),
+      ]),
+    []
+  );
 
   useFrame(() => {
-    const frequencyData = analyser.getFrequencyData();
+    if (analyser) {
+      const frequencyData = analyser.getFrequencyData();
 
-    columnRefs.forEach((refArray, idx) => {
-      const ref1 = refArray[0];
-      const ref2 = refArray[1];
-      const ref3 = refArray[2];
-      const ref4 = refArray[3];
+      columnRefs.forEach((refArray, idx) => {
+        const ref1 = refArray[0];
+        const ref2 = refArray[1];
+        const ref3 = refArray[2];
+        const ref4 = refArray[3];
 
-      // we up it by 1.2 just so it becomes a bit more noticable, otherwise
-      // the visualizer is a bit too "calm"
-      const currentFrequency = frequencyData[32 * idx] * 1.2;
+        // we up it by 1.2 just so it becomes a bit more noticable, otherwise
+        // the visualizer is a bit too "calm"
+        const currentFrequency = frequencyData[32 * idx] * 1.2;
 
-      switch (true) {
-        case currentFrequency >= 255:
-          ref1.current!.visible = true;
-          ref2.current!.visible = true;
-          ref3.current!.visible = true;
-          ref4.current!.visible = true;
-          break;
-        case currentFrequency >= 192:
-          ref1.current!.visible = true;
-          ref2.current!.visible = true;
-          ref3.current!.visible = true;
-          ref4.current!.visible = false;
-          break;
-        case currentFrequency >= 128:
-          ref1.current!.visible = true;
-          ref2.current!.visible = true;
-          ref3.current!.visible = false;
-          ref4.current!.visible = false;
-          break;
-        case currentFrequency >= 64:
-          ref1.current!.visible = true;
-          ref2.current!.visible = false;
-          ref3.current!.visible = false;
-          ref4.current!.visible = false;
-          break;
-        default:
-          ref1.current!.visible = false;
-          ref2.current!.visible = false;
-          ref3.current!.visible = false;
-          ref4.current!.visible = false;
-          break;
-      }
-    });
+        switch (true) {
+          case currentFrequency >= 255:
+            ref1.current!.visible = true;
+            ref2.current!.visible = true;
+            ref3.current!.visible = true;
+            ref4.current!.visible = true;
+            break;
+          case currentFrequency >= 192:
+            ref1.current!.visible = true;
+            ref2.current!.visible = true;
+            ref3.current!.visible = true;
+            ref4.current!.visible = false;
+            break;
+          case currentFrequency >= 128:
+            ref1.current!.visible = true;
+            ref2.current!.visible = true;
+            ref3.current!.visible = false;
+            ref4.current!.visible = false;
+            break;
+          case currentFrequency >= 64:
+            ref1.current!.visible = true;
+            ref2.current!.visible = false;
+            ref3.current!.visible = false;
+            ref4.current!.visible = false;
+            break;
+          default:
+            ref1.current!.visible = false;
+            ref2.current!.visible = false;
+            ref3.current!.visible = false;
+            ref4.current!.visible = false;
+            break;
+        }
+      });
+    }
   });
 
   return (

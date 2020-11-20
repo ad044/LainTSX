@@ -11,7 +11,6 @@ import {
   useMediaStore,
   useSceneStore,
   useSiteStore,
-  useSubsceneStore,
   useSSknStore,
 } from "../../store";
 import GreenTextManager from "./GreenTextManager";
@@ -23,7 +22,6 @@ import MediaImageManager from "./MediaImageManager";
 import computeAction from "../computeAction";
 import LevelManager from "./LevelManager";
 import BootManager from "./BootManager";
-import SubSceneManager from "./SubSceneManager";
 import SSknComponentManager from "./SSknComponentManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
@@ -54,7 +52,7 @@ export type StateManagerProps = {
 export type GameContext = {
   keyPress?: string;
   scene: string;
-  subscene: string;
+  bootSubscene: string;
   nodeMatrixIndices: { rowIdx: number; colIdx: number };
   currentLevel: string;
   siteRotIdx: string;
@@ -65,7 +63,6 @@ export type GameContext = {
 
 const EventManager = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
-  const currentSubscene = useSubsceneStore((state) => state.activeSubscene);
 
   // main scene
   const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
@@ -90,7 +87,6 @@ const EventManager = () => {
   );
 
   // sskn scene
-
   const ssknComponentMatrixIdx = useSSknStore(
     (state) => state.componentMatrixIdx
   );
@@ -101,7 +97,16 @@ const EventManager = () => {
   );
 
   // boot scene
-  const activeBootElement = useBootStore((state) => state.activeBootElement);
+  const currentBootSubscene = useBootStore((state) => state.subscene);
+  const activeBootElement = useBootStore(
+    useCallback(
+      (state) =>
+        state.componentMatrix[currentBootSubscene][
+          state.componentMatrixIndices[currentBootSubscene]
+        ],
+      [currentBootSubscene]
+    )
+  );
 
   const [eventState, setEventState] = useState<any>();
 
@@ -110,7 +115,7 @@ const EventManager = () => {
   const gameContext: GameContext = useMemo(
     () => ({
       scene: currentScene,
-      subscene: currentSubscene,
+      bootSubscene: currentBootSubscene,
       siteRotIdx: siteRotIdx,
       nodeMatrixIndices: nodeMatrixIndices,
       currentLevel: currentLevel,
@@ -120,7 +125,7 @@ const EventManager = () => {
     }),
     [
       currentScene,
-      currentSubscene,
+      currentBootSubscene,
       siteRotIdx,
       nodeMatrixIndices,
       currentLevel,
@@ -168,7 +173,6 @@ const EventManager = () => {
       <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <BootManager eventState={eventState!} />
-      <SubSceneManager eventState={eventState!} />
       <SSknComponentManager eventState={eventState!} />
     </>
   );

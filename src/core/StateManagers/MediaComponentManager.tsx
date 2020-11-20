@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
 import { useMediaStore } from "../../store";
+import * as THREE from "three";
 
 const MediaComponentManager = (props: StateManagerProps) => {
   const toggleSide = useMediaStore((state) => state.toggleSide);
@@ -15,10 +16,24 @@ const MediaComponentManager = (props: StateManagerProps) => {
     (state) => state.resetComponentMatrixIndices
   );
 
+  const setAudioAnalyser = useMediaStore((state) => state.setAudioAnalyser);
+
   const playMedia = useCallback(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
-    if (mediaElement) mediaElement.play().then((r) => console.log(r));
-  }, []);
+
+    const listener = new THREE.AudioListener();
+    const audio = new THREE.Audio(listener);
+
+    audio.setMediaElementSource(
+      document.getElementById("media") as HTMLMediaElement
+    );
+
+    setAudioAnalyser(new THREE.AudioAnalyser(audio, 2048));
+
+    if (mediaElement) {
+      mediaElement.play();
+    }
+  }, [setAudioAnalyser]);
 
   const dispatchObject = useCallback(
     (event: string) => {
