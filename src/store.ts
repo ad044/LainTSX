@@ -454,22 +454,13 @@ export const useBootStore = create(
         load_data: ["load_data_yes", "load_data_no"],
         authorize_user: ["authorize_user_letters"],
       },
-      authorizeUserLetterMatrix: {
-        xIndices: [
-          3.35,
-          3.05,
-          2.75,
-          2.45,
-          2.15,
-          1.85,
-          1.55,
-          1.25,
-          0.75,
-          0.45,
-          0.15,
-          -0.15,
-          -0.45,
-        ],
+      lettersPos: {
+        x: 3.35,
+        y: -0.7,
+      },
+      activeLetterTextureOffset: {
+        x: 0,
+        y: -0.2,
       },
       componentMatrixIndices: {
         // 0 or 1
@@ -491,6 +482,72 @@ export const useBootStore = create(
           },
         })),
       setSubscene: (to: string) => set(() => ({ subscene: to })),
+      moveAuthorizeUserLetters: (direction: string) =>
+        set((state) => {
+          let initialPos = state.lettersPos;
+          let initialActiveLetterTextureOffset =
+            state.activeLetterTextureOffset;
+
+          let axis: string;
+          let finalPosVal: number;
+          let finalTextureOffsetVal: number;
+          switch (direction) {
+            case "right":
+              axis = "x";
+              if (initialPos.x - 0.3 < -0.25) {
+                finalPosVal = -0.25;
+                finalTextureOffsetVal = 0.93;
+              } else {
+                finalPosVal = initialPos.x - 0.3;
+                finalTextureOffsetVal =
+                  initialActiveLetterTextureOffset.x + 0.0775;
+              }
+              break;
+            case "left":
+              axis = "x";
+              if (initialPos.x + 0.3 > 3.35) {
+                finalPosVal = 3.35;
+                finalTextureOffsetVal = 0;
+              } else {
+                finalPosVal = initialPos.x + 0.3;
+                finalTextureOffsetVal =
+                  initialActiveLetterTextureOffset.x - 0.0775;
+              }
+              break;
+            case "up":
+              axis = "y";
+              if (initialPos.y - 0.25 < -0.7) {
+                finalPosVal = -0.7;
+                finalTextureOffsetVal = -0.2;
+              } else {
+                finalPosVal = initialPos.y - 0.25;
+                finalTextureOffsetVal =
+                  initialActiveLetterTextureOffset.y + 0.2;
+              }
+              break;
+            case "down":
+              axis = "y";
+              if (initialPos.y + 0.25 > 0.3) {
+                finalPosVal = 0.3;
+                finalTextureOffsetVal = -1;
+              } else {
+                finalPosVal = initialPos.y + 0.25;
+                finalTextureOffsetVal =
+                  initialActiveLetterTextureOffset.y - 0.2;
+              }
+              break;
+          }
+          return {
+            lettersPos: {
+              ...state.lettersPos,
+              [axis!]: finalPosVal!,
+            },
+            activeLetterTextureOffset: {
+              ...state.activeLetterTextureOffset,
+              [axis!]: finalTextureOffsetVal!,
+            },
+          };
+        }),
     })
   )
 );
