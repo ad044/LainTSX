@@ -7,6 +7,9 @@ const BootManager = (props: StateManagerProps) => {
     (state) => state.toggleComponentMatrixIdx
   );
   const setBootSubscene = useBootStore((state) => state.setSubscene);
+  const moveAuthorizeUserLetters = useBootStore(
+    (state) => state.moveAuthorizeUserLetters
+  );
 
   const dispatchObject = useCallback(
     (event: string) => {
@@ -34,11 +37,31 @@ const BootManager = (props: StateManagerProps) => {
             action: setBootSubscene,
             value: "authorize_user",
           };
+        case "authorize_user_right":
+          return {
+            action: moveAuthorizeUserLetters,
+            value: "right",
+          };
+        case "authorize_user_left":
+          return {
+            action: moveAuthorizeUserLetters,
+            value: "left",
+          };
+        case "authorize_user_up":
+          return {
+            action: moveAuthorizeUserLetters,
+            value: "up",
+          };
+        case "authorize_user_down":
+          return {
+            action: moveAuthorizeUserLetters,
+            value: "down",
+          };
         case "load_data_select":
           return { action: setBootSubscene, value: "load_data" };
       }
     },
-    [setBootSubscene, toggleComponentMatrixIdx]
+    [moveAuthorizeUserLetters, setBootSubscene, toggleComponentMatrixIdx]
   );
 
   useEffect(() => {
