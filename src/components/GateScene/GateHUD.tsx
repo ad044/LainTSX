@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import gateText from "../../static/sprite/gate_pass.png";
 import gateTextUnderline from "../../static/sprite/gate_pass_underline.png";
 import gateTextAccessPass from "../../static/sprite/you_got_an_access_pass.png";
 import changeSiteEnable from "../../static/sprite/change_site_enable.png";
 import gateLeftThing from "../../static/sprite/left_gate_thing.png";
 import gateRightThing from "../../static/sprite/right_gate_thing.png";
-import { useFrame, useLoader } from "react-three-fiber";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
 type GateMiddleProps = {

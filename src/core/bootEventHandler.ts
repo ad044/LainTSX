@@ -14,6 +14,10 @@ const handleBootEvent = (gameContext: GameContext) => {
     case "back":
       return { event: `${currentSubscene}_${keyPress}` };
     case "select":
+      switch(currentSubscene){
+        case "authorize_user":
+
+      }
       return { event: `${activeBootElement}_${keyPress}` };
   }
 };
