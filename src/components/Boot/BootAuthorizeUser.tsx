@@ -42,7 +42,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     authorizeActiveLetters
   );
 
-  const backgroundLettersPos = useBootStore((state) => state.lettersPos);
+  const backgroundLettersPos = useBootStore((state) => state.bgLettersPos);
   const activeLetterTextureOffset = useBootStore(
     (state) => state.activeLetterTextureOffset
   );
@@ -56,6 +56,10 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
 
     return authorizeActiveLettersTex;
   }, [activeLetterTextureOffset, authorizeActiveLettersTex]);
+
+  const t = useBootStore(
+    (state) => state.componentMatrixIndices.authorize_user
+  );
 
   return (
     <>
