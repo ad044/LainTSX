@@ -8,21 +8,20 @@ import longHudMirrored from "../../static/sprite/long_hud_mirrored.png";
 import boringHud from "../../static/sprite/long_hud_boring.png";
 import boringHudMirrored from "../../static/sprite/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
-import {useNodeStore, useHudStore} from "../../store";
+import { useHudStore } from "../../store";
 import node_huds from "../../resources/node_huds.json";
 
 const HUD = memo(() => {
-  const hudActive = useHudStore((state) => state.hudActive);
-  const currentHudId = useHudStore((state) => state.activeHudId);
+  const active = useHudStore((state) => state.active);
+  const id = useHudStore((state) => state.id);
+  const visible = useHudStore((state) => state.visible);
 
-  const hudVisible = useHudStore((state) => state.hudVisible);
-
-  const currentHud = node_huds[currentHudId as keyof typeof node_huds];
+  const currentHud = node_huds[id as keyof typeof node_huds];
 
   const hudElementState = useSpring({
-    bigHUDPositionX: hudActive,
-    longHUDPositionX: hudActive,
-    boringHUDPositionX: hudActive,
+    bigHUDPositionX: active,
+    longHUDPositionX: active,
+    boringHUDPositionX: active,
     config: { duration: 500 },
   });
 
@@ -84,7 +83,7 @@ const HUD = memo(() => {
   );
 
   return (
-    <group visible={hudVisible} position={[0, 0, 10]}>
+    <group visible={visible} position={[0, 0, 10]}>
       <a.sprite
         position-x={longHUDPosX}
         position-y={currentHud!.long.position[1]}

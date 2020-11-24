@@ -1,20 +1,15 @@
 import { useCallback, useEffect } from "react";
-import { useTextRendererStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
 import { SiteType } from "../../components/MainScene/Site";
+import { useGreenTextStore } from "../../store";
 
 const GreenTextManager = (props: StateManagerProps) => {
-  const setGreenText = useTextRendererStore((state) => state.setGreenText);
-  const setGreenTextPosY = useTextRendererStore(
-    (state) => state.setGreenTextPosY
-  );
-  const setGreenTextPosX = useTextRendererStore(
-    (state) => state.setGreenTextPosX
-  );
-  const toggleGreenText = useTextRendererStore(
-    (state) => state.toggleGreenText
+  const setGreenText = useGreenTextStore((state) => state.setText);
+  const toggleActive = useGreenTextStore((state) => state.toggleActive);
+  const setTransformState = useGreenTextStore(
+    (state) => state.setTransformState
   );
 
   const toggleAndSetGreenText = useCallback(
@@ -30,30 +25,39 @@ const GreenTextManager = (props: StateManagerProps) => {
       const targetGreenTextPosData =
         node_huds[newActiveHudId as keyof typeof node_huds].medium_text;
 
-      toggleGreenText();
+      toggleActive();
 
       setTimeout(() => {
-        setGreenTextPosX({
-          initial: targetGreenTextPosData.initial_position[0],
-          final: targetGreenTextPosData.position[0],
-        });
-        setGreenTextPosY(targetGreenTextPosData.position[1]);
+        setTransformState(
+          {
+            initial: targetGreenTextPosData.initial_position[0],
+            final: targetGreenTextPosData.position[0],
+          },
+          "posX"
+        );
+        setTransformState(targetGreenTextPosData.position[1], "posY");
         setGreenText(targetGreenText);
-        toggleGreenText();
+        toggleActive();
       }, delay);
     },
-    [setGreenText, setGreenTextPosX, setGreenTextPosY, toggleGreenText]
+    [setGreenText, setTransformState, toggleActive]
   );
 
   const initializeGreenTextForMediaScene = useCallback(
     (activeNodeId: string, level: string) => {
       setTimeout(() => {
         setGreenText((site_a as SiteType)[level][activeNodeId].node_name);
-        setGreenTextPosX({ initial: 0.0, final: 0.009 });
-        setGreenTextPosY(0.675);
+        setTransformState(
+          {
+            initial: 0,
+            final: 0.009,
+          },
+          "posX"
+        );
+        setTransformState(0.675, "posY");
       }, 3950);
     },
-    [setGreenText, setGreenTextPosX, setGreenTextPosY]
+    [setGreenText, setTransformState]
   );
 
   const dispatchObject = useCallback(

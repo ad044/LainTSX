@@ -8,35 +8,24 @@ import { useMiddleRingStore } from "../../store";
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-  const middleRingWobbleStrength = useMiddleRingStore(
-    (state) => state.middleRingWobbleStrength
-  );
-  const middleRingRotating = useMiddleRingStore(
-    (state) => state.middleRingRotating
-  );
-  const middleRingNoise = useMiddleRingStore((state) => state.middleRingNoise);
-  const middleRingPosY = useMiddleRingStore((state) => state.middleRingPosY);
-  const middleRingRotX = useMiddleRingStore((state) => state.middleRingRotX);
-  const middleRingRotZ = useMiddleRingStore((state) => state.middleRingRotZ);
+  const transformState = useMiddleRingStore((state) => state.transformState);
+  const rotating = useMiddleRingStore((state) => state.isRotating);
+  const animDuration = useMiddleRingStore((state) => state.animDuration);
 
-  const middleRingAnimDuration = useMiddleRingStore(
-    (state) => state.middleRingAnimDuration
-  );
-
-  const middleRingWobbleState = useSpring({
-    middleRingWobbleStrength: middleRingWobbleStrength,
-    middleRingNoise: middleRingNoise,
+  const wobbleState = useSpring({
+    wobbleStrength: transformState.wobbleStrength,
+    noiseStrength: transformState.noiseStrength,
     config: { duration: 200 },
   });
 
-  const middleRingPosState = useSpring({
-    middleRingPosY: middleRingPosY,
-    config: { duration: middleRingAnimDuration },
+  const posState = useSpring({
+    posY: transformState.posY,
+    config: { duration: animDuration },
   });
 
-  const middleRingRotState = useSpring({
-    middleRingRotX: middleRingRotX,
-    middleRingRotZ: middleRingRotZ,
+  const rotState = useSpring({
+    rotX: transformState.rotX,
+    rotZ: transformState.rotZ,
     config: { duration: 1000 },
   });
 
@@ -199,24 +188,24 @@ const MiddleRing = () => {
   useFrame(() => {
     if (middleRingMaterialRef.current) {
       middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
-      middleRingMaterialRef.current.uniforms.wobbleStrength.value = middleRingWobbleState.middleRingWobbleStrength.get();
-      middleRingMaterialRef.current.uniforms.noiseAmp.value = middleRingWobbleState.middleRingNoise.get();
+      middleRingMaterialRef.current.uniforms.wobbleStrength.value = wobbleState.wobbleStrength.get();
+      middleRingMaterialRef.current.uniforms.noiseAmp.value = wobbleState.noiseStrength.get();
 
       middleRingMaterialRef.current.needsUpdate = true;
     }
-    if (middleRingRotating) {
+    if (rotating) {
       middleRingRef.current!.rotation.y += 0.05;
     }
   });
 
   return (
-    <a.group rotation-z={middleRingRotState.middleRingRotZ}>
+    <a.group rotation-z={rotState.rotZ}>
       <a.mesh
         position={[0, 0, 0.3]}
-        position-y={middleRingPosState.middleRingPosY}
+        position-y={posState.posY}
         ref={middleRingRef}
         rotation={[0, 0.9, 0]}
-        rotation-x={middleRingRotState.middleRingRotX}
+        rotation-x={rotState.rotX}
       >
         <cylinderBufferGeometry
           args={[0.75, 0.75, 0.027, 64, 64, true]}

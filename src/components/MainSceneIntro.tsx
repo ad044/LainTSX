@@ -3,7 +3,6 @@ import {
   useGrayPlanesStore,
   useHudStore,
   useLainStore,
-  useMainGroupStore,
   useStarfieldStore,
   useYellowOrbStore,
 } from "../store";
@@ -14,7 +13,13 @@ import {
 // inside <Suspense> tags makes it behave in a more stable manner
 // by waiting for the components to load and synchronously calling the functions.
 const MainSceneIntro = memo(() => {
-  const toggleHud = useHudStore((state) => state.toggleHud);
+  // todo component
+
+  // -2.5 - intro val
+  //-9.5 - intro val
+  //1.5 - intro val
+
+  const toggleHud = useHudStore((state) => state.toggleActive);
 
   //const setHudVisible = useSetRecoilState(hudVisibilityAtom);
   const setOrbVisible = useYellowOrbStore((state) => state.setYellowOrbVisible);
@@ -31,21 +36,11 @@ const MainSceneIntro = memo(() => {
     (state) => state.setMainStarfieldBoostVal
   );
 
-  const setMainGroupPosY = useMainGroupStore((state) => state.setMainGroupPosY);
-  const setMainGroupPosZ = useMainGroupStore((state) => state.setMainGroupPosZ);
-  const setMainGroupRotX = useMainGroupStore((state) => state.setMainGroupRotX);
-
   const setGrayPlanesVisible = useGrayPlanesStore(
     (state) => state.setGrayPlanesVisible
   );
 
   useEffect(() => {
-    setMainGroupPosY(0);
-    setMainGroupPosZ(0);
-    setTimeout(() => {
-      setMainGroupRotX(0);
-    }, 2400);
-
     setTimeout(() => {
       setGrayPlanesVisible(true);
     }, 2500);
@@ -77,9 +72,6 @@ const MainSceneIntro = memo(() => {
     setMainStarfieldVisible,
     setOrbVisible,
     setIntroStarfieldVisible,
-    setMainGroupRotX,
-    setMainGroupPosZ,
-    setMainGroupPosY,
     setLainMoveState,
     toggleHud,
   ]);

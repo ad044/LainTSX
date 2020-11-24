@@ -8,40 +8,27 @@ type SceneState = {
 };
 
 type HUDState = {
-  activeHudId: string;
-  hudActive: number;
-  hudVisible: boolean;
-  setActiveNodeHudId: (to: string) => void;
-  toggleHud: () => void;
+  id: string;
+  active: number;
+  visible: boolean;
+  setId: (to: string) => void;
+  toggleActive: () => void;
 };
 
 type NodeState = {
-  activeNodeId: string;
-  isActiveNodeInteractedWith: boolean;
-  activeNodePosX: number;
-  activeNodePosZ: number;
-  activeNodeRotZ: number;
-  setActiveNodePosX: (to: number) => void;
-  setActiveNodePosZ: (to: number) => void;
-  setActiveNodeRotZ: (to: number) => void;
-  setActiveNodeId: (to: string) => void;
-  setIsActiveNodeInteractedWith: (to: boolean) => void;
-  nodeMatrixIndices: { rowIdx: number; colIdx: number };
-  setNodeMatrixIndices: (to: { rowIdx: number; colIdx: number }) => void;
+  activeNodeState: {
+    id: string;
+    posX: number;
+    posZ: number;
+    rotZ: number;
+    interactedWith: boolean;
+  };
+  nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
 };
 
 type LainState = {
   lainMoveState: string;
   setLainMoveState: (to: string) => void;
-};
-
-type MainGroupState = {
-  mainGroupPosY: number;
-  mainGroupPosZ: number;
-  mainGroupRotX: number;
-  setMainGroupPosY: (to: number) => void;
-  setMainGroupPosZ: (to: number) => void;
-  setMainGroupRotX: (to: number) => void;
 };
 
 type GrayPlanesState = {
@@ -66,39 +53,25 @@ type YellowOrbState = {
 type SiteState = {
   siteRotY: number;
   sitePosY: number;
-  isSiteChangingY: boolean;
-  addToSiteRotY: (by: number) => void;
-  addToSitePosY: (by: number) => void;
   setSiteRotY: (to: number) => void;
   setSitePosY: (to: number) => void;
-  setIsSiteChanging: (to: boolean) => void;
-  siteRotIdx: string;
-  setSiteRotIdx: (to: string) => void;
 };
 
 type LevelState = {
-  currentLevel: string;
-  activeLevels: string[];
-  setActiveLevels: (to: string[]) => void;
-  setCurrentLevel: (to: string) => void;
+  activeLevel: string;
+  setActiveLevel: (to: string) => void;
 };
 
 type MiddleRingState = {
-  middleRingWobbleStrength: number;
-  middleRingRotating: boolean;
-  middleRingNoise: number;
-  middleRingPosY: number;
-  middleRingRotX: number;
-  middleRingRotZ: number;
-  middleRingAnimDuration: number;
-  setMiddleRingWobbleStrength: (to: number) => void;
-  setMiddleRingRotating: (to: boolean) => void;
-  setMiddleRingNoise: (to: number) => void;
-  addToMiddleRingPosY: (val: number) => void;
-  setMiddleRingPosY: (to: number) => void;
-  setMiddleRingRotX: (to: number) => void;
-  setMiddleRingRotZ: (to: number) => void;
-  setMiddleRingAnimDuration: (to: number) => void;
+  transformState: {
+    wobbleStrength: number;
+    noiseStrength: number;
+    posY: number;
+    rotX: number;
+    rotZ: number;
+  };
+  isRotating: boolean;
+  animDuration: number;
 };
 
 type MediaWordState = {
@@ -115,17 +88,27 @@ type MediaWordState = {
   resetWordPositionDataStructIdx: () => void;
 };
 
+export type YellowTextState = {
+  disableTrail: boolean;
+  text: string;
+  transformState: {
+    posX: number;
+    posY: number;
+    xOffset: number;
+  };
+};
+
+export type GreenTextState = {
+  text: string;
+  transformState: {
+    posX: { initial: number; final: number };
+    posY: number;
+    xOffset: number;
+  };
+  active: number;
+};
+
 export type TextRendererState = {
-  yellowText: string;
-  yellowTextPosY: number;
-  yellowTextPosX: number;
-  yellowTextOffsetXCoeff: number;
-  setYellowText: (to: string) => void;
-  addToYellowTextPosY: (val: number) => void;
-  addToYellowTextPosX: (val: number) => void;
-  setYellowTextPosY: (to: number) => void;
-  setYellowTextPosX: (to: number) => void;
-  setYellowTextOffsetXCoeff: (to: number) => void;
   greenTextPosY: number;
   greenTextPosX: { initial: number; final: number };
   greenText: string;
@@ -134,18 +117,6 @@ export type TextRendererState = {
   setGreenTextPosX: (to: { initial: number; final: number }) => void;
   setGreenText: (to: string) => void;
   toggleGreenText: () => void;
-};
-
-export type ImageSrc = {
-  default: string;
-};
-
-type ImageState = {
-  images: {
-    1: ImageSrc | undefined;
-    2: ImageSrc | undefined;
-    3: ImageSrc | undefined;
-  };
 };
 
 type GateState = {
@@ -162,74 +133,99 @@ type SSknState = {
   toggleLoading: () => void;
 };
 
-export const useTextRendererStore = create<TextRendererState>((set) => ({
-  // yellow text
-  yellowText: "Play",
-  yellowTextPosY: 0.23,
-  yellowTextPosX: -0.35,
-  yellowTextOffsetXCoeff: 0,
-  setYellowText: (to) => set(() => ({ yellowText: to })),
-  addToYellowTextPosY: (val) =>
-    set((state) => ({ yellowTextPosY: state.yellowTextPosY + val })),
-  addToYellowTextPosX: (val) =>
-    set((state) => ({ yellowTextPosX: state.yellowTextPosX + val })),
-  setYellowTextPosY: (to) => set(() => ({ yellowTextPosY: to })),
-  setYellowTextPosX: (to) => set(() => ({ yellowTextPosX: to })),
-  setYellowTextOffsetXCoeff: (to) =>
-    set(() => ({ yellowTextOffsetXCoeff: to })),
-  // green text
-  greenText: "TOUKO's DIARY",
-  greenTextPosY: 0,
-  greenTextPosX: { initial: 0, final: 0 },
-  greenTextActive: 1,
-  setGreenTextPosY: (to) => set(() => ({ greenTextPosY: to })),
-  setGreenTextPosX: (to) => set({ greenTextPosX: to }),
-  setGreenText: (to) => set(() => ({ greenText: to })),
-  toggleGreenText: () =>
-    set((state) => ({ greenTextActive: Number(!state.greenTextActive) })),
-}));
+export const useYellowTextStore = create(
+  combine(
+    {
+      disableTrail: false,
+      text: "Play",
+      transformState: {
+        posX: 0,
+        posY: 0,
+        xOffset: 0,
+      },
+    } as YellowTextState,
+    (set) => ({
+      setDisableTrail: (to: boolean) => set(() => ({ disableTrail: to })),
+      setText: (to: string) => set(() => ({ text: to })),
+      setTransformState: (to: number, at: string) =>
+        set((state) => ({
+          transformState: { ...state.transformState, [at]: to },
+        })),
+      addToTransformState: (val: number, at: string) =>
+        set((state) => ({
+          transformState: {
+            ...state.transformState,
+            [at]:
+              state.transformState[at as keyof typeof state.transformState] +
+              val,
+          },
+        })),
+    })
+  )
+);
+
+export const useGreenTextStore = create(
+  combine(
+    {
+      text: "TOUKO's DIARY",
+      transformState: {
+        posX: { initial: 0, final: 0 },
+        posY: 0,
+        xOffset: 0,
+      },
+      active: 1,
+    } as GreenTextState,
+    (set) => ({
+      setText: (to: string) => set(() => ({ text: to })),
+      setTransformState: (
+        to: number | { initial: number; final: number },
+        at: string
+      ) =>
+        set((state) => ({
+          transformState: { ...state.transformState, [at]: to },
+        })),
+      toggleActive: () => set((state) => ({ active: Number(!state.active) })),
+    })
+  )
+);
 
 export const useHudStore = create<HUDState>((set) => ({
-  activeHudId: "fg_hud_1",
-  hudActive: 1,
-  hudVisible: true,
-  setActiveNodeHudId: (to) => set(() => ({ activeHudId: to })),
-  toggleHud: () => set((state) => ({ hudActive: Number(!state.hudActive) })),
+  id: "fg_hud_1",
+  active: 1,
+  visible: true,
+  setId: (to) => set(() => ({ id: to })),
+  toggleActive: () => set((state) => ({ active: Number(!state.active) })),
 }));
 
-export const useNodeStore = create<NodeState>((set) => ({
-  activeNodeId: "0422",
-  isActiveNodeInteractedWith: false,
-  activeNodePosX: 0,
-  activeNodePosZ: 0,
-  activeNodeRotZ: 0,
-  setActiveNodePosX: (to) => set(() => ({ activeNodePosX: to })),
-  setActiveNodePosZ: (to) => set(() => ({ activeNodePosZ: to })),
-  setActiveNodeRotZ: (to) => set(() => ({ activeNodeRotZ: to })),
-  setActiveNodeId: (to) => set(() => ({ activeNodeId: to })),
-  setIsActiveNodeInteractedWith: (to) =>
-    set(() => ({ isActiveNodeInteractedWith: to })),
-  nodeRowIdx: 0,
-
-  nodeMatrixIndices: { rowIdx: 0, colIdx: 0 },
-  setNodeMatrixIndices: (to) => set(() => ({ nodeMatrixIndices: to })),
-}));
+export const useNodeStore = create(
+  combine(
+    {
+      activeNodeState: {
+        id: "0422",
+        posX: 0,
+        posZ: 0,
+        rotZ: 0,
+        interactedWith: false,
+      },
+      nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+    } as NodeState,
+    (set) => ({
+      setActiveNodeState: (to: number | boolean | string, at: string) =>
+        set((state) => ({
+          activeNodeState: { ...state.activeNodeState, [at]: to },
+        })),
+      setNodeMatrixIndices: (to: {
+        matrixIdx: number;
+        rowIdx: number;
+        colIdx: number;
+      }) => set(() => ({ nodeMatrixIndices: to })),
+    })
+  )
+);
 
 export const useLainStore = create<LainState>((set) => ({
   lainMoveState: "standing",
   setLainMoveState: (to) => set(() => ({ lainMoveState: to })),
-}));
-
-// -2.5 - intro val
-//-9.5 - intro val
-//1.5 - intro val
-export const useMainGroupStore = create<MainGroupState>((set) => ({
-  mainGroupPosY: 0,
-  mainGroupPosZ: 0,
-  mainGroupRotX: 0,
-  setMainGroupPosY: (to) => set(() => ({ mainGroupPosY: to })),
-  setMainGroupPosZ: (to) => set(() => ({ mainGroupPosZ: to })),
-  setMainGroupRotX: (to) => set(() => ({ mainGroupRotX: to })),
 }));
 
 export const useGrayPlanesStore = create<GrayPlanesState>((set) => ({
@@ -254,42 +250,37 @@ export const useYellowOrbStore = create<YellowOrbState>((set) => ({
 export const useSiteStore = create<SiteState>((set) => ({
   sitePosY: 0,
   siteRotY: 0,
-  isSiteChangingY: false,
-  addToSitePosY: (by) => set((state) => ({ sitePosY: state.sitePosY + by })),
-  addToSiteRotY: (by) => set((state) => ({ siteRotY: state.siteRotY + by })),
   setSitePosY: (to) => set(() => ({ sitePosY: to })),
   setSiteRotY: (to) => set(() => ({ siteRotY: to })),
-  setIsSiteChanging: (to) => set(() => ({ isSiteChangingY: to })),
-  siteRotIdx: "7",
-  setSiteRotIdx: (to) => set(() => ({ siteRotIdx: to })),
 }));
 
-export const useMiddleRingStore = create<MiddleRingState>((set) => ({
-  middleRingWobbleStrength: 0,
-  middleRingRotating: true,
-  middleRingNoise: 0.03,
-  middleRingPosY: -0.11,
-  middleRingRotX: 0,
-  middleRingRotZ: 0,
-  middleRingAnimDuration: 600,
-  setMiddleRingWobbleStrength: (to) =>
-    set(() => ({ middleRingWobbleStrength: to })),
-  setMiddleRingRotating: (to) => set(() => ({ middleRingRotating: to })),
-  setMiddleRingNoise: (to) => set(() => ({ middleRingNoise: to })),
-  addToMiddleRingPosY: (by) =>
-    set((state) => ({ middleRingPosY: state.middleRingPosY + by })),
-  setMiddleRingPosY: (to) => set(() => ({ middleRingPosY: to })),
-  setMiddleRingRotX: (to) => set(() => ({ middleRingRotX: to })),
-  setMiddleRingRotZ: (to) => set(() => ({ middleRingRotZ: to })),
-  setMiddleRingAnimDuration: (to) =>
-    set(() => ({ middleRingAnimDuration: to })),
-}));
+export const useMiddleRingStore = create(
+  combine(
+    {
+      transformState: {
+        wobbleStrength: 0,
+        noiseStrength: 0.03,
+        posY: -0.11,
+        rotX: 0,
+        rotZ: 0,
+      },
+      isRotating: true,
+      animDuration: 600,
+    } as MiddleRingState,
+    (set) => ({
+      setTransformState: (to: number, at: string) =>
+        set((state) => ({
+          transformState: { ...state.transformState, [at]: to },
+        })),
+      setRotating: (to: boolean) => ({ isRotating: to }),
+      setAnimDuration: (to: number) => ({ animDuration: to }),
+    })
+  )
+);
 
 export const useLevelStore = create<LevelState>((set) => ({
-  currentLevel: "04",
-  activeLevels: ["02", "03", "05", "06"],
-  setActiveLevels: (to) => set(() => ({ activeLevels: to })),
-  setCurrentLevel: (to) => set(() => ({ currentLevel: to })),
+  activeLevel: "04",
+  setActiveLevel: (to) => set(() => ({ activeLevel: to })),
 }));
 
 export const useMediaStore = create(
@@ -442,7 +433,7 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "polytan",
+  currentScene: "media",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
@@ -582,18 +573,6 @@ export const useBootStore = create(
             },
           };
         }),
-    })
-  )
-);
-
-export const useImageStore = create(
-  combine(
-    {
-      images: { 1: undefined, 2: undefined, 3: undefined },
-    } as ImageState,
-    (set) => ({
-      setImages: (to: ImageSrc, idx: number) =>
-        set((state) => ({ images: { ...state.images, [idx]: to } })),
     })
   )
 );

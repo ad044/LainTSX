@@ -1,110 +1,95 @@
 import { useCallback, useEffect } from "react";
 import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
-import { useTextRendererStore } from "../../store";
+import { useYellowTextStore } from "../../store";
 import { SiteType } from "../../components/MainScene/Site";
+import { StateManagerProps } from "./EventManager";
 
-const YellowTextManager = (props: any) => {
-  const setYellowText = useTextRendererStore((state) => state.setYellowText);
+const YellowTextManager = (props: StateManagerProps) => {
+  const setTransformState = useYellowTextStore(
+    (state) => state.setTransformState
+  );
+  const addToTransformState = useYellowTextStore(
+    (state) => state.addToTransformState
+  );
+  const setText = useYellowTextStore((state) => state.setText);
 
-  const setYellowTextOffsetXCoeff = useTextRendererStore(
-    (state) => state.setYellowTextOffsetXCoeff
-  );
-
-  const addToYellowTextPosY = useTextRendererStore(
-    (state) => state.addToYellowTextPosY
-  );
-  const addToYellowTextPosX = useTextRendererStore(
-    (state) => state.addToYellowTextPosX
-  );
-  const setYellowTextPosY = useTextRendererStore(
-    (state) => state.setYellowTextPosY
-  );
-  const setYellowTextPosX = useTextRendererStore(
-    (state) => state.setYellowTextPosX
-  );
+  const setDisableTrail = useYellowTextStore((state) => state.setDisableTrail);
 
   const animateYellowTextWithMove = useCallback(
     (
-      yellowLetterPosXOffset: number,
-      yellowLetterPosYOffset: number,
+      posXOffset: number,
+      posYOffset: number,
       newActiveHudId: string,
       newActiveNodeId: string,
       newLevel: string,
       delay: number
     ) => {
+      setDisableTrail(true);
+
       // animate the letters to match that of site's
       // to create an illusion of not moving
       setTimeout(() => {
-        addToYellowTextPosY(yellowLetterPosYOffset);
-        addToYellowTextPosX(yellowLetterPosXOffset);
+        addToTransformState(posXOffset, "posX");
+        addToTransformState(posYOffset, "posY");
       }, delay);
 
       setTimeout(() => {
         // make current hud big text shrink
-        setYellowTextOffsetXCoeff(-1);
+        setTransformState(-1, "xOffset");
       }, 2500);
 
       setTimeout(() => {
         // animate it to new pos x/y
-        setYellowTextPosX(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0]
+        setTransformState(
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0],
+          "posX"
         );
-        setYellowTextPosY(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1]
+        setTransformState(
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1],
+          "posY"
         );
         // set new text according to the node name
-        setYellowText(
-          (site_a as SiteType)[newLevel][newActiveNodeId].node_name
-        );
+        setText((site_a as SiteType)[newLevel][newActiveNodeId].node_name);
+        setDisableTrail(false);
       }, 3000);
 
       // unshrink text
       setTimeout(() => {
-        setYellowTextOffsetXCoeff(0);
+        setTransformState(0, "xOffset");
       }, 3900);
     },
-    [
-      addToYellowTextPosX,
-      addToYellowTextPosY,
-      setYellowText,
-      setYellowTextOffsetXCoeff,
-      setYellowTextPosX,
-      setYellowTextPosY,
-    ]
+    [addToTransformState, setDisableTrail, setText, setTransformState]
   );
 
   const animateYellowTextWithoutMove = useCallback(
     (newActiveHudId: string, newActiveNodeId: string, level: string) => {
       // make current hud big text shrink
-      setYellowTextOffsetXCoeff(-1);
+      setTransformState(-1, "xOffset");
 
       setTimeout(() => {
-        setYellowTextPosX(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0]
+        // animate it to new pos x/y
+        setTransformState(
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0],
+          "posX"
         );
-        setYellowTextPosY(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1]
+        setTransformState(
+          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1],
+          "posY"
         );
       }, 400);
-      // animate it to new pos x/y
 
       setTimeout(() => {
         // set new text according to the node name
-        setYellowText((site_a as SiteType)[level][newActiveNodeId].node_name);
+        setText((site_a as SiteType)[level][newActiveNodeId].node_name);
       }, 1000);
 
       setTimeout(() => {
         // unshrink text
-        setYellowTextOffsetXCoeff(0);
+        setTransformState(0, "xOffset");
       }, 1200);
     },
-    [
-      setYellowText,
-      setYellowTextOffsetXCoeff,
-      setYellowTextPosX,
-      setYellowTextPosY,
-    ]
+    [setText, setTransformState]
   );
 
   const animateMediaYellowText = useCallback(
@@ -113,49 +98,46 @@ const YellowTextManager = (props: any) => {
       targetMediaComponentTextPos: number[]
     ) => {
       // make current text shrink
-      setYellowTextOffsetXCoeff(-1);
+      setTransformState(-1, "xOffset");
 
       setTimeout(() => {
-        setYellowTextPosX(targetMediaComponentTextPos[0]);
-        setYellowTextPosY(targetMediaComponentTextPos[1]);
+        setTransformState(targetMediaComponentTextPos[0], "posX");
+        setTransformState(targetMediaComponentTextPos[1], "posY");
       }, 400);
 
       setTimeout(() => {
-        setYellowText(targetMediaComponentText);
+        setText(targetMediaComponentText);
       }, 1000);
 
       setTimeout(() => {
         // unshrink text
-        setYellowTextOffsetXCoeff(0);
+        setTransformState(0, "xOffset");
       }, 1200);
     },
-    [
-      setYellowText,
-      setYellowTextOffsetXCoeff,
-      setYellowTextPosX,
-      setYellowTextPosY,
-    ]
+    [setText, setTransformState]
   );
 
   const initializeYellowTextForMediaScene = useCallback(() => {
     setTimeout(() => {
-      setYellowText("Play");
-      setYellowTextPosX(-0.8);
-      setYellowTextPosY(0.05);
+      setText("Play");
+      setTransformState(-0.8, "posX");
+      setTransformState(0.05, "posY");
     }, 3950);
-  }, [setYellowText, setYellowTextPosX, setYellowTextPosY]);
+  }, [setText, setTransformState]);
 
   const initializeYellowTextForMainScene = useCallback(
     (activeNodeId: string, level: string) => {
-      setYellowText((site_a as SiteType)[level][activeNodeId].node_name);
-      setYellowTextPosX(
-        node_huds[activeNodeId as keyof typeof node_huds].big_text[0]
+      setText((site_a as SiteType)[level][activeNodeId].node_name);
+      setTransformState(
+        node_huds[activeNodeId as keyof typeof node_huds].big_text[0],
+        "posX"
       );
-      setYellowTextPosY(
-        node_huds[activeNodeId as keyof typeof node_huds].big_text[1]
+      setTransformState(
+        node_huds[activeNodeId as keyof typeof node_huds].big_text[1],
+        "posY"
       );
     },
-    [setYellowText, setYellowTextPosX, setYellowTextPosY]
+    [setText, setTransformState]
   );
 
   const dispatchObject = useCallback(
@@ -258,8 +240,6 @@ const YellowTextManager = (props: any) => {
     animateYellowTextWithMove,
     animateYellowTextWithoutMove,
     props.eventState,
-    props.newActiveHudId,
-    props.newActiveNodeId,
     dispatchObject,
   ]);
 

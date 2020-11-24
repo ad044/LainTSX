@@ -37,15 +37,23 @@ export type SiteType = {
 };
 
 const Site = memo(() => {
-  const activeLevels = useLevelStore((state) => state.activeLevels);
+  const activeLevel = useLevelStore((state) => state.activeLevel);
   const visibleNodes = useMemo(() => {
     const obj = {};
-    activeLevels.forEach((level) => {
+    const activeLevelNr = parseInt(activeLevel);
+    const visibleLevels = [
+      (activeLevelNr - 2).toString().padStart(2, "0"),
+      (activeLevelNr - 1).toString().padStart(2, "0"),
+      (activeLevelNr + 1).toString().padStart(2, "0"),
+      (activeLevelNr + 2).toString().padStart(2, "0"),
+    ];
+
+    visibleLevels.forEach((level) => {
       Object.assign(obj, site_a[level as keyof typeof site_a]);
     });
 
     return obj;
-  }, [activeLevels]);
+  }, [activeLevel]);
 
   const siteRotY = useSiteStore((state) => state.siteRotY);
   const sitePosY = useSiteStore((state) => state.sitePosY);
@@ -70,14 +78,12 @@ const Site = memo(() => {
           <Node
             sprite={node[1].node_name}
             position={
-              node_positions[
-                node[0].substr(2) as keyof typeof node_positions
-              ].position
+              node_positions[node[0].substr(2) as keyof typeof node_positions]
+                .position
             }
             rotation={
-              node_positions[
-                node[0].substr(2) as keyof typeof node_positions
-              ].rotation
+              node_positions[node[0].substr(2) as keyof typeof node_positions]
+                .rotation
             }
             key={node[1].node_name}
             level={node[0].substr(0, 2)}

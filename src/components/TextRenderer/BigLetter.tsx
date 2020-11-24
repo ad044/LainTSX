@@ -4,14 +4,14 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, {useEffect, useMemo} from "react";
-import { LetterProps } from "./TextRenderer";
+import React, { useMemo } from "react";
 
-interface BigLetterProps extends LetterProps {
+const BigLetter = (props: {
+  color: string;
+  letter: string;
+  letterIdx: number;
   yellowTextOffsetXCoeff: number;
-}
-
-const BigLetter = (props: BigLetterProps) => {
+}) => {
   const colorToTexture = (color: string) => {
     const colorTexture = { orange: orangeFont, yellow: yellowFont };
     return colorTexture[color as keyof typeof colorTexture];

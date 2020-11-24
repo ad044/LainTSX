@@ -18,7 +18,6 @@ import MediaComponentManager from "./MediaComponentManager";
 import MediaWordManager from "./MediaWordManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
-import MediaImageManager from "./MediaImageManager";
 import computeAction from "../computeAction";
 import LevelManager from "./LevelManager";
 import BootManager from "./BootManager";
@@ -53,9 +52,14 @@ export type GameContext = {
   keyPress?: string;
   scene: string;
   bootSubscene: string;
-  nodeMatrixIndices: { rowIdx: number; colIdx: number };
-  currentLevel: string;
-  siteRotIdx: string;
+  nodeMatrixIndices: {
+    matrixIdx: number;
+    rowIdx: number;
+    colIdx: number;
+  };
+  activeLevel: string;
+  siteRotY: number;
+  sitePosY: number;
   activeMediaComponent: string;
   activeBootElement: string;
   activeSSknComponent: string;
@@ -66,8 +70,9 @@ const EventManager = () => {
 
   // main scene
   const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
-  const siteRotIdx = useSiteStore((state) => state.siteRotIdx);
-  const currentLevel = useLevelStore((state) => state.currentLevel);
+  const sitePosY = useSiteStore((state) => state.sitePosY);
+  const siteRotY = useSiteStore((state) => state.siteRotY);
+  const activeLevel = useLevelStore((state) => state.activeLevel);
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -116,9 +121,10 @@ const EventManager = () => {
     () => ({
       scene: currentScene,
       bootSubscene: currentBootSubscene,
-      siteRotIdx: siteRotIdx,
+      siteRotY: siteRotY,
+      sitePosY: sitePosY,
       nodeMatrixIndices: nodeMatrixIndices,
-      currentLevel: currentLevel,
+      activeLevel: activeLevel,
       activeMediaComponent: activeMediaComponent,
       activeBootElement: activeBootElement,
       activeSSknComponent: activeSSknComponent,
@@ -126,9 +132,10 @@ const EventManager = () => {
     [
       currentScene,
       currentBootSubscene,
-      siteRotIdx,
+      siteRotY,
+      sitePosY,
       nodeMatrixIndices,
-      currentLevel,
+      activeLevel,
       activeMediaComponent,
       activeBootElement,
       activeSSknComponent,
@@ -170,7 +177,6 @@ const EventManager = () => {
       <MediaWordManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
       <YellowTextManager eventState={eventState!} />
-      <MediaImageManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <BootManager eventState={eventState!} />
       <SSknComponentManager eventState={eventState!} />
