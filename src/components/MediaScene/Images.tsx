@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLoader } from "react-three-fiber";
-import { useImageStore, useMediaStore } from "../../store";
-import * as THREE from "three";
-import sex from "../../static/sprite/gray_ring_lof.png";
+import { useLevelStore, useMediaStore, useNodeStore } from "../../store";
 import { a, useSpring } from "@react-spring/three";
+import image_table from "../../resources/image_table.json";
+import { LevelType } from "../MainScene/Site";
+import site_a from "../../resources/site_a.json";
+import * as THREE from "three";
 
 const Images = () => {
+  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const [imageScaleY, setImageScaleY] = useState(3.75);
-  const images = useImageStore((state) => state.images);
-  const [activeImage, setActiveImage] = useState<any>(sex);
-
-  const activeImageTex = useLoader(THREE.TextureLoader, activeImage);
+  const [sceneImages, setSceneImages] = useState([] as any);
+  const [activeImage, setActiveImage] = useState<THREE.Texture>();
 
   const mediaPercentageElapsed = useMediaStore(
     (state) => state.mediaPercentageElapsed
@@ -21,28 +22,49 @@ const Images = () => {
     config: { duration: 300 },
   });
 
-  useEffect(() => {
-    if (images[1]) {
-      setActiveImage(images[1].default);
-    }
-  }, [images]);
+  const activeLevel = useLevelStore((state) => state.activeLevel);
+  const activeLevelData: LevelType = useMemo(
+    () => site_a[activeLevel as keyof typeof site_a],
+    [activeLevel]
+  );
 
   useEffect(() => {
-    if (mediaPercentageElapsed === 35 && images[2]) {
+    const nodeName = activeLevelData[activeNodeId].node_name;
+
+    const images = image_table[nodeName as keyof typeof image_table];
+
+    const imgArr: { default: string }[] = [];
+    Object.values(images).forEach((img) => {
+      import("../../static/media_images/site_a/" + img + ".png").then(
+        (imageSrc: { default: string }) => {
+          // images are unordered by default so we insert them into the arr
+          // according to their last char
+          imgArr.splice(parseInt(img.substr(img.length - 1)), 0, imageSrc);
+          if (imgArr.length === 3) {
+            setSceneImages(imgArr);
+            new THREE.TextureLoader().load(imgArr[0].default, setActiveImage);
+          }
+        }
+      );
+    });
+  }, [activeLevelData, activeNodeId]);
+
+  useEffect(() => {
+    if (mediaPercentageElapsed === 35 && sceneImages[1]) {
       setImageScaleY(0);
       setTimeout(() => {
-        setActiveImage(images[2]!.default);
+        new THREE.TextureLoader().load(sceneImages[1].default, setActiveImage);
         setImageScaleY(3.75);
       }, 300);
     }
-    if (mediaPercentageElapsed === 70 && images[3]) {
+    if (mediaPercentageElapsed === 70 && sceneImages[2]) {
       setImageScaleY(0);
       setTimeout(() => {
-        setActiveImage(images[3]!.default);
+        new THREE.TextureLoader().load(sceneImages[2].default, setActiveImage);
         setImageScaleY(3.75);
       }, 300);
     }
-  }, [images, mediaPercentageElapsed]);
+  }, [mediaPercentageElapsed, sceneImages]);
 
   return (
     <a.sprite
@@ -50,7 +72,11 @@ const Images = () => {
       scale={[5, 3.75, 0]}
       scale-y={imageScaleState.imageScaleY}
     >
-      <spriteMaterial attach="material" map={activeImageTex} />
+      {sceneImages.length === 3 ? (
+        <spriteMaterial attach="material" map={activeImage} />
+      ) : (
+        <></>
+      )}
     </a.sprite>
   );
 };

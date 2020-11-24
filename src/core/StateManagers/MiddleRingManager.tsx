@@ -2,217 +2,169 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useMiddleRingStore } from "../../store";
 
 const MiddleRingManager = (props: any) => {
-  const setMiddleRingWobbleStrength = useMiddleRingStore(
-    (state) => state.setMiddleRingWobbleStrength
+  const setTransformState = useMiddleRingStore(
+    (state) => state.setTransformState
   );
-  const setMiddleRingRotating = useMiddleRingStore(
-    (state) => state.setMiddleRingRotating
-  );
-  const setMiddleRingNoise = useMiddleRingStore(
-    (state) => state.setMiddleRingNoise
-  );
-  const addToMiddleRingPosY = useMiddleRingStore(
-    (state) => state.addToMiddleRingPosY
-  );
-  const setMiddleRingRotX = useMiddleRingStore(
-    (state) => state.setMiddleRingRotX
-  );
-  const setMiddleRingRotZ = useMiddleRingStore(
-    (state) => state.setMiddleRingRotZ
-  );
-  const setMiddleRingAnimDuration = useMiddleRingStore(
-    (state) => state.setMiddleRingAnimDuration
+  const setAnimDuration = useMiddleRingStore((state) => state.setAnimDuration);
+  const setRotating = useMiddleRingStore((state) => state.setRotating);
+
+  const rotate = useCallback(
+    (direction: string) => {
+      const rotValues = direction === "right" ? [-0.07, 0.03] : [0.07, -0.03];
+
+      setTimeout(() => {
+        setTransformState(rotValues[0], "rotZ");
+      }, 2300);
+
+      setTimeout(() => {
+        setTransformState(rotValues[1], "rotZ");
+      }, 3500);
+
+      setTimeout(() => {
+        setTransformState(0, "rotZ");
+      }, 4500);
+    },
+    [setTransformState]
   );
 
-  const rotateMiddleRingRight = useCallback(() => {
-    setTimeout(() => {
-      setMiddleRingRotZ(-0.07);
-    }, 2300);
-
-    setTimeout(() => {
-      setMiddleRingRotZ(0.03);
-    }, 3500);
-
-    setTimeout(() => {
-      setMiddleRingRotZ(0);
-    }, 4500);
-  }, [setMiddleRingRotZ]);
-
-  const rotateMiddleRingLeft = useCallback(() => {
-    setTimeout(() => {
-      setMiddleRingRotZ(0.07);
-    }, 2300);
-
-    setTimeout(() => {
-      setMiddleRingRotZ(-0.03);
-    }, 3500);
-
-    setTimeout(() => {
-      setMiddleRingRotZ(0);
-    }, 4500);
-  }, [setMiddleRingRotZ]);
-
-  const moveMiddleRingDown = useCallback(() => {
+  const moveDown = useCallback(() => {
     // set the anim duration value to match that of the site's
-    setMiddleRingAnimDuration(1200);
+    setAnimDuration(1200);
 
     // make noise appear again
     setTimeout(() => {
-      setMiddleRingNoise(0.06);
+      setTransformState(0.06, "noiseStrength");
     }, 800);
 
     // disable rotation of the ring
     setTimeout(() => {
-      setMiddleRingRotating(false);
+      setRotating(false);
     }, 700);
 
     setTimeout(() => {
-      addToMiddleRingPosY(1.5);
+      setTransformState(1.39, "posY");
     }, 1300);
 
     // set ring rotation on x axis to craete motion effect
     setTimeout(() => {
-      setMiddleRingRotX(0.3);
+      setTransformState(0.3, "rotX");
     }, 1500);
 
     setTimeout(() => {
-      setMiddleRingAnimDuration(600);
+      setAnimDuration(600);
     }, 2900);
 
     setTimeout(() => {
-      addToMiddleRingPosY(-1.7);
+      setTransformState(-0.31, "posY");
     }, 3000);
 
     setTimeout(() => {
-      addToMiddleRingPosY(0.2);
+      setTransformState(-0.11, "posY");
     }, 3150);
 
     // rotate it again, set ring noise to 0
     setTimeout(() => {
-      setMiddleRingRotX(-0.1);
-      setMiddleRingNoise(0);
+      setTransformState(-0.1, "rotX");
+      setTransformState(0, "noiseStrength");
     }, 3500);
 
     // rotate it back AGAIN (holy fuk psx game)
     setTimeout(() => {
-      setMiddleRingRotX(0.05);
+      setTransformState(0.05, "rotX");
     }, 4500);
 
     // reset value, set noise to 0
     setTimeout(() => {
-      setMiddleRingRotX(0);
-      setMiddleRingRotating(true);
+      setTransformState(0, "rotX");
+      setRotating(true);
     }, 4800);
 
     // enable noise again in about 11-12 secs
     setTimeout(() => {
-      setMiddleRingNoise(0.03);
+      setTransformState(0.03, "noiseStrength");
     }, 11600);
-  }, [
-    addToMiddleRingPosY,
-    setMiddleRingAnimDuration,
-    setMiddleRingNoise,
-    setMiddleRingRotX,
-    setMiddleRingRotating,
-  ]);
+  }, [setAnimDuration, setRotating, setTransformState]);
 
-  const moveMiddleRingUp = useCallback(() => {
+  const moveUp = useCallback(() => {
     // change noise to 0, make the ring bend downwards
     setTimeout(() => {
-      setMiddleRingNoise(0);
-      setMiddleRingWobbleStrength(0.2);
+      setTransformState(0, "noiseStrength");
+      setTransformState(0.2, "wobbleStrength");
     }, 300);
 
     // disable rotation of the ring
     setTimeout(() => {
-      setMiddleRingRotating(false);
+      setRotating(false);
     }, 700);
 
     // make the ring bend upwards
     setTimeout(() => {
-      setMiddleRingWobbleStrength(-0.3);
+      setTransformState(-0.3, "wobbleStrength");
       // the middle ring stays in place, therefore we animate it
       // in the same direction as the site, creating that illusion.
 
       // set the anim duration value to match that of the site's
-      setMiddleRingAnimDuration(1200);
+      setAnimDuration(1200);
       // animate it after
-      addToMiddleRingPosY(-1.5);
+      setTransformState(-1.39, "posY");
     }, 1300);
 
     // reset the ring bend, set the rotation to slightly curve
     // to replicate a motion effect (since its moving upwards)
     // and enable rotation again
     setTimeout(() => {
-      setMiddleRingWobbleStrength(0.0);
-      setMiddleRingRotX(-0.2);
-      setMiddleRingRotating(true);
+      setTransformState(0, "wobbleStrength");
+      setTransformState(-0.2, "rotX");
+      setRotating(true);
     }, 1500);
 
     // reset anim duration back to default
     setTimeout(() => {
-      setMiddleRingAnimDuration(600);
+      setAnimDuration(600);
     }, 2300);
 
     setTimeout(() => {
-      addToMiddleRingPosY(1.7);
-    }, 2400);
+      setTransformState(0.09, "posY");
+    }, 2900);
 
     // reset the rotation value to 0
     setTimeout(() => {
-      setMiddleRingRotX(0);
-      addToMiddleRingPosY(-0.2);
-    }, 2650);
+      setTransformState(0, "rotX");
+      setTransformState(-0.11, "posY");
+    }, 3150);
 
     // enable noise again in about 8~ secs
     setTimeout(() => {
-      setMiddleRingNoise(0.03);
+      setTransformState(0.03, "noiseStrength");
     }, 7800);
-  }, [
-    addToMiddleRingPosY,
-    setMiddleRingAnimDuration,
-    setMiddleRingNoise,
-    setMiddleRingRotX,
-    setMiddleRingRotating,
-    setMiddleRingWobbleStrength,
-  ]);
+  }, [setAnimDuration, setRotating, setTransformState]);
 
-  const dispatcherObjects = useMemo(
-    () => ({
-      move_up: { action: moveMiddleRingUp },
-      move_down: { action: moveMiddleRingDown },
-      move_left: { action: rotateMiddleRingLeft },
-      move_right: { action: rotateMiddleRingRight },
-    }),
-    [
-      moveMiddleRingDown,
-      moveMiddleRingUp,
-      rotateMiddleRingLeft,
-      rotateMiddleRingRight,
-    ]
+  const dispatchObject = useCallback(
+    (event: string) => {
+      switch (event) {
+        case "move_up":
+          return { action: moveUp };
+        case "move_down":
+          return { action: moveDown };
+        case "move_left":
+          return { action: rotate, value: ["left"] };
+        case "move_right":
+          return { action: rotate, value: ["right"] };
+      }
+    },
+    [moveDown, moveUp, rotate]
   );
-
   useEffect(() => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
 
-      const dispatchedObject =
-        dispatcherObjects[eventAction as keyof typeof dispatcherObjects];
+      const dispatchedObject = dispatchObject(eventAction);
 
       if (dispatchedObject) {
-        dispatchedObject.action();
+        dispatchedObject.action.apply(null, dispatchedObject.value as any);
       }
     }
-  }, [
-    dispatcherObjects,
-    props.eventState,
-    setMiddleRingAnimDuration,
-    setMiddleRingNoise,
-    setMiddleRingRotX,
-    setMiddleRingRotZ,
-    setMiddleRingRotating,
-    setMiddleRingWobbleStrength,
-  ]);
+  }, [dispatchObject, props.eventState]);
 
   return null;
 };

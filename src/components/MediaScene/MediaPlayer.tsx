@@ -35,6 +35,7 @@ const MediaPlayer = () => {
     <video
       width="800"
       height="600"
+      controls
       id="media"
       ref={videoRef}
       style={{ display: currentScene === "media" ? "block" : "none" }}

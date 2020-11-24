@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useMediaStore } from "../store";
-import TextRenderer from "../components/TextRenderer/TextRenderer";
+import TextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";

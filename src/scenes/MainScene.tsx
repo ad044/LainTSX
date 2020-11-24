@@ -1,4 +1,4 @@
-import { a, useSpring } from "@react-spring/three";
+import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect } from "react";
 import Site from "../components/MainScene/Site";
@@ -9,60 +9,33 @@ import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import Starfield from "../components/MainScene/Starfield";
-import {
-  useNodeStore,
-  useHudStore,
-  useLainStore,
-  useMainGroupStore,
-} from "../store";
-import TextRenderer from "../components/TextRenderer/TextRenderer";
+import { useHudStore, useLainStore } from "../store";
+import TextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
-import CurrentLevelNodes from "../components/MainScene/CurrentLevelNodes";
+import ActiveLevelNodes from "../components/MainScene/ActiveLevelNodes";
+import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
-  const setActiveNode = useNodeStore((state) => state.setActiveNodeId);
-  const setActiveNodeHudId = useHudStore(
-    (state) => state.setActiveNodeHudId
-  );
-
-  const mainGroupPosY = useMainGroupStore((state) => state.mainGroupPosY);
-  const mainGroupPosZ = useMainGroupStore((state) => state.mainGroupPosZ);
-  const mainGroupRotX = useMainGroupStore((state) => state.mainGroupRotX);
-
-  const mainGroupStatePos = useSpring({
-    mainGroupPosY: mainGroupPosY,
-    mainGroupPosZ: mainGroupPosZ,
-    config: { duration: 3644 },
-  });
-
-  const mainGroupStateRot = useSpring({
-    mainGroupRotX: mainGroupRotX,
-    config: { duration: 1500 },
-  });
+  const setActiveNodeHudId = useHudStore((state) => state.setId);
 
   useEffect(() => {
     setLainMoveState("standing");
-    setActiveNode("0422");
     setActiveNodeHudId("fg_hud_1");
-  }, [setActiveNode, setActiveNodeHudId, setLainMoveState]);
-  // set lain intro spritesheet before the page loads fully
+  }, [setActiveNodeHudId, setLainMoveState]);
 
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
         <MainSceneIntro />
-        <a.group
-          rotation-x={mainGroupStateRot.mainGroupRotX}
-          position-y={mainGroupStatePos.mainGroupPosY}
-          position-z={mainGroupStatePos.mainGroupPosZ}
-        >
+        <a.group>
           <Preloader />
           <Site />
-          <CurrentLevelNodes />
+          <ActiveLevelNodes />
           <HUD />
           <TextRenderer />
+          <YellowTextRenderer />
           <YellowOrb />
           <Starfield />
           <GrayPlanes />

@@ -25,22 +25,23 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
   const nodeColIdx = gameContext.nodeMatrixIndices.colIdx;
   const nodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
 
+  let newNodeMatIdx = gameContext.nodeMatrixIndices.matrixIdx;
   let newNodeColIdx = gameContext.nodeMatrixIndices.colIdx;
   let newNodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
-  let newLevel = gameContext.currentLevel;
-  let newSiteRotIdx = gameContext.siteRotIdx;
+  let newLevel = gameContext.activeLevel;
+  let newSiteRotY = gameContext.siteRotY;
+  let newSitePosY = gameContext.sitePosY;
   let newScene = gameContext.scene;
+
 
   switch (keyPress) {
     case "left":
       newNodeColIdx = nodeColIdx - 1;
       if (newNodeColIdx < 0) {
         event = "move_left";
-        newSiteRotIdx =
-          parseInt(gameContext.siteRotIdx) + 1 > 8
-            ? "1"
-            : (parseInt(gameContext.siteRotIdx) + 1).toString();
+        newNodeMatIdx = newNodeMatIdx + 1 > 8 ? 1 : newNodeMatIdx + 1;
         newNodeColIdx = 0;
+        newSiteRotY -= -Math.PI / 4;
       } else {
         event = "change_node";
       }
@@ -50,10 +51,11 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       if (newNodeRowIdx > 2) {
         event = "move_down";
 
-        newLevel = (parseInt(gameContext.currentLevel) - 1)
+        newLevel = (parseInt(gameContext.activeLevel) - 1)
           .toString()
           .padStart(2, "0");
         newNodeRowIdx = 0;
+        newSitePosY += 1.5;
       } else {
         event = "change_node";
       }
@@ -63,11 +65,12 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       if (newNodeRowIdx < 0) {
         event = "move_up";
 
-        newLevel = (parseInt(gameContext.currentLevel) + 1)
+        newLevel = (parseInt(gameContext.activeLevel) + 1)
           .toString()
           .padStart(2, "0");
 
         newNodeRowIdx = 2;
+        newSitePosY -= 1.5;
       } else {
         event = "change_node";
       }
@@ -76,12 +79,9 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       newNodeColIdx = nodeColIdx + 1;
       if (newNodeColIdx > 3) {
         event = "move_right";
-        newSiteRotIdx =
-          parseInt(gameContext.siteRotIdx) - 1 < 1
-            ? "8"
-            : (parseInt(gameContext.siteRotIdx) - 1).toString();
-
+        newNodeMatIdx = newNodeMatIdx - 1 < 1 ? 8 : newNodeMatIdx - 1;
         newNodeColIdx = 3;
+        newSiteRotY += -Math.PI / 4;
       } else {
         event = "change_node";
       }
@@ -92,7 +92,7 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
       // new active blue orb here.
       const newActiveNodeId =
         newLevel +
-        node_matrices[newSiteRotIdx as keyof typeof node_matrices][
+        node_matrices[newNodeMatIdx.toString() as keyof typeof node_matrices][
           newNodeRowIdx as number
         ][newNodeColIdx as number];
 
@@ -119,7 +119,7 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
 
   const newActiveNodeId =
     newLevel +
-    node_matrices[newSiteRotIdx as keyof typeof node_matrices][
+    node_matrices[newNodeMatIdx.toString() as keyof typeof node_matrices][
       newNodeRowIdx as number
     ][newNodeColIdx as number];
 
@@ -130,7 +130,9 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
     event: event,
     newNodeColIdx: newNodeColIdx,
     newNodeRowIdx: newNodeRowIdx,
-    newSiteRotIdx: newSiteRotIdx,
+    newNodeMatIdx: newNodeMatIdx,
+    newSitePosY: newSitePosY,
+    newSiteRotY: newSiteRotY,
     newLevel: newLevel,
     newScene: newScene,
     newActiveNodeId: newActiveNodeId,

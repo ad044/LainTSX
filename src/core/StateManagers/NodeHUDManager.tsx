@@ -3,10 +3,8 @@ import { useHudStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 
 const NodeHUDManager = (props: StateManagerProps) => {
-  const setActiveNodeHudId = useHudStore(
-    (state) => state.setActiveNodeHudId
-  );
-  const toggleHud = useHudStore((state) => state.toggleHud);
+  const setId = useHudStore((state) => state.setId);
+  const toggleActive = useHudStore((state) => state.toggleActive);
 
   const dispatchObject = useCallback(
     (event: string, targetNodeHudId: string) => {
@@ -16,19 +14,19 @@ const NodeHUDManager = (props: StateManagerProps) => {
         case "move_left":
         case "move_right":
           return {
-            action: setActiveNodeHudId,
+            action: setId,
             value: targetNodeHudId,
             actionDelay: 3903.704,
           };
         case "change_node":
           return {
-            action: setActiveNodeHudId,
+            action: setId,
             value: targetNodeHudId,
             actionDelay: 500,
           };
       }
     },
-    [setActiveNodeHudId]
+    [setId]
   );
 
   useEffect(() => {
@@ -39,15 +37,15 @@ const NodeHUDManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction, newActiveHudId);
 
       if (dispatchedObject) {
-        toggleHud();
+        toggleActive();
 
         setTimeout(() => {
           dispatchedObject.action(dispatchedObject.value);
-          toggleHud();
+          toggleActive();
         }, dispatchedObject.actionDelay);
       }
     }
-  }, [props.eventState, setActiveNodeHudId, toggleHud, dispatchObject]);
+  }, [props.eventState, toggleActive, dispatchObject]);
   return null;
 };
 

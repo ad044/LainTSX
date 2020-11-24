@@ -115,46 +115,37 @@ const Node = (props: NodeContructorProps) => {
   // these pieces of state get updated transiently rather than reactively
   // to avoid excess unnecessary renders (this is absolutely crucial for performance).
   const [
-    {
-      activeNodePosX,
-      activeNodePosY,
-      activeNodePosZ,
-      activeNodeRotZ,
-    },
+    { activeNodePosX, activeNodePosY, activeNodePosZ, activeNodeRotZ },
     set,
   ] = useSpring(() => ({
-    activeNodePosX: useNodeStore.getState().isActiveNodeInteractedWith
-      ? useNodeStore.getState().activeNodePosX
+    activeNodePosX: useNodeStore.getState().activeNodeState.interactedWith
+      ? useNodeStore.getState().activeNodeState.posX
       : props.position[0],
-    activeNodePosY: useNodeStore.getState().isActiveNodeInteractedWith
+    activeNodePosY: useNodeStore.getState().activeNodeState.interactedWith
       ? level_y_values[props.level as keyof typeof level_y_values]
       : props.position[1],
-    activeNodePosZ: useNodeStore.getState().isActiveNodeInteractedWith
-      ? useNodeStore.getState().activeNodePosZ
+    activeNodePosZ: useNodeStore.getState().activeNodeState.interactedWith
+      ? useNodeStore.getState().activeNodeState.posZ
       : props.position[2],
-    activeNodeRotZ: useNodeStore.getState().isActiveNodeInteractedWith
-      ? useNodeStore.getState().activeNodeRotZ
+    activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
+      ? useNodeStore.getState().activeNodeState.rotZ
       : 0,
     config: { duration: 800 },
   }));
 
   useEffect(() => {
     useNodeStore.subscribe(set, (state) => ({
-      activeNodePosX: useNodeStore.getState()
-        .isActiveNodeInteractedWith
-        ? state.activeNodePosX
+      activeNodePosX: useNodeStore.getState().activeNodeState.interactedWith
+        ? state.activeNodeState.posX
         : props.position[0],
-      activeNodePosY: useNodeStore.getState()
-        .isActiveNodeInteractedWith
+      activeNodePosY: useNodeStore.getState().activeNodeState.interactedWith
         ? level_y_values[props.level as keyof typeof level_y_values]
         : props.position[1],
-      activeNodePosZ: useNodeStore.getState()
-        .isActiveNodeInteractedWith
-        ? state.activeNodePosZ
+      activeNodePosZ: useNodeStore.getState().activeNodeState.interactedWith
+        ? state.activeNodeState.posZ
         : props.position[2],
-      activeNodeRotZ: useNodeStore.getState()
-        .isActiveNodeInteractedWith
-        ? state.activeNodeRotZ
+      activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
+        ? state.activeNodeState.rotZ
         : 0,
     }));
   }, [

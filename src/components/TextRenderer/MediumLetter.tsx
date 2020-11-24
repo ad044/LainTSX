@@ -4,9 +4,12 @@ import greenFont from "../../static/sprite/white_and_green_texture.png";
 import medium_font_json from "../../resources/font_data/medium_font.json";
 import { a } from "@react-spring/three";
 import React, { useMemo } from "react";
-import { LetterProps } from "./TextRenderer";
 
-const MediumLetter = (props: LetterProps) => {
+const MediumLetter = (props: {
+  color: string;
+  letter: string;
+  letterIdx: number;
+}) => {
   const colorTexture = useLoader(THREE.TextureLoader, greenFont);
   // i have yet to figure out a genrealizable way of
   // calculating the y offset, this shit will do for now
