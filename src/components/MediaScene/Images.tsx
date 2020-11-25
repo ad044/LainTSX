@@ -1,17 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLoader } from "react-three-fiber";
 import { useLevelStore, useMediaStore, useNodeStore } from "../../store";
 import { a, useSpring } from "@react-spring/three";
 import image_table from "../../resources/image_table.json";
 import { LevelType } from "../MainScene/Site";
 import site_a from "../../resources/site_a.json";
+import dummy from "../../static/sprite/dummy.png";
 import * as THREE from "three";
+import { useLoader } from "react-three-fiber";
 
 const Images = () => {
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const [imageScaleY, setImageScaleY] = useState(3.75);
   const [sceneImages, setSceneImages] = useState([] as any);
   const [activeImage, setActiveImage] = useState<THREE.Texture>();
+
+  const dummyTex = useLoader(THREE.TextureLoader, dummy);
 
   const mediaPercentageElapsed = useMediaStore(
     (state) => state.mediaPercentageElapsed
@@ -50,6 +53,9 @@ const Images = () => {
   }, [activeLevelData, activeNodeId]);
 
   useEffect(() => {
+    if (mediaPercentageElapsed === 0 && sceneImages[0]) {
+      new THREE.TextureLoader().load(sceneImages[0].default, setActiveImage);
+    }
     if (mediaPercentageElapsed === 35 && sceneImages[1]) {
       setImageScaleY(0);
       setTimeout(() => {
@@ -72,11 +78,10 @@ const Images = () => {
       scale={[5, 3.75, 0]}
       scale-y={imageScaleState.imageScaleY}
     >
-      {sceneImages.length === 3 ? (
-        <spriteMaterial attach="material" map={activeImage} />
-      ) : (
-        <></>
-      )}
+      <spriteMaterial
+        attach="material"
+        map={activeImage ? activeImage : dummyTex}
+      />
     </a.sprite>
   );
 };

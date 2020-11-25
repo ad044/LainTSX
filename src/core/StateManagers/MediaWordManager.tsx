@@ -3,44 +3,37 @@ import { StateManagerProps } from "./EventManager";
 import { useMediaWordStore } from "../../store";
 
 const MediaWordManager = (props: StateManagerProps) => {
-  const addToWordPositionDataStructIdx = useMediaWordStore(
-    (state) => state.addToWordPositionDataStructIdx
-  );
-  const resetWordPositionDataStructIdx = useMediaWordStore(
-    (state) => state.resetWordPositionDataStructIdx
-  );
+  const setPosStateIdx = useMediaWordStore((state) => state.setPosStateIdx);
+  const resetPosStateIdx = useMediaWordStore((state) => state.resetPosStateIdx);
 
   const dispatchObject = useCallback(
-    (event: string) => {
+    (event: string, newWordPosStateIdx: number) => {
       switch (event) {
         case "fstWord_down":
         case "sndWord_down":
         case "thirdWord_down":
-          return {
-            action: addToWordPositionDataStructIdx,
-            value: 1,
-          };
         case "fstWord_up":
         case "sndWord_up":
         case "thirdWord_up":
           return {
-            action: addToWordPositionDataStructIdx,
-            value: -1,
+            action: setPosStateIdx,
+            value: newWordPosStateIdx,
           };
         case "throw_node_media":
           return {
-            action: resetWordPositionDataStructIdx,
+            action: resetPosStateIdx,
           };
       }
     },
-    [addToWordPositionDataStructIdx, resetWordPositionDataStructIdx]
+    [resetPosStateIdx, setPosStateIdx]
   );
 
   useEffect(() => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
+      const newWordPosStateIdx = props.eventState.newWordPosStateIdx;
 
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(eventAction, newWordPosStateIdx);
 
       if (dispatchedObject) {
         dispatchedObject.action(dispatchedObject.value as any);

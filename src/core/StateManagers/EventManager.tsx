@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SiteManager from "./SiteManager";
 import MiddleRingManager from "./MiddleRingManager";
 import LainManager from "./LainManager";
 import NodeManager from "./NodeManager";
 import NodeHUDManager from "./NodeHUDManager";
 import {
-  useNodeStore,
   useBootStore,
   useLevelStore,
   useMediaStore,
+  useMediaWordStore,
+  useNodeStore,
   useSceneStore,
   useSiteStore,
   useSSknStore,
@@ -18,10 +19,13 @@ import MediaComponentManager from "./MediaComponentManager";
 import MediaWordManager from "./MediaWordManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
-import computeAction from "../computeAction";
 import LevelManager from "./LevelManager";
 import BootManager from "./BootManager";
 import SSknComponentManager from "./SSknComponentManager";
+import handleMainSceneEvent from "../mainSceneEventHandler";
+import handleMediaSceneEvent from "../mediaSceneEventHandler";
+import handleBootEvent from "../bootEventHandler";
+import handleSSknSceneEvent from "../ssknSceneEventHandler";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -35,34 +39,8 @@ const getKeyCodeAssociation = (keyCode: number): string => {
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };
 
-type EventState = {
-  event: string;
-  newNodeColIdx: number;
-  newNodeRowIdx: number;
-  newLevel: string;
-  newActiveNodeId: string;
-  newSiteRotIdx: string;
-};
-
 export type StateManagerProps = {
   eventState: any;
-};
-
-export type GameContext = {
-  keyPress?: string;
-  scene: string;
-  bootSubscene: string;
-  nodeMatrixIndices: {
-    matrixIdx: number;
-    rowIdx: number;
-    colIdx: number;
-  };
-  activeLevel: string;
-  siteRotY: number;
-  sitePosY: number;
-  activeMediaComponent: string;
-  activeBootElement: string;
-  activeSSknComponent: string;
 };
 
 const EventManager = () => {
@@ -70,8 +48,7 @@ const EventManager = () => {
 
   // main scene
   const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
-  const sitePosY = useSiteStore((state) => state.sitePosY);
-  const siteRotY = useSiteStore((state) => state.siteRotY);
+  const siteTransformState = useSiteStore((state) => state.transformState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
   // media scene
@@ -90,6 +67,11 @@ const EventManager = () => {
       [mediaComponentMatrixIndices]
     )
   );
+  const rightSideComponentIdx = useMediaStore(
+    (state) => state.componentMatrixIndices.rightSideIdx
+  );
+
+  const wordPosStateIdx = useMediaWordStore((state) => state.posStateIdx);
 
   // sskn scene
   const ssknComponentMatrixIdx = useSSknStore(
@@ -117,31 +99,6 @@ const EventManager = () => {
 
   const [inputCooldown, setInputCooldown] = useState(false);
 
-  const gameContext: GameContext = useMemo(
-    () => ({
-      scene: currentScene,
-      bootSubscene: currentBootSubscene,
-      siteRotY: siteRotY,
-      sitePosY: sitePosY,
-      nodeMatrixIndices: nodeMatrixIndices,
-      activeLevel: activeLevel,
-      activeMediaComponent: activeMediaComponent,
-      activeBootElement: activeBootElement,
-      activeSSknComponent: activeSSknComponent,
-    }),
-    [
-      currentScene,
-      currentBootSubscene,
-      siteRotY,
-      sitePosY,
-      nodeMatrixIndices,
-      activeLevel,
-      activeMediaComponent,
-      activeBootElement,
-      activeSSknComponent,
-    ]
-  );
-
   const handleKeyPress = useCallback(
     (event) => {
       const { keyCode } = event;
@@ -149,12 +106,56 @@ const EventManager = () => {
       const keyPress = getKeyCodeAssociation(keyCode);
 
       if (keyPress && !inputCooldown) {
-        gameContext.keyPress = keyPress;
-        const event = computeAction(gameContext);
+        let event;
+        switch (currentScene) {
+          case "main":
+            event = handleMainSceneEvent({
+              keyPress: keyPress,
+              siteRotY: siteTransformState.rotY,
+              sitePosY: siteTransformState.posY,
+              nodeMatrixIndices: nodeMatrixIndices,
+              activeLevel: activeLevel,
+            });
+            break;
+          case "media":
+            event = handleMediaSceneEvent({
+              keyPress: keyPress,
+              activeMediaComponent: activeMediaComponent,
+              wordPosStateIdx: wordPosStateIdx,
+              rightSideComponentIdx: rightSideComponentIdx,
+            });
+            break;
+          case "boot":
+            event = handleBootEvent({
+              bootSubscene: currentBootSubscene,
+              activeBootElement: activeBootElement,
+            });
+            break;
+          case "gate":
+            event = { event: "exit_gate" };
+            break;
+          case "sskn":
+            event = handleSSknSceneEvent({
+              keyPress: keyPress,
+              activeSSknComponent: activeSSknComponent,
+            });
+            break;
+        }
         setEventState(event);
       }
     },
-    [gameContext, inputCooldown]
+    [
+      activeBootElement,
+      activeLevel,
+      activeMediaComponent,
+      activeSSknComponent,
+      currentBootSubscene,
+      currentScene,
+      inputCooldown,
+      nodeMatrixIndices,
+      siteTransformState.posY,
+      siteTransformState.rotY,
+    ]
   );
 
   useEffect(() => {

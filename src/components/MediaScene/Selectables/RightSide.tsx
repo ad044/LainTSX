@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import { useMediaWordStore } from "../../../store";
 import Word from "./RightSide/Word";
 import { useSpring, a } from "@react-spring/three";
+import word_position_states from "../../../resources/word_position_states.json";
 import * as THREE from "three";
 
 type RightSideProps = {
@@ -11,20 +12,15 @@ type RightSideProps = {
 const RightSide = (props: RightSideProps) => {
   const words = useMediaWordStore((state) => state.words);
 
-  const wordPositionDataStructIdx = useMediaWordStore(
-    (state) => state.wordPositionDataStructIdx
-  );
+  const posStateIdx = useMediaWordStore(
+    (state) => state.posStateIdx
+  ).toString();
 
   const wordPositionState = useMediaWordStore(
     useCallback(
-      (state) => {
-        return wordPositionDataStructIdx < 0
-          ? state.wordPositionDataStruct[
-              state.wordPositionDataStruct.length + wordPositionDataStructIdx
-            ]
-          : state.wordPositionDataStruct[wordPositionDataStructIdx];
-      },
-      [wordPositionDataStructIdx]
+      () =>
+        word_position_states[posStateIdx as keyof typeof word_position_states],
+      [posStateIdx]
     )
   );
 

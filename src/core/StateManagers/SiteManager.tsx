@@ -3,8 +3,7 @@ import { useSiteStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
-  const setSiteRotY = useSiteStore((state) => state.setSiteRotY);
-  const setSitePosY = useSiteStore((state) => state.setSitePosY);
+  const setTransformState = useSiteStore((state) => state.setTransformState);
 
   const dispatchObject = useCallback(
     (event: string, newSitePosY: number, newSiteRotY: number) => {
@@ -12,20 +11,20 @@ const SiteManager = (props: StateManagerProps) => {
         case "move_up":
         case "move_down":
           return {
-            action: setSitePosY,
-            value: newSitePosY,
+            action: setTransformState,
+            value: [newSitePosY, "posY"],
             actionDelay: 1300,
           };
         case "move_left":
         case "move_right":
           return {
-            action: setSiteRotY,
-            value: newSiteRotY,
+            action: setTransformState,
+            value: [newSiteRotY, "rotY"],
             actionDelay: 1100,
           };
       }
     },
-    [setSitePosY, setSiteRotY]
+    [setTransformState]
   );
 
   useEffect(() => {
@@ -39,9 +38,10 @@ const SiteManager = (props: StateManagerProps) => {
         newSitePosY,
         newSiteRotY
       );
+
       if (dispatchedObject) {
         setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value);
+          dispatchedObject.action.apply(null, dispatchedObject.value as any);
         }, dispatchedObject.actionDelay);
       }
     }

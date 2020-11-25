@@ -1,4 +1,3 @@
-import { GameContext } from "./StateManagers/EventManager";
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 
@@ -17,7 +16,7 @@ const hudAssocs = {
   "23": "fg_hud_6",
 };
 
-const handleMainSceneEvent = (gameContext: GameContext) => {
+const handleMainSceneEvent = (gameContext: any) => {
   let event;
 
   const keyPress = gameContext.keyPress;
@@ -32,7 +31,6 @@ const handleMainSceneEvent = (gameContext: GameContext) => {
   let newSiteRotY = gameContext.siteRotY;
   let newSitePosY = gameContext.sitePosY;
   let newScene = gameContext.scene;
-
 
   switch (keyPress) {
     case "left":

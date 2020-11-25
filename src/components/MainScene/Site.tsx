@@ -55,12 +55,11 @@ const Site = memo(() => {
     return obj;
   }, [activeLevel]);
 
-  const siteRotY = useSiteStore((state) => state.siteRotY);
-  const sitePosY = useSiteStore((state) => state.sitePosY);
+  const siteTransformState = useSiteStore((state) => state.transformState);
 
   const siteState = useSpring({
-    siteRotY: siteRotY,
-    sitePosY: sitePosY,
+    siteRotY: siteTransformState.rotY,
+    sitePosY: siteTransformState.posY,
     config: { duration: 1200 },
   });
 

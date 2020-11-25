@@ -51,10 +51,10 @@ type YellowOrbState = {
 };
 
 type SiteState = {
-  siteRotY: number;
-  sitePosY: number;
-  setSiteRotY: (to: number) => void;
-  setSitePosY: (to: number) => void;
+  transformState: {
+    posY: number;
+    rotY: number;
+  };
 };
 
 type LevelState = {
@@ -75,17 +75,11 @@ type MiddleRingState = {
 };
 
 type MediaWordState = {
-  wordPositionDataStruct: {
-    cross: { posX: number; posY: number };
-    fstWord: { posX: number; posY: number };
-    sndWord: { posX: number; posY: number };
-    thirdWord: { posX: number; posY: number };
-  }[];
-  wordPositionDataStructIdx: number;
+  posStateIdx: number;
   words: string[];
   setWords: (to: string[]) => void;
-  addToWordPositionDataStructIdx: (val: number) => void;
-  resetWordPositionDataStructIdx: () => void;
+  setPosStateIdx: (to: number) => void;
+  resetPosStateIdx: () => void;
 };
 
 export type YellowTextState = {
@@ -106,17 +100,6 @@ export type GreenTextState = {
     xOffset: number;
   };
   active: number;
-};
-
-export type TextRendererState = {
-  greenTextPosY: number;
-  greenTextPosX: { initial: number; final: number };
-  greenText: string;
-  greenTextActive: number;
-  setGreenTextPosY: (to: number) => void;
-  setGreenTextPosX: (to: { initial: number; final: number }) => void;
-  setGreenText: (to: string) => void;
-  toggleGreenText: () => void;
 };
 
 type GateState = {
@@ -247,12 +230,22 @@ export const useYellowOrbStore = create<YellowOrbState>((set) => ({
   setYellowOrbVisible: (to) => set(() => ({ yellowOrbVisible: to })),
 }));
 
-export const useSiteStore = create<SiteState>((set) => ({
-  sitePosY: 0,
-  siteRotY: 0,
-  setSitePosY: (to) => set(() => ({ sitePosY: to })),
-  setSiteRotY: (to) => set(() => ({ siteRotY: to })),
-}));
+export const useSiteStore = create(
+  combine(
+    {
+      transformState: {
+        posY: 0,
+        rotY: 0,
+      },
+    } as SiteState,
+    (set) => ({
+      setTransformState: (to: number, at: string) =>
+        set((state) => ({
+          transformState: { ...state.transformState, [at]: to },
+        })),
+    })
+  )
+);
 
 export const useMiddleRingStore = create(
   combine(
@@ -316,24 +309,13 @@ export const useMediaStore = create(
             leftSideIdx: Number(!state.componentMatrixIndices.leftSideIdx),
           },
         })),
-      addToRightComponentMatrixIdx: (val: number) =>
-        set((state) => {
-          let finalVal;
-          const newSum = state.componentMatrixIndices["rightSideIdx"] + val;
-          if (newSum > 2) {
-            finalVal = 0;
-          } else if (newSum < 0) {
-            finalVal = 2;
-          } else {
-            finalVal = newSum;
-          }
-          return {
-            componentMatrixIndices: {
-              ...state.componentMatrixIndices,
-              rightSideIdx: finalVal,
-            },
-          };
-        }),
+      setRightComponentMatrixIdx: (to: number) =>
+        set((state) => ({
+          componentMatrixIndices: {
+            ...state.componentMatrixIndices,
+            rightSideIdx: to,
+          },
+        })),
       resetComponentMatrixIndices: () =>
         set(() => ({
           componentMatrixIndices: {
@@ -352,74 +334,10 @@ export const useMediaStore = create(
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
   words: ["eye", "quiet", "hallucination"],
-  wordPositionDataStruct: [
-    {
-      cross: {
-        posX: -2,
-        posY: 2,
-      },
-      fstWord: { posX: 0, posY: 0 },
-      sndWord: { posX: 3, posY: -3 },
-      thirdWord: { posX: 3.7, posY: -4.3 },
-    },
-    {
-      cross: {
-        posX: -0.5,
-        posY: 0.5,
-      },
-      fstWord: { posX: 1.8, posY: -2.5 },
-      sndWord: { posX: 1.5, posY: -1.5 },
-      thirdWord: { posX: 3.3, posY: -3.7 },
-    },
-    {
-      cross: {
-        posX: 1,
-        posY: -1,
-      },
-      fstWord: { posX: 3.7, posY: -4.3 },
-      sndWord: { posX: 0, posY: 0 },
-      thirdWord: { posX: 3, posY: -3 },
-    },
-    {
-      cross: {
-        posX: 1.3,
-        posY: -1.7,
-      },
-      fstWord: { posX: 3.3, posY: -3.7 },
-      sndWord: { posX: 1.8, posY: -2.5 },
-      thirdWord: { posX: 1.5, posY: -1.5 },
-    },
-    {
-      cross: {
-        posX: 1.7,
-        posY: -2.3,
-      },
-      fstWord: { posX: 3, posY: -3 },
-      sndWord: { posX: 3.7, posY: -4.3 },
-      thirdWord: { posX: 0, posY: 0 },
-    },
-    {
-      cross: {
-        posX: -0.4,
-        posY: -0.5,
-      },
-      fstWord: { posX: 1.5, posY: -1.5 },
-      sndWord: { posX: 3.3, posY: -3.7 },
-      thirdWord: { posX: 1.8, posY: -2.5 },
-    },
-  ],
-  wordPositionDataStructIdx: 0,
-  addToWordPositionDataStructIdx: (val) =>
-    set((state) => ({
-      wordPositionDataStructIdx:
-        state.wordPositionDataStructIdx > 4 ||
-        state.wordPositionDataStructIdx < -4
-          ? 0
-          : state.wordPositionDataStructIdx + val,
-    })),
+  posStateIdx: 1,
+  setPosStateIdx: (to) => set(() => ({ posStateIdx: to })),
   setWords: (to) => set(() => ({ words: to })),
-  resetWordPositionDataStructIdx: () =>
-    set(() => ({ wordPositionDataStructIdx: 0 })),
+  resetPosStateIdx: () => set(() => ({ posStateIdx: 0 })),
 }));
 
 export const useSSknStore = create<SSknState>((set) => ({
