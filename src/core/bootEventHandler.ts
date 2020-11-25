@@ -1,6 +1,4 @@
-import { GameContext } from "./StateManagers/EventManager";
-
-const handleBootEvent = (gameContext: GameContext) => {
+const handleBootEvent = (gameContext: any) => {
   const keyPress = gameContext.keyPress;
 
   const activeBootElement = gameContext.activeBootElement;
@@ -14,9 +12,8 @@ const handleBootEvent = (gameContext: GameContext) => {
     case "back":
       return { event: `${currentSubscene}_${keyPress}` };
     case "select":
-      switch(currentSubscene){
+      switch (currentSubscene) {
         case "authorize_user":
-
       }
       return { event: `${activeBootElement}_${keyPress}` };
   }

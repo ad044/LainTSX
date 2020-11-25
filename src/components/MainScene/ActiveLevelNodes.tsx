@@ -14,12 +14,11 @@ const ActiveLevelNodes = () => {
     [activeLevel]
   );
 
-  const sitePosY = useSiteStore((state) => state.sitePosY);
-  const siteRotY = useSiteStore((state) => state.siteRotY);
+  const siteTransformState = useSiteStore((state) => state.transformState);
 
   const siteState = useSpring({
-    siteRotY: siteRotY,
-    sitePosY: sitePosY,
+    siteRotY: siteTransformState.rotY,
+    sitePosY: siteTransformState.posY,
     config: { duration: 1200 },
   });
 

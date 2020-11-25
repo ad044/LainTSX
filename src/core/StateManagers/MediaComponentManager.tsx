@@ -8,8 +8,8 @@ const MediaComponentManager = (props: StateManagerProps) => {
   const toggleLeftComponent = useMediaStore(
     (state) => state.toggleLeftComponent
   );
-  const addToRightComponentMatrixIdx = useMediaStore(
-    (state) => state.addToRightComponentMatrixIdx
+  const setRightComponentMatrixIdx = useMediaStore(
+    (state) => state.setRightComponentMatrixIdx
   );
 
   const resetComponentMatrixIndices = useMediaStore(
@@ -36,21 +36,17 @@ const MediaComponentManager = (props: StateManagerProps) => {
   }, [setAudioAnalyser]);
 
   const dispatchObject = useCallback(
-    (event: string) => {
+    (event: string, newRightSideComponentIdx) => {
       switch (event) {
         case "fstWord_down":
         case "sndWord_down":
         case "thirdWord_down":
-          return {
-            action: addToRightComponentMatrixIdx,
-            value: [1],
-          };
         case "fstWord_up":
         case "thirdWord_up":
         case "sndWord_up":
           return {
-            action: addToRightComponentMatrixIdx,
-            value: [-1],
+            action: setRightComponentMatrixIdx,
+            value: [newRightSideComponentIdx],
           };
         case "play_down":
         case "exit_up":
@@ -74,9 +70,9 @@ const MediaComponentManager = (props: StateManagerProps) => {
       }
     },
     [
-      addToRightComponentMatrixIdx,
       playMedia,
       resetComponentMatrixIndices,
+      setRightComponentMatrixIdx,
       toggleLeftComponent,
       toggleSide,
     ]
@@ -85,8 +81,13 @@ const MediaComponentManager = (props: StateManagerProps) => {
   useEffect(() => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
+      const newRightSideComponentIdx =
+        props.eventState.newRightSideComponentIdx;
 
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(
+        eventAction,
+        newRightSideComponentIdx
+      );
 
       if (dispatchedObject) {
         dispatchedObject.action.apply(null, dispatchedObject.value);

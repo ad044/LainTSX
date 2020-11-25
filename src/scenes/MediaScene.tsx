@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useMediaStore } from "../store";
-import TextRenderer from "../components/TextRenderer/GreenTextRenderer";
+import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
@@ -9,6 +9,7 @@ import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Lof from "../components/MediaScene/Lof";
 import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
+import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 
 const MediaScene = () => {
   const mediaComponentMatrixIndices = useMediaStore(
@@ -45,7 +46,8 @@ const MediaScene = () => {
           <NodeNameContainer />
         </group>
         <group position={[0, 0, 0]}>
-          <TextRenderer />
+          <GreenTextRenderer />
+          <YellowTextRenderer />
         </group>
         <Lof />
         <Images />

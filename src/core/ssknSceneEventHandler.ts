@@ -1,6 +1,4 @@
-import { GameContext } from "./StateManagers/EventManager";
-
-const handleSSknSceneEvent = (gameContext: GameContext) => {
+const handleSSknSceneEvent = (gameContext: any) => {
   const keyPress = gameContext.keyPress;
   const activeSSknComponent = gameContext.activeSSknComponent;
   return { event: `${activeSSknComponent}_${keyPress}` };
