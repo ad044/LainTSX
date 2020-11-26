@@ -10,7 +10,7 @@ import { useLoader } from "react-three-fiber";
 
 type BootLoadDataProps = {
   visible: boolean;
-  activeBootElement: string;
+  activeBootElement: any;
 };
 
 const BootLoadData = (props: BootLoadDataProps) => {

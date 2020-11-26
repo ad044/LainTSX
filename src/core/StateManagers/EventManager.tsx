@@ -5,6 +5,7 @@ import LainManager from "./LainManager";
 import NodeManager from "./NodeManager";
 import NodeHUDManager from "./NodeHUDManager";
 import {
+  useAuthorizeUserStore,
   useBootStore,
   useLevelStore,
   useMediaStore,
@@ -20,12 +21,13 @@ import MediaWordManager from "./MediaWordManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
 import LevelManager from "./LevelManager";
-import BootManager from "./BootManager";
+import BootComponentManager from "./BootComponentManager";
 import SSknComponentManager from "./SSknComponentManager";
 import handleMainSceneEvent from "../mainSceneEventHandler";
 import handleMediaSceneEvent from "../mediaSceneEventHandler";
 import handleBootEvent from "../bootEventHandler";
 import handleSSknSceneEvent from "../ssknSceneEventHandler";
+import BootAuthorizeUserManager from "./BootAuthorizeUserManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -88,11 +90,25 @@ const EventManager = () => {
   const activeBootElement = useBootStore(
     useCallback(
       (state) =>
-        state.componentMatrix[currentBootSubscene][
-          state.componentMatrixIndices[currentBootSubscene]
+        state.componentMatrix[
+          currentBootSubscene as keyof typeof state.componentMatrix
+        ][
+          state.componentMatrixIndices[
+            currentBootSubscene as keyof typeof state.componentMatrixIndices
+          ]
         ],
       [currentBootSubscene]
     )
+  );
+
+  const authorizeUserBgLettersPos = useAuthorizeUserStore(
+    (state) => state.bgLettersPos
+  );
+  const authorizeUserActiveLetterTexOffset = useAuthorizeUserStore(
+    (state) => state.activeLetterTextureOffset
+  );
+  const authorizeUserMatrixIdx = useBootStore(
+    (state) => state.componentMatrixIndices.authorize_user
   );
 
   const [eventState, setEventState] = useState<any>();
@@ -111,8 +127,7 @@ const EventManager = () => {
           case "main":
             event = handleMainSceneEvent({
               keyPress: keyPress,
-              siteRotY: siteTransformState.rotY,
-              sitePosY: siteTransformState.posY,
+              siteTransformState: siteTransformState,
               nodeMatrixIndices: nodeMatrixIndices,
               activeLevel: activeLevel,
             });
@@ -127,8 +142,12 @@ const EventManager = () => {
             break;
           case "boot":
             event = handleBootEvent({
+              keyPress: keyPress,
               bootSubscene: currentBootSubscene,
               activeBootElement: activeBootElement,
+              authorizeUserBgLettersPos: authorizeUserBgLettersPos,
+              authorizeUserActiveLetterTexOffset: authorizeUserActiveLetterTexOffset,
+              authorizeUserMatrixIdx: authorizeUserMatrixIdx,
             });
             break;
           case "gate":
@@ -153,8 +172,9 @@ const EventManager = () => {
       currentScene,
       inputCooldown,
       nodeMatrixIndices,
-      siteTransformState.posY,
-      siteTransformState.rotY,
+      rightSideComponentIdx,
+      siteTransformState,
+      wordPosStateIdx,
     ]
   );
 
@@ -179,8 +199,9 @@ const EventManager = () => {
       <SceneManager eventState={eventState!} />
       <YellowTextManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
-      <BootManager eventState={eventState!} />
+      <BootComponentManager eventState={eventState!} />
       <SSknComponentManager eventState={eventState!} />
+      <BootAuthorizeUserManager eventState={eventState!} />
     </>
   );
 };

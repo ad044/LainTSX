@@ -11,8 +11,12 @@ const BootScene = () => {
   const activeBootElement = useBootStore(
     useCallback(
       (state) =>
-        state.componentMatrix[activeSubscene][
-          state.componentMatrixIndices[activeSubscene]
+        state.componentMatrix[
+          activeSubscene as keyof typeof state.componentMatrix
+        ][
+          state.componentMatrixIndices[
+            activeSubscene as keyof typeof state.componentMatrixIndices
+          ]
         ],
       [activeSubscene]
     )
@@ -25,11 +29,11 @@ const BootScene = () => {
     setTimeout(() => {
       setAccelaVisible(false);
       // 2000
-    }, 0);
+    }, 2000);
     setTimeout(() => {
       setMainMenuVisible(true);
       //6200
-    }, 0);
+    }, 6200);
   }, []);
 
   return (
