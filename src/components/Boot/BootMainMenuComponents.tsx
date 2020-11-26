@@ -12,7 +12,7 @@ import loadDataHeader from "../../static/sprite/load_data_header.png";
 type BootMainMenuProps = {
   visible: boolean;
   activeSubScene: string;
-  activeBootElement: string;
+  activeBootElement: any;
 };
 
 const BootMainMenuComponents = (props: BootMainMenuProps) => {

@@ -1,6 +1,7 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
+import authorize_user_letters from "./resources/authorize_user_letters.json";
 
 type SceneState = {
   currentScene: string;
@@ -90,6 +91,35 @@ export type YellowTextState = {
     posY: number;
     xOffset: number;
   };
+};
+
+export type BootState = {
+  componentMatrix: {
+    main_menu: [string, string];
+    load_data: [string, string];
+    authorize_user: number[];
+  };
+  componentMatrixIndices: {
+    // 0 or 1
+    main_menu: number;
+    // 0 or 1
+    load_data: number;
+    authorize_user: number;
+  };
+  subscene: string;
+};
+
+export type AuthorizeUserState = {
+  bgLettersPos: {
+    x: number;
+    y: number;
+  };
+  activeLetterTextureOffset: {
+    x: number;
+    y: number;
+  };
+  setBgLettersPos: (to: { x: number; y: number }) => void;
+  setActiveLetterTexOffset: (to: { x: number; y: number }) => void;
 };
 
 export type GreenTextState = {
@@ -351,8 +381,23 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "media",
+  currentScene: "polytan",
   setScene: (to) => set(() => ({ currentScene: to })),
+}));
+
+export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
+  bgLettersPos: {
+    x: 3.35,
+    y: -0.7,
+  },
+  activeLetterTextureOffset: {
+    x: 0,
+    y: -0.2,
+  },
+  setBgLettersPos: (to: { x: number; y: number }) =>
+    set(() => ({ bgLettersPos: to })),
+  setActiveLetterTexOffset: (to: { x: number; y: number }) =>
+    set(() => ({ activeLetterTextureOffset: to })),
 }));
 
 export const useBootStore = create(
@@ -361,136 +406,38 @@ export const useBootStore = create(
       componentMatrix: {
         main_menu: ["authorize_user", "load_data"],
         load_data: ["load_data_yes", "load_data_no"],
-        authorize_user: [
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-          [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
-          [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
-          [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51],
-          [51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63],
-        ],
-      },
-      bgLettersPos: {
-        x: 3.35,
-        y: -0.7,
-      },
-      activeLetterTextureOffset: {
-        x: 0,
-        y: -0.2,
+        authorize_user: authorize_user_letters.letters,
       },
       componentMatrixIndices: {
         // 0 or 1
         main_menu: 0,
         // 0 or 1
         load_data: 0,
-        authorize_user: {
-          row: 0,
-          col: 0,
-        },
+        authorize_user: 0,
       },
       // main_menu, load_data or authorize_user
-      subscene: "authorize_user",
-    } as any,
+      subscene: "main_menu",
+    } as BootState,
     (set) => ({
+      setSubscene: (to: string) => set(() => ({ subscene: to })),
       toggleComponentMatrixIdx: (subscene: string) =>
         set((state) => ({
           componentMatrixIndices: {
             ...state.componentMatrixIndices,
-            [subscene]: Number(!state.componentMatrixIndices[subscene]),
+            [subscene]: Number(
+              !state.componentMatrixIndices[
+                subscene as keyof typeof state.componentMatrixIndices
+              ]
+            ),
           },
         })),
-      setSubscene: (to: string) => set(() => ({ subscene: to })),
-      moveAuthorizeUserLetters: (direction: string) =>
-        set((state) => {
-          let initialPos = state.bgLettersPos;
-          let initialActiveLetterTextureOffset =
-            state.activeLetterTextureOffset;
-          let initialLetterRowIdx =
-            state.componentMatrixIndices.authorize_user.row;
-          let initialLetterColIdx =
-            state.componentMatrixIndices.authorize_user.col;
-
-          let axis: string;
-          let finalPosVal: number;
-          let finalTextureOffsetVal: number;
-          let finalLetterRowIdx: number;
-          let finalLetterColIdx: number;
-
-          switch (direction) {
-            case "right":
-              axis = "x";
-              if (initialPos.x - 0.3 < -0.25) {
-                finalPosVal = -0.25;
-                finalLetterRowIdx = 12;
-                finalTextureOffsetVal = 0.93;
-              } else {
-                finalPosVal = initialPos.x - 0.3;
-                finalLetterRowIdx = initialLetterRowIdx + 1;
-                finalTextureOffsetVal =
-                  initialActiveLetterTextureOffset.x + 0.0775;
-              }
-              finalLetterColIdx = initialLetterColIdx;
-              break;
-            case "left":
-              axis = "x";
-              if (initialPos.x + 0.3 > 3.35) {
-                finalPosVal = 3.35;
-                finalLetterRowIdx = 0;
-                finalTextureOffsetVal = 0;
-              } else {
-                finalPosVal = initialPos.x + 0.3;
-                finalTextureOffsetVal =
-                  initialActiveLetterTextureOffset.x - 0.0775;
-                finalLetterRowIdx = initialLetterRowIdx - 1;
-              }
-              finalLetterColIdx = initialLetterColIdx;
-              break;
-            case "up":
-              axis = "y";
-              if (initialPos.y - 0.25 < -0.7) {
-                finalPosVal = -0.7;
-                finalLetterColIdx = 0;
-                finalTextureOffsetVal = -0.2;
-              } else {
-                finalPosVal = initialPos.y - 0.25;
-                finalTextureOffsetVal =
-                  initialActiveLetterTextureOffset.y + 0.2;
-                finalLetterColIdx = initialLetterColIdx - 1;
-              }
-              finalLetterRowIdx = initialLetterRowIdx;
-              break;
-            case "down":
-              axis = "y";
-              if (initialPos.y + 0.25 > 0.3) {
-                finalPosVal = 0.3;
-                finalLetterColIdx = 4;
-                finalTextureOffsetVal = -1;
-              } else {
-                finalPosVal = initialPos.y + 0.25;
-                finalTextureOffsetVal =
-                  initialActiveLetterTextureOffset.y - 0.2;
-                finalLetterColIdx = initialLetterColIdx + 1;
-              }
-              finalLetterRowIdx = initialLetterRowIdx;
-              break;
-          }
-          return {
-            bgLettersPos: {
-              ...state.bgLettersPos,
-              [axis!]: finalPosVal!,
-            },
-            activeLetterTextureOffset: {
-              ...state.activeLetterTextureOffset,
-              [axis!]: finalTextureOffsetVal!,
-            },
-            componentMatrixIndices: {
-              ...state.componentMatrixIndices,
-              authorize_user: {
-                row: finalLetterRowIdx!,
-                col: finalLetterColIdx!,
-              },
-            },
-          };
-        }),
+      setAuthorizeUserMatrixIdx: (to: number) =>
+        set((state) => ({
+          componentMatrixIndices: {
+            ...state.componentMatrixIndices,
+            authorize_user: to,
+          },
+        })),
     })
   )
 );

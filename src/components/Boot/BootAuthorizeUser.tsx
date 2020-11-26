@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
 import authorizeGlass from "../../static/sprite/authorize_glass.png";
 import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
@@ -6,9 +6,9 @@ import authorizeOrangeSquare from "../../static/sprite/authorize_orange_square.p
 import authorizeStartToFinish from "../../static/sprite/authorize_start_to_finish.png";
 import authorizeInactiveLetters from "../../static/sprite/authorize_inactive_letters.png";
 import authorizeActiveLetters from "../../static/sprite/authorize_active_letters.png";
-import { useFrame, useLoader } from "react-three-fiber";
+import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { useBootStore } from "../../store";
+import { useAuthorizeUserStore, useBootStore } from "../../store";
 import { OrbitControls } from "@react-three/drei";
 
 type BootAuthorizeUserProps = {
@@ -42,8 +42,10 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     authorizeActiveLetters
   );
 
-  const backgroundLettersPos = useBootStore((state) => state.bgLettersPos);
-  const activeLetterTextureOffset = useBootStore(
+  const backgroundLettersPos = useAuthorizeUserStore(
+    (state) => state.bgLettersPos
+  );
+  const activeLetterTextureOffset = useAuthorizeUserStore(
     (state) => state.activeLetterTextureOffset
   );
 
@@ -56,10 +58,6 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
 
     return authorizeActiveLettersTex;
   }, [activeLetterTextureOffset, authorizeActiveLettersTex]);
-
-  const t = useBootStore(
-    (state) => state.componentMatrixIndices.authorize_user
-  );
 
   return (
     <>

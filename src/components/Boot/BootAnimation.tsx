@@ -150,7 +150,7 @@ const BootAnimation = (props: BootAnimationProps) => {
 
         setBackgroundFloatingTextShown(true);
         //4200
-      }, 0);
+      }, 4200);
     }
   }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
 
@@ -179,7 +179,7 @@ const BootAnimation = (props: BootAnimationProps) => {
   const sndDistortedBackgroundTextRef = useRef<THREE.Object3D>();
 
   return (
-    <>
+    <group visible={props.visible}>
       <a.sprite
         scale={[1.2, 0.4, 0]}
         position-x={animationState.lofPosX}
@@ -202,7 +202,7 @@ const BootAnimation = (props: BootAnimationProps) => {
           opacity={animationState.graySquareOpacity}
         />
       </a.sprite>
-      {props.visible && props.activeSubScene !== "authorize_user" ? (
+      {props.activeSubScene !== "authorize_user" ? (
         <>
           {/*we have two of each to create looping effect*/}
           <a.sprite
@@ -276,7 +276,7 @@ const BootAnimation = (props: BootAnimationProps) => {
               opacity={bootState.bootOpacity}
             />
           </sprite>
-          <sprite scale={[0.2, 0.2, 0]} position={[0, -0.8, 0]}>
+          <sprite scale={[0.2, 0.2, 0]} position={[0, -0.8, 0]} renderOrder={-1}>
             <a.spriteMaterial
               attach="material"
               map={bootPurpleSquareTex}
@@ -320,7 +320,7 @@ const BootAnimation = (props: BootAnimationProps) => {
       ) : (
         <></>
       )}
-    </>
+    </group>
   );
 };
 

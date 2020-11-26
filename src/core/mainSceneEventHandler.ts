@@ -28,8 +28,8 @@ const handleMainSceneEvent = (gameContext: any) => {
   let newNodeColIdx = gameContext.nodeMatrixIndices.colIdx;
   let newNodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
   let newLevel = gameContext.activeLevel;
-  let newSiteRotY = gameContext.siteRotY;
-  let newSitePosY = gameContext.sitePosY;
+  let newSiteRotY = gameContext.siteTransformState.rotY;
+  let newSitePosY = gameContext.siteTransformState.posY;
   let newScene = gameContext.scene;
 
   switch (keyPress) {
