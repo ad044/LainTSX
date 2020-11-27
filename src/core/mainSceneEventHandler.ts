@@ -113,6 +113,9 @@ const handleMainSceneEvent = (gameContext: any) => {
           newScene = "sskn";
           break;
       }
+      break;
+    case "toggle_level_selection":
+      return { event: "toggle_level_selection" };
   }
 
   const newActiveNodeId =
