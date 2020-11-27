@@ -1,9 +1,12 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
-import { useLevelStore } from "../../store";
+import { useLevelSelectionStore, useLevelStore } from "../../store";
 
 const LevelManager = (props: StateManagerProps) => {
   const setActiveLevel = useLevelStore((state) => state.setActiveLevel);
+  const toggleLevelSelection = useLevelSelectionStore(
+    (state) => state.toggleLevelSelection
+  );
 
   const dispatchObject = useCallback(
     (event: string, newLevel: string) => {
@@ -14,9 +17,13 @@ const LevelManager = (props: StateManagerProps) => {
             action: setActiveLevel,
             value: newLevel,
           };
+        case "toggle_level_selection":
+          return {
+            action: toggleLevelSelection,
+          };
       }
     },
-    [setActiveLevel]
+    [setActiveLevel, toggleLevelSelection]
   );
 
   useEffect(() => {
@@ -26,7 +33,10 @@ const LevelManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction, newLevel);
 
       if (dispatchedObject) {
-        dispatchedObject.action(dispatchedObject.value);
+        (dispatchedObject.action as any).apply(
+          null,
+          dispatchedObject.value as any
+        );
       }
     }
   }, [props.eventState, dispatchObject]);

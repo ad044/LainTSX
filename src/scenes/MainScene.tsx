@@ -3,7 +3,6 @@ import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect } from "react";
 import Site from "../components/MainScene/Site";
 import Lain from "../components/MainScene/Lain";
-import Lights from "../components/MainScene/Lights";
 import Preloader from "../components/Preloader";
 import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
@@ -15,6 +14,7 @@ import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
 import ActiveLevelNodes from "../components/MainScene/ActiveLevelNodes";
 import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
+import LevelSelection from "../components/MainScene/LevelSelection";
 
 const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
@@ -30,18 +30,22 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <MainSceneIntro />
         <a.group>
-          <Preloader />
-          <Site />
-          <ActiveLevelNodes />
-          <HUD />
-          <TextRenderer />
-          <YellowTextRenderer />
-          <YellowOrb />
-          <Starfield />
-          <GrayPlanes />
-          <Lights />
-          <MiddleRing />
+          {/*<Preloader />*/}
+          {/*<Site />*/}
+          {/*<ActiveLevelNodes />*/}
+          {/*<HUD />*/}
+          {/*<TextRenderer />*/}
+          {/*<YellowTextRenderer />*/}
+          {/*<YellowOrb />*/}
+          {/*<Starfield />*/}
+          {/*<GrayPlanes />*/}
+          {/*<MiddleRing />*/}
+          <LevelSelection />
           <OrbitControls />
+          <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
+          <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
+          <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
+          <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
         </a.group>
         <Lain />
       </Suspense>

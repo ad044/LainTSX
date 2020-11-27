@@ -37,6 +37,7 @@ const getKeyCodeAssociation = (keyCode: number): string => {
     39: "right", // right arrow
     88: "select", // x key
     90: "back", // z key
+    69: "toggle_level_selection", // e key
   };
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };

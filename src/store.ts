@@ -3,6 +3,14 @@ import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 
+type LevelSelectionState = {
+  availableLevels: number[];
+  selectedLevelIdx: number;
+  levelSelectionToggled: number;
+  setSelectedLevelIdx: (to: number) => void;
+  toggleLevelSelection: () => void;
+};
+
 type SceneState = {
   currentScene: string;
   setScene: (to: string) => void;
@@ -381,7 +389,7 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "polytan",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
@@ -456,4 +464,15 @@ export const usePolytanStore = create<any>((set) => ({
 export const useGateStore = create<GateState>((set) => ({
   gateLvl: 4,
   incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
+}));
+
+export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
+  availableLevels: Array.from({ length: 24 }, (x, i) => i + 1),
+  selectedLevelIdx: 23,
+  levelSelectionToggled: 0,
+  setSelectedLevelIdx: (to) => set(() => ({ selectedLevelIdx: to })),
+  toggleLevelSelection: () =>
+    set((state) => ({
+      levelSelectionToggled: Number(!state.levelSelectionToggled),
+    })),
 }));
