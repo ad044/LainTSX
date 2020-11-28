@@ -10,6 +10,7 @@ const SiteManager = (props: StateManagerProps) => {
       switch (event) {
         case "move_up":
         case "move_down":
+        case "select_level":
           return {
             action: setTransformState,
             value: [newSitePosY, "posY"],

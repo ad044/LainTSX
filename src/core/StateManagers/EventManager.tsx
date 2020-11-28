@@ -7,7 +7,9 @@ import NodeHUDManager from "./NodeHUDManager";
 import {
   useAuthorizeUserStore,
   useBootStore,
+  useLevelSelectionStore,
   useLevelStore,
+  useMainSceneStore,
   useMediaStore,
   useMediaWordStore,
   useNodeStore,
@@ -28,6 +30,8 @@ import handleMediaSceneEvent from "../mediaSceneEventHandler";
 import handleBootEvent from "../bootEventHandler";
 import handleSSknSceneEvent from "../ssknSceneEventHandler";
 import BootAuthorizeUserManager from "./BootAuthorizeUserManager";
+import LevelSelectionManager from "./LevelSelectionManager";
+import SubsceneManager from "./SubsceneManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -53,6 +57,10 @@ const EventManager = () => {
   const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
   const siteTransformState = useSiteStore((state) => state.transformState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
+  const mainSubscene = useMainSceneStore((state) => state.subscene);
+  const levelSelectionIdx = useLevelSelectionStore(
+    (state) => state.selectedLevelIdx
+  );
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -127,10 +135,12 @@ const EventManager = () => {
         switch (currentScene) {
           case "main":
             event = handleMainSceneEvent({
+              mainSubscene: mainSubscene,
               keyPress: keyPress,
               siteTransformState: siteTransformState,
               nodeMatrixIndices: nodeMatrixIndices,
               activeLevel: activeLevel,
+              levelSelectionIdx: levelSelectionIdx,
             });
             break;
           case "media":
@@ -169,9 +179,14 @@ const EventManager = () => {
       activeLevel,
       activeMediaComponent,
       activeSSknComponent,
+      authorizeUserActiveLetterTexOffset,
+      authorizeUserBgLettersPos,
+      authorizeUserMatrixIdx,
       currentBootSubscene,
       currentScene,
       inputCooldown,
+      levelSelectionIdx,
+      mainSubscene,
       nodeMatrixIndices,
       rightSideComponentIdx,
       siteTransformState,
@@ -203,6 +218,8 @@ const EventManager = () => {
       <BootComponentManager eventState={eventState!} />
       <SSknComponentManager eventState={eventState!} />
       <BootAuthorizeUserManager eventState={eventState!} />
+      <LevelSelectionManager eventState={eventState!} />
+      <SubsceneManager eventState={eventState!} />
     </>
   );
 };
