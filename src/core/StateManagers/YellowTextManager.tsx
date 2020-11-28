@@ -1,20 +1,20 @@
 import { useCallback, useEffect } from "react";
 import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
-import { useYellowTextStore } from "../../store";
+import { useBigTextStore } from "../../store";
 import { SiteType } from "../../components/MainScene/Site";
 import { StateManagerProps } from "./EventManager";
 
 const YellowTextManager = (props: StateManagerProps) => {
-  const setTransformState = useYellowTextStore(
-    (state) => state.setTransformState
-  );
-  const addToTransformState = useYellowTextStore(
+  const setTransformState = useBigTextStore((state) => state.setTransformState);
+  const addToTransformState = useBigTextStore(
     (state) => state.addToTransformState
   );
-  const setText = useYellowTextStore((state) => state.setText);
+  const setText = useBigTextStore((state) => state.setText);
 
-  const setDisableTrail = useYellowTextStore((state) => state.setDisableTrail);
+  const setDisableTrail = useBigTextStore((state) => state.setDisableTrail);
+
+  const setColor = useBigTextStore((state) => state.setColor);
 
   const animateYellowTextWithMove = useCallback(
     (
@@ -126,18 +126,63 @@ const YellowTextManager = (props: StateManagerProps) => {
   }, [setText, setTransformState]);
 
   const initializeYellowTextForMainScene = useCallback(
-    (activeNodeId: string, level: string) => {
+    (activeNodeId: string, activeHudId: string, level: string) => {
       setText((site_a as SiteType)[level][activeNodeId].node_name);
       setTransformState(
-        node_huds[activeNodeId as keyof typeof node_huds].big_text[0],
+        node_huds[activeHudId as keyof typeof node_huds].big_text[0],
         "posX"
       );
       setTransformState(
-        node_huds[activeNodeId as keyof typeof node_huds].big_text[1],
+        node_huds[activeHudId as keyof typeof node_huds].big_text[1],
         "posY"
       );
     },
     [setText, setTransformState]
+  );
+
+  const initializeLevelSelection = useCallback(() => {
+    setTransformState(-1, "xOffset");
+
+    setTimeout(() => {
+      setTransformState(-0.02, "posX");
+      setTransformState(0, "posY");
+    }, 400);
+
+    setTimeout(() => {
+      setText("Jump To");
+      setColor("orange");
+    }, 1000);
+
+    setTimeout(() => {
+      setTransformState(0, "xOffset");
+    }, 1200);
+  }, [setColor, setText, setTransformState]);
+
+  const levelSelectionBack = useCallback(
+    (activeNodeId: string, activeHudId: string, level: string) => {
+      setTransformState(-1, "xOffset");
+
+      setTimeout(() => {
+        setTransformState(
+          node_huds[activeHudId as keyof typeof node_huds].big_text[0],
+          "posX"
+        );
+        setTransformState(
+          node_huds[activeHudId as keyof typeof node_huds].big_text[1],
+          "posY"
+        );
+      }, 400);
+
+      setTimeout(() => {
+        setColor("yellow");
+        setText((site_a as SiteType)[level][activeNodeId].node_name);
+      }, 1000);
+
+      setTimeout(() => {
+        setTransformState(0, "xOffset");
+      }, 1200);
+    },
+    [setColor, setText, setTransformState]
   );
 
   const dispatchObject = useCallback(
@@ -204,7 +249,16 @@ const YellowTextManager = (props: StateManagerProps) => {
         case "exit_media_scene":
           return {
             action: initializeYellowTextForMainScene,
-            value: [newActiveNodeId, newLevel],
+            value: [newActiveNodeId, newActiveHudId, newLevel],
+          };
+        case "level_selection_back":
+          return {
+            action: levelSelectionBack,
+            value: [newActiveNodeId, newActiveHudId, newLevel],
+          };
+        case "toggle_level_selection":
+          return {
+            action: initializeLevelSelection,
           };
       }
     },
@@ -212,6 +266,7 @@ const YellowTextManager = (props: StateManagerProps) => {
       animateMediaYellowText,
       animateYellowTextWithMove,
       animateYellowTextWithoutMove,
+      initializeLevelSelection,
       initializeYellowTextForMainScene,
       initializeYellowTextForMediaScene,
     ]

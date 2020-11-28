@@ -34,6 +34,8 @@ const BigLetter = (props: {
     const lineTwo = "RSTUVWXYZ01234567";
     const lineThree = "89abcdefghijklmnopqrs";
 
+    if (letter === " ") return 5;
+
     if (lineOne.includes(letter)) {
       return 1;
     } else if (lineTwo.includes(letter)) {
@@ -51,6 +53,7 @@ const BigLetter = (props: {
       2: 0.765,
       3: 0.648,
       4: 0.47,
+      5: 1,
     }),
     []
   );
@@ -83,21 +86,19 @@ const BigLetter = (props: {
 
   const textRendererState = useSpring({
     letterOffsetXCoeff:
-      props.letterIdx === 0
-        ? props.letterIdx + props.letterIdx * props.yellowTextOffsetXCoeff
-        : props.letterIdx +
-          0.3 +
-          (props.letterIdx + 0.3) * props.yellowTextOffsetXCoeff,
+      props.letterIdx +
+      0.3 +
+      (props.letterIdx + 0.3) * props.yellowTextOffsetXCoeff,
     config: { duration: 200 },
   });
 
   return (
     <a.mesh
       position-x={textRendererState.letterOffsetXCoeff}
-      position-y={props.letterIdx === 0 ? -0.03 : 0 - letterData[4] / 12.5}
-      scale={props.letterIdx === 0 ? [1.5, 1, 1.5] : [1, 1, 1]}
+      position-y={-letterData[4] / 12.5}
+      scale={[1, 1, 0]}
       geometry={geom}
-      renderOrder={props.letterIdx === 0 ? 4 : 3}
+      renderOrder={props.letterIdx === 0 ? 11 : 10}
     >
       <meshBasicMaterial
         map={colorTexture}

@@ -91,9 +91,10 @@ type MediaWordState = {
   resetPosStateIdx: () => void;
 };
 
-export type YellowTextState = {
+export type BigTextState = {
   disableTrail: boolean;
   text: string;
+  color: string;
   transformState: {
     posX: number;
     posY: number;
@@ -154,9 +155,15 @@ type SSknState = {
   toggleLoading: () => void;
 };
 
-export const useYellowTextStore = create(
+type MainSceneState = {
+  subscene: string;
+  setSubscene: (to: string) => void;
+};
+
+export const useBigTextStore = create(
   combine(
     {
+      color: "yellow",
       disableTrail: false,
       text: "Play",
       transformState: {
@@ -164,7 +171,7 @@ export const useYellowTextStore = create(
         posY: 0,
         xOffset: 0,
       },
-    } as YellowTextState,
+    } as BigTextState,
     (set) => ({
       setDisableTrail: (to: boolean) => set(() => ({ disableTrail: to })),
       setText: (to: string) => set(() => ({ text: to })),
@@ -181,6 +188,7 @@ export const useYellowTextStore = create(
               val,
           },
         })),
+      setColor: (to: string) => set(() => ({ color: to })),
     })
   )
 );
@@ -408,6 +416,11 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
     set(() => ({ activeLetterTextureOffset: to })),
 }));
 
+export const useMainSceneStore = create<MainSceneState>((set) => ({
+  subscene: "site",
+  setSubscene: (to) => set(() => ({ subscene: to })),
+}));
+
 export const useBootStore = create(
   combine(
     {
@@ -468,7 +481,7 @@ export const useGateStore = create<GateState>((set) => ({
 
 export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
   availableLevels: Array.from({ length: 24 }, (x, i) => i + 1),
-  selectedLevelIdx: 23,
+  selectedLevelIdx: 3,
   levelSelectionToggled: 0,
   setSelectedLevelIdx: (to) => set(() => ({ selectedLevelIdx: to })),
   toggleLevelSelection: () =>

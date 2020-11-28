@@ -9,7 +9,7 @@ import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import Starfield from "../components/MainScene/Starfield";
 import { useHudStore, useLainStore } from "../store";
-import TextRenderer from "../components/TextRenderer/GreenTextRenderer";
+import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
 import ActiveLevelNodes from "../components/MainScene/ActiveLevelNodes";
@@ -30,18 +30,18 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <MainSceneIntro />
         <a.group>
-          {/*<Preloader />*/}
-          {/*<Site />*/}
-          {/*<ActiveLevelNodes />*/}
-          {/*<HUD />*/}
-          {/*<TextRenderer />*/}
-          {/*<YellowTextRenderer />*/}
-          {/*<YellowOrb />*/}
-          {/*<Starfield />*/}
-          {/*<GrayPlanes />*/}
-          {/*<MiddleRing />*/}
+          <Preloader />
+          <Site />
+          <ActiveLevelNodes />
+          <HUD />
+          <GreenTextRenderer />
+          <YellowTextRenderer />
+          <YellowOrb />
+          <Starfield />
+          <GrayPlanes />
+          <MiddleRing />
           <LevelSelection />
-          <OrbitControls />
+          {/*<OrbitControls />*/}
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />

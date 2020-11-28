@@ -9,7 +9,6 @@ const BootComponentManager = (props: StateManagerProps) => {
   const setAuthorizeUserMatrixIdx = useBootStore(
     (state) => state.setAuthorizeUserMatrixIdx
   );
-  const setBootSubscene = useBootStore((state) => state.setSubscene);
 
   const dispatchObject = useCallback(
     (
@@ -26,17 +25,6 @@ const BootComponentManager = (props: StateManagerProps) => {
             action: toggleComponentMatrixIdx,
             value: activeSubscene,
           };
-        case "authorize_user_back":
-        case "load_data_no_select":
-          return {
-            action: setBootSubscene,
-            value: "main_menu",
-          };
-        case "authorize_user_select":
-          return {
-            action: setBootSubscene,
-            value: "authorize_user",
-          };
         case "authorize_user_right":
         case "authorize_user_up":
         case "authorize_user_left":
@@ -45,11 +33,9 @@ const BootComponentManager = (props: StateManagerProps) => {
             action: setAuthorizeUserMatrixIdx,
             value: newAuthorizeUserMatrixIdx,
           };
-        case "load_data_select":
-          return { action: setBootSubscene, value: "load_data" };
       }
     },
-    [setAuthorizeUserMatrixIdx, setBootSubscene, toggleComponentMatrixIdx]
+    [setAuthorizeUserMatrixIdx, toggleComponentMatrixIdx]
   );
 
   useEffect(() => {

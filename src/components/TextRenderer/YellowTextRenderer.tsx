@@ -1,15 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { useYellowTextStore, YellowTextState } from "../../store";
+import { useBigTextStore, BigTextState } from "../../store";
 import { a, useSpring, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 
 const YellowTextRenderer = () => {
-  const disableTrail = useYellowTextStore((state) => state.disableTrail);
-  const transformState = useYellowTextStore((state) => state.transformState);
+  const disableTrail = useBigTextStore((state) => state.disableTrail);
+  const transformState = useBigTextStore((state) => state.transformState);
 
-  const textArrRef = useRef(useYellowTextStore.getState().text.split(""));
+  const color = useBigTextStore((state) => state.color);
 
-  const transformRef = useRef(useYellowTextStore.getState().transformState);
+  const textArrRef = useRef(useBigTextStore.getState().text.split(""));
+
+  const transformRef = useRef(useBigTextStore.getState().transformState);
 
   // this is used to animate the letters moving one after another
   const trail = useTrail(textArrRef.current.length, {
@@ -27,10 +29,10 @@ const YellowTextRenderer = () => {
 
   useEffect(
     () =>
-      useYellowTextStore.subscribe(
+      useBigTextStore.subscribe(
         (state) => {
-          transformRef.current = (state as YellowTextState).transformState;
-          textArrRef.current = (state as YellowTextState).text.split("");
+          transformRef.current = (state as BigTextState).transformState;
+          textArrRef.current = (state as BigTextState).text.split("");
         },
         (state) => state
       ),
@@ -49,7 +51,7 @@ const YellowTextRenderer = () => {
               scale={[0.04, 0.06, 0.04]}
             >
               <BigLetter
-                color={"yellow"}
+                color={color}
                 yellowTextOffsetXCoeff={0}
                 letter={textArrRef.current[idx]}
                 letterIdx={idx}
@@ -66,7 +68,7 @@ const YellowTextRenderer = () => {
               scale={[0.04, 0.06, 0.04]}
             >
               <BigLetter
-                color={"yellow"}
+                color={color}
                 yellowTextOffsetXCoeff={transformRef.current.xOffset}
                 letter={textArrRef.current[idx]}
                 letterIdx={idx}
