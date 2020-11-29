@@ -24,6 +24,11 @@ const LevelSelectionManager = (props: StateManagerProps) => {
             action: setSelectedLevelIdx,
             value: newSelectedLevelIdx,
           };
+        case "select_level_up":
+        case "select_level_down":
+          return {
+            action: toggleLevelSelection,
+          };
       }
     },
     [setSelectedLevelIdx, toggleLevelSelection]

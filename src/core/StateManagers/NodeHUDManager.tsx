@@ -6,6 +6,40 @@ const NodeHUDManager = (props: StateManagerProps) => {
   const setId = useHudStore((state) => state.setId);
   const toggleActive = useHudStore((state) => state.toggleActive);
 
+  const moveAndChangeNode = useCallback(
+    (targetNodeHudId: string) => {
+      toggleActive();
+
+      setTimeout(() => {
+        setId(targetNodeHudId);
+        toggleActive();
+      }, 3900);
+    },
+    [setId, toggleActive]
+  );
+
+  const changeNode = useCallback(
+    (targetNodeHudId: string) => {
+      toggleActive();
+
+      setTimeout(() => {
+        setId(targetNodeHudId);
+        toggleActive();
+      }, 500);
+    },
+    [setId, toggleActive]
+  );
+
+  const selectLevelAnimation = useCallback(
+    (targetNodeHudId: string) => {
+      setTimeout(() => {
+        setId(targetNodeHudId);
+        toggleActive();
+      }, 3900);
+    },
+    [setId, toggleActive]
+  );
+
   const dispatchObject = useCallback(
     (event: string, targetNodeHudId: string) => {
       switch (event) {
@@ -14,19 +48,27 @@ const NodeHUDManager = (props: StateManagerProps) => {
         case "move_left":
         case "move_right":
           return {
-            action: setId,
-            value: targetNodeHudId,
-            actionDelay: 3903.704,
+            action: moveAndChangeNode,
+            value: [targetNodeHudId],
           };
         case "change_node":
           return {
-            action: setId,
-            value: targetNodeHudId,
-            actionDelay: 500,
+            action: changeNode,
+            value: [targetNodeHudId],
+          };
+        case "toggle_level_selection":
+          return {
+            action: toggleActive,
+          };
+        case "select_level_up":
+        case "select_level_down":
+          return {
+            action: selectLevelAnimation,
+            value: [targetNodeHudId],
           };
       }
     },
-    [setId]
+    [changeNode, moveAndChangeNode, selectLevelAnimation, toggleActive]
   );
 
   useEffect(() => {
@@ -37,12 +79,7 @@ const NodeHUDManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction, newActiveHudId);
 
       if (dispatchedObject) {
-        toggleActive();
-
-        setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value);
-          toggleActive();
-        }, dispatchedObject.actionDelay);
+        (dispatchedObject.action as any).apply(null, dispatchedObject.value);
       }
     }
   }, [props.eventState, toggleActive, dispatchObject]);

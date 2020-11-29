@@ -121,6 +121,8 @@ const Lain = () => {
     move_right: <LainMoveRight />,
     move_up: <LainMoveUp />,
     move_down: <LainMoveDown />,
+    select_level_down: <LainMoveDown />,
+    select_level_up: <LainMoveUp />,
     throw_node: <LainThrowNode />,
   };
 

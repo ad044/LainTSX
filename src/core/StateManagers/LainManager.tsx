@@ -12,7 +12,8 @@ const LainManager = (props: StateManagerProps) => {
         case "move_down":
         case "move_left":
         case "move_right":
-        case "select_level":
+        case "select_level_up":
+        case "select_level_down":
           return {
             action: setLainMoveState,
             value: event,

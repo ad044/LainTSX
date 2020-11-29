@@ -143,7 +143,9 @@ const MiddleRingManager = (props: any) => {
     (event: string) => {
       switch (event) {
         case "move_up":
+        case "select_level_up":
           return { action: moveUp };
+        case "select_level_down":
         case "move_down":
           return { action: moveDown };
         case "move_left":

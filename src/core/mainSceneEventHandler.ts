@@ -174,12 +174,27 @@ const handleMainSceneEvent = (gameContext: any) => {
           newLevel: newLevel,
         };
       case "select":
+        const oldLevel = newLevel;
         newLevel = (levelSelectionIdx + 1).toString().padStart(2, "0");
-        return {
-          event: "select_level",
-          newLevel: newLevel,
-          newSitePosY: level_y_values[newLevel as keyof typeof level_y_values],
-        };
+        if (oldLevel === newLevel) break;
+        else if (newLevel < oldLevel) {
+          return {
+            event: "select_level_down",
+            newLevel: newLevel,
+            newSitePosY:
+              level_y_values[newLevel as keyof typeof level_y_values],
+          };
+        } else {
+          return {
+            event: "select_level_up",
+            newLevel: newLevel,
+            newSitePosY: -level_y_values[
+              newLevel as keyof typeof level_y_values
+            ],
+            newActiveNodeId: "2022",
+            newActiveHudId: "fg_hud_1",
+          };
+        }
     }
   }
 };
