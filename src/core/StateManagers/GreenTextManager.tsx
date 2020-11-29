@@ -86,9 +86,13 @@ const GreenTextManager = (props: StateManagerProps) => {
             action: initializeGreenTextForMediaScene,
             value: [newActiveNodeId, newLevel],
           };
+        case "toggle_level_selection":
+          return {
+            action: toggleActive,
+          };
       }
     },
-    [initializeGreenTextForMediaScene, toggleAndSetGreenText]
+    [initializeGreenTextForMediaScene, toggleActive, toggleAndSetGreenText]
   );
 
   useEffect(() => {
@@ -106,7 +110,10 @@ const GreenTextManager = (props: StateManagerProps) => {
       );
 
       if (dispatchedObject) {
-        dispatchedObject.action.apply(null, dispatchedObject.value as any);
+        (dispatchedObject.action as any).apply(
+          null,
+          dispatchedObject.value as any
+        );
       }
     }
   }, [props.eventState, dispatchObject]);

@@ -10,10 +10,17 @@ const LevelManager = (props: StateManagerProps) => {
       switch (event) {
         case "move_up":
         case "move_down":
-        case "select_level":
           return {
             action: setActiveLevel,
             value: newLevel,
+            delay: 0,
+          };
+        case "select_level_down":
+        case "select_level_up":
+          return {
+            action: setActiveLevel,
+            value: newLevel,
+            delay: 1500,
           };
       }
     },
@@ -27,7 +34,9 @@ const LevelManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction, newLevel);
 
       if (dispatchedObject) {
-        dispatchedObject.action(dispatchedObject.value);
+        setTimeout(() => {
+          dispatchedObject.action(dispatchedObject.value);
+        }, dispatchedObject.delay);
       }
     }
   }, [props.eventState, dispatchObject]);

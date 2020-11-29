@@ -10,6 +10,8 @@ const SubsceneManager = (props: StateManagerProps) => {
     (event: string) => {
       switch (event) {
         case "level_selection_back":
+        case "select_level_up":
+        case "select_level_down":
           return {
             action: setMainSubscene,
             value: "site",

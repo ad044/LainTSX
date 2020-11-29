@@ -145,7 +145,7 @@ const YellowTextManager = (props: StateManagerProps) => {
 
     setTimeout(() => {
       setTransformState(-0.02, "posX");
-      setTransformState(0, "posY");
+      setTransformState(0.005, "posY");
     }, 400);
 
     setTimeout(() => {
@@ -252,6 +252,8 @@ const YellowTextManager = (props: StateManagerProps) => {
             value: [newActiveNodeId, newActiveHudId, newLevel],
           };
         case "level_selection_back":
+        case "select_level_up":
+        case "select_level_down":
           return {
             action: levelSelectionBack,
             value: [newActiveNodeId, newActiveHudId, newLevel],
@@ -269,6 +271,7 @@ const YellowTextManager = (props: StateManagerProps) => {
       initializeLevelSelection,
       initializeYellowTextForMainScene,
       initializeYellowTextForMediaScene,
+      levelSelectionBack,
     ]
   );
 

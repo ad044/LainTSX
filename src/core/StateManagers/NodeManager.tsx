@@ -8,31 +8,31 @@ const NodeManager = (props: StateManagerProps) => {
     (state) => state.setNodeMatrixIndices
   );
 
-  // const animateActiveNodeThrow = useCallback(() => {
-  //   setIsActiveNodeInteractedWith(true);
-  //
-  //   setActiveNodePosZ(0.3);
-  //   setActiveNodePosX(0.9);
-  //
-  //   setTimeout(() => {
-  //     setActiveNodePosZ(0.2);
-  //     setActiveNodePosX(0.5);
-  //   }, 800);
-  //   setTimeout(() => {
-  //     setActiveNodePosX(1.55);
-  //     setActiveNodeRotZ(-0.005);
-  //   }, 2600);
-  //   setTimeout(() => {
-  //     setActiveNodePosZ(2);
-  //     setActiveNodePosX(0);
-  //     setActiveNodeRotZ(-0.5);
-  //   }, 2700);
-  //
-  //   setTimeout(() => {
-  //     setActiveNodeRotZ(0);
-  //     setIsActiveNodeInteractedWith(false);
-  //   }, 3800);
-  // }, []);
+  const animateActiveNodeThrow = useCallback(() => {
+    setActiveNodeState(true, "interactedWith");
+
+    setActiveNodeState(0.3, "posZ");
+    setActiveNodeState(0.9, "posX");
+
+    setTimeout(() => {
+      setActiveNodeState(0.2, "posZ");
+      setActiveNodeState(0.5, "posX");
+    }, 800);
+    setTimeout(() => {
+      setActiveNodeState(1.55, "posX");
+      setActiveNodeState(-0.005, "rotZ");
+    }, 2600);
+    setTimeout(() => {
+      setActiveNodeState(2, "posZ");
+      setActiveNodeState(0, "posX");
+      setActiveNodeState(-0.5, "rotZ");
+    }, 2700);
+
+    setTimeout(() => {
+      setActiveNodeState(0, "rotZ");
+      setActiveNodeState(false, "interactedWith");
+    }, 3800);
+  }, [setActiveNodeState]);
 
   const updateActiveNode = useCallback(
     (
@@ -71,7 +71,7 @@ const NodeManager = (props: StateManagerProps) => {
           return {
             action: updateActiveNode,
             value: [
-              3903.704,
+              3900,
               true,
               newActiveNodeId,
               newNodeColIdx,
@@ -91,16 +91,16 @@ const NodeManager = (props: StateManagerProps) => {
               newNodeMatIdx,
             ],
           };
-        // case "throw_node_media":
-        // case "throw_node_gate":
-        // case "throw_node_sskn":
-        //   return {
-        //     action: animateActiveNodeThrow,
-        //     value: [0, true],
-        //   };
+        case "throw_node_media":
+        case "throw_node_gate":
+        case "throw_node_sskn":
+          return {
+            action: animateActiveNodeThrow,
+            value: [0, true],
+          };
       }
     },
-    [updateActiveNode]
+    [animateActiveNodeThrow, updateActiveNode]
   );
 
   useEffect(() => {
