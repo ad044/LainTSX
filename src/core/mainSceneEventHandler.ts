@@ -37,7 +37,7 @@ const handleMainSceneEvent = (gameContext: any) => {
 
   if (subscene === "site") {
     switch (keyPress) {
-      case "left":
+      case "LEFT":
         newNodeColIdx = nodeColIdx - 1;
         if (newNodeColIdx < 0) {
           event = "move_left";
@@ -48,7 +48,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           event = "change_node";
         }
         break;
-      case "down":
+      case "DOWN":
         newNodeRowIdx = nodeRowIdx + 1;
         if (newNodeRowIdx > 2) {
           event = "move_down";
@@ -62,7 +62,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           event = "change_node";
         }
         break;
-      case "up":
+      case "UP":
         newNodeRowIdx = nodeRowIdx - 1;
         if (newNodeRowIdx < 0) {
           event = "move_up";
@@ -77,7 +77,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           event = "change_node";
         }
         break;
-      case "right":
+      case "RIGHT":
         newNodeColIdx = nodeColIdx + 1;
         if (newNodeColIdx > 3) {
           event = "move_right";
@@ -88,7 +88,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           event = "change_node";
         }
         break;
-      case "select":
+      case "CIRCLE":
         // in this case we have to check the type of the blue orb
         // and dispatch an action depending on that, so we have to precalculate the
         // new active blue orb here.
@@ -118,8 +118,10 @@ const handleMainSceneEvent = (gameContext: any) => {
             break;
         }
         break;
-      case "toggle_level_selection":
+      case "L2":
         return { event: "toggle_level_selection" };
+      case "TRIANGLE":
+        return { event: "toggle_pause" };
     }
 
     const newActiveNodeId =
@@ -145,21 +147,21 @@ const handleMainSceneEvent = (gameContext: any) => {
     };
   } else if (subscene === "level_selection") {
     switch (keyPress) {
-      case "up":
+      case "UP":
         if (levelSelectionIdx + 1 <= 23)
           return {
-            event: `level_selection_${keyPress}`,
+            event: `level_selection_up`,
             newSelectedLevelIdx: levelSelectionIdx + 1,
           };
         break;
-      case "down":
+      case "DOWN":
         if (levelSelectionIdx - 1 >= 0)
           return {
-            event: `level_selection_${keyPress}`,
+            event: `level_selection_down`,
             newSelectedLevelIdx: levelSelectionIdx - 1,
           };
         break;
-      case "back":
+      case "X":
         return {
           event: "level_selection_back",
           newActiveNodeId:
@@ -173,7 +175,7 @@ const handleMainSceneEvent = (gameContext: any) => {
             ],
           newLevel: newLevel,
         };
-      case "select":
+      case "CIRCLE":
         const oldLevel = newLevel;
         newLevel = (levelSelectionIdx + 1).toString().padStart(2, "0");
         if (oldLevel === newLevel) break;

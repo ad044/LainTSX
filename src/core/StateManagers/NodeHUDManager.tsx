@@ -57,6 +57,7 @@ const NodeHUDManager = (props: StateManagerProps) => {
             value: [targetNodeHudId],
           };
         case "toggle_level_selection":
+        case "toggle_pause":
           return {
             action: toggleActive,
           };

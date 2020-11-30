@@ -87,6 +87,7 @@ const GreenTextManager = (props: StateManagerProps) => {
             value: [newActiveNodeId, newLevel],
           };
         case "toggle_level_selection":
+        case "toggle_pause":
           return {
             action: toggleActive,
           };

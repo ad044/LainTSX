@@ -19,18 +19,22 @@ const handleBootEvent = (gameContext: any) => {
     });
   } else {
     switch (keyPress) {
-      case "down":
-      case "up":
-      case "left":
-      case "right":
-      case "back":
+      case "DOWN":
+      case "UP":
+      case "LEFT":
+      case "RIGHT":
         return {
-          event: `${currentSubscene}_${keyPress}`,
+          event: `${currentSubscene}_${keyPress.toLowerCase()}`,
           subscene: currentSubscene,
         };
-      case "select":
+      case "X":
         return {
-          event: `${activeBootElement}_${keyPress}`,
+          event: `${currentSubscene}_back`,
+          subscene: currentSubscene,
+        };
+      case "CIRCLE":
+        return {
+          event: `${activeBootElement}_select`,
           subscene: currentSubscene,
         };
     }

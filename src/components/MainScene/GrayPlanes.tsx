@@ -1,14 +1,9 @@
 import React, { createRef, memo, RefObject, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { useGrayPlanesStore } from "../../store";
 
-const GrayPlanes = memo(() => {
+const GrayPlanes = memo((props: { visible: boolean }) => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();
-
-  const grayPlanesVisible = useGrayPlanesStore(
-    (state) => state.grayPlanesVisible
-  );
 
   const grayPlanePoses = [
     [1.2, 0, -1.2],
@@ -21,7 +16,7 @@ const GrayPlanes = memo(() => {
   ];
 
   const grayPlaneRefs = grayPlanePoses.map((poses: number[]) =>
-      // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useRef<RefObject<THREE.Object3D>[]>(
       poses.map(() => createRef<THREE.Object3D>())
     )
@@ -37,7 +32,7 @@ const GrayPlanes = memo(() => {
     <group
       position={[0.1, 0, -2]}
       ref={grayPlaneGroupRef}
-      visible={grayPlanesVisible}
+      visible={props.visible}
     >
       {grayPlaneRefs.map((ref, idx: number) => {
         return (

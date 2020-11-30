@@ -60,12 +60,17 @@ const Site = memo(() => {
   const siteState = useSpring({
     siteRotY: siteTransformState.rotY,
     sitePosY: siteTransformState.posY,
+    siteRotX: siteTransformState.rotX,
     config: { duration: 1200 },
   });
 
   return (
     <Suspense fallback={null}>
-      <a.group rotation-y={siteState.siteRotY} position-y={siteState.sitePosY}>
+      <a.group
+        rotation-y={siteState.siteRotY}
+        position-y={siteState.sitePosY}
+        rotation-x={siteState.siteRotX}
+      >
         {Object.entries(level_y_values).map((level: [string, number]) => (
           <group position={[0, level[1], 0]} key={level[0]}>
             <PurpleRing purpleRingPosY={0.44} level={level[0]} />

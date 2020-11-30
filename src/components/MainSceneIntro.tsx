@@ -1,11 +1,5 @@
 import React, { memo, useEffect } from "react";
-import {
-  useGrayPlanesStore,
-  useHudStore,
-  useLainStore,
-  useStarfieldStore,
-  useYellowOrbStore,
-} from "../store";
+import { useHudStore, useLainStore, useStarfieldStore } from "../store";
 
 // ghost component to manipulate the intro action for the main scene.
 
@@ -22,7 +16,7 @@ const MainSceneIntro = memo(() => {
   const toggleHud = useHudStore((state) => state.toggleActive);
 
   //const setHudVisible = useSetRecoilState(hudVisibilityAtom);
-  const setOrbVisible = useYellowOrbStore((state) => state.setYellowOrbVisible);
+  // const setOrbVisible = useYellowOrbStore((state) => state.setYellowOrbVisible);
 
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
 
@@ -36,13 +30,9 @@ const MainSceneIntro = memo(() => {
     (state) => state.setMainStarfieldBoostVal
   );
 
-  const setGrayPlanesVisible = useGrayPlanesStore(
-    (state) => state.setGrayPlanesVisible
-  );
-
   useEffect(() => {
     setTimeout(() => {
-      setGrayPlanesVisible(true);
+      // setGrayPlanesVisible(true);
     }, 2500);
 
     setTimeout(() => {
@@ -55,7 +45,7 @@ const MainSceneIntro = memo(() => {
     setTimeout(() => {
       setLainMoveState("standing");
 
-      setOrbVisible(true);
+      // setOrbVisible(true);
       //setHudVisible(true);
 
       setIntroStarfieldVisible(false);
@@ -67,10 +57,8 @@ const MainSceneIntro = memo(() => {
       }, 300);
     }, 3860);
   }, [
-    setGrayPlanesVisible,
     setMainStarfieldBoostVal,
     setMainStarfieldVisible,
-    setOrbVisible,
     setIntroStarfieldVisible,
     setLainMoveState,
     toggleHud,
