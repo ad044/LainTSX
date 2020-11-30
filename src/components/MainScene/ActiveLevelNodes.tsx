@@ -19,11 +19,16 @@ const ActiveLevelNodes = () => {
   const siteState = useSpring({
     siteRotY: siteTransformState.rotY,
     sitePosY: siteTransformState.posY,
+    siteRotX: siteTransformState.rotX,
     config: { duration: 1200 },
   });
 
   return (
-    <a.group rotation-y={siteState.siteRotY} position-y={siteState.sitePosY}>
+    <a.group
+      rotation-y={siteState.siteRotY}
+      position-y={siteState.sitePosY}
+      rotation-x={siteState.siteRotX}
+    >
       {Object.entries(activeLevelNodes).map((node: [string, any]) => {
         return (
           <Node

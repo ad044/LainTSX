@@ -7,7 +7,7 @@ const handleMediaSceneEvent = (gameContext: any) => {
   const rightSideComponents = ["fstWord", "sndWord", "thirdWord"];
   if (rightSideComponents.includes(activeMediaComponent)) {
     switch (keyPress) {
-      case "down":
+      case "DOWN":
         newWordPosStateIdx++;
         if (newWordPosStateIdx > 6) {
           newWordPosStateIdx = 1;
@@ -17,7 +17,7 @@ const handleMediaSceneEvent = (gameContext: any) => {
           newRightSideComponentIdx = 0;
         }
         break;
-      case "up":
+      case "UP":
         newWordPosStateIdx--;
         if (newWordPosStateIdx < 1) {
           newWordPosStateIdx = 6;

@@ -11,10 +11,9 @@ import { a, useSpring } from "@react-spring/three";
 import { useHudStore } from "../../store";
 import node_huds from "../../resources/node_huds.json";
 
-const HUD = memo(() => {
+const HUD = memo((props: { visible: boolean }) => {
   const active = useHudStore((state) => state.active);
   const id = useHudStore((state) => state.id);
-  const visible = useHudStore((state) => state.visible);
 
   const currentHud = node_huds[id as keyof typeof node_huds];
 
@@ -83,7 +82,7 @@ const HUD = memo(() => {
   );
 
   return (
-    <group visible={visible} position={[0, 0, 10]}>
+    <group visible={props.visible} position={[0, 0, 10]}>
       <a.sprite
         position-x={longHUDPosX}
         position-y={currentHud!.long.position[1]}

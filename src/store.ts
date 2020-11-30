@@ -19,7 +19,6 @@ type SceneState = {
 type HUDState = {
   id: string;
   active: number;
-  visible: boolean;
   setId: (to: string) => void;
   toggleActive: () => void;
 };
@@ -40,11 +39,6 @@ type LainState = {
   setLainMoveState: (to: string) => void;
 };
 
-type GrayPlanesState = {
-  grayPlanesVisible: boolean;
-  setGrayPlanesVisible: (to: boolean) => void;
-};
-
 type StarfieldState = {
   introStarfieldVisible: boolean;
   mainStarfieldVisible: boolean;
@@ -54,15 +48,11 @@ type StarfieldState = {
   setMainStarfieldBoostVal: (to: number) => void;
 };
 
-type YellowOrbState = {
-  yellowOrbVisible: boolean;
-  setYellowOrbVisible: (to: boolean) => void;
-};
-
 type SiteState = {
   transformState: {
     posY: number;
     rotY: number;
+    rotX: number;
   };
 };
 
@@ -221,7 +211,6 @@ export const useGreenTextStore = create(
 export const useHudStore = create<HUDState>((set) => ({
   id: "fg_hud_1",
   active: 1,
-  visible: true,
   setId: (to) => set(() => ({ id: to })),
   toggleActive: () => set((state) => ({ active: Number(!state.active) })),
 }));
@@ -257,11 +246,6 @@ export const useLainStore = create<LainState>((set) => ({
   setLainMoveState: (to) => set(() => ({ lainMoveState: to })),
 }));
 
-export const useGrayPlanesStore = create<GrayPlanesState>((set) => ({
-  grayPlanesVisible: true,
-  setGrayPlanesVisible: (to) => set(() => ({ grayPlanesVisible: to })),
-}));
-
 export const useStarfieldStore = create<StarfieldState>((set) => ({
   introStarfieldVisible: false,
   mainStarfieldVisible: true,
@@ -271,17 +255,13 @@ export const useStarfieldStore = create<StarfieldState>((set) => ({
   setMainStarfieldBoostVal: (to) => set(() => ({ mainStarfieldBoostVal: to })),
 }));
 
-export const useYellowOrbStore = create<YellowOrbState>((set) => ({
-  yellowOrbVisible: false,
-  setYellowOrbVisible: (to) => set(() => ({ yellowOrbVisible: to })),
-}));
-
 export const useSiteStore = create(
   combine(
     {
       transformState: {
         posY: 0,
         rotY: 0,
+        rotX: 0,
       },
     } as SiteState,
     (set) => ({

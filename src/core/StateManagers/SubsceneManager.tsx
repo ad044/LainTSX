@@ -21,6 +21,11 @@ const SubsceneManager = (props: StateManagerProps) => {
             action: setMainSubscene,
             value: "level_selection",
           };
+        case "toggle_pause":
+          return {
+            action: setMainSubscene,
+            value: "pause",
+          };
         case "authorize_user_back":
         case "load_data_no_select":
           return {

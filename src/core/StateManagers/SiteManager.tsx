@@ -24,6 +24,12 @@ const SiteManager = (props: StateManagerProps) => {
             value: [newSiteRotY, "rotY"],
             actionDelay: 1100,
           };
+        case "toggle_pause":
+          return {
+            action: setTransformState,
+            value: [Math.PI / 2, "rotX"],
+            actionDelay: 0,
+          };
       }
     },
     [setTransformState]

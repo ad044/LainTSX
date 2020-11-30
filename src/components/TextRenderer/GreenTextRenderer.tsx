@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { GreenTextState, useGreenTextStore } from "../../store";
 import MediumLetter from "./MediumLetter";
 
-const GreenTextRenderer = () => {
+const GreenTextRenderer = (props: { visible?: boolean }) => {
   const greenTextActive = useGreenTextStore((state) => state.active);
 
   const transformRef = useRef(useGreenTextStore.getState().transformState);
@@ -34,7 +34,7 @@ const GreenTextRenderer = () => {
   );
 
   return (
-    <group position={[0, 0, 10]}>
+    <group position={[0, 0, 10]} visible={props.visible}>
       <a.group
         position-x={greenTextPosX}
         position-y={transformRef.current.posY}
