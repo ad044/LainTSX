@@ -469,3 +469,5 @@ export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
       levelSelectionToggled: Number(!state.levelSelectionToggled),
     })),
 }));
+
+export const usePauseStore = create<any>((set) => ({}));

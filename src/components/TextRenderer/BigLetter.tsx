@@ -1,5 +1,6 @@
 import orangeFont from "../../static/sprite/orange_font_texture.png";
 import yellowFont from "../../static/sprite/yellow_font_texture.png";
+import whiteFont from "../../static/sprite/white_and_green_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
@@ -13,7 +14,11 @@ const BigLetter = (props: {
   yellowTextOffsetXCoeff: number;
 }) => {
   const colorToTexture = (color: string) => {
-    const colorTexture = { orange: orangeFont, yellow: yellowFont };
+    const colorTexture = {
+      orange: orangeFont,
+      yellow: yellowFont,
+      white: whiteFont,
+    };
     return colorTexture[color as keyof typeof colorTexture];
   };
 
