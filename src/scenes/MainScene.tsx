@@ -15,6 +15,7 @@ import YellowOrb from "../components/MainScene/YellowOrb";
 import ActiveLevelNodes from "../components/MainScene/ActiveLevelNodes";
 import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 import LevelSelection from "../components/MainScene/LevelSelection";
+import Pause from "../components/MainScene/Pause";
 
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
@@ -34,24 +35,25 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <MainSceneIntro />
         <a.group>
-          <Preloader />
-          <Site />
+          {/*<Preloader />*/}
+          {/*<Site />*/}
           {/*<ActiveLevelNodes />*/}
-          <HUD visible={!isPaused} />
-          <GreenTextRenderer visible={!isPaused} />
-          <YellowTextRenderer visible={!isPaused} />
-          <YellowOrb visible={!isPaused} />
+          {/*<HUD visible={!isPaused} />*/}
+          {/*<GreenTextRenderer visible={!isPaused} />*/}
+          {/*<YellowTextRenderer visible={!isPaused} />*/}
+          {/*<YellowOrb visible={!isPaused} />*/}
           {/*<Starfield />*/}
-          <GrayPlanes visible={!isPaused} />
-          <MiddleRing />
-          <LevelSelection />
+          {/*<GrayPlanes visible={!isPaused} />*/}
+          {/*<MiddleRing />*/}
+          {/*<LevelSelection />*/}
           {/*<OrbitControls />*/}
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
+          <Pause />
         </a.group>
-        <Lain />
+        {/*<Lain />*/}
       </Suspense>
     </perspectiveCamera>
   );
