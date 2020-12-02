@@ -1,11 +1,16 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import pauseGrayBoxes from "../../static/sprite/pause_gray_boxes.png";
+import React, { useCallback, useMemo } from "react";
 import * as THREE from "three";
-import { useFrame, useLoader } from "react-three-fiber";
-import BigLetter from "../TextRenderer/BigLetter";
+import PauseSquare from "./PauseSquare";
+import StaticBigLetter from "../TextRenderer/StaticBigLetter";
+import { usePauseStore } from "../../store";
 
 const Pause = () => {
-  const grayBoxesTex = useLoader(THREE.TextureLoader, pauseGrayBoxes);
+  const componentMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
+  const activeComponent = usePauseStore(
+    useCallback((state) => state.componentMatrix[componentMatrixIdx], [
+      componentMatrixIdx,
+    ])
+  );
 
   const generateSqaureGeom = useCallback((row: number, square: number) => {
     const geometry = new THREE.PlaneBufferGeometry();
@@ -34,147 +39,178 @@ const Pause = () => {
     <group position={[-1, -0.8, 0]} scale={[0.9, 0.9, 0]}>
       {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
-          if (rowIdx === 5 && col > 0) {
+          if (rowIdx === 5 && col > 0 && col < 5) {
             return col === 1 ? (
-              <>
-                <group scale={[0.2, 0.2, 0]} position={[0.1, 1.8, 0]}>
-                  <BigLetter
-                    color={"white"}
-                    letter={"L"}
-                    letterIdx={col}
-                    yellowTextOffsetXCoeff={col / 7}
-                    key={col}
-                  />
-                </group>
-                )
-              </>
-            ) : (
-              <mesh
-                geometry={squareGeoms[row][col]}
-                position={[col / 2.8, rowIdx / 2.8, 0]}
-                scale={[col > 3 ? -0.25 : 0.25, rowIdx <= 3 ? -0.25 : 0.25, 0]}
+              <StaticBigLetter
+                color={"white"}
+                letter={"L"}
+                letterIdx={col}
+                position={[0.35, 1.8, 0]}
+                scale={[0.25, 0.25, 0.25]}
+                active={!(activeComponent === "load")}
                 key={col}
-              >
-                <meshBasicMaterial
-                  attach="material"
-                  map={grayBoxesTex}
-                  side={
-                    (col > 3 && rowIdx <= 3) || (col <= 3 && rowIdx > 3)
-                      ? THREE.FrontSide
-                      : THREE.BackSide
-                  }
-                />
-              </mesh>
+              />
+            ) : (
+              <PauseSquare
+                geometry={squareGeoms[row][col]}
+                rowIdx={rowIdx}
+                colIdx={col}
+                active={!(activeComponent === "load")}
+                key={col}
+              />
             );
-          } else if (rowIdx === 4 && col === 4) {
-            return (
-              <>
-                <group scale={[0.2, 0.2, 0]} position={[0.1, 1.45, 0]}>
-                  <BigLetter
-                    color={"white"}
-                    letter={"A"}
-                    letterIdx={col}
-                    yellowTextOffsetXCoeff={col / 7}
-                    key={col}
-                  />
-                </group>
-              </>
+          } else if (rowIdx === 4 && col > 4 && col < 7) {
+            return col === 5 ? (
+              <StaticBigLetter
+                color={"white"}
+                letter={"A"}
+                letterIdx={col}
+                position={[1.78, 1.43, 0]}
+                scale={[0.25, 0.25, 0]}
+                active={!(activeComponent === "about")}
+                key={col}
+              />
+            ) : (
+              <PauseSquare
+                geometry={squareGeoms[row][col]}
+                rowIdx={rowIdx}
+                colIdx={col}
+                active={!(activeComponent === "about")}
+                key={col}
+              />
             );
-          } else if (rowIdx === 3 && col === 3) {
-            return (
-              <>
-                <group scale={[0.2, 0.2, 0]} position={[0.12, 1.05, 0]}>
-                  <BigLetter
-                    color={"white"}
-                    letter={"C"}
-                    letterIdx={col}
-                    yellowTextOffsetXCoeff={col / 7}
-                    key={col}
-                  />
-                </group>
-              </>
+          } else if (rowIdx === 3 && col > 2 && col < 7) {
+            return col === 3 ? (
+              <StaticBigLetter
+                color={"white"}
+                letter={"C"}
+                letterIdx={col}
+                position={[1.05, 1.07, 0]}
+                scale={[0.25, 0.25, 0]}
+                active={!(activeComponent === "change")}
+                key={col}
+              />
+            ) : (
+              <PauseSquare
+                geometry={squareGeoms[row][col]}
+                rowIdx={rowIdx}
+                colIdx={col}
+                active={!(activeComponent === "change")}
+                key={col}
+              />
+            );
+          } else if (rowIdx === 1 && col > 0 && col < 5) {
+            return col === 1 ? (
+              <StaticBigLetter
+                color={"white"}
+                letter={"S"}
+                letterIdx={col}
+                position={[0.35, 0.35, 0]}
+                scale={[0.25, 0.25, 0]}
+                active={!(activeComponent === "save")}
+                key={col}
+              />
+            ) : (
+              <PauseSquare
+                geometry={squareGeoms[row][col]}
+                rowIdx={rowIdx}
+                colIdx={col}
+                active={!(activeComponent === "save")}
+                key={col}
+              />
+            );
+          } else if (rowIdx === 0 && col > 4 && col < 7) {
+            return col === 5 ? (
+              <StaticBigLetter
+                color={"white"}
+                letter={"E"}
+                letterIdx={col}
+                position={[1.78, 0, 0]}
+                scale={[0.25, 0.25, 0]}
+                active={!(activeComponent === "exit")}
+                key={col}
+              />
+            ) : (
+              <PauseSquare
+                geometry={squareGeoms[row][col]}
+                rowIdx={rowIdx}
+                colIdx={col}
+                active={!(activeComponent === "exit")}
+                key={col}
+              />
             );
           } else {
             return (
-              <mesh
+              <PauseSquare
                 geometry={squareGeoms[row][col]}
-                position={[col / 2.8, rowIdx / 2.8, 0]}
-                scale={[col > 3 ? -0.25 : 0.25, rowIdx <= 3 ? -0.25 : 0.25, 0]}
+                rowIdx={rowIdx}
+                colIdx={col}
                 key={col}
-              >
-                <meshBasicMaterial
-                  attach="material"
-                  map={grayBoxesTex}
-                  side={
-                    (col > 3 && rowIdx <= 3) || (col <= 3 && rowIdx > 3)
-                      ? THREE.FrontSide
-                      : THREE.BackSide
-                  }
-                />
-              </mesh>
+                active={true}
+              />
             );
           }
         })
       )}
-      {/*{"Load".split("").map((letter, idx) => (*/}
-      {/*  <group scale={[0.2, 0.2, 0]} position={[0.35 + idx / 8, 1.8, 0]}>*/}
-      {/*    <BigLetter*/}
-      {/*      color={idx > 0 ? "yellow" : "orange"}*/}
-      {/*      letter={letter}*/}
-      {/*      letterIdx={idx}*/}
-      {/*      yellowTextOffsetXCoeff={0}*/}
-      {/*      key={idx}*/}
-      {/*    />*/}
-      {/*  </group>*/}
-      {/*))}*/}
+      {"Load".split("").map((letter, idx) => (
+        <StaticBigLetter
+          color={idx > 0 ? "yellow" : "orange"}
+          letter={letter}
+          letterIdx={idx}
+          key={idx}
+          position={[0.35 + idx / 2.8, 1.8, 0]}
+          scale={[0.25, 0.25, 0.25]}
+          active={activeComponent === "load"}
+        />
+      ))}
 
-      {/*{"About".split("").map((letter, idx) => (*/}
-      {/*  <group scale={[0.2, 0.2, 0]} position={[1.4 + idx / 8, 1.45, 0]}>*/}
-      {/*    <BigLetter*/}
-      {/*      color={idx > 0 ? "yellow" : "orange"}*/}
-      {/*      letter={letter}*/}
-      {/*      letterIdx={idx}*/}
-      {/*      yellowTextOffsetXCoeff={0}*/}
-      {/*      key={idx}*/}
-      {/*    />*/}
-      {/*  </group>*/}
-      {/*))}*/}
+      {"About".split("").map((letter, idx) => (
+        <StaticBigLetter
+          color={idx > 0 ? "yellow" : "orange"}
+          letter={letter}
+          letterIdx={idx}
+          position={[1.78 + idx / 2.8, 1.43, 0]}
+          scale={[0.25, 0.25, 0]}
+          active={activeComponent === "about"}
+          key={idx}
+        />
+      ))}
 
-      {/*{"Change".split("").map((letter, idx) => (*/}
-      {/*  <group scale={[0.2, 0.2, 0]} position={[1 + idx / 6, 1.05, 0]}>*/}
-      {/*    <BigLetter*/}
-      {/*      color={idx > 0 ? "yellow" : "orange"}*/}
-      {/*      letter={letter}*/}
-      {/*      letterIdx={idx}*/}
-      {/*      yellowTextOffsetXCoeff={0}*/}
-      {/*      key={idx}*/}
-      {/*    />*/}
-      {/*  </group>*/}
-      {/*))}*/}
+      {"Change".split("").map((letter, idx) => (
+        <StaticBigLetter
+          color={idx > 0 ? "yellow" : "orange"}
+          letter={letter}
+          letterIdx={idx}
+          position={[1.05 + idx / 2.8, 1.07, 0]}
+          scale={[0.25, 0.25, 0]}
+          active={activeComponent === "change"}
+          key={idx}
+        />
+      ))}
 
-      {/*{"Save".split("").map((letter, idx) => (*/}
-      {/*  <group scale={[0.2, 0.2, 0]} position={[0.3 + idx / 7, 0.35, 0]}>*/}
-      {/*    <BigLetter*/}
-      {/*      color={idx > 0 ? "yellow" : "orange"}*/}
-      {/*      letter={letter}*/}
-      {/*      letterIdx={idx}*/}
-      {/*      yellowTextOffsetXCoeff={0}*/}
-      {/*      key={idx}*/}
-      {/*    />*/}
-      {/*  </group>*/}
-      {/*))}*/}
+      {"Save".split("").map((letter, idx) => (
+        <StaticBigLetter
+          color={idx > 0 ? "yellow" : "orange"}
+          letter={letter}
+          letterIdx={idx}
+          position={[0.35 + idx / 2.8, 0.35, 0]}
+          scale={[0.25, 0.25, 0]}
+          active={activeComponent === "save"}
+          key={idx}
+        />
+      ))}
 
-      {/*{"Exit".split("").map((letter, idx) => (*/}
-      {/*  <group scale={[0.2, 0.2, 0]} position={[1.75 + idx / 8, 0, 0]}>*/}
-      {/*    <BigLetter*/}
-      {/*      color={idx > 0 ? "yellow" : "orange"}*/}
-      {/*      letter={letter}*/}
-      {/*      letterIdx={idx}*/}
-      {/*      yellowTextOffsetXCoeff={0}*/}
-      {/*      key={idx}*/}
-      {/*    />*/}
-      {/*  </group>*/}
-      {/*))}*/}
+      {"Exit".split("").map((letter, idx) => (
+        <StaticBigLetter
+          color={idx > 0 ? "yellow" : "orange"}
+          letter={letter}
+          letterIdx={idx}
+          position={[1.78 + idx / 2.8, 0, 0]}
+          scale={[0.25, 0.25, 0]}
+          key={idx}
+          active={activeComponent === "exit"}
+        />
+      ))}
     </group>
   );
 };

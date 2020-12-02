@@ -4,15 +4,25 @@ import whiteFont from "../../static/sprite/white_and_green_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
-import { a, useSpring } from "@react-spring/three";
+import { a, Interpolation, SpringValue, useSpring } from "@react-spring/three";
 import React, { useMemo } from "react";
 
-const BigLetter = (props: {
+const StaticBigLetter = (props: {
   color: string;
   letter: string;
   letterIdx: number;
-  xOffsetCoeff: number;
+  position: number[];
+  scale: number[];
+  active: boolean;
 }) => {
+  const { toggle } = useSpring({
+    toggle: Number(props.active),
+    config: { duration: 200 },
+  });
+
+  const rotX = toggle.to([0, 1], [-Math.PI, 0]);
+  const rotY = toggle.to([0, 1], [Math.PI / 2, 0]);
+
   const colorToTexture = (color: string) => {
     const colorTexture = {
       orange: orangeFont,
@@ -89,21 +99,17 @@ const BigLetter = (props: {
     return geometry;
   }, [letterData, lineYOffsets, props.letter]);
 
-  const textRendererState = useSpring({
-    letterOffsetXCoeff:
-      props.letterIdx +
-      0.3 +
-      (props.letterIdx + 0.3) * props.xOffsetCoeff,
-    config: { duration: 200 },
-  });
-
   return (
     <a.mesh
-      position-x={textRendererState.letterOffsetXCoeff}
-      position-y={-letterData[4] / 12.5}
-      scale={[1, 1, 0]}
+      position={[
+        props.position[0],
+        -letterData[4] / 50 + props.position[1],
+        props.position[2],
+      ]}
+      scale={props.scale as [number, number, number]}
       geometry={geom}
-      renderOrder={props.letterIdx === 0 ? 11 : 10}
+      rotation-x={rotX}
+      rotation-y={rotY}
     >
       <meshBasicMaterial
         map={colorTexture}
@@ -114,4 +120,4 @@ const BigLetter = (props: {
   );
 };
 
-export default BigLetter;
+export default StaticBigLetter;

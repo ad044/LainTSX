@@ -52,7 +52,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
             >
               <BigLetter
                 color={color}
-                yellowTextOffsetXCoeff={0}
+                xOffsetCoeff={0}
                 letter={textArrRef.current[idx]}
                 letterIdx={idx}
                 key={idx}
@@ -69,7 +69,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
             >
               <BigLetter
                 color={color}
-                yellowTextOffsetXCoeff={transformRef.current.xOffset}
+                xOffsetCoeff={transformRef.current.xOffset}
                 letter={textArrRef.current[idx]}
                 letterIdx={idx}
                 key={idx}

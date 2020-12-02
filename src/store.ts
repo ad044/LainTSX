@@ -3,6 +3,12 @@ import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 
+type PauseState = {
+  componentMatrix: string[];
+  componentMatrixIdx: number;
+  setComponentMatrixIdx: (to: number) => void;
+};
+
 type LevelSelectionState = {
   availableLevels: number[];
   selectedLevelIdx: number;
@@ -397,7 +403,7 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
 }));
 
 export const useMainSceneStore = create<MainSceneState>((set) => ({
-  subscene: "site",
+  subscene: "pause",
   setSubscene: (to) => set(() => ({ subscene: to })),
 }));
 
@@ -470,4 +476,9 @@ export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
     })),
 }));
 
-export const usePauseStore = create<any>((set) => ({}));
+export const usePauseStore = create<PauseState>((set) => ({
+  componentMatrix: ["load", "about", "change", "save", "exit"],
+  componentMatrixIdx: 2,
+  setComponentMatrixIdx: (to: number) =>
+    set(() => ({ componentMatrixIdx: to })),
+}));
