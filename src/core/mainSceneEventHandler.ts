@@ -23,6 +23,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   const keyPress = gameContext.keyPress;
   const subscene = gameContext.mainSubscene;
   const levelSelectionIdx = gameContext.levelSelectionIdx;
+  const pauseMatrixIdx = gameContext.pauseMatrixIdx;
 
   const nodeColIdx = gameContext.nodeMatrixIndices.colIdx;
   const nodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
@@ -197,6 +198,21 @@ const handleMainSceneEvent = (gameContext: any) => {
             newActiveHudId: "fg_hud_1",
           };
         }
+    }
+  } else if (subscene === "pause") {
+    switch (keyPress) {
+      case "UP":
+        if (pauseMatrixIdx - 1 < 0) break;
+        return {
+          event: "pause_up",
+          newPauseMatrixIdx: pauseMatrixIdx - 1,
+        };
+      case "DOWN":
+        if (pauseMatrixIdx + 1 > 4) break;
+        return {
+          event: "pause_down",
+          newPauseMatrixIdx: pauseMatrixIdx + 1,
+        };
     }
   }
 };

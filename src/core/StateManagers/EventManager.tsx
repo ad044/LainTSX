@@ -13,6 +13,7 @@ import {
   useMediaStore,
   useMediaWordStore,
   useNodeStore,
+  usePauseStore,
   useSceneStore,
   useSiteStore,
   useSSknStore,
@@ -32,6 +33,7 @@ import handleSSknSceneEvent from "../ssknSceneEventHandler";
 import BootAuthorizeUserManager from "./BootAuthorizeUserManager";
 import LevelSelectionManager from "./LevelSelectionManager";
 import SubsceneManager from "./SubsceneManager";
+import PauseComponentManager from "./PauseComponentManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -62,6 +64,7 @@ const EventManager = () => {
   const levelSelectionIdx = useLevelSelectionStore(
     (state) => state.selectedLevelIdx
   );
+  const pauseMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -142,6 +145,7 @@ const EventManager = () => {
               nodeMatrixIndices: nodeMatrixIndices,
               activeLevel: activeLevel,
               levelSelectionIdx: levelSelectionIdx,
+              pauseMatrixIdx: pauseMatrixIdx,
             });
             break;
           case "media":
@@ -189,6 +193,7 @@ const EventManager = () => {
       levelSelectionIdx,
       mainSubscene,
       nodeMatrixIndices,
+      pauseMatrixIdx,
       rightSideComponentIdx,
       siteTransformState,
       wordPosStateIdx,
@@ -221,6 +226,7 @@ const EventManager = () => {
       <BootAuthorizeUserManager eventState={eventState!} />
       <LevelSelectionManager eventState={eventState!} />
       <SubsceneManager eventState={eventState!} />
+      <PauseComponentManager eventState={eventState!} />
     </>
   );
 };
