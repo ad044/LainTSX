@@ -4,8 +4,8 @@ import whiteFont from "../../static/sprite/white_and_green_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
-import { a, Interpolation, SpringValue, useSpring } from "@react-spring/three";
-import React, { useMemo } from "react";
+import { a, useSpring } from "@react-spring/three";
+import React, { useEffect, useMemo, useState } from "react";
 
 const StaticBigLetter = (props: {
   color: string;
@@ -14,6 +14,8 @@ const StaticBigLetter = (props: {
   position: number[];
   scale: number[];
   active: boolean;
+  rowIdx?: number;
+  colIdx?: number;
 }) => {
   const { toggle } = useSpring({
     toggle: Number(props.active),
@@ -22,6 +24,17 @@ const StaticBigLetter = (props: {
 
   const rotX = toggle.to([0, 1], [-Math.PI, 0]);
   const rotY = toggle.to([0, 1], [Math.PI / 2, 0]);
+
+  const [intro, setIntro] = useState<boolean>(!!(props.rowIdx && props.colIdx));
+  const [introAnimToggle, setIntroAnimToggle] = useState(false);
+
+  const { introToggle } = useSpring({
+    introToggle: Number(introAnimToggle),
+    config: { duration: 200 },
+  });
+
+  const introRotX = introToggle.to([0, 1], [Math.PI, 0]);
+  const introRotY = introToggle.to([0, 1], [Math.PI * 2, 0]);
 
   const colorToTexture = (color: string) => {
     const colorTexture = {
@@ -99,6 +112,20 @@ const StaticBigLetter = (props: {
     return geometry;
   }, [letterData, lineYOffsets, props.letter]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (props.rowIdx && props.colIdx) {
+        setTimeout(() => {
+          setIntroAnimToggle(true);
+        }, (props.rowIdx + props.colIdx) * 100);
+
+        setTimeout(() => {
+          setIntro(false);
+        }, 1500);
+      }
+    }, 500);
+  }, [props.colIdx, props.rowIdx]);
+
   return (
     <a.mesh
       position={[
@@ -108,13 +135,14 @@ const StaticBigLetter = (props: {
       ]}
       scale={props.scale as [number, number, number]}
       geometry={geom}
-      rotation-x={rotX}
-      rotation-y={rotY}
+      rotation-x={intro ? introRotX : rotX}
+      rotation-y={intro ? introRotY : rotY}
     >
       <meshBasicMaterial
         map={colorTexture}
         attach="material"
         transparent={true}
+        side={THREE.FrontSide}
       />
     </a.mesh>
   );

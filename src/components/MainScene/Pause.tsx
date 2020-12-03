@@ -1,15 +1,18 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
 import StaticBigLetter from "../TextRenderer/StaticBigLetter";
 import { usePauseStore } from "../../store";
 
 const Pause = () => {
+  const [intro, setIntro] = useState(true);
+
   const componentMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
   const activeComponent = usePauseStore(
-    useCallback((state) => state.componentMatrix[componentMatrixIdx], [
-      componentMatrixIdx,
-    ])
+    useCallback(
+      (state) => (intro ? "" : state.componentMatrix[componentMatrixIdx]),
+      [componentMatrixIdx, intro]
+    )
   );
 
   const generateSqaureGeom = useCallback((row: number, square: number) => {
@@ -35,21 +38,37 @@ const Pause = () => {
     [generateSqaureGeom]
   );
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIntro(false);
+    }, 2000);
+  }, []);
   return (
     <group position={[-1, -0.8, 0]} scale={[0.9, 0.9, 0]}>
       {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
           if (rowIdx === 5 && col > 0 && col < 5) {
             return col === 1 ? (
-              <StaticBigLetter
-                color={"white"}
-                letter={"L"}
-                letterIdx={col}
-                position={[0.35, 1.8, 0]}
-                scale={[0.25, 0.25, 0.25]}
-                active={!(activeComponent === "load")}
-                key={col}
-              />
+              <>
+                <StaticBigLetter
+                  color={"white"}
+                  letter={"L"}
+                  letterIdx={col}
+                  position={[0.35, 1.8, 0]}
+                  scale={[0.25, 0.25, 0.25]}
+                  active={!(activeComponent === "load")}
+                  key={col}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                />
+                <PauseSquare
+                  geometry={squareGeoms[row][col]}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                  key={col}
+                  shouldDisappear={true}
+                />
+              </>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
@@ -61,15 +80,26 @@ const Pause = () => {
             );
           } else if (rowIdx === 4 && col > 4 && col < 7) {
             return col === 5 ? (
-              <StaticBigLetter
-                color={"white"}
-                letter={"A"}
-                letterIdx={col}
-                position={[1.78, 1.43, 0]}
-                scale={[0.25, 0.25, 0]}
-                active={!(activeComponent === "about")}
-                key={col}
-              />
+              <>
+                <StaticBigLetter
+                  color={"white"}
+                  letter={"A"}
+                  letterIdx={col}
+                  position={[1.78, 1.43, 0]}
+                  scale={[0.25, 0.25, 0]}
+                  active={!(activeComponent === "about")}
+                  key={col}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                />
+                <PauseSquare
+                  geometry={squareGeoms[row][col]}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                  key={col}
+                  shouldDisappear={true}
+                />
+              </>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
@@ -81,15 +111,26 @@ const Pause = () => {
             );
           } else if (rowIdx === 3 && col > 2 && col < 7) {
             return col === 3 ? (
-              <StaticBigLetter
-                color={"white"}
-                letter={"C"}
-                letterIdx={col}
-                position={[1.05, 1.07, 0]}
-                scale={[0.25, 0.25, 0]}
-                active={!(activeComponent === "change")}
-                key={col}
-              />
+              <>
+                <StaticBigLetter
+                  color={"white"}
+                  letter={"C"}
+                  letterIdx={col}
+                  position={[1.05, 1.07, 0]}
+                  scale={[0.25, 0.25, 0]}
+                  active={!(activeComponent === "change")}
+                  key={col}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                />
+                <PauseSquare
+                  geometry={squareGeoms[row][col]}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                  key={col}
+                  shouldDisappear={true}
+                />
+              </>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
@@ -101,15 +142,26 @@ const Pause = () => {
             );
           } else if (rowIdx === 1 && col > 0 && col < 5) {
             return col === 1 ? (
-              <StaticBigLetter
-                color={"white"}
-                letter={"S"}
-                letterIdx={col}
-                position={[0.35, 0.35, 0]}
-                scale={[0.25, 0.25, 0]}
-                active={!(activeComponent === "save")}
-                key={col}
-              />
+              <>
+                <StaticBigLetter
+                  color={"white"}
+                  letter={"S"}
+                  letterIdx={col}
+                  position={[0.35, 0.35, 0]}
+                  scale={[0.25, 0.25, 0]}
+                  active={!(activeComponent === "save")}
+                  key={col}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                />
+                <PauseSquare
+                  geometry={squareGeoms[row][col]}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                  key={col}
+                  shouldDisappear={true}
+                />
+              </>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
@@ -121,15 +173,26 @@ const Pause = () => {
             );
           } else if (rowIdx === 0 && col > 4 && col < 7) {
             return col === 5 ? (
-              <StaticBigLetter
-                color={"white"}
-                letter={"E"}
-                letterIdx={col}
-                position={[1.78, 0, 0]}
-                scale={[0.25, 0.25, 0]}
-                active={!(activeComponent === "exit")}
-                key={col}
-              />
+              <>
+                <StaticBigLetter
+                  color={"white"}
+                  letter={"E"}
+                  letterIdx={col}
+                  position={[1.78, 0, 0]}
+                  scale={[0.25, 0.25, 0]}
+                  active={!(activeComponent === "exit")}
+                  key={col}
+                  rowIdx={1}
+                  colIdx={col}
+                />
+                <PauseSquare
+                  geometry={squareGeoms[row][col]}
+                  rowIdx={rowIdx}
+                  colIdx={col}
+                  key={col}
+                  shouldDisappear={true}
+                />
+              </>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
