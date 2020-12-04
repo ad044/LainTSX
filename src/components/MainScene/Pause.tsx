@@ -4,8 +4,9 @@ import PauseSquare from "./PauseSquare";
 import StaticBigLetter from "../TextRenderer/StaticBigLetter";
 import { usePauseStore } from "../../store";
 
-const Pause = () => {
+const Pause = (props: { visible: boolean }) => {
   const [intro, setIntro] = useState(true);
+  const [animation, setAnimation] = useState(false);
 
   const componentMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
   const activeComponent = usePauseStore(
@@ -39,11 +40,17 @@ const Pause = () => {
   );
 
   useEffect(() => {
-    setTimeout(() => {
-      setIntro(false);
-    }, 2000);
-  }, []);
-  return (
+    if (props.visible) {
+      setTimeout(() => {
+        setAnimation(true);
+      }, 1000);
+      setTimeout(() => {
+        setIntro(false);
+      }, 3000);
+    }
+  }, [props.visible]);
+
+  return animation ? (
     <group position={[-1, -0.8, 0]} scale={[0.9, 0.9, 0]}>
       {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
@@ -275,6 +282,8 @@ const Pause = () => {
         />
       ))}
     </group>
+  ) : (
+    <></>
   );
 };
 

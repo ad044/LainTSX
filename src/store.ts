@@ -4,9 +4,11 @@ import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 
 type PauseState = {
+  exitAnimation: boolean;
   componentMatrix: string[];
   componentMatrixIdx: number;
   setComponentMatrixIdx: (to: number) => void;
+  setExitAnimation: (to: boolean) => void;
 };
 
 type LevelSelectionState = {
@@ -403,7 +405,7 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
 }));
 
 export const useMainSceneStore = create<MainSceneState>((set) => ({
-  subscene: "pause",
+  subscene: "site",
   setSubscene: (to) => set(() => ({ subscene: to })),
 }));
 
@@ -479,6 +481,7 @@ export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
 export const usePauseStore = create<PauseState>((set) => ({
   componentMatrix: ["load", "about", "change", "save", "exit"],
   componentMatrixIdx: 2,
-  setComponentMatrixIdx: (to: number) =>
-    set(() => ({ componentMatrixIdx: to })),
+  exitAnimation: false,
+  setComponentMatrixIdx: (to) => set(() => ({ componentMatrixIdx: to })),
+  setExitAnimation: (to) => set(() => ({ exitAnimation: to })),
 }));

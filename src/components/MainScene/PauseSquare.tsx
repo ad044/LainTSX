@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import pauseGrayBoxes from "../../static/sprite/pause_gray_boxes.png";
 import { a, useSpring } from "@react-spring/three";
 import { CurveUtils } from "three";
+import { usePauseStore } from "../../store";
 
 type PauseSquareProps = {
   colIdx: number;
@@ -14,6 +15,8 @@ type PauseSquareProps = {
 };
 
 const PauseSquare = (props: PauseSquareProps) => {
+  const exitAnimation = usePauseStore((state) => state.exitAnimation);
+
   const grayBoxesTex = useLoader(THREE.TextureLoader, pauseGrayBoxes);
 
   const [intro, setIntro] = useState(true);
@@ -29,8 +32,8 @@ const PauseSquare = (props: PauseSquareProps) => {
     config: { duration: 200 },
   });
 
-  const rotX = toggle.to([0, 1], [-Math.PI, 0]);
-  const rotY = toggle.to([0, 1], [Math.PI / 2, 0]);
+  const rotX = toggle.to([0, 1], [-Math.PI, exitAnimation ? 2.2 : 0]);
+  const rotY = toggle.to([0, 1], [Math.PI / 2, exitAnimation ? 2.2 : 0]);
 
   const introRotX = introToggle.to([0, 1], [Math.PI, 0]);
   const introRotY = introToggle.to(
@@ -50,9 +53,22 @@ const PauseSquare = (props: PauseSquareProps) => {
     }, 500);
   }, [props.colIdx, props.rowIdx]);
 
+  const getExitAnimValue = useMemo(() => {
+    let col, row;
+    if (props.colIdx < 3) col = -1;
+    else if (props.colIdx > 3) col = 1;
+    else col = 0;
+
+    if (props.rowIdx < 3) row = -1;
+    else if (props.rowIdx > 3) row = 1;
+    else row = 0;
+
+    return { row, col };
+  }, [props.colIdx, props.rowIdx]);
+
   const initialState = useSpring({
-    posX: props.colIdx / 2.8,
-    posY: props.rowIdx / 2.8,
+    posX: props.colIdx / 2.8 + getExitAnimValue.col * (exitAnimation ? 2.2 : 0),
+    posY: props.rowIdx / 2.8 + getExitAnimValue.row * (exitAnimation ? 2.2 : 0),
     rotZ: 0,
     from: { posX: 1.05, posY: 1.07, rotZ: -1 },
     config: { duration: 500 },

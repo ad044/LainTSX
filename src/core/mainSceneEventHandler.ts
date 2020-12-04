@@ -24,6 +24,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   const subscene = gameContext.mainSubscene;
   const levelSelectionIdx = gameContext.levelSelectionIdx;
   const pauseMatrixIdx = gameContext.pauseMatrixIdx;
+  const activePauseComponent = gameContext.activePauseComponent;
 
   const nodeColIdx = gameContext.nodeMatrixIndices.colIdx;
   const nodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
@@ -212,6 +213,10 @@ const handleMainSceneEvent = (gameContext: any) => {
         return {
           event: "pause_down",
           newPauseMatrixIdx: pauseMatrixIdx + 1,
+        };
+      case "CIRCLE":
+        return {
+          event: `pause_${activePauseComponent}_select`,
         };
     }
   }
