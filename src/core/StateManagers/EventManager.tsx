@@ -65,6 +65,11 @@ const EventManager = () => {
     (state) => state.selectedLevelIdx
   );
   const pauseMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
+  const activePauseComponent = usePauseStore(
+    useCallback((state) => state.componentMatrix[pauseMatrixIdx], [
+      pauseMatrixIdx,
+    ])
+  );
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -146,6 +151,7 @@ const EventManager = () => {
               activeLevel: activeLevel,
               levelSelectionIdx: levelSelectionIdx,
               pauseMatrixIdx: pauseMatrixIdx,
+              activePauseComponent: activePauseComponent,
             });
             break;
           case "media":

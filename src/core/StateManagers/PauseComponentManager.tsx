@@ -6,6 +6,7 @@ const PauseComponentManager = (props: StateManagerProps) => {
   const setComponentMatrixIdx = usePauseStore(
     (state) => state.setComponentMatrixIdx
   );
+  const setExitAnimation = usePauseStore((state) => state.setExitAnimation);
 
   const dispatchObject = useCallback(
     (event: string, newComponentMatrixIdx: number) => {
@@ -16,9 +17,14 @@ const PauseComponentManager = (props: StateManagerProps) => {
             action: setComponentMatrixIdx,
             value: newComponentMatrixIdx,
           };
+        case "pause_exit_select":
+          return {
+            action: setExitAnimation,
+            value: true,
+          };
       }
     },
-    [setComponentMatrixIdx]
+    [setComponentMatrixIdx, setExitAnimation]
   );
 
   useEffect(() => {

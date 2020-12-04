@@ -35,23 +35,23 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <MainSceneIntro />
         <a.group>
-          {/*<Preloader />*/}
-          {/*<Site />*/}
-          {/*<ActiveLevelNodes />*/}
-          {/*<HUD visible={!isPaused} />*/}
-          {/*<GreenTextRenderer visible={!isPaused} />*/}
-          {/*<YellowTextRenderer visible={!isPaused} />*/}
-          {/*<YellowOrb visible={!isPaused} />*/}
-          {/*<Starfield />*/}
-          {/*<GrayPlanes visible={!isPaused} />*/}
-          {/*<MiddleRing />*/}
-          {/*<LevelSelection />*/}
-          {/*<OrbitControls />*/}
+          <Preloader />
+          <Site />
+          <ActiveLevelNodes />
+          <HUD visible={!isPaused} />
+          <GreenTextRenderer visible={!isPaused} />
+          <YellowTextRenderer visible={!isPaused} />
+          <YellowOrb visible={!isPaused} />
+          <Starfield />
+          <GrayPlanes visible={!isPaused} />
+          <MiddleRing />
+          <LevelSelection />
+          <Pause visible={isPaused} />
+          <OrbitControls />
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
-          <Pause />
         </a.group>
         {/*<Lain />*/}
       </Suspense>
