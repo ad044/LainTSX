@@ -22,6 +22,11 @@ const PauseComponentManager = (props: StateManagerProps) => {
             action: setExitAnimation,
             value: true,
           };
+        case "toggle_pause":
+          return {
+            action: setExitAnimation,
+            value: false,
+          };
       }
     },
     [setComponentMatrixIdx, setExitAnimation]

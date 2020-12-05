@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { usePauseStore } from "../../store";
 
 const StaticBigLetter = (props: {
@@ -17,6 +17,7 @@ const StaticBigLetter = (props: {
   active: boolean;
   rowIdx?: number;
   colIdx?: number;
+  intro?: boolean;
 }) => {
   const exitAnimation = usePauseStore((state) => state.exitAnimation);
 
@@ -96,11 +97,6 @@ const StaticBigLetter = (props: {
     return geometry;
   }, [letterData, lineYOffsets, props.letter]);
 
-  const { toggle } = useSpring({
-    toggle: Number(props.active),
-    config: { duration: 200 },
-  });
-
   const getExitAnimValue = useMemo(() => {
     let col = 0;
     let row = 0;
@@ -115,34 +111,6 @@ const StaticBigLetter = (props: {
     }
   }, [props.colIdx, props.rowIdx]);
 
-  const rotX = toggle.to([0, 1], [-Math.PI, 0 + (exitAnimation ? 2.2 : 0)]);
-  const rotY = toggle.to([0, 1], [Math.PI / 2, 0 + (exitAnimation ? 2.2 : 0)]);
-
-  const [intro, setIntro] = useState<boolean>(!!(props.rowIdx && props.colIdx));
-  const [introAnimToggle, setIntroAnimToggle] = useState(false);
-
-  const { introToggle } = useSpring({
-    introToggle: Number(introAnimToggle),
-    config: { duration: 200 },
-  });
-
-  const introRotX = introToggle.to([0, 1], [Math.PI, 0]);
-  const introRotY = introToggle.to([0, 1], [Math.PI * 2, 0]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (props.rowIdx && props.colIdx) {
-        setTimeout(() => {
-          setIntroAnimToggle(true);
-        }, (props.rowIdx + props.colIdx) * 100);
-
-        setTimeout(() => {
-          setIntro(false);
-        }, 1500);
-      }
-    }, 500);
-  }, [props.colIdx, props.rowIdx]);
-
   const initialState = useSpring({
     posX:
       props.position[0] +
@@ -151,7 +119,17 @@ const StaticBigLetter = (props: {
       -letterData[4] / 50 +
       props.position[1] +
       (getExitAnimValue ? getExitAnimValue.row * (exitAnimation ? 2.2 : 0) : 0),
-    config: { duration: 800 },
+    rotX: props.active ? (exitAnimation ? Math.PI / 2 : 0) : -Math.PI,
+    rotY: props.active ? (exitAnimation ? Math.PI / 2 : 0) : Math.PI / 2,
+    config: { duration: 500 },
+  });
+
+  const introState = useSpring({
+    rotX: 0,
+    rotY: 0,
+    from: { rotX: Math.PI, rotY: Math.PI * 2 },
+    delay: (props.rowIdx! + props.colIdx!) * 100 + 500,
+    config: { duration: 200 },
   });
 
   return (
@@ -165,14 +143,16 @@ const StaticBigLetter = (props: {
       position-y={initialState.posY}
       scale={props.scale as [number, number, number]}
       geometry={geom}
-      rotation-x={intro ? introRotX : rotX}
-      rotation-y={intro ? introRotY : rotY}
+      rotation-x={props.intro ? introState.rotX : initialState.rotX}
+      rotation-y={props.intro ? introState.rotY : initialState.rotY}
+      renderOrder={100}
     >
       <meshBasicMaterial
         map={colorTexture}
         attach="material"
         transparent={true}
         side={THREE.FrontSide}
+        depthTest={false}
       />
     </a.mesh>
   );

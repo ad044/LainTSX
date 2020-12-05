@@ -3,16 +3,29 @@ import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
 import StaticBigLetter from "../TextRenderer/StaticBigLetter";
 import { usePauseStore } from "../../store";
+import { useLoader } from "react-three-fiber";
 
 const Pause = (props: { visible: boolean }) => {
-  const [intro, setIntro] = useState(true);
+  const [showActiveComponent, setShowActiveComponent] = useState(false);
   const [animation, setAnimation] = useState(false);
+  const [intro, setIntro] = useState(true);
+
+  const wordFont = useLoader(THREE.FontLoader, "/3d_fonts/MediaWord.blob");
+
+  const config = useMemo(
+    () => ({
+      font: wordFont,
+      size: 2.5,
+    }),
+    [wordFont]
+  );
 
   const componentMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
   const activeComponent = usePauseStore(
     useCallback(
-      (state) => (intro ? "" : state.componentMatrix[componentMatrixIdx]),
-      [componentMatrixIdx, intro]
+      (state) =>
+        showActiveComponent ? state.componentMatrix[componentMatrixIdx] : "",
+      [componentMatrixIdx, showActiveComponent]
     )
   );
 
@@ -45,13 +58,21 @@ const Pause = (props: { visible: boolean }) => {
         setAnimation(true);
       }, 1000);
       setTimeout(() => {
+        setShowActiveComponent(true);
         setIntro(false);
-      }, 3000);
+      }, 3500);
     }
+    return () => {
+      setTimeout(() => {
+        setAnimation(false);
+        setIntro(true);
+        setShowActiveComponent(false);
+      }, 700);
+    };
   }, [props.visible]);
 
   return animation ? (
-    <group position={[-1, -0.8, 0]} scale={[0.9, 0.9, 0]}>
+    <group position={[-0.85, -0.7, 0]} scale={[0.85, 0.85, 0]}>
       {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
           if (rowIdx === 5 && col > 0 && col < 5) {
@@ -67,6 +88,7 @@ const Pause = (props: { visible: boolean }) => {
                   key={col}
                   rowIdx={rowIdx}
                   colIdx={col}
+                  intro={intro}
                 />
                 <PauseSquare
                   geometry={squareGeoms[row][col]}
@@ -74,6 +96,7 @@ const Pause = (props: { visible: boolean }) => {
                   colIdx={col}
                   key={col}
                   shouldDisappear={true}
+                  intro={intro}
                 />
               </>
             ) : (
@@ -83,6 +106,7 @@ const Pause = (props: { visible: boolean }) => {
                 colIdx={col}
                 active={!(activeComponent === "load")}
                 key={col}
+                intro={intro}
               />
             );
           } else if (rowIdx === 4 && col > 4 && col < 7) {
@@ -98,6 +122,7 @@ const Pause = (props: { visible: boolean }) => {
                   key={col}
                   rowIdx={rowIdx}
                   colIdx={col}
+                  intro={intro}
                 />
                 <PauseSquare
                   geometry={squareGeoms[row][col]}
@@ -105,6 +130,7 @@ const Pause = (props: { visible: boolean }) => {
                   colIdx={col}
                   key={col}
                   shouldDisappear={true}
+                  intro={intro}
                 />
               </>
             ) : (
@@ -114,6 +140,7 @@ const Pause = (props: { visible: boolean }) => {
                 colIdx={col}
                 active={!(activeComponent === "about")}
                 key={col}
+                intro={intro}
               />
             );
           } else if (rowIdx === 3 && col > 2 && col < 7) {
@@ -129,6 +156,7 @@ const Pause = (props: { visible: boolean }) => {
                   key={col}
                   rowIdx={rowIdx}
                   colIdx={col}
+                  intro={intro}
                 />
                 <PauseSquare
                   geometry={squareGeoms[row][col]}
@@ -136,6 +164,7 @@ const Pause = (props: { visible: boolean }) => {
                   colIdx={col}
                   key={col}
                   shouldDisappear={true}
+                  intro={intro}
                 />
               </>
             ) : (
@@ -145,6 +174,7 @@ const Pause = (props: { visible: boolean }) => {
                 colIdx={col}
                 active={!(activeComponent === "change")}
                 key={col}
+                intro={intro}
               />
             );
           } else if (rowIdx === 1 && col > 0 && col < 5) {
@@ -160,6 +190,7 @@ const Pause = (props: { visible: boolean }) => {
                   key={col}
                   rowIdx={rowIdx}
                   colIdx={col}
+                  intro={intro}
                 />
                 <PauseSquare
                   geometry={squareGeoms[row][col]}
@@ -167,6 +198,7 @@ const Pause = (props: { visible: boolean }) => {
                   colIdx={col}
                   key={col}
                   shouldDisappear={true}
+                  intro={intro}
                 />
               </>
             ) : (
@@ -176,6 +208,7 @@ const Pause = (props: { visible: boolean }) => {
                 colIdx={col}
                 active={!(activeComponent === "save")}
                 key={col}
+                intro={intro}
               />
             );
           } else if (rowIdx === 0 && col > 4 && col < 7) {
@@ -191,6 +224,7 @@ const Pause = (props: { visible: boolean }) => {
                   key={col}
                   rowIdx={1}
                   colIdx={col}
+                  intro={intro}
                 />
                 <PauseSquare
                   geometry={squareGeoms[row][col]}
@@ -198,6 +232,7 @@ const Pause = (props: { visible: boolean }) => {
                   colIdx={col}
                   key={col}
                   shouldDisappear={true}
+                  intro={intro}
                 />
               </>
             ) : (
@@ -207,6 +242,7 @@ const Pause = (props: { visible: boolean }) => {
                 colIdx={col}
                 active={!(activeComponent === "exit")}
                 key={col}
+                intro={intro}
               />
             );
           } else {
@@ -217,6 +253,7 @@ const Pause = (props: { visible: boolean }) => {
                 colIdx={col}
                 key={col}
                 active={true}
+                intro={intro}
               />
             );
           }
@@ -281,6 +318,33 @@ const Pause = (props: { visible: boolean }) => {
           active={activeComponent === "exit"}
         />
       ))}
+
+      <group visible={showActiveComponent}>
+        <sprite position={[0.5, -0.8, 0]} scale={[3, 1, 0]} renderOrder={100}>
+          <spriteMaterial
+            attach="material"
+            color={0x000000}
+            opacity={0.8}
+            depthTest={false}
+          />
+        </sprite>
+        <mesh
+          scale={[0.08, 0.07, 0]}
+          position={[-0.2, -0.6, 0]}
+          renderOrder={101}
+        >
+          <textGeometry
+            attach="geometry"
+            args={["Application Version 1.0", config]}
+          />
+          <meshBasicMaterial
+            attach="material"
+            color={0x00ba7c}
+            transparent={true}
+            depthTest={false}
+          />
+        </mesh>
+      </group>
     </group>
   ) : (
     <></>
