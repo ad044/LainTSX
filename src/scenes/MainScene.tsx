@@ -53,7 +53,7 @@ const MainScene = () => {
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
         </a.group>
-        {/*<Lain />*/}
+        <Lain />
       </Suspense>
     </perspectiveCamera>
   );
