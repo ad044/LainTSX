@@ -9,7 +9,7 @@ import moveRightSpriteSheet from "../../static/sprite/move_right.png";
 import standingSpriteSheet from "../../static/sprite/standing.png";
 import introSpriteSheet from "../../static/sprite/intro.png";
 import throwNodeSpriteSheet from "../../static/sprite/throw_node.png";
-import { useLainStore } from "../../store";
+import { useLainStore, useMainSceneStore } from "../../store";
 
 type LainConstructorProps = {
   sprite: string;

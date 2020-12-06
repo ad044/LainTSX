@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
-import StaticBigLetter from "../TextRenderer/StaticBigLetter";
-import { usePauseStore } from "../../store";
+import StaticBigLetter from "../../TextRenderer/StaticBigLetter";
+import { usePauseStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 
 const Pause = (props: { visible: boolean }) => {
+  const exit = usePauseStore((state) => state.exitAnimation);
   const [showActiveComponent, setShowActiveComponent] = useState(false);
   const [animation, setAnimation] = useState(false);
   const [intro, setIntro] = useState(true);
@@ -77,7 +78,7 @@ const Pause = (props: { visible: boolean }) => {
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
           if (rowIdx === 5 && col > 0 && col < 5) {
             return col === 1 ? (
-              <>
+              <React.Fragment key={`Lfragment`}>
                 <StaticBigLetter
                   color={"white"}
                   letter={"L"}
@@ -85,7 +86,7 @@ const Pause = (props: { visible: boolean }) => {
                   position={[0.35, 1.8, 0]}
                   scale={[0.25, 0.25, 0.25]}
                   active={!(activeComponent === "load")}
-                  key={col}
+                  key={"whiteL"}
                   rowIdx={rowIdx}
                   colIdx={col}
                   intro={intro}
@@ -94,24 +95,24 @@ const Pause = (props: { visible: boolean }) => {
                   geometry={squareGeoms[row][col]}
                   rowIdx={rowIdx}
                   colIdx={col}
-                  key={col}
+                  key={"whiteLsquare"}
                   shouldDisappear={true}
                   intro={intro}
                 />
-              </>
+              </React.Fragment>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
                 rowIdx={rowIdx}
                 colIdx={col}
                 active={!(activeComponent === "load")}
-                key={col}
+                key={`${rowIdx}${col}L`}
                 intro={intro}
               />
             );
           } else if (rowIdx === 4 && col > 4 && col < 7) {
             return col === 5 ? (
-              <>
+              <React.Fragment key={"AFragment"}>
                 <StaticBigLetter
                   color={"white"}
                   letter={"A"}
@@ -119,7 +120,7 @@ const Pause = (props: { visible: boolean }) => {
                   position={[1.78, 1.43, 0]}
                   scale={[0.25, 0.25, 0]}
                   active={!(activeComponent === "about")}
-                  key={col}
+                  key={"whiteA"}
                   rowIdx={rowIdx}
                   colIdx={col}
                   intro={intro}
@@ -128,24 +129,24 @@ const Pause = (props: { visible: boolean }) => {
                   geometry={squareGeoms[row][col]}
                   rowIdx={rowIdx}
                   colIdx={col}
-                  key={col}
+                  key={"whiteAsquare"}
                   shouldDisappear={true}
                   intro={intro}
                 />
-              </>
+              </React.Fragment>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
                 rowIdx={rowIdx}
                 colIdx={col}
                 active={!(activeComponent === "about")}
-                key={col}
+                key={`${rowIdx}${col}A`}
                 intro={intro}
               />
             );
           } else if (rowIdx === 3 && col > 2 && col < 7) {
             return col === 3 ? (
-              <>
+              <React.Fragment key={"CFragment"}>
                 <StaticBigLetter
                   color={"white"}
                   letter={"C"}
@@ -153,7 +154,7 @@ const Pause = (props: { visible: boolean }) => {
                   position={[1.05, 1.07, 0]}
                   scale={[0.25, 0.25, 0]}
                   active={!(activeComponent === "change")}
-                  key={col}
+                  key={"whiteC"}
                   rowIdx={rowIdx}
                   colIdx={col}
                   intro={intro}
@@ -162,24 +163,24 @@ const Pause = (props: { visible: boolean }) => {
                   geometry={squareGeoms[row][col]}
                   rowIdx={rowIdx}
                   colIdx={col}
-                  key={col}
+                  key={"whiteCsquare"}
                   shouldDisappear={true}
                   intro={intro}
                 />
-              </>
+              </React.Fragment>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
                 rowIdx={rowIdx}
                 colIdx={col}
                 active={!(activeComponent === "change")}
-                key={col}
+                key={`${rowIdx}${col}C`}
                 intro={intro}
               />
             );
           } else if (rowIdx === 1 && col > 0 && col < 5) {
             return col === 1 ? (
-              <>
+              <React.Fragment key={"Sfragment"}>
                 <StaticBigLetter
                   color={"white"}
                   letter={"S"}
@@ -187,7 +188,7 @@ const Pause = (props: { visible: boolean }) => {
                   position={[0.35, 0.35, 0]}
                   scale={[0.25, 0.25, 0]}
                   active={!(activeComponent === "save")}
-                  key={col}
+                  key={"whiteS"}
                   rowIdx={rowIdx}
                   colIdx={col}
                   intro={intro}
@@ -196,24 +197,24 @@ const Pause = (props: { visible: boolean }) => {
                   geometry={squareGeoms[row][col]}
                   rowIdx={rowIdx}
                   colIdx={col}
-                  key={col}
+                  key={"whiteSsquare"}
                   shouldDisappear={true}
                   intro={intro}
                 />
-              </>
+              </React.Fragment>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
                 rowIdx={rowIdx}
                 colIdx={col}
                 active={!(activeComponent === "save")}
-                key={col}
+                key={`${rowIdx}${col}S`}
                 intro={intro}
               />
             );
           } else if (rowIdx === 0 && col > 4 && col < 7) {
             return col === 5 ? (
-              <>
+              <React.Fragment key={"Efragment"}>
                 <StaticBigLetter
                   color={"white"}
                   letter={"E"}
@@ -221,7 +222,7 @@ const Pause = (props: { visible: boolean }) => {
                   position={[1.78, 0, 0]}
                   scale={[0.25, 0.25, 0]}
                   active={!(activeComponent === "exit")}
-                  key={col}
+                  key={"whiteE"}
                   rowIdx={1}
                   colIdx={col}
                   intro={intro}
@@ -230,18 +231,18 @@ const Pause = (props: { visible: boolean }) => {
                   geometry={squareGeoms[row][col]}
                   rowIdx={rowIdx}
                   colIdx={col}
-                  key={col}
+                  key={"whiteEsquare"}
                   shouldDisappear={true}
                   intro={intro}
                 />
-              </>
+              </React.Fragment>
             ) : (
               <PauseSquare
                 geometry={squareGeoms[row][col]}
                 rowIdx={rowIdx}
                 colIdx={col}
                 active={!(activeComponent === "exit")}
-                key={col}
+                key={`${rowIdx}${col}E`}
                 intro={intro}
               />
             );
@@ -251,7 +252,7 @@ const Pause = (props: { visible: boolean }) => {
                 geometry={squareGeoms[row][col]}
                 rowIdx={rowIdx}
                 colIdx={col}
-                key={col}
+                key={`${rowIdx}${col}r`}
                 active={true}
                 intro={intro}
               />
@@ -319,7 +320,7 @@ const Pause = (props: { visible: boolean }) => {
         />
       ))}
 
-      <group visible={showActiveComponent}>
+      <group visible={!exit}>
         <sprite position={[0.5, -0.8, 0]} scale={[3, 1, 0]} renderOrder={100}>
           <spriteMaterial
             attach="material"

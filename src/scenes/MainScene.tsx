@@ -7,7 +7,6 @@ import Preloader from "../components/Preloader";
 import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
-import Starfield from "../components/MainScene/Starfield";
 import { useHudStore, useLainStore, useMainSceneStore } from "../store";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import HUD from "../components/MainScene/HUD";
@@ -15,7 +14,8 @@ import YellowOrb from "../components/MainScene/YellowOrb";
 import ActiveLevelNodes from "../components/MainScene/ActiveLevelNodes";
 import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 import LevelSelection from "../components/MainScene/LevelSelection";
-import Pause from "../components/MainScene/Pause";
+import Pause from "../components/MainScene/PauseSubscene/Pause";
+import Starfield from "../components/MainScene/Starfield/Starfield";
 
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
@@ -35,18 +35,18 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <MainSceneIntro />
         <a.group>
-          <Preloader />
+          {/*<Preloader />*/}
           <Site />
           <ActiveLevelNodes />
           <HUD visible={!isPaused} />
           <GreenTextRenderer visible={!isPaused} />
           <YellowTextRenderer visible={!isPaused} />
           <YellowOrb visible={!isPaused} />
-          <Starfield />
           <GrayPlanes visible={!isPaused} />
           <MiddleRing />
           <LevelSelection />
           <Pause visible={isPaused} />
+          <Starfield visible={!isPaused}/>
           <OrbitControls />
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
