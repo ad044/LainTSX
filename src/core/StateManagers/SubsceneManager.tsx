@@ -15,35 +15,41 @@ const SubsceneManager = (props: StateManagerProps) => {
           return {
             action: setMainSubscene,
             value: "site",
+            delay: 0,
           };
         case "toggle_level_selection":
           return {
             action: setMainSubscene,
             value: "level_selection",
+            delay: 0,
           };
         case "toggle_pause":
           return {
             action: setMainSubscene,
             value: "pause",
+            delay: 0,
           };
         case "pause_exit_select":
           return {
             action: setMainSubscene,
             value: "site",
+            delay: 1800,
           };
         case "authorize_user_back":
         case "load_data_no_select":
           return {
             action: setBootSubscene,
             value: "main_menu",
+            delay: 0,
           };
         case "authorize_user_select":
           return {
             action: setBootSubscene,
             value: "authorize_user",
+            delay: 0,
           };
         case "load_data_select":
-          return { action: setBootSubscene, value: "load_data" };
+          return { action: setBootSubscene, value: "load_data", delay: 0 };
       }
     },
     [setBootSubscene, setMainSubscene]
@@ -56,7 +62,9 @@ const SubsceneManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(eventAction);
 
       if (dispatchedObject) {
-        dispatchedObject.action(dispatchedObject.value);
+        setTimeout(() => {
+          dispatchedObject.action(dispatchedObject.value);
+        }, dispatchedObject.delay);
       }
     }
   }, [props.eventState, dispatchObject]);

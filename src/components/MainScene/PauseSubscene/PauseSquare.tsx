@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import pauseGrayBoxes from "../../static/sprite/pause_gray_boxes.png";
+import pauseGrayBoxes from "../../../static/sprite/pause_gray_boxes.png";
 import { a, useSpring } from "@react-spring/three";
-import { usePauseStore } from "../../store";
+import { usePauseStore } from "../../../store";
 
 type PauseSquareProps = {
   colIdx: number;
