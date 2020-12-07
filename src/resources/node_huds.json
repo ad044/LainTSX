@@ -45,7 +45,7 @@
   },
   "fg_hud_3": {
     "long": {
-      "position": [-0.43, -0.32, -8.6],
+      "position": [-0.45, -0.32, -8.6],
       "type": "normal",
       "initial_position": [-1.43, -0.3, -8.6]
     },
@@ -59,7 +59,7 @@
       "type": "normal",
       "initial_position": [1.3, -0.12, -8.6]
     },
-    "big_text": [-0.33, -0.32, -8.7],
+    "big_text": [-0.35, -0.32, -8.7],
     "medium_text": {
       "position": [0.12, -0.32, -8.7],
       "initial_position": [1.12, -0.32, -8.7]
@@ -133,43 +133,43 @@
   },
   "bg_hud_1": {
     "long": {
-      "position": [-0.3, 0.02, -8.6],
+      "position": [-0.3, 0.04, -8.6],
       "type": "normal",
       "initial_position": [-1.3, 0.02, -8.6]
     },
     "boring": {
-      "position": [0.6, 0.038, -8.6],
+      "position": [0.6, 0.06, -8.6],
       "type": "normal",
       "initial_position": [1.6, 0.038, -8.6]
     },
     "big": {
-      "position": [0.3, 0, -8.6],
+      "position": [0.3, 0.015, -8.6],
       "type": "normal",
       "initial_position": [1.3, 0, -8.6]
     },
-    "big_text": [-0.15, 0.06, -8.7],
+    "big_text": [-0.15, 0.1, -8.7],
     "medium_text": {
-      "position": [0.1, 0, -8.7],
-      "initial_position": [1.1, 0, -8.7]
+      "position": [0.1, 0.02, -8.7],
+      "initial_position": [1.1, 0.02, -8.7]
     }
   },
   "bg_hud_2": {
     "long": {
-      "position": [-0.35, -0.09, -8.6],
+      "position": [-0.3, -0.07, -8.6],
       "type": "normal",
       "initial_position": [-1.35, -0.09, -8.6]
     },
     "boring": {
-      "position": [0.6, -0.07, -8.6],
+      "position": [0.6, -0.05, -8.6],
       "type": "normal",
       "initial_position": [1.6, -0.07, -8.6]
     },
     "big": {
-      "position": [0.35, -0.12, -8.6],
+      "position": [0.3, -0.1, -8.6],
       "type": "normal",
       "initial_position": [1.35, -0.12, -8.6]
     },
-    "big_text": [-0.15, -0.05, -8.7],
+    "big_text": [-0.15, -0.03, -8.7],
     "medium_text": {
       "position": [0.18, -0.13, -8.7],
       "initial_position": [1.18, -0.13, -8.7]
@@ -177,7 +177,7 @@
   },
   "bg_hud_3": {
     "long": {
-      "position": [-0.35, -0.19, -8.6],
+      "position": [-0.3, -0.19, -8.6],
       "type": "normal",
       "initial_position": [-1.35, -0.19, -8.6]
     },
@@ -187,11 +187,11 @@
       "initial_position": [1.6, -0.17, -8.6]
     },
     "big": {
-      "position": [0.35, -0.22, -8.6],
+      "position": [0.3, -0.22, -8.6],
       "type": "normal",
       "initial_position": [1.35, -0.22, -8.6]
     },
-    "big_text": [-0.15, -0.16, -8.7],
+    "big_text": [-0.15, -0.17, -8.7],
     "medium_text": {
       "position": [0.18, -0.25, -8.7],
       "initial_position": [1.18, -0.25, -8.7]
@@ -213,7 +213,7 @@
       "type": "mirrored",
       "initial_position": [-1.35, 0.015, -8.6]
     },
-    "big_text": [0.15, 0.06, -8.7],
+    "big_text": [0.2, 0.1, -8.7],
     "medium_text": {
       "position": [-0.65, 0.02, -8.7],
       "initial_position": [-1.65, 0.02, -8.7]
@@ -235,7 +235,7 @@
       "type": "mirrored",
       "initial_position": [-1.35, -0.12, -8.6]
     },
-    "big_text": [0.15, -0.05, -8.7],
+    "big_text": [0.2, -0.03, -8.7],
     "medium_text": {
       "position": [-0.65, -0.11, -8.7],
       "initial_position": [-1.65, -0.11, -8.7]
@@ -243,23 +243,23 @@
   },
   "bg_hud_6": {
     "long": {
-      "position": [0.63, -0.2, -8.6],
+      "position": [0.63, -0.19, -8.6],
       "type": "mirrored",
       "initial_position": [1.63, -0.2, -8.6]
     },
     "boring": {
-      "position": [-0.29, -0.18, -8.6],
+      "position": [-0.29, -0.17, -8.6],
       "type": "mirrored",
       "initial_position": [-1.29, -0.18, -8.6]
     },
     "big": {
-      "position": [-0.25, -0.18, -8.6],
+      "position": [-0.25, -0.22, -8.6],
       "type": "mirrored",
       "initial_position": [-1.25, -0.18, -8.6]
     },
-    "big_text": [0.15, -0.16, -8.7],
+    "big_text": [0.2, -0.17, -8.7],
     "medium_text": {
-      "position": [-0.53, -0.2, -8.7],
+      "position": [-0.53, -0.25, -8.7],
       "initial_position": [-1.53, -0.2, -8.7]
     }
   }
