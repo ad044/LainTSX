@@ -1,7 +1,17 @@
 const handleSSknSceneEvent = (gameContext: any) => {
   const keyPress = gameContext.keyPress;
   const activeSSknComponent = gameContext.activeSSknComponent;
-  return { event: `${activeSSknComponent}_${keyPress}` };
+  switch (keyPress) {
+    case "UP":
+    case "DOWN":
+      return {
+        event: `${activeSSknComponent}_${keyPress.toLowerCase()}`,
+      };
+    case "CIRCLE":
+      return {
+        event: `${activeSSknComponent}_select`,
+      };
+  }
 };
 
 export default handleSSknSceneEvent;

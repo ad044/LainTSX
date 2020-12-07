@@ -4,7 +4,7 @@ import level_y_values from "../../resources/level_y_values.json";
 import node_positions from "../../resources/node_positions.json";
 import Node from "./Node";
 import { a, useSpring } from "@react-spring/three";
-import { useLevelStore, useSiteStore } from "../../store";
+import { useLevelStore, useNodeStore, useSiteStore } from "../../store";
 import PurpleRing from "./PurpleRing";
 import GrayRing from "./GrayRing";
 import CyanCrystal from "./CyanCrystal";
@@ -37,6 +37,8 @@ export type SiteType = {
 };
 
 const Site = memo(() => {
+  const unlockedNodes = useNodeStore((state) => state.unlockedNodes);
+
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const visibleNodes = useMemo(() => {
     const obj = {};
@@ -78,22 +80,38 @@ const Site = memo(() => {
             <CyanCrystal crystalRingPosY={-0.45} />
           </group>
         ))}
-        {Object.entries(visibleNodes).map((node: [string, any]) => (
-          <Node
-            sprite={node[1].node_name}
-            position={
-              node_positions[node[0].substr(2) as keyof typeof node_positions]
-                .position
-            }
-            rotation={
-              node_positions[node[0].substr(2) as keyof typeof node_positions]
-                .rotation
-            }
-            key={node[1].node_name}
-            level={node[0].substr(0, 2)}
-          />
-        ))}
-        )
+        {Object.entries(visibleNodes).map((node: [string, any]) => {
+          const unlockedBy = node[1].unlocked_by;
+
+          let unlocked;
+          if (unlockedBy === "-1") unlocked = true;
+          else
+            unlocked =
+              unlockedNodes[unlockedBy as keyof typeof unlockedNodes].unlocked;
+
+          if (
+            unlocked &&
+            (node[1].is_hidden === "0" || node[1].is_hidden === "3")
+          ) {
+            return (
+              <Node
+                sprite={node[1].node_name}
+                position={
+                  node_positions[
+                    node[0].substr(2) as keyof typeof node_positions
+                  ].position
+                }
+                rotation={
+                  node_positions[
+                    node[0].substr(2) as keyof typeof node_positions
+                  ].rotation
+                }
+                key={node[1].node_name}
+                level={node[0].substr(0, 2)}
+              />
+            );
+          }
+        })}
       </a.group>
     </Suspense>
   );

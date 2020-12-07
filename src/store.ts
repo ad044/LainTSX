@@ -2,6 +2,7 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
+import unlocked_nodes from "./resources/unlocked_nodes.json";
 
 type PauseState = {
   exitAnimation: boolean;
@@ -40,6 +41,7 @@ type NodeState = {
     interactedWith: boolean;
   };
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
+  unlockedNodes: typeof unlocked_nodes;
 };
 
 type LainState = {
@@ -234,6 +236,7 @@ export const useNodeStore = create(
         interactedWith: false,
       },
       nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+      unlockedNodes: unlocked_nodes,
     } as NodeState,
     (set) => ({
       setActiveNodeState: (to: number | boolean | string, at: string) =>
@@ -371,7 +374,7 @@ export const useMediaWordStore = create<MediaWordState>((set) => ({
   posStateIdx: 1,
   setPosStateIdx: (to) => set(() => ({ posStateIdx: to })),
   setWords: (to) => set(() => ({ words: to })),
-  resetPosStateIdx: () => set(() => ({ posStateIdx: 0 })),
+  resetPosStateIdx: () => set(() => ({ posStateIdx: 1 })),
 }));
 
 export const useSSknStore = create<SSknState>((set) => ({

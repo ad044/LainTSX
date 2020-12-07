@@ -35,7 +35,7 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <MainSceneIntro />
         <a.group>
-          {/*<Preloader />*/}
+          <Preloader />
           <Site />
           <ActiveLevelNodes />
           <HUD visible={!isPaused} />
