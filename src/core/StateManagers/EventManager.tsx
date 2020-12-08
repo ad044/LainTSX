@@ -70,6 +70,7 @@ const EventManager = () => {
       pauseMatrixIdx,
     ])
   );
+  const unlockedNodes = useNodeStore((state) => state.unlockedNodes);
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -152,6 +153,7 @@ const EventManager = () => {
               levelSelectionIdx: levelSelectionIdx,
               pauseMatrixIdx: pauseMatrixIdx,
               activePauseComponent: activePauseComponent,
+              unlockedNodes: unlockedNodes,
             });
             break;
           case "media":
