@@ -1,6 +1,8 @@
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 import level_y_values from "../resources/level_y_values.json";
+import nodeSelector from "./nodeSelector";
+import unlocked_nodes from "../resources/unlocked_nodes.json";
 
 const hudAssocs = {
   "00": "fg_hud_1",
@@ -25,9 +27,14 @@ const handleMainSceneEvent = (gameContext: any) => {
   const levelSelectionIdx = gameContext.levelSelectionIdx;
   const pauseMatrixIdx = gameContext.pauseMatrixIdx;
   const activePauseComponent = gameContext.activePauseComponent;
+  const unlockedNodes = gameContext.unlockedNodes;
 
   const nodeColIdx = gameContext.nodeMatrixIndices.colIdx;
   const nodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
+  const nodeMatIdx = gameContext.nodeMatrixIndices.matrixIdx;
+  const level = gameContext.activeLevel;
+  const siteRotY = gameContext.siteTransformState.rotY;
+  const sitePosY = gameContext.siteTransformState.posY;
 
   let newNodeMatIdx = gameContext.nodeMatrixIndices.matrixIdx;
   let newNodeColIdx = gameContext.nodeMatrixIndices.colIdx;
@@ -40,15 +47,27 @@ const handleMainSceneEvent = (gameContext: any) => {
   if (subscene === "site") {
     switch (keyPress) {
       case "LEFT":
-        newNodeColIdx = nodeColIdx - 1;
-        if (newNodeColIdx < 0) {
-          event = "move_left";
-          newNodeMatIdx = newNodeMatIdx + 1 > 8 ? 1 : newNodeMatIdx + 1;
-          newNodeColIdx = 0;
-          newSiteRotY -= -Math.PI / 4;
-        } else {
-          event = "change_node";
+        const selectedNodeData = nodeSelector({
+          keyPress: keyPress,
+          nodeMatIdx: nodeMatIdx,
+          nodeColIdx: nodeColIdx,
+          nodeRowIdx: nodeRowIdx,
+          level: level,
+          siteRotY: siteRotY,
+          sitePosY: sitePosY,
+          unlockedNodes: unlockedNodes,
+        });
+
+        if (selectedNodeData) {
+          event = selectedNodeData.event;
+          newNodeMatIdx = selectedNodeData.newNodeMatIdx;
+          newNodeColIdx = selectedNodeData.newNodeColIdx;
+          newNodeRowIdx = selectedNodeData.newNodeRowIdx;
+          newSiteRotY = selectedNodeData.newSiteRotY;
+          newSitePosY = selectedNodeData.newSitePosY;
+          newLevel = selectedNodeData.newLevel;
         }
+
         break;
       case "DOWN":
         newNodeRowIdx = nodeRowIdx + 1;
@@ -135,6 +154,7 @@ const handleMainSceneEvent = (gameContext: any) => {
     const newActiveHudId =
       hudAssocs[`${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs];
 
+    console.log(newActiveNodeId)
     return {
       event: event,
       newNodeColIdx: newNodeColIdx,
