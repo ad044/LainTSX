@@ -107,6 +107,7 @@ const NodeManager = (props: StateManagerProps) => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
       const newActiveNodeId = props.eventState.newActiveNodeId;
+      console.log(newActiveNodeId)
       const newNodeRowIdx = props.eventState.newNodeRowIdx;
       const newNodeColIdx = props.eventState.newNodeColIdx;
       const newNodeMatIdx = props.eventState.newNodeMatIdx;

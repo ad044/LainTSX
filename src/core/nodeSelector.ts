@@ -49,136 +49,278 @@ const isNodeVisible = (
   }
 };
 
-const nodeSelector = (context: NodeSelectorContext) => {
-  const unlockedNodes = context.unlockedNodes;
+const findNodeAfterMoving = (
+  direction: string,
+  unlockedNodes: typeof unlocked_nodes,
+  level: string,
+  nodeMatIdx: number,
+  nodeRowIdx: number
+) => {
+  let newNodeId;
+  let newNodeRowIdx = nodeRowIdx;
+  let newNodeMatIdx = nodeMatIdx;
+  let newNodeColIdx;
 
-  switch (context.keyPress) {
-    case "LEFT":
-      let newNodeColIdx = context.nodeColIdx - 1;
-      if (newNodeColIdx < 0) {
-        const event = "move_left";
-        const newNodeMatIdx =
-          context.nodeMatIdx + 1 > 8 ? 1 : context.nodeMatIdx + 1;
-        const newSiteRotY = context.siteRotY + Math.PI / 4;
+  if (direction === "left") {
+    newNodeColIdx = 0;
 
-        newNodeColIdx = 0;
-        let newNodeRowIdx = context.nodeRowIdx;
+    newNodeMatIdx = nodeMatIdx + 1 > 8 ? 1 : nodeMatIdx + 1;
+    newNodeId = getNodeId(level, newNodeMatIdx, nodeRowIdx, newNodeColIdx);
 
-        let newNodeId = getNodeId(
-          context.level,
-          newNodeMatIdx,
-          newNodeRowIdx,
-          newNodeColIdx
-        );
+    let triedRows: number[] = [];
 
-        let triedRows: number[] = [];
-
-        while (!isNodeVisible(newNodeId, unlockedNodes)) {
-          if (triedRows.length < 3) {
-            triedRows.push(newNodeRowIdx);
-            if (newNodeRowIdx === 1 && !triedRows.includes(0))
-              newNodeRowIdx = 0;
-            else if (newNodeRowIdx === 1 && !triedRows.includes(2))
-              newNodeRowIdx = 2;
-            else if (newNodeRowIdx === 2 && !triedRows.includes(0))
-              newNodeRowIdx = 0;
-            else if (newNodeRowIdx === 2 && !triedRows.includes(1))
-              newNodeRowIdx = 1;
-            else if (newNodeRowIdx === 0 && !triedRows.includes(1))
-              newNodeRowIdx = 1;
-            else if (newNodeRowIdx === 0 && !triedRows.includes(2))
-              newNodeRowIdx = 2;
-          } else {
-            if (newNodeColIdx === 3) {
-              newNodeId = getNodeId(
-                context.level,
-                newNodeMatIdx,
-                newNodeRowIdx,
-                newNodeColIdx
-              );
-            } else {
-              newNodeColIdx++;
-              triedRows = [];
-              newNodeRowIdx = 0;
-            }
-          }
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedRows.length < 3) {
+        triedRows.push(newNodeRowIdx);
+        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
+          newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+      } else {
+        if (newNodeColIdx === 3) {
           newNodeId = getNodeId(
-            context.level,
+            level,
             newNodeMatIdx,
             newNodeRowIdx,
             newNodeColIdx
           );
+        } else {
+          newNodeColIdx++;
+          triedRows = [];
+          newNodeRowIdx = 0;
         }
+      }
+      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
+    }
+  } else if (direction === "right") {
+    newNodeColIdx = 3;
 
+    newNodeMatIdx = nodeMatIdx - 1 < 1 ? 8 : nodeMatIdx - 1;
+    newNodeId = getNodeId(level, newNodeMatIdx, nodeRowIdx, newNodeColIdx);
+
+    let triedRows: number[] = [];
+
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedRows.length < 3) {
+        triedRows.push(newNodeRowIdx);
+        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
+          newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+      } else {
+        if (newNodeColIdx === 0) {
+          newNodeId = getNodeId(
+            level,
+            newNodeMatIdx,
+            newNodeRowIdx,
+            newNodeColIdx
+          );
+        } else {
+          newNodeColIdx--;
+          triedRows = [];
+          newNodeRowIdx = 0;
+        }
+      }
+      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
+    }
+  }
+
+  return {
+    newNodeId: newNodeId,
+    newNodeMatIdx: newNodeMatIdx,
+    newNodeRowIdx: newNodeRowIdx,
+    newNodeColIdx: newNodeColIdx,
+  };
+};
+
+const findNode = (
+  direction: string,
+  unlockedNodes: typeof unlocked_nodes,
+  level: string,
+  nodeMatIdx: number,
+  nodeRowIdx: number,
+  nodeColIdx: number
+) => {
+  let newNodeId;
+  let newNodeRowIdx = nodeRowIdx;
+  let newNodeMatIdx = nodeMatIdx;
+  let newNodeColIdx = nodeColIdx;
+  if (direction === "left") {
+    newNodeColIdx--;
+
+    let newNodeId = getNodeId(
+      level,
+      newNodeMatIdx,
+      newNodeRowIdx,
+      newNodeColIdx
+    );
+
+    let triedRows: number[] = [];
+
+    if (newNodeColIdx < 0)
+      return findNodeAfterMoving(
+        "left",
+        unlockedNodes,
+        level,
+        nodeMatIdx,
+        nodeRowIdx
+      );
+
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedRows.length < 3) {
+        triedRows.push(newNodeRowIdx);
+        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
+          newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+      } else {
+        if (newNodeColIdx === 0) {
+          return findNodeAfterMoving(
+            "left",
+            unlockedNodes,
+            level,
+            nodeMatIdx,
+            nodeRowIdx
+          );
+        } else {
+          newNodeColIdx--;
+          triedRows = [];
+          newNodeRowIdx = 0;
+        }
+      }
+      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
+    }
+  } else if (direction === "right") {
+    newNodeColIdx++;
+
+    let newNodeId = getNodeId(
+      level,
+      newNodeMatIdx,
+      newNodeRowIdx,
+      newNodeColIdx
+    );
+
+    let triedRows: number[] = [];
+
+    if (newNodeColIdx > 3)
+      return findNodeAfterMoving(
+        "right",
+        unlockedNodes,
+        level,
+        nodeMatIdx,
+        nodeRowIdx
+      );
+
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedRows.length < 3) {
+        triedRows.push(newNodeRowIdx);
+        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
+          newNodeRowIdx = 0;
+        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
+          newNodeRowIdx = 1;
+        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
+          newNodeRowIdx = 2;
+      } else {
+        if (newNodeColIdx === 3) {
+          return findNodeAfterMoving(
+            "right",
+            unlockedNodes,
+            level,
+            nodeMatIdx,
+            nodeRowIdx
+          );
+        } else {
+          newNodeColIdx++;
+          triedRows = [];
+          newNodeRowIdx = 0;
+        }
+      }
+      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
+    }
+  }
+
+  return {
+    newNodeId: newNodeId,
+    newNodeMatIdx: newNodeMatIdx,
+    newNodeRowIdx: newNodeRowIdx,
+    newNodeColIdx: newNodeColIdx,
+  };
+};
+
+const nodeSelector = (context: NodeSelectorContext) => {
+  let newNodeData;
+  switch (context.keyPress) {
+    case "LEFT":
+      newNodeData = findNode(
+        "left",
+        context.unlockedNodes,
+        context.level,
+        context.nodeMatIdx,
+        context.nodeRowIdx,
+        context.nodeColIdx
+      );
+
+      if (newNodeData) {
+        const didMove = context.nodeMatIdx !== newNodeData.newNodeMatIdx;
         return {
-          event: event,
-          newNodeMatIdx: newNodeMatIdx,
-          newNodeRowIdx: newNodeRowIdx,
-          newNodeColIdx: newNodeColIdx,
-          newSiteRotY: newSiteRotY,
+          event: didMove ? "move_left" : "change_node",
+          newNodeMatIdx: newNodeData.newNodeMatIdx,
+          newNodeRowIdx: newNodeData.newNodeRowIdx,
+          newNodeColIdx: newNodeData.newNodeColIdx,
+          newSiteRotY: didMove
+            ? context.siteRotY + Math.PI / 4
+            : context.siteRotY,
           newSitePosY: context.sitePosY,
           newLevel: context.level,
         };
-      } else {
-        let event = "change_node";
+      }
+      break;
+    case "RIGHT":
+      newNodeData = findNode(
+        "right",
+        context.unlockedNodes,
+        context.level,
+        context.nodeMatIdx,
+        context.nodeRowIdx,
+        context.nodeColIdx
+      );
 
-        let newNodeRowIdx = context.nodeRowIdx;
-
-        let newNodeMatIdx = context.nodeMatIdx;
-        let newSiteRotY = context.siteRotY;
-
-        let newNodeId = getNodeId(
-          context.level,
-          newNodeMatIdx,
-          newNodeRowIdx,
-          newNodeColIdx
-        );
-
-        let triedRows: number[] = [];
-
-        while (!isNodeVisible(newNodeId, unlockedNodes)) {
-          if (triedRows.length < 3) {
-            triedRows.push(newNodeRowIdx);
-            if (newNodeRowIdx === 1 && !triedRows.includes(0))
-              newNodeRowIdx = 0;
-            else if (newNodeRowIdx === 1 && !triedRows.includes(2))
-              newNodeRowIdx = 2;
-            else if (newNodeRowIdx === 2 && !triedRows.includes(0))
-              newNodeRowIdx = 0;
-            else if (newNodeRowIdx === 2 && !triedRows.includes(1))
-              newNodeRowIdx = 1;
-            else if (newNodeRowIdx === 0 && !triedRows.includes(1))
-              newNodeRowIdx = 1;
-            else if (newNodeRowIdx === 0 && !triedRows.includes(2))
-              newNodeRowIdx = 2;
-          } else {
-            if (newNodeColIdx === 0) {
-              newNodeId = getNodeId(
-                context.level,
-                newNodeMatIdx,
-                newNodeRowIdx,
-                newNodeColIdx
-              );
-            } else {
-              newNodeColIdx--;
-              triedRows = [];
-              newNodeRowIdx = 0;
-            }
-          }
-          newNodeId = getNodeId(
-            context.level,
-            newNodeMatIdx,
-            newNodeRowIdx,
-            newNodeColIdx
-          );
-        }
-
+      if (newNodeData) {
+        const didMove = context.nodeMatIdx !== newNodeData.newNodeMatIdx;
         return {
-          event: event,
-          newNodeMatIdx: newNodeMatIdx,
-          newNodeRowIdx: newNodeRowIdx,
-          newNodeColIdx: newNodeColIdx,
-          newSiteRotY: newSiteRotY,
+          event: didMove ? "move_right" : "change_node",
+          newNodeMatIdx: newNodeData.newNodeMatIdx,
+          newNodeRowIdx: newNodeData.newNodeRowIdx,
+          newNodeColIdx: newNodeData.newNodeColIdx,
+          newSiteRotY: didMove
+            ? context.siteRotY - Math.PI / 4
+            : context.siteRotY,
           newSitePosY: context.sitePosY,
           newLevel: context.level,
         };
