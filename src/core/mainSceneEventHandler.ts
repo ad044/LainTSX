@@ -45,9 +45,11 @@ const handleMainSceneEvent = (gameContext: any) => {
   let newScene = gameContext.scene;
 
   if (subscene === "site") {
+    let selectedNodeData;
     switch (keyPress) {
       case "LEFT":
-        const selectedNodeData = nodeSelector({
+      case "RIGHT":
+        selectedNodeData = nodeSelector({
           keyPress: keyPress,
           nodeMatIdx: nodeMatIdx,
           nodeColIdx: nodeColIdx,
@@ -98,17 +100,6 @@ const handleMainSceneEvent = (gameContext: any) => {
           event = "change_node";
         }
         break;
-      case "RIGHT":
-        newNodeColIdx = nodeColIdx + 1;
-        if (newNodeColIdx > 3) {
-          event = "move_right";
-          newNodeMatIdx = newNodeMatIdx - 1 < 1 ? 8 : newNodeMatIdx - 1;
-          newNodeColIdx = 3;
-          newSiteRotY += -Math.PI / 4;
-        } else {
-          event = "change_node";
-        }
-        break;
       case "CIRCLE":
         // in this case we have to check the type of the blue orb
         // and dispatch an action depending on that, so we have to precalculate the
@@ -154,7 +145,6 @@ const handleMainSceneEvent = (gameContext: any) => {
     const newActiveHudId =
       hudAssocs[`${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs];
 
-    console.log(newActiveNodeId)
     return {
       event: event,
       newNodeColIdx: newNodeColIdx,
