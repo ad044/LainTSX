@@ -49,6 +49,7 @@ const handleMainSceneEvent = (gameContext: any) => {
     switch (keyPress) {
       case "LEFT":
       case "RIGHT":
+      case "DOWN":
         selectedNodeData = nodeSelector({
           keyPress: keyPress,
           nodeMatIdx: nodeMatIdx,
@@ -70,20 +71,6 @@ const handleMainSceneEvent = (gameContext: any) => {
           newLevel = selectedNodeData.newLevel;
         }
 
-        break;
-      case "DOWN":
-        newNodeRowIdx = nodeRowIdx + 1;
-        if (newNodeRowIdx > 2) {
-          event = "move_down";
-
-          newLevel = (parseInt(gameContext.activeLevel) - 1)
-            .toString()
-            .padStart(2, "0");
-          newNodeRowIdx = 0;
-          newSitePosY += 1.5;
-        } else {
-          event = "change_node";
-        }
         break;
       case "UP":
         newNodeRowIdx = nodeRowIdx - 1;
