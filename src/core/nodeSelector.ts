@@ -147,6 +147,161 @@ const findNodeAfterMoving = (
   };
 };
 
+const findNodeAfterMovingVertical = (
+  direction: string,
+  unlockedNodes: typeof unlocked_nodes,
+  level: string,
+  nodeMatIdx: number,
+  nodeColIdx: number
+) => {
+  let newNodeId;
+  let newNodeRowIdx;
+  let newNodeColIdx = nodeColIdx;
+  let newLevel = (parseInt(level) - 1).toString().padStart(2, "0");
+
+  if (direction === "down") {
+    newNodeRowIdx = 0;
+
+    console.log(newNodeColIdx);
+    newNodeId = getNodeId(newLevel, nodeMatIdx, newNodeRowIdx, newNodeColIdx);
+
+    let triedCols: number[] = [];
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedCols.length < 4) {
+        triedCols.push(newNodeColIdx);
+        if (newNodeColIdx === 1 && !triedCols.includes(0)) newNodeColIdx = 0;
+        else if (newNodeColIdx === 1 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 1 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+        else if (newNodeColIdx === 2 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 2 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+        else if (newNodeColIdx === 2 && !triedCols.includes(0))
+          newNodeColIdx = 0;
+        else if (newNodeColIdx === 3 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 3 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 3 && !triedCols.includes(0))
+          newNodeColIdx = 0;
+        else if (newNodeColIdx === 0 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 0 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 0 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+      } else {
+        if (newNodeRowIdx === 2) {
+          newNodeId = getNodeId(
+            newLevel,
+            nodeMatIdx,
+            newNodeRowIdx,
+            newNodeColIdx
+          );
+        } else {
+          newNodeRowIdx++;
+          triedCols = [];
+        }
+      }
+      newNodeId = getNodeId(newLevel, nodeMatIdx, newNodeRowIdx, newNodeColIdx);
+    }
+  }
+  return {
+    newNodeId: newNodeId,
+    newNodeRowIdx: newNodeRowIdx,
+    newNodeColIdx: newNodeColIdx,
+    newLevel: newLevel,
+  };
+};
+
+const findNodeVertical = (
+  direction: string,
+  unlockedNodes: typeof unlocked_nodes,
+  level: string,
+  nodeMatIdx: number,
+  nodeRowIdx: number,
+  nodeColIdx: number
+) => {
+  let newNodeId;
+  let newNodeRowIdx = nodeRowIdx;
+  let newNodeMatIdx = nodeMatIdx;
+  let newNodeColIdx = nodeColIdx;
+  if (direction === "down") {
+    newNodeRowIdx++;
+
+    let triedCols: number[] = [];
+
+    if (newNodeRowIdx > 2) {
+      return findNodeAfterMovingVertical(
+        "down",
+        unlockedNodes,
+        level,
+        nodeMatIdx,
+        nodeColIdx
+      );
+    }
+
+    let newNodeId = getNodeId(
+      level,
+      newNodeMatIdx,
+      newNodeRowIdx,
+      newNodeColIdx
+    );
+
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedCols.length < 4) {
+        triedCols.push(newNodeColIdx);
+        if (newNodeColIdx === 1 && !triedCols.includes(0)) newNodeColIdx = 0;
+        else if (newNodeColIdx === 1 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 1 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+        else if (newNodeColIdx === 2 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 2 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+        else if (newNodeColIdx === 2 && !triedCols.includes(0))
+          newNodeColIdx = 0;
+        else if (newNodeColIdx === 3 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 3 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 3 && !triedCols.includes(0))
+          newNodeColIdx = 0;
+        else if (newNodeColIdx === 0 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 0 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 0 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+      } else {
+        if (newNodeRowIdx === 2) {
+          return findNodeAfterMovingVertical(
+            "down",
+            unlockedNodes,
+            level,
+            nodeMatIdx,
+            nodeColIdx
+          );
+        } else {
+          newNodeRowIdx++;
+          triedCols = [];
+          newNodeColIdx = 0;
+        }
+      }
+      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
+    }
+  }
+  return {
+    newNodeId: newNodeId,
+    newLevel: level,
+    newNodeRowIdx: newNodeRowIdx,
+    newNodeColIdx: newNodeColIdx,
+  };
+};
+
 const findNode = (
   direction: string,
   unlockedNodes: typeof unlocked_nodes,
@@ -323,6 +478,29 @@ const nodeSelector = (context: NodeSelectorContext) => {
             : context.siteRotY,
           newSitePosY: context.sitePosY,
           newLevel: context.level,
+        };
+      }
+      break;
+    case "DOWN":
+      newNodeData = findNodeVertical(
+        "down",
+        context.unlockedNodes,
+        context.level,
+        context.nodeMatIdx,
+        context.nodeRowIdx,
+        context.nodeColIdx
+      );
+
+      if (newNodeData) {
+        const didMove = context.level !== newNodeData.newLevel;
+        return {
+          event: didMove ? "move_down" : "change_node",
+          newNodeMatIdx: context.nodeMatIdx,
+          newNodeRowIdx: newNodeData.newNodeRowIdx,
+          newNodeColIdx: newNodeData.newNodeColIdx,
+          newSiteRotY: context.siteRotY,
+          newSitePosY: didMove ? context.sitePosY + 1.5 : context.sitePosY,
+          newLevel: newNodeData.newLevel,
         };
       }
   }
