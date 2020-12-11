@@ -50,6 +50,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "LEFT":
       case "RIGHT":
       case "DOWN":
+      case "UP":
         selectedNodeData = nodeSelector({
           keyPress: keyPress,
           nodeMatIdx: nodeMatIdx,
@@ -71,21 +72,6 @@ const handleMainSceneEvent = (gameContext: any) => {
           newLevel = selectedNodeData.newLevel;
         }
 
-        break;
-      case "UP":
-        newNodeRowIdx = nodeRowIdx - 1;
-        if (newNodeRowIdx < 0) {
-          event = "move_up";
-
-          newLevel = (parseInt(gameContext.activeLevel) + 1)
-            .toString()
-            .padStart(2, "0");
-
-          newNodeRowIdx = 2;
-          newSitePosY -= 1.5;
-        } else {
-          event = "change_node";
-        }
         break;
       case "CIRCLE":
         // in this case we have to check the type of the blue orb
