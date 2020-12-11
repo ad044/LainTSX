@@ -49,173 +49,6 @@ const isNodeVisible = (
   }
 };
 
-const findNodeAfterMoving = (
-  direction: string,
-  unlockedNodes: typeof unlocked_nodes,
-  level: string,
-  nodeMatIdx: number,
-  nodeRowIdx: number
-) => {
-  let newNodeId;
-  let newNodeRowIdx = nodeRowIdx;
-  let newNodeMatIdx = nodeMatIdx;
-  let newNodeColIdx;
-
-  if (direction === "left") {
-    newNodeColIdx = 0;
-
-    newNodeMatIdx = nodeMatIdx + 1 > 8 ? 1 : nodeMatIdx + 1;
-    newNodeId = getNodeId(level, newNodeMatIdx, nodeRowIdx, newNodeColIdx);
-
-    let triedRows: number[] = [];
-
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
-      if (triedRows.length < 3) {
-        triedRows.push(newNodeRowIdx);
-        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
-          newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
-      } else {
-        if (newNodeColIdx === 3) {
-          newNodeId = getNodeId(
-            level,
-            newNodeMatIdx,
-            newNodeRowIdx,
-            newNodeColIdx
-          );
-        } else {
-          newNodeColIdx++;
-          triedRows = [];
-          newNodeRowIdx = 0;
-        }
-      }
-      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
-    }
-  } else if (direction === "right") {
-    newNodeColIdx = 3;
-
-    newNodeMatIdx = nodeMatIdx - 1 < 1 ? 8 : nodeMatIdx - 1;
-    newNodeId = getNodeId(level, newNodeMatIdx, nodeRowIdx, newNodeColIdx);
-
-    let triedRows: number[] = [];
-
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
-      if (triedRows.length < 3) {
-        triedRows.push(newNodeRowIdx);
-        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
-          newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
-      } else {
-        if (newNodeColIdx === 0) {
-          newNodeId = getNodeId(
-            level,
-            newNodeMatIdx,
-            newNodeRowIdx,
-            newNodeColIdx
-          );
-        } else {
-          newNodeColIdx--;
-          triedRows = [];
-          newNodeRowIdx = 0;
-        }
-      }
-      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
-    }
-  }
-
-  return {
-    newNodeId: newNodeId,
-    newNodeMatIdx: newNodeMatIdx,
-    newNodeRowIdx: newNodeRowIdx,
-    newNodeColIdx: newNodeColIdx,
-  };
-};
-
-const findNodeAfterMovingVertical = (
-  direction: string,
-  unlockedNodes: typeof unlocked_nodes,
-  level: string,
-  nodeMatIdx: number,
-  nodeColIdx: number
-) => {
-  let newNodeId;
-  let newNodeRowIdx;
-  let newNodeColIdx = nodeColIdx;
-  let newLevel = (parseInt(level) - 1).toString().padStart(2, "0");
-
-  if (direction === "down") {
-    newNodeRowIdx = 0;
-
-    console.log(newNodeColIdx);
-    newNodeId = getNodeId(newLevel, nodeMatIdx, newNodeRowIdx, newNodeColIdx);
-
-    let triedCols: number[] = [];
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
-      if (triedCols.length < 4) {
-        triedCols.push(newNodeColIdx);
-        if (newNodeColIdx === 1 && !triedCols.includes(0)) newNodeColIdx = 0;
-        else if (newNodeColIdx === 1 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 1 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-        else if (newNodeColIdx === 2 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 2 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-        else if (newNodeColIdx === 2 && !triedCols.includes(0))
-          newNodeColIdx = 0;
-        else if (newNodeColIdx === 3 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 3 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 3 && !triedCols.includes(0))
-          newNodeColIdx = 0;
-        else if (newNodeColIdx === 0 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 0 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 0 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-      } else {
-        if (newNodeRowIdx === 2) {
-          newNodeId = getNodeId(
-            newLevel,
-            nodeMatIdx,
-            newNodeRowIdx,
-            newNodeColIdx
-          );
-        } else {
-          newNodeRowIdx++;
-          triedCols = [];
-        }
-      }
-      newNodeId = getNodeId(newLevel, nodeMatIdx, newNodeRowIdx, newNodeColIdx);
-    }
-  }
-  return {
-    newNodeId: newNodeId,
-    newNodeRowIdx: newNodeRowIdx,
-    newNodeColIdx: newNodeColIdx,
-    newLevel: newLevel,
-  };
-};
-
 const findNodeVertical = (
   direction: string,
   unlockedNodes: typeof unlocked_nodes,
@@ -225,26 +58,23 @@ const findNodeVertical = (
   nodeColIdx: number
 ) => {
   let newNodeId;
+  let newLevel = level;
   let newNodeRowIdx = nodeRowIdx;
   let newNodeMatIdx = nodeMatIdx;
   let newNodeColIdx = nodeColIdx;
+
   if (direction === "down") {
     newNodeRowIdx++;
 
     let triedCols: number[] = [];
 
     if (newNodeRowIdx > 2) {
-      return findNodeAfterMovingVertical(
-        "down",
-        unlockedNodes,
-        level,
-        nodeMatIdx,
-        nodeColIdx
-      );
+      newNodeRowIdx = 0;
+      newLevel = (parseInt(level) - 1).toString().padStart(2, "0");
     }
 
     let newNodeId = getNodeId(
-      level,
+      newLevel,
       newNodeMatIdx,
       newNodeRowIdx,
       newNodeColIdx
@@ -278,28 +108,99 @@ const findNodeVertical = (
           newNodeColIdx = 3;
       } else {
         if (newNodeRowIdx === 2) {
-          return findNodeAfterMovingVertical(
-            "down",
-            unlockedNodes,
-            level,
-            nodeMatIdx,
-            nodeColIdx
-          );
+          newNodeRowIdx = 0;
+          newLevel = (parseInt(level) - 1).toString().padStart(2, "0");
         } else {
           newNodeRowIdx++;
           triedCols = [];
           newNodeColIdx = 0;
         }
       }
-      newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
+      newNodeId = getNodeId(
+        newLevel,
+        newNodeMatIdx,
+        newNodeRowIdx,
+        newNodeColIdx
+      );
+    }
+  } else if (direction === "up") {
+    newNodeRowIdx--;
+
+    let triedCols: number[] = [];
+
+    if (newNodeRowIdx < 0) {
+      newNodeRowIdx = 2;
+      newLevel = (parseInt(level) + 1).toString().padStart(2, "0");
+    }
+
+    let newNodeId = getNodeId(
+      newLevel,
+      newNodeMatIdx,
+      newNodeRowIdx,
+      newNodeColIdx
+    );
+
+    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+      if (triedCols.length < 4) {
+        triedCols.push(newNodeColIdx);
+        if (newNodeColIdx === 1 && !triedCols.includes(0)) newNodeColIdx = 0;
+        else if (newNodeColIdx === 1 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 1 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+        else if (newNodeColIdx === 2 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 2 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+        else if (newNodeColIdx === 2 && !triedCols.includes(0))
+          newNodeColIdx = 0;
+        else if (newNodeColIdx === 3 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 3 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 3 && !triedCols.includes(0))
+          newNodeColIdx = 0;
+        else if (newNodeColIdx === 0 && !triedCols.includes(1))
+          newNodeColIdx = 1;
+        else if (newNodeColIdx === 0 && !triedCols.includes(2))
+          newNodeColIdx = 2;
+        else if (newNodeColIdx === 0 && !triedCols.includes(3))
+          newNodeColIdx = 3;
+      } else {
+        if (newNodeRowIdx === 0) {
+          newNodeRowIdx = 2;
+          newLevel = (parseInt(level) + 1).toString().padStart(2, "0");
+        } else {
+          newNodeRowIdx--;
+          triedCols = [];
+          newNodeColIdx = 0;
+        }
+      }
+      newNodeId = getNodeId(
+        newLevel,
+        newNodeMatIdx,
+        newNodeRowIdx,
+        newNodeColIdx
+      );
     }
   }
   return {
     newNodeId: newNodeId,
-    newLevel: level,
+    newLevel: newLevel,
     newNodeRowIdx: newNodeRowIdx,
     newNodeColIdx: newNodeColIdx,
   };
+};
+
+const tryRow = (row: number, triedRows: number[]) => {
+  console.log(row);
+  console.log(triedRows);
+  if (row === 1 && !triedRows.includes(0)) return 0;
+  else if (row === 1 && !triedRows.includes(2)) return 2;
+  else if (row === 2 && !triedRows.includes(0)) return 0;
+  else if (row === 2 && !triedRows.includes(1)) return 1;
+  else if (row === 0 && !triedRows.includes(1)) return 1;
+  else if (row === 0 && !triedRows.includes(2)) return 2;
 };
 
 const findNode = (
@@ -317,6 +218,13 @@ const findNode = (
   if (direction === "left") {
     newNodeColIdx--;
 
+    let triedRows: number[] = [];
+
+    if (newNodeColIdx < 0) {
+      newNodeColIdx = 0;
+      newNodeMatIdx = nodeMatIdx + 1 > 8 ? 1 : nodeMatIdx + 1;
+    }
+
     let newNodeId = getNodeId(
       level,
       newNodeMatIdx,
@@ -324,40 +232,17 @@ const findNode = (
       newNodeColIdx
     );
 
-    let triedRows: number[] = [];
-
-    if (newNodeColIdx < 0)
-      return findNodeAfterMoving(
-        "left",
-        unlockedNodes,
-        level,
-        nodeMatIdx,
-        nodeRowIdx
-      );
-
     while (!isNodeVisible(newNodeId, unlockedNodes)) {
       if (triedRows.length < 3) {
         triedRows.push(newNodeRowIdx);
-        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
-          newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
+        const newTry = tryRow(newNodeRowIdx, triedRows);
+        if (newTry !== undefined) {
+          newNodeRowIdx = newTry;
+        }
       } else {
         if (newNodeColIdx === 0) {
-          return findNodeAfterMoving(
-            "left",
-            unlockedNodes,
-            level,
-            nodeMatIdx,
-            nodeRowIdx
-          );
+          newNodeColIdx = 0;
+          newNodeMatIdx = nodeMatIdx + 1 > 8 ? 1 : nodeMatIdx + 1;
         } else {
           newNodeColIdx--;
           triedRows = [];
@@ -369,6 +254,13 @@ const findNode = (
   } else if (direction === "right") {
     newNodeColIdx++;
 
+    let triedRows: number[] = [];
+
+    if (newNodeColIdx > 3) {
+      newNodeColIdx = 3;
+      newNodeMatIdx = nodeMatIdx - 1 < 1 ? 8 : nodeMatIdx - 1;
+    }
+
     let newNodeId = getNodeId(
       level,
       newNodeMatIdx,
@@ -376,40 +268,17 @@ const findNode = (
       newNodeColIdx
     );
 
-    let triedRows: number[] = [];
-
-    if (newNodeColIdx > 3)
-      return findNodeAfterMoving(
-        "right",
-        unlockedNodes,
-        level,
-        nodeMatIdx,
-        nodeRowIdx
-      );
-
     while (!isNodeVisible(newNodeId, unlockedNodes)) {
       if (triedRows.length < 3) {
         triedRows.push(newNodeRowIdx);
-        if (newNodeRowIdx === 1 && !triedRows.includes(0)) newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 1 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(0))
-          newNodeRowIdx = 0;
-        else if (newNodeRowIdx === 2 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(1))
-          newNodeRowIdx = 1;
-        else if (newNodeRowIdx === 0 && !triedRows.includes(2))
-          newNodeRowIdx = 2;
+        const newTry = tryRow(newNodeRowIdx, triedRows);
+        if (newTry !== undefined) {
+          newNodeRowIdx = newTry;
+        }
       } else {
         if (newNodeColIdx === 3) {
-          return findNodeAfterMoving(
-            "right",
-            unlockedNodes,
-            level,
-            nodeMatIdx,
-            nodeRowIdx
-          );
+          newNodeColIdx = 3;
+          newNodeMatIdx = nodeMatIdx - 1 < 1 ? 8 : nodeMatIdx - 1;
         } else {
           newNodeColIdx++;
           triedRows = [];
@@ -430,35 +299,13 @@ const findNode = (
 
 const nodeSelector = (context: NodeSelectorContext) => {
   let newNodeData;
+  const move = context.keyPress.toLowerCase();
+
   switch (context.keyPress) {
     case "LEFT":
-      newNodeData = findNode(
-        "left",
-        context.unlockedNodes,
-        context.level,
-        context.nodeMatIdx,
-        context.nodeRowIdx,
-        context.nodeColIdx
-      );
-
-      if (newNodeData) {
-        const didMove = context.nodeMatIdx !== newNodeData.newNodeMatIdx;
-        return {
-          event: didMove ? "move_left" : "change_node",
-          newNodeMatIdx: newNodeData.newNodeMatIdx,
-          newNodeRowIdx: newNodeData.newNodeRowIdx,
-          newNodeColIdx: newNodeData.newNodeColIdx,
-          newSiteRotY: didMove
-            ? context.siteRotY + Math.PI / 4
-            : context.siteRotY,
-          newSitePosY: context.sitePosY,
-          newLevel: context.level,
-        };
-      }
-      break;
     case "RIGHT":
       newNodeData = findNode(
-        "right",
+        move,
         context.unlockedNodes,
         context.level,
         context.nodeMatIdx,
@@ -468,13 +315,15 @@ const nodeSelector = (context: NodeSelectorContext) => {
 
       if (newNodeData) {
         const didMove = context.nodeMatIdx !== newNodeData.newNodeMatIdx;
+        const siteRotYModifier = move === "left" ? Math.PI / 4 : -Math.PI / 4;
+
         return {
-          event: didMove ? "move_right" : "change_node",
+          event: didMove ? `move_${move}` : "change_node",
           newNodeMatIdx: newNodeData.newNodeMatIdx,
           newNodeRowIdx: newNodeData.newNodeRowIdx,
           newNodeColIdx: newNodeData.newNodeColIdx,
           newSiteRotY: didMove
-            ? context.siteRotY - Math.PI / 4
+            ? context.siteRotY + siteRotYModifier
             : context.siteRotY,
           newSitePosY: context.sitePosY,
           newLevel: context.level,
@@ -482,8 +331,9 @@ const nodeSelector = (context: NodeSelectorContext) => {
       }
       break;
     case "DOWN":
+    case "UP":
       newNodeData = findNodeVertical(
-        "down",
+        move,
         context.unlockedNodes,
         context.level,
         context.nodeMatIdx,
@@ -493,16 +343,20 @@ const nodeSelector = (context: NodeSelectorContext) => {
 
       if (newNodeData) {
         const didMove = context.level !== newNodeData.newLevel;
+        const sitePosYModifier = move === "up" ? -1.5 : 1.5;
         return {
-          event: didMove ? "move_down" : "change_node",
+          event: didMove ? `move_${move}` : "change_node",
           newNodeMatIdx: context.nodeMatIdx,
           newNodeRowIdx: newNodeData.newNodeRowIdx,
           newNodeColIdx: newNodeData.newNodeColIdx,
           newSiteRotY: context.siteRotY,
-          newSitePosY: didMove ? context.sitePosY + 1.5 : context.sitePosY,
+          newSitePosY: didMove
+            ? context.sitePosY + sitePosYModifier
+            : context.sitePosY,
           newLevel: newNodeData.newLevel,
         };
       }
+      break;
   }
 };
 
