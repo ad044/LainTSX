@@ -49,6 +49,16 @@ const isNodeVisible = (
   }
 };
 
+const tryCol = (col: number, triedCols: number[]) => {
+  const possibleCols = [0, 1, 2, 3].filter((elem) => elem !== col);
+  return possibleCols.find((elem) => !triedCols.includes(elem));
+};
+
+const tryRow = (row: number, triedRows: number[]) => {
+  const possibleRows = [0, 1, 2].filter((elem) => elem !== row);
+  return possibleRows.find((elem) => !triedRows.includes(elem));
+};
+
 const findNodeVertical = (
   direction: string,
   unlockedNodes: typeof unlocked_nodes,
@@ -83,29 +93,10 @@ const findNodeVertical = (
     while (!isNodeVisible(newNodeId, unlockedNodes)) {
       if (triedCols.length < 4) {
         triedCols.push(newNodeColIdx);
-        if (newNodeColIdx === 1 && !triedCols.includes(0)) newNodeColIdx = 0;
-        else if (newNodeColIdx === 1 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 1 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-        else if (newNodeColIdx === 2 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 2 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-        else if (newNodeColIdx === 2 && !triedCols.includes(0))
-          newNodeColIdx = 0;
-        else if (newNodeColIdx === 3 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 3 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 3 && !triedCols.includes(0))
-          newNodeColIdx = 0;
-        else if (newNodeColIdx === 0 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 0 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 0 && !triedCols.includes(3))
-          newNodeColIdx = 3;
+        const colToTry = tryCol(newNodeColIdx, triedCols);
+        if (colToTry !== undefined) {
+          newNodeColIdx = colToTry;
+        }
       } else {
         if (newNodeRowIdx === 2) {
           newNodeRowIdx = 0;
@@ -143,29 +134,10 @@ const findNodeVertical = (
     while (!isNodeVisible(newNodeId, unlockedNodes)) {
       if (triedCols.length < 4) {
         triedCols.push(newNodeColIdx);
-        if (newNodeColIdx === 1 && !triedCols.includes(0)) newNodeColIdx = 0;
-        else if (newNodeColIdx === 1 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 1 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-        else if (newNodeColIdx === 2 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 2 && !triedCols.includes(3))
-          newNodeColIdx = 3;
-        else if (newNodeColIdx === 2 && !triedCols.includes(0))
-          newNodeColIdx = 0;
-        else if (newNodeColIdx === 3 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 3 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 3 && !triedCols.includes(0))
-          newNodeColIdx = 0;
-        else if (newNodeColIdx === 0 && !triedCols.includes(1))
-          newNodeColIdx = 1;
-        else if (newNodeColIdx === 0 && !triedCols.includes(2))
-          newNodeColIdx = 2;
-        else if (newNodeColIdx === 0 && !triedCols.includes(3))
-          newNodeColIdx = 3;
+        const colToTry = tryCol(newNodeColIdx, triedCols);
+        if (colToTry !== undefined) {
+          newNodeColIdx = colToTry;
+        }
       } else {
         if (newNodeRowIdx === 0) {
           newNodeRowIdx = 2;
@@ -192,17 +164,6 @@ const findNodeVertical = (
   };
 };
 
-const tryRow = (row: number, triedRows: number[]) => {
-  console.log(row);
-  console.log(triedRows);
-  if (row === 1 && !triedRows.includes(0)) return 0;
-  else if (row === 1 && !triedRows.includes(2)) return 2;
-  else if (row === 2 && !triedRows.includes(0)) return 0;
-  else if (row === 2 && !triedRows.includes(1)) return 1;
-  else if (row === 0 && !triedRows.includes(1)) return 1;
-  else if (row === 0 && !triedRows.includes(2)) return 2;
-};
-
 const findNode = (
   direction: string,
   unlockedNodes: typeof unlocked_nodes,
@@ -216,6 +177,8 @@ const findNode = (
   let newNodeMatIdx = nodeMatIdx;
   let newNodeColIdx = nodeColIdx;
   if (direction === "left") {
+    let didMove = false;
+
     newNodeColIdx--;
 
     let triedRows: number[] = [];
@@ -235,16 +198,17 @@ const findNode = (
     while (!isNodeVisible(newNodeId, unlockedNodes)) {
       if (triedRows.length < 3) {
         triedRows.push(newNodeRowIdx);
-        const newTry = tryRow(newNodeRowIdx, triedRows);
-        if (newTry !== undefined) {
-          newNodeRowIdx = newTry;
+        const rowToTry = tryRow(newNodeRowIdx, triedRows);
+        if (rowToTry !== undefined) {
+          newNodeRowIdx = rowToTry;
         }
       } else {
-        if (newNodeColIdx === 0) {
+        if (newNodeColIdx < 0) {
+          didMove = true;
           newNodeColIdx = 0;
           newNodeMatIdx = nodeMatIdx + 1 > 8 ? 1 : nodeMatIdx + 1;
         } else {
-          newNodeColIdx--;
+          didMove ? newNodeColIdx++ : newNodeColIdx--;
           triedRows = [];
           newNodeRowIdx = 0;
         }
@@ -252,6 +216,8 @@ const findNode = (
       newNodeId = getNodeId(level, newNodeMatIdx, newNodeRowIdx, newNodeColIdx);
     }
   } else if (direction === "right") {
+    let didMove = false;
+
     newNodeColIdx++;
 
     let triedRows: number[] = [];
@@ -271,16 +237,17 @@ const findNode = (
     while (!isNodeVisible(newNodeId, unlockedNodes)) {
       if (triedRows.length < 3) {
         triedRows.push(newNodeRowIdx);
-        const newTry = tryRow(newNodeRowIdx, triedRows);
-        if (newTry !== undefined) {
-          newNodeRowIdx = newTry;
+        const rowToTry = tryRow(newNodeRowIdx, triedRows);
+        if (rowToTry !== undefined) {
+          newNodeRowIdx = rowToTry;
         }
       } else {
-        if (newNodeColIdx === 3) {
+        if (newNodeColIdx > 3) {
+          didMove = true;
           newNodeColIdx = 3;
           newNodeMatIdx = nodeMatIdx - 1 < 1 ? 8 : nodeMatIdx - 1;
         } else {
-          newNodeColIdx++;
+          didMove ? newNodeColIdx-- : newNodeColIdx++;
           triedRows = [];
           newNodeRowIdx = 0;
         }
