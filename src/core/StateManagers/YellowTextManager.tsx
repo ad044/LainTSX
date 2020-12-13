@@ -193,17 +193,17 @@ const YellowTextManager = (props: StateManagerProps) => {
       newLevel: string
     ) => {
       switch (event) {
-        case "move_up":
+        case "site_up":
           return {
             action: animateYellowTextWithMove,
             value: [0, -1.5, newActiveHudId, newActiveNodeId, newLevel, 1300],
           };
-        case "move_down":
+        case "site_down":
           return {
             action: animateYellowTextWithMove,
             value: [0, 1.5, newActiveHudId, newActiveNodeId, newLevel, 1300],
           };
-        case "move_left":
+        case "site_left":
           return {
             action: animateYellowTextWithMove,
             value: [
@@ -215,7 +215,7 @@ const YellowTextManager = (props: StateManagerProps) => {
               1100,
             ],
           };
-        case "move_right":
+        case "site_right":
           return {
             action: animateYellowTextWithMove,
             value: [

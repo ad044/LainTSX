@@ -142,15 +142,15 @@ const MiddleRingManager = (props: any) => {
   const dispatchObject = useCallback(
     (event: string) => {
       switch (event) {
-        case "move_up":
+        case "site_up":
         case "select_level_up":
           return { action: moveUp };
         case "select_level_down":
-        case "move_down":
+        case "site_down":
           return { action: moveDown };
-        case "move_left":
+        case "site_left":
           return { action: rotate, value: ["left"] };
-        case "move_right":
+        case "site_right":
           return { action: rotate, value: ["right"] };
       }
     },

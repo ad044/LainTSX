@@ -13,10 +13,9 @@ type PauseState = {
 };
 
 type LevelSelectionState = {
-  availableLevels: number[];
-  selectedLevelIdx: number;
+  selectedLevel: number;
   levelSelectionToggled: number;
-  setSelectedLevelIdx: (to: number) => void;
+  setSelectedLevel: (to: number) => void;
   toggleLevelSelection: () => void;
 };
 
@@ -471,10 +470,9 @@ export const useGateStore = create<GateState>((set) => ({
 }));
 
 export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
-  availableLevels: Array.from({ length: 24 }, (x, i) => i + 1),
-  selectedLevelIdx: 3,
+  selectedLevel: 4,
   levelSelectionToggled: 0,
-  setSelectedLevelIdx: (to) => set(() => ({ selectedLevelIdx: to })),
+  setSelectedLevel: (to) => set(() => ({ selectedLevel: to })),
   toggleLevelSelection: () =>
     set((state) => ({
       levelSelectionToggled: Number(!state.levelSelectionToggled),

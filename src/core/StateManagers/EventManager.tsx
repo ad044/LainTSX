@@ -61,9 +61,7 @@ const EventManager = () => {
   const siteTransformState = useSiteStore((state) => state.transformState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const mainSubscene = useMainSceneStore((state) => state.subscene);
-  const levelSelectionIdx = useLevelSelectionStore(
-    (state) => state.selectedLevelIdx
-  );
+  const selectedLevel = useLevelSelectionStore((state) => state.selectedLevel);
   const pauseMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
   const activePauseComponent = usePauseStore(
     useCallback((state) => state.componentMatrix[pauseMatrixIdx], [
@@ -150,7 +148,7 @@ const EventManager = () => {
               siteTransformState: siteTransformState,
               nodeMatrixIndices: nodeMatrixIndices,
               activeLevel: activeLevel,
-              levelSelectionIdx: levelSelectionIdx,
+              selectedLevel: selectedLevel,
               pauseMatrixIdx: pauseMatrixIdx,
               activePauseComponent: activePauseComponent,
               unlockedNodes: unlockedNodes,
@@ -191,6 +189,7 @@ const EventManager = () => {
       activeBootElement,
       activeLevel,
       activeMediaComponent,
+      activePauseComponent,
       activeSSknComponent,
       authorizeUserActiveLetterTexOffset,
       authorizeUserBgLettersPos,
@@ -198,12 +197,13 @@ const EventManager = () => {
       currentBootSubscene,
       currentScene,
       inputCooldown,
-      levelSelectionIdx,
       mainSubscene,
       nodeMatrixIndices,
       pauseMatrixIdx,
       rightSideComponentIdx,
+      selectedLevel,
       siteTransformState,
+      unlockedNodes,
       wordPosStateIdx,
     ]
   );

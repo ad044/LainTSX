@@ -117,10 +117,10 @@ const Lain = () => {
 
   const lainAnimationDispatch = {
     standing: <LainStanding />,
-    move_left: <LainMoveLeft />,
-    move_right: <LainMoveRight />,
-    move_up: <LainMoveUp />,
-    move_down: <LainMoveDown />,
+    site_left: <LainMoveLeft />,
+    site_right: <LainMoveRight />,
+    site_up: <LainMoveUp />,
+    site_down: <LainMoveDown />,
     select_level_down: <LainMoveDown />,
     select_level_up: <LainMoveUp />,
     throw_node: <LainThrowNode />,
