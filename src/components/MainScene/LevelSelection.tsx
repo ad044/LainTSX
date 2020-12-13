@@ -24,15 +24,7 @@ const LevelSelection = () => {
   const upArrowTex = useLoader(THREE.TextureLoader, upArrow);
   const downArrowTex = useLoader(THREE.TextureLoader, downArrow);
 
-  const selectedLevelIdx = useLevelSelectionStore(
-    (state) => state.selectedLevelIdx
-  );
-
-  const selectedLevel = useLevelSelectionStore(
-    useCallback((state) => state.availableLevels[selectedLevelIdx], [
-      selectedLevelIdx,
-    ])
-  )
+  const selectedLevel = useLevelSelectionStore((state) => state.selectedLevel)
     .toString()
     .padStart(2, "0");
 

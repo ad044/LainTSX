@@ -8,8 +8,8 @@ const LevelManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, newLevel: string) => {
       switch (event) {
-        case "move_up":
-        case "move_down":
+        case "site_up":
+        case "site_down":
           return {
             action: setActiveLevel,
             value: newLevel,
@@ -31,6 +31,7 @@ const LevelManager = (props: StateManagerProps) => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
       const newLevel = props.eventState.newLevel;
+
       const dispatchedObject = dispatchObject(eventAction, newLevel);
 
       if (dispatchedObject) {

@@ -6,8 +6,8 @@ const LevelSelectionManager = (props: StateManagerProps) => {
   const toggleLevelSelection = useLevelSelectionStore(
     (state) => state.toggleLevelSelection
   );
-  const setSelectedLevelIdx = useLevelSelectionStore(
-    (state) => state.setSelectedLevelIdx
+  const setSelectedLevel = useLevelSelectionStore(
+    (state) => state.setSelectedLevel
   );
 
   const dispatchObject = useCallback(
@@ -21,7 +21,7 @@ const LevelSelectionManager = (props: StateManagerProps) => {
         case "level_selection_up":
         case "level_selection_down":
           return {
-            action: setSelectedLevelIdx,
+            action: setSelectedLevel,
             value: newSelectedLevelIdx,
           };
         case "select_level_up":
@@ -31,7 +31,7 @@ const LevelSelectionManager = (props: StateManagerProps) => {
           };
       }
     },
-    [setSelectedLevelIdx, toggleLevelSelection]
+    [setSelectedLevel, toggleLevelSelection]
   );
 
   useEffect(() => {

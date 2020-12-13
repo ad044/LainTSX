@@ -43,10 +43,10 @@ const NodeHUDManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, targetNodeHudId: string) => {
       switch (event) {
-        case "move_up":
-        case "move_down":
-        case "move_left":
-        case "move_right":
+        case "site_up":
+        case "site_down":
+        case "site_left":
+        case "site_right":
           return {
             action: moveAndChangeNode,
             value: [targetNodeHudId],

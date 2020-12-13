@@ -8,10 +8,10 @@ const LainManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string) => {
       switch (event) {
-        case "move_up":
-        case "move_down":
-        case "move_left":
-        case "move_right":
+        case "site_up":
+        case "site_down":
+        case "site_left":
+        case "site_right":
         case "select_level_up":
         case "select_level_down":
           return {

@@ -8,8 +8,8 @@ const SiteManager = (props: StateManagerProps) => {
   const dispatchObject = useCallback(
     (event: string, newSitePosY: number, newSiteRotY: number) => {
       switch (event) {
-        case "move_up":
-        case "move_down":
+        case "site_up":
+        case "site_down":
         case "select_level_up":
         case "select_level_down":
           return {
@@ -17,8 +17,8 @@ const SiteManager = (props: StateManagerProps) => {
             value: [newSitePosY, "posY"],
             actionDelay: 1300,
           };
-        case "move_left":
-        case "move_right":
+        case "site_left":
+        case "site_right":
           return {
             action: setTransformState,
             value: [newSiteRotY, "rotY"],
