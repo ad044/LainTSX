@@ -7,6 +7,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   const disableTrail = useBigTextStore((state) => state.disableTrail);
   const transformState = useBigTextStore((state) => state.transformState);
 
+  const visible = useBigTextStore((state) => state.visible);
   const color = useBigTextStore((state) => state.color);
 
   const textArrRef = useRef(useBigTextStore.getState().text.split(""));
@@ -40,7 +41,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   );
 
   return (
-    <group position={[0, 0, 10]} visible={props.visible}>
+    <group position={[0, 0, 10]} visible={props.visible && visible}>
       {disableTrail
         ? textArrRef.current.map((letter, idx) => (
             <a.group

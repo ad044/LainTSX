@@ -16,6 +16,8 @@ const YellowTextManager = (props: StateManagerProps) => {
 
   const setColor = useBigTextStore((state) => state.setColor);
 
+  const setVisible = useBigTextStore((state) => state.setVisible);
+
   const animateYellowTextWithMove = useCallback(
     (
       posXOffset: number,
@@ -185,6 +187,30 @@ const YellowTextManager = (props: StateManagerProps) => {
     [setColor, setText, setTransformState]
   );
 
+  const toggleVisibleAfterLevelSelect = useCallback(
+    (activeNodeId: string, activeHudId: string, level: string) => {
+      setVisible(false);
+
+      setTimeout(() => {
+        setTransformState(
+          node_huds[activeHudId as keyof typeof node_huds].big_text[0],
+          "posX"
+        );
+        setTransformState(
+          node_huds[activeHudId as keyof typeof node_huds].big_text[1],
+          "posY"
+        );
+        setColor("yellow");
+        setText((site_a as SiteType)[level][activeNodeId].node_name);
+      }, 400);
+
+      setTimeout(() => {
+        setVisible(true);
+      }, 3900);
+    },
+    [setColor, setText, setTransformState, setVisible]
+  );
+
   const dispatchObject = useCallback(
     (
       event: string,
@@ -252,8 +278,6 @@ const YellowTextManager = (props: StateManagerProps) => {
             value: [newActiveNodeId, newActiveHudId, newLevel],
           };
         case "level_selection_back":
-        case "select_level_up":
-        case "select_level_down":
           return {
             action: levelSelectionBack,
             value: [newActiveNodeId, newActiveHudId, newLevel],
@@ -261,6 +285,12 @@ const YellowTextManager = (props: StateManagerProps) => {
         case "toggle_level_selection":
           return {
             action: initializeLevelSelection,
+          };
+        case "select_level_up":
+        case "select_level_down":
+          return {
+            action: toggleVisibleAfterLevelSelect,
+            value: [newActiveNodeId, newActiveHudId, newLevel],
           };
       }
     },
@@ -272,6 +302,7 @@ const YellowTextManager = (props: StateManagerProps) => {
       initializeYellowTextForMainScene,
       initializeYellowTextForMediaScene,
       levelSelectionBack,
+      toggleVisibleAfterLevelSelect,
     ]
   );
 

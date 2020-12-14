@@ -91,6 +91,7 @@ type MediaWordState = {
 };
 
 export type BigTextState = {
+  visible: boolean;
   disableTrail: boolean;
   text: string;
   color: string;
@@ -162,6 +163,7 @@ type MainSceneState = {
 export const useBigTextStore = create(
   combine(
     {
+      visible: true,
       color: "yellow",
       disableTrail: false,
       text: "Play",
@@ -188,6 +190,7 @@ export const useBigTextStore = create(
           },
         })),
       setColor: (to: string) => set(() => ({ color: to })),
+      setVisible: (to: boolean) => set(() => ({ visible: to })),
     })
   )
 );

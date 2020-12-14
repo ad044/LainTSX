@@ -17,7 +17,8 @@ const GreenTextManager = (props: StateManagerProps) => {
       newActiveNodeId: string,
       newActiveHudId: string,
       newLevel: string,
-      delay: number
+      delay: number,
+      shouldToggleAtStart: boolean
     ) => {
       const targetGreenText = (site_a as SiteType)[newLevel][newActiveNodeId]
         .title;
@@ -25,7 +26,7 @@ const GreenTextManager = (props: StateManagerProps) => {
       const targetGreenTextPosData =
         node_huds[newActiveHudId as keyof typeof node_huds].medium_text;
 
-      toggleActive();
+      if (shouldToggleAtStart) toggleActive();
 
       setTimeout(() => {
         setTransformState(
@@ -74,12 +75,12 @@ const GreenTextManager = (props: StateManagerProps) => {
         case "site_right":
           return {
             action: toggleAndSetGreenText,
-            value: [newActiveNodeId, newActiveHudId, newLevel, 3903.704],
+            value: [newActiveNodeId, newActiveHudId, newLevel, 3900, true],
           };
         case "change_node":
           return {
             action: toggleAndSetGreenText,
-            value: [newActiveNodeId, newActiveHudId, newLevel, 500],
+            value: [newActiveNodeId, newActiveHudId, newLevel, 500, true],
           };
         case "throw_node_media":
           return {
@@ -89,6 +90,12 @@ const GreenTextManager = (props: StateManagerProps) => {
         case "toggle_level_selection":
           return {
             action: toggleActive,
+          };
+        case "select_level_up":
+        case "select_level_down":
+          return {
+            action: toggleAndSetGreenText,
+            value: [newActiveNodeId, newActiveHudId, newLevel, 3900, false],
           };
       }
     },
