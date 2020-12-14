@@ -1,21 +1,6 @@
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
-import nodeSelector from "./nodeSelector";
-
-const hudAssocs = {
-  "00": "fg_hud_1",
-  "10": "fg_hud_2",
-  "20": "fg_hud_3",
-  "01": "bg_hud_1",
-  "11": "bg_hud_2",
-  "21": "bg_hud_3",
-  "02": "bg_hud_4",
-  "12": "bg_hud_5",
-  "22": "bg_hud_6",
-  "03": "fg_hud_4",
-  "13": "fg_hud_5",
-  "23": "fg_hud_6",
-};
+import nodeSelector, { getNodeHudId, getNodeId } from "./nodeSelector";
 
 const handleMainSceneEvent = (gameContext: any) => {
   let event;
@@ -27,17 +12,14 @@ const handleMainSceneEvent = (gameContext: any) => {
   const activePauseComponent = gameContext.activePauseComponent;
   const unlockedNodes = gameContext.unlockedNodes;
 
-  const nodeColIdx = gameContext.nodeMatrixIndices.colIdx;
-  const nodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
-  const nodeMatIdx = gameContext.nodeMatrixIndices.matrixIdx;
+  let nodeMatrixIndices = gameContext.nodeMatrixIndices;
+
   const level = parseInt(gameContext.activeLevel);
   const siteRotY = gameContext.siteTransformState.rotY;
   const sitePosY = gameContext.siteTransformState.posY;
 
   let newActiveNodeId;
-  let newNodeMatIdx = gameContext.nodeMatrixIndices.matrixIdx;
-  let newNodeColIdx = gameContext.nodeMatrixIndices.colIdx;
-  let newNodeRowIdx = gameContext.nodeMatrixIndices.rowIdx;
+  let newActiveHudId;
   let newLevel = parseInt(gameContext.activeLevel);
   let newSiteRotY = gameContext.siteTransformState.rotY;
   let newSitePosY = gameContext.siteTransformState.posY;
@@ -52,9 +34,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "UP":
         selectedNodeData = nodeSelector({
           action: `site_${keyPress.toLowerCase()}`,
-          nodeMatIdx: nodeMatIdx,
-          nodeColIdx: nodeColIdx,
-          nodeRowIdx: nodeRowIdx,
+          nodeMatrixIndices: nodeMatrixIndices,
           level: level,
           siteRotY: siteRotY,
           sitePosY: sitePosY,
@@ -64,12 +44,11 @@ const handleMainSceneEvent = (gameContext: any) => {
         if (selectedNodeData) {
           event = selectedNodeData.event;
           newActiveNodeId = selectedNodeData.newActiveNodeId;
-          newNodeMatIdx = selectedNodeData.newNodeMatIdx;
-          newNodeColIdx = selectedNodeData.newNodeColIdx;
-          newNodeRowIdx = selectedNodeData.newNodeRowIdx;
+          nodeMatrixIndices = selectedNodeData.newNodeMatrixIndices;
           newSiteRotY = selectedNodeData.newSiteRotY;
           newSitePosY = selectedNodeData.newSitePosY;
           newLevel = selectedNodeData.newLevel;
+          newActiveHudId = selectedNodeData.newActiveHudId;
         }
 
         break;
@@ -77,11 +56,7 @@ const handleMainSceneEvent = (gameContext: any) => {
         // in this case we have to check the type of the blue orb
         // and dispatch an action depending on that, so we have to precalculate the
         // new active blue orb here.
-        newActiveNodeId =
-          gameContext.activeLevel +
-          node_matrices[newNodeMatIdx.toString() as keyof typeof node_matrices][
-            newNodeRowIdx as number
-          ][newNodeColIdx as number];
+        newActiveNodeId = getNodeId(gameContext.activeLevel, nodeMatrixIndices);
 
         const nodeType = (site_a as any)[newLevel][newActiveNodeId].type;
 
@@ -109,14 +84,9 @@ const handleMainSceneEvent = (gameContext: any) => {
         return { event: "toggle_pause" };
     }
 
-    const newActiveHudId =
-      hudAssocs[`${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs];
-
     return {
       event: event,
-      newNodeColIdx: newNodeColIdx,
-      newNodeRowIdx: newNodeRowIdx,
-      newNodeMatIdx: newNodeMatIdx,
+      newNodeMatrixIndices: nodeMatrixIndices,
       newSitePosY: newSitePosY,
       newSiteRotY: newSiteRotY,
       newLevel: newLevel.toString().padStart(2, "0"),
@@ -143,23 +113,14 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "X":
         return {
           event: "level_selection_back",
-          newActiveNodeId:
-            newLevel +
-            node_matrices[
-              newNodeMatIdx.toString() as keyof typeof node_matrices
-            ][newNodeRowIdx as number][newNodeColIdx as number],
-          newActiveHudId:
-            hudAssocs[
-              `${newNodeRowIdx}${newNodeColIdx}` as keyof typeof hudAssocs
-            ],
+          newActiveNodeId: getNodeId(gameContext.level, nodeMatrixIndices),
+          newActiveHudId: getNodeHudId(nodeMatrixIndices),
           newLevel: newLevel,
         };
       case "CIRCLE":
         const selectedNodeData = nodeSelector({
           action: "select_level",
-          nodeMatIdx: nodeMatIdx,
-          nodeColIdx: nodeColIdx,
-          nodeRowIdx: nodeRowIdx,
+          nodeMatrixIndices: nodeMatrixIndices,
           level: selectedLevel,
           siteRotY: siteRotY,
           sitePosY: sitePosY,
@@ -167,55 +128,18 @@ const handleMainSceneEvent = (gameContext: any) => {
         });
 
         if (level === selectedLevel) break;
-        else if (selectedLevel < level && selectedNodeData) {
+        if (selectedNodeData) {
+          const event =
+            selectedLevel < level ? "select_level_down" : "select_level_up";
           return {
-            event: "select_level_down",
-            newLevel: selectedLevel.toString().padStart(0, "2"),
-            newSitePosY: -selectedNodeData.newSitePosY,
+            event: event,
+            newLevel: selectedLevel.toString().padStart(2, "0"),
             newActiveNodeId: selectedNodeData.newActiveNodeId,
-            newNodeMatIdx: selectedNodeData.newNodeMatIdx,
-            newNodeColIdx: selectedNodeData.newNodeColIdx,
-            newNodeRowIdx: selectedNodeData.newNodeRowIdx,
-            newActiveHudId:
-              hudAssocs[
-                `${selectedNodeData.newNodeRowIdx}${selectedNodeData.newNodeColIdx}` as keyof typeof hudAssocs
-              ],
-          };
-        } else if (selectedLevel > level && selectedNodeData) {
-          return {
-            event: "select_level_up",
-            newLevel: selectedLevel.toString().padStart(0, "2"),
+            newActiveHudId: selectedNodeData.newActiveHudId,
+            newNodeMatrixIndices: selectedNodeData.newNodeMatrixIndices,
             newSitePosY: -selectedNodeData.newSitePosY,
-            newActiveNodeId: selectedNodeData.newActiveNodeId,
-            newNodeMatIdx: selectedNodeData.newNodeMatIdx,
-            newNodeColIdx: selectedNodeData.newNodeColIdx,
-            newNodeRowIdx: selectedNodeData.newNodeRowIdx,
-            newActiveHudId:
-              hudAssocs[
-                `${selectedNodeData.newNodeRowIdx}${selectedNodeData.newNodeColIdx}` as keyof typeof hudAssocs
-              ],
           };
         }
-
-      // if (oldLevel === newLevel) break;
-      // else if (newLevel < oldLevel) {
-      //   return {
-      //     event: "select_level_down",
-      //     newLevel: newLevel,
-      //     newSitePosY:
-      //       level_y_values[newLevel as keyof typeof level_y_values],
-      //   };
-      // } else {
-      //   return {
-      //     event: "select_level_up",
-      //     newLevel: newLevel,
-      //     newSitePosY: -level_y_values[
-      //       newLevel as keyof typeof level_y_values
-      //     ],
-      //     newActiveNodeId: "2022",
-      //     newActiveHudId: "fg_hud_1",
-      //   };
-      // }
     }
   } else if (subscene === "pause") {
     switch (keyPress) {

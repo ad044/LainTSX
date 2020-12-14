@@ -39,17 +39,15 @@ const NodeManager = (props: StateManagerProps) => {
       delay: number,
       isMoving: boolean,
       newActiveNodeId: string,
-      newNodeColIdx: number,
-      newNodeRowIdx: number,
-      newNodeMatIdx: number
+      newNodeMatrixIndices: {
+        matrixIdx: number;
+        rowIdx: number;
+        colIdx: number;
+      }
     ) => {
       setTimeout(() => {
         setActiveNodeState(newActiveNodeId, "id");
-        setNodeMatrixIndices({
-          matrixIdx: newNodeMatIdx,
-          rowIdx: newNodeRowIdx,
-          colIdx: newNodeColIdx,
-        });
+        setNodeMatrixIndices(newNodeMatrixIndices);
       }, delay);
     },
     [setActiveNodeState, setNodeMatrixIndices]
@@ -59,9 +57,11 @@ const NodeManager = (props: StateManagerProps) => {
     (
       event: string,
       newActiveNodeId: string,
-      newNodeColIdx: number,
-      newNodeRowIdx: number,
-      newNodeMatIdx: number
+      newNodeMatrixIndices: {
+        matrixIdx: number;
+        rowIdx: number;
+        colIdx: number;
+      }
     ) => {
       switch (event) {
         case "site_up":
@@ -72,26 +72,12 @@ const NodeManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: updateActiveNode,
-            value: [
-              3900,
-              true,
-              newActiveNodeId,
-              newNodeColIdx,
-              newNodeRowIdx,
-              newNodeMatIdx,
-            ],
+            value: [3900, true, newActiveNodeId, newNodeMatrixIndices],
           };
         case "change_node":
           return {
             action: updateActiveNode,
-            value: [
-              0,
-              false,
-              newActiveNodeId,
-              newNodeColIdx,
-              newNodeRowIdx,
-              newNodeMatIdx,
-            ],
+            value: [0, false, newActiveNodeId, newNodeMatrixIndices],
           };
         case "throw_node_media":
         case "throw_node_gate":
@@ -109,17 +95,12 @@ const NodeManager = (props: StateManagerProps) => {
     if (props.eventState) {
       const eventAction = props.eventState.event;
       const newActiveNodeId = props.eventState.newActiveNodeId;
-      console.log(newActiveNodeId)
-      const newNodeRowIdx = props.eventState.newNodeRowIdx;
-      const newNodeColIdx = props.eventState.newNodeColIdx;
-      const newNodeMatIdx = props.eventState.newNodeMatIdx;
+      const newNodeMatrixIndices = props.eventState.newNodeMatrixIndices;
 
       const dispatchedObject = dispatchObject(
         eventAction,
         newActiveNodeId,
-        newNodeColIdx,
-        newNodeRowIdx,
-        newNodeMatIdx
+        newNodeMatrixIndices
       );
 
       if (dispatchedObject) {
