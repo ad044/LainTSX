@@ -52,7 +52,12 @@ const YellowTextManager = (props: StateManagerProps) => {
           "posY"
         );
         // set new text according to the node name
-        setText((site_a as SiteType)[newLevel][newActiveNodeId].node_name);
+        const targetText =
+          newActiveNodeId === "UNKNOWN"
+            ? "Unknown"
+            : (site_a as SiteType)[newLevel][newActiveNodeId].node_name;
+
+        setText(targetText);
         setDisableTrail(false);
       }, 3000);
 

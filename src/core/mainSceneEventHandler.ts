@@ -11,6 +11,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   const pauseMatrixIdx = gameContext.pauseMatrixIdx;
   const activePauseComponent = gameContext.activePauseComponent;
   const unlockedNodes = gameContext.unlockedNodes;
+  const activeNodeId = gameContext.activeNodeId;
 
   let nodeMatrixIndices = gameContext.nodeMatrixIndices;
 
@@ -34,6 +35,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "UP":
         selectedNodeData = nodeSelector({
           action: `site_${keyPress.toLowerCase()}`,
+          activeId: activeNodeId,
           nodeMatrixIndices: nodeMatrixIndices,
           level: level,
           siteRotY: siteRotY,
@@ -49,6 +51,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           newSitePosY = selectedNodeData.newSitePosY;
           newLevel = selectedNodeData.newLevel;
           newActiveHudId = selectedNodeData.newActiveHudId;
+          console.log(selectedNodeData.newActiveNodeId);
         }
 
         break;
@@ -97,7 +100,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   } else if (subscene === "level_selection") {
     switch (keyPress) {
       case "UP":
-        if (selectedLevel + 1 <= 21)
+        if (selectedLevel + 1 <= 22)
           return {
             event: `level_selection_up`,
             newSelectedLevelIdx: selectedLevel + 1,
@@ -120,6 +123,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "CIRCLE":
         const selectedNodeData = nodeSelector({
           action: "select_level",
+          activeId: activeNodeId,
           nodeMatrixIndices: nodeMatrixIndices,
           level: selectedLevel,
           siteRotY: siteRotY,

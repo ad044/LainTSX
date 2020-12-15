@@ -20,8 +20,10 @@ const GreenTextManager = (props: StateManagerProps) => {
       delay: number,
       shouldToggleAtStart: boolean
     ) => {
-      const targetGreenText = (site_a as SiteType)[newLevel][newActiveNodeId]
-        .title;
+      const targetGreenText =
+        newActiveNodeId === "UNKNOWN"
+          ? ""
+          : (site_a as SiteType)[newLevel][newActiveNodeId].title;
 
       const targetGreenTextPosData =
         node_huds[newActiveHudId as keyof typeof node_huds].medium_text;

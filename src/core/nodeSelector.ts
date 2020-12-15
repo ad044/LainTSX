@@ -6,6 +6,7 @@ import level_y_values from "../resources/level_y_values.json";
 
 type NodeSelectorContext = {
   action: string;
+  activeId: string;
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
   level: number;
   siteRotY: number;
@@ -135,7 +136,7 @@ const findNodeVertical = (
 ) => {
   let newNodeId;
   let newLevel = level;
-  let newMatIndices = nodeMatrixIndices;
+  let newMatIndices = Object.assign({}, nodeMatrixIndices);
 
   if (direction === "down") {
     newMatIndices.rowIdx++;
@@ -158,6 +159,11 @@ const findNodeVertical = (
         }
       } else {
         if (newMatIndices.rowIdx === 2) {
+          if (newLevel === level - 1) {
+            newNodeId = "UNKNOWN";
+            newMatIndices.colIdx = nodeMatrixIndices.colIdx;
+            break;
+          }
           newMatIndices.rowIdx = 0;
           newLevel = level - 1;
         } else {
@@ -189,6 +195,11 @@ const findNodeVertical = (
         }
       } else {
         if (newMatIndices.rowIdx === 0) {
+          if (newLevel === level + 1) {
+            newNodeId = "UNKNOWN";
+            newMatIndices.colIdx = nodeMatrixIndices.colIdx;
+            break;
+          }
           newMatIndices.rowIdx = 2;
           newLevel = level + 1;
         } else {
@@ -213,14 +224,15 @@ const findNodeHorizontal = (
   direction: string,
   unlockedNodes: typeof unlocked_nodes,
   level: number,
+  activeId: string,
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number }
 ) => {
   let newNodeId;
-  let newMatIndices = nodeMatrixIndices;
+  let newMatIndices = Object.assign({}, nodeMatrixIndices);
+
+  let didMove = false;
 
   if (direction === "left") {
-    let didMove = false;
-
     newMatIndices.colIdx--;
 
     let triedRows: number[] = [];
@@ -244,9 +256,17 @@ const findNodeHorizontal = (
       } else {
         if (newMatIndices.colIdx < 0) {
           didMove = true;
-          newMatIndices.colIdx = 0;
-          newMatIndices.matrixIdx =
-            newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
+          if (activeId === "UNKNOWN") {
+            newMatIndices.colIdx = nodeMatrixIndices.colIdx;
+            newMatIndices.matrixIdx =
+              newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
+            newNodeId = "UNKNOWN";
+            break;
+          } else {
+            newMatIndices.colIdx = 0;
+            newMatIndices.matrixIdx =
+              newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
+          }
         } else {
           didMove ? newMatIndices.colIdx++ : newMatIndices.colIdx--;
           triedRows = [];
@@ -256,8 +276,6 @@ const findNodeHorizontal = (
       newNodeId = getNodeId(level, newMatIndices);
     }
   } else if (direction === "right") {
-    let didMove = false;
-
     newMatIndices.colIdx++;
 
     let triedRows: number[] = [];
@@ -280,9 +298,17 @@ const findNodeHorizontal = (
       } else {
         if (newMatIndices.colIdx > 3) {
           didMove = true;
-          newMatIndices.colIdx = 3;
-          newMatIndices.matrixIdx =
-            newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
+          if (activeId === "UNKNOWN") {
+            newMatIndices.colIdx = nodeMatrixIndices.colIdx;
+            newMatIndices.matrixIdx =
+              newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
+            newNodeId = "UNKNOWN";
+            break;
+          } else {
+            newMatIndices.colIdx = 3;
+            newMatIndices.matrixIdx =
+              newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
+          }
         } else {
           didMove ? newMatIndices.colIdx-- : newMatIndices.colIdx++;
           triedRows = [];
@@ -296,6 +322,7 @@ const findNodeHorizontal = (
   const newNodeHudId = getNodeHudId(newMatIndices);
 
   return {
+    didMove: didMove,
     newNodeId: newNodeId,
     newNodeHudId: newNodeHudId,
     newNodeMatrixIndices: newMatIndices,
@@ -314,22 +341,19 @@ const nodeSelector = (context: NodeSelectorContext) => {
         move,
         context.unlockedNodes,
         context.level,
-        Object.assign({}, context.nodeMatrixIndices)
+        context.activeId,
+        context.nodeMatrixIndices
       );
 
       if (newNodeData) {
-        const didMove =
-          context.nodeMatrixIndices.matrixIdx !==
-          newNodeData.newNodeMatrixIndices.matrixIdx;
-
         const siteRotYModifier = move === "left" ? Math.PI / 4 : -Math.PI / 4;
 
         return {
-          event: didMove ? context.action : "change_node",
+          event: newNodeData.didMove ? context.action : "change_node",
           newActiveNodeId: newNodeData.newNodeId,
           newActiveHudId: newNodeData.newNodeHudId,
           newNodeMatrixIndices: newNodeData.newNodeMatrixIndices,
-          newSiteRotY: didMove
+          newSiteRotY: newNodeData.didMove
             ? context.siteRotY + siteRotYModifier
             : context.siteRotY,
           newSitePosY: context.sitePosY,
