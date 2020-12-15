@@ -57,6 +57,7 @@ const EventManager = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
 
   // main scene
+  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
   const siteTransformState = useSiteStore((state) => state.transformState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
@@ -146,6 +147,7 @@ const EventManager = () => {
               mainSubscene: mainSubscene,
               keyPress: keyPress,
               siteTransformState: siteTransformState,
+              activeNodeId: activeNodeId,
               nodeMatrixIndices: nodeMatrixIndices,
               activeLevel: activeLevel,
               selectedLevel: selectedLevel,
