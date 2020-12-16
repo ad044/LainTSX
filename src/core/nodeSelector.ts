@@ -93,9 +93,11 @@ const findNodeAfterLevelSelection = (
   targetLevel: number,
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number }
 ) => {
-  let newMatIndices = nodeMatrixIndices;
+  let newMatIndices = Object.assign({}, nodeMatrixIndices);
 
   let triedCols: number[] = [];
+
+  newMatIndices.rowIdx = 0;
 
   let newNodeId = getNodeId(targetLevel, newMatIndices);
 
@@ -107,9 +109,15 @@ const findNodeAfterLevelSelection = (
         newMatIndices.colIdx = colToTry;
       }
     } else {
-      newMatIndices.rowIdx++;
-      triedCols = [];
-      newMatIndices.colIdx = 0;
+      if (newMatIndices.rowIdx === 2) {
+        newMatIndices.colIdx = nodeMatrixIndices.colIdx;
+        newNodeId = "UNKNOWN";
+        break;
+      } else {
+        newMatIndices.rowIdx++;
+        triedCols = [];
+        newMatIndices.colIdx = 0;
+      }
     }
     newNodeId = getNodeId(targetLevel, newMatIndices);
   }
@@ -254,15 +262,18 @@ const findNodeHorizontal = (
           newMatIndices.rowIdx = rowToTry;
         }
       } else {
+        if (newMatIndices.colIdx > 3 && didMove) return;
+
         if (newMatIndices.colIdx < 0) {
-          didMove = true;
           if (activeId === "UNKNOWN") {
+            didMove = true;
             newMatIndices.colIdx = nodeMatrixIndices.colIdx;
             newMatIndices.matrixIdx =
               newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
             newNodeId = "UNKNOWN";
             break;
           } else {
+            didMove = true;
             newMatIndices.colIdx = 0;
             newMatIndices.matrixIdx =
               newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
@@ -281,6 +292,7 @@ const findNodeHorizontal = (
     let triedRows: number[] = [];
 
     if (newMatIndices.colIdx > 3) {
+      didMove = true;
       newMatIndices.colIdx = 3;
       newMatIndices.matrixIdx =
         newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
@@ -296,18 +308,26 @@ const findNodeHorizontal = (
           newMatIndices.rowIdx = rowToTry;
         }
       } else {
+        if (newMatIndices.colIdx < 0 && didMove) return;
+
         if (newMatIndices.colIdx > 3) {
-          didMove = true;
           if (activeId === "UNKNOWN") {
+            didMove = true;
             newMatIndices.colIdx = nodeMatrixIndices.colIdx;
             newMatIndices.matrixIdx =
               newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
             newNodeId = "UNKNOWN";
             break;
           } else {
-            newMatIndices.colIdx = 3;
-            newMatIndices.matrixIdx =
-              newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
+            if (didMove) return;
+            else {
+              didMove = true;
+              newMatIndices.colIdx = 3;
+              newMatIndices.matrixIdx =
+                newMatIndices.matrixIdx - 1 < 1
+                  ? 8
+                  : newMatIndices.matrixIdx - 1;
+            }
           }
         } else {
           didMove ? newMatIndices.colIdx-- : newMatIndices.colIdx++;

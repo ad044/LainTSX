@@ -33,7 +33,7 @@ const MainScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
-        <MainSceneIntro />
+        {/*<MainSceneIntro />*/}
         <a.group>
           <Preloader />
           <Site />

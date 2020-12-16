@@ -59,9 +59,11 @@ const handleMainSceneEvent = (gameContext: any) => {
         // in this case we have to check the type of the blue orb
         // and dispatch an action depending on that, so we have to precalculate the
         // new active blue orb here.
-        newActiveNodeId = getNodeId(gameContext.activeLevel, nodeMatrixIndices);
+        newActiveNodeId = getNodeId(level, nodeMatrixIndices);
 
-        const nodeType = (site_a as any)[newLevel][newActiveNodeId].type;
+        const nodeType = (site_a as any)[gameContext.activeLevel][
+          newActiveNodeId
+        ].type;
 
         const eventAnimation = "throw_node_";
 
@@ -116,9 +118,9 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "X":
         return {
           event: "level_selection_back",
-          newActiveNodeId: getNodeId(gameContext.level, nodeMatrixIndices),
+          newActiveNodeId: getNodeId(newLevel, nodeMatrixIndices),
           newActiveHudId: getNodeHudId(nodeMatrixIndices),
-          newLevel: newLevel,
+          newLevel: newLevel.toString().padStart(2, "0"),
         };
       case "CIRCLE":
         const selectedNodeData = nodeSelector({

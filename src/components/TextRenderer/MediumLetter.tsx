@@ -6,7 +6,6 @@ import { a } from "@react-spring/three";
 import React, { useMemo } from "react";
 
 const MediumLetter = (props: {
-  color: string;
   letter: string;
   letterIdx: number;
 }) => {
