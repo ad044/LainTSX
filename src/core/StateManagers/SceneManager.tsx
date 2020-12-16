@@ -14,7 +14,7 @@ const SceneManager = (props: StateManagerProps) => {
           return {
             action: setScene,
             value: newScene,
-            delay: 3904.704,
+            delay: 3450,
           };
         case "exit_select":
         case "exit_gate":

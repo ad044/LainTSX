@@ -43,7 +43,6 @@ const GreenTextRenderer = (props: { visible?: boolean }) => {
       >
         {textArrRef.current.map((letter, idx) => (
           <MediumLetter
-            color={"yellow"}
             letter={letter}
             letterIdx={idx}
             key={idx}

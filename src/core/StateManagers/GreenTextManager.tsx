@@ -46,23 +46,6 @@ const GreenTextManager = (props: StateManagerProps) => {
     [setGreenText, setTransformState, toggleActive]
   );
 
-  const initializeGreenTextForMediaScene = useCallback(
-    (activeNodeId: string, level: string) => {
-      setTimeout(() => {
-        setGreenText((site_a as SiteType)[level][activeNodeId].node_name);
-        setTransformState(
-          {
-            initial: 0,
-            final: 0.009,
-          },
-          "posX"
-        );
-        setTransformState(0.675, "posY");
-      }, 3950);
-    },
-    [setGreenText, setTransformState]
-  );
-
   const dispatchObject = useCallback(
     (
       event: string,
@@ -84,12 +67,8 @@ const GreenTextManager = (props: StateManagerProps) => {
             action: toggleAndSetGreenText,
             value: [newActiveNodeId, newActiveHudId, newLevel, 500, true],
           };
-        case "throw_node_media":
-          return {
-            action: initializeGreenTextForMediaScene,
-            value: [newActiveNodeId, newLevel],
-          };
         case "toggle_level_selection":
+        case "level_selection_back":
           return {
             action: toggleActive,
           };
@@ -101,7 +80,7 @@ const GreenTextManager = (props: StateManagerProps) => {
           };
       }
     },
-    [initializeGreenTextForMediaScene, toggleActive, toggleAndSetGreenText]
+    [toggleActive, toggleAndSetGreenText]
   );
 
   useEffect(() => {

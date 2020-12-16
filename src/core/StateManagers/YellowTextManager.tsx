@@ -206,7 +206,12 @@ const YellowTextManager = (props: StateManagerProps) => {
           "posY"
         );
         setColor("yellow");
-        setText((site_a as SiteType)[level][activeNodeId].node_name);
+        const targetText =
+          activeNodeId === "UNKNOWN"
+            ? "Unknown"
+            : (site_a as SiteType)[level][activeNodeId].node_name;
+
+        setText(targetText);
       }, 400);
 
       setTimeout(() => {

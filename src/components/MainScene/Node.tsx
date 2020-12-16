@@ -139,7 +139,7 @@ const Node = (props: NodeContructorProps) => {
         ? state.activeNodeState.posX
         : props.position[0],
       activeNodePosY: useNodeStore.getState().activeNodeState.interactedWith
-        ? level_y_values[props.level as keyof typeof level_y_values]
+        ? 0
         : props.position[1],
       activeNodePosZ: useNodeStore.getState().activeNodeState.interactedWith
         ? state.activeNodeState.posZ
