@@ -25,11 +25,6 @@ const MainScene = () => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
   const setActiveNodeHudId = useHudStore((state) => state.setId);
 
-  useEffect(() => {
-    setLainMoveState("standing");
-    setActiveNodeHudId("fg_hud_1");
-  }, [setActiveNodeHudId, setLainMoveState]);
-
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>

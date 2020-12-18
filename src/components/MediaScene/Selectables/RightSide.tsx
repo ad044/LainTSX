@@ -1,16 +1,21 @@
 import React, { useCallback, useMemo } from "react";
-import { useMediaWordStore } from "../../../store";
+import { useLevelStore, useMediaWordStore, useNodeStore } from "../../../store";
 import Word from "./RightSide/Word";
 import { useSpring, a } from "@react-spring/three";
 import word_position_states from "../../../resources/word_position_states.json";
 import * as THREE from "three";
+import site_a from "../../../resources/site_a.json";
+import { SiteType } from "../../MainScene/Site";
 
 type RightSideProps = {
   activeMediaComponent: string;
 };
 
 const RightSide = (props: RightSideProps) => {
-  const words = useMediaWordStore((state) => state.words);
+  const activeLevel = useLevelStore((state) => state.activeLevel);
+  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
+
+  const words = (site_a as SiteType)[activeLevel][activeNodeId].words;
 
   const posStateIdx = useMediaWordStore(
     (state) => state.posStateIdx
@@ -71,19 +76,19 @@ const RightSide = (props: RightSideProps) => {
         </line>
       </a.group>
       <Word
-        word={words[0]}
+        word={words[1]}
         posX={wordPositionStateSpring.fstWordPosX}
         posY={wordPositionStateSpring.fstWordPosY}
         active={props.activeMediaComponent === "fstWord"}
       />
       <Word
-        word={words[1]}
+        word={words[2]}
         posX={wordPositionStateSpring.sndWordPosX}
         posY={wordPositionStateSpring.sndWordPosY}
         active={props.activeMediaComponent === "sndWord"}
       />
       <Word
-        word={words[2]}
+        word={words[3]}
         posX={wordPositionStateSpring.thirdWordPosX}
         posY={wordPositionStateSpring.thirdWordPosY}
         active={props.activeMediaComponent === "thirdWord"}

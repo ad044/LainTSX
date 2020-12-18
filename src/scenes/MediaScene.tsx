@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useLevelSelectionStore,
   useLevelStore,
@@ -16,11 +16,11 @@ import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
 import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 import MediumLetter from "../components/TextRenderer/MediumLetter";
-import { a } from "@react-spring/three";
 import site_a from "../resources/site_a.json";
 import { SiteType } from "../components/MainScene/Site";
 
 const MediaScene = () => {
+  const [textVisible, setTextVisible] = useState(false);
   const mediaComponentMatrixIndices = useMediaStore(
     (state) => state.componentMatrixIndices
   );
@@ -28,8 +28,9 @@ const MediaScene = () => {
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
-  const activeNodeName = (site_a as SiteType)[activeLevel][activeNodeId]
-    .node_name;
+  const activeNodeData = (site_a as SiteType)[activeLevel][activeNodeId];
+  const activeNodeName = activeNodeData.node_name;
+  const activeNodeMedia = activeNodeData.media_file;
 
   const activeMediaComponent = useMediaStore(
     useCallback(
@@ -46,6 +47,13 @@ const MediaScene = () => {
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =
       "media-scene-background";
+    setTimeout(() => {
+      setTextVisible(true);
+    }, 800);
+
+    return () => {
+      setTextVisible(false);
+    };
   }, []);
 
   return (
@@ -54,8 +62,6 @@ const MediaScene = () => {
         <OrbitControls />
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
         <LeftSide activeMediaComponent={activeMediaComponent} />
-        <RightSide activeMediaComponent={activeMediaComponent} />
-        <AudioVisualizer />
         <group position={[0, 0.5, -3]}>
           <MediaLoadingBar />
           <NodeNameContainer />
@@ -66,11 +72,19 @@ const MediaScene = () => {
           ))}
         </group>
 
-        <group position={[0, 0, 0]}>
+        <group position={[0, 0, 0]} visible={textVisible}>
           <YellowTextRenderer />
         </group>
-        <Lof />
-        <Images />
+        {activeNodeMedia.includes("XA") ? (
+          <>
+            <AudioVisualizer />
+            <RightSide activeMediaComponent={activeMediaComponent} />
+            <Lof />
+            <Images />{" "}
+          </>
+        ) : (
+          <></>
+        )}
       </group>
     </perspectiveCamera>
   );

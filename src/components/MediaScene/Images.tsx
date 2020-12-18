@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLevelStore, useMediaStore, useNodeStore } from "../../store";
 import { a, useSpring } from "@react-spring/three";
-import image_table from "../../resources/image_table.json";
-import { LevelType } from "../MainScene/Site";
+import { LevelType, SiteType } from "../MainScene/Site";
 import site_a from "../../resources/site_a.json";
 import dummy from "../../static/sprite/dummy.png";
 import * as THREE from "three";
@@ -32,17 +31,16 @@ const Images = () => {
   );
 
   useEffect(() => {
-    const nodeName = activeLevelData[activeNodeId].node_name;
-
-    const images = image_table[nodeName as keyof typeof image_table];
+    const images = (site_a as SiteType)[activeLevel][activeNodeId]
+      .image_table_indices;
 
     const imgArr: { default: string }[] = [];
-    Object.values(images).forEach((img) => {
-      import("../../static/media_images/site_a/" + img + ".png").then(
+    Object.entries(images).forEach((img) => {
+      import("../../static/media_images/a/" + img[1] + ".png").then(
         (imageSrc: { default: string }) => {
           // images are unordered by default so we insert them into the arr
           // according to their last char
-          imgArr.splice(parseInt(img.substr(img.length - 1)), 0, imageSrc);
+          imgArr.splice(parseInt(img[0]), 0, imageSrc);
           if (imgArr.length === 3) {
             setSceneImages(imgArr);
             new THREE.TextureLoader().load(imgArr[0].default, setActiveImage);
@@ -50,7 +48,7 @@ const Images = () => {
         }
       );
     });
-  }, [activeLevelData, activeNodeId]);
+  }, [activeLevel, activeLevelData, activeNodeId]);
 
   useEffect(() => {
     if (mediaPercentageElapsed === 0 && sceneImages[0]) {

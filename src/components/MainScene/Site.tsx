@@ -10,16 +10,10 @@ import GrayRing from "./GrayRing";
 import CyanCrystal from "./CyanCrystal";
 
 export type NodeDataType = {
-  SLPS_016_0x_offset: string;
   image_table_indices: { 1: string; 2: string; 3: string };
   is_hidden: string;
   media_file: string;
   node_name: string;
-  protocol_lines: {
-    1: string;
-    2: string;
-    3: string;
-  };
   site: string;
   type: string;
   title: string;

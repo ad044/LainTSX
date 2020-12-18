@@ -1,6 +1,6 @@
-import React, { memo, useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
 import Cou from "../../static/sprite/Cou.png";
 import CouActive from "../../static/sprite/Cou_active.png";
