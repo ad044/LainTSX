@@ -58,6 +58,7 @@ type StarfieldState = {
 };
 
 type SiteState = {
+  currentSite: "a" | "b";
   transformState: {
     posY: number;
     rotY: number;
@@ -84,8 +85,6 @@ type MiddleRingState = {
 
 type MediaWordState = {
   posStateIdx: number;
-  words: string[];
-  setWords: (to: string[]) => void;
   setPosStateIdx: (to: number) => void;
   resetPosStateIdx: () => void;
 };
@@ -271,6 +270,7 @@ export const useStarfieldStore = create<StarfieldState>((set) => ({
 export const useSiteStore = create(
   combine(
     {
+      currentSite: "a",
       transformState: {
         posY: 0,
         rotY: 0,
@@ -372,10 +372,8 @@ export const useMediaStore = create(
 );
 
 export const useMediaWordStore = create<MediaWordState>((set) => ({
-  words: ["eye", "quiet", "hallucination"],
   posStateIdx: 1,
   setPosStateIdx: (to) => set(() => ({ posStateIdx: to })),
-  setWords: (to) => set(() => ({ words: to })),
   resetPosStateIdx: () => set(() => ({ posStateIdx: 1 })),
 }));
 
@@ -390,7 +388,7 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "media",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
