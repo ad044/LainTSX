@@ -8,17 +8,20 @@ import { useLevelStore, useNodeStore, useSiteStore } from "../../store";
 import PurpleRing from "./PurpleRing";
 import GrayRing from "./GrayRing";
 import CyanCrystal from "./CyanCrystal";
+import { isNodeVisible } from "../../core/nodeSelector";
 
 export type NodeDataType = {
   image_table_indices: { 1: string; 2: string; 3: string };
-  is_hidden: string;
+  triggers_final_video: number;
+  required_final_video_viewcount: number;
   media_file: string;
   node_name: string;
   site: string;
-  type: string;
+  type: number;
   title: string;
   unlocked_by: string;
-  upgrade_requirement: string;
+  upgrade_requirement: number;
+  protocol_lines: { 1: string; 2: string; 3: string; 4: string };
   words: { 1: string; 2: string; 3: string };
 };
 
@@ -31,7 +34,7 @@ export type SiteType = {
 };
 
 const Site = memo(() => {
-  const unlockedNodes = useNodeStore((state) => state.unlockedNodes);
+  const gameProgress = useNodeStore((state) => state.gameProgress);
 
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const visibleNodes = useMemo(() => {
@@ -75,18 +78,7 @@ const Site = memo(() => {
           </group>
         ))}
         {Object.entries(visibleNodes).map((node: [string, any]) => {
-          const unlockedBy = node[1].unlocked_by;
-
-          let unlocked;
-          if (unlockedBy === "-1") unlocked = true;
-          else
-            unlocked =
-              unlockedNodes[unlockedBy as keyof typeof unlockedNodes].unlocked;
-
-          if (
-            unlocked &&
-            (node[1].is_hidden === "0" || node[1].is_hidden === "3")
-          ) {
+          if (isNodeVisible(node[0], gameProgress)) {
             return (
               <Node
                 sprite={node[1].node_name}

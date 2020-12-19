@@ -10,7 +10,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   const selectedLevel = gameContext.selectedLevel;
   const pauseMatrixIdx = gameContext.pauseMatrixIdx;
   const activePauseComponent = gameContext.activePauseComponent;
-  const unlockedNodes = gameContext.unlockedNodes;
+  const gameProgress = gameContext.gameProgress;
   const activeNodeId = gameContext.activeNodeId;
 
   let nodeMatrixIndices = gameContext.nodeMatrixIndices;
@@ -40,7 +40,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           level: level,
           siteRotY: siteRotY,
           sitePosY: sitePosY,
-          unlockedNodes: unlockedNodes,
+          gameProgress: gameProgress,
         });
 
         if (selectedNodeData) {
@@ -133,7 +133,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           level: selectedLevel,
           siteRotY: siteRotY,
           sitePosY: sitePosY,
-          unlockedNodes: unlockedNodes,
+          gameProgress: gameProgress,
         });
 
         if (level === selectedLevel) break;

@@ -1,7 +1,7 @@
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 import { SiteType } from "../components/MainScene/Site";
-import unlocked_nodes from "../resources/unlocked_nodes.json";
+import unlocked_nodes from "../resources/initial_progress.json";
 import level_y_values from "../resources/level_y_values.json";
 
 type NodeSelectorContext = {
@@ -11,7 +11,7 @@ type NodeSelectorContext = {
   level: number;
   siteRotY: number;
   sitePosY: number;
-  unlockedNodes: typeof unlocked_nodes;
+  gameProgress: typeof unlocked_nodes;
 };
 
 const hudAssocs = {
@@ -54,24 +54,24 @@ export const getNodeHudId = (nodeMatrixIndices: {
     `${nodeMatrixIndices.rowIdx}${nodeMatrixIndices.colIdx}` as keyof typeof hudAssocs
   ];
 
-const isNodeVisible = (
-  nodeId: string,
-  unlockedNodes: typeof unlocked_nodes
-) => {
+export const isNodeVisible = (nodeId: string, gameProgress: typeof unlocked_nodes) => {
+  console.log(nodeId)
   const nodeLevel = nodeId.substr(0, 2);
   const nodeData = (site_a as SiteType)[nodeLevel][nodeId];
   if (nodeData) {
     const unlockedBy = nodeData.unlocked_by;
 
     let unlocked;
-    if (unlockedBy === "-1") unlocked = true;
+    if (unlockedBy === "") unlocked = true;
     else
       unlocked =
-        unlockedNodes[unlockedBy as keyof typeof unlockedNodes].unlocked;
+        gameProgress[unlockedBy as keyof typeof gameProgress].is_viewed;
 
-    // ishidden checker needs tweaking, this is temp
+    // visible = (global_final_viewcount > 0) && (req_final_viewcount <= global_final_viewcount + 1)
+
     return (
-      unlocked && (nodeData.is_hidden === "0" || nodeData.is_hidden === "3")
+      unlocked &&
+      gameProgress[nodeData.node_name as keyof typeof gameProgress].is_visible
     );
   } else {
     return false;
@@ -89,7 +89,7 @@ const tryRow = (row: number, triedRows: number[]) => {
 };
 
 const findNodeAfterLevelSelection = (
-  unlockedNodes: typeof unlocked_nodes,
+  gameProgress: typeof unlocked_nodes,
   targetLevel: number,
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number }
 ) => {
@@ -101,7 +101,7 @@ const findNodeAfterLevelSelection = (
 
   let newNodeId = getNodeId(targetLevel, newMatIndices);
 
-  while (!isNodeVisible(newNodeId, unlockedNodes)) {
+  while (!isNodeVisible(newNodeId, gameProgress)) {
     if (triedCols.length < 4) {
       triedCols.push(newMatIndices.colIdx);
       const colToTry = tryCol(newMatIndices.colIdx, triedCols);
@@ -138,7 +138,7 @@ const findNodeAfterLevelSelection = (
 
 const findNodeVertical = (
   direction: string,
-  unlockedNodes: typeof unlocked_nodes,
+  gameProgress: typeof unlocked_nodes,
   level: number,
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number }
 ) => {
@@ -158,7 +158,7 @@ const findNodeVertical = (
 
     newNodeId = getNodeId(newLevel, newMatIndices);
 
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+    while (!isNodeVisible(newNodeId, gameProgress)) {
       if (triedCols.length < 4) {
         triedCols.push(newMatIndices.colIdx);
         const colToTry = tryCol(newMatIndices.colIdx, triedCols);
@@ -194,7 +194,7 @@ const findNodeVertical = (
 
     newNodeId = getNodeId(newLevel, newMatIndices);
 
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+    while (!isNodeVisible(newNodeId, gameProgress)) {
       if (triedCols.length < 4) {
         triedCols.push(newMatIndices.colIdx);
         const colToTry = tryCol(newMatIndices.colIdx, triedCols);
@@ -230,7 +230,7 @@ const findNodeVertical = (
 
 const findNodeHorizontal = (
   direction: string,
-  unlockedNodes: typeof unlocked_nodes,
+  gameProgress: typeof unlocked_nodes,
   level: number,
   activeId: string,
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number }
@@ -254,7 +254,7 @@ const findNodeHorizontal = (
 
     newNodeId = getNodeId(level, newMatIndices);
 
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+    while (!isNodeVisible(newNodeId, gameProgress)) {
       if (triedRows.length < 3) {
         triedRows.push(newMatIndices.rowIdx);
         const rowToTry = tryRow(newMatIndices.rowIdx, triedRows);
@@ -300,7 +300,7 @@ const findNodeHorizontal = (
 
     newNodeId = getNodeId(level, newMatIndices);
 
-    while (!isNodeVisible(newNodeId, unlockedNodes)) {
+    while (!isNodeVisible(newNodeId, gameProgress)) {
       if (triedRows.length < 3) {
         triedRows.push(newMatIndices.rowIdx);
         const rowToTry = tryRow(newMatIndices.rowIdx, triedRows);
@@ -359,7 +359,7 @@ const nodeSelector = (context: NodeSelectorContext) => {
       move = context.action === "site_left" ? "left" : "right";
       newNodeData = findNodeHorizontal(
         move,
-        context.unlockedNodes,
+        context.gameProgress,
         context.level,
         context.activeId,
         context.nodeMatrixIndices
@@ -387,7 +387,7 @@ const nodeSelector = (context: NodeSelectorContext) => {
 
       newNodeData = findNodeVertical(
         move,
-        context.unlockedNodes,
+        context.gameProgress,
         context.level,
         context.nodeMatrixIndices
       );
@@ -410,7 +410,7 @@ const nodeSelector = (context: NodeSelectorContext) => {
       break;
     case "select_level":
       newNodeData = findNodeAfterLevelSelection(
-        context.unlockedNodes,
+        context.gameProgress,
         context.level,
         context.nodeMatrixIndices
       );

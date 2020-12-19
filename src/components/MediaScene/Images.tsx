@@ -38,8 +38,6 @@ const Images = () => {
     Object.entries(images).forEach((img) => {
       import("../../static/media_images/a/" + img[1] + ".png").then(
         (imageSrc: { default: string }) => {
-          // images are unordered by default so we insert them into the arr
-          // according to their last char
           imgArr.splice(parseInt(img[0]), 0, imageSrc);
           if (imgArr.length === 3) {
             setSceneImages(imgArr);
