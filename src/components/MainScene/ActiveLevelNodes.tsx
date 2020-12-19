@@ -4,9 +4,10 @@ import node_positions from "../../resources/node_positions.json";
 import site_a from "../../resources/site_a.json";
 import { useNodeStore, useLevelStore, useSiteStore } from "../../store";
 import { a, useSpring } from "@react-spring/three";
+import { isNodeVisible } from "../../core/nodeSelector";
 
 const ActiveLevelNodes = () => {
-  const unlockedNodes = useNodeStore((state) => state.unlockedNodes);
+  const gameProgress = useNodeStore((state) => state.gameProgress);
 
   const activeNodeState = useNodeStore((state) => state.activeNodeState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
@@ -32,18 +33,7 @@ const ActiveLevelNodes = () => {
       rotation-x={siteState.siteRotX}
     >
       {Object.entries(activeLevelNodes).map((node: [string, any]) => {
-        const unlockedBy = node[1].unlocked_by;
-
-        let unlocked;
-        if (unlockedBy === "-1") unlocked = true;
-        else
-          unlocked =
-            unlockedNodes[unlockedBy as keyof typeof unlockedNodes].unlocked;
-
-        if (
-          unlocked &&
-          (node[1].is_hidden === "0" || node[1].is_hidden === "3")
-        ) {
+        if (isNodeVisible(node[0], gameProgress)) {
           return (
             <Node
               sprite={node[1].node_name}

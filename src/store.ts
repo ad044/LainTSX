@@ -2,7 +2,7 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
-import unlocked_nodes from "./resources/unlocked_nodes.json";
+import game_progress from "./resources/initial_progress.json";
 
 type PauseState = {
   exitAnimation: boolean;
@@ -40,7 +40,7 @@ type NodeState = {
     interactedWith: boolean;
   };
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
-  unlockedNodes: typeof unlocked_nodes;
+  gameProgress: typeof game_progress;
 };
 
 type LainState = {
@@ -237,7 +237,7 @@ export const useNodeStore = create(
         interactedWith: false,
       },
       nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
-      unlockedNodes: unlocked_nodes,
+      gameProgress: game_progress,
     } as NodeState,
     (set) => ({
       setActiveNodeState: (to: number | boolean | string, at: string) =>

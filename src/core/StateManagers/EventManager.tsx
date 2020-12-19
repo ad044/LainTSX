@@ -69,7 +69,7 @@ const EventManager = () => {
       pauseMatrixIdx,
     ])
   );
-  const unlockedNodes = useNodeStore((state) => state.unlockedNodes);
+  const gameProgress = useNodeStore((state) => state.gameProgress);
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -153,7 +153,7 @@ const EventManager = () => {
               selectedLevel: selectedLevel,
               pauseMatrixIdx: pauseMatrixIdx,
               activePauseComponent: activePauseComponent,
-              unlockedNodes: unlockedNodes,
+              gameProgress: gameProgress,
             });
             break;
           case "media":
@@ -205,7 +205,7 @@ const EventManager = () => {
       rightSideComponentIdx,
       selectedLevel,
       siteTransformState,
-      unlockedNodes,
+      gameProgress,
       wordPosStateIdx,
     ]
   );
