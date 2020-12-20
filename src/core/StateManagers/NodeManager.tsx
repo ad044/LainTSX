@@ -100,6 +100,7 @@ const NodeManager = (props: StateManagerProps) => {
         case "throw_node_media":
         case "throw_node_gate":
         case "throw_node_sskn":
+        case "throw_node_tak":
           return {
             action: animateActiveNodeThrow,
             value: [newSiteRotY],

@@ -40,6 +40,9 @@ const MediaPlayer = () => {
 
       if (percentageElapsed % 5 === 0) {
         setPercentageElapsed(percentageElapsed);
+        if (percentageElapsed === 100) {
+          videoRef.current.pause();
+        }
       }
     }
   }, [setPercentageElapsed, videoRef]);
@@ -51,7 +54,7 @@ const MediaPlayer = () => {
   }, [updateTime]);
 
   useEffect(() => {
-    if (currentScene === "media") {
+    if (currentScene === "media" || currentScene === "tak") {
       const nodeMedia = (site_a as SiteType)[activeLevel][activeNodeId]
         .media_file;
       if (nodeMedia.includes("XA")) {
@@ -65,11 +68,7 @@ const MediaPlayer = () => {
         });
       } else {
         import(
-          "../../static/movie/" +
-            currentSite +
-            "/" +
-            nodeMedia +
-            "[0].webm"
+          "../../static/movie/" + currentSite + "/" + nodeMedia + "[0].webm"
         ).then((media) => {
           setMediaSource(media.default);
           if (videoRef.current) {

@@ -24,9 +24,7 @@ const MediaComponentManager = (props: StateManagerProps) => {
     const listener = new THREE.AudioListener();
     const audio = new THREE.Audio(listener);
 
-    audio.setMediaElementSource(
-      document.getElementById("media") as HTMLMediaElement
-    );
+    audio.setMediaElementSource(mediaElement);
 
     setAudioAnalyser(new THREE.AudioAnalyser(audio, 2048));
 

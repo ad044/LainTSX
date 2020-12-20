@@ -11,6 +11,7 @@ import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
 import SSknScene from "./scenes/SSknScene";
 import PolytanScene from "./scenes/PolytanScene";
+import TaKScene from "./scenes/TaKScene";
 
 const App = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -30,6 +31,7 @@ const App = () => {
       boot: <BootScene />,
       sskn: <SSknScene />,
       polytan: <PolytanScene />,
+      tak: <TaKScene />,
     };
   }, []);
 

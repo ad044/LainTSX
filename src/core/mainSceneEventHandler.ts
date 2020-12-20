@@ -51,7 +51,6 @@ const handleMainSceneEvent = (gameContext: any) => {
           newSitePosY = selectedNodeData.newSitePosY;
           newLevel = selectedNodeData.newLevel;
           newActiveHudId = selectedNodeData.newActiveHudId;
-
         }
 
         break;
@@ -75,6 +74,10 @@ const handleMainSceneEvent = (gameContext: any) => {
           case 5:
             event = eventAnimation + "media";
             newScene = "media";
+            break;
+          case 6:
+            event = eventAnimation + "tak";
+            newScene = "tak";
             break;
           case 8:
             event = eventAnimation + "gate";
