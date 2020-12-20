@@ -55,7 +55,6 @@ export const getNodeHudId = (nodeMatrixIndices: {
   ];
 
 export const isNodeVisible = (nodeId: string, gameProgress: typeof unlocked_nodes) => {
-  console.log(nodeId)
   const nodeLevel = nodeId.substr(0, 2);
   const nodeData = (site_a as SiteType)[nodeLevel][nodeId];
   if (nodeData) {

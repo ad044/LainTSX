@@ -22,10 +22,11 @@ const LainManager = (props: StateManagerProps) => {
         case "throw_node_media":
         case "throw_node_gate":
         case "throw_node_sskn":
+        case "throw_node_tak":
           return {
             action: setLainMoveState,
             value: "throw_node",
-            duration: 3904.704,
+            duration: 3900,
           };
       }
     },
