@@ -1,5 +1,6 @@
 import React, { memo, Suspense, useMemo } from "react";
 import site_a from "../../resources/site_a.json";
+import site_b from "../../resources/site_b.json";
 import level_y_values from "../../resources/level_y_values.json";
 import node_positions from "../../resources/node_positions.json";
 import Node from "./Node";
@@ -35,6 +36,9 @@ export type SiteType = {
 
 const Site = memo(() => {
   const gameProgress = useNodeStore((state) => state.gameProgress);
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = currentSite === "a" ? site_a : site_b;
 
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const visibleNodes = useMemo(() => {
@@ -48,11 +52,11 @@ const Site = memo(() => {
     ];
 
     visibleLevels.forEach((level) => {
-      Object.assign(obj, site_a[level as keyof typeof site_a]);
+      Object.assign(obj, siteData[level as keyof typeof siteData]);
     });
 
     return obj;
-  }, [activeLevel]);
+  }, [activeLevel, siteData]);
 
   const siteTransformState = useSiteStore((state) => state.transformState);
 
@@ -70,15 +74,22 @@ const Site = memo(() => {
         position-y={siteState.sitePosY}
         rotation-x={siteState.siteRotX}
       >
-        {Object.entries(level_y_values).map((level: [string, number]) => (
-          <group position={[0, level[1], 0]} key={level[0]}>
-            <PurpleRing purpleRingPosY={0.44} level={level[0]} />
-            <GrayRing grayRingPosY={-0.29} />
-            <CyanCrystal crystalRingPosY={-0.45} />
-          </group>
-        ))}
+        {Object.entries(level_y_values).map((level: [string, number]) => {
+          if (
+            (currentSite === "b" && parseInt(level[0]) <= 13) ||
+            currentSite === "a"
+          ) {
+            return (
+              <group position={[0, level[1], 0]} key={level[0]}>
+                <PurpleRing purpleRingPosY={0.44} level={level[0]} />
+                <GrayRing grayRingPosY={-0.29} />
+                <CyanCrystal crystalRingPosY={-0.45} />
+              </group>
+            );
+          }
+        })}
         {Object.entries(visibleNodes).map((node: [string, any]) => {
-          if (isNodeVisible(node[0], gameProgress)) {
+          if (isNodeVisible(node[0], gameProgress, currentSite)) {
             return (
               <Node
                 sprite={node[1].node_name}

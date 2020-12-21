@@ -20,7 +20,6 @@ import {
 } from "../../store";
 import GreenTextManager from "./GreenTextManager";
 import MediaComponentManager from "./MediaComponentManager";
-import MediaWordManager from "./MediaWordManager";
 import SceneManager from "./SceneManager";
 import YellowTextManager from "./YellowTextManager";
 import LevelManager from "./LevelManager";
@@ -34,6 +33,7 @@ import BootAuthorizeUserManager from "./BootAuthorizeUserManager";
 import LevelSelectionManager from "./LevelSelectionManager";
 import SubsceneManager from "./SubsceneManager";
 import PauseComponentManager from "./PauseComponentManager";
+import MediaYellowTextManager from "./MediaYellowTextManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -57,6 +57,7 @@ const EventManager = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
 
   // main scene
+  const currentSite = useSiteStore((state) => state.currentSite);
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
   const siteTransformState = useSiteStore((state) => state.transformState);
@@ -154,6 +155,7 @@ const EventManager = () => {
               pauseMatrixIdx: pauseMatrixIdx,
               activePauseComponent: activePauseComponent,
               gameProgress: gameProgress,
+              currentSite: currentSite,
             });
             break;
           case "media":
@@ -188,25 +190,27 @@ const EventManager = () => {
       }
     },
     [
-      activeBootElement,
-      activeLevel,
-      activeMediaComponent,
-      activePauseComponent,
-      activeSSknComponent,
-      authorizeUserActiveLetterTexOffset,
-      authorizeUserBgLettersPos,
-      authorizeUserMatrixIdx,
-      currentBootSubscene,
-      currentScene,
       inputCooldown,
+      currentScene,
       mainSubscene,
-      nodeMatrixIndices,
-      pauseMatrixIdx,
-      rightSideComponentIdx,
-      selectedLevel,
       siteTransformState,
+      activeNodeId,
+      nodeMatrixIndices,
+      activeLevel,
+      selectedLevel,
+      pauseMatrixIdx,
+      activePauseComponent,
       gameProgress,
+      currentSite,
+      activeMediaComponent,
       wordPosStateIdx,
+      rightSideComponentIdx,
+      currentBootSubscene,
+      activeBootElement,
+      authorizeUserBgLettersPos,
+      authorizeUserActiveLetterTexOffset,
+      authorizeUserMatrixIdx,
+      activeSSknComponent,
     ]
   );
 
@@ -227,7 +231,6 @@ const EventManager = () => {
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
       <MediaComponentManager eventState={eventState!} />
-      <MediaWordManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
       <YellowTextManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
@@ -237,6 +240,7 @@ const EventManager = () => {
       <LevelSelectionManager eventState={eventState!} />
       <SubsceneManager eventState={eventState!} />
       <PauseComponentManager eventState={eventState!} />
+      <MediaYellowTextManager eventState={eventState!} />
     </>
   );
 };

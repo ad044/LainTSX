@@ -1,6 +1,8 @@
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
+import site_b from "../resources/site_b.json";
 import nodeSelector, { getNodeHudId, getNodeId } from "./nodeSelector";
+import { SiteType } from "../components/MainScene/Site";
 
 const handleMainSceneEvent = (gameContext: any) => {
   let event;
@@ -12,6 +14,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   const activePauseComponent = gameContext.activePauseComponent;
   const gameProgress = gameContext.gameProgress;
   const activeNodeId = gameContext.activeNodeId;
+  const currentSite = gameContext.currentSite;
 
   let nodeMatrixIndices = gameContext.nodeMatrixIndices;
 
@@ -41,6 +44,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           siteRotY: siteRotY,
           sitePosY: sitePosY,
           gameProgress: gameProgress,
+          currentSite: currentSite,
         });
 
         if (selectedNodeData) {
@@ -60,13 +64,16 @@ const handleMainSceneEvent = (gameContext: any) => {
         // new active blue orb here.
         newActiveNodeId = getNodeId(level, nodeMatrixIndices);
 
-        const nodeType = (site_a as any)[gameContext.activeLevel][
+        const siteData = currentSite === "a" ? site_a : site_b;
+
+        const nodeData = (siteData as SiteType)[gameContext.activeLevel][
           newActiveNodeId
-        ].type;
+        ];
+        const nodeType = nodeData.type;
 
         const eventAnimation = "throw_node_";
 
-        switch (parseInt(nodeType)) {
+        switch (nodeType) {
           case 0:
           case 2:
           case 4:
@@ -76,8 +83,13 @@ const handleMainSceneEvent = (gameContext: any) => {
             newScene = "media";
             break;
           case 6:
-            event = eventAnimation + "tak";
-            newScene = "tak";
+            if (nodeData.node_name.substr(0, 3) === "TaK") {
+              event = eventAnimation + "tak";
+              newScene = "tak";
+            } else {
+              event = eventAnimation + "media";
+              newScene = "media";
+            }
             break;
           case 8:
             event = eventAnimation + "gate";
@@ -92,7 +104,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "L2":
         return { event: "toggle_level_selection" };
       case "TRIANGLE":
-        return { event: "toggle_pause" };
+        return { event: "pause_game" };
     }
 
     return {
@@ -108,14 +120,22 @@ const handleMainSceneEvent = (gameContext: any) => {
   } else if (subscene === "level_selection") {
     switch (keyPress) {
       case "UP":
-        if (selectedLevel + 1 <= 22)
-          return {
-            event: `level_selection_up`,
-            newSelectedLevelIdx: selectedLevel + 1,
-          };
+        if (currentSite === "a") {
+          if (selectedLevel + 1 <= 22)
+            return {
+              event: `level_selection_up`,
+              newSelectedLevelIdx: selectedLevel + 1,
+            };
+        } else if (currentSite === "b") {
+          if (selectedLevel + 1 <= 13)
+            return {
+              event: `level_selection_up`,
+              newSelectedLevelIdx: selectedLevel + 1,
+            };
+        }
         break;
       case "DOWN":
-        if (selectedLevel - 1 >= 0)
+        if (selectedLevel - 1 >= 1)
           return {
             event: `level_selection_down`,
             newSelectedLevelIdx: selectedLevel - 1,
@@ -137,6 +157,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           siteRotY: siteRotY,
           sitePosY: sitePosY,
           gameProgress: gameProgress,
+          currentSite: currentSite,
         });
 
         if (level === selectedLevel) break;

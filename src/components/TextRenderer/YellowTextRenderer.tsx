@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useBigTextStore, BigTextState, useMainSceneStore } from "../../store";
+import { BigTextState, useBigTextStore } from "../../store";
 import { a, useSpring, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 

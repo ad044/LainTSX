@@ -4,6 +4,7 @@ import * as THREE from "three";
 import siteATex from "../../static/sprite/site_a.png";
 import siteBTex from "../../static/sprite/site_b.png";
 import siteLevelTex from "../../static/sprite/site_levels.png";
+import { useSiteStore } from "../../store";
 
 type PurpleRingProps = {
   purpleRingPosY: number;
@@ -14,6 +15,8 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   const siteA = useLoader(THREE.TextureLoader, siteATex);
   const siteB = useLoader(THREE.TextureLoader, siteBTex);
   const siteLevels = useLoader(THREE.TextureLoader, siteLevelTex);
+
+  const currentSite = useSiteStore((state) => state.currentSite);
 
   const purpleRingRef = useRef<THREE.Object3D>();
 
@@ -37,8 +40,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
 
   const formattedLevel = props.level.padStart(2, "0");
 
-  uniforms.siteA = { type: "t", value: siteA };
-  uniforms.siteB = { type: "t", value: siteB };
+  uniforms.tex = { type: "t", value: currentSite === "a" ? siteA : siteB };
   uniforms.siteLevels = { type: "t", value: siteLevels };
   uniforms.siteLevelFirstCharacterOffset = {
     value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(0)),
@@ -65,8 +67,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
 
   const fragmentShader = `
     varying vec2 vUv;
-    uniform sampler2D siteA;
-    uniform sampler2D siteB;
+    uniform sampler2D tex;
     uniform sampler2D siteLevels;
     uniform float siteLevelFirstCharacterOffset;
     uniform float siteLevelSecondCharacterOffset;
@@ -106,14 +107,14 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     float slope(float x, float thin) {
         return x*(1.0-thin);
     }
-
+    
     // frag color
     vec4 color(vec2 vUv, float step, bool textureexists) {
         if (!textureexists) {
             return vec4(0.325,0.325,0.698, 1);
         } else {
             float dist = 1.0-tolocal(0.5 - mod(vUv.x+0.172, 0.5), 12, step);
-            return texture2D(siteA, vec2(dist, vUv.y)) ;
+            return texture2D(tex, vec2(dist, vUv.y)) ;
         } 
     }
 

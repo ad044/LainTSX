@@ -1,13 +1,12 @@
 import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import Site from "../components/MainScene/Site";
 import Lain from "../components/MainScene/Lain";
 import Preloader from "../components/Preloader";
-import MainSceneIntro from "../components/MainSceneIntro";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
 import MiddleRing from "../components/MainScene/MiddleRing";
-import { useHudStore, useLainStore, useMainSceneStore } from "../store";
+import { useMainSceneStore } from "../store";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
@@ -22,13 +21,9 @@ const MainScene = () => {
 
   const isPaused = currentSubscene === "pause";
 
-  const setLainMoveState = useLainStore((state) => state.setLainMoveState);
-  const setActiveNodeHudId = useHudStore((state) => state.setId);
-
   return (
-    <perspectiveCamera position-z={3}>
+    <a.perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
-        {/*<MainSceneIntro />*/}
         <a.group>
           <Preloader />
           <Site />
@@ -39,9 +34,9 @@ const MainScene = () => {
           <YellowOrb visible={!isPaused} />
           <GrayPlanes visible={!isPaused} />
           <MiddleRing />
-          <LevelSelection />
+          <LevelSelection visible={!isPaused} />
           <Pause visible={isPaused} />
-          <Starfield visible={!isPaused}/>
+          <Starfield visible={!isPaused} />
           <OrbitControls />
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
@@ -50,7 +45,7 @@ const MainScene = () => {
         </a.group>
         <Lain />
       </Suspense>
-    </perspectiveCamera>
+    </a.perspectiveCamera>
   );
 };
 export default MainScene;

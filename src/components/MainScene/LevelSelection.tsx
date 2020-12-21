@@ -10,7 +10,7 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 
-const LevelSelection = () => {
+const LevelSelection = (props: { visible: boolean }) => {
   const levelSelectionFontTex = useLoader(
     THREE.TextureLoader,
     level_selection_font
@@ -57,7 +57,7 @@ const LevelSelection = () => {
   }, []);
 
   return (
-    <>
+    <group visible={props.visible}>
       <a.group position-y={verticalHudPosY} renderOrder={5}>
         <mesh
           scale={[0.3, 0.4, 0]}
@@ -137,7 +137,7 @@ const LevelSelection = () => {
           depthTest={false}
         />
       </a.sprite>
-    </>
+    </group>
   );
 };
 

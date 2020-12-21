@@ -22,7 +22,7 @@ const PauseComponentManager = (props: StateManagerProps) => {
             action: setExitAnimation,
             value: true,
           };
-        case "toggle_pause":
+        case "pause_game":
           return {
             action: setExitAnimation,
             value: false,

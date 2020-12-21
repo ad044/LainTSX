@@ -17,7 +17,7 @@ const SceneManager = (props: StateManagerProps) => {
             value: newScene,
             delay: 3450,
           };
-        case "exit_select":
+        case "media_exit_select":
         case "exit_gate":
         case "sskn_cancel_select":
           return {

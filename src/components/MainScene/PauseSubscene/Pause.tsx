@@ -73,7 +73,10 @@ const Pause = (props: { visible: boolean }) => {
   }, [props.visible]);
 
   return animation ? (
-    <group position={[-0.85, -0.7, 0]} scale={[0.85, 0.85, 0]}>
+    <group
+      position={[-0.85, -0.7, 0]}
+      scale={[0.85, 0.85, 0]}
+    >
       {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
           if (rowIdx === 5 && col > 0 && col < 5) {

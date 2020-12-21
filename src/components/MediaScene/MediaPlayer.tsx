@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import site_a from "../../resources/site_a.json";
+import site_b from "../../resources/site_b.json";
 import {
   useLevelStore,
   useMediaStore,
@@ -24,12 +25,15 @@ const MediaPlayer = () => {
     (state) => state.setPercentageElapsed
   );
 
-  const currentSite = useSiteStore((state) => state.currentSite);
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
+
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = currentSite === "a" ? site_a : site_b;
 
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
@@ -42,6 +46,7 @@ const MediaPlayer = () => {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
           videoRef.current.pause();
+          videoRef.current.currentTime = 0;
         }
       }
     }
@@ -55,7 +60,7 @@ const MediaPlayer = () => {
 
   useEffect(() => {
     if (currentScene === "media" || currentScene === "tak") {
-      const nodeMedia = (site_a as SiteType)[activeLevel][activeNodeId]
+      const nodeMedia = (siteData as SiteType)[activeLevel][activeNodeId]
         .media_file;
       if (nodeMedia.includes("XA")) {
         import(
@@ -77,7 +82,14 @@ const MediaPlayer = () => {
         });
       }
     }
-  }, [activeLevel, activeNodeId, currentScene, currentSite, videoRef]);
+  }, [
+    activeLevel,
+    activeNodeId,
+    currentScene,
+    currentSite,
+    siteData,
+    videoRef,
+  ]);
 
   return (
     <video

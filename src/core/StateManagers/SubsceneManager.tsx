@@ -23,7 +23,7 @@ const SubsceneManager = (props: StateManagerProps) => {
             value: "level_selection",
             delay: 0,
           };
-        case "toggle_pause":
+        case "pause_game":
           return {
             action: setMainSubscene,
             value: "pause",

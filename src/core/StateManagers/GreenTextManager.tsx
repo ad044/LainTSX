@@ -3,7 +3,8 @@ import { StateManagerProps } from "./EventManager";
 import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
 import { SiteType } from "../../components/MainScene/Site";
-import { useGreenTextStore } from "../../store";
+import { useGreenTextStore, useSiteStore } from "../../store";
+import site_b from "../../resources/site_b.json";
 
 const GreenTextManager = (props: StateManagerProps) => {
   const setGreenText = useGreenTextStore((state) => state.setText);
@@ -11,6 +12,10 @@ const GreenTextManager = (props: StateManagerProps) => {
   const setTransformState = useGreenTextStore(
     (state) => state.setTransformState
   );
+
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = currentSite === "a" ? site_a : site_b;
 
   const toggleAndSetGreenText = useCallback(
     (
@@ -23,7 +28,7 @@ const GreenTextManager = (props: StateManagerProps) => {
       const targetGreenText =
         newActiveNodeId === "UNKNOWN"
           ? ""
-          : (site_a as SiteType)[newLevel][newActiveNodeId].title;
+          : (siteData as SiteType)[newLevel][newActiveNodeId].title;
 
       const targetGreenTextPosData =
         node_huds[newActiveHudId as keyof typeof node_huds].medium_text;
@@ -43,7 +48,7 @@ const GreenTextManager = (props: StateManagerProps) => {
         toggleActive();
       }, delay);
     },
-    [setGreenText, setTransformState, toggleActive]
+    [setGreenText, setTransformState, siteData, toggleActive]
   );
 
   const dispatchObject = useCallback(
