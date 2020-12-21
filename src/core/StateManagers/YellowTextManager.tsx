@@ -1,7 +1,8 @@
 import { useCallback, useEffect } from "react";
 import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
-import { useBigTextStore } from "../../store";
+import site_b from "../../resources/site_b.json";
+import { useBigTextStore, useSiteStore } from "../../store";
 import { SiteType } from "../../components/MainScene/Site";
 import { StateManagerProps } from "./EventManager";
 
@@ -17,6 +18,9 @@ const YellowTextManager = (props: StateManagerProps) => {
   const setColor = useBigTextStore((state) => state.setColor);
 
   const setVisible = useBigTextStore((state) => state.setVisible);
+
+  const currentSite = useSiteStore((state) => state.currentSite);
+  const siteData = currentSite === "a" ? site_a : site_b;
 
   const animateYellowTextWithMove = useCallback(
     (
@@ -55,7 +59,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         const targetText =
           newActiveNodeId === "UNKNOWN"
             ? "Unknown"
-            : (site_a as SiteType)[newLevel][newActiveNodeId].node_name;
+            : (siteData as SiteType)[newLevel][newActiveNodeId].node_name;
 
         setText(targetText);
         setDisableTrail(false);
@@ -66,7 +70,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         setTransformState(0, "xOffset");
       }, 3900);
     },
-    [addToTransformState, setDisableTrail, setText, setTransformState]
+    [addToTransformState, setDisableTrail, setText, setTransformState, siteData]
   );
 
   const animateYellowTextWithoutMove = useCallback(
@@ -88,7 +92,7 @@ const YellowTextManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         // set new text according to the node name
-        setText((site_a as SiteType)[level][newActiveNodeId].node_name);
+        setText((siteData as SiteType)[level][newActiveNodeId].node_name);
       }, 1000);
 
       setTimeout(() => {
@@ -96,55 +100,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         setTransformState(0, "xOffset");
       }, 1200);
     },
-    [setText, setTransformState]
-  );
-
-  const animateMediaYellowText = useCallback(
-    (
-      targetMediaComponentText: string,
-      targetMediaComponentTextPos: number[]
-    ) => {
-      // make current text shrink
-      setTransformState(-1, "xOffset");
-
-      setTimeout(() => {
-        setTransformState(targetMediaComponentTextPos[0], "posX");
-        setTransformState(targetMediaComponentTextPos[1], "posY");
-      }, 400);
-
-      setTimeout(() => {
-        setText(targetMediaComponentText);
-      }, 1000);
-
-      setTimeout(() => {
-        // unshrink text
-        setTransformState(0, "xOffset");
-      }, 1200);
-    },
-    [setText, setTransformState]
-  );
-
-  const initializeYellowTextForMediaScene = useCallback(() => {
-    setTimeout(() => {
-      setText("Play");
-      setTransformState(-0.8, "posX");
-      setTransformState(0.05, "posY");
-    }, 3950);
-  }, [setText, setTransformState]);
-
-  const initializeYellowTextForMainScene = useCallback(
-    (activeNodeId: string, activeHudId: string, level: string) => {
-      setText((site_a as SiteType)[level][activeNodeId].node_name);
-      setTransformState(
-        node_huds[activeHudId as keyof typeof node_huds].big_text[0],
-        "posX"
-      );
-      setTransformState(
-        node_huds[activeHudId as keyof typeof node_huds].big_text[1],
-        "posY"
-      );
-    },
-    [setText, setTransformState]
+    [setText, setTransformState, siteData]
   );
 
   const initializeLevelSelection = useCallback(() => {
@@ -182,14 +138,14 @@ const YellowTextManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         setColor("yellow");
-        setText((site_a as SiteType)[level][activeNodeId].node_name);
+        setText((siteData as SiteType)[level][activeNodeId].node_name);
       }, 1000);
 
       setTimeout(() => {
         setTransformState(0, "xOffset");
       }, 1200);
     },
-    [setColor, setText, setTransformState]
+    [setColor, setText, setTransformState, siteData]
   );
 
   const toggleVisibleAfterLevelSelect = useCallback(
@@ -209,7 +165,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         const targetText =
           activeNodeId === "UNKNOWN"
             ? "Unknown"
-            : (site_a as SiteType)[level][activeNodeId].node_name;
+            : (siteData as SiteType)[level][activeNodeId].node_name;
 
         setText(targetText);
       }, 400);
@@ -218,7 +174,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         setVisible(true);
       }, 3900);
     },
-    [setColor, setText, setTransformState, setVisible]
+    [setColor, setText, setTransformState, setVisible, siteData]
   );
 
   const dispatchObject = useCallback(
@@ -263,29 +219,10 @@ const YellowTextManager = (props: StateManagerProps) => {
               1100,
             ],
           };
-        case "exit_up":
-          return {
-            action: animateMediaYellowText,
-            value: ["Play", [-0.8, 0.05, 0.6]],
-          };
         case "change_node":
           return {
             action: animateYellowTextWithoutMove,
             value: [newActiveHudId, newActiveNodeId, newLevel],
-          };
-        case "play_down":
-          return {
-            action: animateMediaYellowText,
-            value: ["Exit", [-0.8, -0.08, 0.6]],
-          };
-        case "throw_node_media":
-          return {
-            action: initializeYellowTextForMediaScene,
-          };
-        case "exit_media_scene":
-          return {
-            action: initializeYellowTextForMainScene,
-            value: [newActiveNodeId, newActiveHudId, newLevel],
           };
         case "level_selection_back":
           return {
@@ -305,12 +242,9 @@ const YellowTextManager = (props: StateManagerProps) => {
       }
     },
     [
-      animateMediaYellowText,
       animateYellowTextWithMove,
       animateYellowTextWithoutMove,
       initializeLevelSelection,
-      initializeYellowTextForMainScene,
-      initializeYellowTextForMediaScene,
       levelSelectionBack,
       toggleVisibleAfterLevelSelect,
     ]

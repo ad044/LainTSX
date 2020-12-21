@@ -159,13 +159,42 @@ type MainSceneState = {
   setSubscene: (to: string) => void;
 };
 
+export type MediaBigTextState = {
+  text: string;
+  transformState: {
+    posX: number;
+    posY: number;
+    xOffset: number;
+  };
+};
+
+export const useMediaBigTextStore = create(
+  combine(
+    {
+      transformState: {
+        posX: -0.8,
+        posY: 0.05,
+        xOffset: 0,
+      },
+      text: "Play",
+    } as MediaBigTextState,
+    (set) => ({
+      setText: (to: string) => set(() => ({ text: to })),
+      setTransformState: (to: number, at: string) =>
+        set((state) => ({
+          transformState: { ...state.transformState, [at]: to },
+        })),
+    })
+  )
+);
+
 export const useBigTextStore = create(
   combine(
     {
       visible: true,
       color: "yellow",
       disableTrail: false,
-      text: "Play",
+      text: "",
       transformState: {
         posX: 0,
         posY: 0,
@@ -270,7 +299,7 @@ export const useStarfieldStore = create<StarfieldState>((set) => ({
 export const useSiteStore = create(
   combine(
     {
-      currentSite: "a",
+      currentSite: "b",
       transformState: {
         posY: 0,
         rotY: 0,
@@ -341,11 +370,11 @@ export const useMediaStore = create(
             sideIdx: Number(!state.componentMatrixIndices.sideIdx),
           },
         })),
-      toggleLeftComponent: () =>
+      setLeftComponentMatrixIdx: (to: number) =>
         set((state) => ({
           componentMatrixIndices: {
             ...state.componentMatrixIndices,
-            leftSideIdx: Number(!state.componentMatrixIndices.leftSideIdx),
+            leftSideIdx: to,
           },
         })),
       setRightComponentMatrixIdx: (to: number) =>

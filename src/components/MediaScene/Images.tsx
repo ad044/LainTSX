@@ -1,8 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLevelStore, useMediaStore, useNodeStore } from "../../store";
+import {
+  useLevelStore,
+  useMediaStore,
+  useNodeStore,
+  useSiteStore,
+} from "../../store";
 import { a, useSpring } from "@react-spring/three";
 import { LevelType, SiteType } from "../MainScene/Site";
 import site_a from "../../resources/site_a.json";
+import site_b from "../../resources/site_b.json";
 import dummy from "../../static/sprite/dummy.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
@@ -12,6 +18,10 @@ const Images = () => {
   const [imageScaleY, setImageScaleY] = useState(3.75);
   const [sceneImages, setSceneImages] = useState([] as any);
   const [activeImage, setActiveImage] = useState<THREE.Texture>();
+
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = currentSite === "a" ? site_a : site_b;
 
   const dummyTex = useLoader(THREE.TextureLoader, dummy);
 
@@ -26,27 +36,37 @@ const Images = () => {
 
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const activeLevelData: LevelType = useMemo(
-    () => site_a[activeLevel as keyof typeof site_a],
-    [activeLevel]
+    () => siteData[activeLevel as keyof typeof siteData],
+    [activeLevel, siteData]
   );
 
   useEffect(() => {
-    const images = (site_a as SiteType)[activeLevel][activeNodeId]
+    const images = (siteData as SiteType)[activeLevel][activeNodeId]
       .image_table_indices;
 
+    // checking the length of the img arr doesn't work in some cases
+    // since the amount of images varies from 1 to 3.
+    // we try all 3 of them for each case, so logging the count to
+    // determine whether or not its complete is optimal i think.
+    let imgTries = 0;
     const imgArr: { default: string }[] = [];
     Object.entries(images).forEach((img) => {
-      import("../../static/media_images/a/" + img[1] + ".png").then(
-        (imageSrc: { default: string }) => {
+      imgTries++;
+      if (img[1] !== "-1") {
+        import(
+          "../../static/media_images/" + currentSite + "/" + img[1] + ".png"
+        ).then((imageSrc: { default: string }) => {
           imgArr.splice(parseInt(img[0]), 0, imageSrc);
-          if (imgArr.length === 3) {
+          console.log(imgTries);
+          if (imgTries === 3) {
             setSceneImages(imgArr);
             new THREE.TextureLoader().load(imgArr[0].default, setActiveImage);
+            console.log(imgArr);
           }
-        }
-      );
+        });
+      }
     });
-  }, [activeLevel, activeLevelData, activeNodeId]);
+  }, [activeLevel, activeLevelData, activeNodeId, currentSite, siteData]);
 
   useEffect(() => {
     if (mediaPercentageElapsed === 0 && sceneImages[0]) {

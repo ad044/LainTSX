@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { useSiteStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 
@@ -24,10 +24,10 @@ const SiteManager = (props: StateManagerProps) => {
             value: [newSiteRotY, "rotY"],
             actionDelay: 1100,
           };
-        case "toggle_pause":
+        case "pause_game":
           return {
             action: setTransformState,
-            value: [Math.PI / 2, "rotX"],
+            value: [Math.PI / 2 - 0.5, "rotX"],
             actionDelay: 0,
           };
         case "pause_exit_select":

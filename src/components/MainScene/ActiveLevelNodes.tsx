@@ -5,16 +5,21 @@ import site_a from "../../resources/site_a.json";
 import { useNodeStore, useLevelStore, useSiteStore } from "../../store";
 import { a, useSpring } from "@react-spring/three";
 import { isNodeVisible } from "../../core/nodeSelector";
+import site_b from "../../resources/site_b.json";
 
 const ActiveLevelNodes = () => {
   const gameProgress = useNodeStore((state) => state.gameProgress);
+
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = currentSite === "a" ? site_a : site_b;
 
   const activeNodeState = useNodeStore((state) => state.activeNodeState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
   const activeLevelNodes = useMemo(
-    () => site_a[activeLevel as keyof typeof site_a],
-    [activeLevel]
+    () => siteData[activeLevel as keyof typeof siteData],
+    [activeLevel, siteData]
   );
 
   const siteTransformState = useSiteStore((state) => state.transformState);
@@ -33,7 +38,7 @@ const ActiveLevelNodes = () => {
       rotation-x={siteState.siteRotX}
     >
       {Object.entries(activeLevelNodes).map((node: [string, any]) => {
-        if (isNodeVisible(node[0], gameProgress)) {
+        if (isNodeVisible(node[0], gameProgress, currentSite)) {
           return (
             <Node
               sprite={node[1].node_name}

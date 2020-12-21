@@ -1,11 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  useLevelSelectionStore,
-  useLevelStore,
-  useMediaStore,
-  useNodeStore,
-} from "../store";
-import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
+import React, { useCallback, useEffect, useState } from "react";
+import {useLevelStore, useMediaStore, useNodeStore, useSiteStore} from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
@@ -14,13 +8,13 @@ import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Lof from "../components/MediaScene/Lof";
 import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
-import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 import MediumLetter from "../components/TextRenderer/MediumLetter";
 import site_a from "../resources/site_a.json";
 import { SiteType } from "../components/MainScene/Site";
+import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
+import site_b from "../resources/site_b.json";
 
 const MediaScene = () => {
-  const [textVisible, setTextVisible] = useState(false);
   const mediaComponentMatrixIndices = useMediaStore(
     (state) => state.componentMatrixIndices
   );
@@ -28,7 +22,11 @@ const MediaScene = () => {
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
-  const activeNodeData = (site_a as SiteType)[activeLevel][activeNodeId];
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = currentSite === "a" ? site_a : site_b;
+
+  const activeNodeData = (siteData as SiteType)[activeLevel][activeNodeId];
   const activeNodeName = activeNodeData.node_name;
   const activeNodeMedia = activeNodeData.media_file;
 
@@ -47,13 +45,6 @@ const MediaScene = () => {
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =
       "media-scene-background";
-    setTimeout(() => {
-      setTextVisible(true);
-    }, 800);
-
-    return () => {
-      setTextVisible(false);
-    };
   }, []);
 
   return (
@@ -72,9 +63,7 @@ const MediaScene = () => {
           ))}
         </group>
 
-        <group position={[0, 0, 0]} visible={textVisible}>
-          <YellowTextRenderer />
-        </group>
+        <MediaYellowTextAnimator />
         {activeNodeMedia.includes("XA") ? (
           <>
             <AudioVisualizer />
