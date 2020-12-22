@@ -10,7 +10,6 @@ import { useMainSceneStore } from "../store";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import HUD from "../components/MainScene/HUD";
 import YellowOrb from "../components/MainScene/YellowOrb";
-import ActiveLevelNodes from "../components/MainScene/ActiveLevelNodes";
 import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
@@ -22,12 +21,11 @@ const MainScene = () => {
   const isPaused = currentSubscene === "pause";
 
   return (
-    <a.perspectiveCamera position-z={3}>
+    <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
         <a.group>
           <Preloader />
           <Site />
-          <ActiveLevelNodes />
           <HUD visible={!isPaused} />
           <GreenTextRenderer visible={!isPaused} />
           <YellowTextRenderer visible={!isPaused} />
@@ -45,7 +43,7 @@ const MainScene = () => {
         </a.group>
         <Lain />
       </Suspense>
-    </a.perspectiveCamera>
+    </perspectiveCamera>
   );
 };
 export default MainScene;

@@ -22,7 +22,7 @@ const handleMainSceneEvent = (gameContext: any) => {
   const siteRotY = gameContext.siteTransformState.rotY;
   const sitePosY = gameContext.siteTransformState.posY;
 
-  let newActiveNodeId;
+  let newActiveNodeId = gameContext.activeNodeId;
   let newActiveHudId;
   let newLevel = parseInt(gameContext.activeLevel);
   let newSiteRotY = gameContext.siteTransformState.rotY;
@@ -191,6 +191,12 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "CIRCLE":
         return {
           event: `pause_${activePauseComponent}_select`,
+          currentSite: currentSite,
+          newSitePosY: newSitePosY,
+          newtSiteRotY: newSiteRotY,
+          activeNodeId: newActiveNodeId,
+          activeNodeMatrixIndices: nodeMatrixIndices,
+          newSite: currentSite === "a" ? "b" : "a",
         };
     }
   }

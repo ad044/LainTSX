@@ -1,15 +1,9 @@
-import React, { memo, Suspense, useMemo } from "react";
-import site_a from "../../resources/site_a.json";
-import site_b from "../../resources/site_b.json";
-import level_y_values from "../../resources/level_y_values.json";
-import node_positions from "../../resources/node_positions.json";
-import Node from "./Node";
+import React, { memo, Suspense, useEffect, useState } from "react";
 import { a, useSpring } from "@react-spring/three";
-import { useLevelStore, useNodeStore, useSiteStore } from "../../store";
-import PurpleRing from "./PurpleRing";
-import GrayRing from "./GrayRing";
-import CyanCrystal from "./CyanCrystal";
-import { isNodeVisible } from "../../core/nodeSelector";
+import { useSiteStore } from "../../store";
+import ActiveLevelNodes from "./Site/ActiveLevelNodes";
+import InactiveLevelNodes from "./Site/InactiveLevelNodes";
+import Rings from "./Site/Rings";
 
 export type NodeDataType = {
   image_table_indices: { 1: string; 2: string; 3: string };
@@ -34,30 +28,7 @@ export type SiteType = {
   [key: string]: LevelType;
 };
 
-const Site = memo(() => {
-  const gameProgress = useNodeStore((state) => state.gameProgress);
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = currentSite === "a" ? site_a : site_b;
-
-  const activeLevel = useLevelStore((state) => state.activeLevel);
-  const visibleNodes = useMemo(() => {
-    const obj = {};
-    const activeLevelNr = parseInt(activeLevel);
-    const visibleLevels = [
-      (activeLevelNr - 2).toString().padStart(2, "0"),
-      (activeLevelNr - 1).toString().padStart(2, "0"),
-      (activeLevelNr + 1).toString().padStart(2, "0"),
-      (activeLevelNr + 2).toString().padStart(2, "0"),
-    ];
-
-    visibleLevels.forEach((level) => {
-      Object.assign(obj, siteData[level as keyof typeof siteData]);
-    });
-
-    return obj;
-  }, [activeLevel, siteData]);
-
+const Site = () => {
   const siteTransformState = useSiteStore((state) => state.transformState);
 
   const siteState = useSpring({
@@ -67,51 +38,32 @@ const Site = memo(() => {
     config: { duration: 1200 },
   });
 
+  const introSiteState = useSpring({
+    posZ: 0,
+    rotX: 0,
+    from: { posZ: -7, rotX: Math.PI / 2 },
+    config: { duration: 3900 },
+  });
+
   return (
     <Suspense fallback={null}>
       <a.group
-        rotation-y={siteState.siteRotY}
-        position-y={siteState.sitePosY}
-        rotation-x={siteState.siteRotX}
+        rotation-x={introSiteState.rotX}
+        position-z={introSiteState.posZ}
       >
-        {Object.entries(level_y_values).map((level: [string, number]) => {
-          if (
-            (currentSite === "b" && parseInt(level[0]) <= 13) ||
-            currentSite === "a"
-          ) {
-            return (
-              <group position={[0, level[1], 0]} key={level[0]}>
-                <PurpleRing purpleRingPosY={0.44} level={level[0]} />
-                <GrayRing grayRingPosY={-0.29} />
-                <CyanCrystal crystalRingPosY={-0.45} />
-              </group>
-            );
-          }
-        })}
-        {Object.entries(visibleNodes).map((node: [string, any]) => {
-          if (isNodeVisible(node[0], gameProgress, currentSite)) {
-            return (
-              <Node
-                sprite={node[1].node_name}
-                position={
-                  node_positions[
-                    node[0].substr(2) as keyof typeof node_positions
-                  ].position
-                }
-                rotation={
-                  node_positions[
-                    node[0].substr(2) as keyof typeof node_positions
-                  ].rotation
-                }
-                key={node[1].node_name}
-                level={node[0].substr(0, 2)}
-              />
-            );
-          }
-        })}
+        <a.group rotation-x={siteState.siteRotX}>
+          <a.group
+            rotation-y={siteState.siteRotY}
+            position-y={siteState.sitePosY}
+          >
+            {/*<ActiveLevelNodes />*/}
+            {/*<InactiveLevelNodes />*/}
+            <Rings />
+          </a.group>
+        </a.group>
       </a.group>
     </Suspense>
   );
-});
+};
 
 export default Site;

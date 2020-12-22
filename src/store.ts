@@ -258,6 +258,10 @@ export const useHudStore = create<HUDState>((set) => ({
 export const useNodeStore = create(
   combine(
     {
+      siteASave: {
+        activeNodeId: "0422",
+        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+      },
       activeNodeState: {
         id: "0422",
         posX: 0,
@@ -299,7 +303,7 @@ export const useStarfieldStore = create<StarfieldState>((set) => ({
 export const useSiteStore = create(
   combine(
     {
-      currentSite: "b",
+      currentSite: "a",
       transformState: {
         posY: 0,
         rotY: 0,
@@ -311,6 +315,8 @@ export const useSiteStore = create(
         set((state) => ({
           transformState: { ...state.transformState, [at]: to },
         })),
+      setCurrentSite: (to: string) =>
+        set(() => ({ currentSite: to as "a" | "b" })),
     })
   )
 );
@@ -516,3 +522,33 @@ export const usePauseStore = create<PauseState>((set) => ({
   setComponentMatrixIdx: (to) => set(() => ({ componentMatrixIdx: to })),
   setExitAnimation: (to) => set(() => ({ exitAnimation: to })),
 }));
+
+export const useSiteSaveStore = create(
+  combine(
+    {
+      a: {
+        activeNodeId: "0422",
+        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+        siteRotY: 0,
+        sitePosY: 0,
+      },
+      b: {
+        activeNodeId: "0422",
+        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+        siteRotY: 0,
+        sitePosY: 0,
+      },
+    } as any,
+    (set) => ({
+      setSiteSaveState: (
+        site: string,
+        to: {
+          activeNodeId: string;
+          nodeMatrixIndices: { matrixIdx: 7; rowIdx: 0; colIdx: 0 };
+          siteRotY: number;
+          sitePosY: number;
+        }
+      ) => set(() => ({ site: to })),
+    })
+  )
+);
