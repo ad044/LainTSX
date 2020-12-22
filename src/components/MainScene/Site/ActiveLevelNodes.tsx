@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
-import Node from "./Node";
-import node_positions from "../../resources/node_positions.json";
-import site_a from "../../resources/site_a.json";
-import { useNodeStore, useLevelStore, useSiteStore } from "../../store";
-import { a, useSpring } from "@react-spring/three";
-import { isNodeVisible } from "../../core/nodeSelector";
-import site_b from "../../resources/site_b.json";
+import Node from "../Node";
+import node_positions from "../../../resources/node_positions.json";
+import site_a from "../../../resources/site_a.json";
+import { useLevelStore, useNodeStore, useSiteStore } from "../../../store";
+import { isNodeVisible } from "../../../core/nodeSelector";
+import site_b from "../../../resources/site_b.json";
 
 const ActiveLevelNodes = () => {
   const gameProgress = useNodeStore((state) => state.gameProgress);
@@ -22,21 +21,8 @@ const ActiveLevelNodes = () => {
     [activeLevel, siteData]
   );
 
-  const siteTransformState = useSiteStore((state) => state.transformState);
-
-  const siteState = useSpring({
-    siteRotY: siteTransformState.rotY,
-    sitePosY: siteTransformState.posY,
-    siteRotX: siteTransformState.rotX,
-    config: { duration: 1200 },
-  });
-
   return (
-    <a.group
-      rotation-y={siteState.siteRotY}
-      position-y={siteState.sitePosY}
-      rotation-x={siteState.siteRotX}
-    >
+    <>
       {Object.entries(activeLevelNodes).map((node: [string, any]) => {
         if (isNodeVisible(node[0], gameProgress, currentSite)) {
           return (
@@ -57,7 +43,7 @@ const ActiveLevelNodes = () => {
           );
         }
       })}
-    </a.group>
+    </>
   );
 };
 

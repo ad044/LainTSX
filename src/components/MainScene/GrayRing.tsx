@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import * as THREE from "three";
 import lofTexture from "../../static/sprite/gray_ring_lof.png";
 import holeTexture from "../../static/sprite/hole.png";
@@ -14,11 +14,14 @@ const GrayRing = memo((props: GrayRingProps) => {
   const holeTex = useLoader(THREE.TextureLoader, holeTexture);
   const lifeTex = useLoader(THREE.TextureLoader, lifeTexture);
 
-  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+  const uniforms = useMemo(() => {
+    const uniform = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+    uniform.lof = { type: "t", value: lofTex };
+    uniform.hole = { type: "t", value: holeTex };
+    uniform.life = { type: "t", value: lifeTex };
 
-  uniforms.lof = { type: "t", value: lofTex };
-  uniforms.hole = { type: "t", value: holeTex };
-  uniforms.life = { type: "t", value: lifeTex };
+    return uniform
+  }, [holeTex, lifeTex, lofTex]);
 
   const vertexShader = `
     varying vec2 vUv;

@@ -1,12 +1,66 @@
 import { useCallback, useEffect } from "react";
-import { useSiteStore } from "../../store";
+import { useSiteSaveStore, useSiteStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
   const setTransformState = useSiteStore((state) => state.setTransformState);
+  const setCurrentSite = useSiteStore((state) => state.setCurrentSite);
+
+  const setSiteSaveState = useSiteSaveStore((state) => state.setSiteSaveState);
+  const siteASaveState = useSiteSaveStore((state) => state.a);
+  const siteBSaveState = useSiteSaveStore((state) => state.b);
+
+  const changeSite = useCallback(
+    (
+      currentSite: string,
+      activeNodeId: string,
+      activeNodeMatrixIndices: {
+        matrixIdx: number;
+        rowIdx: number;
+        colIdx: number;
+      },
+      siteRotY: number,
+      sitePosY: number,
+      newSite: string
+    ) => {
+      setSiteSaveState(currentSite, {
+        activeNodeId: activeNodeId,
+        nodeMatrixIndices: activeNodeMatrixIndices,
+        siteRotY: siteRotY,
+        sitePosY: sitePosY,
+      });
+
+      const siteToLoad = newSite === "a" ? siteASaveState : siteBSaveState;
+
+      setCurrentSite(newSite);
+      setTransformState(siteToLoad.rotY, "rotY");
+      setTransformState(siteToLoad.posY, "posY");
+
+      console.log(newSite)
+    },
+    [
+      setCurrentSite,
+      setSiteSaveState,
+      setTransformState,
+      siteASaveState,
+      siteBSaveState,
+    ]
+  );
 
   const dispatchObject = useCallback(
-    (event: string, newSitePosY: number, newSiteRotY: number) => {
+    (
+      event: string,
+      newSitePosY: number,
+      newSiteRotY: number,
+      currentSite: string,
+      newSite: string,
+      activeNodeId: string,
+      activeNodeMatrixIndices: {
+        matrixIdx: number;
+        rowIdx: number;
+        colIdx: number;
+      }
+    ) => {
       switch (event) {
         case "site_up":
         case "site_down":
@@ -27,7 +81,7 @@ const SiteManager = (props: StateManagerProps) => {
         case "pause_game":
           return {
             action: setTransformState,
-            value: [Math.PI / 2 - 0.5, "rotX"],
+            value: [Math.PI / 2, "rotX"],
             actionDelay: 0,
           };
         case "pause_exit_select":
@@ -36,9 +90,22 @@ const SiteManager = (props: StateManagerProps) => {
             value: [0, "rotX"],
             actionDelay: 0,
           };
+        case "pause_change_select":
+          return {
+            action: changeSite,
+            value: [
+              currentSite,
+              activeNodeId,
+              activeNodeMatrixIndices,
+              newSiteRotY,
+              newSitePosY,
+              newSite,
+            ],
+            actionDelay: 0,
+          };
       }
     },
-    [setTransformState]
+    [changeSite, setTransformState]
   );
 
   useEffect(() => {
@@ -46,16 +113,28 @@ const SiteManager = (props: StateManagerProps) => {
       const eventAction = props.eventState.event;
       const newSiteRotY = props.eventState.newSiteRotY;
       const newSitePosY = props.eventState.newSitePosY;
+      const activeNodeId = props.eventState.activeNodeId;
+      const activeNodeMatrixIndices = props.eventState.activeNodeMatrixIndices;
+
+      const currentSite = props.eventState.currentSite;
+      const newSite = props.eventState.newSite;
 
       const dispatchedObject = dispatchObject(
         eventAction,
         newSitePosY,
-        newSiteRotY
+        newSiteRotY,
+        currentSite,
+        newSite,
+        activeNodeId,
+        activeNodeMatrixIndices
       );
 
       if (dispatchedObject) {
         setTimeout(() => {
-          dispatchedObject.action.apply(null, dispatchedObject.value as any);
+          (dispatchedObject.action as any).apply(
+            null,
+            dispatchedObject.value as any
+          );
         }, dispatchedObject.actionDelay);
       }
     }

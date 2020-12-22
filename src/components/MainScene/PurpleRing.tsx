@@ -1,22 +1,20 @@
-import React, { memo, useRef } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import siteATex from "../../static/sprite/site_a.png";
 import siteBTex from "../../static/sprite/site_b.png";
 import siteLevelTex from "../../static/sprite/site_levels.png";
-import { useSiteStore } from "../../store";
 
 type PurpleRingProps = {
   purpleRingPosY: number;
   level: string;
+  site: string;
 };
 
 const PurpleRing = memo((props: PurpleRingProps) => {
   const siteA = useLoader(THREE.TextureLoader, siteATex);
   const siteB = useLoader(THREE.TextureLoader, siteBTex);
   const siteLevels = useLoader(THREE.TextureLoader, siteLevelTex);
-
-  const currentSite = useSiteStore((state) => state.currentSite);
 
   const purpleRingRef = useRef<THREE.Object3D>();
 
@@ -36,18 +34,22 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     return siteTextures[level as keyof typeof siteTextures];
   };
 
-  const uniforms = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
+  const uniforms = useMemo(() => {
+    const uniform = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
 
-  const formattedLevel = props.level.padStart(2, "0");
+    const formattedLevel = props.level.padStart(2, "0");
 
-  uniforms.tex = { type: "t", value: currentSite === "a" ? siteA : siteB };
-  uniforms.siteLevels = { type: "t", value: siteLevels };
-  uniforms.siteLevelFirstCharacterOffset = {
-    value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(0)),
-  };
-  uniforms.siteLevelSecondCharacterOffset = {
-    value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(1)),
-  };
+    uniform.tex = { type: "t", value: null };
+    uniform.siteLevels = { type: "t", value: siteLevels };
+    uniform.siteLevelFirstCharacterOffset = {
+      value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(0)),
+    };
+    uniform.siteLevelSecondCharacterOffset = {
+      value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(1)),
+    };
+
+    return uniform;
+  }, [props.level, siteLevels]);
 
   const vertexShader = `
     varying vec2 vUv;
@@ -208,14 +210,21 @@ const PurpleRing = memo((props: PurpleRingProps) => {
   }
     `;
 
+  const matRef = useRef<THREE.ShaderMaterial>();
   useFrame(() => {
     purpleRingRef.current!.rotation.y += 0.005;
   });
 
+  useEffect(() => {
+    if (matRef.current) {
+      matRef.current.uniforms.tex.value = props.site === "a" ? siteA : siteB;
+      matRef.current.uniformsNeedUpdate = true;
+    }
+  }, [props.site, siteA, siteB]);
+
   return (
     <mesh
       position={[0, props.purpleRingPosY, 0]}
-      renderOrder={1}
       scale={[26, 26, 26]}
       ref={purpleRingRef}
     >
@@ -231,6 +240,7 @@ const PurpleRing = memo((props: PurpleRingProps) => {
         transparent={true}
         uniforms={uniforms}
         lights={true}
+        ref={matRef}
       />
     </mesh>
   );
