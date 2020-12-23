@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Suspense, useMemo } from "react";
 import MainScene from "./scenes/MainScene";
-import "./static/css/main_scene.css";
 import "./static/css/page.css";
 import { Canvas } from "react-three-fiber";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
@@ -12,6 +11,7 @@ import BootScene from "./scenes/BootScene";
 import SSknScene from "./scenes/SSknScene";
 import PolytanScene from "./scenes/PolytanScene";
 import TaKScene from "./scenes/TaKScene";
+import ChangeDiscScene from "./scenes/ChangeDiscScene";
 
 const App = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -32,6 +32,7 @@ const App = () => {
       sskn: <SSknScene />,
       polytan: <PolytanScene />,
       tak: <TaKScene />,
+      change_disc: <ChangeDiscScene />,
     };
   }, []);
 
