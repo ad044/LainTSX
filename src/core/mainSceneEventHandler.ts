@@ -1,4 +1,3 @@
-import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import nodeSelector, { getNodeHudId, getNodeId } from "./nodeSelector";
@@ -193,7 +192,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           event: `pause_${activePauseComponent}_select`,
           currentSite: currentSite,
           newSitePosY: newSitePosY,
-          newtSiteRotY: newSiteRotY,
+          newSiteRotY: newSiteRotY,
           activeNodeId: newActiveNodeId,
           activeNodeMatrixIndices: nodeMatrixIndices,
           newSite: currentSite === "a" ? "b" : "a",

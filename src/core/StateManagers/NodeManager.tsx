@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useNodeStore } from "../../store";
+import { useNodeStore, useSiteSaveStore } from "../../store";
 import { StateManagerProps } from "./EventManager";
 
 const NodeManager = (props: StateManagerProps) => {
@@ -7,6 +7,8 @@ const NodeManager = (props: StateManagerProps) => {
   const setNodeMatrixIndices = useNodeStore(
     (state) => state.setNodeMatrixIndices
   );
+  const siteASaveState = useSiteSaveStore((state) => state.a);
+  const siteBSaveState = useSiteSaveStore((state) => state.b);
 
   const animateActiveNodeThrow = useCallback(
     (siteRotY: number) => {
@@ -53,14 +55,14 @@ const NodeManager = (props: StateManagerProps) => {
 
   const updateActiveNode = useCallback(
     (
-      delay: number,
-      isMoving: boolean,
       newActiveNodeId: string,
       newNodeMatrixIndices: {
         matrixIdx: number;
         rowIdx: number;
         colIdx: number;
-      }
+      },
+      isMoving?: boolean,
+      delay?: number
     ) => {
       setTimeout(() => {
         setActiveNodeState(newActiveNodeId, "id");
@@ -68,6 +70,15 @@ const NodeManager = (props: StateManagerProps) => {
       }, delay);
     },
     [setActiveNodeState, setNodeMatrixIndices]
+  );
+
+  const setAfterChangeSite = useCallback(
+    (newSite: string) => {
+      const siteToLoad = newSite === "a" ? siteASaveState : siteBSaveState;
+      setActiveNodeState(siteToLoad.activeNodeId, "id");
+      setNodeMatrixIndices(siteToLoad.nodeMatrixIndices);
+    },
+    [setActiveNodeState, setNodeMatrixIndices, siteASaveState, siteBSaveState]
   );
 
   const dispatchObject = useCallback(
@@ -79,7 +90,8 @@ const NodeManager = (props: StateManagerProps) => {
         rowIdx: number;
         colIdx: number;
       },
-      newSiteRotY: number
+      newSiteRotY: number,
+      newSite: string
     ) => {
       switch (event) {
         case "site_up":
@@ -90,12 +102,17 @@ const NodeManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: updateActiveNode,
-            value: [3900, true, newActiveNodeId, newNodeMatrixIndices],
+            value: [newActiveNodeId, newNodeMatrixIndices, true, 3900],
           };
         case "change_node":
           return {
             action: updateActiveNode,
-            value: [0, false, newActiveNodeId, newNodeMatrixIndices],
+            value: [newActiveNodeId, newNodeMatrixIndices],
+          };
+        case "pause_change_select":
+          return {
+            action: setAfterChangeSite,
+            value: [newSite],
           };
         case "throw_node_media":
         case "throw_node_gate":
@@ -115,17 +132,23 @@ const NodeManager = (props: StateManagerProps) => {
       const eventAction = props.eventState.event;
       const newActiveNodeId = props.eventState.newActiveNodeId;
       const newNodeMatrixIndices = props.eventState.newNodeMatrixIndices;
+
       const newSiteRotY = props.eventState.newSiteRotY;
+      const newSite = props.eventState.newSite;
 
       const dispatchedObject = dispatchObject(
         eventAction,
         newActiveNodeId,
         newNodeMatrixIndices,
-        newSiteRotY
+        newSiteRotY,
+        newSite
       );
 
       if (dispatchedObject) {
-        dispatchedObject.action.apply(null, dispatchedObject.value as never);
+        (dispatchedObject.action as any).apply(
+          null,
+          dispatchedObject.value as never
+        );
       }
     }
   }, [props.eventState, setActiveNodeState, dispatchObject]);
