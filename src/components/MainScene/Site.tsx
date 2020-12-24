@@ -30,6 +30,7 @@ export type SiteType = {
 
 const Site = () => {
   const siteTransformState = useSiteStore((state) => state.transformState);
+  const introAnim = useSiteStore((state) => state.introAnim);
 
   const siteState = useSpring({
     siteRotY: siteTransformState.rotY,
@@ -41,7 +42,7 @@ const Site = () => {
   const introSiteState = useSpring({
     posZ: 0,
     rotX: 0,
-    from: { posZ: -7, rotX: Math.PI / 2 },
+    from: { posZ: introAnim ? -7 : 0, rotX: introAnim ? Math.PI / 2 : 0 },
     config: { duration: 3900 },
   });
 
@@ -56,8 +57,8 @@ const Site = () => {
             rotation-y={siteState.siteRotY}
             position-y={siteState.sitePosY}
           >
-            {/*<ActiveLevelNodes />*/}
-            {/*<InactiveLevelNodes />*/}
+            <ActiveLevelNodes />
+            <InactiveLevelNodes />
             <Rings />
           </a.group>
         </a.group>

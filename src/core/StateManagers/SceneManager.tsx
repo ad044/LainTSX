@@ -31,6 +31,12 @@ const SceneManager = (props: StateManagerProps) => {
             value: "main",
             delay: 6000,
           };
+        case "pause_change_select":
+          return {
+            action: setScene,
+            value: "change_disc",
+            delay: 0,
+          };
       }
     },
     [setScene]

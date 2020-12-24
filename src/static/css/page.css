@@ -44,7 +44,7 @@ video {
 }
 
 .change-disc-scene-background {
-  background: #ffffff;
+  background: url(../sprite/change_disc_bg.png);
 }
 
 ::cue {

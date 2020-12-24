@@ -54,6 +54,9 @@ const Pause = (props: { visible: boolean }) => {
   );
 
   useEffect(() => {
+    setAnimation(false);
+    setIntro(true);
+    setShowActiveComponent(false);
     if (props.visible) {
       setTimeout(() => {
         setAnimation(true);
@@ -63,20 +66,10 @@ const Pause = (props: { visible: boolean }) => {
         setIntro(false);
       }, 3500);
     }
-    return () => {
-      setTimeout(() => {
-        setAnimation(false);
-        setIntro(true);
-        setShowActiveComponent(false);
-      }, 700);
-    };
   }, [props.visible]);
 
   return animation ? (
-    <group
-      position={[-0.85, -0.7, 0]}
-      scale={[0.85, 0.85, 0]}
-    >
+    <group position={[-0.85, -0.7, 0]} scale={[0.85, 0.85, 0]}>
       {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
         [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
           if (rowIdx === 5 && col > 0 && col < 5) {

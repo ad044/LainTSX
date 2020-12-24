@@ -5,6 +5,7 @@ import { StateManagerProps } from "./EventManager";
 const SiteManager = (props: StateManagerProps) => {
   const setTransformState = useSiteStore((state) => state.setTransformState);
   const setCurrentSite = useSiteStore((state) => state.setCurrentSite);
+  const setIntroAnim = useSiteStore((state) => state.setIntroAnim);
 
   const setSiteSaveState = useSiteSaveStore((state) => state.setSiteSaveState);
   const siteASaveState = useSiteSaveStore((state) => state.a);
@@ -23,6 +24,9 @@ const SiteManager = (props: StateManagerProps) => {
       sitePosY: number,
       newSite: string
     ) => {
+      setTransformState(0, "rotX");
+      setIntroAnim(true);
+
       setSiteSaveState(currentSite, {
         activeNodeId: activeNodeId,
         nodeMatrixIndices: activeNodeMatrixIndices,
@@ -33,13 +37,12 @@ const SiteManager = (props: StateManagerProps) => {
       const siteToLoad = newSite === "a" ? siteASaveState : siteBSaveState;
 
       setCurrentSite(newSite);
-      setTransformState(siteToLoad.rotY, "rotY");
-      setTransformState(siteToLoad.posY, "posY");
-
-      console.log(newSite)
+      setTransformState(siteToLoad.siteRotY, "rotY");
+      setTransformState(siteToLoad.sitePosY, "posY");
     },
     [
       setCurrentSite,
+      setIntroAnim,
       setSiteSaveState,
       setTransformState,
       siteASaveState,
@@ -103,9 +106,14 @@ const SiteManager = (props: StateManagerProps) => {
             ],
             actionDelay: 0,
           };
+        case "throw_node_media":
+        case "throw_node_gate":
+        case "throw_node_sskn":
+        case "throw_node_tak":
+          return { action: setIntroAnim, value: [false], actionDelay: 0 };
       }
     },
-    [changeSite, setTransformState]
+    [changeSite, setIntroAnim, setTransformState]
   );
 
   useEffect(() => {

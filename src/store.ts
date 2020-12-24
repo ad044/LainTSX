@@ -58,6 +58,7 @@ type StarfieldState = {
 };
 
 type SiteState = {
+  introAnim: boolean;
   currentSite: "a" | "b";
   transformState: {
     posY: number;
@@ -303,6 +304,7 @@ export const useStarfieldStore = create<StarfieldState>((set) => ({
 export const useSiteStore = create(
   combine(
     {
+      introAnim: true,
       currentSite: "a",
       transformState: {
         posY: 0,
@@ -317,6 +319,7 @@ export const useSiteStore = create(
         })),
       setCurrentSite: (to: string) =>
         set(() => ({ currentSite: to as "a" | "b" })),
+      setIntroAnim: (to: boolean) => set(() => ({ introAnim: to })),
     })
   )
 );
@@ -423,7 +426,7 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "change_disc",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
@@ -533,8 +536,8 @@ export const useSiteSaveStore = create(
         sitePosY: 0,
       },
       b: {
-        activeNodeId: "0422",
-        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+        activeNodeId: "0414",
+        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
         siteRotY: 0,
         sitePosY: 0,
       },

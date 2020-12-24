@@ -30,6 +30,7 @@ const SubsceneManager = (props: StateManagerProps) => {
             delay: 0,
           };
         case "pause_exit_select":
+        case "pause_change_select":
           return {
             action: setMainSubscene,
             value: "site",
