@@ -4,6 +4,23 @@ import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 
+type SiteSaveState = {
+  a: {
+    activeNodeId: string;
+    nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
+    siteRotY: number;
+    sitePosY: number;
+    level: string;
+  };
+  b: {
+    activeNodeId: string;
+    nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
+    siteRotY: number;
+    sitePosY: number;
+    level: string;
+  };
+};
+
 type PauseState = {
   exitAnimation: boolean;
   componentMatrix: string[];
@@ -58,7 +75,6 @@ type StarfieldState = {
 };
 
 type SiteState = {
-  introAnim: boolean;
   currentSite: "a" | "b";
   transformState: {
     posY: number;
@@ -156,8 +172,10 @@ type SSknState = {
 };
 
 type MainSceneState = {
+  intro: boolean;
   subscene: string;
   setSubscene: (to: string) => void;
+  setIntro: (to: boolean) => void;
 };
 
 export type MediaBigTextState = {
@@ -304,7 +322,6 @@ export const useStarfieldStore = create<StarfieldState>((set) => ({
 export const useSiteStore = create(
   combine(
     {
-      introAnim: true,
       currentSite: "a",
       transformState: {
         posY: 0,
@@ -319,7 +336,6 @@ export const useSiteStore = create(
         })),
       setCurrentSite: (to: string) =>
         set(() => ({ currentSite: to as "a" | "b" })),
-      setIntroAnim: (to: boolean) => set(() => ({ introAnim: to })),
     })
   )
 );
@@ -446,8 +462,10 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
 }));
 
 export const useMainSceneStore = create<MainSceneState>((set) => ({
+  intro: true,
   subscene: "site",
   setSubscene: (to) => set(() => ({ subscene: to })),
+  setIntro: (to) => set(() => ({ intro: to })),
 }));
 
 export const useBootStore = create(
@@ -534,24 +552,31 @@ export const useSiteSaveStore = create(
         nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
         siteRotY: 0,
         sitePosY: 0,
+        level: "04",
       },
       b: {
         activeNodeId: "0414",
         nodeMatrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
         siteRotY: 0,
         sitePosY: 0,
+        level: "04",
       },
-    } as any,
+    } as SiteSaveState,
     (set) => ({
       setSiteSaveState: (
         site: string,
         to: {
           activeNodeId: string;
-          nodeMatrixIndices: { matrixIdx: 7; rowIdx: 0; colIdx: 0 };
+          nodeMatrixIndices: {
+            matrixIdx: number;
+            rowIdx: number;
+            colIdx: number;
+          };
           siteRotY: number;
           sitePosY: number;
+          level: string;
         }
-      ) => set(() => ({ site: to })),
+      ) => set(() => ({ [site]: to })),
     })
   )
 );

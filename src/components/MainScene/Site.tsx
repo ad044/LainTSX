@@ -1,9 +1,19 @@
-import React, { memo, Suspense, useEffect, useState } from "react";
+import React, {
+  memo,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { a, useSpring } from "@react-spring/three";
-import { useSiteStore } from "../../store";
+import { useLevelStore, useNodeStore, useSiteStore } from "../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
 import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import Rings from "./Site/Rings";
+import site_a from "../../resources/site_a.json";
+import site_b from "../../resources/site_b.json";
+import game_progress from "../../resources/initial_progress.json";
 
 export type NodeDataType = {
   image_table_indices: { 1: string; 2: string; 3: string };
@@ -28,6 +38,13 @@ export type SiteType = {
   [key: string]: LevelType;
 };
 
+export type NodesProps = {
+  currentSite: "a" | "b";
+  activeLevel: string;
+  siteData: typeof site_a | typeof site_b;
+  gameProgress: typeof game_progress;
+};
+
 const Site = () => {
   const siteTransformState = useSiteStore((state) => state.transformState);
   const introAnim = useSiteStore((state) => state.introAnim);
@@ -46,6 +63,16 @@ const Site = () => {
     config: { duration: 3900 },
   });
 
+  const gameProgress = useNodeStore((state) => state.gameProgress);
+
+  const currentSite = useSiteStore((state) => state.currentSite);
+
+  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
+    currentSite,
+  ]);
+
+  const activeLevel = useLevelStore((state) => state.activeLevel);
+
   return (
     <Suspense fallback={null}>
       <a.group
@@ -57,8 +84,18 @@ const Site = () => {
             rotation-y={siteState.siteRotY}
             position-y={siteState.sitePosY}
           >
-            <ActiveLevelNodes />
-            <InactiveLevelNodes />
+            <ActiveLevelNodes
+              currentSite={currentSite}
+              activeLevel={activeLevel}
+              siteData={siteData}
+              gameProgress={gameProgress}
+            />
+            <InactiveLevelNodes
+              currentSite={currentSite}
+              activeLevel={activeLevel}
+              siteData={siteData}
+              gameProgress={gameProgress}
+            />
             <Rings />
           </a.group>
         </a.group>

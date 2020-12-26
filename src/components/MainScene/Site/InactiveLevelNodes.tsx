@@ -1,21 +1,13 @@
 import React, { useMemo } from "react";
-import site_a from "../../../resources/site_a.json";
-import site_b from "../../../resources/site_b.json";
 import node_positions from "../../../resources/node_positions.json";
 import Node from "../Node";
-import { useLevelStore, useNodeStore, useSiteStore } from "../../../store";
 import { isNodeVisible } from "../../../core/nodeSelector";
+import { NodesProps } from "../Site";
 
-const InactiveLevelNodes = () => {
-  const gameProgress = useNodeStore((state) => state.gameProgress);
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = currentSite === "a" ? site_a : site_b;
-
-  const activeLevel = useLevelStore((state) => state.activeLevel);
+const InactiveLevelNodes = (props: NodesProps) => {
   const visibleNodes = useMemo(() => {
     const obj = {};
-    const activeLevelNr = parseInt(activeLevel);
+    const activeLevelNr = parseInt(props.activeLevel);
     const visibleLevels = [
       (activeLevelNr - 2).toString().padStart(2, "0"),
       (activeLevelNr - 1).toString().padStart(2, "0"),
@@ -24,16 +16,16 @@ const InactiveLevelNodes = () => {
     ];
 
     visibleLevels.forEach((level) => {
-      Object.assign(obj, siteData[level as keyof typeof siteData]);
+      Object.assign(obj, props.siteData[level as keyof typeof props.siteData]);
     });
 
     return obj;
-  }, [activeLevel, siteData]);
+  }, [props]);
 
   return (
     <>
       {Object.entries(visibleNodes).map((node: [string, any]) => {
-        if (isNodeVisible(node[0], gameProgress, currentSite)) {
+        if (isNodeVisible(node[0], props.gameProgress, props.currentSite)) {
           return (
             <Node
               sprite={node[1].node_name}

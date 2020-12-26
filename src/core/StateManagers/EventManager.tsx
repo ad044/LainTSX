@@ -34,6 +34,7 @@ import LevelSelectionManager from "./LevelSelectionManager";
 import SubsceneManager from "./SubsceneManager";
 import PauseComponentManager from "./PauseComponentManager";
 import MediaYellowTextManager from "./MediaYellowTextManager";
+import SiteSaveManager from "./SiteSaveManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -241,6 +242,7 @@ const EventManager = () => {
       <SubsceneManager eventState={eventState!} />
       <PauseComponentManager eventState={eventState!} />
       <MediaYellowTextManager eventState={eventState!} />
+      <SiteSaveManager eventState={eventState!} />
     </>
   );
 };

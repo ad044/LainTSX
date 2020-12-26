@@ -191,10 +191,11 @@ const handleMainSceneEvent = (gameContext: any) => {
         return {
           event: `pause_${activePauseComponent}_select`,
           currentSite: currentSite,
-          newSitePosY: newSitePosY,
-          newSiteRotY: newSiteRotY,
-          activeNodeId: newActiveNodeId,
-          activeNodeMatrixIndices: nodeMatrixIndices,
+          currentSitePosY: newSitePosY,
+          currentSiteRotY: newSiteRotY,
+          currentActiveNodeId: newActiveNodeId,
+          currentActiveNodeMatrixIndices: nodeMatrixIndices,
+          currentLevel: newLevel,
           newSite: currentSite === "a" ? "b" : "a",
         };
     }

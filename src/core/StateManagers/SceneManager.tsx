@@ -1,9 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
-import { useSceneStore } from "../../store";
+import { useMainSceneStore, useSceneStore } from "../../store";
 
 const SceneManager = (props: StateManagerProps) => {
   const setScene = useSceneStore((state) => state.setScene);
+  const setMainSceneIntro = useMainSceneStore((state) => state.setIntro);
 
   const dispatchObject = useCallback(
     (event: string, newScene: string) => {
@@ -16,6 +17,7 @@ const SceneManager = (props: StateManagerProps) => {
             action: setScene,
             value: newScene,
             delay: 3450,
+            setMainSceneIntro: false,
           };
         case "media_exit_select":
         case "exit_gate":
@@ -36,6 +38,7 @@ const SceneManager = (props: StateManagerProps) => {
             action: setScene,
             value: "change_disc",
             delay: 0,
+            setMainSceneIntro: true,
           };
       }
     },
@@ -53,9 +56,16 @@ const SceneManager = (props: StateManagerProps) => {
         setTimeout(() => {
           dispatchedObject.action(dispatchedObject.value);
         }, dispatchedObject.delay);
+        if (dispatchedObject.setMainSceneIntro !== undefined) {
+          if (dispatchedObject.setMainSceneIntro) {
+            setMainSceneIntro(true);
+          } else {
+            setMainSceneIntro(false);
+          }
+        }
       }
     }
-  }, [props.eventState, dispatchObject]);
+  }, [props.eventState, dispatchObject, setMainSceneIntro]);
 
   return null;
 };

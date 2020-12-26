@@ -124,7 +124,7 @@ const NodeManager = (props: StateManagerProps) => {
           };
       }
     },
-    [animateActiveNodeThrow, updateActiveNode]
+    [animateActiveNodeThrow, setAfterChangeSite, updateActiveNode]
   );
 
   useEffect(() => {
