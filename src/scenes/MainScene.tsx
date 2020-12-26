@@ -1,6 +1,6 @@
 import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
-import React, { Suspense } from "react";
+import React, { Suspense, useMemo } from "react";
 import Site from "../components/MainScene/Site";
 import Lain from "../components/MainScene/Lain";
 import Preloader from "../components/Preloader";
@@ -18,7 +18,9 @@ import Starfield from "../components/MainScene/Starfield/Starfield";
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
 
-  const isPaused = currentSubscene === "pause";
+  const isPaused = useMemo(() => currentSubscene === "pause", [
+    currentSubscene,
+  ]);
 
   return (
     <perspectiveCamera position-z={3}>
