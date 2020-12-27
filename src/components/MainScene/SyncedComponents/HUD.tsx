@@ -1,17 +1,17 @@
 import React, { memo } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import bigHud from "../../static/sprite/big_hud.png";
-import bigHudMirrored from "../../static/sprite/big_hud_mirrored.png";
-import longHud from "../../static/sprite/long_hud.png";
-import longHudMirrored from "../../static/sprite/long_hud_mirrored.png";
-import boringHud from "../../static/sprite/long_hud_boring.png";
-import boringHudMirrored from "../../static/sprite/long_hud_boring_mirrored.png";
+import bigHud from "../../../static/sprite/big_hud.png";
+import bigHudMirrored from "../../../static/sprite/big_hud_mirrored.png";
+import longHud from "../../../static/sprite/long_hud.png";
+import longHudMirrored from "../../../static/sprite/long_hud_mirrored.png";
+import boringHud from "../../../static/sprite/long_hud_boring.png";
+import boringHudMirrored from "../../../static/sprite/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
-import { useHudStore } from "../../store";
-import node_huds from "../../resources/node_huds.json";
+import { useHudStore } from "../../../store";
+import node_huds from "../../../resources/node_huds.json";
 
-const HUD = memo((props: { visible: boolean }) => {
+const HUD = () => {
   const active = useHudStore((state) => state.active);
   const id = useHudStore((state) => state.id);
 
@@ -82,7 +82,7 @@ const HUD = memo((props: { visible: boolean }) => {
   );
 
   return (
-    <group visible={props.visible} position={[0, 0, 10]}>
+    <group position={[0, 0, 10]}>
       <a.sprite
         position-x={longHUDPosX}
         position-y={currentHud!.long.position[1]}
@@ -127,6 +127,6 @@ const HUD = memo((props: { visible: boolean }) => {
       </a.sprite>
     </group>
   );
-});
+};
 
 export default HUD;

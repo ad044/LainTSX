@@ -1,49 +1,44 @@
 import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
-import React, { Suspense, useMemo } from "react";
-import Site from "../components/MainScene/Site";
+import React, { Suspense, useEffect, useMemo } from "react";
+import Site from "../components/MainScene/SyncedComponents/Site";
 import Lain from "../components/MainScene/Lain";
 import Preloader from "../components/Preloader";
-import GrayPlanes from "../components/MainScene/GrayPlanes";
-import MiddleRing from "../components/MainScene/MiddleRing";
+import MiddleRing from "../components/MainScene/SyncedComponents/MiddleRing";
 import { useMainSceneStore } from "../store";
-import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
-import HUD from "../components/MainScene/HUD";
-import YellowOrb from "../components/MainScene/YellowOrb";
-import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
-import LevelSelection from "../components/MainScene/LevelSelection";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
-import Starfield from "../components/MainScene/Starfield/Starfield";
+import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
 
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
+  const shouldIntro = useMainSceneStore((state) => state.intro);
 
   const isPaused = useMemo(() => currentSubscene === "pause", [
     currentSubscene,
   ]);
+
+  useEffect(() => {
+    document.getElementsByTagName("body")[0].className = "main-body";
+    return () => {
+      document.getElementsByTagName("body")[0].className = "";
+    };
+  }, []);
 
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
         <a.group>
           <Preloader />
-          <Site />
-          <HUD visible={!isPaused} />
-          <GreenTextRenderer visible={!isPaused} />
-          <YellowTextRenderer visible={!isPaused} />
-          <YellowOrb visible={!isPaused} />
-          <GrayPlanes visible={!isPaused} />
-          <MiddleRing />
-          <LevelSelection visible={!isPaused} />
           <Pause visible={isPaused} />
-          <Starfield visible={!isPaused} />
+          <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
+          {/*<MiddleRing />*/}
           <OrbitControls />
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
         </a.group>
-        <Lain />
+        <Lain shouldIntro={shouldIntro} />
       </Suspense>
     </perspectiveCamera>
   );

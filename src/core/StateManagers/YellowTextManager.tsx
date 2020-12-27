@@ -3,7 +3,7 @@ import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
 import site_b from "../../resources/site_b.json";
 import { useBigTextStore, useSiteStore } from "../../store";
-import { SiteType } from "../../components/MainScene/Site";
+import { SiteType } from "../../components/MainScene/SyncedComponents/Site";
 import { StateManagerProps } from "./EventManager";
 
 const YellowTextManager = (props: StateManagerProps) => {

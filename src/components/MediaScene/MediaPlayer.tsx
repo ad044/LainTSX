@@ -15,7 +15,7 @@ import {
   useSiteStore,
 } from "../../store";
 import t from "../../static/webvtt/test.vtt";
-import { SiteType } from "../MainScene/Site";
+import { SiteType } from "../MainScene/SyncedComponents/Site";
 
 const MediaPlayer = () => {
   const [mediaSource, setMediaSource] = useState<any>();

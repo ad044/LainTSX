@@ -6,7 +6,7 @@ import {
   useSiteStore,
 } from "../../store";
 import { a, useSpring } from "@react-spring/three";
-import { LevelType, SiteType } from "../MainScene/Site";
+import { LevelType, SiteType } from "../MainScene/SyncedComponents/Site";
 import site_a from "../../resources/site_a.json";
 import site_b from "../../resources/site_b.json";
 import dummy from "../../static/sprite/dummy.png";

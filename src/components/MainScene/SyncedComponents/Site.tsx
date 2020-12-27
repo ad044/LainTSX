@@ -1,19 +1,17 @@
-import React, {
-  memo,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { Suspense, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
-import { useLevelStore, useNodeStore, useSiteStore } from "../../store";
+import {
+  useLevelStore,
+  useMainSceneStore,
+  useNodeStore,
+  useSiteStore,
+} from "../../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
 import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import Rings from "./Site/Rings";
-import site_a from "../../resources/site_a.json";
-import site_b from "../../resources/site_b.json";
-import game_progress from "../../resources/initial_progress.json";
+import site_a from "../../../resources/site_a.json";
+import site_b from "../../../resources/site_b.json";
+import game_progress from "../../../resources/initial_progress.json";
 
 export type NodeDataType = {
   image_table_indices: { 1: string; 2: string; 3: string };
@@ -45,9 +43,13 @@ export type NodesProps = {
   gameProgress: typeof game_progress;
 };
 
-const Site = () => {
+type SiteProps = {
+  shouldIntro: boolean;
+  introFinished: boolean;
+};
+
+const Site = (props: SiteProps) => {
   const siteTransformState = useSiteStore((state) => state.transformState);
-  const introAnim = useSiteStore((state) => state.introAnim);
 
   const siteState = useSpring({
     siteRotY: siteTransformState.rotY,
@@ -59,8 +61,11 @@ const Site = () => {
   const introSiteState = useSpring({
     posZ: 0,
     rotX: 0,
-    from: { posZ: introAnim ? -7 : 0, rotX: introAnim ? Math.PI / 2 : 0 },
-    config: { duration: 3900 },
+    from: {
+      posZ: props.shouldIntro ? -10 : 0,
+      rotX: props.shouldIntro ? Math.PI / 2 : 0,
+    },
+    config: { duration: 3400 },
   });
 
   const gameProgress = useNodeStore((state) => state.gameProgress);
@@ -96,7 +101,11 @@ const Site = () => {
               siteData={siteData}
               gameProgress={gameProgress}
             />
-            <Rings />
+            <Rings
+              currentSite={currentSite}
+              activeLevel={activeLevel}
+              activateAllRings={props.shouldIntro ? props.introFinished : true}
+            />
           </a.group>
         </a.group>
       </a.group>

@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo} from "react";
-import Node from "../Node";
-import node_positions from "../../../resources/node_positions.json";
-import { useNodeStore } from "../../../store";
-import { isNodeVisible } from "../../../core/nodeSelector";
+import React, { useEffect, useMemo } from "react";
+import Node from "./Node";
+import node_positions from "../../../../resources/node_positions.json";
+import { useNodeStore } from "../../../../store";
+import { isNodeVisible } from "../../../../core/nodeSelector";
 import { NodesProps } from "../Site";
 
 const ActiveLevelNodes = (props: NodesProps) => {
@@ -13,9 +13,6 @@ const ActiveLevelNodes = (props: NodesProps) => {
     [props]
   );
 
-  useEffect(() => {
-    console.log("sex")
-  })
   return (
     <>
       {Object.entries(activeLevelNodes).map((node: [string, any]) => {

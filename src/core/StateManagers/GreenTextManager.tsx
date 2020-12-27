@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
 import node_huds from "../../resources/node_huds.json";
 import site_a from "../../resources/site_a.json";
-import { SiteType } from "../../components/MainScene/Site";
+import { SiteType } from "../../components/MainScene/SyncedComponents/Site";
 import { useGreenTextStore, useSiteStore } from "../../store";
 import site_b from "../../resources/site_b.json";
 

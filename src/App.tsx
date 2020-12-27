@@ -15,12 +15,9 @@ import ChangeDiscScene from "./scenes/ChangeDiscScene";
 
 const App = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
+
   useEffect(() => {
     document.title = "< index >";
-    document.getElementsByTagName("body")[0].className = "main-body";
-    return () => {
-      document.getElementsByTagName("body")[0].className = "";
-    };
   }, []);
 
   const dispatchScene = useMemo(() => {

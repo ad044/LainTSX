@@ -5,7 +5,7 @@ import { useSpring, a } from "@react-spring/three";
 import word_position_states from "../../../resources/word_position_states.json";
 import * as THREE from "three";
 import site_a from "../../../resources/site_a.json";
-import { SiteType } from "../../MainScene/Site";
+import { SiteType } from "../../MainScene/SyncedComponents/Site";
 import site_b from "../../../resources/site_b.json";
 
 type RightSideProps = {

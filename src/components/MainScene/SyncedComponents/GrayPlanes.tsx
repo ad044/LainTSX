@@ -2,7 +2,7 @@ import React, { createRef, memo, RefObject, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 
-const GrayPlanes = memo((props: { visible: boolean }) => {
+const GrayPlanes = () => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();
 
   const grayPlanePoses = [
@@ -29,11 +29,7 @@ const GrayPlanes = memo((props: { visible: boolean }) => {
 
   return (
     // separate wrapper group to make it rotate around [0,0,0]
-    <group
-      position={[0.1, 0, -2]}
-      ref={grayPlaneGroupRef}
-      visible={props.visible}
-    >
+    <group position={[0.1, 0, -2]} ref={grayPlaneGroupRef}>
       {grayPlaneRefs.map((ref, idx: number) => {
         return (
           <mesh
@@ -55,6 +51,6 @@ const GrayPlanes = memo((props: { visible: boolean }) => {
       })}
     </group>
   );
-});
+};
 
 export default GrayPlanes;

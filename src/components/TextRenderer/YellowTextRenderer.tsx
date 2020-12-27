@@ -3,7 +3,7 @@ import { BigTextState, useBigTextStore } from "../../store";
 import { a, useSpring, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 
-const YellowTextRenderer = (props: { visible?: boolean }) => {
+const YellowTextRenderer = () => {
   const disableTrail = useBigTextStore((state) => state.disableTrail);
   const transformState = useBigTextStore((state) => state.transformState);
 
@@ -41,7 +41,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   );
 
   return (
-    <group position={[0, 0, 10]} visible={props.visible && visible}>
+    <group position={[0, 0, 10]} visible={visible}>
       {disableTrail
         ? textArrRef.current.map((letter, idx) => (
             <a.group

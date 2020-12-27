@@ -10,7 +10,7 @@ import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
 import MediumLetter from "../components/TextRenderer/MediumLetter";
 import site_a from "../resources/site_a.json";
-import { SiteType } from "../components/MainScene/Site";
+import { SiteType } from "../components/MainScene/SyncedComponents/Site";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 import site_b from "../resources/site_b.json";
 
