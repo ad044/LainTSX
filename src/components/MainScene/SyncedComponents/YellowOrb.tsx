@@ -1,15 +1,19 @@
 import React, { memo, useRef, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import orbSprite from "../../static/sprite/orb.png";
-import { useMainSceneStore } from "../../store";
+import orbSprite from "../../../static/sprite/orb.png";
+import { useMainSceneStore } from "../../../store";
 
 // initialize outside the component otherwise it gets overwritten when it rerenders
 let orbIdx = 0;
 let orbDirectionChangeCount = 0;
 let renderOrder = -1;
 
-const YellowOrb = memo((props: { visible: boolean }) => {
+type YellowOrbProps = {
+  visible: boolean;
+}
+
+const YellowOrb = (props: YellowOrbProps) => {
   const orbRef = useRef<THREE.Object3D>();
   const [orbDirection, setOrbDirection] = useState("left");
   const [currentCurve, setCurrentCurve] = useState("first");
@@ -107,7 +111,7 @@ const YellowOrb = memo((props: { visible: boolean }) => {
   });
 
   return (
-    <group position={[0, -0.1, 1]} visible={props.visible}>
+    <group position={[0, -0.1, 1]}>
       <sprite scale={[0.5, 0.5, 0.5]} ref={orbRef} renderOrder={renderOrder}>
         <spriteMaterial
           attach="material"
@@ -118,6 +122,6 @@ const YellowOrb = memo((props: { visible: boolean }) => {
       </sprite>
     </group>
   );
-});
+};
 
 export default YellowOrb;

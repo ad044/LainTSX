@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import node_positions from "../../../resources/node_positions.json";
-import Node from "../Node";
-import { isNodeVisible } from "../../../core/nodeSelector";
+import node_positions from "../../../../resources/node_positions.json";
+import Node from "./Node";
+import { isNodeVisible } from "../../../../core/nodeSelector";
 import { NodesProps } from "../Site";
 
 const InactiveLevelNodes = (props: NodesProps) => {

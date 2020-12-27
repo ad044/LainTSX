@@ -1,11 +1,18 @@
 import React, { useEffect } from "react";
-import { useSceneStore } from "../store";
+import { useSceneStore, useSiteStore } from "../store";
 
 const ChangeDiscScene = () => {
   const setScene = useSceneStore((state) => state.setScene);
+  const currentSite = useSiteStore((state) => state.currentSite);
+
   useEffect(() => {
-    document.getElementsByTagName("canvas")[0].className =
-      "change-disc-scene-background";
+    if (currentSite === "a") {
+      document.getElementsByTagName("canvas")[0].className =
+        "change-disc-scene-a-background";
+    } else if (currentSite === "b") {
+      document.getElementsByTagName("canvas")[0].className =
+        "change-disc-scene-b-background";
+    }
 
     setTimeout(() => {
       setScene("main");
@@ -15,7 +22,7 @@ const ChangeDiscScene = () => {
       document.getElementsByTagName("canvas")[0].className =
         "main-scene-background";
     };
-  }, [setScene]);
+  }, [currentSite, setScene]);
 
   return <></>;
 };

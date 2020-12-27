@@ -6,6 +6,7 @@ import { useFrame } from "react-three-fiber";
 type StarProps = {
   position: number[];
   color: string;
+  introStar?: boolean;
 };
 
 const Star = (props: StarProps) => {
@@ -50,10 +51,14 @@ const Star = (props: StarProps) => {
 
   useFrame(() => {
     if (starRef.current) {
-      if (starRef.current.position.y > 4) {
-        starRef.current.position.y = props.position[1];
+      if (props.introStar) {
+        starRef.current.position.y += 0.2 + amp.current;
+      } else {
+        if (starRef.current.position.y > 4) {
+          starRef.current.position.y = props.position[1];
+        }
+        starRef.current.position.y += 0.01 + amp.current;
       }
-      starRef.current.position.y += (0.01 + amp.current);
     }
   });
 

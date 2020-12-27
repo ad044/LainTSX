@@ -2,7 +2,6 @@ import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "./EventManager";
 import { useLevelStore, useSiteSaveStore } from "../../store";
 
-
 const LevelManager = (props: StateManagerProps) => {
   const setActiveLevel = useLevelStore((state) => state.setActiveLevel);
   const siteASaveState = useSiteSaveStore((state) => state.a);
@@ -28,9 +27,9 @@ const LevelManager = (props: StateManagerProps) => {
         case "pause_change_select":
           return {
             action: setActiveLevel,
-            value: [
+            value:
               newSite === "a" ? siteASaveState.level : siteBSaveState.level,
-            ],
+            delay: 0,
           };
       }
     },

@@ -1,9 +1,9 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
-import middleRingTexture from "../../static/sprite/middle_ring_tex.png";
+import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useMiddleRingStore } from "../../store";
+import { useMiddleRingStore } from "../../../store";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);

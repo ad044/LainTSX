@@ -1,7 +1,7 @@
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { SiteType } from "../components/MainScene/Site";
+import { SiteType } from "../components/MainScene/SyncedComponents/Site";
 import unlocked_nodes from "../resources/initial_progress.json";
 import level_y_values from "../resources/level_y_values.json";
 

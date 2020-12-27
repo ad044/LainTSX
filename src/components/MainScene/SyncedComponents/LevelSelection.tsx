@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useMemo } from "react";
-import level_selection_font from "../../static/sprite/select_level_font.png";
-import verticalHud from "../../static/sprite/select_level_hud_vertical.png";
-import horizontalHud from "../../static/sprite/select_level_hud_horizontal.png";
-import levelSelectionText from "../../static/sprite/select_level_text.png";
-import upArrow from "../../static/sprite/select_level_up_arrow.png";
-import downArrow from "../../static/sprite/select_level_down_arrow.png";
-import { useLevelSelectionStore } from "../../store";
+import level_selection_font from "../../../static/sprite/select_level_font.png";
+import verticalHud from "../../../static/sprite/select_level_hud_vertical.png";
+import horizontalHud from "../../../static/sprite/select_level_hud_horizontal.png";
+import levelSelectionText from "../../../static/sprite/select_level_text.png";
+import upArrow from "../../../static/sprite/select_level_up_arrow.png";
+import downArrow from "../../../static/sprite/select_level_down_arrow.png";
+import { useLevelSelectionStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 
-const LevelSelection = (props: { visible: boolean }) => {
+const LevelSelection = () => {
   const levelSelectionFontTex = useLoader(
     THREE.TextureLoader,
     level_selection_font
@@ -57,7 +57,7 @@ const LevelSelection = (props: { visible: boolean }) => {
   }, []);
 
   return (
-    <group visible={props.visible}>
+    <group>
       <a.group position-y={verticalHudPosY} renderOrder={5}>
         <mesh
           scale={[0.3, 0.4, 0]}

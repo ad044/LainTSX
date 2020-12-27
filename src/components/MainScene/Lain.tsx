@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
@@ -112,7 +112,11 @@ export const LainThrowNode = () => {
   );
 };
 
-const Lain = () => {
+type LainProps = {
+  shouldIntro: boolean;
+};
+
+const Lain = (props: LainProps) => {
   const lainMoveState = useLainStore((state) => state.lainMoveState);
 
   const lainAnimationDispatch = {
@@ -126,14 +130,28 @@ const Lain = () => {
     throw_node: <LainThrowNode />,
   };
 
+  const [introFinished, setIntroFinished] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIntroFinished(true);
+    }, 4000);
+  }, []);
+
+  const stopIntroAnim = useMemo(() => {
+    return props.shouldIntro ? introFinished : true;
+  }, [introFinished, props.shouldIntro]);
+
   return (
     <Suspense fallback={null}>
       <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]}>
-        {
+        {stopIntroAnim ? (
           lainAnimationDispatch[
             lainMoveState as keyof typeof lainAnimationDispatch
           ]
-        }
+        ) : (
+          <LainIntro />
+        )}
       </sprite>
     </Suspense>
   );

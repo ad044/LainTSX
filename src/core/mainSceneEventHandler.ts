@@ -1,7 +1,7 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import nodeSelector, { getNodeHudId, getNodeId } from "./nodeSelector";
-import { SiteType } from "../components/MainScene/Site";
+import { SiteType } from "../components/MainScene/SyncedComponents/Site";
 
 const handleMainSceneEvent = (gameContext: any) => {
   let event;

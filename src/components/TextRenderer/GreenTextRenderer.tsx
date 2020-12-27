@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { GreenTextState, useGreenTextStore } from "../../store";
 import MediumLetter from "./MediumLetter";
 
-const GreenTextRenderer = (props: { visible?: boolean }) => {
+const GreenTextRenderer = () => {
   const greenTextActive = useGreenTextStore((state) => state.active);
 
   const transformRef = useRef(useGreenTextStore.getState().transformState);
@@ -34,7 +34,7 @@ const GreenTextRenderer = (props: { visible?: boolean }) => {
   );
 
   return (
-    <group position={[0, 0, 10]} visible={props.visible}>
+    <group position={[0, 0, 10]}>
       <a.group
         position-x={greenTextPosX}
         position-y={transformRef.current.posY}
@@ -42,11 +42,7 @@ const GreenTextRenderer = (props: { visible?: boolean }) => {
         scale={[0.02, 0.035, 0.02]}
       >
         {textArrRef.current.map((letter, idx) => (
-          <MediumLetter
-            letter={letter}
-            letterIdx={idx}
-            key={idx}
-          />
+          <MediumLetter letter={letter} letterIdx={idx} key={idx} />
         ))}
       </a.group>
     </group>

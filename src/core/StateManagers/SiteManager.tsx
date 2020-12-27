@@ -65,14 +65,9 @@ const SiteManager = (props: StateManagerProps) => {
             value: [newSite],
             actionDelay: 0,
           };
-        case "throw_node_media":
-        case "throw_node_gate":
-        case "throw_node_sskn":
-        case "throw_node_tak":
-          return { action: setIntroAnim, value: [false], actionDelay: 0 };
       }
     },
-    [changeSite, setIntroAnim, setTransformState]
+    [changeSite, setTransformState]
   );
 
   useEffect(() => {
