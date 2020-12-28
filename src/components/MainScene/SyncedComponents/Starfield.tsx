@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Star from "./Starfield/Star";
 
-type StarfieldProps = {
-  visible: boolean;
-};
-
-const Starfield = (props: StarfieldProps) => {
+const Starfield = () => {
   const LCG = (a: number, c: number, m: number, s: number) => () =>
     (s = (s * a + c) % m);
 
@@ -38,9 +34,17 @@ const Starfield = (props: StarfieldProps) => {
     ])
   );
 
+  const [mainVisible, setMainVisible] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMainVisible(true);
+    }, 3700);
+  }, []);
+
   return (
     <>
-      <group position={[0, -1, 2]} visible={props.visible}>
+      <group position={[0, -1, 2]} visible={mainVisible}>
         <group rotation={[0, 0.75, Math.PI / 2]} position={[-0.7, -1, -5]}>
           {posesBlueFromLeft.map((poses, idx) => (
             <Star position={poses} color={"blue"} key={idx} />
@@ -65,9 +69,8 @@ const Starfield = (props: StarfieldProps) => {
         </group>
       </group>
       <group
-        position={[-3, -15, -19]}
+        position={[-2, -15, -19]}
         rotation={[Math.PI / 4, 0, 0]}
-        visible={!props.visible}
       >
         {posesBlueFromBottom.map((poses, idx) => (
           <Star position={poses} color={"blue"} key={idx} introStar={true} />

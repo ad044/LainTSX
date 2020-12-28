@@ -35,8 +35,8 @@ const MediaYellowTextManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (event: string) => {
-      switch (event) {
+    (eventState: { event: string }) => {
+      switch (eventState.event) {
         case "media_leftside_up":
         case "throw_node_media":
           return {
@@ -55,9 +55,7 @@ const MediaYellowTextManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         (dispatchedObject.action as any).apply(null, dispatchedObject.value);

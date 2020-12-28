@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useMediaStore, useMediaWordStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useMediaStore, useMediaWordStore } from "../../../store";
 import * as THREE from "three";
 
 const MediaComponentManager = (props: StateManagerProps) => {
@@ -59,24 +59,27 @@ const MediaComponentManager = (props: StateManagerProps) => {
   }, [resetComponentMatrixIndices, resetWordPosStateIdx]);
 
   const dispatchObject = useCallback(
-    (
-      event: string,
-      newLeftSideComponentIdx: number,
-      newRightSideComponentIdx: number,
-      newWordPosStateIdx: number
-    ) => {
-      switch (event) {
+    (eventState: {
+      event: string;
+      leftSideComponentIdx: number;
+      rightSideComponentIdx: number;
+      wordPosStateIdx: number;
+    }) => {
+      switch (eventState.event) {
         case "media_rightside_down":
         case "media_rightside_up":
           return {
             action: updateRightSide,
-            value: [newRightSideComponentIdx, newWordPosStateIdx],
+            value: [
+              eventState.rightSideComponentIdx,
+              eventState.wordPosStateIdx,
+            ],
           };
         case "media_leftside_down":
         case "media_leftside_up":
           return {
             action: setLeftComponentMatrixIdx,
-            value: [newLeftSideComponentIdx],
+            value: [eventState.leftSideComponentIdx],
           };
         case "media_leftside_right":
         case "media_rightside_left":
@@ -105,18 +108,7 @@ const MediaComponentManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const newLeftSideComponentIdx = props.eventState.newLeftSideComponentIdx;
-      const newRightSideComponentIdx =
-        props.eventState.newRightSideComponentIdx;
-      const newWordPosStateIdx = props.eventState.newWordPosStateIdx;
-
-      const dispatchedObject = dispatchObject(
-        eventAction,
-        newLeftSideComponentIdx,
-        newRightSideComponentIdx,
-        newWordPosStateIdx
-      );
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         dispatchedObject.action.apply(null, dispatchedObject.value);

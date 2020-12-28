@@ -12,8 +12,8 @@ const SSknComponentManager = (props: StateManagerProps) => {
   const toggleLoading = useSSknStore((state) => state.toggleLoading);
 
   const dispatchObject = useCallback(
-    (event: string) => {
-      switch (event) {
+    (eventState: { event: string }) => {
+      switch (eventState.event) {
         case "sskn_ok_down":
         case "sskn_cancel_up":
           return {
@@ -30,9 +30,7 @@ const SSknComponentManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         dispatchedObject.action();

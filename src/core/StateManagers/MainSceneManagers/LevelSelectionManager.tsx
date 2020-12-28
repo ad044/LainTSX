@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useLevelSelectionStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useLevelSelectionStore } from "../../../store";
 
 const LevelSelectionManager = (props: StateManagerProps) => {
   const toggleLevelSelection = useLevelSelectionStore(
@@ -11,8 +11,8 @@ const LevelSelectionManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (event: string, newSelectedLevelIdx: number) => {
-      switch (event) {
+    (eventState: { event: string; selectedLevelIdx: number }) => {
+      switch (eventState.event) {
         case "toggle_level_selection":
         case "level_selection_back":
           return {
@@ -22,7 +22,7 @@ const LevelSelectionManager = (props: StateManagerProps) => {
         case "level_selection_down":
           return {
             action: setSelectedLevel,
-            value: newSelectedLevelIdx,
+            value: eventState.selectedLevelIdx,
           };
         case "select_level_up":
         case "select_level_down":
@@ -36,10 +36,7 @@ const LevelSelectionManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const newSelectedLevelIdx = props.eventState.newSelectedLevelIdx;
-
-      const dispatchedObject = dispatchObject(eventAction, newSelectedLevelIdx);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         dispatchedObject.action(dispatchedObject.value as any);

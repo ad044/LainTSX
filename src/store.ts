@@ -8,6 +8,7 @@ type SiteSaveState = {
   a: {
     activeNodeId: string;
     nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
+    nodeHudId: string;
     siteRotY: number;
     sitePosY: number;
     level: string;
@@ -15,6 +16,7 @@ type SiteSaveState = {
   b: {
     activeNodeId: string;
     nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
+    nodeHudId: string;
     siteRotY: number;
     sitePosY: number;
     level: string;
@@ -213,10 +215,10 @@ export const useBigTextStore = create(
       visible: true,
       color: "yellow",
       disableTrail: false,
-      text: "",
+      text: "Tda028",
       transformState: {
-        posX: 0,
-        posY: 0,
+        posX: -0.35,
+        posY: 0.23,
         xOffset: 0,
       },
     } as BigTextState,
@@ -247,8 +249,8 @@ export const useGreenTextStore = create(
     {
       text: "TOUKO's DIARY",
       transformState: {
-        posX: { initial: 0, final: 0 },
-        posY: 0,
+        posX: { initial: 1.18, final: 0.18 },
+        posY: 0.16,
         xOffset: 0,
       },
       active: 1,
@@ -550,6 +552,7 @@ export const useSiteSaveStore = create(
       a: {
         activeNodeId: "0422",
         nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+        nodeHudId: "fg_hud_1",
         siteRotY: 0,
         sitePosY: 0,
         level: "04",
@@ -557,6 +560,7 @@ export const useSiteSaveStore = create(
       b: {
         activeNodeId: "0414",
         nodeMatrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
+        nodeHudId: "fg_hud_2",
         siteRotY: 0,
         sitePosY: 0,
         level: "04",
@@ -572,6 +576,7 @@ export const useSiteSaveStore = create(
             rowIdx: number;
             colIdx: number;
           };
+          nodeHudId: string;
           siteRotY: number;
           sitePosY: number;
           level: string;

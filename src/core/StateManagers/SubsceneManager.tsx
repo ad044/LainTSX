@@ -7,8 +7,8 @@ const SubsceneManager = (props: StateManagerProps) => {
   const setBootSubscene = useBootStore((state) => state.setSubscene);
 
   const dispatchObject = useCallback(
-    (event: string) => {
-      switch (event) {
+    (eventState: { event: string }) => {
+      switch (eventState.event) {
         case "level_selection_back":
         case "select_level_up":
         case "select_level_down":
@@ -58,9 +58,7 @@ const SubsceneManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         setTimeout(() => {

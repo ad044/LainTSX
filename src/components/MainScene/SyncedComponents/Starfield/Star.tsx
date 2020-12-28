@@ -49,15 +49,20 @@ const Star = (props: StarProps) => {
 
   const amp = useRef(Math.random() / 10);
 
+  const introAmpRef = useRef(1);
+
   useFrame(() => {
     if (starRef.current) {
       if (props.introStar) {
-        starRef.current.position.y += 0.2 + amp.current;
+        starRef.current.position.y += 0.25 + amp.current;
       } else {
         if (starRef.current.position.y > 4) {
           starRef.current.position.y = props.position[1];
         }
-        starRef.current.position.y += 0.01 + amp.current;
+        starRef.current.position.y += 0.01 + amp.current + introAmpRef.current;
+        if (introAmpRef.current > 0) {
+          introAmpRef.current -= 0.003;
+        }
       }
     }
   });

@@ -1,10 +1,10 @@
-import { useCallback, useEffect } from "react";
-import node_huds from "../../resources/node_huds.json";
-import site_a from "../../resources/site_a.json";
-import site_b from "../../resources/site_b.json";
-import { useBigTextStore, useSiteStore } from "../../store";
-import { SiteType } from "../../components/MainScene/SyncedComponents/Site";
-import { StateManagerProps } from "./EventManager";
+import { useCallback, useEffect, useMemo } from "react";
+import node_huds from "../../../resources/node_huds.json";
+import site_a from "../../../resources/site_a.json";
+import site_b from "../../../resources/site_b.json";
+import { useBigTextStore, useSiteStore } from "../../../store";
+import { SiteType } from "../../../components/MainScene/SyncedComponents/Site";
+import { StateManagerProps } from "../EventManager";
 
 const YellowTextManager = (props: StateManagerProps) => {
   const setTransformState = useBigTextStore((state) => state.setTransformState);
@@ -20,7 +20,10 @@ const YellowTextManager = (props: StateManagerProps) => {
   const setVisible = useBigTextStore((state) => state.setVisible);
 
   const currentSite = useSiteStore((state) => state.currentSite);
-  const siteData = currentSite === "a" ? site_a : site_b;
+
+  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
+    currentSite,
+  ]);
 
   const animateYellowTextWithMove = useCallback(
     (
@@ -178,22 +181,36 @@ const YellowTextManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (
-      event: string,
-      newActiveHudId: string | undefined,
-      newActiveNodeId: string | undefined,
-      newLevel: string
-    ) => {
-      switch (event) {
+    (eventState: {
+      event: string;
+      activeHudId: string;
+      activeNodeId: string;
+      level: string;
+    }) => {
+      switch (eventState.event) {
         case "site_up":
           return {
             action: animateYellowTextWithMove,
-            value: [0, -1.5, newActiveHudId, newActiveNodeId, newLevel, 1300],
+            value: [
+              0,
+              -1.5,
+              eventState.activeHudId,
+              eventState.activeNodeId,
+              eventState.level,
+              1300,
+            ],
           };
         case "site_down":
           return {
             action: animateYellowTextWithMove,
-            value: [0, 1.5, newActiveHudId, newActiveNodeId, newLevel, 1300],
+            value: [
+              0,
+              1.5,
+              eventState.activeHudId,
+              eventState.activeNodeId,
+              eventState.level,
+              1300,
+            ],
           };
         case "site_left":
           return {
@@ -201,9 +218,9 @@ const YellowTextManager = (props: StateManagerProps) => {
             value: [
               Math.PI / 4,
               0,
-              newActiveHudId,
-              newActiveNodeId,
-              newLevel,
+              eventState.activeHudId,
+              eventState.activeNodeId,
+              eventState.level,
               1100,
             ],
           };
@@ -213,21 +230,29 @@ const YellowTextManager = (props: StateManagerProps) => {
             value: [
               -Math.PI / 4,
               0,
-              newActiveHudId,
-              newActiveNodeId,
-              newLevel,
+              eventState.activeHudId,
+              eventState.activeNodeId,
+              eventState.level,
               1100,
             ],
           };
         case "change_node":
           return {
             action: animateYellowTextWithoutMove,
-            value: [newActiveHudId, newActiveNodeId, newLevel],
+            value: [
+              eventState.activeHudId,
+              eventState.activeNodeId,
+              eventState.level,
+            ],
           };
         case "level_selection_back":
           return {
             action: levelSelectionBack,
-            value: [newActiveNodeId, newActiveHudId, newLevel],
+            value: [
+              eventState.activeNodeId,
+              eventState.activeHudId,
+              eventState.level,
+            ],
           };
         case "toggle_level_selection":
           return {
@@ -237,7 +262,11 @@ const YellowTextManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: toggleVisibleAfterLevelSelect,
-            value: [newActiveNodeId, newActiveHudId, newLevel],
+            value: [
+              eventState.activeNodeId,
+              eventState.activeHudId,
+              eventState.level,
+            ],
           };
       }
     },
@@ -252,18 +281,7 @@ const YellowTextManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-
-      const newActiveNodeId = props.eventState.newActiveNodeId;
-      const newActiveHudId = props.eventState.newActiveHudId;
-      const newLevel = props.eventState.newLevel;
-
-      const dispatchedObject = dispatchObject(
-        eventAction,
-        newActiveHudId,
-        newActiveNodeId,
-        newLevel
-      );
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         (dispatchedObject.action as any).apply(null, dispatchedObject.value);

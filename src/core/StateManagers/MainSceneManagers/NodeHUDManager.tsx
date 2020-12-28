@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { useHudStore } from "../../store";
-import { StateManagerProps } from "./EventManager";
+import { useHudStore } from "../../../store";
+import { StateManagerProps } from "../EventManager";
 
 const NodeHUDManager = (props: StateManagerProps) => {
   const setId = useHudStore((state) => state.setId);
@@ -41,20 +41,20 @@ const NodeHUDManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (event: string, targetNodeHudId: string) => {
-      switch (event) {
+    (eventState: { event: string; activeHudId: string }) => {
+      switch (eventState.event) {
         case "site_up":
         case "site_down":
         case "site_left":
         case "site_right":
           return {
             action: moveAndChangeNode,
-            value: [targetNodeHudId],
+            value: [eventState.activeHudId],
           };
         case "change_node":
           return {
             action: changeNode,
-            value: [targetNodeHudId],
+            value: [eventState.activeHudId],
           };
         case "toggle_level_selection":
         case "level_selection_back":
@@ -65,7 +65,7 @@ const NodeHUDManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: selectLevelAnimation,
-            value: [targetNodeHudId],
+            value: [eventState.activeHudId],
           };
       }
     },
@@ -74,10 +74,7 @@ const NodeHUDManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const newActiveHudId = props.eventState.newActiveHudId;
-
-      const dispatchedObject = dispatchObject(eventAction, newActiveHudId);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         (dispatchedObject.action as any).apply(null, dispatchedObject.value);

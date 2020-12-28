@@ -1,13 +1,13 @@
 import { useCallback, useEffect } from "react";
-import { useLainStore } from "../../store";
-import { StateManagerProps } from "./EventManager";
+import { useLainStore } from "../../../store";
+import { StateManagerProps } from "../EventManager";
 
 const LainManager = (props: StateManagerProps) => {
   const setLainMoveState = useLainStore((state) => state.setLainMoveState);
 
   const dispatchObject = useCallback(
-    (event: string) => {
-      switch (event) {
+    (eventState: { event: string }) => {
+      switch (eventState.event) {
         case "site_up":
         case "site_down":
         case "site_left":
@@ -16,7 +16,7 @@ const LainManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: setLainMoveState,
-            value: event,
+            value: eventState.event,
             duration: 3900,
           };
         case "throw_node_media":
@@ -35,8 +35,7 @@ const LainManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         dispatchedObject.action(dispatchedObject.value);

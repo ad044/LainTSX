@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { usePauseStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { usePauseStore } from "../../../store";
 
 const PauseComponentManager = (props: StateManagerProps) => {
   const setComponentMatrixIdx = usePauseStore(
@@ -9,13 +9,13 @@ const PauseComponentManager = (props: StateManagerProps) => {
   const setExitAnimation = usePauseStore((state) => state.setExitAnimation);
 
   const dispatchObject = useCallback(
-    (event: string, newComponentMatrixIdx: number) => {
-      switch (event) {
+    (eventState: { event: string; pauseMatrixIdx: number }) => {
+      switch (eventState.event) {
         case "pause_up":
         case "pause_down":
           return {
             action: setComponentMatrixIdx,
-            value: newComponentMatrixIdx,
+            value: eventState.pauseMatrixIdx,
           };
         case "pause_exit_select":
           return {
@@ -34,13 +34,7 @@ const PauseComponentManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const newComponentMatrixIdx = props.eventState.newPauseMatrixIdx;
-
-      const dispatchedObject = dispatchObject(
-        eventAction,
-        newComponentMatrixIdx
-      );
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         dispatchedObject.action(dispatchedObject.value as never);

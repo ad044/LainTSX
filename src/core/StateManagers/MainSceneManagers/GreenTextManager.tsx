@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import node_huds from "../../resources/node_huds.json";
-import site_a from "../../resources/site_a.json";
-import { SiteType } from "../../components/MainScene/SyncedComponents/Site";
-import { useGreenTextStore, useSiteStore } from "../../store";
-import site_b from "../../resources/site_b.json";
+import { StateManagerProps } from "../EventManager";
+import node_huds from "../../../resources/node_huds.json";
+import site_a from "../../../resources/site_a.json";
+import { SiteType } from "../../../components/MainScene/SyncedComponents/Site";
+import { useGreenTextStore, useSiteStore } from "../../../store";
+import site_b from "../../../resources/site_b.json";
 
 const GreenTextManager = (props: StateManagerProps) => {
   const setGreenText = useGreenTextStore((state) => state.setText);
@@ -52,25 +52,37 @@ const GreenTextManager = (props: StateManagerProps) => {
   );
 
   const dispatchObject = useCallback(
-    (
-      event: string,
-      newActiveNodeId: string,
-      newActiveHudId: string,
-      newLevel: string
-    ) => {
-      switch (event) {
+    (eventState: {
+      event: string;
+      activeNodeId: string;
+      activeHudId: string;
+      level: string;
+    }) => {
+      switch (eventState.event) {
         case "site_up":
         case "site_down":
         case "site_left":
         case "site_right":
           return {
             action: toggleAndSetGreenText,
-            value: [newActiveNodeId, newActiveHudId, newLevel, 3900, true],
+            value: [
+              eventState.activeNodeId,
+              eventState.activeHudId,
+              eventState.level,
+              3900,
+              true,
+            ],
           };
         case "change_node":
           return {
             action: toggleAndSetGreenText,
-            value: [newActiveNodeId, newActiveHudId, newLevel, 500, true],
+            value: [
+              eventState.activeNodeId,
+              eventState.activeHudId,
+              eventState.level,
+              500,
+              true,
+            ],
           };
         case "toggle_level_selection":
         case "level_selection_back":
@@ -81,7 +93,13 @@ const GreenTextManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: toggleAndSetGreenText,
-            value: [newActiveNodeId, newActiveHudId, newLevel, 3900, false],
+            value: [
+              eventState.activeNodeId,
+              eventState.activeHudId,
+              eventState.level,
+              3900,
+              false,
+            ],
           };
       }
     },
@@ -90,17 +108,7 @@ const GreenTextManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const newActiveNodeId = props.eventState.newActiveNodeId;
-      const newActiveHudId = props.eventState.newActiveHudId;
-      const newLevel = props.eventState.newLevel;
-
-      const dispatchedObject = dispatchObject(
-        eventAction,
-        newActiveNodeId,
-        newActiveHudId,
-        newLevel
-      );
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         (dispatchedObject.action as any).apply(
