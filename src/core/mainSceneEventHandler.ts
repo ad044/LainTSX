@@ -12,21 +12,18 @@ const handleMainSceneEvent = (gameContext: any) => {
   const pauseMatrixIdx = gameContext.pauseMatrixIdx;
   const activePauseComponent = gameContext.activePauseComponent;
   const gameProgress = gameContext.gameProgress;
-  const activeNodeId = gameContext.activeNodeId;
   const currentSite = gameContext.currentSite;
 
+  const siteASaveState = gameContext.siteASaveState;
+  const siteBSaveState = gameContext.siteBSaveState;
+
+  let activeNodeId = gameContext.activeNodeId;
+  let activeHudId;
   let nodeMatrixIndices = gameContext.nodeMatrixIndices;
-
-  const level = parseInt(gameContext.activeLevel);
-  const siteRotY = gameContext.siteTransformState.rotY;
-  const sitePosY = gameContext.siteTransformState.posY;
-
-  let newActiveNodeId = gameContext.activeNodeId;
-  let newActiveHudId;
-  let newLevel = parseInt(gameContext.activeLevel);
-  let newSiteRotY = gameContext.siteTransformState.rotY;
-  let newSitePosY = gameContext.siteTransformState.posY;
-  let newScene = gameContext.scene;
+  let level = parseInt(gameContext.activeLevel);
+  let siteRotY = gameContext.siteTransformState.rotY;
+  let sitePosY = gameContext.siteTransformState.posY;
+  let scene = gameContext.scene;
 
   if (subscene === "site") {
     let selectedNodeData;
@@ -48,12 +45,12 @@ const handleMainSceneEvent = (gameContext: any) => {
 
         if (selectedNodeData) {
           event = selectedNodeData.event;
-          newActiveNodeId = selectedNodeData.newActiveNodeId;
+          activeNodeId = selectedNodeData.newActiveNodeId;
           nodeMatrixIndices = selectedNodeData.newNodeMatrixIndices;
-          newSiteRotY = selectedNodeData.newSiteRotY;
-          newSitePosY = selectedNodeData.newSitePosY;
-          newLevel = selectedNodeData.newLevel;
-          newActiveHudId = selectedNodeData.newActiveHudId;
+          siteRotY = selectedNodeData.newSiteRotY;
+          sitePosY = selectedNodeData.newSitePosY;
+          level = selectedNodeData.newLevel;
+          activeHudId = selectedNodeData.newActiveHudId;
         }
 
         break;
@@ -61,12 +58,12 @@ const handleMainSceneEvent = (gameContext: any) => {
         // in this case we have to check the type of the blue orb
         // and dispatch an action depending on that, so we have to precalculate the
         // new active blue orb here.
-        newActiveNodeId = getNodeId(level, nodeMatrixIndices);
+        activeNodeId = getNodeId(level, nodeMatrixIndices);
 
         const siteData = currentSite === "a" ? site_a : site_b;
 
         const nodeData = (siteData as SiteType)[gameContext.activeLevel][
-          newActiveNodeId
+          activeNodeId
         ];
         const nodeType = nodeData.type;
 
@@ -79,24 +76,24 @@ const handleMainSceneEvent = (gameContext: any) => {
           case 3:
           case 5:
             event = eventAnimation + "media";
-            newScene = "media";
+            scene = "media";
             break;
           case 6:
             if (nodeData.node_name.substr(0, 3) === "TaK") {
               event = eventAnimation + "tak";
-              newScene = "tak";
+              scene = "tak";
             } else {
               event = eventAnimation + "media";
-              newScene = "media";
+              scene = "media";
             }
             break;
           case 8:
             event = eventAnimation + "gate";
-            newScene = "gate";
+            scene = "gate";
             break;
           case 7:
             event = eventAnimation + "sskn";
-            newScene = "sskn";
+            scene = "sskn";
             break;
         }
         break;
@@ -108,13 +105,13 @@ const handleMainSceneEvent = (gameContext: any) => {
 
     return {
       event: event,
-      newNodeMatrixIndices: nodeMatrixIndices,
-      newSitePosY: newSitePosY,
-      newSiteRotY: newSiteRotY,
-      newLevel: newLevel.toString().padStart(2, "0"),
-      newScene: newScene,
-      newActiveNodeId: newActiveNodeId,
-      newActiveHudId: newActiveHudId,
+      nodeMatrixIndices: nodeMatrixIndices,
+      sitePosY: sitePosY,
+      siteRotY: siteRotY,
+      level: level.toString().padStart(2, "0"),
+      scene: scene,
+      activeNodeId: activeNodeId,
+      activeHudId: activeHudId,
     };
   } else if (subscene === "level_selection") {
     switch (keyPress) {
@@ -123,13 +120,13 @@ const handleMainSceneEvent = (gameContext: any) => {
           if (selectedLevel + 1 <= 22)
             return {
               event: `level_selection_up`,
-              newSelectedLevelIdx: selectedLevel + 1,
+              selectedLevelIdx: selectedLevel + 1,
             };
         } else if (currentSite === "b") {
           if (selectedLevel + 1 <= 13)
             return {
               event: `level_selection_up`,
-              newSelectedLevelIdx: selectedLevel + 1,
+              selectedLevelIdx: selectedLevel + 1,
             };
         }
         break;
@@ -137,15 +134,15 @@ const handleMainSceneEvent = (gameContext: any) => {
         if (selectedLevel - 1 >= 1)
           return {
             event: `level_selection_down`,
-            newSelectedLevelIdx: selectedLevel - 1,
+            selectedLevelIdx: selectedLevel - 1,
           };
         break;
       case "X":
         return {
           event: "level_selection_back",
-          newActiveNodeId: getNodeId(newLevel, nodeMatrixIndices),
-          newActiveHudId: getNodeHudId(nodeMatrixIndices),
-          newLevel: newLevel.toString().padStart(2, "0"),
+          activeNodeId: getNodeId(level, nodeMatrixIndices),
+          activeHudId: getNodeHudId(nodeMatrixIndices),
+          level: level.toString().padStart(2, "0"),
         };
       case "CIRCLE":
         const selectedNodeData = nodeSelector({
@@ -165,11 +162,11 @@ const handleMainSceneEvent = (gameContext: any) => {
             selectedLevel < level ? "select_level_down" : "select_level_up";
           return {
             event: event,
-            newLevel: selectedLevel.toString().padStart(2, "0"),
-            newActiveNodeId: selectedNodeData.newActiveNodeId,
-            newActiveHudId: selectedNodeData.newActiveHudId,
-            newNodeMatrixIndices: selectedNodeData.newNodeMatrixIndices,
-            newSitePosY: -selectedNodeData.newSitePosY,
+            level: selectedLevel.toString().padStart(2, "0"),
+            activeNodeId: selectedNodeData.newActiveNodeId,
+            activeHudId: selectedNodeData.newActiveHudId,
+            nodeMatrixIndices: selectedNodeData.newNodeMatrixIndices,
+            sitePosY: -selectedNodeData.newSitePosY,
           };
         }
     }
@@ -179,24 +176,24 @@ const handleMainSceneEvent = (gameContext: any) => {
         if (pauseMatrixIdx - 1 < 0) break;
         return {
           event: "pause_up",
-          newPauseMatrixIdx: pauseMatrixIdx - 1,
+          pauseMatrixIdx: pauseMatrixIdx - 1,
         };
       case "DOWN":
         if (pauseMatrixIdx + 1 > 4) break;
         return {
           event: "pause_down",
-          newPauseMatrixIdx: pauseMatrixIdx + 1,
+          pauseMatrixIdx: pauseMatrixIdx + 1,
         };
       case "CIRCLE":
         return {
           event: `pause_${activePauseComponent}_select`,
-          currentSite: currentSite,
-          currentSitePosY: newSitePosY,
-          currentSiteRotY: newSiteRotY,
-          currentActiveNodeId: newActiveNodeId,
-          currentActiveNodeMatrixIndices: nodeMatrixIndices,
-          currentLevel: newLevel,
-          newSite: currentSite === "a" ? "b" : "a",
+          currentSitePosY: sitePosY,
+          currentSiteRotY: siteRotY,
+          currentNodeId: activeNodeId,
+          currentNodeMatrixIndices: nodeMatrixIndices,
+          currentHudId: getNodeHudId(nodeMatrixIndices),
+          currentLevel: level.toString().padStart(2, "0"),
+          site: currentSite === "a" ? "b" : "a",
         };
     }
   }

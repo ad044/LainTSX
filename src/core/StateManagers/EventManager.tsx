@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import SiteManager from "./SiteManager";
-import MiddleRingManager from "./MiddleRingManager";
-import LainManager from "./LainManager";
-import NodeManager from "./NodeManager";
-import NodeHUDManager from "./NodeHUDManager";
+import SiteManager from "./MainSceneManagers/SiteManager";
+import MiddleRingManager from "./MainSceneManagers/MiddleRingManager";
+import LainManager from "./MainSceneManagers/LainManager";
+import NodeManager from "./MainSceneManagers/NodeManager";
+import NodeHUDManager from "./MainSceneManagers/NodeHUDManager";
 import {
   useAuthorizeUserStore,
   useBootStore,
@@ -18,11 +18,11 @@ import {
   useSiteStore,
   useSSknStore,
 } from "../../store";
-import GreenTextManager from "./GreenTextManager";
-import MediaComponentManager from "./MediaComponentManager";
+import GreenTextManager from "./MainSceneManagers/GreenTextManager";
+import MediaComponentManager from "./MediaSceneManagers/MediaComponentManager";
 import SceneManager from "./SceneManager";
-import YellowTextManager from "./YellowTextManager";
-import LevelManager from "./LevelManager";
+import YellowTextManager from "./MainSceneManagers/YellowTextManager";
+import LevelManager from "./MainSceneManagers/LevelManager";
 import BootComponentManager from "./BootComponentManager";
 import SSknComponentManager from "./SSknComponentManager";
 import handleMainSceneEvent from "../mainSceneEventHandler";
@@ -30,11 +30,12 @@ import handleMediaSceneEvent from "../mediaSceneEventHandler";
 import handleBootEvent from "../bootEventHandler";
 import handleSSknSceneEvent from "../ssknSceneEventHandler";
 import BootAuthorizeUserManager from "./BootAuthorizeUserManager";
-import LevelSelectionManager from "./LevelSelectionManager";
+import LevelSelectionManager from "./MainSceneManagers/LevelSelectionManager";
 import SubsceneManager from "./SubsceneManager";
-import PauseComponentManager from "./PauseComponentManager";
+import PauseComponentManager from "./MainSceneManagers/PauseComponentManager";
 import MediaYellowTextManager from "./MediaYellowTextManager";
-import SiteSaveManager from "./SiteSaveManager";
+import GameSaver from "./GameSaver";
+import GameLoader from "./GameLoader";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -242,7 +243,8 @@ const EventManager = () => {
       <SubsceneManager eventState={eventState!} />
       <PauseComponentManager eventState={eventState!} />
       <MediaYellowTextManager eventState={eventState!} />
-      <SiteSaveManager eventState={eventState!} />
+      <GameSaver eventState={eventState!} />
+      <GameLoader eventState={eventState!} />
     </>
   );
 };

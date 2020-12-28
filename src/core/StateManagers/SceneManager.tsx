@@ -7,15 +7,15 @@ const SceneManager = (props: StateManagerProps) => {
   const setMainSceneIntro = useMainSceneStore((state) => state.setIntro);
 
   const dispatchObject = useCallback(
-    (event: string, newScene: string) => {
-      switch (event) {
+    (eventState: { event: string; scene: string }) => {
+      switch (eventState.event) {
         case "throw_node_media":
         case "throw_node_gate":
         case "throw_node_sskn":
         case "throw_node_tak":
           return {
             action: setScene,
-            value: newScene,
+            value: eventState.scene,
             delay: 3450,
             setMainSceneIntro: false,
           };
@@ -47,10 +47,7 @@ const SceneManager = (props: StateManagerProps) => {
 
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-      const newScene = props.eventState.newScene;
-
-      const dispatchedObject = dispatchObject(eventAction, newScene);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         setTimeout(() => {

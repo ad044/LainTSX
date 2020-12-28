@@ -33,8 +33,8 @@ const handleMediaSceneEvent = (gameContext: any) => {
     }
 
     return {
-      newWordPosStateIdx: wordPosStateIdx,
-      newRightSideComponentIdx: rightSideComponentIdx,
+      wordPosStateIdx: wordPosStateIdx,
+      rightSideComponentIdx: rightSideComponentIdx,
     };
   };
 
@@ -44,21 +44,21 @@ const handleMediaSceneEvent = (gameContext: any) => {
     case "RIGHT":
     case "LEFT":
       if (rightSideComponents.includes(activeMediaComponent)) {
-        const newRightSide = calculateNewRightSide(
+        const rightSide = calculateNewRightSide(
           keyPress,
           wordPosStateIdx,
           rightSideComponentIdx
         );
         return {
           event: `media_rightside_${keyPress.toLowerCase()}`,
-          newRightSideComponentIdx: newRightSide.newRightSideComponentIdx,
-          newWordPosStateIdx: newRightSide.newWordPosStateIdx,
+          rightSideComponentIdx: rightSide.rightSideComponentIdx,
+          wordPosStateIdx: rightSide.wordPosStateIdx,
         };
       } else {
-        const newLeftSideComponentIdx = keyPress === "UP" ? 0 : 1;
+        const leftSideComponentIdx = keyPress === "UP" ? 0 : 1;
         return {
           event: `media_leftside_${keyPress.toLowerCase()}`,
-          newLeftSideComponentIdx: newLeftSideComponentIdx,
+          leftSideComponentIdx: leftSideComponentIdx,
         };
       }
     case "CIRCLE":

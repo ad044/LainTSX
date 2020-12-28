@@ -40,7 +40,7 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         <LevelSelection />
         <GrayPlanes />
       </group>
-      <Starfield visible={visible} />
+      <Starfield />
       <Site shouldIntro={props.shouldIntro} introFinished={introFinished} />
     </>
   );

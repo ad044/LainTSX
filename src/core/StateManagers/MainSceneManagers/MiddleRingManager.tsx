@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useMiddleRingStore } from "../../store";
+import { useMiddleRingStore } from "../../../store";
 
 const MiddleRingManager = (props: any) => {
   const setTransformState = useMiddleRingStore(
@@ -140,8 +140,8 @@ const MiddleRingManager = (props: any) => {
   }, [setAnimDuration, setRotating, setTransformState]);
 
   const dispatchObject = useCallback(
-    (event: string) => {
-      switch (event) {
+    (eventState: { event: string }) => {
+      switch (eventState.event) {
         case "site_up":
         case "select_level_up":
           return { action: moveUp };
@@ -158,9 +158,7 @@ const MiddleRingManager = (props: any) => {
   );
   useEffect(() => {
     if (props.eventState) {
-      const eventAction = props.eventState.event;
-
-      const dispatchedObject = dispatchObject(eventAction);
+      const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
         dispatchedObject.action.apply(null, dispatchedObject.value as any);
