@@ -57,11 +57,9 @@ const Images = () => {
           "../../static/media_images/" + currentSite + "/" + img[1] + ".png"
         ).then((imageSrc: { default: string }) => {
           imgArr.splice(parseInt(img[0]), 0, imageSrc);
-          console.log(imgTries);
           if (imgTries === 3) {
             setSceneImages(imgArr);
             new THREE.TextureLoader().load(imgArr[0].default, setActiveImage);
-            console.log(imgArr);
           }
         });
       }

@@ -17,10 +17,17 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
   const [introFinished, setIntroFinished] = useState(false);
 
   useEffect(() => {
+    if (!props.shouldIntro) {
+      document.getElementsByTagName("canvas")[0].className =
+        "main-scene-background";
+    }
     setTimeout(() => {
       setIntroFinished(true);
+      document.getElementsByTagName("canvas")[0].className =
+        "main-scene-background";
     }, 4000);
-  }, []);
+
+  }, [props.shouldIntro]);
 
   const visible = useMemo(() => {
     if (props.paused) {
@@ -40,7 +47,10 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         <LevelSelection />
         <GrayPlanes />
       </group>
-      <Starfield />
+      <Starfield
+        shouldIntro={props.shouldIntro}
+        introFinished={introFinished}
+      />
       <Site shouldIntro={props.shouldIntro} introFinished={introFinished} />
     </>
   );

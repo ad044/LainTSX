@@ -1,21 +1,21 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import takIntro from "../../static/sprite/tak_intro.png";
-import takOutro from "../../static/sprite/tak_outro.png";
-import mouth1 from "../../static/sprite/mouth_1.png";
-import mouth2 from "../../static/sprite/mouth_2.png";
-import mouth3 from "../../static/sprite/mouth_3.png";
-import mouth4 from "../../static/sprite/mouth_4.png";
-import { useMediaStore } from "../../store";
-import { LainConstructor } from "../MainScene/Lain";
+import takIntro from "../static/sprite/tak_intro.png";
+import takOutro from "../static/sprite/tak_outro.png";
+import mouth1 from "../static/sprite/mouth_1.png";
+import mouth2 from "../static/sprite/mouth_2.png";
+import mouth3 from "../static/sprite/mouth_3.png";
+import mouth4 from "../static/sprite/mouth_4.png";
+import { useMediaStore } from "../store";
+import { LainConstructor } from "./MainScene/Lain";
 
 type LainTaKProps = {
   intro: boolean;
   outro: boolean;
 };
 
-const LainTaK = (props: LainTaKProps) => {
+const LainSpeak = (props: LainTaKProps) => {
   const mouth1Tex = useLoader(THREE.TextureLoader, mouth1);
   const mouth2Tex = useLoader(THREE.TextureLoader, mouth2);
   const mouth3Tex = useLoader(THREE.TextureLoader, mouth3);
@@ -80,10 +80,11 @@ const LainTaK = (props: LainTaKProps) => {
           map={mouth4Tex}
           alphaTest={0.01}
           ref={mouthRef}
+          depthTest={false}
         />
       </sprite>
     </>
   );
 };
 
-export default LainTaK;
+export default LainSpeak;

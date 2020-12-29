@@ -1,12 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
-import {useLevelStore, useMediaStore, useNodeStore, useSiteStore} from "../store";
+import React, { useCallback, useEffect } from "react";
+import {
+  useLevelStore,
+  useMediaStore,
+  useNodeStore,
+  useSiteStore,
+} from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Lof from "../components/MediaScene/Lof";
-import { OrbitControls } from "@react-three/drei";
 import Images from "../components/MediaScene/Images";
 import MediumLetter from "../components/TextRenderer/MediumLetter";
 import site_a from "../resources/site_a.json";
@@ -45,12 +49,15 @@ const MediaScene = () => {
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =
       "media-scene-background";
+
+    return () => {
+      document.getElementsByTagName("canvas")[0].className = "";
+    };
   }, []);
 
   return (
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
-        <OrbitControls />
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
         <LeftSide activeMediaComponent={activeMediaComponent} />
         <group position={[0, 0.5, -3]}>
