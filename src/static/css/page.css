@@ -18,7 +18,7 @@
 
 .canvas {
   /*pointer-events: none;*/
-  /*position: relative;*/
+  position: relative;
   /*z-index: -1;*/
 }
 
@@ -52,6 +52,3 @@ video {
 }
 
 
-::cue {
-  z-index: 10;
-}

@@ -135,7 +135,7 @@ const Lain = (props: LainProps) => {
   useEffect(() => {
     setTimeout(() => {
       setIntroFinished(true);
-    }, 4000);
+    }, 3900);
   }, []);
 
   const stopIntroAnim = useMemo(() => {

@@ -18,12 +18,10 @@ const MainScene = () => {
   ]);
 
   useEffect(() => {
-    document.getElementsByTagName("body")[0].className = "main-body";
     return () => {
-      document.getElementsByTagName("body")[0].className = "";
+      document.getElementsByTagName("canvas")[0].className = "";
     };
   }, []);
-
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>

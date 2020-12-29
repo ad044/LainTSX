@@ -7,6 +7,7 @@ type StarProps = {
   position: number[];
   color: string;
   introStar?: boolean;
+  shouldIntro?: boolean;
 };
 
 const Star = (props: StarProps) => {
@@ -49,7 +50,7 @@ const Star = (props: StarProps) => {
 
   const amp = useRef(Math.random() / 10);
 
-  const introAmpRef = useRef(1);
+  const introAmpRef = useRef(props.shouldIntro ? 1 : 0);
 
   useFrame(() => {
     if (starRef.current) {
@@ -61,7 +62,7 @@ const Star = (props: StarProps) => {
         }
         starRef.current.position.y += 0.01 + amp.current + introAmpRef.current;
         if (introAmpRef.current > 0) {
-          introAmpRef.current -= 0.003;
+          introAmpRef.current -= 0.004;
         }
       }
     }

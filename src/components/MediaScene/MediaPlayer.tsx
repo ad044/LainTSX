@@ -2,6 +2,7 @@ import React, {
   createRef,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -21,6 +22,8 @@ const MediaPlayer = () => {
   const [mediaSource, setMediaSource] = useState<any>();
 
   const currentScene = useSceneStore((state) => state.currentScene);
+  const setScene = useSceneStore((state) => state.setScene);
+
   const setPercentageElapsed = useMediaStore(
     (state) => state.setPercentageElapsed
   );
@@ -33,7 +36,9 @@ const MediaPlayer = () => {
 
   const currentSite = useSiteStore((state) => state.currentSite);
 
-  const siteData = currentSite === "a" ? site_a : site_b;
+  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
+    currentSite,
+  ]);
 
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
@@ -45,12 +50,26 @@ const MediaPlayer = () => {
       if (percentageElapsed % 5 === 0) {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
-          videoRef.current.pause();
           videoRef.current.currentTime = 0;
+          if (
+            (siteData as SiteType)[activeLevel][activeNodeId]
+              .triggers_final_video === 1
+          ) {
+            setScene("end");
+          } else {
+            videoRef.current.pause();
+          }
         }
       }
     }
-  }, [setPercentageElapsed, videoRef]);
+  }, [
+    activeLevel,
+    activeNodeId,
+    setPercentageElapsed,
+    setScene,
+    siteData,
+    videoRef,
+  ]);
 
   useEffect(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
@@ -59,7 +78,15 @@ const MediaPlayer = () => {
   }, [updateTime]);
 
   useEffect(() => {
-    if (currentScene === "media" || currentScene === "tak") {
+    if (currentScene === "end") {
+      import("../../static/movie/b/ENDROLL1.STR[0].webm").then((media) => {
+        setMediaSource(media.default);
+        if (videoRef.current) {
+          videoRef.current.load();
+          videoRef.current.play();
+        }
+      });
+    } else if (currentScene === "media" || currentScene === "tak") {
       const nodeMedia = (siteData as SiteType)[activeLevel][activeNodeId]
         .media_file;
       if (nodeMedia.includes("XA")) {
@@ -98,7 +125,11 @@ const MediaPlayer = () => {
       controls
       id="media"
       ref={videoRef}
-      style={{ display: currentScene === "media" ? "block" : "none" }}
+      style={{
+        display: ["media", "tak", "end"].includes(currentScene)
+          ? "block"
+          : "none",
+      }}
     >
       <source src={mediaSource} />
       <track src={t} kind="captions" default />

@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Star from "./Starfield/Star";
 
-const Starfield = () => {
+type StarfieldProps = {
+  shouldIntro: boolean;
+  introFinished: boolean;
+};
+
+const Starfield = (props: StarfieldProps) => {
   const LCG = (a: number, c: number, m: number, s: number) => () =>
     (s = (s * a + c) % m);
 
@@ -23,65 +28,103 @@ const Starfield = () => {
   );
 
   const [posesBlueFromBottom, posesCyanFromBottom, posesWhiteFromBottom] = [
-    60,
-    60,
-    60,
+    80,
+    80,
+    80,
   ].map((x) =>
     Array.from({ length: x }, () => [
       lcgInstance() / 1000000050,
-      lcgInstance() / 100000099 - 10,
+      lcgInstance() / 100000099 - 15,
       lcgInstance() / 1000000050,
     ])
   );
 
   const [mainVisible, setMainVisible] = useState(false);
+  const [introVisible, setIntroVisible] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setMainVisible(true);
-    }, 3700);
+    }, 2800);
+    setTimeout(() => {
+      setIntroVisible(false);
+    }, 3200);
   }, []);
 
   return (
     <>
-      <group position={[0, -1, 2]} visible={mainVisible}>
+      <group
+        position={[0, -1, 2]}
+        visible={props.shouldIntro ? mainVisible : true}
+      >
         <group rotation={[0, 0.75, Math.PI / 2]} position={[-0.7, -1, -5]}>
           {posesBlueFromLeft.map((poses, idx) => (
-            <Star position={poses} color={"blue"} key={idx} />
+            <Star
+              position={poses}
+              color={"blue"}
+              key={idx}
+              shouldIntro={props.shouldIntro}
+            />
           ))}
           {posesWhiteFromLeft.map((poses, idx) => (
-            <Star position={poses} color={"white"} key={idx} />
+            <Star
+              position={poses}
+              color={"white"}
+              key={idx}
+              shouldIntro={props.shouldIntro}
+            />
           ))}
           {posesCyanFromLeft.map((poses, idx) => (
-            <Star position={poses} color={"cyan"} key={idx} />
+            <Star
+              position={poses}
+              color={"cyan"}
+              key={idx}
+              shouldIntro={props.shouldIntro}
+            />
           ))}
         </group>
         <group rotation={[0, 2.5, Math.PI / 2]} position={[-0.7, -1, -1]}>
           {posesBlueFromRight.map((poses, idx) => (
-            <Star position={poses} color={"blue"} key={idx} />
+            <Star
+              position={poses}
+              color={"blue"}
+              key={idx}
+              shouldIntro={props.shouldIntro}
+            />
           ))}
           {posesWhiteFromRight.map((poses, idx) => (
-            <Star position={poses} color={"white"} key={idx} />
+            <Star
+              position={poses}
+              color={"white"}
+              key={idx}
+              shouldIntro={props.shouldIntro}
+            />
           ))}
           {posesCyanFromRight.map((poses, idx) => (
-            <Star position={poses} color={"cyan"} key={idx} />
+            <Star
+              position={poses}
+              color={"cyan"}
+              key={idx}
+              shouldIntro={props.shouldIntro}
+            />
           ))}
         </group>
       </group>
-      <group
-        position={[-2, -15, -19]}
-        rotation={[Math.PI / 4, 0, 0]}
-      >
-        {posesBlueFromBottom.map((poses, idx) => (
-          <Star position={poses} color={"blue"} key={idx} introStar={true} />
-        ))}
-        {posesWhiteFromBottom.map((poses, idx) => (
-          <Star position={poses} color={"white"} key={idx} introStar={true} />
-        ))}
-        {posesCyanFromBottom.map((poses, idx) => (
-          <Star position={poses} color={"cyan"} key={idx} introStar={true} />
-        ))}
-      </group>
+      {introVisible && props.shouldIntro ? (
+        <group position={[-2, -15, -30]} rotation={[Math.PI / 3, 0, 0]}>
+          {posesBlueFromBottom.map((poses, idx) => (
+            <Star position={poses} color={"blue"} key={idx} introStar={true} />
+          ))}
+          {posesWhiteFromBottom.map((poses, idx) => (
+            <Star position={poses} color={"white"} key={idx} introStar={true} />
+          ))}
+          {posesCyanFromBottom.map((poses, idx) => (
+            <Star position={poses} color={"cyan"} key={idx} introStar={true} />
+          ))}
+        </group>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

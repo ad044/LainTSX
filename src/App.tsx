@@ -12,6 +12,7 @@ import SSknScene from "./scenes/SSknScene";
 import PolytanScene from "./scenes/PolytanScene";
 import TaKScene from "./scenes/TaKScene";
 import ChangeDiscScene from "./scenes/ChangeDiscScene";
+import EndScene from "./scenes/EndScene";
 
 const App = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -30,6 +31,7 @@ const App = () => {
       polytan: <PolytanScene />,
       tak: <TaKScene />,
       change_disc: <ChangeDiscScene />,
+      end: <EndScene />,
     };
   }, []);
 
@@ -43,7 +45,7 @@ const App = () => {
           </Suspense>
         </Canvas>
       </span>
-      <MediaPlayer />
+      {/*<MediaPlayer />*/}
     </div>
   );
 };
