@@ -9,6 +9,7 @@ import React, {
 import site_a from "../../resources/site_a.json";
 import site_b from "../../resources/site_b.json";
 import {
+  useEndSceneStore,
   useLevelStore,
   useMediaStore,
   useNodeStore,
@@ -17,6 +18,9 @@ import {
 } from "../../store";
 import t from "../../static/webvtt/test.vtt";
 import { SiteType } from "../MainScene/SyncedComponents/Site";
+import endroll from "../../static/movie/b/ENDROLL1.STR[0].webm";
+import xa0001 from "../../static/audio/a/Xa0001.mp4";
+import xa0006 from "../../static/audio/a/Xa0006.mp4";
 
 const MediaPlayer = () => {
   const [mediaSource, setMediaSource] = useState<any>();
@@ -40,6 +44,17 @@ const MediaPlayer = () => {
     currentSite,
   ]);
 
+  // end scene specific stuff
+  const endMediaPlayedCount = useEndSceneStore(
+    (state) => state.mediaPlayedCount
+  );
+  const incrementEndMediaPlayedCount = useEndSceneStore(
+    (state) => state.incrementMediaPlayedCount
+  );
+  const resetEndMediaPlayedCount = useEndSceneStore(
+    (state) => state.resetMediaPlayedCount
+  );
+
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
     if (videoRef.current) {
@@ -51,13 +66,18 @@ const MediaPlayer = () => {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
           videoRef.current.currentTime = 0;
-          if (
-            (siteData as SiteType)[activeLevel][activeNodeId]
-              .triggers_final_video === 1
-          ) {
-            setScene("end");
+          if (currentScene === "end") {
+            incrementEndMediaPlayedCount();
           } else {
-            videoRef.current.pause();
+            if (
+              (siteData as SiteType)[activeLevel][activeNodeId]
+                .triggers_final_video === 1
+            ) {
+              resetEndMediaPlayedCount();
+              setScene("end");
+            } else {
+              videoRef.current.pause();
+            }
           }
         }
       }
@@ -65,6 +85,9 @@ const MediaPlayer = () => {
   }, [
     activeLevel,
     activeNodeId,
+    currentScene,
+    incrementEndMediaPlayedCount,
+    resetEndMediaPlayedCount,
     setPercentageElapsed,
     setScene,
     siteData,
@@ -79,13 +102,29 @@ const MediaPlayer = () => {
 
   useEffect(() => {
     if (currentScene === "end") {
-      import("../../static/movie/b/ENDROLL1.STR[0].webm").then((media) => {
-        setMediaSource(media.default);
+      if (endMediaPlayedCount === 0) {
+        setMediaSource(endroll);
         if (videoRef.current) {
           videoRef.current.load();
-          videoRef.current.play();
+          videoRef.current.play().catch((e) => {
+            console.log(e);
+          });
         }
-      });
+      } else if (endMediaPlayedCount === 1) {
+        setMediaSource(xa0001);
+        if (videoRef.current) {
+          videoRef.current.load();
+        }
+      } else if (endMediaPlayedCount === 2) {
+        console.log('s')
+        setMediaSource(xa0006);
+        if (videoRef.current) {
+          videoRef.current.load();
+          // videoRef.current.play().catch((e) => {
+          //   console.log(e);
+          // });
+        }
+      }
     } else if (currentScene === "media" || currentScene === "tak") {
       const nodeMedia = (siteData as SiteType)[activeLevel][activeNodeId]
         .media_file;
@@ -114,6 +153,7 @@ const MediaPlayer = () => {
     activeNodeId,
     currentScene,
     currentSite,
+    endMediaPlayedCount,
     siteData,
     videoRef,
   ]);
@@ -130,8 +170,8 @@ const MediaPlayer = () => {
           ? "block"
           : "none",
       }}
+      src={mediaSource}
     >
-      <source src={mediaSource} />
       <track src={t} kind="captions" default />
     </video>
   );

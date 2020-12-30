@@ -62,8 +62,8 @@ const Site = (props: SiteProps) => {
     posZ: 0,
     rotX: 0,
     from: {
-      posZ: props.shouldIntro ? -10 : 0,
-      rotX: props.shouldIntro ? Math.PI / 2 : 0,
+      posZ: -10,
+      rotX: Math.PI / 2,
     },
     config: { duration: 3400 },
   });
@@ -81,8 +81,8 @@ const Site = (props: SiteProps) => {
   return (
     <Suspense fallback={null}>
       <a.group
-        rotation-x={introSiteState.rotX}
-        position-z={introSiteState.posZ}
+        rotation-x={props.shouldIntro ? introSiteState.rotX : 0}
+        position-z={props.shouldIntro ? introSiteState.posZ : 0}
       >
         <a.group rotation-x={siteState.siteRotX}>
           <a.group

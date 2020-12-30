@@ -5,7 +5,7 @@ import { Canvas } from "react-three-fiber";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
 import EventManager from "./core/StateManagers/EventManager";
-import { useSceneStore } from "./store";
+import { useMediaStore, useSceneStore } from "./store";
 import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
 import SSknScene from "./scenes/SSknScene";
@@ -45,7 +45,7 @@ const App = () => {
           </Suspense>
         </Canvas>
       </span>
-      {/*<MediaPlayer />*/}
+      <MediaPlayer />
     </div>
   );
 };
