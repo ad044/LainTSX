@@ -4,6 +4,12 @@ import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 
+type EndState = {
+  mediaPlayedCount: number;
+  incrementMediaPlayedCount: () => void;
+  resetMediaPlayedCount: () => void;
+};
+
 type SiteSaveState = {
   a: {
     activeNodeId: string;
@@ -585,3 +591,10 @@ export const useSiteSaveStore = create(
     })
   )
 );
+
+export const useEndSceneStore = create<EndState>((set) => ({
+  mediaPlayedCount: 0,
+  incrementMediaPlayedCount: () =>
+    set((state) => ({ mediaPlayedCount: state.mediaPlayedCount + 1 })),
+  resetMediaPlayedCount: () => set(() => ({ mediaPlayedCount: 0 })),
+}));
