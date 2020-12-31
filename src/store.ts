@@ -450,7 +450,7 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "end",
+  currentScene: "main",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
