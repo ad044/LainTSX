@@ -5,6 +5,7 @@ import secondCylinder from "../../static/sprite/end_cylinder_2.png";
 
 type EndSphereProps = {
   position: number[];
+  outroAnim: boolean;
 };
 
 const EndSphere = (props: EndSphereProps) => {
@@ -12,8 +13,21 @@ const EndSphere = (props: EndSphereProps) => {
 
   const meshRef = useRef<THREE.Object3D>();
   useFrame(() => {
-    if (meshRef.current) meshRef.current.rotation.y += 0.005;
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.005;
+      if (
+        props.outroAnim &&
+        meshRef.current.scale.x > 0 &&
+        meshRef.current.scale.y > 0 &&
+        meshRef.current.scale.z > 0
+      ) {
+        meshRef.current.scale.x -= 0.025;
+        meshRef.current.scale.y -= 0.025;
+        meshRef.current.scale.z -= 0.025;
+      }
+    }
   });
+
   return (
     <mesh
       position={props.position as [number, number, number]}

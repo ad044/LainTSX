@@ -100,10 +100,20 @@ const MediaPlayer = () => {
     return () => cancelAnimationFrame(curr as any);
   }, [updateTime]);
 
+  const endMediaSource = useMemo(() => {
+    switch (endMediaPlayedCount) {
+      case 0:
+        return endroll;
+      case 1:
+        return xa0001;
+      case 2:
+        return xa0006;
+    }
+  }, [endMediaPlayedCount]);
+
   useEffect(() => {
     if (currentScene === "end") {
       if (endMediaPlayedCount === 0) {
-        setMediaSource(endroll);
         if (videoRef.current) {
           videoRef.current.load();
           videoRef.current.play().catch((e) => {
@@ -111,18 +121,13 @@ const MediaPlayer = () => {
           });
         }
       } else if (endMediaPlayedCount === 1) {
-        setMediaSource(xa0001);
         if (videoRef.current) {
           videoRef.current.load();
         }
       } else if (endMediaPlayedCount === 2) {
-        console.log('s')
-        setMediaSource(xa0006);
         if (videoRef.current) {
           videoRef.current.load();
-          // videoRef.current.play().catch((e) => {
-          //   console.log(e);
-          // });
+          videoRef.current.play();
         }
       }
     } else if (currentScene === "media" || currentScene === "tak") {
@@ -170,7 +175,7 @@ const MediaPlayer = () => {
           ? "block"
           : "none",
       }}
-      src={mediaSource}
+      src={currentScene === "end" ? endMediaSource : mediaSource}
     >
       <track src={t} kind="captions" default />
     </video>
