@@ -9,6 +9,7 @@ import moveRightSpriteSheet from "../../static/sprite/move_right.png";
 import standingSpriteSheet from "../../static/sprite/standing.png";
 import introSpriteSheet from "../../static/sprite/intro.png";
 import throwNodeSpriteSheet from "../../static/sprite/throw_node.png";
+import ripMiddleRingSpriteSheet from "../../static/sprite/rip_middle_ring.png";
 import { useLainStore, useMainSceneStore } from "../../store";
 
 type LainConstructorProps = {
@@ -112,6 +113,17 @@ export const LainThrowNode = () => {
   );
 };
 
+export const LainRipMiddleRing = () => {
+  return (
+    <LainConstructor
+      sprite={ripMiddleRingSpriteSheet}
+      frameCount={53}
+      framesHorizontal={8}
+      framesVertical={7}
+    />
+  );
+};
+
 type LainProps = {
   shouldIntro: boolean;
 };
@@ -128,6 +140,7 @@ const Lain = (props: LainProps) => {
     select_level_down: <LainMoveDown />,
     select_level_up: <LainMoveUp />,
     throw_node: <LainThrowNode />,
+    pause_game: <LainRipMiddleRing />,
   };
 
   const [introFinished, setIntroFinished] = useState(false);

@@ -27,9 +27,9 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <a.group>
           <Preloader />
-          <Pause visible={isPaused} />
-          <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
-          {/*<MiddleRing />*/}
+          {/*<Pause visible={isPaused} />*/}
+          {/*<SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />*/}
+          <MiddleRing />
           <OrbitControls />
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />

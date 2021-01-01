@@ -4,6 +4,7 @@ import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import { useMiddleRingStore } from "../../../store";
+import MiddleRingPart from "./MiddleRing/MiddleRingPart";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
@@ -41,6 +42,7 @@ const MiddleRing = () => {
 
   const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
   const middleRingRef = useRef<THREE.Object3D>();
+  const middleRingPartRef = useRef<THREE.Object3D>();
 
   const vertexShader = `
     varying vec2 vUv;
@@ -193,8 +195,9 @@ const MiddleRing = () => {
 
       middleRingMaterialRef.current.needsUpdate = true;
     }
-    if (rotating) {
+    if (rotating && middleRingRef && middleRingPartRef) {
       middleRingRef.current!.rotation.y += 0.05;
+      middleRingPartRef.current!.rotation.y += 0.05;
     }
   });
 
@@ -221,6 +224,22 @@ const MiddleRing = () => {
           transparent={true}
         />
       </a.mesh>
+
+      <group
+        rotation={[0, 0.9, 0]}
+        ref={middleRingPartRef}
+        position={[0, -0.12, 0.3]}
+      >
+        {[...Array(30).keys()].map((i) => {
+          const angle = (i / 30) * 2 * Math.PI;
+          return (
+            <MiddleRingPart
+              position={[Math.cos(angle) / 1.35, 0, Math.sin(angle) / 1.35]}
+              rotation={[0, -angle + Math.PI / 2, 0]}
+            />
+          );
+        })}
+      </group>
     </a.group>
   );
 };
