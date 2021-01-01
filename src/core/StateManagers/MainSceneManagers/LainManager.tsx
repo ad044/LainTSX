@@ -14,6 +14,7 @@ const LainManager = (props: StateManagerProps) => {
         case "site_right":
         case "select_level_up":
         case "select_level_down":
+        case "pause_game":
           return {
             action: setLainMoveState,
             value: eventState.event,
@@ -26,6 +27,12 @@ const LainManager = (props: StateManagerProps) => {
           return {
             action: setLainMoveState,
             value: "throw_node",
+            duration: 3900,
+          };
+        case "test":
+          return {
+            action: setLainMoveState,
+            value: "pause_game",
             duration: 3900,
           };
       }

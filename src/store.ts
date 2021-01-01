@@ -353,7 +353,7 @@ export const useMiddleRingStore = create(
     {
       transformState: {
         wobbleStrength: 0,
-        noiseStrength: 0.03,
+        noiseStrength: 0,
         posY: -0.11,
         rotX: 0,
         rotZ: 0,

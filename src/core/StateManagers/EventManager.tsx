@@ -47,6 +47,7 @@ const getKeyCodeAssociation = (keyCode: number): string => {
     90: "X", // z key
     68: "TRIANGLE", // d key
     69: "L2", // e key
+    32: "SPACE",
   };
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];
 };
