@@ -106,6 +106,8 @@ type MiddleRingState = {
   };
   isRotating: boolean;
   animDuration: number;
+  mainRingVisible: boolean;
+  partSeparatorVal: number
 };
 
 type MediaWordState = {
@@ -358,16 +360,21 @@ export const useMiddleRingStore = create(
         rotX: 0,
         rotZ: 0,
       },
+      partSeparatorVal: 1,
       isRotating: true,
       animDuration: 600,
+      mainRingVisible: true,
     } as MiddleRingState,
     (set) => ({
       setTransformState: (to: number, at: string) =>
         set((state) => ({
           transformState: { ...state.transformState, [at]: to },
         })),
-      setRotating: (to: boolean) => ({ isRotating: to }),
-      setAnimDuration: (to: number) => ({ animDuration: to }),
+      setRotating: (to: boolean) => set(() => ({ isRotating: to })),
+      setAnimDuration: (to: number) => set(() => ({ animDuration: to })),
+      setMainRingVisible: (to: boolean) => set(() => ({ mainRingVisible: to })),
+      setPartSeparatorVal: (to: number) =>
+        set(() => ({ partSeparatorVal: to })),
     })
   )
 );
