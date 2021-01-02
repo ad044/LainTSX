@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
@@ -12,6 +12,9 @@ const MiddleRing = () => {
   const transformState = useMiddleRingStore((state) => state.transformState);
   const rotating = useMiddleRingStore((state) => state.isRotating);
   const animDuration = useMiddleRingStore((state) => state.animDuration);
+  const mainRingVisible = useMiddleRingStore((state) => state.mainRingVisible);
+
+  const partSeparatorVal = useMiddleRingStore(state=> state.partSeparatorVal)
 
   const wobbleState = useSpring({
     wobbleStrength: transformState.wobbleStrength,
@@ -201,6 +204,10 @@ const MiddleRing = () => {
     }
   });
 
+  useEffect(() => {
+    console.log(mainRingVisible);
+  }, [mainRingVisible]);
+
   return (
     <a.group rotation-z={rotState.rotZ}>
       <a.mesh
@@ -209,6 +216,7 @@ const MiddleRing = () => {
         ref={middleRingRef}
         rotation={[0, 0.9, 0]}
         rotation-x={rotState.rotX}
+        visible={mainRingVisible}
       >
         <cylinderBufferGeometry
           args={[0.75, 0.75, 0.027, 64, 64, true]}
@@ -228,7 +236,8 @@ const MiddleRing = () => {
       <group
         rotation={[0, 0.9, 0]}
         ref={middleRingPartRef}
-        position={[0, -0.12, 0.3]}
+        position={[0, 0.5, 0.3]}
+        visible={!mainRingVisible}
       >
         {[...Array(30).keys()].map((i) => {
           const angle = (i / 30) * 2 * Math.PI;
@@ -236,6 +245,7 @@ const MiddleRing = () => {
             <MiddleRingPart
               position={[Math.cos(angle) / 1.35, 0, Math.sin(angle) / 1.35]}
               rotation={[0, -angle + Math.PI / 2, 0]}
+              key={angle}
             />
           );
         })}

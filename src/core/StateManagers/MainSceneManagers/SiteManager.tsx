@@ -32,7 +32,7 @@ const SiteManager = (props: StateManagerProps) => {
           return {
             action: setTransformState,
             value: [Math.PI / 2, "rotX"],
-            actionDelay: 0,
+            actionDelay: 3600,
           };
         case "pause_exit_select":
           return {

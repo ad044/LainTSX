@@ -2,7 +2,8 @@ import React, { useMemo } from "react";
 import middleRingTexture from "../../../../static/sprite/middle_ring_tex.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
+import { useMiddleRingStore } from "../../../../store";
 
 type MiddleRingPartProps = {
   position: number[];
@@ -10,6 +11,10 @@ type MiddleRingPartProps = {
 };
 
 const MiddleRingPart = (props: MiddleRingPartProps) => {
+  const partSeparatorVal = useMiddleRingStore(
+    (state) => state.partSeparatorVal
+  );
+
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
   const middleRingPartTex = useMemo(() => {
@@ -17,9 +22,17 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
     return middleRingTex;
   }, [middleRingTex]);
 
+  const partPosState = useSpring({
+    posX: props.position[0] / partSeparatorVal,
+    posZ: props.position[2] / partSeparatorVal,
+    config: { duration: 600 },
+  });
+
   return (
-    <group
-      position={props.position as [number, number, number]}
+    <a.group
+      position-x={partPosState.posX}
+      position-z={partPosState.posZ}
+      position-y={props.position[1]}
       rotation={props.rotation as [number, number, number]}
     >
       <a.mesh scale={[0.16, 0.032, 0]}>
@@ -31,7 +44,7 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
           side={THREE.DoubleSide}
         />
       </a.mesh>
-    </group>
+    </a.group>
   );
 };
 

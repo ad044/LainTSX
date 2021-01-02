@@ -7,6 +7,8 @@ import LevelSelection from "./SyncedComponents/LevelSelection";
 import GrayPlanes from "./SyncedComponents/GrayPlanes";
 import Starfield from "./SyncedComponents/Starfield";
 import Site from "./SyncedComponents/Site";
+import MiddleRing from "./SyncedComponents/MiddleRing";
+import { a } from "@react-spring/three";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;
@@ -26,7 +28,6 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
       document.getElementsByTagName("canvas")[0].className =
         "main-scene-background";
     }, 4000);
-
   }, [props.shouldIntro]);
 
   const visible = useMemo(() => {
@@ -44,7 +45,7 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         <GreenTextRenderer />
         <YellowTextRenderer />
         <YellowOrb visible={visible} />
-        <LevelSelection />
+        <MiddleRing />
         <GrayPlanes />
       </group>
       <Starfield

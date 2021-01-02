@@ -7,6 +7,12 @@ const MiddleRingManager = (props: any) => {
   );
   const setAnimDuration = useMiddleRingStore((state) => state.setAnimDuration);
   const setRotating = useMiddleRingStore((state) => state.setRotating);
+  const setMainRingVisible = useMiddleRingStore(
+    (state) => state.setMainRingVisible
+  );
+  const setPartSeparatorVal = useMiddleRingStore(
+    (state) => state.setPartSeparatorVal
+  );
 
   const rotate = useCallback(
     (direction: string) => {
@@ -139,6 +145,62 @@ const MiddleRingManager = (props: any) => {
     }, 7800);
   }, [setAnimDuration, setRotating, setTransformState]);
 
+  const animatePause = useCallback(() => {
+    setTransformState(0.5, "posY");
+    setTimeout(() => {
+      setMainRingVisible(false);
+    }, 600);
+    setTimeout(() => {
+      setPartSeparatorVal(0.9);
+      // move the hidden (main) ring below, cuz when the pause exists it needs to jump back up
+      // instead of reappearing
+      setTransformState(-2.5, "posY");
+    }, 1100);
+    setTimeout(() => {
+      setPartSeparatorVal(1);
+    }, 1500);
+    setTimeout(() => {
+      setPartSeparatorVal(0.9);
+    }, 1900);
+    setTimeout(() => {
+      setPartSeparatorVal(1);
+    }, 2300);
+
+    setTimeout(() => {
+      setPartSeparatorVal(0.2);
+    }, 3100);
+
+    setTimeout(() => {
+      setMainRingVisible(true);
+      setPartSeparatorVal(1);
+    }, 3800);
+  }, [setMainRingVisible, setPartSeparatorVal, setTransformState]);
+
+  const animateUnpause = useCallback(() => {
+    setTimeout(() => {
+      setTimeout(() => {
+        setTransformState(0, "wobbleStrength");
+        setTransformState(-0.4, "rotX");
+        setRotating(true);
+      }, 500);
+
+      // reset anim duration back to default
+      setTimeout(() => {
+        setAnimDuration(600);
+      }, 900);
+
+      setTimeout(() => {
+        setTransformState(0.13, "posY");
+      }, 900);
+
+      // reset the rotation value to 0
+      setTimeout(() => {
+        setTransformState(0, "rotX");
+        setTransformState(-0.11, "posY");
+      }, 1150);
+    }, 1000);
+  }, [setAnimDuration, setRotating, setTransformState]);
+
   const dispatchObject = useCallback(
     (eventState: { event: string }) => {
       switch (eventState.event) {
@@ -152,15 +214,21 @@ const MiddleRingManager = (props: any) => {
           return { action: rotate, value: ["left"] };
         case "site_right":
           return { action: rotate, value: ["right"] };
+        case "pause_game":
+          return { action: animatePause };
+        case "pause_exit_select":
+        case "pause_change_select":
+          return { action: animateUnpause };
       }
     },
-    [moveDown, moveUp, rotate]
+    [animatePause, animateUnpause, moveDown, moveUp, rotate]
   );
   useEffect(() => {
     if (props.eventState) {
       const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
+        console.log(dispatchedObject);
         dispatchedObject.action.apply(null, dispatchedObject.value as any);
       }
     }
