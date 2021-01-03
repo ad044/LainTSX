@@ -10,6 +10,9 @@ import standingSpriteSheet from "../../static/sprite/standing.png";
 import introSpriteSheet from "../../static/sprite/intro.png";
 import throwNodeSpriteSheet from "../../static/sprite/throw_node.png";
 import ripMiddleRingSpriteSheet from "../../static/sprite/rip_middle_ring.png";
+import knockSpriteSheet from "../../static/sprite/knock.png";
+import knockAndFallSpriteSheet from "../../static/sprite/knock_and_fall.png";
+import touchAndScareSpriteSheet from "../../static/sprite/touch_and_scare.png";
 import { useLainStore, useMainSceneStore } from "../../store";
 
 type LainConstructorProps = {
@@ -17,6 +20,7 @@ type LainConstructorProps = {
   frameCount: number;
   framesVertical: number;
   framesHorizontal: number;
+  fps?: number;
 };
 
 export const LainConstructor = (props: LainConstructorProps) => {
@@ -29,7 +33,7 @@ export const LainConstructor = (props: LainConstructorProps) => {
       props.framesHorizontal,
       props.framesVertical,
       props.frameCount,
-      props.frameCount * 0.27
+      props.fps ? props.fps : props.frameCount * 0.27
     );
     anim.init(0);
     return anim;
@@ -124,6 +128,40 @@ export const LainRipMiddleRing = () => {
   );
 };
 
+export const LainKnock = () => {
+  return (
+    <LainConstructor
+      sprite={knockSpriteSheet}
+      frameCount={32}
+      framesHorizontal={6}
+      framesVertical={6}
+    />
+  );
+};
+
+export const LainKnockAndFall = () => {
+  return (
+    <LainConstructor
+      sprite={knockAndFallSpriteSheet}
+      frameCount={64}
+      framesHorizontal={8}
+      framesVertical={8}
+      fps={64 * 0.17}
+    />
+  );
+};
+
+export const LainTouchAndScare = () => {
+  return (
+    <LainConstructor
+      sprite={touchAndScareSpriteSheet}
+      frameCount={37}
+      framesHorizontal={7}
+      framesVertical={6}
+    />
+  );
+};
+
 type LainProps = {
   shouldIntro: boolean;
 };
@@ -141,6 +179,7 @@ const Lain = (props: LainProps) => {
     select_level_up: <LainMoveUp />,
     throw_node: <LainThrowNode />,
     pause_game: <LainRipMiddleRing />,
+    test: <LainTouchAndScare />,
   };
 
   const [introFinished, setIntroFinished] = useState(false);

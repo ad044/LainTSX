@@ -61,6 +61,8 @@ type NodeState = {
     id: string;
     posX: number;
     posZ: number;
+    posY: number;
+    rotY: number;
     rotZ: number;
     interactedWith: boolean;
   };
@@ -107,7 +109,7 @@ type MiddleRingState = {
   isRotating: boolean;
   animDuration: number;
   mainRingVisible: boolean;
-  partSeparatorVal: number
+  partSeparatorVal: number;
 };
 
 type MediaWordState = {
@@ -296,6 +298,8 @@ export const useNodeStore = create(
         posX: 0,
         posZ: 0,
         rotZ: 0,
+        rotY: 0,
+        posY: 0,
         interactedWith: false,
       },
       nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
