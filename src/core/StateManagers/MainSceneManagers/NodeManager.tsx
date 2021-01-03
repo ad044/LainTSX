@@ -8,18 +8,18 @@ const NodeManager = (props: StateManagerProps) => {
     (state) => state.setNodeMatrixIndices
   );
 
+  const calculateCoordsBasedOnRotation = (
+    x: number,
+    z: number,
+    rotation: number
+  ) => ({
+    x: x * Math.cos(rotation) - z * Math.sin(rotation),
+    z: x * Math.sin(rotation) + z * Math.cos(rotation),
+  });
+
   const animateActiveNodeThrow = useCallback(
     (siteRotY: number) => {
       setActiveNodeState(true, "interactedWith");
-
-      const calculateCoordsBasedOnRotation = (
-        x: number,
-        z: number,
-        rotation: number
-      ) => ({
-        x: x * Math.cos(rotation) - z * Math.sin(rotation),
-        z: x * Math.sin(rotation) + z * Math.cos(rotation),
-      });
 
       const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
       const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
@@ -28,6 +28,7 @@ const NodeManager = (props: StateManagerProps) => {
 
       setActiveNodeState(fstCoordSet.x, "posX");
       setActiveNodeState(fstCoordSet.z, "posZ");
+      setActiveNodeState(0, "posY");
 
       setTimeout(() => {
         setActiveNodeState(sndCoordSet.x, "posX");
@@ -47,6 +48,68 @@ const NodeManager = (props: StateManagerProps) => {
         setActiveNodeState(0, "rotZ");
         setActiveNodeState(false, "interactedWith");
       }, 3800);
+    },
+    [setActiveNodeState]
+  );
+
+  const animateNodeKnock = useCallback(
+    (siteRotY: number) => {
+      setActiveNodeState(true, "interactedWith");
+
+      const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
+
+      setActiveNodeState(fstCoordSet.x, "posX");
+      setActiveNodeState(fstCoordSet.z, "posZ");
+      setActiveNodeState(-0.6, "posY");
+
+      setTimeout(() => {
+        setActiveNodeState(false, "interactedWith");
+      }, 2500);
+    },
+    [setActiveNodeState]
+  );
+
+  const animateNodeKnockAndFall = useCallback(
+    (siteRotY: number) => {
+      setActiveNodeState(true, "interactedWith");
+
+      const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
+
+      setActiveNodeState(fstCoordSet.x, "posX");
+      setActiveNodeState(fstCoordSet.z, "posZ");
+      setActiveNodeState(-0.6, "posY");
+
+      setTimeout(() => {
+        setActiveNodeState(1.2, "posY");
+      }, 2300);
+
+      setTimeout(() => {
+        setActiveNodeState(false, "interactedWith");
+      }, 2500);
+    },
+    [setActiveNodeState]
+  );
+
+  const animateNodeTouchAndScare = useCallback(
+    (siteRotY: number) => {
+      setActiveNodeState(true, "interactedWith");
+
+      const fstCoordSet = calculateCoordsBasedOnRotation(-0.6, 0.2, siteRotY);
+
+      setActiveNodeState(fstCoordSet.x, "posX");
+      setActiveNodeState(fstCoordSet.z, "posZ");
+      setActiveNodeState(0, "posY");
+
+      setTimeout(() => {
+        setActiveNodeState(Math.PI, "rotZ");
+        setActiveNodeState(Math.PI, "rotY");
+      }, 1200);
+
+      setTimeout(() => {
+        setActiveNodeState(false, "interactedWith");
+        setActiveNodeState(0, "rotZ");
+        setActiveNodeState(0, "rotY");
+      }, 2500);
     },
     [setActiveNodeState]
   );
@@ -110,9 +173,14 @@ const NodeManager = (props: StateManagerProps) => {
             action: animateActiveNodeThrow,
             value: [eventState.siteRotY],
           };
+        case "test":
+          return {
+            action: animateNodeTouchAndScare,
+            value: [eventState.siteRotY],
+          };
       }
     },
-    [animateActiveNodeThrow, updateActiveNode]
+    [animateActiveNodeThrow, animateNodeKnock, updateActiveNode]
   );
 
   useEffect(() => {

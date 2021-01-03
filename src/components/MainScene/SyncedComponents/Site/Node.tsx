@@ -115,14 +115,15 @@ const Node = (props: NodeContructorProps) => {
   // these pieces of state get updated transiently rather than reactively
   // to avoid excess unnecessary renders (this is absolutely crucial for performance).
   const [
-    { activeNodePosX, activeNodePosY, activeNodePosZ, activeNodeRotZ },
+    { activeNodePosX, activeNodePosY, activeNodePosZ, activeNodeRotZ, activeNodeRotY },
     set,
   ] = useSpring(() => ({
     activeNodePosX: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.posX
       : props.position[0],
     activeNodePosY: useNodeStore.getState().activeNodeState.interactedWith
-      ? level_y_values[props.level as keyof typeof level_y_values]
+      ? level_y_values[props.level as keyof typeof level_y_values] +
+        useNodeStore.getState().activeNodeState.posY
       : props.position[1],
     activeNodePosZ: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.posZ
@@ -130,6 +131,9 @@ const Node = (props: NodeContructorProps) => {
     activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.rotZ
       : 0,
+    activeNodeRotY: useNodeStore.getState().activeNodeState.interactedWith
+      ? useNodeStore.getState().activeNodeState.rotY
+      : props.rotation[1],
     config: { duration: 800 },
   }));
 
@@ -139,7 +143,7 @@ const Node = (props: NodeContructorProps) => {
         ? state.activeNodeState.posX
         : props.position[0],
       activeNodePosY: useNodeStore.getState().activeNodeState.interactedWith
-        ? 0
+        ? state.activeNodeState.posY
         : props.position[1],
       activeNodePosZ: useNodeStore.getState().activeNodeState.interactedWith
         ? state.activeNodeState.posZ
@@ -147,6 +151,9 @@ const Node = (props: NodeContructorProps) => {
       activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
         ? state.activeNodeState.rotZ
         : 0,
+      activeNodeRotY: useNodeStore.getState().activeNodeState.interactedWith
+        ? state.activeNodeState.rotY
+        : props.rotation[1],
     }));
   }, [
     props.level,
@@ -155,6 +162,7 @@ const Node = (props: NodeContructorProps) => {
     activeNodeRotZ,
     props.position,
     set,
+    props.rotation,
   ]);
 
   return (
@@ -171,7 +179,7 @@ const Node = (props: NodeContructorProps) => {
           position-y={activeNodePosY}
           position-z={activeNodePosZ}
           rotation-z={activeNodeRotZ}
-          rotation-y={props.rotation[1]}
+          rotation-y={activeNodeRotY}
           scale={[0.36, 0.18, 0.36]}
           renderOrder={1}
         >
