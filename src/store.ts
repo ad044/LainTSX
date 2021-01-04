@@ -65,6 +65,7 @@ type NodeState = {
     rotY: number;
     rotZ: number;
     interactedWith: boolean;
+    goldTextureBias: number;
   };
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
   gameProgress: typeof game_progress;
@@ -289,10 +290,6 @@ export const useHudStore = create<HUDState>((set) => ({
 export const useNodeStore = create(
   combine(
     {
-      siteASave: {
-        activeNodeId: "0422",
-        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
-      },
       activeNodeState: {
         id: "0422",
         posX: 0,
@@ -301,6 +298,7 @@ export const useNodeStore = create(
         rotY: 0,
         posY: 0,
         interactedWith: false,
+        goldTextureBias: 0,
       },
       nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
       gameProgress: game_progress,

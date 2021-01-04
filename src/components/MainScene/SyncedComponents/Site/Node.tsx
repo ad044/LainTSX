@@ -4,18 +4,25 @@ import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
 import Cou from "../../../../static/sprite/Cou.png";
 import CouActive from "../../../../static/sprite/Cou_active.png";
+import CouGold from "../../../../static/sprite/Cou_gold.png";
 import Dc from "../../../../static/sprite/Dc.png";
 import DcActive from "../../../../static/sprite/Dc_active.png";
+import DcGold from "../../../../static/sprite/Dc_gold.png";
 import SSkn from "../../../../static/sprite/SSkn.png";
 import SSKnActive from "../../../../static/sprite/SSkn_active.png";
+import SSKnGold from "../../../../static/sprite/SSkn_gold.png";
 import Tda from "../../../../static/sprite/Tda.png";
 import TdaActive from "../../../../static/sprite/Tda_active.png";
+import TdaGold from "../../../../static/sprite/Tda_gold.png";
 import Dia from "../../../../static/sprite/Dia.png";
 import DiaActive from "../../../../static/sprite/Dia_active.png";
+import DiaGold from "../../../../static/sprite/Dia_gold.png";
 import Lda from "../../../../static/sprite/Lda.png";
 import LdaActive from "../../../../static/sprite/Lda_active.png";
+import LdaGold from "../../../../static/sprite/Lda_gold.png";
 import MULTI from "../../../../static/sprite/MULTI.png";
 import MULTIActive from "../../../../static/sprite/MULTI_active.png";
+import MULTIGold from "../../../../static/sprite/MULTI_gold.png";
 import level_y_values from "../../../../resources/level_y_values.json";
 import { useNodeStore } from "../../../../store";
 
@@ -35,26 +42,26 @@ const Node = (props: NodeContructorProps) => {
 
   const spriteToPath = (sprite: string) => {
     if (sprite.includes("S")) {
-      return [SSkn, SSKnActive];
+      return [SSkn, SSKnActive, SSKnGold];
     } else if (
       sprite.startsWith("P") ||
       sprite.startsWith("G") ||
       sprite.includes("?")
     ) {
-      return [MULTI, MULTIActive];
+      return [MULTI, MULTIActive, MULTIGold];
     } else if (sprite.includes("Dc")) {
-      return [Dc, DcActive];
+      return [Dc, DcActive, DcGold];
     } else {
       const spriteAssocs = {
-        Tda: [Tda, TdaActive],
-        Cou: [Cou, CouActive],
-        Dia: [Dia, DiaActive],
-        Lda: [Lda, LdaActive],
-        Ere: [MULTI, MULTIActive],
-        Ekm: [MULTI, MULTIActive],
-        Eda: [MULTI, MULTIActive],
-        TaK: [MULTI, MULTIActive],
-        Env: [MULTI, MULTIActive],
+        Tda: [Tda, TdaActive, TdaGold],
+        Cou: [Cou, CouActive, CouGold],
+        Dia: [Dia, DiaActive, DiaGold],
+        Lda: [Lda, LdaActive, LdaGold],
+        Ere: [MULTI, MULTIActive, MULTIGold],
+        Ekm: [MULTI, MULTIActive, MULTIGold],
+        Eda: [MULTI, MULTIActive, MULTIGold],
+        TaK: [MULTI, MULTIActive, MULTIGold],
+        Env: [MULTI, MULTIActive, MULTIGold],
       };
 
       return spriteAssocs[sprite.substr(0, 3) as keyof typeof spriteAssocs];
@@ -63,18 +70,21 @@ const Node = (props: NodeContructorProps) => {
 
   const materialRef = useRef<THREE.ShaderMaterial>();
 
-  const spriteSheet = spriteToPath(props.sprite);
+  const sprite = spriteToPath(props.sprite);
 
-  const nonActiveTexture = useLoader(THREE.TextureLoader, spriteSheet[0]);
-  const activeTexture = useLoader(THREE.TextureLoader, spriteSheet[1]);
+  const nonActiveTexture = useLoader(THREE.TextureLoader, sprite[0]);
+  const activeTexture = useLoader(THREE.TextureLoader, sprite[1]);
+  const goldTexture = useLoader(THREE.TextureLoader, sprite[2]);
 
   const uniforms = useMemo(
     () => ({
       tex1: { type: "t", value: nonActiveTexture },
       tex2: { type: "t", value: activeTexture },
+      tex3: { type: "t", value: goldTexture },
+      goldTextureBias: { value: 0 },
       timeMSeconds: { value: (Date.now() % (Math.PI * 2000)) / 1000.0 },
     }),
-    [nonActiveTexture, activeTexture]
+    [nonActiveTexture, activeTexture, goldTexture]
   );
 
   const vertexShader = `
@@ -91,7 +101,9 @@ const Node = (props: NodeContructorProps) => {
 
     uniform sampler2D tex1;
     uniform sampler2D tex2;
+    uniform sampler2D tex3;
     uniform float timeMSeconds;
+    uniform float goldTextureBias;
 
     varying vec2 vUv;
 
@@ -100,22 +112,24 @@ const Node = (props: NodeContructorProps) => {
     void main() {
         vec4 t1 = texture2D(tex1,vUv);
         vec4 t2 = texture2D(tex2,vUv);
+        vec4 t3 = texture2D(tex3,vUv);
         float bias = abs(sin(timeMSeconds / (1.6 / M_PI)));
-        gl_FragColor = mix(t1, t2, bias);
+        gl_FragColor = mix(mix(t1, t2, bias), t3, goldTextureBias);
     }
   `;
 
-  useFrame(() => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.timeMSeconds.value =
-        (Date.now() % (Math.PI * 2000)) / 1000.0;
-    }
-  });
-
   // these pieces of state get updated transiently rather than reactively
   // to avoid excess unnecessary renders (this is absolutely crucial for performance).
+
   const [
-    { activeNodePosX, activeNodePosY, activeNodePosZ, activeNodeRotZ, activeNodeRotY },
+    {
+      activeNodePosX,
+      activeNodePosY,
+      activeNodePosZ,
+      activeNodeRotZ,
+      activeNodeRotY,
+      goldTextureBias,
+    },
     set,
   ] = useSpring(() => ({
     activeNodePosX: useNodeStore.getState().activeNodeState.interactedWith
@@ -134,6 +148,7 @@ const Node = (props: NodeContructorProps) => {
     activeNodeRotY: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.rotY
       : props.rotation[1],
+    goldTextureBias: useNodeStore.getState().activeNodeState.goldTextureBias,
     config: { duration: 800 },
   }));
 
@@ -154,6 +169,7 @@ const Node = (props: NodeContructorProps) => {
       activeNodeRotY: useNodeStore.getState().activeNodeState.interactedWith
         ? state.activeNodeState.rotY
         : props.rotation[1],
+      goldTextureBias: useNodeStore.getState().activeNodeState.goldTextureBias,
     }));
   }, [
     props.level,
@@ -164,6 +180,14 @@ const Node = (props: NodeContructorProps) => {
     set,
     props.rotation,
   ]);
+
+  useFrame(() => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.timeMSeconds.value =
+        (Date.now() % (Math.PI * 2000)) / 1000.0;
+      materialRef.current.uniforms.goldTextureBias.value = goldTextureBias.get();
+    }
+  });
 
   return (
     <group

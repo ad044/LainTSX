@@ -103,12 +103,16 @@ const NodeManager = (props: StateManagerProps) => {
       setTimeout(() => {
         setActiveNodeState(Math.PI, "rotZ");
         setActiveNodeState(Math.PI, "rotY");
+        setActiveNodeState(Math.PI, "rotX");
+        setActiveNodeState(1, "goldTextureBias");
       }, 1200);
 
       setTimeout(() => {
         setActiveNodeState(false, "interactedWith");
         setActiveNodeState(0, "rotZ");
         setActiveNodeState(0, "rotY");
+        setActiveNodeState(0, "rotX");
+        setActiveNodeState(0, "goldTextureBias");
       }, 2500);
     },
     [setActiveNodeState]

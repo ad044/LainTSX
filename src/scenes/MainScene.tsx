@@ -9,6 +9,7 @@ import { useMainSceneStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
 import LevelSelection from "../components/MainScene/SyncedComponents/LevelSelection";
+import NodeExplosion from "../components/MainScene/SyncedComponents/Site/NodeExplosion";
 
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
@@ -36,8 +37,9 @@ const MainScene = () => {
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
+          <NodeExplosion />
         </a.group>
-        <Lain shouldIntro={shouldIntro} />
+        {/*<Lain shouldIntro={shouldIntro} />*/}
       </Suspense>
     </perspectiveCamera>
   );
