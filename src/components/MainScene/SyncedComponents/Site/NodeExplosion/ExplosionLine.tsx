@@ -4,6 +4,7 @@ import { a } from "@react-spring/three";
 
 type LineProps = {
   rotation: number[];
+  position: number[];
   color: string;
   length: number;
 };
@@ -15,7 +16,9 @@ const ExplosionLine = (props: LineProps) => {
         value: new THREE.Color("white"),
       },
       color2: {
-        value: new THREE.Color(props.color),
+        value: new THREE.Color(
+          props.color === "yellow" ? "#f5cc16" : "#e33d00"
+        ),
       },
     }),
     [props.color]
@@ -38,7 +41,7 @@ const ExplosionLine = (props: LineProps) => {
     varying vec2 vUv;
     
     void main() {
-        float alpha = smoothstep(0.0, 1.0, vUv.y);
+        float alpha = smoothstep(1.0, 0.0, vUv.y);
         float colorMix = smoothstep(1.0, 2.0, 1.8);
 
         gl_FragColor = vec4(mix(color1, color2, colorMix), alpha) * 0.8;
@@ -48,6 +51,7 @@ const ExplosionLine = (props: LineProps) => {
   return (
     <mesh
       rotation={props.rotation as [number, number, number]}
+      position={props.position as [number, number, number]}
       scale={[0.01, props.length, 0]}
       renderOrder={-1}
     >
