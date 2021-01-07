@@ -13,6 +13,7 @@ import ripMiddleRingSpriteSheet from "../../static/sprite/rip_middle_ring.png";
 import knockSpriteSheet from "../../static/sprite/knock.png";
 import knockAndFallSpriteSheet from "../../static/sprite/knock_and_fall.png";
 import touchAndScareSpriteSheet from "../../static/sprite/touch_and_scare.png";
+import ripNodeSpriteSheet from "../../static/sprite/rip_node.png";
 import { useLainStore, useMainSceneStore } from "../../store";
 
 type LainConstructorProps = {
@@ -162,6 +163,18 @@ export const LainTouchAndScare = () => {
   );
 };
 
+export const LainRipNode = () => {
+  return (
+    <LainConstructor
+      sprite={ripNodeSpriteSheet}
+      frameCount={60}
+      framesHorizontal={8}
+      framesVertical={8}
+      fps={60 * 0.17}
+    />
+  );
+};
+
 type LainProps = {
   shouldIntro: boolean;
 };
@@ -179,7 +192,7 @@ const Lain = (props: LainProps) => {
     select_level_up: <LainMoveUp />,
     throw_node: <LainThrowNode />,
     pause_game: <LainRipMiddleRing />,
-    test: <LainTouchAndScare />,
+    test: <LainRipNode />,
   };
 
   const [introFinished, setIntroFinished] = useState(false);

@@ -62,10 +62,10 @@ type NodeState = {
     posX: number;
     posZ: number;
     posY: number;
-    rotY: number;
     rotZ: number;
     interactedWith: boolean;
-    goldTextureBias: number;
+    exploding: boolean;
+    visible: boolean;
   };
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
   gameProgress: typeof game_progress;
@@ -295,10 +295,10 @@ export const useNodeStore = create(
         posX: 0,
         posZ: 0,
         rotZ: 0,
-        rotY: 0,
         posY: 0,
         interactedWith: false,
-        goldTextureBias: 0,
+        exploding: false,
+        visible: true,
       },
       nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
       gameProgress: game_progress,

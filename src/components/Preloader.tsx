@@ -12,6 +12,7 @@ import boringHudSpriteSheet from "../static/sprite/long_hud_boring.png";
 import boringHudMirroredSpriteSheet from "../static/sprite/long_hud_boring_mirrored.png";
 import throwNodeSpriteSheet from "../static/sprite/throw_node.png";
 import ripMiddleRingSpriteSheet from "../static/sprite/rip_middle_ring.png";
+import ripNodeSpriteSheet from "../static/sprite/rip_node.png";
 
 import * as THREE from "three";
 import { useLoader, useThree } from "react-three-fiber";
@@ -46,6 +47,7 @@ const Preloader = () => {
     THREE.TextureLoader,
     ripMiddleRingSpriteSheet
   );
+  const ripNode = useLoader(THREE.TextureLoader, ripNodeSpriteSheet);
 
   const { gl } = useThree();
   useLayoutEffect(() => {
@@ -63,6 +65,7 @@ const Preloader = () => {
     gl.initTexture(boringHudMirrored);
     gl.initTexture(throwNode);
     gl.initTexture(ripMiddleRing);
+    gl.initTexture(ripNode);
   }, [
     moveDown,
     moveUp,
@@ -79,6 +82,7 @@ const Preloader = () => {
     intro,
     throwNode,
     ripMiddleRing,
+    ripNode,
   ]);
   return null;
 };

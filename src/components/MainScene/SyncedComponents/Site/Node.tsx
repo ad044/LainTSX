@@ -74,17 +74,14 @@ const Node = (props: NodeContructorProps) => {
 
   const nonActiveTexture = useLoader(THREE.TextureLoader, sprite[0]);
   const activeTexture = useLoader(THREE.TextureLoader, sprite[1]);
-  const goldTexture = useLoader(THREE.TextureLoader, sprite[2]);
 
   const uniforms = useMemo(
     () => ({
       tex1: { type: "t", value: nonActiveTexture },
       tex2: { type: "t", value: activeTexture },
-      tex3: { type: "t", value: goldTexture },
-      goldTextureBias: { value: 0 },
       timeMSeconds: { value: (Date.now() % (Math.PI * 2000)) / 1000.0 },
     }),
-    [nonActiveTexture, activeTexture, goldTexture]
+    [nonActiveTexture, activeTexture]
   );
 
   const vertexShader = `
@@ -101,9 +98,7 @@ const Node = (props: NodeContructorProps) => {
 
     uniform sampler2D tex1;
     uniform sampler2D tex2;
-    uniform sampler2D tex3;
     uniform float timeMSeconds;
-    uniform float goldTextureBias;
 
     varying vec2 vUv;
 
@@ -112,9 +107,8 @@ const Node = (props: NodeContructorProps) => {
     void main() {
         vec4 t1 = texture2D(tex1,vUv);
         vec4 t2 = texture2D(tex2,vUv);
-        vec4 t3 = texture2D(tex3,vUv);
         float bias = abs(sin(timeMSeconds / (1.6 / M_PI)));
-        gl_FragColor = mix(mix(t1, t2, bias), t3, goldTextureBias);
+        gl_FragColor = mix(t1, t2, bias);
     }
   `;
 
@@ -127,8 +121,7 @@ const Node = (props: NodeContructorProps) => {
       activeNodePosY,
       activeNodePosZ,
       activeNodeRotZ,
-      activeNodeRotY,
-      goldTextureBias,
+      activeNodeVisible,
     },
     set,
   ] = useSpring(() => ({
@@ -145,10 +138,7 @@ const Node = (props: NodeContructorProps) => {
     activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.rotZ
       : 0,
-    activeNodeRotY: useNodeStore.getState().activeNodeState.interactedWith
-      ? useNodeStore.getState().activeNodeState.rotY
-      : props.rotation[1],
-    goldTextureBias: useNodeStore.getState().activeNodeState.goldTextureBias,
+    activeNodeVisible: true,
     config: { duration: 800 },
   }));
 
@@ -166,10 +156,7 @@ const Node = (props: NodeContructorProps) => {
       activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
         ? state.activeNodeState.rotZ
         : 0,
-      activeNodeRotY: useNodeStore.getState().activeNodeState.interactedWith
-        ? state.activeNodeState.rotY
-        : props.rotation[1],
-      goldTextureBias: useNodeStore.getState().activeNodeState.goldTextureBias,
+      activeNodeVisible: useNodeStore.getState().activeNodeState.visible,
     }));
   }, [
     props.level,
@@ -185,7 +172,6 @@ const Node = (props: NodeContructorProps) => {
     if (materialRef.current) {
       materialRef.current.uniforms.timeMSeconds.value =
         (Date.now() % (Math.PI * 2000)) / 1000.0;
-      materialRef.current.uniforms.goldTextureBias.value = goldTextureBias.get();
     }
   });
 
@@ -203,7 +189,8 @@ const Node = (props: NodeContructorProps) => {
           position-y={activeNodePosY}
           position-z={activeNodePosZ}
           rotation-z={activeNodeRotZ}
-          rotation-y={activeNodeRotY}
+          rotation-y={props.rotation[1]}
+          visible={activeNodeVisible}
           scale={[0.36, 0.18, 0.36]}
           renderOrder={1}
         >
