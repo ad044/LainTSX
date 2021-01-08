@@ -102,10 +102,10 @@ const NodeManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         setActiveNodeState(true, "exploding");
+        setActiveNodeState(false, "visible");
       }, 1200);
 
       setTimeout(() => {
-        setActiveNodeState(false, "visible");
         setActiveNodeState(false, "interactedWith");
         setActiveNodeState(0, "rotZ");
         setActiveNodeState(0, "rotX");

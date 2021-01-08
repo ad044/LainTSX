@@ -9,7 +9,8 @@ import { useMainSceneStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
 import LevelSelection from "../components/MainScene/SyncedComponents/LevelSelection";
-import NodeExplosion from "../components/MainScene/SyncedComponents/Site/NodeExplosion";
+import NodeExplosion from "../components/MainScene/SyncedComponents/Site/NodeAnimations/NodeExplosion";
+import NodeRip from "../components/MainScene/SyncedComponents/Site/NodeAnimations/NodeRip";
 
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
@@ -38,6 +39,7 @@ const MainScene = () => {
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
           <NodeExplosion />
+          <NodeRip />
         </a.group>
         <Lain shouldIntro={shouldIntro} />
       </Suspense>

@@ -44,7 +44,7 @@ const ExplosionLine = (props: LineProps) => {
         float alpha = smoothstep(1.0, 0.0, vUv.y);
         float colorMix = smoothstep(1.0, 2.0, 1.8);
 
-        gl_FragColor = vec4(mix(color1, color2, colorMix), alpha) * 0.7;
+        gl_FragColor = vec4(mix(color1, color2, colorMix), alpha) * 0.6;
     }
       `;
 
@@ -53,7 +53,7 @@ const ExplosionLine = (props: LineProps) => {
       rotation={props.rotation as [number, number, number]}
       position={props.position as [number, number, number]}
       scale={[0.01, props.length, 0]}
-      renderOrder={-1}
+      renderOrder={2}
     >
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
       <a.shaderMaterial
