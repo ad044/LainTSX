@@ -2,28 +2,28 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
-import Cou from "../../../../../static/sprite/Cou.png";
-import CouGold from "../../../../../static/sprite/Cou_gold.png";
-import Dc from "../../../../../static/sprite/Dc.png";
-import DcGold from "../../../../../static/sprite/Dc_gold.png";
-import SSkn from "../../../../../static/sprite/SSkn.png";
-import SSKnGold from "../../../../../static/sprite/SSkn_gold.png";
-import Tda from "../../../../../static/sprite/Tda.png";
-import TdaGold from "../../../../../static/sprite/Tda_gold.png";
-import Dia from "../../../../../static/sprite/Dia.png";
-import DiaGold from "../../../../../static/sprite/Dia_gold.png";
-import Lda from "../../../../../static/sprite/Lda.png";
-import LdaGold from "../../../../../static/sprite/Lda_gold.png";
-import MULTI from "../../../../../static/sprite/MULTI.png";
-import MULTIGold from "../../../../../static/sprite/MULTI_gold.png";
+import Cou from "../../../../../../static/sprite/Cou.png";
+import CouGold from "../../../../../../static/sprite/Cou_gold.png";
+import Dc from "../../../../../../static/sprite/Dc.png";
+import DcGold from "../../../../../../static/sprite/Dc_gold.png";
+import SSkn from "../../../../../../static/sprite/SSkn.png";
+import SSKnGold from "../../../../../../static/sprite/SSkn_gold.png";
+import Tda from "../../../../../../static/sprite/Tda.png";
+import TdaGold from "../../../../../../static/sprite/Tda_gold.png";
+import Dia from "../../../../../../static/sprite/Dia.png";
+import DiaGold from "../../../../../../static/sprite/Dia_gold.png";
+import Lda from "../../../../../../static/sprite/Lda.png";
+import LdaGold from "../../../../../../static/sprite/Lda_gold.png";
+import MULTI from "../../../../../../static/sprite/MULTI.png";
+import MULTIGold from "../../../../../../static/sprite/MULTI_gold.png";
 import {
   useLevelStore,
   useNodeStore,
   useSiteStore,
-} from "../../../../../store";
-import site_a from "../../../../../resources/site_a.json";
-import site_b from "../../../../../resources/site_b.json";
-import { SiteType } from "../../Site";
+} from "../../../../../../store";
+import site_a from "../../../../../../resources/site_a.json";
+import site_b from "../../../../../../resources/site_b.json";
+import { SiteType } from "../../../Site";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -88,27 +88,27 @@ const GoldNode = (props: GoldNodeProps) => {
 
   useEffect(() => {
     if (r.current && !props.visible) {
-      r.current.rotation.y = -1.2;
-      r.current.rotation.z = 0;
+      r.current.rotation.x = Math.PI / 2;
+      r.current.rotation.y = 0;
+      r.current.rotation.z = Math.PI / 2 - 0.3;
     }
   }, [props.visible]);
 
   useFrame(() => {
     if (r.current && props.visible) {
-      r.current.rotation.y -= 0.01;
-      r.current.rotation.z += 0.01;
+      r.current.rotation.y -= 0.03;
+      r.current.rotation.z += 0.03;
     }
   });
 
   return (
     <mesh
-      // geometry={nodes.Cube.geometry}
-      position={[-0.18, -0.45, 0]}
-      rotation={[0, -1.2, 0]}
-      scale={[0.24, 0.19, 0.34]}
+      geometry={nodes.Cube.geometry}
+      position={[-0.155, -0.45, 0]}
+      rotation={[Math.PI / 2, 0, Math.PI / 2 - 0.3]}
+      scale={[-0.1 / 1.15, 0.2 / 1.35, 0.1 / 1.15]}
       ref={r}
     >
-      <boxBufferGeometry attach="geometry" />
       <meshBasicMaterial
         attach="material"
         map={props.goldTexture ? goldTex : regularTex}

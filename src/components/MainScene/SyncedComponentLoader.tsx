@@ -9,7 +9,7 @@ import Starfield from "./SyncedComponents/Starfield";
 import Site from "./SyncedComponents/Site";
 import MiddleRing from "./SyncedComponents/MiddleRing";
 import { a } from "@react-spring/three";
-import NodeExplosion from "./SyncedComponents/Site/NodeExplosion";
+import NodeExplosion from "./SyncedComponents/Site/NodeAnimations/NodeExplosion";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;

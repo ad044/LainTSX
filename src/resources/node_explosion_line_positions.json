@@ -1,7 +1,7 @@
 {
   "1": [
     {
-      "position": [0, 0.2, 0],
+      "position": [0.1, 0.2, 0],
       "rotation": [0, 0, -0.25],
       "color": "red",
       "length": 1.5
@@ -13,7 +13,7 @@
       "length": 1
     },
     {
-      "position": [-0.4, -0.6, 0],
+      "position": [-0.4, -0.8, 0],
       "rotation": [0, 0, -4],
       "color": "yellow",
       "length": 1
@@ -27,31 +27,31 @@
   ],
   "2": [
     {
-      "position": [0.4, -0.1, 0],
+      "position": [0.6, -0.1, 0],
       "rotation": [0, 0, -1],
       "length": 1.5,
       "color": "yellow"
     },
     {
-      "position": [0.47, -0.18, 0],
+      "position": [0.65, -0.18, 0],
       "rotation": [0, 0, -1.1],
       "length": 1.6,
       "color": "red"
     },
     {
-      "position": [0.45, -0.25, 0],
+      "position": [0.7, -0.2, 0],
       "rotation": [0, 0, -1.2],
       "length": 1.6,
       "color": "yellow"
     },
     {
-      "position": [0, -0.75, 0],
+      "position": [0.1, -0.75, 0],
       "rotation": [0, 0, -2.5],
       "length": 0.8,
       "color": "red"
     },
     {
-      "position": [-0.25, -0.75, 0],
+      "position": [-0.15, -0.8, 0],
       "rotation": [0, 0, -3.5],
       "length": 0.8,
       "color": "yellow"
@@ -65,25 +65,25 @@
       "color": "yellow"
     },
     {
-      "position": [0.4, -0.1, 0],
+      "position": [0.5, -0.1, 0],
       "rotation": [0, 0, -0.95],
       "length": 1.5,
       "color": "red"
     },
     {
-      "position": [0.47, -0.18, 0],
+      "position": [0.57, -0.08, 0],
       "rotation": [0, 0, -1.05],
       "length": 1.6,
       "color": "red"
     },
     {
-      "position": [0.45, -0.25, 0],
+      "position": [0.55, -0.15, 0],
       "rotation": [0, 0, -1.15],
       "length": 1.5,
       "color": "red"
     },
     {
-      "position": [0.5, -0.6, 0],
+      "position": [0.6, -0.6, 0],
       "rotation": [0, 0, -1.7],
       "length": 1.5,
       "color": "red"
