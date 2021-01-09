@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
-import { a } from "@react-spring/three";
 
 type LineProps = {
   rotation: number[];
@@ -56,7 +55,7 @@ const ExplosionLine = (props: LineProps) => {
       renderOrder={2}
     >
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <a.shaderMaterial
+      <shaderMaterial
         attach="material"
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}

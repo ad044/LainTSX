@@ -19,6 +19,17 @@ const SceneManager = (props: StateManagerProps) => {
             delay: 3450,
             setMainSceneIntro: false,
           };
+        case "rip_node_media":
+        case "rip_node_gate":
+        case "rip_node_sskn":
+        case "rip_node_tak":
+          return {
+            action: setScene,
+            value: eventState.scene,
+            delay: 6000,
+            setMainSceneIntro: false,
+          };
+
         case "media_exit_select":
         case "exit_gate":
         case "sskn_cancel_select":

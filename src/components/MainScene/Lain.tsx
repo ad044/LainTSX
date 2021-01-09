@@ -192,7 +192,7 @@ const Lain = (props: LainProps) => {
     select_level_up: <LainMoveUp />,
     throw_node: <LainThrowNode />,
     pause_game: <LainRipMiddleRing />,
-    test: <LainRipNode />,
+    rip_node: <LainRipNode />,
   };
 
   const [introFinished, setIntroFinished] = useState(false);

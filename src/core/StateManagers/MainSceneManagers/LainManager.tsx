@@ -15,6 +15,7 @@ const LainManager = (props: StateManagerProps) => {
         case "select_level_up":
         case "select_level_down":
         case "pause_game":
+        case "knock_node":
           return {
             action: setLainMoveState,
             value: eventState.event,
@@ -29,23 +30,20 @@ const LainManager = (props: StateManagerProps) => {
             value: "throw_node",
             duration: 3900,
           };
-        case "knock_node":
+        case "rip_node_media":
+        case "rip_node_gate":
+        case "rip_node_sskn":
+        case "rip_node_tak":
           return {
             action: setLainMoveState,
-            value: "knock_node",
-            duration: 3900,
+            value: "rip_node",
+            duration: 6000,
           };
         case "knock_node_and_fall":
           return {
             action: setLainMoveState,
             value: "knock_node_and_fall",
             duration: 6000,
-          };
-        case "test":
-          return {
-            action: setLainMoveState,
-            value: "test",
-            duration: 3900,
           };
       }
     },
