@@ -122,6 +122,7 @@ const Node = (props: NodeContructorProps) => {
       activeNodePosZ,
       activeNodeRotZ,
       activeNodeVisible,
+      activeNodeScale,
     },
     set,
   ] = useSpring(() => ({
@@ -138,6 +139,9 @@ const Node = (props: NodeContructorProps) => {
     activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.rotZ
       : 0,
+    activeNodeScale: useNodeStore.getState().activeNodeState.shrinking
+      ? 0
+      : 1,
     activeNodeVisible: true,
     config: { duration: 800 },
   }));
@@ -156,6 +160,9 @@ const Node = (props: NodeContructorProps) => {
       activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
         ? state.activeNodeState.rotZ
         : 0,
+      activeNodeScale: useNodeStore.getState().activeNodeState.shrinking
+        ? 0
+        : 1,
       activeNodeVisible: useNodeStore.getState().activeNodeState.visible,
     }));
   }, [
@@ -184,27 +191,33 @@ const Node = (props: NodeContructorProps) => {
       ]}
     >
       {props.active ? (
-        <a.mesh
-          position-x={activeNodePosX}
-          position-y={activeNodePosY}
-          position-z={activeNodePosZ}
-          rotation-z={activeNodeRotZ}
-          rotation-y={props.rotation[1]}
-          visible={activeNodeVisible}
-          scale={[0.36, 0.18, 0.36]}
-          renderOrder={1}
+        <a.group
+          scale-x={activeNodeScale}
+          scale-y={activeNodeScale}
+          scale-z={activeNodeScale}
         >
-          <planeBufferGeometry attach="geometry" />
-          <shaderMaterial
-            ref={materialRef}
-            attach="material"
-            uniforms={uniforms}
-            fragmentShader={fragmentShader}
-            vertexShader={vertexShader}
-            side={THREE.DoubleSide}
-            transparent={true}
-          />
-        </a.mesh>
+          <a.mesh
+            position-x={activeNodePosX}
+            position-y={activeNodePosY}
+            position-z={activeNodePosZ}
+            rotation-z={activeNodeRotZ}
+            rotation-y={props.rotation[1]}
+            visible={activeNodeVisible}
+            scale={[0.36, 0.18, 0.36]}
+            renderOrder={1}
+          >
+            <planeBufferGeometry attach="geometry" />
+            <shaderMaterial
+              ref={materialRef}
+              attach="material"
+              uniforms={uniforms}
+              fragmentShader={fragmentShader}
+              vertexShader={vertexShader}
+              side={THREE.DoubleSide}
+              transparent={true}
+            />
+          </a.mesh>
+        </a.group>
       ) : (
         <a.mesh
           position-x={props.position[0]}

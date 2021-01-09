@@ -65,6 +65,7 @@ type NodeState = {
     rotZ: number;
     interactedWith: boolean;
     exploding: boolean;
+    shrinking: boolean;
     visible: boolean;
   };
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
@@ -298,6 +299,7 @@ export const useNodeStore = create(
         posY: 0,
         interactedWith: false,
         exploding: false,
+        shrinking: false,
         visible: true,
       },
       nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },

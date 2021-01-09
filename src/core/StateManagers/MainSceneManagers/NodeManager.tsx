@@ -122,6 +122,55 @@ const NodeManager = (props: StateManagerProps) => {
     [setActiveNodeState]
   );
 
+  const animateShrinkAndRip = useCallback(
+    (siteRotY: number) => {
+      setActiveNodeState(true, "interactedWith");
+
+      const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
+      const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
+      const thirdCoordSet = calculateCoordsBasedOnRotation(0, 0.2, siteRotY);
+
+      setActiveNodeState(fstCoordSet.x, "posX");
+      setActiveNodeState(fstCoordSet.z, "posZ");
+      setActiveNodeState(0, "posY");
+
+      setTimeout(() => {
+        setActiveNodeState(sndCoordSet.x, "posX");
+        setActiveNodeState(sndCoordSet.z, "posZ");
+      }, 800);
+
+      setTimeout(() => {
+        setActiveNodeState(thirdCoordSet.x, "posX");
+        setActiveNodeState(thirdCoordSet.z, "posZ");
+        setActiveNodeState(-0.4, "posY");
+      }, 2800);
+
+      setTimeout(() => {
+        setActiveNodeState(true, "shrinking");
+      }, 3000);
+
+      setTimeout(() => {
+        setActiveNodeState(-1.5, "posY");
+      }, 3200);
+
+      setTimeout(() => {
+        setActiveNodeState(false, "visible");
+      }, 3500);
+
+      setTimeout(() => {
+        setActiveNodeState(false, "interactedWith");
+        setActiveNodeState(false, "shrinking");
+        setActiveNodeState(0, "rotZ");
+        setActiveNodeState(0, "rotX");
+      }, 6400);
+
+      setTimeout(() => {
+        setActiveNodeState(true, "visible");
+      }, 7500);
+    },
+    [setActiveNodeState]
+  );
+
   const updateActiveNode = useCallback(
     (
       newActiveNodeId: string,
@@ -181,14 +230,17 @@ const NodeManager = (props: StateManagerProps) => {
             action: animateActiveNodeThrow,
             value: [eventState.siteRotY],
           };
-        case "test":
+        case "rip_node_media":
+        case "rip_node_gate":
+        case "rip_node_sskn":
+        case "rip_node_tak":
           return {
-            action: animateNodeTouchAndScare,
+            action: animateShrinkAndRip,
             value: [eventState.siteRotY],
           };
       }
     },
-    [animateActiveNodeThrow, animateNodeKnock, updateActiveNode]
+    [animateActiveNodeThrow, animateShrinkAndRip, updateActiveNode]
   );
 
   useEffect(() => {

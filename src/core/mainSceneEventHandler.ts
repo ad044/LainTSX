@@ -67,7 +67,7 @@ const handleMainSceneEvent = (gameContext: any) => {
         ];
         const nodeType = nodeData.type;
 
-        const eventAnimation = "throw_node_";
+        const eventAnimation = Math.random() < 0.4 ? "rip_node" : "throw_node";
 
         switch (nodeType) {
           case 0:
@@ -75,24 +75,24 @@ const handleMainSceneEvent = (gameContext: any) => {
           case 4:
           case 3:
           case 5:
-            event = eventAnimation + "media";
+            event = `${eventAnimation}_media`;
             scene = "media";
             break;
           case 6:
             if (nodeData.node_name.substr(0, 3) === "TaK") {
-              event = eventAnimation + "tak";
+              event = `${eventAnimation}_tak`;
               scene = "tak";
             } else {
-              event = eventAnimation + "media";
+              event = `${eventAnimation}_media`;
               scene = "media";
             }
             break;
           case 8:
-            event = eventAnimation + "gate";
+            event = `${eventAnimation}_gate`;
             scene = "gate";
             break;
           case 7:
-            event = eventAnimation + "sskn";
+            event = `${eventAnimation}_sskn`;
             scene = "sskn";
             break;
         }
