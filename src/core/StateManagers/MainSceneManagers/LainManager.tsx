@@ -16,6 +16,23 @@ const LainManager = (props: StateManagerProps) => {
         case "select_level_down":
         case "pause_game":
         case "knock_node":
+        case "prayer":
+        case "touch_sleeve":
+        case "thinking":
+        case "stretch_2":
+        case "stretch":
+        case "spin":
+        case "scratch_head":
+        case "blush":
+        case "hands_behind_head":
+        case "hands_on_hips":
+        case "hands_on_hips_2":
+        case "hands_together":
+        case "lean_forward":
+        case "lean_left":
+        case "lean_right":
+        case "look_around":
+        case "play_with_hair":
           return {
             action: setLainMoveState,
             value: eventState.event,
