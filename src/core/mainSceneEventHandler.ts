@@ -102,7 +102,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "TRIANGLE":
         return { event: "pause_game" };
       case "SPACE":
-        return { event: "test", siteRotY: siteRotY };
+        return { event: "play_with_hair", siteRotY: siteRotY };
     }
 
     return {
