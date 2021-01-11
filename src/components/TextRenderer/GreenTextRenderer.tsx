@@ -12,7 +12,7 @@ const GreenTextRenderer = () => {
 
   const { greenTextPosXToggle } = useSpring({
     greenTextPosXToggle: greenTextActive,
-    config: { duration: 500 },
+    config: { duration: 400 },
   });
 
   const greenTextPosX = greenTextPosXToggle.to(

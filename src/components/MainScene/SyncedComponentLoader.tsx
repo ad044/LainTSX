@@ -3,13 +3,10 @@ import HUD from "./SyncedComponents/HUD";
 import GreenTextRenderer from "../TextRenderer/GreenTextRenderer";
 import YellowTextRenderer from "../TextRenderer/YellowTextRenderer";
 import YellowOrb from "./SyncedComponents/YellowOrb";
-import LevelSelection from "./SyncedComponents/LevelSelection";
 import GrayPlanes from "./SyncedComponents/GrayPlanes";
 import Starfield from "./SyncedComponents/Starfield";
 import Site from "./SyncedComponents/Site";
 import MiddleRing from "./SyncedComponents/MiddleRing";
-import { a } from "@react-spring/three";
-import NodeExplosion from "./SyncedComponents/Site/NodeAnimations/NodeExplosion";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import SiteManager from "./MainSceneManagers/SiteManager";
 import MiddleRingManager from "./MainSceneManagers/MiddleRingManager";
 import LainManager from "./MainSceneManagers/LainManager";
@@ -36,6 +36,7 @@ import PauseComponentManager from "./MainSceneManagers/PauseComponentManager";
 import MediaYellowTextManager from "./MediaYellowTextManager";
 import GameSaver from "./GameSaver";
 import GameLoader from "./GameLoader";
+import { useFrame } from "react-three-fiber";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -137,6 +138,42 @@ const EventManager = () => {
 
   const [inputCooldown, setInputCooldown] = useState(false);
 
+  const timePassedSinceLastKeyPress = useRef(-1);
+
+  useFrame(() => {
+    const now = Date.now();
+    if (
+      timePassedSinceLastKeyPress.current > -1 &&
+      currentScene === "main" &&
+      now > timePassedSinceLastKeyPress.current + 10000 &&
+      mainSubscene !== "pause"
+    ) {
+      const moves = [
+        "prayer",
+        "touch_sleeve",
+        "thinking",
+        "stretch_2",
+        "stretch",
+        "spin",
+        "scratch_head",
+        "blush",
+        "hands_behind_head",
+        "hands_on_hips",
+        "hands_on_hips_2",
+        "hands_together",
+        "lean_forward",
+        "lean_left",
+        "lean_right",
+        "look_around",
+        "play_with_hair",
+      ];
+
+      const event = moves[Math.floor(Math.random() * moves.length)];
+      setEventState({ event: event });
+      timePassedSinceLastKeyPress.current = now - 2500;
+    }
+  });
+
   const handleKeyPress = useCallback(
     (event) => {
       const { keyCode } = event;
@@ -144,6 +181,7 @@ const EventManager = () => {
       const keyPress = getKeyCodeAssociation(keyCode);
 
       if (keyPress && !inputCooldown) {
+        timePassedSinceLastKeyPress.current = Date.now() + 2500;
         let event;
         switch (currentScene) {
           case "main":
