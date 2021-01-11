@@ -609,3 +609,4 @@ export const useEndSceneStore = create<EndState>((set) => ({
     set((state) => ({ mediaPlayedCount: state.mediaPlayedCount + 1 })),
   resetMediaPlayedCount: () => set(() => ({ mediaPlayedCount: 0 })),
 }));
+

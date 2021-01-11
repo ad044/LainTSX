@@ -82,8 +82,8 @@ export const LainIntro = () => (
 export const LainStanding = () => (
   <LainConstructor
     sprite={standingSpriteSheet}
-    frameCount={3}
-    framesHorizontal={3}
+    frameCount={1}
+    framesHorizontal={1}
     framesVertical={1}
   />
 );
@@ -100,18 +100,20 @@ export const LainMoveDown = () => (
 export const LainMoveLeft = () => (
   <LainConstructor
     sprite={moveLeftSpriteSheet}
-    frameCount={47}
-    framesHorizontal={8}
-    framesVertical={6}
+    frameCount={46}
+    framesHorizontal={7}
+    framesVertical={7}
+    fps={0.28 * 46}
   />
 );
 
 export const LainMoveRight = () => (
   <LainConstructor
     sprite={moveRightSpriteSheet}
-    frameCount={47}
-    framesHorizontal={8}
-    framesVertical={6}
+    frameCount={46}
+    framesHorizontal={7}
+    framesVertical={7}
+    fps={0.28 * 46}
   />
 );
 
@@ -353,35 +355,39 @@ type LainProps = {
 const Lain = (props: LainProps) => {
   const lainMoveState = useLainStore((state) => state.lainMoveState);
 
-  const lainAnimationDispatch = {
-    standing: <LainStanding />,
-    site_left: <LainMoveLeft />,
-    site_right: <LainMoveRight />,
-    site_up: <LainMoveUp />,
-    site_down: <LainMoveDown />,
-    select_level_down: <LainMoveDown />,
-    select_level_up: <LainMoveUp />,
-    throw_node: <LainThrowNode />,
-    pause_game: <LainRipMiddleRing />,
-    rip_node: <LainRipNode />,
-    prayer: <LainPrayer />,
-    scratch_head: <LainScratchHead />,
-    spin: <LainSpin />,
-    stretch: <LainStretch />,
-    stretch_2: <LainStretch2 />,
-    thinking: <LainThinking />,
-    touch_sleeve: <LainTouchSleeve />,
-    blush: <LainBlush />,
-    hands_behind_head: <LainHandsBehindHead />,
-    hands_on_hips: <LainHandsOnHips />,
-    hands_on_hips_2: <LainHandsOnHips2 />,
-    hands_together: <LainHandsTogether />,
-    lean_forward: <LainLeanForward />,
-    lean_left: <LainLeanLeft />,
-    lean_right: <LainLeanRight />,
-    look_around: <LainLookAround />,
-    play_with_hair: <LainPlayWithHair />,
-  };
+  const lainAnimationDispatch = useMemo(() => {
+    const anims = {
+      standing: <LainStanding />,
+      site_left: <LainMoveLeft />,
+      site_right: <LainMoveRight />,
+      site_up: <LainMoveUp />,
+      site_down: <LainMoveDown />,
+      select_level_down: <LainMoveDown />,
+      select_level_up: <LainMoveUp />,
+      throw_node: <LainThrowNode />,
+      pause_game: <LainRipMiddleRing />,
+      rip_node: <LainRipNode />,
+      prayer: <LainPrayer />,
+      scratch_head: <LainScratchHead />,
+      spin: <LainSpin />,
+      stretch: <LainStretch />,
+      stretch_2: <LainStretch2 />,
+      thinking: <LainThinking />,
+      touch_sleeve: <LainTouchSleeve />,
+      blush: <LainBlush />,
+      hands_behind_head: <LainHandsBehindHead />,
+      hands_on_hips: <LainHandsOnHips />,
+      hands_on_hips_2: <LainHandsOnHips2 />,
+      hands_together: <LainHandsTogether />,
+      lean_forward: <LainLeanForward />,
+      lean_left: <LainLeanLeft />,
+      lean_right: <LainLeanRight />,
+      look_around: <LainLookAround />,
+      play_with_hair: <LainPlayWithHair />,
+    };
+
+    return anims[lainMoveState as keyof typeof anims];
+  }, [lainMoveState]);
 
   const [introFinished, setIntroFinished] = useState(false);
 
@@ -398,13 +404,7 @@ const Lain = (props: LainProps) => {
   return (
     <Suspense fallback={null}>
       <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]}>
-        {stopIntroAnim ? (
-          lainAnimationDispatch[
-            lainMoveState as keyof typeof lainAnimationDispatch
-          ]
-        ) : (
-          <LainIntro />
-        )}
+        {stopIntroAnim ? lainAnimationDispatch : <LainIntro />}
       </sprite>
     </Suspense>
   );

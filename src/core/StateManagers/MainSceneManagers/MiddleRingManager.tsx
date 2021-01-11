@@ -228,7 +228,6 @@ const MiddleRingManager = (props: any) => {
       const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
-        console.log(dispatchedObject);
         dispatchedObject.action.apply(null, dispatchedObject.value as any);
       }
     }

@@ -21,7 +21,7 @@ const HUD = () => {
     bigHUDPositionX: active,
     longHUDPositionX: active,
     boringHUDPositionX: active,
-    config: { duration: 500 },
+    config: { duration: 400 },
   });
 
   const bigHUDPosX = hudElementState.bigHUDPositionX.to(
