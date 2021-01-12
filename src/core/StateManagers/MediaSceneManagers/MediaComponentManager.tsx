@@ -111,7 +111,7 @@ const MediaComponentManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
-        dispatchedObject.action.apply(null, dispatchedObject.value);
+        (dispatchedObject.action as any).apply(null, dispatchedObject.value);
       }
     }
   }, [props.eventState, dispatchObject]);

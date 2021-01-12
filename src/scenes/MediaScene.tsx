@@ -3,6 +3,7 @@ import {
   useLevelStore,
   useMediaStore,
   useNodeStore,
+  useSceneStore,
   useSiteStore,
 } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
@@ -19,6 +20,7 @@ import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextA
 import site_b from "../resources/site_b.json";
 
 const MediaScene = () => {
+  const currentScene = useSceneStore((state) => state.currentScene);
   const mediaComponentMatrixIndices = useMediaStore(
     (state) => state.componentMatrixIndices
   );
@@ -58,25 +60,40 @@ const MediaScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
-        <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
-        <LeftSide activeMediaComponent={activeMediaComponent} />
-        <group position={[0, 0.5, -3]}>
-          <MediaLoadingBar />
-          <NodeNameContainer />
-        </group>
-        <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-          {activeNodeName.split("").map((letter, idx) => (
-            <MediumLetter letter={letter} letterIdx={idx} key={idx} />
-          ))}
-        </group>
-
-        <MediaYellowTextAnimator />
+        {currentScene !== "idle_media" ? (
+          <>
+            <pointLight
+              intensity={1.2}
+              color={0xffffff}
+              position={[-2, 0, 0]}
+            />
+            <LeftSide activeMediaComponent={activeMediaComponent} />
+            <group position={[0, 0.5, -3]}>
+              <MediaLoadingBar />
+              <NodeNameContainer />
+            </group>
+            <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
+              {activeNodeName.split("").map((letter, idx) => (
+                <MediumLetter letter={letter} letterIdx={idx} key={idx} />
+              ))}
+            </group>
+            <MediaYellowTextAnimator />
+          </>
+        ) : (
+          <></>
+        )}
         {activeNodeMedia.includes("XA") ? (
           <>
-            <AudioVisualizer />
-            <RightSide activeMediaComponent={activeMediaComponent} />
-            <Lof />
-            <Images />{" "}
+            {currentScene !== "idle_media" ? (
+              <>
+                <RightSide activeMediaComponent={activeMediaComponent} />
+                <Lof />
+                <AudioVisualizer />
+              </>
+            ) : (
+              <></>
+            )}
+            <Images />
           </>
         ) : (
           <></>

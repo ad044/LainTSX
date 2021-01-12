@@ -51,6 +51,13 @@ const SceneManager = (props: StateManagerProps) => {
             delay: 0,
             setMainSceneIntro: true,
           };
+        case "play_idle_media":
+          return {
+            action: setScene,
+            value: "idle_media",
+            delay: 0,
+            setMainSceneIntro: false,
+          };
       }
     },
     [setScene]
