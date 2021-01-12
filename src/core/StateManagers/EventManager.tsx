@@ -144,33 +144,62 @@ const EventManager = () => {
     const now = Date.now();
     if (
       timePassedSinceLastKeyPress.current > -1 &&
-      currentScene === "main" &&
-      now > timePassedSinceLastKeyPress.current + 10000 &&
-      mainSubscene !== "pause"
+      mainSubscene !== "pause" &&
+      currentScene === "main"
     ) {
-      const moves = [
-        "prayer",
-        "touch_sleeve",
-        "thinking",
-        "stretch_2",
-        "stretch",
-        "spin",
-        "scratch_head",
-        "blush",
-        "hands_behind_head",
-        "hands_on_hips",
-        "hands_on_hips_2",
-        "hands_together",
-        "lean_forward",
-        "lean_left",
-        "lean_right",
-        "look_around",
-        "play_with_hair",
-      ];
+      if (now > timePassedSinceLastKeyPress.current + 10000) {
+        const moves = [
+          "prayer",
+          "touch_sleeve",
+          "thinking",
+          "stretch_2",
+          "stretch",
+          "spin",
+          "scratch_head",
+          "blush",
+          "hands_behind_head",
+          "hands_on_hips",
+          "hands_on_hips_2",
+          "hands_together",
+          "lean_forward",
+          "lean_left",
+          "lean_right",
+          "look_around",
+          "play_with_hair",
+        ];
 
-      const event = moves[Math.floor(Math.random() * moves.length)];
-      setEventState({ event: event });
-      timePassedSinceLastKeyPress.current = now - 2500;
+        const event = moves[Math.floor(Math.random() * moves.length)];
+        setEventState({ event: event });
+        timePassedSinceLastKeyPress.current = now - 2500;
+      }
+      if (now > timePassedSinceLastKeyPress.current + 5000) {
+        const siteAIdleNodes = [
+          "0000",
+          "0001",
+          "0002",
+          "0003",
+          "0004",
+          "0005",
+          "0006",
+          "0007",
+          "0008",
+          "0009",
+        ];
+        // todo
+        const siteBIdleNodes = ["0001"];
+
+        const nodeToPlay =
+          currentSite === "a"
+            ? siteAIdleNodes[Math.floor(Math.random() * siteAIdleNodes.length)]
+            : siteBIdleNodes[Math.floor(Math.random() * siteBIdleNodes.length)];
+
+        setEventState({
+          event: "play_idle_media",
+          scene: "idle_media",
+          idleNodeId: nodeToPlay,
+        });
+        timePassedSinceLastKeyPress.current = -1;
+      }
     }
   });
 

@@ -57,6 +57,7 @@ type HUDState = {
 };
 
 type NodeState = {
+  idleNodeId: string;
   activeNodeState: {
     id: string;
     posX: number;
@@ -129,6 +130,17 @@ export type BigTextState = {
     posX: number;
     posY: number;
     xOffset: number;
+  };
+};
+
+export type MediaState = {
+  audioAnalyser: any;
+  mediaPercentageElapsed: number;
+  componentMatrix: [[string, string], [string, string, string]];
+  componentMatrixIndices: {
+    sideIdx: number;
+    leftSideIdx: number;
+    rightSideIdx: number;
   };
 };
 
@@ -291,6 +303,7 @@ export const useHudStore = create<HUDState>((set) => ({
 export const useNodeStore = create(
   combine(
     {
+      idleNodeId: "",
       activeNodeState: {
         id: "0422",
         posX: 0,
@@ -315,6 +328,7 @@ export const useNodeStore = create(
         rowIdx: number;
         colIdx: number;
       }) => set(() => ({ nodeMatrixIndices: to })),
+      setIdleNode: (to: string) => set(() => ({ idleNodeId: to })),
     })
   )
 );
@@ -405,7 +419,7 @@ export const useMediaStore = create(
         // 0 or 1 or 2 ("fstWord", "sndWord" or "thirdWord")
         rightSideIdx: 0,
       },
-    } as any,
+    } as MediaState,
     (set) => ({
       toggleSide: () =>
         set((state) => ({
@@ -609,4 +623,3 @@ export const useEndSceneStore = create<EndState>((set) => ({
     set((state) => ({ mediaPlayedCount: state.mediaPlayedCount + 1 })),
   resetMediaPlayedCount: () => set(() => ({ mediaPlayedCount: 0 })),
 }));
-

@@ -25,6 +25,7 @@ const App = () => {
     return {
       main: <MainScene />,
       media: <MediaScene />,
+      idle_media: <MediaScene />,
       gate: <GateScene />,
       boot: <BootScene />,
       sskn: <SSknScene />,

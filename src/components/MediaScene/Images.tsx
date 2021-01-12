@@ -3,6 +3,7 @@ import {
   useLevelStore,
   useMediaStore,
   useNodeStore,
+  useSceneStore,
   useSiteStore,
 } from "../../store";
 import { a, useSpring } from "@react-spring/three";
@@ -14,7 +15,10 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 
 const Images = () => {
+  const idleNodeId = useNodeStore((state) => state.idleNodeId);
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
+  const currentScene = useSceneStore((state) => state.currentScene);
+
   const [imageScaleY, setImageScaleY] = useState(3.75);
   const [sceneImages, setSceneImages] = useState([] as any);
   const [activeImage, setActiveImage] = useState<THREE.Texture>();
@@ -41,30 +45,46 @@ const Images = () => {
   );
 
   useEffect(() => {
-    const images = (siteData as SiteType)[activeLevel][activeNodeId]
-      .image_table_indices;
+    let images;
+    if (currentScene === "media" || currentScene === "tak") {
+      images = (siteData as SiteType)[activeLevel][activeNodeId]
+        .image_table_indices;
+    } else if (currentScene === "idle_media") {
+      const level = idleNodeId.substr(0, 2);
+      images = (siteData as SiteType)[level][idleNodeId].image_table_indices;
+    }
 
-    // checking the length of the img arr doesn't work in some cases
-    // since the amount of images varies from 1 to 3.
-    // we try all 3 of them for each case, so logging the count to
-    // determine whether or not its complete is optimal i think.
-    let imgTries = 0;
-    const imgArr: { default: string }[] = [];
-    Object.entries(images).forEach((img) => {
-      imgTries++;
-      if (img[1] !== "-1") {
-        import(
-          "../../static/media_images/" + currentSite + "/" + img[1] + ".png"
-        ).then((imageSrc: { default: string }) => {
-          imgArr.splice(parseInt(img[0]), 0, imageSrc);
-          if (imgTries === 3) {
-            setSceneImages(imgArr);
-            new THREE.TextureLoader().load(imgArr[0].default, setActiveImage);
-          }
-        });
-      }
-    });
-  }, [activeLevel, activeLevelData, activeNodeId, currentSite, siteData]);
+    if (images) {
+      // checking the length of the img arr doesn't work in some cases
+      // since the amount of images varies from 1 to 3.
+      // we try all 3 of them for each case, so logging the count to
+      // determine whether or not its complete is optimal i think.
+      let imgTries = 0;
+      const imgArr: { default: string }[] = [];
+      Object.entries(images).forEach((img) => {
+        imgTries++;
+        if (img[1] !== "-1") {
+          import(
+            "../../static/media_images/" + currentSite + "/" + img[1] + ".png"
+          ).then((imageSrc: { default: string }) => {
+            imgArr.splice(parseInt(img[0]), 0, imageSrc);
+            if (imgTries === 3) {
+              setSceneImages(imgArr);
+              new THREE.TextureLoader().load(imgArr[0].default, setActiveImage);
+            }
+          });
+        }
+      });
+    }
+  }, [
+    activeLevel,
+    activeLevelData,
+    activeNodeId,
+    currentScene,
+    currentSite,
+    idleNodeId,
+    siteData,
+  ]);
 
   useEffect(() => {
     if (mediaPercentageElapsed === 0 && sceneImages[0]) {
