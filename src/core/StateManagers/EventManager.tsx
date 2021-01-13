@@ -37,6 +37,7 @@ import MediaYellowTextManager from "./MediaYellowTextManager";
 import GameSaver from "./GameSaver";
 import GameLoader from "./GameLoader";
 import { useFrame } from "react-three-fiber";
+import IdleManager from "./MainSceneManagers/IdleManager";
 
 const getKeyCodeAssociation = (keyCode: number): string => {
   const keyCodeAssocs = {
@@ -173,30 +174,10 @@ const EventManager = () => {
         timePassedSinceLastKeyPress.current = now - 2500;
       }
       if (now > timePassedSinceLastKeyPress.current + 5000) {
-        const siteAIdleNodes = [
-          "0000",
-          "0001",
-          "0002",
-          "0003",
-          "0004",
-          "0005",
-          "0006",
-          "0007",
-          "0008",
-          "0009",
-        ];
-        // todo
-        const siteBIdleNodes = ["0001"];
-
-        const nodeToPlay =
-          currentSite === "a"
-            ? siteAIdleNodes[Math.floor(Math.random() * siteAIdleNodes.length)]
-            : siteBIdleNodes[Math.floor(Math.random() * siteBIdleNodes.length)];
-
         setEventState({
           event: "play_idle_media",
           scene: "idle_media",
-          idleNodeId: nodeToPlay,
+          site: currentSite,
         });
         timePassedSinceLastKeyPress.current = -1;
       }
@@ -313,6 +294,7 @@ const EventManager = () => {
       <MediaYellowTextManager eventState={eventState!} />
       <GameSaver eventState={eventState!} />
       <GameLoader eventState={eventState!} />
+      <IdleManager eventState={eventState!} />
     </>
   );
 };

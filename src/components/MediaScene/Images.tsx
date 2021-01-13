@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
+  useIdleStore,
   useLevelStore,
   useMediaStore,
   useNodeStore,
@@ -15,7 +16,8 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 
 const Images = () => {
-  const idleNodeId = useNodeStore((state) => state.idleNodeId);
+  const idleNodeImages = useIdleStore((state) => state.images);
+
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const currentScene = useSceneStore((state) => state.currentScene);
 
@@ -50,8 +52,7 @@ const Images = () => {
       images = (siteData as SiteType)[activeLevel][activeNodeId]
         .image_table_indices;
     } else if (currentScene === "idle_media") {
-      const level = idleNodeId.substr(0, 2);
-      images = (siteData as SiteType)[level][idleNodeId].image_table_indices;
+      images = idleNodeImages;
     }
 
     if (images) {
@@ -82,7 +83,7 @@ const Images = () => {
     activeNodeId,
     currentScene,
     currentSite,
-    idleNodeId,
+    idleNodeImages,
     siteData,
   ]);
 

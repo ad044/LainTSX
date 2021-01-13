@@ -10,6 +10,13 @@ type EndState = {
   resetMediaPlayedCount: () => void;
 };
 
+type IdleState = {
+  media: any;
+  images: any;
+  setMedia: (to: any) => void;
+  setImages: (to: any) => void;
+};
+
 type SiteSaveState = {
   a: {
     activeNodeId: string;
@@ -57,7 +64,6 @@ type HUDState = {
 };
 
 type NodeState = {
-  idleNodeId: string;
   activeNodeState: {
     id: string;
     posX: number;
@@ -303,7 +309,6 @@ export const useHudStore = create<HUDState>((set) => ({
 export const useNodeStore = create(
   combine(
     {
-      idleNodeId: "",
       activeNodeState: {
         id: "0422",
         posX: 0,
@@ -328,10 +333,17 @@ export const useNodeStore = create(
         rowIdx: number;
         colIdx: number;
       }) => set(() => ({ nodeMatrixIndices: to })),
-      setIdleNode: (to: string) => set(() => ({ idleNodeId: to })),
     })
   )
 );
+
+export const useIdleStore = create<IdleState>((set) => ({
+  media: undefined,
+  // this may be undefined depending on whether or not the media is audio or not
+  images: undefined,
+  setMedia: (to) => set(() => ({ media: to })),
+  setImages: (to) => set(() => ({ images: to })),
+}));
 
 export const useLainStore = create<LainState>((set) => ({
   lainMoveState: "standing",

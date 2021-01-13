@@ -10,6 +10,7 @@ import site_a from "../../resources/site_a.json";
 import site_b from "../../resources/site_b.json";
 import {
   useEndSceneStore,
+  useIdleStore,
   useLevelStore,
   useMediaStore,
   useNodeStore,
@@ -18,7 +19,7 @@ import {
 } from "../../store";
 import t from "../../static/webvtt/test.vtt";
 import { SiteType } from "../MainScene/SyncedComponents/Site";
-import endroll from "../../static/movie/b/ENDROLL1.STR[0].webm";
+import endroll from "../../static/movie/ENDROLL1.STR[0].webm";
 import xa0001 from "../../static/audio/a/Xa0001.mp4";
 import xa0006 from "../../static/audio/a/Xa0006.mp4";
 
@@ -32,7 +33,8 @@ const MediaPlayer = () => {
     (state) => state.setPercentageElapsed
   );
 
-  const idleNodeId = useNodeStore((state) => state.idleNodeId);
+  const idleMedia = useIdleStore((state) => state.media);
+
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
@@ -134,15 +136,9 @@ const MediaPlayer = () => {
         }
       }
     } else {
-      let nodeMedia;
       if (currentScene === "media" || currentScene === "tak") {
-        nodeMedia = (siteData as SiteType)[activeLevel][activeNodeId]
+        const nodeMedia = (siteData as SiteType)[activeLevel][activeNodeId]
           .media_file;
-      } else if (currentScene === "idle_media") {
-        const level = idleNodeId.substr(0, 2);
-        nodeMedia = (siteData as SiteType)[level][idleNodeId].media_file;
-      }
-      if (nodeMedia) {
         if (nodeMedia.includes("XA")) {
           import(
             "../../static/audio/" + currentSite + "/" + nodeMedia + ".ogg"
@@ -150,20 +146,42 @@ const MediaPlayer = () => {
             setMediaSource(media.default);
             if (videoRef.current) {
               videoRef.current.load();
-              if (currentScene === "idle_media") {
-                videoRef.current.play();
-              }
             }
           });
         } else {
-          import(
-            "../../static/movie/" + currentSite + "/" + nodeMedia + "[0].webm"
-          ).then((media) => {
-            setMediaSource(media.default);
-            if (videoRef.current) {
-              videoRef.current.load();
+          import("../../static/movie/" + nodeMedia + "[0].webm").then(
+            (media) => {
+              setMediaSource(media.default);
+              if (videoRef.current) {
+                videoRef.current.load();
+              }
             }
-          });
+          );
+        }
+      } else if (currentScene === "idle_media") {
+        if (idleMedia) {
+          if (idleMedia.includes("XA")) {
+            import(
+              "../../static/audio/" + currentSite + "/" + idleMedia + ".ogg"
+            ).then((media) => {
+              setMediaSource(media.default);
+              if (videoRef.current) {
+                videoRef.current.load();
+              }
+            });
+          } else {
+            import("../../static/movie/" + idleMedia + "[0].webm").then(
+              (media) => {
+                setMediaSource(media.default);
+                if (videoRef.current) {
+                  videoRef.current.load();
+                }
+              }
+            );
+          }
+          if (videoRef.current) {
+            videoRef.current.play();
+          }
         }
       }
     }
@@ -173,7 +191,7 @@ const MediaPlayer = () => {
     currentScene,
     currentSite,
     endMediaPlayedCount,
-    idleNodeId,
+    idleMedia,
     siteData,
     videoRef,
   ]);
