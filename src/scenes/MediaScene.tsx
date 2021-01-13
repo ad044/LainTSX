@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import {
+  useIdleStore,
   useLevelStore,
   useMediaStore,
   useNodeStore,
@@ -25,6 +26,7 @@ const MediaScene = () => {
     (state) => state.componentMatrixIndices
   );
 
+  const idleMedia = useIdleStore((state) => state.media);
   const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const activeLevel = useLevelStore((state) => state.activeLevel);
 
@@ -82,7 +84,7 @@ const MediaScene = () => {
         ) : (
           <></>
         )}
-        {activeNodeMedia.includes("XA") ? (
+        {activeNodeMedia.includes("XA") || idleMedia.includes("XA") ? (
           <>
             {currentScene !== "idle_media" ? (
               <>

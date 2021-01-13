@@ -3,7 +3,6 @@ import { useNodeStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 
 const NodeManager = (props: StateManagerProps) => {
-  const setIdleNodeId = useNodeStore((state) => state.setIdleNode);
   const setActiveNodeState = useNodeStore((state) => state.setActiveNodeState);
   const setNodeMatrixIndices = useNodeStore(
     (state) => state.setNodeMatrixIndices
@@ -240,16 +239,9 @@ const NodeManager = (props: StateManagerProps) => {
             action: animateShrinkAndRip,
             value: [eventState.siteRotY],
           };
-        case "play_idle_media":
-          return { action: setIdleNodeId, value: [eventState.idleNodeId] };
       }
     },
-    [
-      animateActiveNodeThrow,
-      animateShrinkAndRip,
-      setIdleNodeId,
-      updateActiveNode,
-    ]
+    [animateActiveNodeThrow, animateShrinkAndRip, updateActiveNode]
   );
 
   useEffect(() => {
