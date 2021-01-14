@@ -69,9 +69,7 @@ const MediaPlayer = () => {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
           videoRef.current.currentTime = 0;
-          if (currentScene === "idle_media") {
-            setScene("main");
-          } else if (currentScene === "end") {
+          if (currentScene === "end") {
             incrementEndMediaPlayedCount();
           } else {
             if (
@@ -178,9 +176,6 @@ const MediaPlayer = () => {
                 }
               }
             );
-          }
-          if (videoRef.current) {
-            videoRef.current.play();
           }
         }
       }

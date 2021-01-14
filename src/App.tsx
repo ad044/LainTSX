@@ -1,11 +1,11 @@
-import React, { useEffect, useState, Suspense, useMemo } from "react";
+import React, { Suspense, useEffect, useMemo } from "react";
 import MainScene from "./scenes/MainScene";
 import "./static/css/page.css";
 import { Canvas } from "react-three-fiber";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
 import EventManager from "./core/StateManagers/EventManager";
-import { useMediaStore, useSceneStore } from "./store";
+import { useSceneStore } from "./store";
 import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
 import SSknScene from "./scenes/SSknScene";

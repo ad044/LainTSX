@@ -62,28 +62,18 @@ const MediaScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
-        {currentScene !== "idle_media" ? (
-          <>
-            <pointLight
-              intensity={1.2}
-              color={0xffffff}
-              position={[-2, 0, 0]}
-            />
-            <LeftSide activeMediaComponent={activeMediaComponent} />
-            <group position={[0, 0.5, -3]}>
-              <MediaLoadingBar />
-              <NodeNameContainer />
-            </group>
-            <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-              {activeNodeName.split("").map((letter, idx) => (
-                <MediumLetter letter={letter} letterIdx={idx} key={idx} />
-              ))}
-            </group>
-            <MediaYellowTextAnimator />
-          </>
-        ) : (
-          <></>
-        )}
+        <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
+        <LeftSide activeMediaComponent={activeMediaComponent} />
+        <group position={[0, 0.5, -3]}>
+          <MediaLoadingBar />
+          <NodeNameContainer />
+        </group>
+        <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
+          {activeNodeName.split("").map((letter, idx) => (
+            <MediumLetter letter={letter} letterIdx={idx} key={idx} />
+          ))}
+        </group>
+        <MediaYellowTextAnimator />
         {activeNodeMedia.includes("XA") || idleMedia.includes("XA") ? (
           <>
             {currentScene !== "idle_media" ? (
