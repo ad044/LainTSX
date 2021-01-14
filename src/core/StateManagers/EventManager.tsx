@@ -146,6 +146,7 @@ const EventManager = () => {
     if (
       timePassedSinceLastKeyPress.current > -1 &&
       mainSubscene !== "pause" &&
+      mainSubscene !== "level_selection" &&
       currentScene === "main"
     ) {
       if (now > timePassedSinceLastKeyPress.current + 10000) {
@@ -191,10 +192,10 @@ const EventManager = () => {
       const keyPress = getKeyCodeAssociation(keyCode);
 
       if (keyPress && !inputCooldown) {
-        timePassedSinceLastKeyPress.current = Date.now() + 2500;
         let event;
         switch (currentScene) {
           case "main":
+            timePassedSinceLastKeyPress.current = Date.now() + 2500;
             event = handleMainSceneEvent({
               mainSubscene: mainSubscene,
               keyPress: keyPress,
@@ -210,6 +211,7 @@ const EventManager = () => {
             });
             break;
           case "media":
+          case "idle_media":
             event = handleMediaSceneEvent({
               keyPress: keyPress,
               activeMediaComponent: activeMediaComponent,

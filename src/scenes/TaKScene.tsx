@@ -35,6 +35,7 @@ const TaKScene = () => {
       setAudioAnalyser(new THREE.AudioAnalyser(audio, 2048));
 
       if (mediaElement) {
+        mediaElement.currentTime = 0;
         mediaElement.play();
         setIsIntro(false);
       }

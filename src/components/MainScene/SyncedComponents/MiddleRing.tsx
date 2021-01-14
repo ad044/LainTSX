@@ -204,10 +204,6 @@ const MiddleRing = () => {
     }
   });
 
-  useEffect(() => {
-    console.log(mainRingVisible);
-  }, [mainRingVisible]);
-
   return (
     <a.group rotation-z={rotState.rotZ}>
       <a.mesh

@@ -83,8 +83,6 @@ const IdleManager = (props: StateManagerProps) => {
           idleNodes.video[Math.floor(Math.random() * idleNodes.video.length)]
         );
       }
-
-      console.log('s')
     },
     [setImages, setMedia]
   );

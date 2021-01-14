@@ -338,7 +338,7 @@ export const useNodeStore = create(
 );
 
 export const useIdleStore = create<IdleState>((set) => ({
-  media: undefined,
+  media: "INS01.STR",
   // this may be undefined depending on whether or not the media is audio or not
   images: undefined,
   setMedia: (to) => set(() => ({ media: to })),
