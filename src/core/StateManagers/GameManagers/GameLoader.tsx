@@ -7,12 +7,12 @@ import {
   useNodeStore,
   useSiteSaveStore,
   useSiteStore,
-} from "../../store";
-import { StateManagerProps } from "./EventManager";
-import node_huds from "./../../resources/node_huds.json";
-import site_a from "./../../resources/site_a.json";
-import site_b from "./../../resources/site_b.json";
-import { SiteType } from "../../components/MainScene/SyncedComponents/Site";
+} from "../../../store";
+import { StateManagerProps } from "../EventManager";
+import node_huds from "../../../resources/node_huds.json";
+import site_a from "../../../resources/site_a.json";
+import site_b from "../../../resources/site_b.json";
+import { SiteType } from "../../../components/MainScene/SyncedComponents/Site";
 
 const GameLoader = (props: StateManagerProps) => {
   const siteASaveState = useSiteSaveStore((state) => state.a);

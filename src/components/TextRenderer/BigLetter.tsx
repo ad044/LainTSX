@@ -5,13 +5,13 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
+import { useBigTextStore } from "../../store";
 
 const BigLetter = (props: {
   color: string;
   letter: string;
   letterIdx: number;
-  xOffsetCoeff: number;
 }) => {
   const colorToTexture = (color: string) => {
     const colorTexture = {
@@ -89,17 +89,23 @@ const BigLetter = (props: {
     return geometry;
   }, [letterData, lineYOffsets, props.letter]);
 
-  const textRendererState = useSpring({
-    letterOffsetXCoeff:
-      props.letterIdx +
-      0.3 +
-      (props.letterIdx + 0.3) * props.xOffsetCoeff,
+  const [{ letterOffsetX }, set] = useSpring(() => ({
+    letterOffsetX: props.letterIdx + 0.3 + (props.letterIdx + 0.3),
     config: { duration: 200 },
-  });
+  }));
+
+  useEffect(() => {
+    useBigTextStore.subscribe(set, (state) => ({
+      letterOffsetX:
+        props.letterIdx +
+        0.3 +
+        (props.letterIdx + 0.3) * state.transformState.xOffset,
+    }));
+  }, [props.letterIdx, set]);
 
   return (
     <a.mesh
-      position-x={textRendererState.letterOffsetXCoeff}
+      position-x={letterOffsetX}
       position-y={-letterData[4] / 12.5}
       scale={[1, 1, 0]}
       geometry={geom}

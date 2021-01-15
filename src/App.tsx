@@ -40,7 +40,6 @@ const App = () => {
     <div id="game-root" className="game">
       <span className="canvas">
         <Canvas concurrent>
-          <EventManager />
           <Suspense fallback={null}>
             {dispatchScene[currentScene as keyof typeof dispatchScene]}
           </Suspense>

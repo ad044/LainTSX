@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useBootStore, useMainSceneStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useBootStore, useMainSceneStore } from "../../../store";
 
 const SubsceneManager = (props: StateManagerProps) => {
   const setMainSubscene = useMainSceneStore((state) => state.setSubscene);

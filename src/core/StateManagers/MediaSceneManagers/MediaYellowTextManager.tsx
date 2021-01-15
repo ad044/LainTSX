@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { useMediaBigTextStore } from "../../store";
-import { StateManagerProps } from "./EventManager";
+import { useMediaBigTextStore } from "../../../store";
+import { StateManagerProps } from "../EventManager";
 
 const MediaYellowTextManager = (props: StateManagerProps) => {
   const setTransformState = useMediaBigTextStore(

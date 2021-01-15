@@ -4,6 +4,7 @@ import PauseSquare from "./PauseSquare";
 import StaticBigLetter from "../../TextRenderer/StaticBigLetter";
 import { usePauseStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
+import MainSceneEventManager from "../../../core/StateManagers/MainSceneEventManager";
 
 const Pause = (props: { visible: boolean }) => {
   const exit = usePauseStore((state) => state.exitAnimation);
@@ -341,6 +342,7 @@ const Pause = (props: { visible: boolean }) => {
             depthTest={false}
           />
         </mesh>
+        <MainSceneEventManager loaded={!exit} />
       </group>
     </group>
   ) : (

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useMainSceneStore, useSceneStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useMainSceneStore, useSceneStore } from "../../../store";
 
 const SceneManager = (props: StateManagerProps) => {
   const setScene = useSceneStore((state) => state.setScene);

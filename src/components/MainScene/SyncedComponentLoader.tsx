@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import HUD from "./SyncedComponents/HUD";
-import GreenTextRenderer from "../TextRenderer/GreenTextRenderer";
 import YellowTextRenderer from "../TextRenderer/YellowTextRenderer";
 import YellowOrb from "./SyncedComponents/YellowOrb";
 import GrayPlanes from "./SyncedComponents/GrayPlanes";
 import Starfield from "./SyncedComponents/Starfield";
 import Site from "./SyncedComponents/Site";
 import MiddleRing from "./SyncedComponents/MiddleRing";
+import MainSceneEventManager from "../../core/StateManagers/MainSceneEventManager";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;
@@ -40,7 +40,6 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
     <>
       <group visible={visible}>
         <HUD />
-        <GreenTextRenderer />
         <YellowTextRenderer />
         <YellowOrb visible={visible} />
         <MiddleRing />
@@ -51,6 +50,7 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         introFinished={introFinished}
       />
       <Site shouldIntro={props.shouldIntro} introFinished={introFinished} />
+      <MainSceneEventManager loaded={visible} />
     </>
   );
 };

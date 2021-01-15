@@ -19,6 +19,7 @@ import site_a from "../resources/site_a.json";
 import { SiteType } from "../components/MainScene/SyncedComponents/Site";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 import site_b from "../resources/site_b.json";
+import MediaSceneEventManager from "../core/StateManagers/MediaSceneEventManager";
 
 const MediaScene = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -91,6 +92,7 @@ const MediaScene = () => {
           <></>
         )}
       </group>
+      <MediaSceneEventManager />
     </perspectiveCamera>
   );
 };

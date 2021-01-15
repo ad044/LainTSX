@@ -18,24 +18,23 @@ import {
   useSiteStore,
   useSSknStore,
 } from "../../store";
-import GreenTextManager from "./MainSceneManagers/GreenTextManager";
 import MediaComponentManager from "./MediaSceneManagers/MediaComponentManager";
-import SceneManager from "./SceneManager";
+import SceneManager from "./GameManagers/SceneManager";
 import YellowTextManager from "./MainSceneManagers/YellowTextManager";
 import LevelManager from "./MainSceneManagers/LevelManager";
-import BootComponentManager from "./BootComponentManager";
-import SSknComponentManager from "./SSknComponentManager";
+import BootComponentManager from "./BootSceneManagers/BootComponentManager";
+import SSknComponentManager from "./SSknSceneManagers/SSknComponentManager";
 import handleMainSceneEvent from "../mainSceneEventHandler";
 import handleMediaSceneEvent from "../mediaSceneEventHandler";
 import handleBootEvent from "../bootEventHandler";
 import handleSSknSceneEvent from "../ssknSceneEventHandler";
-import BootAuthorizeUserManager from "./BootAuthorizeUserManager";
+import BootAuthorizeUserManager from "./BootSceneManagers/BootAuthorizeUserManager";
 import LevelSelectionManager from "./MainSceneManagers/LevelSelectionManager";
-import SubsceneManager from "./SubsceneManager";
+import SubsceneManager from "./GameManagers/SubsceneManager";
 import PauseComponentManager from "./MainSceneManagers/PauseComponentManager";
-import MediaYellowTextManager from "./MediaYellowTextManager";
-import GameSaver from "./GameSaver";
-import GameLoader from "./GameLoader";
+import MediaYellowTextManager from "./MediaSceneManagers/MediaYellowTextManager";
+import GameSaver from "./GameManagers/GameSaver";
+import GameLoader from "./GameManagers/GameLoader";
 import { useFrame } from "react-three-fiber";
 import IdleManager from "./MainSceneManagers/IdleManager";
 
@@ -279,7 +278,6 @@ const EventManager = () => {
     <>
       <NodeManager eventState={eventState!} />
       <NodeHUDManager eventState={eventState!} />
-      <GreenTextManager eventState={eventState!} />
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
