@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useBootStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useBootStore } from "../../../store";
 
 const BootComponentManager = (props: StateManagerProps) => {
   const toggleComponentMatrixIdx = useBootStore(

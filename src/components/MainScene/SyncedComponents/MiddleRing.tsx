@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
@@ -13,8 +13,6 @@ const MiddleRing = () => {
   const rotating = useMiddleRingStore((state) => state.isRotating);
   const animDuration = useMiddleRingStore((state) => state.animDuration);
   const mainRingVisible = useMiddleRingStore((state) => state.mainRingVisible);
-
-  const partSeparatorVal = useMiddleRingStore(state=> state.partSeparatorVal)
 
   const wobbleState = useSpring({
     wobbleStrength: transformState.wobbleStrength,
@@ -198,8 +196,10 @@ const MiddleRing = () => {
 
       middleRingMaterialRef.current.needsUpdate = true;
     }
-    if (rotating && middleRingRef && middleRingPartRef) {
+    if (rotating && middleRingRef.current) {
       middleRingRef.current!.rotation.y += 0.05;
+    }
+    if (rotating && middleRingPartRef.current) {
       middleRingPartRef.current!.rotation.y += 0.05;
     }
   });
@@ -229,23 +229,26 @@ const MiddleRing = () => {
         />
       </a.mesh>
 
-      <group
-        rotation={[0, 0.9, 0]}
-        ref={middleRingPartRef}
-        position={[0, 0.5, 0.3]}
-        visible={!mainRingVisible}
-      >
-        {[...Array(30).keys()].map((i) => {
-          const angle = (i / 30) * 2 * Math.PI;
-          return (
-            <MiddleRingPart
-              position={[Math.cos(angle) / 1.35, 0, Math.sin(angle) / 1.35]}
-              rotation={[0, -angle + Math.PI / 2, 0]}
-              key={angle}
-            />
-          );
-        })}
-      </group>
+      {!mainRingVisible ? (
+        <group
+          rotation={[0, 0.9, 0]}
+          ref={middleRingPartRef}
+          position={[0, 0.5, 0.3]}
+        >
+          {[...Array(30).keys()].map((i) => {
+            const angle = (i / 30) * 2 * Math.PI;
+            return (
+              <MiddleRingPart
+                position={[Math.cos(angle) / 1.35, 0, Math.sin(angle) / 1.35]}
+                rotation={[0, -angle + Math.PI / 2, 0]}
+                key={angle}
+              />
+            );
+          })}
+        </group>
+      ) : (
+        <></>
+      )}
     </a.group>
   );
 };

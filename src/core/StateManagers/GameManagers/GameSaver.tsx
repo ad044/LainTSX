@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { useSiteSaveStore } from "../../store";
-import { StateManagerProps } from "./EventManager";
+import { useSiteSaveStore } from "../../../store";
+import { StateManagerProps } from "../EventManager";
 
 const GameSaver = (props: StateManagerProps) => {
   const setSiteSaveState = useSiteSaveStore((state) => state.setSiteSaveState);

@@ -3,6 +3,7 @@ import SSknIcon from "../components/SSknScene/SSknIcon";
 import SSknBackground from "../components/SSknScene/SSknBackground";
 import SSknHUD from "../components/SSknScene/SSknHUD";
 import { useMediaStore, useSSknStore } from "../store";
+import SSknSceneManager from "../core/StateManagers/SSknSceneManager";
 
 const SSknScene = () => {
   const ssknComponentMatrixIdx = useSSknStore(
@@ -21,6 +22,7 @@ const SSknScene = () => {
       <SSknBackground />
       <SSknIcon />
       <SSknHUD activeSSknComponent={activeSSknComponent} loading={loading} />
+      <SSknSceneManager />
     </>
   );
 };

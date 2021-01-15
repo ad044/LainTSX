@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useMediaStore, useSSknStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useMediaStore, useSSknStore } from "../../../store";
 
 const SSknComponentManager = (props: StateManagerProps) => {
   const toggleComponentMatrixIdx = useSSknStore(

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { StateManagerProps } from "./EventManager";
-import { useAuthorizeUserStore, useBootStore } from "../../store";
+import { StateManagerProps } from "../EventManager";
+import { useAuthorizeUserStore, useBootStore } from "../../../store";
 
 const BootAuthorizeUserManager = (props: StateManagerProps) => {
   const setActiveLetterTextureOffset = useAuthorizeUserStore(
