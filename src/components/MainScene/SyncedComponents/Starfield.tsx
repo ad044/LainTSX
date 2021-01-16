@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Star from "./Starfield/Star";
 
 type StarfieldProps = {
+  visible: boolean;
   shouldIntro: boolean;
   introFinished: boolean;
 };
@@ -52,7 +53,7 @@ const Starfield = (props: StarfieldProps) => {
   }, []);
 
   return (
-    <>
+    <group visible={props.visible}>
       <group
         position={[0, -1, 2]}
         visible={props.shouldIntro ? mainVisible : true}
@@ -125,7 +126,7 @@ const Starfield = (props: StarfieldProps) => {
       ) : (
         <></>
       )}
-    </>
+    </group>
   );
 };
 
