@@ -1,24 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { useMediaBigTextStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 
 const MediaYellowTextAnimator = () => {
-  const textArrRef = useRef(useMediaBigTextStore.getState().text.split(""));
+  const transformState = useMediaBigTextStore((state) => state.transformState);
+  const textArr = useMediaBigTextStore((state) => state.text).split("");
 
-  const [trail, set] = useTrail(textArrRef.current.length, () => ({
-    posX: 0,
-    posY: 0,
-    xOffset: 0,
-    config: { duration: 200 },
-  }));
-
-  useEffect(() => {
-    useMediaBigTextStore.subscribe(set, (state) => ({
-      posX: state.transformState.posX,
-      posY: state.transformState.posY,
-    }));
-  }, [set]);
+  const trail = useTrail(textArr.length, {
+    posX: transformState.posX,
+    posY: transformState.posY,
+    config: { duration: 280 },
+  });
 
   return (
     <group position={[0, 0, 10]}>
@@ -32,7 +25,8 @@ const MediaYellowTextAnimator = () => {
         >
           <BigLetter
             color={"yellow"}
-            letter={textArrRef.current[idx]}
+            xOffsetCoeff={transformState.xOffset}
+            letter={textArr[idx]}
             letterIdx={idx}
             key={idx}
           />

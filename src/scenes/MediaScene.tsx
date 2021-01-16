@@ -75,22 +75,23 @@ const MediaScene = () => {
           ))}
         </group>
         <MediaYellowTextAnimator />
-        {activeNodeMedia.includes("XA") || idleMedia.includes("XA") ? (
-          <>
-            {currentScene !== "idle_media" ? (
-              <>
-                <RightSide activeMediaComponent={activeMediaComponent} />
-                <Lof />
-                <AudioVisualizer />
-              </>
-            ) : (
-              <></>
-            )}
-            <Images />
-          </>
-        ) : (
-          <></>
-        )}
+
+        <group
+          visible={
+            currentScene !== "idle_media" && activeNodeMedia.includes("XA")
+          }
+        >
+          <RightSide activeMediaComponent={activeMediaComponent} />
+          <Lof />
+          <AudioVisualizer />
+          <Images />
+        </group>
+
+        <group
+          visible={currentScene === "idle_media" && idleMedia.includes("XA")}
+        >
+          <Images />
+        </group>
       </group>
       <MediaSceneEventManager />
     </perspectiveCamera>

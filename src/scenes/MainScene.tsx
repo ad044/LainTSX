@@ -30,7 +30,6 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <a.group>
           <Preloader />
-          <Pause visible={isPaused} />
           <LevelSelection />
           <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
           <OrbitControls />

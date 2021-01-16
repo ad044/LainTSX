@@ -23,6 +23,7 @@ import PauseComponentManager from "./MainSceneManagers/PauseComponentManager";
 import GameSaver from "./GameManagers/GameSaver";
 import GameLoader from "./GameManagers/GameLoader";
 import IdleManager from "./MainSceneManagers/IdleManager";
+import { useFrame } from "react-three-fiber";
 
 type MainSceneEventManagerProps = {
   loaded: boolean;
@@ -49,6 +50,48 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
 
   const [eventState, setEventState] = useState<any>();
 
+  useFrame(() => {
+    const now = Date.now();
+    if (
+      timePassedSinceLastKeyPress.current > -1 &&
+      mainSubscene !== "pause" &&
+      mainSubscene !== "level_selection"
+    ) {
+      if (now > timePassedSinceLastKeyPress.current + 5000) {
+        setEventState({
+          event: "play_idle_media",
+          scene: "idle_media",
+          site: currentSite,
+        });
+        timePassedSinceLastKeyPress.current = -1;
+      } else if (now > timePassedSinceLastKeyPress.current + 10000) {
+        const moves = [
+          "prayer",
+          "touch_sleeve",
+          "thinking",
+          "stretch_2",
+          "stretch",
+          "spin",
+          "scratch_head",
+          "blush",
+          "hands_behind_head",
+          "hands_on_hips",
+          "hands_on_hips_2",
+          "hands_together",
+          "lean_forward",
+          "lean_left",
+          "lean_right",
+          "look_around",
+          "play_with_hair",
+        ];
+
+        const event = moves[Math.floor(Math.random() * moves.length)];
+        setEventState({ event: event });
+        timePassedSinceLastKeyPress.current = now - 2500;
+      }
+    }
+  });
+
   const handleKeyPress = useCallback(
     (event) => {
       const { keyCode } = event;
@@ -70,6 +113,7 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
           gameProgress: gameProgress,
           currentSite: currentSite,
         });
+
         setEventState(event);
       }
     },

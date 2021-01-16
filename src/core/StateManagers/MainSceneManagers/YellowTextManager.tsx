@@ -102,6 +102,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         // unshrink text
         setTransformState(0, "xOffset");
       }, 1200);
+
     },
     [setText, setTransformState, siteData]
   );

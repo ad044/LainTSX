@@ -7,6 +7,8 @@ import Starfield from "./SyncedComponents/Starfield";
 import Site from "./SyncedComponents/Site";
 import MiddleRing from "./SyncedComponents/MiddleRing";
 import MainSceneEventManager from "../../core/StateManagers/MainSceneEventManager";
+import Pause from "./PauseSubscene/Pause";
+import { a } from "@react-spring/three";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;
@@ -46,11 +48,15 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         <GrayPlanes />
       </group>
       <Starfield
+        visible={!props.paused}
         shouldIntro={props.shouldIntro}
         introFinished={introFinished}
       />
+      <Pause visible={props.paused} />
       <Site shouldIntro={props.shouldIntro} introFinished={introFinished} />
-      <MainSceneEventManager loaded={visible} />
+      <MainSceneEventManager
+        loaded={props.shouldIntro ? introFinished : true}
+      />
     </>
   );
 };

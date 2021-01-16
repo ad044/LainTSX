@@ -342,7 +342,6 @@ const Pause = (props: { visible: boolean }) => {
             depthTest={false}
           />
         </mesh>
-        <MainSceneEventManager loaded={!exit} />
       </group>
     </group>
   ) : (
