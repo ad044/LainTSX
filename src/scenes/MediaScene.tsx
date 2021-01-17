@@ -76,20 +76,10 @@ const MediaScene = () => {
         </group>
         <MediaYellowTextAnimator />
 
-        <group
-          visible={
-            currentScene !== "idle_media" && activeNodeMedia.includes("XA")
-          }
-        >
+        <group visible={activeNodeMedia.includes("XA")}>
           <RightSide activeMediaComponent={activeMediaComponent} />
           <Lof />
           <AudioVisualizer />
-          <Images />
-        </group>
-
-        <group
-          visible={currentScene === "idle_media" && idleMedia.includes("XA")}
-        >
           <Images />
         </group>
       </group>

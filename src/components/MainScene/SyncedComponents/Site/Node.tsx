@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, memo } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
@@ -34,7 +34,7 @@ type NodeContructorProps = {
   level: string;
 };
 
-const Node = (props: NodeContructorProps) => {
+const Node = memo((props: NodeContructorProps) => {
   // the game only has a couple of sprite that it displays in the hub
   // dynamically importnig them would be worse for performance,
   // so we import all of them here and then use this function to
@@ -139,9 +139,7 @@ const Node = (props: NodeContructorProps) => {
     activeNodeRotZ: useNodeStore.getState().activeNodeState.interactedWith
       ? useNodeStore.getState().activeNodeState.rotZ
       : 0,
-    activeNodeScale: useNodeStore.getState().activeNodeState.shrinking
-      ? 0
-      : 1,
+    activeNodeScale: useNodeStore.getState().activeNodeState.shrinking ? 0 : 1,
     activeNodeVisible: true,
     config: { duration: 800 },
   }));
@@ -181,6 +179,8 @@ const Node = (props: NodeContructorProps) => {
         (Date.now() % (Math.PI * 2000)) / 1000.0;
     }
   });
+
+  console.log("rendered");
 
   return (
     <group
@@ -239,6 +239,6 @@ const Node = (props: NodeContructorProps) => {
       )}
     </group>
   );
-};
+});
 
 export default Node;

@@ -67,6 +67,12 @@ const HUD = () => {
     ]
   );
 
+  const spriteTypeToSprite = useMemo(()=> {
+
+
+  }, [])
+
+  //todo
   const spriteTypeToSprite = (spriteType: string, hudElement: string) => {
     switch (spriteType) {
       case "normal":
