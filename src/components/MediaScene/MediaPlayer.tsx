@@ -69,17 +69,22 @@ const MediaPlayer = () => {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
           videoRef.current.currentTime = 0;
-          if (currentScene === "end") {
-            incrementEndMediaPlayedCount();
+          if (currentScene === "idle_media") {
+            videoRef.current.pause();
+            setScene("main");
           } else {
-            if (
-              (siteData as SiteType)[activeLevel][activeNodeId]
-                .triggers_final_video === 1
-            ) {
-              resetEndMediaPlayedCount();
-              setScene("end");
+            if (currentScene === "end") {
+              incrementEndMediaPlayedCount();
             } else {
-              videoRef.current.pause();
+              if (
+                (siteData as SiteType)[activeLevel][activeNodeId]
+                  .triggers_final_video === 1
+              ) {
+                resetEndMediaPlayedCount();
+                setScene("end");
+              } else {
+                videoRef.current.pause();
+              }
             }
           }
         }
@@ -165,6 +170,7 @@ const MediaPlayer = () => {
               setMediaSource(media.default);
               if (videoRef.current) {
                 videoRef.current.load();
+                videoRef.current.play();
               }
             });
           } else {
@@ -173,6 +179,7 @@ const MediaPlayer = () => {
                 setMediaSource(media.default);
                 if (videoRef.current) {
                   videoRef.current.load();
+                  videoRef.current.play();
                 }
               }
             );

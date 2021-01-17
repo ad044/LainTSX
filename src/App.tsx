@@ -13,6 +13,7 @@ import PolytanScene from "./scenes/PolytanScene";
 import TaKScene from "./scenes/TaKScene";
 import ChangeDiscScene from "./scenes/ChangeDiscScene";
 import EndScene from "./scenes/EndScene";
+import IdleMediaScene from "./scenes/IdleMediaScene";
 
 const App = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -25,7 +26,7 @@ const App = () => {
     return {
       main: <MainScene />,
       media: <MediaScene />,
-      idle_media: <MediaScene />,
+      idle_media: <IdleMediaScene />,
       gate: <GateScene />,
       boot: <BootScene />,
       sskn: <SSknScene />,
