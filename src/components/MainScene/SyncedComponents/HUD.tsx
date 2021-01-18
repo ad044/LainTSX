@@ -67,49 +67,33 @@ const HUD = () => {
     ]
   );
 
-  const spriteTypeToSprite = useMemo(()=> {
+  console.log('called')
+  const longHudTex = useLoader(THREE.TextureLoader, longHud);
+  const longHudMirroredTex = useLoader(THREE.TextureLoader, longHudMirrored);
 
-
-  }, [])
-
-  //todo
-  const spriteTypeToSprite = (spriteType: string, hudElement: string) => {
-    switch (spriteType) {
-      case "normal":
-        switch (hudElement) {
-          case "long":
-            return longHud;
-          case "boring":
-            return boringHud;
-          case "big":
-            return bigHud;
-        }
-        break;
-      case "mirrored":
-        switch (hudElement) {
-          case "big":
-            return bigHudMirrored;
-          case "long":
-            return longHudMirrored;
-          case "boring":
-            return boringHudMirrored;
-        }
-    }
-  };
-
-  const longHudTexture = useLoader(
+  const boringHudTex = useLoader(THREE.TextureLoader, boringHud);
+  const boringHudMirroredTex = useLoader(
     THREE.TextureLoader,
-    spriteTypeToSprite(currentHud.long.type, "long")!
+    boringHudMirrored
   );
 
-  const longHudBoringTexture = useLoader(
-    THREE.TextureLoader,
-    spriteTypeToSprite(currentHud.boring.type, "boring")!
-  );
+  const bigHudTex = useLoader(THREE.TextureLoader, bigHud);
+  const bigHudMirroredTex = useLoader(THREE.TextureLoader, bigHudMirrored);
 
-  const bigHudTexture = useLoader(
-    THREE.TextureLoader,
-    spriteTypeToSprite(currentHud.big.type, "big")!
+  const textures = useMemo(
+    () =>
+      currentHud.mirrored === 0
+        ? [longHudTex, boringHudTex, bigHudTex]
+        : [longHudMirroredTex, boringHudMirroredTex, bigHudMirroredTex],
+    [
+      bigHudMirroredTex,
+      bigHudTex,
+      boringHudMirroredTex,
+      boringHudTex,
+      currentHud.mirrored,
+      longHudMirroredTex,
+      longHudTex,
+    ]
   );
 
   return (
@@ -123,7 +107,7 @@ const HUD = () => {
       >
         <spriteMaterial
           attach="material"
-          map={longHudTexture}
+          map={textures[0]}
           transparent={true}
           depthTest={false}
         />
@@ -137,7 +121,7 @@ const HUD = () => {
       >
         <spriteMaterial
           attach="material"
-          map={longHudBoringTexture}
+          map={textures[1]}
           transparent={true}
           depthTest={false}
         />
@@ -151,7 +135,7 @@ const HUD = () => {
       >
         <spriteMaterial
           attach="material"
-          map={bigHudTexture}
+          map={textures[2]}
           transparent={true}
           depthTest={false}
         />

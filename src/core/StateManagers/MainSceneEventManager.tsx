@@ -58,12 +58,12 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
       mainSubscene !== "level_selection"
     ) {
       if (now > timePassedSinceLastKeyPress.current + 5000) {
-        setEventState({
-          event: "play_idle_media",
-          scene: "idle_media",
-          site: currentSite,
-        });
-        timePassedSinceLastKeyPress.current = -1;
+        // setEventState({
+        //   event: "play_idle_media",
+        //   scene: "idle_media",
+        //   site: currentSite,
+        // });
+        // timePassedSinceLastKeyPress.current = -1;
       } else if (now > timePassedSinceLastKeyPress.current + 10000) {
         const moves = [
           "prayer",

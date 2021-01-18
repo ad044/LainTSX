@@ -24,6 +24,13 @@ import {
 import site_a from "../../../../../../resources/site_a.json";
 import site_b from "../../../../../../resources/site_b.json";
 import { SiteType } from "../../../Site";
+import SSKnActive from "../../../../../../static/sprite/SSkn_active.png";
+import MULTIActive from "../../../../../../static/sprite/MULTI_active.png";
+import DcActive from "../../../../../../static/sprite/Dc_active.png";
+import TdaActive from "../../../../../../static/sprite/Tda_active.png";
+import CouActive from "../../../../../../static/sprite/Cou_active.png";
+import DiaActive from "../../../../../../static/sprite/Dia_active.png";
+import LdaActive from "../../../../../../static/sprite/Lda_active.png";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -51,40 +58,41 @@ const GoldNode = (props: GoldNodeProps) => {
   const activeNodeData = (siteData as SiteType)[activeLevel][activeNodeId];
   const activeNodeName = activeNodeData.node_name;
 
-  const activeNodeNameToPath = useMemo(() => {
+  const tex = useMemo(() => {
     if (activeNodeName.includes("S")) {
-      return [SSkn, SSKnGold];
+      return [SSkn, SSKnActive];
     } else if (
       activeNodeName.startsWith("P") ||
       activeNodeName.startsWith("G") ||
       activeNodeName.includes("?")
     ) {
-      return [MULTI, MULTIGold];
+      return [MULTI, MULTIActive];
     } else if (activeNodeName.includes("Dc")) {
-      return [Dc, DcGold];
+      return [Dc, DcActive];
     } else {
-      const activeNodeNameAssocs = {
-        Tda: [Tda, TdaGold],
-        Cou: [Cou, CouGold],
-        Dia: [Dia, DiaGold],
-        Lda: [Lda, LdaGold],
-        Ere: [MULTI, MULTIGold],
-        Ekm: [MULTI, MULTIGold],
-        Eda: [MULTI, MULTIGold],
-        TaK: [MULTI, MULTIGold],
-        Env: [MULTI, MULTIGold],
-      };
-
-      return activeNodeNameAssocs[
-        activeNodeName.substr(0, 3) as keyof typeof activeNodeNameAssocs
-      ];
+      switch (activeNodeName.substr(0, 3)) {
+        case "Tda":
+          return [Tda, TdaActive];
+        case "Cou":
+          return [Cou, CouActive];
+        case "Dia":
+          return [Dia, DiaActive];
+        case "Lda":
+          return [Lda, LdaActive];
+        case "Ere":
+        case "Ekm":
+        case "Eda":
+        case "TaK":
+        case "Env":
+          return [MULTI, MULTIActive];
+      }
     }
   }, [activeNodeName]);
 
   const r = useRef<THREE.Object3D>();
 
-  const regularTex = useLoader(THREE.TextureLoader, activeNodeNameToPath[0]);
-  const goldTex = useLoader(THREE.TextureLoader, activeNodeNameToPath[1]);
+  const regularTex = useLoader(THREE.TextureLoader, tex![0]);
+  const goldTex = useLoader(THREE.TextureLoader, tex![1]);
 
   useEffect(() => {
     if (r.current && !props.visible) {
@@ -100,6 +108,7 @@ const GoldNode = (props: GoldNodeProps) => {
       r.current.rotation.z += 0.03;
     }
   });
+
 
   return (
     <mesh

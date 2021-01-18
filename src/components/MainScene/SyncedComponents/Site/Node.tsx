@@ -1,33 +1,26 @@
-import React, { useEffect, useMemo, useRef, memo } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
 import Cou from "../../../../static/sprite/Cou.png";
 import CouActive from "../../../../static/sprite/Cou_active.png";
-import CouGold from "../../../../static/sprite/Cou_gold.png";
 import Dc from "../../../../static/sprite/Dc.png";
 import DcActive from "../../../../static/sprite/Dc_active.png";
-import DcGold from "../../../../static/sprite/Dc_gold.png";
 import SSkn from "../../../../static/sprite/SSkn.png";
 import SSKnActive from "../../../../static/sprite/SSkn_active.png";
-import SSKnGold from "../../../../static/sprite/SSkn_gold.png";
 import Tda from "../../../../static/sprite/Tda.png";
 import TdaActive from "../../../../static/sprite/Tda_active.png";
-import TdaGold from "../../../../static/sprite/Tda_gold.png";
 import Dia from "../../../../static/sprite/Dia.png";
 import DiaActive from "../../../../static/sprite/Dia_active.png";
-import DiaGold from "../../../../static/sprite/Dia_gold.png";
 import Lda from "../../../../static/sprite/Lda.png";
 import LdaActive from "../../../../static/sprite/Lda_active.png";
-import LdaGold from "../../../../static/sprite/Lda_gold.png";
 import MULTI from "../../../../static/sprite/MULTI.png";
 import MULTIActive from "../../../../static/sprite/MULTI_active.png";
-import MULTIGold from "../../../../static/sprite/MULTI_gold.png";
 import level_y_values from "../../../../resources/level_y_values.json";
 import { useNodeStore } from "../../../../store";
 
 type NodeContructorProps = {
-  sprite: string;
+  nodeName: string;
   position: number[];
   rotation: number[];
   active?: boolean;
@@ -40,40 +33,41 @@ const Node = memo((props: NodeContructorProps) => {
   // so we import all of them here and then use this function to
   // associate a sprite with the path
 
-  const spriteToPath = (sprite: string) => {
-    if (sprite.includes("S")) {
-      return [SSkn, SSKnActive, SSKnGold];
+  const tex = useMemo(() => {
+    if (props.nodeName.includes("S")) {
+      return [SSkn, SSKnActive];
     } else if (
-      sprite.startsWith("P") ||
-      sprite.startsWith("G") ||
-      sprite.includes("?")
+      props.nodeName.startsWith("P") ||
+      props.nodeName.startsWith("G") ||
+      props.nodeName.includes("?")
     ) {
-      return [MULTI, MULTIActive, MULTIGold];
-    } else if (sprite.includes("Dc")) {
-      return [Dc, DcActive, DcGold];
+      return [MULTI, MULTIActive];
+    } else if (props.nodeName.includes("Dc")) {
+      return [Dc, DcActive];
     } else {
-      const spriteAssocs = {
-        Tda: [Tda, TdaActive, TdaGold],
-        Cou: [Cou, CouActive, CouGold],
-        Dia: [Dia, DiaActive, DiaGold],
-        Lda: [Lda, LdaActive, LdaGold],
-        Ere: [MULTI, MULTIActive, MULTIGold],
-        Ekm: [MULTI, MULTIActive, MULTIGold],
-        Eda: [MULTI, MULTIActive, MULTIGold],
-        TaK: [MULTI, MULTIActive, MULTIGold],
-        Env: [MULTI, MULTIActive, MULTIGold],
-      };
-
-      return spriteAssocs[sprite.substr(0, 3) as keyof typeof spriteAssocs];
+      switch (props.nodeName.substr(0, 3)) {
+        case "Tda":
+          return [Tda, TdaActive];
+        case "Cou":
+          return [Cou, CouActive];
+        case "Dia":
+          return [Dia, DiaActive];
+        case "Lda":
+          return [Lda, LdaActive];
+        case "Ere":
+        case "Ekm":
+        case "Eda":
+        case "TaK":
+        case "Env":
+          return [MULTI, MULTIActive];
+      }
     }
-  };
+  }, [props.nodeName]);
 
   const materialRef = useRef<THREE.ShaderMaterial>();
 
-  const sprite = spriteToPath(props.sprite);
-
-  const nonActiveTexture = useLoader(THREE.TextureLoader, sprite[0]);
-  const activeTexture = useLoader(THREE.TextureLoader, sprite[1]);
+  const nonActiveTexture = useLoader(THREE.TextureLoader, tex![0]);
+  const activeTexture = useLoader(THREE.TextureLoader, tex![1]);
 
   const uniforms = useMemo(
     () => ({
@@ -179,8 +173,6 @@ const Node = memo((props: NodeContructorProps) => {
         (Date.now() % (Math.PI * 2000)) / 1000.0;
     }
   });
-
-  console.log("rendered");
 
   return (
     <group

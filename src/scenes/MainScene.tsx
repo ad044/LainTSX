@@ -37,8 +37,6 @@ const MainScene = () => {
           <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
           <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
           <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
-          <NodeExplosion />
-          <NodeRip />
         </a.group>
         <Lain shouldIntro={shouldIntro} />
       </Suspense>
