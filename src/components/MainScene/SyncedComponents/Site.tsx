@@ -12,6 +12,7 @@ import Rings from "./Site/Rings";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import game_progress from "../../../resources/initial_progress.json";
+import NodeAnimations from "./Site/NodeAnimations";
 
 export type NodeDataType = {
   image_table_indices: { 1: string; 2: string; 3: string };
@@ -101,6 +102,7 @@ const Site = (props: SiteProps) => {
               siteData={siteData}
               gameProgress={gameProgress}
             />
+            <NodeAnimations />
             <Rings
               currentSite={currentSite}
               activeLevel={activeLevel}

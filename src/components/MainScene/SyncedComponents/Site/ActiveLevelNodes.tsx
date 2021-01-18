@@ -19,7 +19,7 @@ const ActiveLevelNodes = (props: NodesProps) => {
         if (isNodeVisible(node[0], props.gameProgress, props.currentSite)) {
           return (
             <Node
-              sprite={node[1].node_name}
+              nodeName={node[1].node_name}
               position={
                 node_positions[node[0].substr(2) as keyof typeof node_positions]
                   .position

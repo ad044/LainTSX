@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import node_positions from "../../../../resources/node_positions.json";
 import Node from "./Node";
 import { isNodeVisible } from "../../../../core/nodeSelector";
 import { NodesProps } from "../Site";
 
-const InactiveLevelNodes = (props: NodesProps) => {
+const InactiveLevelNodes = memo((props: NodesProps) => {
   const visibleNodes = useMemo(() => {
     const obj = {};
     const activeLevelNr = parseInt(props.activeLevel);
@@ -28,7 +28,7 @@ const InactiveLevelNodes = (props: NodesProps) => {
         if (isNodeVisible(node[0], props.gameProgress, props.currentSite)) {
           return (
             <Node
-              sprite={node[1].node_name}
+              nodeName={node[1].node_name}
               position={
                 node_positions[node[0].substr(2) as keyof typeof node_positions]
                   .position
@@ -45,6 +45,6 @@ const InactiveLevelNodes = (props: NodesProps) => {
       })}
     </>
   );
-};
+});
 
 export default InactiveLevelNodes;
