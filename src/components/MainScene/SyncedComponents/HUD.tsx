@@ -67,7 +67,6 @@ const HUD = () => {
     ]
   );
 
-  console.log('called')
   const longHudTex = useLoader(THREE.TextureLoader, longHud);
   const longHudMirroredTex = useLoader(THREE.TextureLoader, longHudMirrored);
 

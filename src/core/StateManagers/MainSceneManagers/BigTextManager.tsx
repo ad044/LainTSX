@@ -1,29 +1,21 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import node_huds from "../../../resources/node_huds.json";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
-import { useBigTextStore, useSiteStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 import { SiteType } from "../../../components/MainScene/SyncedComponents/Site";
 import { StateManagerProps } from "../EventManager";
 
-const YellowTextManager = (props: StateManagerProps) => {
-  const setTransformState = useBigTextStore((state) => state.setTransformState);
-  const addToTransformState = useBigTextStore(
-    (state) => state.addToTransformState
+const BigTextManager = (props: StateManagerProps) => {
+  const setText = useMainSceneStore((state) => state.setBigText);
+  const setColor = useMainSceneStore((state) => state.setBigTextColor);
+  const setVisible = useMainSceneStore((state) => state.setBigTextVisible);
+  const setXOffset = useMainSceneStore((state) => state.setBigTextXOffset);
+  const setPos = useMainSceneStore((state) => state.setBigTextPos);
+
+  const siteData = useMainSceneStore(
+    useCallback((state) => (state.activeSite === "a" ? site_a : site_b), [])
   );
-  const setText = useBigTextStore((state) => state.setText);
-
-  const setDisableTrail = useBigTextStore((state) => state.setDisableTrail);
-
-  const setColor = useBigTextStore((state) => state.setColor);
-
-  const setVisible = useBigTextStore((state) => state.setVisible);
-
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
-    currentSite,
-  ]);
 
   const animateYellowTextWithMove = useCallback(
     (
@@ -34,30 +26,21 @@ const YellowTextManager = (props: StateManagerProps) => {
       newLevel: string,
       delay: number
     ) => {
-      setDisableTrail(true);
-
       // animate the letters to match that of site's
       // to create an illusion of not moving
-      setTimeout(() => {
-        addToTransformState(posXOffset, "posX");
-        addToTransformState(posYOffset, "posY");
-      }, delay);
+      // setTimeout(() => {
+      //   addToTransformState(posXOffset, "posX");
+      //   addToTransformState(posYOffset, "posY");
+      // }, delay);
 
       setTimeout(() => {
         // make current hud big text shrink
-        setTransformState(-1, "xOffset");
+        setXOffset(-1, "xOffset");
       }, 2500);
 
       setTimeout(() => {
         // animate it to new pos x/y
-        setTransformState(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0],
-          "posX"
-        );
-        setTransformState(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1],
-          "posY"
-        );
+        setPos(node_huds[newActiveHudId as keyof typeof node_huds].big_text);
         // set new text according to the node name
         const targetText =
           newActiveNodeId === "UNKNOWN"
@@ -65,32 +48,24 @@ const YellowTextManager = (props: StateManagerProps) => {
             : (siteData as SiteType)[newLevel][newActiveNodeId].node_name;
 
         setText(targetText);
-        setDisableTrail(false);
       }, 3000);
 
       // unshrink text
       setTimeout(() => {
-        setTransformState(0, "xOffset");
+        setXOffset(0);
       }, 3900);
     },
-    [addToTransformState, setDisableTrail, setText, setTransformState, siteData]
+    [setPos, setText, setXOffset, siteData]
   );
 
   const animateYellowTextWithoutMove = useCallback(
     (newActiveHudId: string, newActiveNodeId: string, level: string) => {
       // make current hud big text shrink
-      setTransformState(-1, "xOffset");
+      setXOffset(-1);
 
       setTimeout(() => {
         // animate it to new pos x/y
-        setTransformState(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[0],
-          "posX"
-        );
-        setTransformState(
-          node_huds[newActiveHudId as keyof typeof node_huds].big_text[1],
-          "posY"
-        );
+        setPos(node_huds[newActiveHudId as keyof typeof node_huds].big_text);
       }, 400);
 
       setTimeout(() => {
@@ -100,19 +75,17 @@ const YellowTextManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         // unshrink text
-        setTransformState(0, "xOffset");
+        setXOffset(0);
       }, 1200);
-
     },
-    [setText, setTransformState, siteData]
+    [setPos, setText, setXOffset, siteData]
   );
 
   const initializeLevelSelection = useCallback(() => {
-    setTransformState(-1, "xOffset");
+    setXOffset(-1);
 
     setTimeout(() => {
-      setTransformState(-0.02, "posX");
-      setTransformState(0.005, "posY");
+      setPos([-0.02, 0.005, -8.7]);
     }, 400);
 
     setTimeout(() => {
@@ -121,23 +94,16 @@ const YellowTextManager = (props: StateManagerProps) => {
     }, 1000);
 
     setTimeout(() => {
-      setTransformState(0, "xOffset");
+      setXOffset(0);
     }, 1200);
-  }, [setColor, setText, setTransformState]);
+  }, [setColor, setPos, setText, setXOffset]);
 
   const levelSelectionBack = useCallback(
     (activeNodeId: string, activeHudId: string, level: string) => {
-      setTransformState(-1, "xOffset");
+      setXOffset(-1);
 
       setTimeout(() => {
-        setTransformState(
-          node_huds[activeHudId as keyof typeof node_huds].big_text[0],
-          "posX"
-        );
-        setTransformState(
-          node_huds[activeHudId as keyof typeof node_huds].big_text[1],
-          "posY"
-        );
+        setPos(node_huds[activeHudId as keyof typeof node_huds].big_text);
       }, 400);
 
       setTimeout(() => {
@@ -146,10 +112,10 @@ const YellowTextManager = (props: StateManagerProps) => {
       }, 1000);
 
       setTimeout(() => {
-        setTransformState(0, "xOffset");
+        setXOffset(0);
       }, 1200);
     },
-    [setColor, setText, setTransformState, siteData]
+    [setColor, setPos, setText, setXOffset, siteData]
   );
 
   const toggleVisibleAfterLevelSelect = useCallback(
@@ -157,14 +123,7 @@ const YellowTextManager = (props: StateManagerProps) => {
       setVisible(false);
 
       setTimeout(() => {
-        setTransformState(
-          node_huds[activeHudId as keyof typeof node_huds].big_text[0],
-          "posX"
-        );
-        setTransformState(
-          node_huds[activeHudId as keyof typeof node_huds].big_text[1],
-          "posY"
-        );
+        setPos(node_huds[activeHudId as keyof typeof node_huds].big_text[0]);
         setColor("yellow");
         const targetText =
           activeNodeId === "UNKNOWN"
@@ -178,7 +137,7 @@ const YellowTextManager = (props: StateManagerProps) => {
         setVisible(true);
       }, 3900);
     },
-    [setColor, setText, setTransformState, setVisible, siteData]
+    [setColor, setPos, setText, setVisible, siteData]
   );
 
   const dispatchObject = useCallback(
@@ -298,4 +257,4 @@ const YellowTextManager = (props: StateManagerProps) => {
   return null;
 };
 
-export default YellowTextManager;
+export default BigTextManager;

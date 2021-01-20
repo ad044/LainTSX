@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from "react";
 import {
-  useBigTextStore,
-  useGreenTextStore,
   useHudStore,
   useLevelStore,
+  useMainSceneStore,
   useNodeStore,
   useSiteSaveStore,
   useSiteStore,
@@ -25,17 +24,9 @@ const GameLoader = (props: StateManagerProps) => {
   // level setter
   const setActiveLevel = useLevelStore((state) => state.setActiveLevel);
 
-  // yellow text setter
-  const setYellowTextTransformState = useBigTextStore(
-    (state) => state.setTransformState
-  );
-  const setYellowText = useBigTextStore((state) => state.setText);
-
-  // green text setter
-  const setGreenText = useGreenTextStore((state) => state.setText);
-  const setGreenTextTransformState = useGreenTextStore(
-    (state) => state.setTransformState
-  );
+  // big text setter
+  const setBigTexPos = useMainSceneStore((state) => state.setBigTextPos);
+  const setBigText = useMainSceneStore((state) => state.setBigText);
 
   // site setter
   const setSiteTransformState = useSiteStore(
@@ -69,39 +60,15 @@ const GameLoader = (props: StateManagerProps) => {
       setActiveLevel(siteToLoad.level);
 
       // load new site yellow text
-      setYellowTextTransformState(
-        node_huds[siteToLoad.nodeHudId as keyof typeof node_huds].big_text[0],
-        "posX"
-      );
-      setYellowTextTransformState(
-        node_huds[siteToLoad.nodeHudId as keyof typeof node_huds].big_text[1],
-        "posY"
+      setBigTexPos(
+        node_huds[siteToLoad.nodeHudId as keyof typeof node_huds].big_text[0]
       );
 
       const targetYellowText = (siteData as SiteType)[siteToLoad.level][
         siteToLoad.activeNodeId
       ].node_name;
 
-      setYellowText(targetYellowText);
-
-      // load new site green text
-
-      const targetGreenText = (siteData as SiteType)[siteToLoad.level][
-        siteToLoad.activeNodeId
-      ].title;
-
-      const targetGreenTextPosData =
-        node_huds[siteToLoad.nodeHudId as keyof typeof node_huds].medium_text;
-
-      setGreenTextTransformState(
-        {
-          initial: targetGreenTextPosData.initial_position[0],
-          final: targetGreenTextPosData.position[0],
-        },
-        "posX"
-      );
-      setGreenTextTransformState(targetGreenTextPosData.position[1], "posY");
-      setGreenText(targetGreenText);
+      setBigText(targetYellowText);
 
       // load new site node
       setActiveNodeState(siteToLoad.activeNodeId, "id");
@@ -113,14 +80,12 @@ const GameLoader = (props: StateManagerProps) => {
     [
       setActiveLevel,
       setActiveNodeState,
+      setBigTexPos,
+      setBigText,
       setCurrentSite,
-      setGreenText,
-      setGreenTextTransformState,
       setHudId,
       setNodeMatrixIndices,
       setSiteTransformState,
-      setYellowText,
-      setYellowTextTransformState,
       siteASaveState,
       siteBSaveState,
     ]
