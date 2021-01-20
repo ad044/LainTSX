@@ -1,6 +1,5 @@
 import orangeFont from "../../static/sprite/orange_font_texture.png";
 import yellowFont from "../../static/sprite/yellow_font_texture.png";
-import whiteFont from "../../static/sprite/white_and_green_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
@@ -12,62 +11,55 @@ const BigLetter = memo(
     color: string;
     letter: string;
     letterIdx: number;
-    xOffsetCoeff: number;
+    xOffset: number;
   }) => {
-    const colorToTexture = (color: string) => {
-      const colorTexture = {
-        orange: orangeFont,
-        yellow: yellowFont,
-        white: whiteFont,
-      };
-      return colorTexture[color as keyof typeof colorTexture];
-    };
+    const tex = useMemo(
+      () =>
+        props.color === "orange" || props.letterIdx === 0
+          ? orangeFont
+          : yellowFont,
+      [props.color, props.letterIdx]
+    );
 
-    // first letter in big font is always orange in this case so make it orange if so. else,
-    // run through the function.
-    const color =
-      props.letterIdx === 0 ? orangeFont : colorToTexture(props.color);
+    const colorTexture: THREE.Texture = useLoader(THREE.TextureLoader, tex);
 
-    const colorTexture: THREE.Texture = useLoader(THREE.TextureLoader, color);
-
-    // i have yet to figure out a genrealizable way of
-    // calculating the y offset, this shit will do for now
-    // also, we dont have all the lines since i dont need them yet.
-    // also, baseline offsets dont work properly since i dont need them yet either
-    // should be trivial to calculate though, im just lazy
-    const getLineNum = (letter: string) => {
+    const lineYOffset = useMemo(() => {
       const lineOne = "ABCDEFGHIJKLMNOPQ";
       const lineTwo = "RSTUVWXYZ01234567";
       const lineThree = "89abcdefghijklmnopqrs";
 
-      if (letter === " ") return 5;
-
-      if (lineOne.includes(letter)) {
-        return 1;
-      } else if (lineTwo.includes(letter)) {
-        return 2;
-      } else if (lineThree.includes(letter)) {
-        return 3;
+      let lineNum: number;
+      if (props.letter === " ") {
+        lineNum = 5;
       } else {
-        return 4;
+        if (lineOne.includes(props.letter)) {
+          lineNum = 1;
+        } else if (lineTwo.includes(props.letter)) {
+          lineNum = 2;
+        } else if (lineThree.includes(props.letter)) {
+          lineNum = 3;
+        } else {
+          lineNum = 4;
+        }
       }
-    };
 
-    const lineYOffsets = useMemo(
-      () => ({
+      const offsets = {
         1: 0.884,
         2: 0.765,
         3: 0.648,
         4: 0.47,
         5: 1,
-      }),
-      []
-    );
+      };
+      return offsets[lineNum as keyof typeof offsets];
+    }, [props.letter]);
 
-    const letterData =
-      orange_font_json.glyphs[
-        props.letter as keyof typeof orange_font_json.glyphs
-      ];
+    const letterData = useMemo(
+      () =>
+        orange_font_json.glyphs[
+          props.letter as keyof typeof orange_font_json.glyphs
+        ],
+      [props.letter]
+    );
 
     const geom = useMemo(() => {
       const geometry = new THREE.PlaneBufferGeometry();
@@ -80,25 +72,21 @@ const BigLetter = memo(
 
         u = (u * letterData[2]) / 256 + letterData[0] / 256;
 
-        v =
-          (v * letterData[3]) / 136 +
-          lineYOffsets[getLineNum(props.letter)] -
-          letterData[4] / 136;
+        v = (v * letterData[3]) / 136 + lineYOffset - letterData[4] / 136;
 
         uvAttribute.setXY(i, u, v);
       }
       return geometry;
-    }, [letterData, lineYOffsets, props.letter]);
+    }, [letterData, lineYOffset]);
 
-    const textRendererState = useSpring({
-      letterOffsetXCoeff:
-        props.letterIdx + 0.3 + (props.letterIdx + 0.3) * props.xOffsetCoeff,
+    const letterState = useSpring({
+      xOffset: props.letterIdx + 0.3 + (props.letterIdx + 0.3) * props.xOffset,
       config: { duration: 200 },
     });
 
     return (
       <a.mesh
-        position-x={textRendererState.letterOffsetXCoeff}
+        position-x={letterState.xOffset}
         position-y={-letterData[4] / 12.5}
         scale={[1, 1, 0]}
         geometry={geom}

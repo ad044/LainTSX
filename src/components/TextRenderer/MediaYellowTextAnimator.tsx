@@ -25,7 +25,7 @@ const MediaYellowTextAnimator = () => {
         >
           <BigLetter
             color={"yellow"}
-            xOffsetCoeff={transformState.xOffset}
+            xOffset={transformState.xOffset}
             letter={textArr[idx]}
             letterIdx={idx}
             key={idx}

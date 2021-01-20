@@ -20,7 +20,7 @@ import {
 } from "../../store";
 import MediaComponentManager from "./MediaSceneManagers/MediaComponentManager";
 import SceneManager from "./GameManagers/SceneManager";
-import YellowTextManager from "./MainSceneManagers/YellowTextManager";
+import BigTextManager from "./MainSceneManagers/BigTextManager";
 import LevelManager from "./MainSceneManagers/LevelManager";
 import BootComponentManager from "./BootSceneManagers/BootComponentManager";
 import SSknComponentManager from "./SSknSceneManagers/SSknComponentManager";
@@ -283,7 +283,7 @@ const EventManager = () => {
       <MiddleRingManager eventState={eventState!} />
       <MediaComponentManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
-      <YellowTextManager eventState={eventState!} />
+      <BigTextManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <BootComponentManager eventState={eventState!} />
       <SSknComponentManager eventState={eventState!} />

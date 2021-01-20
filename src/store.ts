@@ -1,6 +1,8 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
+import site_a from "./resources/site_a.json";
+import site_b from "./resources/site_b.json";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 
@@ -239,66 +241,6 @@ export const useMediaBigTextStore = create(
   )
 );
 
-export const useBigTextStore = create(
-  combine(
-    {
-      visible: true,
-      color: "yellow",
-      disableTrail: false,
-      text: "Tda028",
-      transformState: {
-        posX: -0.35,
-        posY: 0.23,
-        xOffset: 0,
-      },
-    } as BigTextState,
-    (set) => ({
-      setDisableTrail: (to: boolean) => set(() => ({ disableTrail: to })),
-      setText: (to: string) => set(() => ({ text: to })),
-      setTransformState: (to: number, at: string) =>
-        set((state) => ({
-          transformState: { ...state.transformState, [at]: to },
-        })),
-      addToTransformState: (val: number, at: string) =>
-        set((state) => ({
-          transformState: {
-            ...state.transformState,
-            [at]:
-              state.transformState[at as keyof typeof state.transformState] +
-              val,
-          },
-        })),
-      setColor: (to: string) => set(() => ({ color: to })),
-      setVisible: (to: boolean) => set(() => ({ visible: to })),
-    })
-  )
-);
-
-export const useGreenTextStore = create(
-  combine(
-    {
-      text: "TOUKO's DIARY",
-      transformState: {
-        posX: { initial: 1.18, final: 0.18 },
-        posY: 0.16,
-        xOffset: 0,
-      },
-      active: 1,
-    } as GreenTextState,
-    (set) => ({
-      setText: (to: string) => set(() => ({ text: to })),
-      setTransformState: (
-        to: number | { initial: number; final: number },
-        at: string
-      ) =>
-        set((state) => ({
-          transformState: { ...state.transformState, [at]: to },
-        })),
-      toggleActive: () => set((state) => ({ active: Number(!state.active) })),
-    })
-  )
-);
-
 export const useHudStore = create<HUDState>((set) => ({
   id: "fg_hud_1",
   active: 1,
@@ -506,12 +448,162 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
     set(() => ({ activeLetterTextureOffset: to })),
 }));
 
-export const useMainSceneStore = create<MainSceneState>((set) => ({
-  intro: true,
-  subscene: "site",
-  setSubscene: (to) => set(() => ({ subscene: to })),
-  setIntro: (to) => set(() => ({ intro: to })),
-}));
+export const useMainSceneStore = create(
+  combine(
+    {
+      // game progress
+      gameProgress: game_progress,
+
+      // subscene
+      subscene: "site",
+
+      // whether or not to play the intro anim
+      intro: true,
+
+      // big text (the one that displays node names)
+      bigText: "Tda028",
+      bigTextVisible: true,
+      bigTextColor: "yellow",
+      bigTextPos: [-0.35, 0.23, 0],
+      bigTextXOffset: 0,
+
+      // hud
+      hudId: "fg_hud_1",
+      hudActive: 1,
+
+      // nodes
+      activeNodeId: "0422",
+      activeNodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+      activeNodePos: [0, 0, 0],
+      activeNodeRot: [0, 0, 0],
+      activeNodeState: {
+        interactedWith: false,
+        exploding: false,
+        shrinking: false,
+        visible: true,
+      },
+
+      // lain
+      lainMoveState: "standing",
+
+      // starfield
+      mainStarfieldVisible: true,
+      introStarfieldVisible: false,
+      mainStarBoostVal: 0.2,
+
+      // site
+      activeSite: "a",
+      siteRot: [0, 0, 0],
+      sitePos: [0, 0, 0],
+
+      // middle ring
+      middleRingPos: [0, -0.11, 0],
+      middleRingRot: [0, 0, 0],
+      middleRingWobbleAmp: 0,
+      middleRingNoiseAmp: 0,
+      middleRingPartSeparatorVal: 1,
+      middleRingAnimDuration: 600,
+      middleRingRotating: true,
+      fakeMiddleRingVisible: false,
+
+      // level
+      activeLevel: "04",
+
+      // level selection
+      selectedLevel: 4,
+      levelSelectionToggled: 0,
+
+      // pause
+      pauseComponentMatrix: ["load", "about", "change", "save", "exit"],
+      pauseComponentMatrixIdx: 2,
+      pauseExitAnimation: false,
+    } as any,
+    (set) => ({
+      // subscene setters
+      setSubscene: (to: "pause" | "level_selection") =>
+        set(() => ({ subscene: to })),
+
+      // intro setters
+      setIntro: (to: boolean) => set(() => ({ intro: to })),
+
+      // big text setters
+      setBigText: (to: string) => set(() => ({ bigText: to })),
+      setBigTextVisible: (to: boolean) => set(() => ({ bigTextVisible: to })),
+      setBigTextColor: (to: "yellow" | "orange") =>
+        set(() => ({ bigTextColor: to })),
+      setBigTextPos: (to: number[]) => set(() => ({ bigTextPos: to })),
+      setBigTextXOffset: (to: number) => set(() => ({ bigTextXOffset: to })),
+
+      // hud setters
+      setHudId: (to: string) => set(() => ({ hudId: to })),
+      toggleHudActive: () =>
+        set((state) => ({ hudActive: Number(!state.hudActive) })),
+
+      // node setters
+      setActiveNodeId: (to: string) => set(() => ({ activeNodeId: to })),
+      setActiveNodeMatrixIndices: (to: {
+        matrixIdx: number;
+        rowIdx: number;
+        colIdx: number;
+      }) => set(() => ({ activeNodeMatrixIndices: to })),
+      setActiveNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
+      setActiveNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
+      setActiveNodeState: (
+        to: boolean,
+        at: "interactedWith" | "visible" | "exploding" | "shrinking"
+      ) =>
+        set((state) => ({
+          activeNodeState: { ...state.activeNodeState, [at]: to },
+        })),
+
+      // lain setters
+      setLainMoveState: (to: string) => set(() => ({ lainMoveState: to })),
+
+      // starfield setters
+      setMainStarfieldVisible: (to: boolean) =>
+        set(() => ({ mainStarfieldVisible: to })),
+      setMainStarBoostVal: (to: number) =>
+        set(() => ({ mainStarBoostVal: to })),
+      setIntroStarfieldVisible: (to: boolean) =>
+        set(() => ({ introStarfieldVisible: to })),
+
+      // site setters
+      setActiveSite: (to: "a" | "b") => set(() => ({ activeSite: to })),
+      setSiteRot: (to: number[]) => set(() => ({ siteRot: to })),
+      setSitePos: (to: number[]) => set(() => ({ sitePos: to })),
+
+      // middle ring setters
+      setMiddleRingPos: (to: number[]) => set(() => ({ middleRingPos: to })),
+      setMiddleRingRot: (to: number[]) => set(() => ({ middleRingRot: to })),
+      setMiddleRingWobbleAmp: (to: number) =>
+        set(() => ({ middleRingWobbleAmp: to })),
+      setMiddleRingNoiseAmp: (to: number) =>
+        set(() => ({ middleRingNoiseAmp: to })),
+      setMiddleRingPartSeparatorVal: (to: number) =>
+        set(() => ({ middleRingPartSeparatorVal: to })),
+      setMiddleRingRotating: (to: boolean) =>
+        set(() => ({ middleRingRotating: to })),
+      setFakeMiddleRingVisible: (to: boolean) =>
+        set(() => ({ fakeMiddleRingVisible: to })),
+
+      // level setters
+      setActiveLevel: (to: string) => set(() => ({ activeLevel: to })),
+
+      // level selection setters
+      setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
+      toggleLevelSelection: () =>
+        set((state) => ({
+          levelSelectionToggled: Number(!state.levelSelectionToggled),
+        })),
+
+      // pause setters
+      setPauseComponentMatrixIdx: (to: number) =>
+        set(() => ({ pauseComponentMatrixIdx: to })),
+      setPauseExitAnimation: (to: boolean) =>
+        set(() => ({ pauseExitAnimation: to })),
+    })
+  )
+);
 
 export const useBootStore = create(
   combine(

@@ -7,45 +7,44 @@ import React, { useMemo, memo } from "react";
 
 const MediumLetter = memo((props: { letter: string; letterIdx: number }) => {
   const colorTexture = useLoader(THREE.TextureLoader, greenFont);
-  // i have yet to figure out a genrealizable way of
-  // calculating the y offset, this shit will do for now
-  // also, we dont have all the lines since i dont need them yet.
-  // also, baseline offsets dont work properly since i dont need them yet either
-  // should be trivial to calculate though, im just lazy
-  const getLineNum = (letter: string) => {
+
+  const lineYOffset = useMemo(() => {
     const lineOne = "ABCDEFGHIJKLMNOPQQRSTUVW";
     const lineTwo = "XYZ0123456789abcdefghij";
     const lineThree = "klmnopqrstuvwxyz,.*";
 
-    if (letter === " ") return 5;
-
-    if (lineOne.includes(letter)) {
-      return 1;
-    } else if (lineTwo.includes(letter)) {
-      return 2;
-    } else if (lineThree.includes(letter)) {
-      return 3;
+    let lineNum: number;
+    if (props.letter === " ") {
+      lineNum = 5;
     } else {
-      return 4;
+      if (lineOne.includes(props.letter)) {
+        lineNum = 1;
+      } else if (lineTwo.includes(props.letter)) {
+        lineNum = 2;
+      } else if (lineThree.includes(props.letter)) {
+        lineNum = 3;
+      } else {
+        lineNum = 4;
+      }
     }
-  };
 
-  // 5th one is just a space, this is my hacky way of doing it.
-  const lineYOffsets = useMemo(
-    () => ({
+    const offsets = {
       1: 0.355,
       2: 0.297,
       3: 0.238,
       4: 0.18,
       5: 1,
-    }),
-    []
-  );
+    };
+    return offsets[lineNum as keyof typeof offsets];
+  }, [props.letter]);
 
-  const letterData =
-    medium_font_json.glyphs[
-      props.letter as keyof typeof medium_font_json.glyphs
-    ];
+  const letterData = useMemo(
+    () =>
+      medium_font_json.glyphs[
+        props.letter as keyof typeof medium_font_json.glyphs
+      ],
+    [props.letter]
+  );
 
   const geom = useMemo(() => {
     const geometry = new THREE.PlaneBufferGeometry();
@@ -58,16 +57,13 @@ const MediumLetter = memo((props: { letter: string; letterIdx: number }) => {
 
       u = (u * letterData[2]) / 256 + letterData[0] / 256;
 
-      v =
-        (v * letterData[3]) / 136 +
-        lineYOffsets[getLineNum(props.letter)] -
-        letterData[4] / 136;
+      v = (v * letterData[3]) / 136 + lineYOffset - letterData[4] / 136;
 
       uvAttribute.setXY(i, u, v);
     }
 
     return geometry;
-  }, [letterData, lineYOffsets, props.letter]);
+  }, [letterData, lineYOffset]);
 
   return (
     <a.mesh
