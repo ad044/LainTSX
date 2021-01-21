@@ -8,33 +8,36 @@ import longHudMirrored from "../../../static/sprite/long_hud_mirrored.png";
 import boringHud from "../../../static/sprite/long_hud_boring.png";
 import boringHudMirrored from "../../../static/sprite/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
-import { useHudStore, useNodeStore, useSiteStore } from "../../../store";
-import node_huds from "../../../resources/node_huds.json";
+import { useMainSceneStore } from "../../../store";
 import MediumLetter from "../../TextRenderer/MediumLetter";
-import site_a from "../../../resources/site_a.json";
-import site_b from "../../../resources/site_b.json";
-import { SiteType } from "./Site";
+
+export type HUDType = {
+  mirrored: number;
+  long: {
+    position: number[];
+    initial_position: number[];
+  };
+  boring: {
+    position: number[];
+    initial_position: number[];
+  };
+  big: {
+    position: number[];
+    initial_position: number[];
+  };
+  big_text: number[];
+  medium_text: {
+    position: number[];
+    initial_position: number[];
+  };
+};
 
 const HUD = () => {
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const greenText = useMemo(() => {
-    if (activeNodeId === "UNKNOWN") return "".split("");
-    else {
-      const siteData = currentSite === "a" ? site_a : site_b;
-      const level = activeNodeId.substr(0, 2);
-
-      return (siteData as SiteType)[level][activeNodeId].title.split("");
-    }
-  }, [activeNodeId, currentSite]);
-
-  const active = useHudStore((state) => state.active);
-  const id = useHudStore((state) => state.id);
-
-  const currentHud = useMemo(() => node_huds[id as keyof typeof node_huds], [
-    id,
-  ]);
+  const greenText = useMainSceneStore((state) =>
+    state.activeNode.title.split("")
+  );
+  const active = useMainSceneStore((state) => state.hudActive);
+  const currentHud = useMainSceneStore((state) => state.hud);
 
   const hudElementState = useSpring({
     bigHUDPositionX: active,
@@ -145,7 +148,7 @@ const HUD = () => {
         position-z={-8.7}
         scale={[0.02, 0.035, 0.02]}
       >
-        {greenText.map((letter, idx) => (
+        {greenText.map((letter: string, idx: number) => (
           <MediumLetter letter={letter} letterIdx={idx} key={idx} />
         ))}
       </a.group>

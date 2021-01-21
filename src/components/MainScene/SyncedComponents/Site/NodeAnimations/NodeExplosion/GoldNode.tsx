@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
@@ -16,21 +16,7 @@ import Lda from "../../../../../../static/sprite/Lda.png";
 import LdaGold from "../../../../../../static/sprite/Lda_gold.png";
 import MULTI from "../../../../../../static/sprite/MULTI.png";
 import MULTIGold from "../../../../../../static/sprite/MULTI_gold.png";
-import {
-  useLevelStore,
-  useNodeStore,
-  useSiteStore,
-} from "../../../../../../store";
-import site_a from "../../../../../../resources/site_a.json";
-import site_b from "../../../../../../resources/site_b.json";
-import { SiteType } from "../../../Site";
-import SSKnActive from "../../../../../../static/sprite/SSkn_active.png";
-import MULTIActive from "../../../../../../static/sprite/MULTI_active.png";
-import DcActive from "../../../../../../static/sprite/Dc_active.png";
-import TdaActive from "../../../../../../static/sprite/Tda_active.png";
-import CouActive from "../../../../../../static/sprite/Cou_active.png";
-import DiaActive from "../../../../../../static/sprite/Dia_active.png";
-import LdaActive from "../../../../../../static/sprite/Lda_active.png";
+import { useMainSceneStore } from "../../../../../../store";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -48,43 +34,38 @@ type GoldNodeProps = {
 
 const GoldNode = (props: GoldNodeProps) => {
   const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/goldNode.glb");
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-  const activeLevel = useLevelStore((state) => state.activeLevel);
 
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = currentSite === "a" ? site_a : site_b;
-
-  const activeNodeData = (siteData as SiteType)[activeLevel][activeNodeId];
-  const activeNodeName = activeNodeData.node_name;
+  const activeNodeName = useMainSceneStore(
+    (state) => state.activeNode.node_name
+  );
 
   const tex = useMemo(() => {
     if (activeNodeName.includes("S")) {
-      return [SSkn, SSKnActive];
+      return [SSkn, SSKnGold];
     } else if (
       activeNodeName.startsWith("P") ||
       activeNodeName.startsWith("G") ||
       activeNodeName.includes("?")
     ) {
-      return [MULTI, MULTIActive];
+      return [MULTI, MULTIGold];
     } else if (activeNodeName.includes("Dc")) {
-      return [Dc, DcActive];
+      return [Dc, DcGold];
     } else {
       switch (activeNodeName.substr(0, 3)) {
         case "Tda":
-          return [Tda, TdaActive];
+          return [Tda, TdaGold];
         case "Cou":
-          return [Cou, CouActive];
+          return [Cou, CouGold];
         case "Dia":
-          return [Dia, DiaActive];
+          return [Dia, DiaGold];
         case "Lda":
-          return [Lda, LdaActive];
+          return [Lda, LdaGold];
         case "Ere":
         case "Ekm":
         case "Eda":
         case "TaK":
         case "Env":
-          return [MULTI, MULTIActive];
+          return [MULTI, MULTIGold];
       }
     }
   }, [activeNodeName]);
@@ -108,7 +89,6 @@ const GoldNode = (props: GoldNodeProps) => {
       r.current.rotation.z += 0.03;
     }
   });
-
 
   return (
     <mesh

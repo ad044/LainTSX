@@ -84,6 +84,7 @@ const BigLetter = memo(
       config: { duration: 200 },
     });
 
+    console.log('rend')
     return (
       <a.mesh
         position-x={letterState.xOffset}

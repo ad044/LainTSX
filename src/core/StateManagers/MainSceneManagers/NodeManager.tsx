@@ -1,10 +1,12 @@
 import { useCallback, useEffect } from "react";
-import { useNodeStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
+import { NodeDataType } from "../../../components/MainScene/SyncedComponents/Site";
 
 const NodeManager = (props: StateManagerProps) => {
-  const setActiveNodeState = useNodeStore((state) => state.setActiveNodeState);
-  const setNodeMatrixIndices = useNodeStore(
+  const setActiveNode = useMainSceneStore((state) => state.setNode);
+  const setActiveNodeState = useMainSceneStore((state) => state.setNodeState);
+  const setNodeMatrixIndices = useMainSceneStore(
     (state) => state.setNodeMatrixIndices
   );
 
@@ -173,7 +175,7 @@ const NodeManager = (props: StateManagerProps) => {
 
   const updateActiveNode = useCallback(
     (
-      newActiveNodeId: string,
+      node: NodeDataType,
       newNodeMatrixIndices: {
         matrixIdx: number;
         rowIdx: number;
@@ -183,17 +185,17 @@ const NodeManager = (props: StateManagerProps) => {
       delay?: number
     ) => {
       setTimeout(() => {
-        setActiveNodeState(newActiveNodeId, "id");
+        setActiveNode(node);
         setNodeMatrixIndices(newNodeMatrixIndices);
       }, delay);
     },
-    [setActiveNodeState, setNodeMatrixIndices]
+    [setActiveNode, setNodeMatrixIndices]
   );
 
   const dispatchObject = useCallback(
     (eventState: {
       event: string;
-      activeNodeId: string;
+      node: NodeDataType;
       nodeMatrixIndices: {
         matrixIdx: number;
         rowIdx: number;
@@ -202,6 +204,7 @@ const NodeManager = (props: StateManagerProps) => {
       siteRotY: number;
       idleNodeId?: string;
     }) => {
+      console.log(eventState.node);
       switch (eventState.event) {
         case "site_up":
         case "site_down":
@@ -211,17 +214,12 @@ const NodeManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: updateActiveNode,
-            value: [
-              eventState.activeNodeId,
-              eventState.nodeMatrixIndices,
-              true,
-              3900,
-            ],
+            value: [eventState.node, eventState.nodeMatrixIndices, true, 3900],
           };
         case "change_node":
           return {
             action: updateActiveNode,
-            value: [eventState.activeNodeId, eventState.nodeMatrixIndices],
+            value: [eventState.node, eventState.nodeMatrixIndices],
           };
         case "throw_node_media":
         case "throw_node_gate":

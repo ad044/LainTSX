@@ -1,26 +1,16 @@
 import React, { useCallback, useMemo } from "react";
-import {useLevelStore, useMediaWordStore, useNodeStore, useSiteStore} from "../../../store";
+import { useMainSceneStore, useMediaWordStore } from "../../../store";
 import Word from "./RightSide/Word";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import word_position_states from "../../../resources/word_position_states.json";
 import * as THREE from "three";
-import site_a from "../../../resources/site_a.json";
-import { SiteType } from "../../MainScene/SyncedComponents/Site";
-import site_b from "../../../resources/site_b.json";
 
 type RightSideProps = {
   activeMediaComponent: string;
 };
 
 const RightSide = (props: RightSideProps) => {
-  const activeLevel = useLevelStore((state) => state.activeLevel);
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = currentSite === "a" ? site_a : site_b;
-
-  const words = (siteData as SiteType)[activeLevel][activeNodeId].words;
+  const words = useMainSceneStore((state) => state.activeNode.words);
 
   const posStateIdx = useMediaWordStore(
     (state) => state.posStateIdx

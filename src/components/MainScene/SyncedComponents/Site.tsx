@@ -1,11 +1,6 @@
 import React, { Suspense, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
-import {
-  useLevelStore,
-  useMainSceneStore,
-  useNodeStore,
-  useSiteStore,
-} from "../../../store";
+import { useLevelStore, useMainSceneStore, useSiteStore } from "../../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
 import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import Rings from "./Site/Rings";
@@ -69,7 +64,7 @@ const Site = (props: SiteProps) => {
     config: { duration: 3400 },
   });
 
-  const gameProgress = useNodeStore((state) => state.gameProgress);
+  const gameProgress = useMainSceneStore((state) => state.gameProgress);
 
   const currentSite = useSiteStore((state) => state.currentSite);
 

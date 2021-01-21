@@ -1,47 +1,48 @@
 import { useCallback, useEffect } from "react";
-import { useHudStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
+import {HUDType} from "../../../components/MainScene/SyncedComponents/HUD";
 
 const NodeHUDManager = (props: StateManagerProps) => {
-  const setId = useHudStore((state) => state.setId);
-  const toggleActive = useHudStore((state) => state.toggleActive);
+  const set = useMainSceneStore((state) => state.setHud);
+  const toggleActive = useMainSceneStore((state) => state.toggleHudActive);
 
   const moveAndChangeNode = useCallback(
-    (targetNodeHudId: string) => {
+    (hud: HUDType) => {
       toggleActive();
 
       setTimeout(() => {
-        setId(targetNodeHudId);
+        set(hud);
         toggleActive();
       }, 3900);
     },
-    [setId, toggleActive]
+    [set, toggleActive]
   );
 
   const changeNode = useCallback(
-    (targetNodeHudId: string) => {
+    (hud: HUDType) => {
       toggleActive();
 
       setTimeout(() => {
-        setId(targetNodeHudId);
+        set(hud);
         toggleActive();
       }, 500);
     },
-    [setId, toggleActive]
+    [set, toggleActive]
   );
 
   const selectLevelAnimation = useCallback(
-    (targetNodeHudId: string) => {
+    (hud: HUDType) => {
       setTimeout(() => {
-        setId(targetNodeHudId);
+        set(hud);
         toggleActive();
       }, 3900);
     },
-    [setId, toggleActive]
+    [set, toggleActive]
   );
 
   const dispatchObject = useCallback(
-    (eventState: { event: string; activeHudId: string }) => {
+    (eventState: { event: string; hud: HUDType }) => {
       switch (eventState.event) {
         case "site_up":
         case "site_down":
@@ -49,12 +50,12 @@ const NodeHUDManager = (props: StateManagerProps) => {
         case "site_right":
           return {
             action: moveAndChangeNode,
-            value: [eventState.activeHudId],
+            value: [eventState.hud],
           };
         case "change_node":
           return {
             action: changeNode,
-            value: [eventState.activeHudId],
+            value: [eventState.hud],
           };
         case "toggle_level_selection":
         case "level_selection_back":
@@ -65,7 +66,7 @@ const NodeHUDManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: selectLevelAnimation,
-            value: [eventState.activeHudId],
+            value: [eventState.hud],
           };
       }
     },

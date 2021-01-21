@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import {
-  useIdleStore,
-  useLevelStore,
-  useMediaStore,
-  useNodeStore,
-  useSceneStore,
-  useSiteStore,
-} from "../store";
+import { useMainSceneStore, useMediaStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
@@ -15,29 +8,20 @@ import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Lof from "../components/MediaScene/Lof";
 import Images from "../components/MediaScene/Images";
 import MediumLetter from "../components/TextRenderer/MediumLetter";
-import site_a from "../resources/site_a.json";
-import { SiteType } from "../components/MainScene/SyncedComponents/Site";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
-import site_b from "../resources/site_b.json";
 import MediaSceneEventManager from "../core/StateManagers/MediaSceneEventManager";
 
 const MediaScene = () => {
-  const currentScene = useSceneStore((state) => state.currentScene);
   const mediaComponentMatrixIndices = useMediaStore(
     (state) => state.componentMatrixIndices
   );
 
-  const idleMedia = useIdleStore((state) => state.media);
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-  const activeLevel = useLevelStore((state) => state.activeLevel);
-
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = currentSite === "a" ? site_a : site_b;
-
-  const activeNodeData = (siteData as SiteType)[activeLevel][activeNodeId];
-  const activeNodeName = activeNodeData.node_name;
-  const activeNodeMedia = activeNodeData.media_file;
+  const activeNodeName = useMainSceneStore((state) =>
+    state.activeNode.node_name.split("")
+  );
+  const activeNodeMedia = useMainSceneStore(
+    (state) => state.activeNode.media_file
+  );
 
   const activeMediaComponent = useMediaStore(
     useCallback(
@@ -70,7 +54,7 @@ const MediaScene = () => {
           <NodeNameContainer />
         </group>
         <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-          {activeNodeName.split("").map((letter, idx) => (
+          {activeNodeName.map((letter: string, idx: number) => (
             <MediumLetter letter={letter} letterIdx={idx} key={idx} />
           ))}
         </group>

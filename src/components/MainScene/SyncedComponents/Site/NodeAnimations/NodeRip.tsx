@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import TriangleNode from "./NodeRip/TriangleNode";
-import { useNodeStore } from "../../../../../store";
+import { useMainSceneStore } from "../../../../../store";
 import RipLine from "./NodeRip/RipLine";
 import { useFrame } from "react-three-fiber";
 
 const NodeRip = () => {
-  const nodeShrinking = useNodeStore(
+  const nodeShrinking = useMainSceneStore(
     (state) => state.activeNodeState.shrinking
   );
   const [shouldAnimate, setShouldAnimate] = useState(false);

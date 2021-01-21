@@ -1,9 +1,7 @@
 import { useCallback, useEffect } from "react";
 import {
-  useHudStore,
   useLevelStore,
   useMainSceneStore,
-  useNodeStore,
   useSiteSaveStore,
   useSiteStore,
 } from "../../../store";
@@ -35,13 +33,13 @@ const GameLoader = (props: StateManagerProps) => {
   const setCurrentSite = useSiteStore((state) => state.setCurrentSite);
 
   // node setter
-  const setActiveNodeState = useNodeStore((state) => state.setActiveNodeState);
-  const setNodeMatrixIndices = useNodeStore(
+  const setActiveNode = useMainSceneStore((state) => state.setNode);
+  const setNodeMatrixIndices = useMainSceneStore(
     (state) => state.setNodeMatrixIndices
   );
 
   // node hud setter
-  const setHudId = useHudStore((state) => state.setId);
+  const setHud = useMainSceneStore((state) => state.setHud);
 
   const changeSite = useCallback(
     (site: string) => {
@@ -71,19 +69,19 @@ const GameLoader = (props: StateManagerProps) => {
       setBigText(targetYellowText);
 
       // load new site node
-      setActiveNodeState(siteToLoad.activeNodeId, "id");
+      setActiveNode(siteToLoad.activeNodeId);
       setNodeMatrixIndices(siteToLoad.nodeMatrixIndices);
 
       // load new site node hud
-      setHudId(siteToLoad.nodeHudId);
+      setHud(siteToLoad.nodeHudId);
     },
     [
       setActiveLevel,
-      setActiveNodeState,
+      setActiveNode,
       setBigTexPos,
       setBigText,
       setCurrentSite,
-      setHudId,
+      setHud,
       setNodeMatrixIndices,
       setSiteTransformState,
       siteASaveState,

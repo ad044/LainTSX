@@ -1,9 +1,13 @@
 import node_matrices from "../resources/node_matrices.json";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { SiteType } from "../components/MainScene/SyncedComponents/Site";
+import {
+  NodeDataType,
+  SiteType,
+} from "../components/MainScene/SyncedComponents/Site";
 import unlocked_nodes from "../resources/initial_progress.json";
 import level_y_values from "../resources/level_y_values.json";
+import node_huds from "../resources/node_huds.json";
 
 type NodeSelectorContext = {
   action: string;
@@ -31,41 +35,45 @@ const hudAssocs = {
   "23": "fg_hud_6",
 };
 
-export const getNodeId = (
+export const getNode = (
   level: number,
   nodeMatrixIndices: {
     matrixIdx: number;
     rowIdx: number;
     colIdx: number;
-  }
+  },
+  currentSite: string
 ) => {
-  return (
-    level.toString().padStart(2, "0") +
+  const siteData = currentSite === "a" ? site_a : site_b;
+
+  const formattedLevel = level.toString().padStart(2, "0");
+  const nodePos =
     node_matrices[
       nodeMatrixIndices.matrixIdx.toString() as keyof typeof node_matrices
-    ][nodeMatrixIndices.rowIdx][nodeMatrixIndices.colIdx]
-  );
+    ][nodeMatrixIndices.rowIdx][nodeMatrixIndices.colIdx];
+
+  const id = formattedLevel + nodePos;
+
+  return (siteData as SiteType)[formattedLevel][id];
 };
 
-export const getNodeHudId = (nodeMatrixIndices: {
+export const getNodeHud = (nodeMatrixIndices: {
   matrixIdx: number;
   rowIdx: number;
   colIdx: number;
 }) =>
-  hudAssocs[
-    `${nodeMatrixIndices.rowIdx}${nodeMatrixIndices.colIdx}` as keyof typeof hudAssocs
+  node_huds[
+    hudAssocs[
+      `${nodeMatrixIndices.rowIdx}${nodeMatrixIndices.colIdx}` as keyof typeof hudAssocs
+    ] as keyof typeof node_huds
   ];
 
 export const isNodeVisible = (
-  nodeId: string,
-  gameProgress: typeof unlocked_nodes,
-  currentSite: string
+  node: NodeDataType,
+  gameProgress: typeof unlocked_nodes
 ) => {
-  const siteData = currentSite === "a" ? site_a : site_b;
-  const nodeLevel = nodeId.substr(0, 2);
-  const nodeData = (siteData as SiteType)[nodeLevel][nodeId];
-  if (nodeData) {
-    const unlockedBy = nodeData.unlocked_by;
+  if (node) {
+    const unlockedBy = node.unlocked_by;
 
     let unlocked;
     if (unlockedBy === "") unlocked = true;
@@ -77,7 +85,7 @@ export const isNodeVisible = (
 
     return (
       unlocked &&
-      gameProgress[nodeData.node_name as keyof typeof gameProgress].is_visible
+      gameProgress[node.node_name as keyof typeof gameProgress].is_visible
     );
   } else {
     return false;
@@ -106,9 +114,13 @@ const findNodeAfterLevelSelection = (
 
   newMatIndices.rowIdx = 0;
 
-  let newNodeId = getNodeId(targetLevel, newMatIndices);
+  let newNode: NodeDataType | "UNKNOWN" = getNode(
+    targetLevel,
+    newMatIndices,
+    currentSite
+  );
 
-  while (!isNodeVisible(newNodeId, gameProgress, currentSite)) {
+  while (!isNodeVisible(newNode, gameProgress)) {
     if (triedCols.length < 4) {
       triedCols.push(newMatIndices.colIdx);
       const colToTry = tryCol(newMatIndices.colIdx, triedCols);
@@ -118,7 +130,7 @@ const findNodeAfterLevelSelection = (
     } else {
       if (newMatIndices.rowIdx === 2) {
         newMatIndices.colIdx = nodeMatrixIndices.colIdx;
-        newNodeId = "UNKNOWN";
+        newNode = "UNKNOWN";
         break;
       } else {
         newMatIndices.rowIdx++;
@@ -126,15 +138,15 @@ const findNodeAfterLevelSelection = (
         newMatIndices.colIdx = 0;
       }
     }
-    newNodeId = getNodeId(targetLevel, newMatIndices);
+    newNode = getNode(targetLevel, newMatIndices, currentSite);
   }
 
-  const newNodeHudId = getNodeHudId(newMatIndices);
+  const newNodeHud = getNodeHud(newMatIndices);
 
   return {
     newLevel: targetLevel,
-    newNodeId: newNodeId,
-    newNodeHudId: newNodeHudId,
+    node: newNode,
+    newNodeHud: newNodeHud,
     newNodeMatrixIndices: newMatIndices,
     newSitePosY:
       level_y_values[
@@ -150,7 +162,7 @@ const findNodeVertical = (
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number },
   currentSite: string
 ) => {
-  let newNodeId;
+  let newNode: NodeDataType | "UNKNOWN";
   let newLevel = level;
   let newMatIndices = Object.assign({}, nodeMatrixIndices);
 
@@ -164,9 +176,9 @@ const findNodeVertical = (
       newLevel = level - 1;
     }
 
-    newNodeId = getNodeId(newLevel, newMatIndices);
+    newNode = getNode(newLevel, newMatIndices, currentSite);
 
-    while (!isNodeVisible(newNodeId, gameProgress, currentSite)) {
+    while (!isNodeVisible(newNode, gameProgress)) {
       if (triedCols.length < 4) {
         triedCols.push(newMatIndices.colIdx);
         const colToTry = tryCol(newMatIndices.colIdx, triedCols);
@@ -176,7 +188,7 @@ const findNodeVertical = (
       } else {
         if (newMatIndices.rowIdx === 2) {
           if (newLevel === level - 1) {
-            newNodeId = "UNKNOWN";
+            newNode = "UNKNOWN";
             newMatIndices.colIdx = nodeMatrixIndices.colIdx;
             break;
           }
@@ -188,7 +200,7 @@ const findNodeVertical = (
           triedCols = [];
         }
       }
-      newNodeId = getNodeId(newLevel, newMatIndices);
+      newNode = getNode(newLevel, newMatIndices, currentSite);
     }
   } else if (direction === "up") {
     newMatIndices.rowIdx--;
@@ -200,9 +212,9 @@ const findNodeVertical = (
       newLevel = level + 1;
     }
 
-    newNodeId = getNodeId(newLevel, newMatIndices);
+    newNode = getNode(newLevel, newMatIndices, currentSite);
 
-    while (!isNodeVisible(newNodeId, gameProgress, currentSite)) {
+    while (!isNodeVisible(newNode, gameProgress)) {
       if (triedCols.length < 4) {
         triedCols.push(newMatIndices.colIdx);
         const colToTry = tryCol(newMatIndices.colIdx, triedCols);
@@ -212,7 +224,7 @@ const findNodeVertical = (
       } else {
         if (newMatIndices.rowIdx === 0) {
           if (newLevel === level + 1) {
-            newNodeId = "UNKNOWN";
+            newNode = "UNKNOWN";
             newMatIndices.colIdx = nodeMatrixIndices.colIdx;
             break;
           }
@@ -224,13 +236,13 @@ const findNodeVertical = (
           triedCols = [];
         }
       }
-      newNodeId = getNodeId(newLevel, newMatIndices);
+      newNode = getNode(newLevel, newMatIndices, currentSite);
     }
   }
 
   return {
-    newNodeId: newNodeId,
-    newNodeHudId: getNodeHudId(newMatIndices),
+    node: newNode!,
+    newNodeHud: getNodeHud(newMatIndices),
     newLevel: newLevel,
     newNodeMatrixIndices: newMatIndices,
   };
@@ -244,7 +256,7 @@ const findNodeHorizontal = (
   nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number },
   currentSite: string
 ) => {
-  let newNodeId;
+  let newNode: NodeDataType | "UNKNOWN";
   let newMatIndices = Object.assign({}, nodeMatrixIndices);
 
   let didMove = false;
@@ -261,9 +273,9 @@ const findNodeHorizontal = (
         newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
     }
 
-    newNodeId = getNodeId(level, newMatIndices);
+    newNode = getNode(level, newMatIndices, currentSite);
 
-    while (!isNodeVisible(newNodeId, gameProgress, currentSite)) {
+    while (!isNodeVisible(newNode, gameProgress)) {
       if (triedRows.length < 3) {
         triedRows.push(newMatIndices.rowIdx);
         const rowToTry = tryRow(newMatIndices.rowIdx, triedRows);
@@ -279,7 +291,7 @@ const findNodeHorizontal = (
             newMatIndices.colIdx = nodeMatrixIndices.colIdx;
             newMatIndices.matrixIdx =
               newMatIndices.matrixIdx + 1 > 8 ? 1 : newMatIndices.matrixIdx + 1;
-            newNodeId = "UNKNOWN";
+            newNode = "UNKNOWN";
             break;
           } else {
             didMove = true;
@@ -293,7 +305,7 @@ const findNodeHorizontal = (
           newMatIndices.rowIdx = 0;
         }
       }
-      newNodeId = getNodeId(level, newMatIndices);
+      newNode = getNode(level, newMatIndices, currentSite);
     }
   } else if (direction === "right") {
     newMatIndices.colIdx++;
@@ -307,9 +319,9 @@ const findNodeHorizontal = (
         newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
     }
 
-    newNodeId = getNodeId(level, newMatIndices);
+    newNode = getNode(level, newMatIndices, currentSite);
 
-    while (!isNodeVisible(newNodeId, gameProgress, currentSite)) {
+    while (!isNodeVisible(newNode, gameProgress)) {
       if (triedRows.length < 3) {
         triedRows.push(newMatIndices.rowIdx);
         const rowToTry = tryRow(newMatIndices.rowIdx, triedRows);
@@ -325,7 +337,7 @@ const findNodeHorizontal = (
             newMatIndices.colIdx = nodeMatrixIndices.colIdx;
             newMatIndices.matrixIdx =
               newMatIndices.matrixIdx - 1 < 1 ? 8 : newMatIndices.matrixIdx - 1;
-            newNodeId = "UNKNOWN";
+            newNode = "UNKNOWN";
             break;
           } else {
             if (didMove) return;
@@ -344,16 +356,16 @@ const findNodeHorizontal = (
           newMatIndices.rowIdx = 0;
         }
       }
-      newNodeId = getNodeId(level, newMatIndices);
+      newNode = getNode(level, newMatIndices, currentSite);
     }
   }
 
-  const newNodeHudId = getNodeHudId(newMatIndices);
+  const newNodeHud = getNodeHud(newMatIndices);
 
   return {
     didMove: didMove,
-    newNodeId: newNodeId,
-    newNodeHudId: newNodeHudId,
+    node: newNode!,
+    newNodeHud: newNodeHud,
     newNodeMatrixIndices: newMatIndices,
   };
 };
@@ -380,8 +392,8 @@ const nodeSelector = (context: NodeSelectorContext) => {
 
         return {
           event: newNodeData.didMove ? context.action : "change_node",
-          newActiveNodeId: newNodeData.newNodeId,
-          newActiveHudId: newNodeData.newNodeHudId,
+          node: newNodeData.node,
+          newActiveHud: newNodeData.newNodeHud,
           newNodeMatrixIndices: newNodeData.newNodeMatrixIndices,
           newSiteRotY: newNodeData.didMove
             ? context.siteRotY + siteRotYModifier
@@ -408,9 +420,9 @@ const nodeSelector = (context: NodeSelectorContext) => {
         const sitePosYModifier = move === "up" ? -1.5 : 1.5;
         return {
           event: didMove ? context.action : "change_node",
-          newActiveNodeId: newNodeData.newNodeId,
+          node: newNodeData.node,
           newNodeMatrixIndices: newNodeData.newNodeMatrixIndices,
-          newActiveHudId: newNodeData.newNodeHudId,
+          newActiveHud: newNodeData.newNodeHud,
           newSiteRotY: context.siteRotY,
           newSitePosY: didMove
             ? context.sitePosY + sitePosYModifier
@@ -429,9 +441,9 @@ const nodeSelector = (context: NodeSelectorContext) => {
 
       if (newNodeData) {
         return {
-          newActiveNodeId: newNodeData.newNodeId,
+          node: newNodeData.node,
           newNodeMatrixIndices: newNodeData.newNodeMatrixIndices,
-          newActiveHudId: newNodeData.newNodeHudId,
+          newActiveHud: newNodeData.newNodeHud,
           newSiteRotY: context.siteRotY,
           newLevel: newNodeData.newLevel,
           newSitePosY: newNodeData.newSitePosY,

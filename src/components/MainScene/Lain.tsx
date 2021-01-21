@@ -32,7 +32,7 @@ import leanRightSpriteSheet from "../../static/sprite/lean_right.png";
 import lookAroundSpriteSheet from "../../static/sprite/look_around.png";
 import playWithHairSpriteSheet from "../../static/sprite/play_with_hair.png";
 
-import { useLainStore } from "../../store";
+import { useMainSceneStore } from "../../store";
 
 type LainConstructorProps = {
   sprite: string;
@@ -353,7 +353,7 @@ type LainProps = {
 };
 
 const Lain = (props: LainProps) => {
-  const lainMoveState = useLainStore((state) => state.lainMoveState);
+  const lainMoveState = useMainSceneStore((state) => state.lainMoveState);
 
   const lainAnimationDispatch = useMemo(() => {
     const anims = {

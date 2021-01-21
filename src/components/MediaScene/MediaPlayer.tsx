@@ -6,19 +6,15 @@ import React, {
   useRef,
   useState,
 } from "react";
-import site_a from "../../resources/site_a.json";
-import site_b from "../../resources/site_b.json";
 import {
   useEndSceneStore,
   useIdleStore,
-  useLevelStore,
+  useMainSceneStore,
   useMediaStore,
-  useNodeStore,
   useSceneStore,
   useSiteStore,
 } from "../../store";
 import t from "../../static/webvtt/test.vtt";
-import { SiteType } from "../MainScene/SyncedComponents/Site";
 import endroll from "../../static/movie/ENDROLL1.STR[0].webm";
 import xa0001 from "../../static/audio/a/Xa0001.mp4";
 import xa0006 from "../../static/audio/a/Xa0006.mp4";
@@ -34,18 +30,16 @@ const MediaPlayer = () => {
   );
 
   const idleMedia = useIdleStore((state) => state.media);
+  const nodeMedia = useMainSceneStore((state) => state.activeNode.media_file);
 
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-  const activeLevel = useLevelStore((state) => state.activeLevel);
+  const triggersFinalVideo = useMainSceneStore(
+    (state) => state.activeNode.triggers_final_video
+  );
 
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
 
   const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
-    currentSite,
-  ]);
 
   // end scene specific stuff
   const endMediaPlayedCount = useEndSceneStore(
@@ -76,10 +70,7 @@ const MediaPlayer = () => {
             if (currentScene === "end") {
               incrementEndMediaPlayedCount();
             } else {
-              if (
-                (siteData as SiteType)[activeLevel][activeNodeId]
-                  .triggers_final_video === 1
-              ) {
+              if (triggersFinalVideo === 1) {
                 resetEndMediaPlayedCount();
                 setScene("end");
               } else {
@@ -91,14 +82,12 @@ const MediaPlayer = () => {
       }
     }
   }, [
-    activeLevel,
-    activeNodeId,
     currentScene,
     incrementEndMediaPlayedCount,
     resetEndMediaPlayedCount,
     setPercentageElapsed,
     setScene,
-    siteData,
+    triggersFinalVideo,
     videoRef,
   ]);
 
@@ -140,8 +129,6 @@ const MediaPlayer = () => {
       }
     } else {
       if (currentScene === "media" || currentScene === "tak") {
-        const nodeMedia = (siteData as SiteType)[activeLevel][activeNodeId]
-          .media_file;
         if (nodeMedia.includes("XA")) {
           import(
             "../../static/audio/" + currentSite + "/" + nodeMedia + ".ogg"
@@ -188,13 +175,11 @@ const MediaPlayer = () => {
       }
     }
   }, [
-    activeLevel,
-    activeNodeId,
     currentScene,
     currentSite,
     endMediaPlayedCount,
     idleMedia,
-    siteData,
+    nodeMedia,
     videoRef,
   ]);
 
