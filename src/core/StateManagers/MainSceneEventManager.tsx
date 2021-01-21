@@ -3,7 +3,6 @@ import {
   useLevelSelectionStore,
   useLevelStore,
   useMainSceneStore,
-  useNodeStore,
   usePauseStore,
   useSiteStore,
 } from "../../store";
@@ -32,8 +31,8 @@ type MainSceneEventManagerProps = {
 const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   // all the possible context needed to calculate new state
   const currentSite = useSiteStore((state) => state.currentSite);
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-  const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
+  const activeNodeId = useMainSceneStore((state) => state.activeNodeState.id);
+  const nodeMatrixIndices = useMainSceneStore((state) => state.activeNodeMatrixIndices);
   const siteTransformState = useSiteStore((state) => state.transformState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const mainSubscene = useMainSceneStore((state) => state.subscene);
@@ -44,7 +43,7 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
       pauseMatrixIdx,
     ])
   );
-  const gameProgress = useNodeStore((state) => state.gameProgress);
+  const gameProgress = useMainSceneStore((state) => state.gameProgress);
 
   const timePassedSinceLastKeyPress = useRef(-1);
 

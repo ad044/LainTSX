@@ -25,7 +25,7 @@ const InactiveLevelNodes = memo((props: NodesProps) => {
   return (
     <>
       {Object.entries(visibleNodes).map((node: [string, any]) => {
-        if (isNodeVisible(node[0], props.gameProgress, props.currentSite)) {
+        if (isNodeVisible(node[1], props.gameProgress)) {
           return (
             <Node
               nodeName={node[1].node_name}

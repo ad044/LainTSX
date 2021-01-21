@@ -4,10 +4,10 @@ import node_explosion_line_positions from "../../../../../resources/node_explosi
 
 import { useFrame } from "react-three-fiber";
 import GoldNode from "./NodeExplosion/GoldNode";
-import { useNodeStore } from "../../../../../store";
+import { useMainSceneStore } from "../../../../../store";
 
 const NodeExplosion = () => {
-  const explosionVisible = useNodeStore(
+  const explosionVisible = useMainSceneStore(
     (state) => state.activeNodeState.exploding
   );
 

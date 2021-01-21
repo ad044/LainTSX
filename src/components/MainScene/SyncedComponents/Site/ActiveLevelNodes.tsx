@@ -1,22 +1,26 @@
 import React, { useEffect, useMemo } from "react";
 import Node from "./Node";
 import node_positions from "../../../../resources/node_positions.json";
-import { useNodeStore } from "../../../../store";
+import { useMainSceneStore } from "../../../../store";
 import { isNodeVisible } from "../../../../core/nodeSelector";
 import { NodesProps } from "../Site";
 
 const ActiveLevelNodes = (props: NodesProps) => {
-  const activeNodeState = useNodeStore((state) => state.activeNodeState);
+  const activeNodeId = useMainSceneStore((state) => state.activeNode.id);
 
   const activeLevelNodes = useMemo(
     () => props.siteData[props.activeLevel as keyof typeof props.siteData],
     [props]
   );
 
+  useEffect(() => {
+    console.log(activeNodeId);
+  }, [activeNodeId]);
+
   return (
     <>
       {Object.entries(activeLevelNodes).map((node: [string, any]) => {
-        if (isNodeVisible(node[0], props.gameProgress, props.currentSite)) {
+        if (isNodeVisible(node[1], props.gameProgress)) {
           return (
             <Node
               nodeName={node[1].node_name}
@@ -29,7 +33,7 @@ const ActiveLevelNodes = (props: NodesProps) => {
                   .rotation
               }
               key={node[1].node_name}
-              active={node[0] === activeNodeState.id}
+              active={node[0] === activeNodeId}
               level={node[0].substr(0, 2)}
             />
           );

@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
-import node_huds from "../../../resources/node_huds.json";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import { useMainSceneStore } from "../../../store";
-import { SiteType } from "../../../components/MainScene/SyncedComponents/Site";
+import { NodeDataType } from "../../../components/MainScene/SyncedComponents/Site";
 import { StateManagerProps } from "../EventManager";
+import { HUDType } from "../../../components/MainScene/SyncedComponents/HUD";
 
 const BigTextManager = (props: StateManagerProps) => {
   const setText = useMainSceneStore((state) => state.setBigText);
@@ -13,17 +13,12 @@ const BigTextManager = (props: StateManagerProps) => {
   const setXOffset = useMainSceneStore((state) => state.setBigTextXOffset);
   const setPos = useMainSceneStore((state) => state.setBigTextPos);
 
-  const siteData = useMainSceneStore(
-    useCallback((state) => (state.activeSite === "a" ? site_a : site_b), [])
-  );
-
   const animateYellowTextWithMove = useCallback(
     (
       posXOffset: number,
       posYOffset: number,
-      newActiveHudId: string,
-      newActiveNodeId: string,
-      newLevel: string,
+      hud: HUDType,
+      node: NodeDataType | "UNKNOWN",
       delay: number
     ) => {
       // animate the letters to match that of site's
@@ -40,12 +35,9 @@ const BigTextManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         // animate it to new pos x/y
-        setPos(node_huds[newActiveHudId as keyof typeof node_huds].big_text);
+        setPos(hud.big_text);
         // set new text according to the node name
-        const targetText =
-          newActiveNodeId === "UNKNOWN"
-            ? "Unknown"
-            : (siteData as SiteType)[newLevel][newActiveNodeId].node_name;
+        const targetText = node === "UNKNOWN" ? "Unknown" : node.node_name;
 
         setText(targetText);
       }, 3000);
@@ -55,22 +47,22 @@ const BigTextManager = (props: StateManagerProps) => {
         setXOffset(0);
       }, 3900);
     },
-    [setPos, setText, setXOffset, siteData]
+    [setPos, setText, setXOffset]
   );
 
   const animateYellowTextWithoutMove = useCallback(
-    (newActiveHudId: string, newActiveNodeId: string, level: string) => {
+    (hud: HUDType, node: NodeDataType) => {
       // make current hud big text shrink
       setXOffset(-1);
 
       setTimeout(() => {
         // animate it to new pos x/y
-        setPos(node_huds[newActiveHudId as keyof typeof node_huds].big_text);
+        setPos(hud.big_text);
       }, 400);
 
       setTimeout(() => {
         // set new text according to the node name
-        setText((siteData as SiteType)[level][newActiveNodeId].node_name);
+        setText(node.node_name);
       }, 1000);
 
       setTimeout(() => {
@@ -78,7 +70,7 @@ const BigTextManager = (props: StateManagerProps) => {
         setXOffset(0);
       }, 1200);
     },
-    [setPos, setText, setXOffset, siteData]
+    [setPos, setText, setXOffset]
   );
 
   const initializeLevelSelection = useCallback(() => {
@@ -99,36 +91,33 @@ const BigTextManager = (props: StateManagerProps) => {
   }, [setColor, setPos, setText, setXOffset]);
 
   const levelSelectionBack = useCallback(
-    (activeNodeId: string, activeHudId: string, level: string) => {
+    (node: NodeDataType, hud: HUDType) => {
       setXOffset(-1);
 
       setTimeout(() => {
-        setPos(node_huds[activeHudId as keyof typeof node_huds].big_text);
+        setPos(hud.big_text);
       }, 400);
 
       setTimeout(() => {
         setColor("yellow");
-        setText((siteData as SiteType)[level][activeNodeId].node_name);
+        setText(node.node_name);
       }, 1000);
 
       setTimeout(() => {
         setXOffset(0);
       }, 1200);
     },
-    [setColor, setPos, setText, setXOffset, siteData]
+    [setColor, setPos, setText, setXOffset]
   );
 
   const toggleVisibleAfterLevelSelect = useCallback(
-    (activeNodeId: string, activeHudId: string, level: string) => {
+    (node: NodeDataType | "UNKNOWN", hud: HUDType) => {
       setVisible(false);
 
       setTimeout(() => {
-        setPos(node_huds[activeHudId as keyof typeof node_huds].big_text[0]);
+        setPos(hud.big_text[0]);
         setColor("yellow");
-        const targetText =
-          activeNodeId === "UNKNOWN"
-            ? "Unknown"
-            : (siteData as SiteType)[level][activeNodeId].node_name;
+        const targetText = node === "UNKNOWN" ? "Unknown" : node.node_name;
 
         setText(targetText);
       }, 400);
@@ -137,82 +126,46 @@ const BigTextManager = (props: StateManagerProps) => {
         setVisible(true);
       }, 3900);
     },
-    [setColor, setPos, setText, setVisible, siteData]
+    [setColor, setPos, setText, setVisible]
   );
 
   const dispatchObject = useCallback(
     (eventState: {
       event: string;
-      activeHudId: string;
-      activeNodeId: string;
+      hud: HUDType;
+      node: NodeDataType;
       level: string;
     }) => {
       switch (eventState.event) {
         case "site_up":
           return {
             action: animateYellowTextWithMove,
-            value: [
-              0,
-              -1.5,
-              eventState.activeHudId,
-              eventState.activeNodeId,
-              eventState.level,
-              1300,
-            ],
+            value: [0, -1.5, eventState.hud, eventState.node, 1300],
           };
         case "site_down":
           return {
             action: animateYellowTextWithMove,
-            value: [
-              0,
-              1.5,
-              eventState.activeHudId,
-              eventState.activeNodeId,
-              eventState.level,
-              1300,
-            ],
+            value: [0, 1.5, eventState.hud, eventState.node, 1300],
           };
         case "site_left":
           return {
             action: animateYellowTextWithMove,
-            value: [
-              Math.PI / 4,
-              0,
-              eventState.activeHudId,
-              eventState.activeNodeId,
-              eventState.level,
-              1100,
-            ],
+            value: [Math.PI / 4, 0, eventState.hud, eventState.node, 1100],
           };
         case "site_right":
           return {
             action: animateYellowTextWithMove,
-            value: [
-              -Math.PI / 4,
-              0,
-              eventState.activeHudId,
-              eventState.activeNodeId,
-              eventState.level,
-              1100,
-            ],
+            value: [-Math.PI / 4, 0, eventState.hud, eventState.node, 1100],
           };
         case "change_node":
           return {
             action: animateYellowTextWithoutMove,
-            value: [
-              eventState.activeHudId,
-              eventState.activeNodeId,
-              eventState.level,
-            ],
+            value: [eventState.hud, eventState.node],
           };
         case "level_selection_back":
           return {
             action: levelSelectionBack,
-            value: [
-              eventState.activeNodeId,
-              eventState.activeHudId,
-              eventState.level,
-            ],
+            value: [eventState.node, eventState.hud],
           };
         case "toggle_level_selection":
           return {
@@ -222,11 +175,7 @@ const BigTextManager = (props: StateManagerProps) => {
         case "select_level_down":
           return {
             action: toggleVisibleAfterLevelSelect,
-            value: [
-              eventState.activeNodeId,
-              eventState.activeHudId,
-              eventState.level,
-            ],
+            value: [eventState.node, eventState.hud],
           };
       }
     },

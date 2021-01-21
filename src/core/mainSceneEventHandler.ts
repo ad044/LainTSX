@@ -1,7 +1,4 @@
-import site_a from "../resources/site_a.json";
-import site_b from "../resources/site_b.json";
-import nodeSelector, { getNodeHudId, getNodeId } from "./nodeSelector";
-import { SiteType } from "../components/MainScene/SyncedComponents/Site";
+import nodeSelector, { getNode, getNodeHud } from "./nodeSelector";
 
 const handleMainSceneEvent = (gameContext: any) => {
   let event;
@@ -17,8 +14,8 @@ const handleMainSceneEvent = (gameContext: any) => {
   const siteASaveState = gameContext.siteASaveState;
   const siteBSaveState = gameContext.siteBSaveState;
 
-  let activeNodeId = gameContext.activeNodeId;
-  let activeHudId;
+  let activeNode = gameContext.activeNode;
+  let activeHud;
   let nodeMatrixIndices = gameContext.nodeMatrixIndices;
   let level = parseInt(gameContext.activeLevel);
   let siteRotY = gameContext.siteTransformState.rotY;
@@ -34,7 +31,7 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "UP":
         selectedNodeData = nodeSelector({
           action: `site_${keyPress.toLowerCase()}`,
-          activeId: activeNodeId,
+          activeId: activeNode,
           nodeMatrixIndices: nodeMatrixIndices,
           level: level,
           siteRotY: siteRotY,
@@ -45,12 +42,12 @@ const handleMainSceneEvent = (gameContext: any) => {
 
         if (selectedNodeData) {
           event = selectedNodeData.event;
-          activeNodeId = selectedNodeData.newActiveNodeId;
+          activeNode = selectedNodeData.node;
           nodeMatrixIndices = selectedNodeData.newNodeMatrixIndices;
           siteRotY = selectedNodeData.newSiteRotY;
           sitePosY = selectedNodeData.newSitePosY;
           level = selectedNodeData.newLevel;
-          activeHudId = selectedNodeData.newActiveHudId;
+          activeHud = selectedNodeData.newActiveHud;
         }
 
         break;
@@ -58,14 +55,9 @@ const handleMainSceneEvent = (gameContext: any) => {
         // in this case we have to check the type of the blue orb
         // and dispatch an action depending on that, so we have to precalculate the
         // new active blue orb here.
-        activeNodeId = getNodeId(level, nodeMatrixIndices);
+        activeNode = getNode(level, nodeMatrixIndices, currentSite);
 
-        const siteData = currentSite === "a" ? site_a : site_b;
-
-        const nodeData = (siteData as SiteType)[gameContext.activeLevel][
-          activeNodeId
-        ];
-        const nodeType = nodeData.type;
+        const nodeType = activeNode.type;
 
         const eventAnimation = Math.random() < 0.4 ? "rip_node" : "throw_node";
 
@@ -79,7 +71,7 @@ const handleMainSceneEvent = (gameContext: any) => {
             scene = "media";
             break;
           case 6:
-            if (nodeData.node_name.substr(0, 3) === "TaK") {
+            if (activeNode.node_name.substr(0, 3) === "TaK") {
               event = `${eventAnimation}_tak`;
               scene = "tak";
             } else {
@@ -112,8 +104,8 @@ const handleMainSceneEvent = (gameContext: any) => {
       siteRotY: siteRotY,
       level: level.toString().padStart(2, "0"),
       scene: scene,
-      activeNodeId: activeNodeId,
-      activeHudId: activeHudId,
+      node: activeNode,
+      hud: activeHud,
     };
   } else if (subscene === "level_selection") {
     switch (keyPress) {
@@ -142,14 +134,13 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "X":
         return {
           event: "level_selection_back",
-          activeNodeId: getNodeId(level, nodeMatrixIndices),
-          activeHudId: getNodeHudId(nodeMatrixIndices),
-          level: level.toString().padStart(2, "0"),
+          node: getNode(level, nodeMatrixIndices, currentSite),
+          hud: getNodeHud(nodeMatrixIndices),
         };
       case "CIRCLE":
         const selectedNodeData = nodeSelector({
           action: "select_level",
-          activeId: activeNodeId,
+          activeId: activeNode,
           nodeMatrixIndices: nodeMatrixIndices,
           level: selectedLevel,
           siteRotY: siteRotY,
@@ -165,8 +156,8 @@ const handleMainSceneEvent = (gameContext: any) => {
           return {
             event: event,
             level: selectedLevel.toString().padStart(2, "0"),
-            activeNodeId: selectedNodeData.newActiveNodeId,
-            activeHudId: selectedNodeData.newActiveHudId,
+            activeNodeId: selectedNodeData.node,
+            activeHud: selectedNodeData.newActiveHud,
             nodeMatrixIndices: selectedNodeData.newNodeMatrixIndices,
             sitePosY: -selectedNodeData.newSitePosY,
           };
@@ -191,9 +182,9 @@ const handleMainSceneEvent = (gameContext: any) => {
           event: `pause_${activePauseComponent}_select`,
           currentSitePosY: sitePosY,
           currentSiteRotY: siteRotY,
-          currentNodeId: activeNodeId,
+          currentNodeId: activeNode,
           currentNodeMatrixIndices: nodeMatrixIndices,
-          currentHudId: getNodeHudId(nodeMatrixIndices),
+          currentHud: getNodeHud(nodeMatrixIndices),
           currentLevel: level.toString().padStart(2, "0"),
           site: currentSite === "a" ? "b" : "a",
         };

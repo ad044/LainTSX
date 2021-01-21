@@ -1,21 +1,21 @@
 import React from "react";
-import { useNodeStore } from "../../../../store";
+import { useMainSceneStore } from "../../../../store";
 import NodeExplosion from "./NodeAnimations/NodeExplosion";
 import NodeRip from "./NodeAnimations/NodeRip";
 
 const NodeAnimations = () => {
-  const nodeShrinking = useNodeStore(
+  const nodeShrinking = useMainSceneStore(
     (state) => state.activeNodeState.shrinking
   );
 
-  const nodeExploding = useNodeStore(
+  const nodeExploding = useMainSceneStore(
     (state) => state.activeNodeState.exploding
   );
 
   return (
     <>
-      {nodeExploding ? <NodeExplosion /> : <></>}
-      {nodeShrinking ? <NodeRip /> : <></>}
+      {nodeExploding && <NodeExplosion />}
+      {nodeShrinking && <NodeRip />}
     </>
   );
 };

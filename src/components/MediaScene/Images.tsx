@@ -1,24 +1,22 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useIdleStore,
-  useLevelStore,
+  useMainSceneStore,
   useMediaStore,
-  useNodeStore,
   useSceneStore,
   useSiteStore,
 } from "../../store";
 import { a, useSpring } from "@react-spring/three";
-import { LevelType, SiteType } from "../MainScene/SyncedComponents/Site";
-import site_a from "../../resources/site_a.json";
-import site_b from "../../resources/site_b.json";
 import dummy from "../../static/sprite/dummy.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 
 const Images = () => {
   const idleNodeImages = useIdleStore((state) => state.images);
+  const nodeImages = useMainSceneStore(
+    (state) => state.activeNodeState.image_table_indices
+  );
 
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
   const currentScene = useSceneStore((state) => state.currentScene);
 
   const [imageScaleY, setImageScaleY] = useState(3.75);
@@ -26,8 +24,6 @@ const Images = () => {
   const [activeImage, setActiveImage] = useState<THREE.Texture>();
 
   const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = currentSite === "a" ? site_a : site_b;
 
   const dummyTex = useLoader(THREE.TextureLoader, dummy);
 
@@ -40,17 +36,10 @@ const Images = () => {
     config: { duration: 300 },
   });
 
-  const activeLevel = useLevelStore((state) => state.activeLevel);
-  const activeLevelData: LevelType = useMemo(
-    () => siteData[activeLevel as keyof typeof siteData],
-    [activeLevel, siteData]
-  );
-
   useEffect(() => {
     let images;
     if (currentScene === "media" || currentScene === "tak") {
-      images = (siteData as SiteType)[activeLevel][activeNodeId]
-        .image_table_indices;
+      images = nodeImages;
     } else if (currentScene === "idle_media") {
       images = idleNodeImages;
     }
@@ -77,15 +66,7 @@ const Images = () => {
         }
       });
     }
-  }, [
-    activeLevel,
-    activeLevelData,
-    activeNodeId,
-    currentScene,
-    currentSite,
-    idleNodeImages,
-    siteData,
-  ]);
+  }, [currentScene, currentSite, idleNodeImages, nodeImages]);
 
   useEffect(() => {
     if (mediaPercentageElapsed === 0 && sceneImages[0]) {

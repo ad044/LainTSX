@@ -12,7 +12,6 @@ import {
   useMainSceneStore,
   useMediaStore,
   useMediaWordStore,
-  useNodeStore,
   usePauseStore,
   useSceneStore,
   useSiteStore,
@@ -62,8 +61,8 @@ const EventManager = () => {
 
   // main scene
   const currentSite = useSiteStore((state) => state.currentSite);
-  const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
-  const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
+  // const activeNodeId = useNodeStore((state) => state.activeNodeState.id);
+  // const nodeMatrixIndices = useNodeStore((state) => state.nodeMatrixIndices);
   const siteTransformState = useSiteStore((state) => state.transformState);
   const activeLevel = useLevelStore((state) => state.activeLevel);
   const mainSubscene = useMainSceneStore((state) => state.subscene);
@@ -74,7 +73,7 @@ const EventManager = () => {
       pauseMatrixIdx,
     ])
   );
-  const gameProgress = useNodeStore((state) => state.gameProgress);
+  // const gameProgress = useNodeStore((state) => state.gameProgress);
 
   // media scene
   const mediaComponentMatrixIndices = useMediaStore(
@@ -199,13 +198,13 @@ const EventManager = () => {
               mainSubscene: mainSubscene,
               keyPress: keyPress,
               siteTransformState: siteTransformState,
-              activeNodeId: activeNodeId,
-              nodeMatrixIndices: nodeMatrixIndices,
+              // activeNodeId: activeNodeId,
+              // nodeMatrixIndices: nodeMatrixIndices,
               activeLevel: activeLevel,
               selectedLevel: selectedLevel,
               pauseMatrixIdx: pauseMatrixIdx,
               activePauseComponent: activePauseComponent,
-              gameProgress: gameProgress,
+              // gameProgress: gameProgress,
               currentSite: currentSite,
             });
             break;
@@ -246,13 +245,10 @@ const EventManager = () => {
       currentScene,
       mainSubscene,
       siteTransformState,
-      activeNodeId,
-      nodeMatrixIndices,
       activeLevel,
       selectedLevel,
       pauseMatrixIdx,
       activePauseComponent,
-      gameProgress,
       currentSite,
       activeMediaComponent,
       wordPosStateIdx,

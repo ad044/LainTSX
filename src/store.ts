@@ -5,6 +5,7 @@ import site_a from "./resources/site_a.json";
 import site_b from "./resources/site_b.json";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
+import { HUDType } from "./components/MainScene/SyncedComponents/HUD";
 
 type EndState = {
   mediaPlayedCount: number;
@@ -84,15 +85,6 @@ type NodeState = {
 type LainState = {
   lainMoveState: string;
   setLainMoveState: (to: string) => void;
-};
-
-type StarfieldState = {
-  introStarfieldVisible: boolean;
-  mainStarfieldVisible: boolean;
-  mainStarfieldBoostVal: number;
-  setIntroStarfieldVisible: (to: boolean) => void;
-  setMainStarfieldVisible: (to: boolean) => void;
-  setMainStarfieldBoostVal: (to: number) => void;
 };
 
 type SiteState = {
@@ -241,64 +233,12 @@ export const useMediaBigTextStore = create(
   )
 );
 
-export const useHudStore = create<HUDState>((set) => ({
-  id: "fg_hud_1",
-  active: 1,
-  setId: (to) => set(() => ({ id: to })),
-  toggleActive: () => set((state) => ({ active: Number(!state.active) })),
-}));
-
-export const useNodeStore = create(
-  combine(
-    {
-      activeNodeState: {
-        id: "0422",
-        posX: 0,
-        posZ: 0,
-        rotZ: 0,
-        posY: 0,
-        interactedWith: false,
-        exploding: false,
-        shrinking: false,
-        visible: true,
-      },
-      nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
-      gameProgress: game_progress,
-    } as NodeState,
-    (set) => ({
-      setActiveNodeState: (to: number | boolean | string, at: string) =>
-        set((state) => ({
-          activeNodeState: { ...state.activeNodeState, [at]: to },
-        })),
-      setNodeMatrixIndices: (to: {
-        matrixIdx: number;
-        rowIdx: number;
-        colIdx: number;
-      }) => set(() => ({ nodeMatrixIndices: to })),
-    })
-  )
-);
-
 export const useIdleStore = create<IdleState>((set) => ({
   media: "INS01.STR",
   // this may be undefined depending on whether or not the media is audio or not
   images: undefined,
   setMedia: (to) => set(() => ({ media: to })),
   setImages: (to) => set(() => ({ images: to })),
-}));
-
-export const useLainStore = create<LainState>((set) => ({
-  lainMoveState: "standing",
-  setLainMoveState: (to) => set(() => ({ lainMoveState: to })),
-}));
-
-export const useStarfieldStore = create<StarfieldState>((set) => ({
-  introStarfieldVisible: false,
-  mainStarfieldVisible: true,
-  mainStarfieldBoostVal: 0.2,
-  setIntroStarfieldVisible: (to) => set(() => ({ introStarfieldVisible: to })),
-  setMainStarfieldVisible: (to) => set(() => ({ mainStarfieldVisible: to })),
-  setMainStarfieldBoostVal: (to) => set(() => ({ mainStarfieldBoostVal: to })),
 }));
 
 export const useSiteStore = create(
@@ -468,11 +408,56 @@ export const useMainSceneStore = create(
       bigTextXOffset: 0,
 
       // hud
-      hudId: "fg_hud_1",
+      hud: {
+        mirrored: 0,
+        long: {
+          position: [-0.45, 0.15, -8.6],
+          initial_position: [-1.45, 0.15, -8.6],
+        },
+        boring: {
+          position: [0.48, 0.174, -8.6],
+          initial_position: [1.48, 0.174, -8.6],
+        },
+        big: {
+          position: [0.36, 0.13, -8.6],
+          initial_position: [1.36, 0.13, -8.6],
+        },
+        big_text: [-0.35, 0.23, -8.7],
+        medium_text: {
+          position: [0.18, 0.16, -8.7],
+          initial_position: [1.18, 0.16, -8.7],
+        },
+      },
       hudActive: 1,
 
       // nodes
-      activeNodeId: "0422",
+      activeNode: {
+        image_table_indices: {
+          "1": "93",
+          "2": "356",
+          "3": "562",
+        },
+        media_file: "LAIN08.XA[26]",
+        node_name: "Tda028",
+        protocol_lines: {
+          "1": "TOUKO's_DIARY",
+          "2": "authorized_il",
+          "3": "decoded file:t",
+          "4": "ftp/tl.S_server",
+        },
+        required_final_video_viewcount: 0,
+        site: "A",
+        title: "TOUKO's DIARY",
+        triggers_final_video: 0,
+        type: 2,
+        unlocked_by: "",
+        upgrade_requirement: 0,
+        words: {
+          "1": "eye",
+          "2": "quiet",
+          "3": "hallucination",
+        },
+      },
       activeNodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
       activeNodePos: [0, 0, 0],
       activeNodeRot: [0, 0, 0],
@@ -485,11 +470,6 @@ export const useMainSceneStore = create(
 
       // lain
       lainMoveState: "standing",
-
-      // starfield
-      mainStarfieldVisible: true,
-      introStarfieldVisible: false,
-      mainStarBoostVal: 0.2,
 
       // site
       activeSite: "a",
@@ -535,20 +515,20 @@ export const useMainSceneStore = create(
       setBigTextXOffset: (to: number) => set(() => ({ bigTextXOffset: to })),
 
       // hud setters
-      setHudId: (to: string) => set(() => ({ hudId: to })),
+      setHud: (to: HUDType) => set(() => ({ hud: to })),
       toggleHudActive: () =>
         set((state) => ({ hudActive: Number(!state.hudActive) })),
 
       // node setters
-      setActiveNodeId: (to: string) => set(() => ({ activeNodeId: to })),
-      setActiveNodeMatrixIndices: (to: {
+      setNode: (to: string) => set(() => ({ activeNode: to })),
+      setNodeMatrixIndices: (to: {
         matrixIdx: number;
         rowIdx: number;
         colIdx: number;
       }) => set(() => ({ activeNodeMatrixIndices: to })),
-      setActiveNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
-      setActiveNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
-      setActiveNodeState: (
+      setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
+      setNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
+      setNodeState: (
         to: boolean,
         at: "interactedWith" | "visible" | "exploding" | "shrinking"
       ) =>
@@ -558,14 +538,6 @@ export const useMainSceneStore = create(
 
       // lain setters
       setLainMoveState: (to: string) => set(() => ({ lainMoveState: to })),
-
-      // starfield setters
-      setMainStarfieldVisible: (to: boolean) =>
-        set(() => ({ mainStarfieldVisible: to })),
-      setMainStarBoostVal: (to: number) =>
-        set(() => ({ mainStarBoostVal: to })),
-      setIntroStarfieldVisible: (to: boolean) =>
-        set(() => ({ introStarfieldVisible: to })),
 
       // site setters
       setActiveSite: (to: "a" | "b") => set(() => ({ activeSite: to })),
