@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import middleRingTexture from "../../../../static/sprite/middle_ring_tex.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useMiddleRingStore } from "../../../../store";
+import { useMainSceneStore } from "../../../../store";
 
 type MiddleRingPartProps = {
   position: number[];
@@ -11,10 +11,6 @@ type MiddleRingPartProps = {
 };
 
 const MiddleRingPart = (props: MiddleRingPartProps) => {
-  const partSeparatorVal = useMiddleRingStore(
-    (state) => state.partSeparatorVal
-  );
-
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
   const middleRingPartTex = useMemo(() => {
@@ -22,16 +18,28 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
     return middleRingTex;
   }, [middleRingTex]);
 
-  const partPosState = useSpring({
-    posX: props.position[0] / partSeparatorVal,
-    posZ: props.position[2] / partSeparatorVal,
+  const [{ posX, posZ }, set] = useSpring(() => ({
+    posX:
+      props.position[0] /
+      useMainSceneStore.getState().middleRingPartSeparatorVal,
+    posZ:
+      props.position[2] /
+      useMainSceneStore.getState().middleRingPartSeparatorVal,
+
     config: { duration: 600 },
-  });
+  }));
+
+  useEffect(() => {
+    useMainSceneStore.subscribe(set, (state) => ({
+      posX: props.position[0] / state.middleRingPartSeparatorVal,
+      posZ: props.position[2] / state.middleRingPartSeparatorVal,
+    }));
+  }, [props.position, set]);
 
   return (
     <a.group
-      position-x={partPosState.posX}
-      position-z={partPosState.posZ}
+      position-x={posX}
+      position-z={posZ}
       position-y={props.position[1]}
       rotation={props.rotation as [number, number, number]}
     >

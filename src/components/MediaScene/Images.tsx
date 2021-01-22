@@ -4,7 +4,6 @@ import {
   useMainSceneStore,
   useMediaStore,
   useSceneStore,
-  useSiteStore,
 } from "../../store";
 import { a, useSpring } from "@react-spring/three";
 import dummy from "../../static/sprite/dummy.png";
@@ -14,7 +13,7 @@ import { useLoader } from "react-three-fiber";
 const Images = () => {
   const idleNodeImages = useIdleStore((state) => state.images);
   const nodeImages = useMainSceneStore(
-    (state) => state.activeNodeState.image_table_indices
+    (state) => state.activeNode.image_table_indices
   );
 
   const currentScene = useSceneStore((state) => state.currentScene);
@@ -23,7 +22,7 @@ const Images = () => {
   const [sceneImages, setSceneImages] = useState([] as any);
   const [activeImage, setActiveImage] = useState<THREE.Texture>();
 
-  const currentSite = useSiteStore((state) => state.currentSite);
+  const currentSite = useMainSceneStore((state) => state.activeSite);
 
   const dummyTex = useLoader(THREE.TextureLoader, dummy);
 

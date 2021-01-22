@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   useLevelSelectionStore,
-  useLevelStore,
   useMainSceneStore,
   usePauseStore,
-  useSiteStore,
 } from "../../store";
 import handleMainSceneEvent from "../mainSceneEventHandler";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
@@ -30,11 +28,14 @@ type MainSceneEventManagerProps = {
 
 const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   // all the possible context needed to calculate new state
-  const currentSite = useSiteStore((state) => state.currentSite);
-  const activeNodeId = useMainSceneStore((state) => state.activeNodeState.id);
-  const nodeMatrixIndices = useMainSceneStore((state) => state.activeNodeMatrixIndices);
-  const siteTransformState = useSiteStore((state) => state.transformState);
-  const activeLevel = useLevelStore((state) => state.activeLevel);
+  const currentSite = useMainSceneStore((state) => state.activeSite);
+  const activeNodeId = useMainSceneStore((state) => state.activeNode.id);
+  const nodeMatrixIndices = useMainSceneStore(
+    (state) => state.activeNodeMatrixIndices
+  );
+  const siteRotY = useMainSceneStore((state) => state.siteRot[1]);
+  const sitePosY = useMainSceneStore((state) => state.sitePos[1]);
+  const activeLevel = useMainSceneStore((state) => state.activeLevel);
   const mainSubscene = useMainSceneStore((state) => state.subscene);
   const selectedLevel = useLevelSelectionStore((state) => state.selectedLevel);
   const pauseMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
@@ -102,7 +103,8 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
         const event = handleMainSceneEvent({
           mainSubscene: mainSubscene,
           keyPress: keyPress,
-          siteTransformState: siteTransformState,
+          sitePosY: sitePosY,
+          siteRotY: siteRotY,
           activeNodeId: activeNodeId,
           nodeMatrixIndices: nodeMatrixIndices,
           activeLevel: activeLevel,
@@ -119,7 +121,8 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
     [
       props.loaded,
       mainSubscene,
-      siteTransformState,
+      sitePosY,
+      siteRotY,
       activeNodeId,
       nodeMatrixIndices,
       activeLevel,

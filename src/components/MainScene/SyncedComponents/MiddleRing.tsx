@@ -3,31 +3,36 @@ import { useFrame, useLoader } from "react-three-fiber";
 import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useMiddleRingStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 import MiddleRingPart from "./MiddleRing/MiddleRingPart";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-  const transformState = useMiddleRingStore((state) => state.transformState);
-  const rotating = useMiddleRingStore((state) => state.isRotating);
-  const animDuration = useMiddleRingStore((state) => state.animDuration);
-  const mainRingVisible = useMiddleRingStore((state) => state.mainRingVisible);
+  const pos = useMainSceneStore((state) => state.middleRingPos);
+  const rot = useMainSceneStore((state) => state.middleRingRot);
+  const wobbleAmp = useMainSceneStore((state) => state.middleRingWobbleAmp);
+  const noiseAmp = useMainSceneStore((state) => state.middleRingNoiseAmp);
+
+  const rotating = useMainSceneStore((state) => state.middleRingRotating);
+  const mainRingVisible = useMainSceneStore(
+    (state) => !state.fakeMiddleRingVisible
+  );
 
   const wobbleState = useSpring({
-    wobbleStrength: transformState.wobbleStrength,
-    noiseStrength: transformState.noiseStrength,
+    wobbleStrength: wobbleAmp,
+    noiseStrength: noiseAmp,
     config: { duration: 200 },
   });
 
   const posState = useSpring({
-    posY: transformState.posY,
-    config: { duration: animDuration },
+    posY: pos[1],
+    config: { duration: 600 },
   });
 
   const rotState = useSpring({
-    rotX: transformState.rotX,
-    rotZ: transformState.rotZ,
+    rotX: rot[0],
+    rotZ: rot[2],
     config: { duration: 1000 },
   });
 
@@ -229,7 +234,7 @@ const MiddleRing = () => {
         />
       </a.mesh>
 
-      {!mainRingVisible ? (
+      {!mainRingVisible && (
         <group
           rotation={[0, 0.9, 0]}
           ref={middleRingPartRef}
@@ -246,8 +251,6 @@ const MiddleRing = () => {
             );
           })}
         </group>
-      ) : (
-        <></>
       )}
     </a.group>
   );

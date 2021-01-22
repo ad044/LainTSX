@@ -6,6 +6,7 @@ import site_b from "./resources/site_b.json";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 import { HUDType } from "./components/MainScene/SyncedComponents/HUD";
+import { NodeDataType } from "./components/MainScene/SyncedComponents/Site";
 
 type EndState = {
   mediaPlayedCount: number;
@@ -57,62 +58,6 @@ type LevelSelectionState = {
 type SceneState = {
   currentScene: string;
   setScene: (to: string) => void;
-};
-
-type HUDState = {
-  id: string;
-  active: number;
-  setId: (to: string) => void;
-  toggleActive: () => void;
-};
-
-type NodeState = {
-  activeNodeState: {
-    id: string;
-    posX: number;
-    posZ: number;
-    posY: number;
-    rotZ: number;
-    interactedWith: boolean;
-    exploding: boolean;
-    shrinking: boolean;
-    visible: boolean;
-  };
-  nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
-  gameProgress: typeof game_progress;
-};
-
-type LainState = {
-  lainMoveState: string;
-  setLainMoveState: (to: string) => void;
-};
-
-type SiteState = {
-  currentSite: "a" | "b";
-  transformState: {
-    posY: number;
-    rotY: number;
-    rotX: number;
-  };
-};
-
-type LevelState = {
-  activeLevel: string;
-  setActiveLevel: (to: string) => void;
-};
-
-type MiddleRingState = {
-  transformState: {
-    wobbleStrength: number;
-    noiseStrength: number;
-    posY: number;
-    rotX: number;
-    rotZ: number;
-  };
-  isRotating: boolean;
-  animDuration: number;
-  mainRingVisible: boolean;
-  partSeparatorVal: number;
 };
 
 type MediaWordState = {
@@ -197,13 +142,6 @@ type SSknState = {
   toggleLoading: () => void;
 };
 
-type MainSceneState = {
-  intro: boolean;
-  subscene: string;
-  setSubscene: (to: string) => void;
-  setIntro: (to: boolean) => void;
-};
-
 export type MediaBigTextState = {
   text: string;
   transformState: {
@@ -239,61 +177,6 @@ export const useIdleStore = create<IdleState>((set) => ({
   images: undefined,
   setMedia: (to) => set(() => ({ media: to })),
   setImages: (to) => set(() => ({ images: to })),
-}));
-
-export const useSiteStore = create(
-  combine(
-    {
-      currentSite: "a",
-      transformState: {
-        posY: 0,
-        rotY: 0,
-        rotX: 0,
-      },
-    } as SiteState,
-    (set) => ({
-      setTransformState: (to: number, at: string) =>
-        set((state) => ({
-          transformState: { ...state.transformState, [at]: to },
-        })),
-      setCurrentSite: (to: string) =>
-        set(() => ({ currentSite: to as "a" | "b" })),
-    })
-  )
-);
-
-export const useMiddleRingStore = create(
-  combine(
-    {
-      transformState: {
-        wobbleStrength: 0,
-        noiseStrength: 0,
-        posY: -0.11,
-        rotX: 0,
-        rotZ: 0,
-      },
-      partSeparatorVal: 1,
-      isRotating: true,
-      animDuration: 600,
-      mainRingVisible: true,
-    } as MiddleRingState,
-    (set) => ({
-      setTransformState: (to: number, at: string) =>
-        set((state) => ({
-          transformState: { ...state.transformState, [at]: to },
-        })),
-      setRotating: (to: boolean) => set(() => ({ isRotating: to })),
-      setAnimDuration: (to: number) => set(() => ({ animDuration: to })),
-      setMainRingVisible: (to: boolean) => set(() => ({ mainRingVisible: to })),
-      setPartSeparatorVal: (to: number) =>
-        set(() => ({ partSeparatorVal: to })),
-    })
-  )
-);
-
-export const useLevelStore = create<LevelState>((set) => ({
-  activeLevel: "04",
-  setActiveLevel: (to) => set(() => ({ activeLevel: to })),
 }));
 
 export const useMediaStore = create(
@@ -388,6 +271,68 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
     set(() => ({ activeLetterTextureOffset: to })),
 }));
 
+type MainSceneState = {
+  gameProgress: typeof game_progress;
+
+  subscene: string;
+
+  intro: boolean;
+
+  bigText: string;
+  bigTextVisible: boolean;
+  bigTextColor: "yellow" | "orange";
+  bigTextPos: number[];
+  bigTextXOffset: 0 | -1;
+
+  hud: HUDType;
+  hudActive: boolean;
+
+  activeNode: NodeDataType;
+
+  activeNodeMatrixIndices: {
+    matrixIdx: number;
+    rowIdx: number;
+    colIdx: number;
+  };
+  activeNodePos: number[];
+  activeNodeRot: number[];
+  activeNodeState: {
+    interactedWith: boolean;
+    exploding: boolean;
+    shrinking: boolean;
+    visible: boolean;
+  };
+
+  // lain
+  lainMoveState: string;
+
+  // site
+  activeSite: "a" | "b";
+  siteRot: number[];
+  sitePos: number[];
+
+  // middle ring
+  middleRingPos: number[];
+  middleRingRot: number[];
+  middleRingWobbleAmp: number;
+  middleRingNoiseAmp: number;
+  middleRingPartSeparatorVal: number;
+  middleRingRotating: boolean;
+  fakeMiddleRingVisible: boolean;
+
+  // level
+  activeLevel: string;
+
+  // level selection
+  selectedLevel: number;
+  levelSelectionToggled: boolean;
+
+  // pause
+  pauseComponentMatrix: [string, string, string, string, string];
+  pauseComponentMatrixIdx: number;
+  pauseExitAnimation: boolean;
+};
+
 export const useMainSceneStore = create(
   combine(
     {
@@ -428,7 +373,7 @@ export const useMainSceneStore = create(
           initial_position: [1.18, 0.16, -8.7],
         },
       },
-      hudActive: 1,
+      hudActive: true,
 
       // nodes
       activeNode: {
@@ -482,7 +427,6 @@ export const useMainSceneStore = create(
       middleRingWobbleAmp: 0,
       middleRingNoiseAmp: 0,
       middleRingPartSeparatorVal: 1,
-      middleRingAnimDuration: 600,
       middleRingRotating: true,
       fakeMiddleRingVisible: false,
 
@@ -491,17 +435,16 @@ export const useMainSceneStore = create(
 
       // level selection
       selectedLevel: 4,
-      levelSelectionToggled: 0,
+      levelSelectionToggled: false,
 
       // pause
       pauseComponentMatrix: ["load", "about", "change", "save", "exit"],
       pauseComponentMatrixIdx: 2,
       pauseExitAnimation: false,
-    } as any,
+    } as MainSceneState,
     (set) => ({
       // subscene setters
-      setSubscene: (to: "pause" | "level_selection") =>
-        set(() => ({ subscene: to })),
+      setSubscene: (to: string) => set(() => ({ subscene: to })),
 
       // intro setters
       setIntro: (to: boolean) => set(() => ({ intro: to })),
@@ -512,15 +455,14 @@ export const useMainSceneStore = create(
       setBigTextColor: (to: "yellow" | "orange") =>
         set(() => ({ bigTextColor: to })),
       setBigTextPos: (to: number[]) => set(() => ({ bigTextPos: to })),
-      setBigTextXOffset: (to: number) => set(() => ({ bigTextXOffset: to })),
+      setBigTextXOffset: (to: 0 | -1) => set(() => ({ bigTextXOffset: to })),
 
       // hud setters
       setHud: (to: HUDType) => set(() => ({ hud: to })),
-      toggleHudActive: () =>
-        set((state) => ({ hudActive: Number(!state.hudActive) })),
+      toggleHudActive: () => set((state) => ({ hudActive: !state.hudActive })),
 
       // node setters
-      setNode: (to: string) => set(() => ({ activeNode: to })),
+      setNode: (to: NodeDataType) => set(() => ({ activeNode: to })),
       setNodeMatrixIndices: (to: {
         matrixIdx: number;
         rowIdx: number;
@@ -542,6 +484,12 @@ export const useMainSceneStore = create(
       // site setters
       setActiveSite: (to: "a" | "b") => set(() => ({ activeSite: to })),
       setSiteRot: (to: number[]) => set(() => ({ siteRot: to })),
+      setSiteRotX: (to: number) =>
+        set((prev) => {
+          const nextPos = [...prev.siteRot];
+          nextPos[0] = to;
+          return { siteRot: nextPos };
+        }),
       setSitePos: (to: number[]) => set(() => ({ sitePos: to })),
 
       // middle ring setters
@@ -565,7 +513,7 @@ export const useMainSceneStore = create(
       setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
       toggleLevelSelection: () =>
         set((state) => ({
-          levelSelectionToggled: Number(!state.levelSelectionToggled),
+          levelSelectionToggled: !state.levelSelectionToggled,
         })),
 
       // pause setters
@@ -699,3 +647,6 @@ export const useEndSceneStore = create<EndState>((set) => ({
     set((state) => ({ mediaPlayedCount: state.mediaPlayedCount + 1 })),
   resetMediaPlayedCount: () => set(() => ({ mediaPlayedCount: 0 })),
 }));
+
+export const getMainSceneContext = () =>
+  useMainSceneStore.getState().activeNode;

@@ -1,13 +1,25 @@
-import React, { useMemo, memo } from "react";
-import node_positions from "../../../../resources/node_positions.json";
+import React, { useMemo } from "react";
 import Node from "./Node";
+import node_positions from "../../../../resources/node_positions.json";
+import { useMainSceneStore } from "../../../../store";
 import { isNodeVisible } from "../../../../core/nodeSelector";
-import { NodesProps } from "../Site";
+import site_a from "../../../../resources/site_a.json";
+import site_b from "../../../../resources/site_b.json";
 
-const InactiveLevelNodes = memo((props: NodesProps) => {
+const InactiveLevelNodes = () => {
+  const gameProgress = useMainSceneStore((state) => state.gameProgress);
+
+  const currentSite = useMainSceneStore((state) => state.activeSite);
+
+  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
+    currentSite,
+  ]);
+
+  const activeLevel = useMainSceneStore((state) => state.activeLevel);
+
   const visibleNodes = useMemo(() => {
     const obj = {};
-    const activeLevelNr = parseInt(props.activeLevel);
+    const activeLevelNr = parseInt(activeLevel);
     const visibleLevels = [
       (activeLevelNr - 2).toString().padStart(2, "0"),
       (activeLevelNr - 1).toString().padStart(2, "0"),
@@ -16,16 +28,16 @@ const InactiveLevelNodes = memo((props: NodesProps) => {
     ];
 
     visibleLevels.forEach((level) => {
-      Object.assign(obj, props.siteData[level as keyof typeof props.siteData]);
+      Object.assign(obj, siteData[level as keyof typeof siteData]);
     });
 
     return obj;
-  }, [props]);
+  }, [activeLevel, siteData]);
 
   return (
     <>
       {Object.entries(visibleNodes).map((node: [string, any]) => {
-        if (isNodeVisible(node[1], props.gameProgress)) {
+        if (isNodeVisible(node[1], gameProgress)) {
           return (
             <Node
               nodeName={node[1].node_name}
@@ -45,6 +57,6 @@ const InactiveLevelNodes = memo((props: NodesProps) => {
       })}
     </>
   );
-});
+};
 
 export default InactiveLevelNodes;

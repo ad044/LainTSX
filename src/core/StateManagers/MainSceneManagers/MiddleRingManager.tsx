@@ -1,17 +1,19 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { useMiddleRingStore } from "../../../store";
+import { useCallback, useEffect } from "react";
+import { useMainSceneStore } from "../../../store";
 
 const MiddleRingManager = (props: any) => {
-  const setTransformState = useMiddleRingStore(
-    (state) => state.setTransformState
+  const setRot = useMainSceneStore((state) => state.setMiddleRingRot);
+  const setPos = useMainSceneStore((state) => state.setMiddleRingPos);
+  const setRotating = useMainSceneStore((state) => state.setMiddleRingRotating);
+  const setNoiseAmp = useMainSceneStore((state) => state.setMiddleRingNoiseAmp);
+  const setWobbleAmp = useMainSceneStore(
+    (state) => state.setMiddleRingWobbleAmp
   );
-  const setAnimDuration = useMiddleRingStore((state) => state.setAnimDuration);
-  const setRotating = useMiddleRingStore((state) => state.setRotating);
-  const setMainRingVisible = useMiddleRingStore(
-    (state) => state.setMainRingVisible
+  const setFakeRingVisible = useMainSceneStore(
+    (state) => state.setFakeMiddleRingVisible
   );
-  const setPartSeparatorVal = useMiddleRingStore(
-    (state) => state.setPartSeparatorVal
+  const setPartSeparatorVal = useMainSceneStore(
+    (state) => state.setMiddleRingPartSeparatorVal
   );
 
   const rotate = useCallback(
@@ -19,27 +21,24 @@ const MiddleRingManager = (props: any) => {
       const rotValues = direction === "right" ? [-0.07, 0.03] : [0.07, -0.03];
 
       setTimeout(() => {
-        setTransformState(rotValues[0], "rotZ");
+        setRot([0, 0, rotValues[0]]);
       }, 2300);
 
       setTimeout(() => {
-        setTransformState(rotValues[1], "rotZ");
+        setRot([0, 0, rotValues[1]]);
       }, 3500);
 
       setTimeout(() => {
-        setTransformState(0, "rotZ");
+        setRot([0, 0, 0]);
       }, 4500);
     },
-    [setTransformState]
+    [setRot]
   );
 
   const moveDown = useCallback(() => {
-    // set the anim duration value to match that of the site's
-    setAnimDuration(1200);
-
     // make noise appear again
     setTimeout(() => {
-      setTransformState(0.06, "noiseStrength");
+      setNoiseAmp(0.06);
     }, 800);
 
     // disable rotation of the ring
@@ -48,54 +47,50 @@ const MiddleRingManager = (props: any) => {
     }, 700);
 
     setTimeout(() => {
-      setTransformState(1.39, "posY");
+      setPos([0, 1.39, 0]);
     }, 1300);
 
     // set ring rotation on x axis to craete motion effect
     setTimeout(() => {
-      setTransformState(0.3, "rotX");
+      setRot([0.3, 0, 0]);
     }, 1500);
 
     setTimeout(() => {
-      setAnimDuration(600);
-    }, 2900);
-
-    setTimeout(() => {
-      setTransformState(-0.31, "posY");
+      setPos([0, -0.31, 0]);
     }, 3000);
 
     setTimeout(() => {
-      setTransformState(-0.11, "posY");
+      setPos([0, -0.11, 0]);
     }, 3150);
 
     // rotate it again, set ring noise to 0
     setTimeout(() => {
-      setTransformState(-0.1, "rotX");
-      setTransformState(0, "noiseStrength");
+      setRot([-0.1, 0, 0]);
+      setNoiseAmp(0);
     }, 3500);
 
     // rotate it back AGAIN (holy fuk psx game)
     setTimeout(() => {
-      setTransformState(0.05, "rotX");
+      setRot([0.05, 0, 0]);
     }, 4500);
 
     // reset value, set noise to 0
     setTimeout(() => {
-      setTransformState(0, "rotX");
+      setRot([0, 0, 0]);
       setRotating(true);
     }, 4800);
 
     // enable noise again in about 11-12 secs
     setTimeout(() => {
-      setTransformState(0.03, "noiseStrength");
+      setNoiseAmp(0.03);
     }, 11600);
-  }, [setAnimDuration, setRotating, setTransformState]);
+  }, [setNoiseAmp, setPos, setRot, setRotating]);
 
   const moveUp = useCallback(() => {
     // change noise to 0, make the ring bend downwards
     setTimeout(() => {
-      setTransformState(0, "noiseStrength");
-      setTransformState(0.2, "wobbleStrength");
+      setNoiseAmp(0);
+      setWobbleAmp(0.2);
     }, 300);
 
     // disable rotation of the ring
@@ -105,56 +100,47 @@ const MiddleRingManager = (props: any) => {
 
     // make the ring bend upwards
     setTimeout(() => {
-      setTransformState(-0.3, "wobbleStrength");
+      setWobbleAmp(-0.3);
       // the middle ring stays in place, therefore we animate it
       // in the same direction as the site, creating that illusion.
-
-      // set the anim duration value to match that of the site's
-      setAnimDuration(1200);
-      // animate it after
-      setTransformState(-1.39, "posY");
+      setPos([0, -1.39, 0]);
     }, 1300);
 
     // reset the ring bend, set the rotation to slightly curve
     // to replicate a motion effect (since its moving upwards)
     // and enable rotation again
     setTimeout(() => {
-      setTransformState(0, "wobbleStrength");
-      setTransformState(-0.2, "rotX");
+      setWobbleAmp(0);
+      setRot([-0.2, 0, 0]);
       setRotating(true);
     }, 1500);
 
-    // reset anim duration back to default
     setTimeout(() => {
-      setAnimDuration(600);
-    }, 2300);
-
-    setTimeout(() => {
-      setTransformState(0.09, "posY");
+      setPos([0, 0.09, 0]);
     }, 2900);
 
     // reset the rotation value to 0
     setTimeout(() => {
-      setTransformState(0, "rotX");
-      setTransformState(-0.11, "posY");
+      setRot([0, 0, 0]);
+      setPos([0, -0.11, 0]);
     }, 3150);
 
     // enable noise again in about 8~ secs
     setTimeout(() => {
-      setTransformState(0.03, "noiseStrength");
+      setNoiseAmp(0.03);
     }, 7800);
-  }, [setAnimDuration, setRotating, setTransformState]);
+  }, [setNoiseAmp, setPos, setRot, setRotating, setWobbleAmp]);
 
   const animatePause = useCallback(() => {
-    setTransformState(0.5, "posY");
+    setPos([0, 0.5, 0]);
     setTimeout(() => {
-      setMainRingVisible(false);
+      setFakeRingVisible(true);
     }, 600);
     setTimeout(() => {
       setPartSeparatorVal(0.9);
       // move the hidden (main) ring below, cuz when the pause exists it needs to jump back up
       // instead of reappearing
-      setTransformState(-2.5, "posY");
+      setPos([0, -2.5, 0]);
     }, 1100);
     setTimeout(() => {
       setPartSeparatorVal(1);
@@ -171,35 +157,29 @@ const MiddleRingManager = (props: any) => {
     }, 3100);
 
     setTimeout(() => {
-      setMainRingVisible(true);
+      setFakeRingVisible(false);
       setPartSeparatorVal(1);
     }, 3800);
-  }, [setMainRingVisible, setPartSeparatorVal, setTransformState]);
+  }, [setFakeRingVisible, setPartSeparatorVal, setPos]);
 
   const animateUnpause = useCallback(() => {
     setTimeout(() => {
       setTimeout(() => {
-        setTransformState(0, "wobbleStrength");
-        setTransformState(-0.4, "rotX");
+        setRot([-0.4, 0, 0]);
         setRotating(true);
       }, 500);
 
-      // reset anim duration back to default
       setTimeout(() => {
-        setAnimDuration(600);
-      }, 900);
-
-      setTimeout(() => {
-        setTransformState(0.13, "posY");
+        setPos([0, 0.13, 0]);
       }, 900);
 
       // reset the rotation value to 0
       setTimeout(() => {
-        setTransformState(0, "rotX");
-        setTransformState(-0.11, "posY");
+        setRot([0, 0, 0]);
+        setPos([0, -0.11, 0]);
       }, 1150);
     }, 1000);
-  }, [setAnimDuration, setRotating, setTransformState]);
+  }, [setPos, setRot, setRotating]);
 
   const dispatchObject = useCallback(
     (eventState: { event: string }) => {

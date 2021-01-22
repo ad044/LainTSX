@@ -12,7 +12,6 @@ import {
   useMainSceneStore,
   useMediaStore,
   useSceneStore,
-  useSiteStore,
 } from "../../store";
 import t from "../../static/webvtt/test.vtt";
 import endroll from "../../static/movie/ENDROLL1.STR[0].webm";
@@ -39,7 +38,7 @@ const MediaPlayer = () => {
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
 
-  const currentSite = useSiteStore((state) => state.currentSite);
+  const currentSite = useMainSceneStore((state) => state.activeSite);
 
   // end scene specific stuff
   const endMediaPlayedCount = useEndSceneStore(

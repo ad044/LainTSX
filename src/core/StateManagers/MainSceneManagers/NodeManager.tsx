@@ -5,6 +5,8 @@ import { NodeDataType } from "../../../components/MainScene/SyncedComponents/Sit
 
 const NodeManager = (props: StateManagerProps) => {
   const setActiveNode = useMainSceneStore((state) => state.setNode);
+  const setActiveNodePos = useMainSceneStore((state) => state.setNodePos);
+  const setActiveNodeRot = useMainSceneStore((state) => state.setNodeRot);
   const setActiveNodeState = useMainSceneStore((state) => state.setNodeState);
   const setNodeMatrixIndices = useMainSceneStore(
     (state) => state.setNodeMatrixIndices
@@ -28,30 +30,26 @@ const NodeManager = (props: StateManagerProps) => {
       const thirdCoordSet = calculateCoordsBasedOnRotation(1.55, 0.2, siteRotY);
       const fourthCoordSet = calculateCoordsBasedOnRotation(0, 2, siteRotY);
 
-      setActiveNodeState(fstCoordSet.x, "posX");
-      setActiveNodeState(fstCoordSet.z, "posZ");
-      setActiveNodeState(0, "posY");
+      setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
 
       setTimeout(() => {
-        setActiveNodeState(sndCoordSet.x, "posX");
-        setActiveNodeState(sndCoordSet.z, "posZ");
+        setActiveNodePos([sndCoordSet.x, 0, sndCoordSet.z]);
       }, 800);
       setTimeout(() => {
-        setActiveNodeState(thirdCoordSet.x, "posX");
-        setActiveNodeState(-0.005, "rotZ");
+        setActiveNodePos([thirdCoordSet.x, 0, sndCoordSet.z]);
+        setActiveNodeRot([0, 0, -0.005]);
       }, 2600);
       setTimeout(() => {
-        setActiveNodeState(fourthCoordSet.x, "posX");
-        setActiveNodeState(fourthCoordSet.z, "posZ");
-        setActiveNodeState(-0.5, "rotZ");
+        setActiveNodePos([fourthCoordSet.x, 0, fourthCoordSet.z]);
+        setActiveNodeRot([0, 0, -0.5]);
       }, 2700);
 
       setTimeout(() => {
-        setActiveNodeState(0, "rotZ");
+        setActiveNodeRot([0, 0, 0]);
         setActiveNodeState(false, "interactedWith");
       }, 3800);
     },
-    [setActiveNodeState]
+    [setActiveNodePos, setActiveNodeRot, setActiveNodeState]
   );
 
   const animateNodeKnock = useCallback(
@@ -60,15 +58,13 @@ const NodeManager = (props: StateManagerProps) => {
 
       const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
 
-      setActiveNodeState(fstCoordSet.x, "posX");
-      setActiveNodeState(fstCoordSet.z, "posZ");
-      setActiveNodeState(-0.6, "posY");
+      setActiveNodePos([fstCoordSet.x, -0.6, fstCoordSet.z]);
 
       setTimeout(() => {
         setActiveNodeState(false, "interactedWith");
       }, 2500);
     },
-    [setActiveNodeState]
+    [setActiveNodePos, setActiveNodeState]
   );
 
   const animateNodeKnockAndFall = useCallback(
@@ -77,19 +73,21 @@ const NodeManager = (props: StateManagerProps) => {
 
       const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
 
-      setActiveNodeState(fstCoordSet.x, "posX");
-      setActiveNodeState(fstCoordSet.z, "posZ");
-      setActiveNodeState(-0.6, "posY");
+      setActiveNodePos([fstCoordSet.x, -0.6, fstCoordSet.z]);
 
       setTimeout(() => {
-        setActiveNodeState(1.2, "posY");
+        setActiveNodeState(false, "visible");
       }, 2300);
 
       setTimeout(() => {
         setActiveNodeState(false, "interactedWith");
       }, 2500);
+
+      setTimeout(() => {
+        setActiveNodeState(true, "visible");
+      }, 3200);
     },
-    [setActiveNodeState]
+    [setActiveNodePos, setActiveNodeState]
   );
 
   const animateNodeTouchAndScare = useCallback(
@@ -98,9 +96,7 @@ const NodeManager = (props: StateManagerProps) => {
 
       const fstCoordSet = calculateCoordsBasedOnRotation(-0.6, 0.2, siteRotY);
 
-      setActiveNodeState(fstCoordSet.x, "posX");
-      setActiveNodeState(fstCoordSet.z, "posZ");
-      setActiveNodeState(0, "posY");
+      setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
 
       setTimeout(() => {
         setActiveNodeState(true, "exploding");
@@ -109,8 +105,7 @@ const NodeManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         setActiveNodeState(false, "interactedWith");
-        setActiveNodeState(0, "rotZ");
-        setActiveNodeState(0, "rotX");
+        setActiveNodeRot([0, 0, 0]);
       }, 1400);
 
       setTimeout(() => {
@@ -121,7 +116,7 @@ const NodeManager = (props: StateManagerProps) => {
         setActiveNodeState(true, "visible");
       }, 3500);
     },
-    [setActiveNodeState]
+    [setActiveNodePos, setActiveNodeRot, setActiveNodeState]
   );
 
   const animateShrinkAndRip = useCallback(
@@ -132,19 +127,14 @@ const NodeManager = (props: StateManagerProps) => {
       const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
       const thirdCoordSet = calculateCoordsBasedOnRotation(0, 0.2, siteRotY);
 
-      setActiveNodeState(fstCoordSet.x, "posX");
-      setActiveNodeState(fstCoordSet.z, "posZ");
-      setActiveNodeState(0, "posY");
+      setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
 
       setTimeout(() => {
-        setActiveNodeState(sndCoordSet.x, "posX");
-        setActiveNodeState(sndCoordSet.z, "posZ");
+        setActiveNodePos([sndCoordSet.x, 0, sndCoordSet.z]);
       }, 800);
 
       setTimeout(() => {
-        setActiveNodeState(thirdCoordSet.x, "posX");
-        setActiveNodeState(thirdCoordSet.z, "posZ");
-        setActiveNodeState(-0.4, "posY");
+        setActiveNodePos([thirdCoordSet.x, -0.4, thirdCoordSet.z]);
       }, 2800);
 
       setTimeout(() => {
@@ -152,7 +142,7 @@ const NodeManager = (props: StateManagerProps) => {
       }, 3000);
 
       setTimeout(() => {
-        setActiveNodeState(-1.5, "posY");
+        setActiveNodePos([thirdCoordSet.x, -1.5, thirdCoordSet.z]);
       }, 3200);
 
       setTimeout(() => {
@@ -162,15 +152,14 @@ const NodeManager = (props: StateManagerProps) => {
       setTimeout(() => {
         setActiveNodeState(false, "interactedWith");
         setActiveNodeState(false, "shrinking");
-        setActiveNodeState(0, "rotZ");
-        setActiveNodeState(0, "rotX");
+        setActiveNodeRot([0, 0, 0]);
       }, 6400);
 
       setTimeout(() => {
         setActiveNodeState(true, "visible");
       }, 7500);
     },
-    [setActiveNodeState]
+    [setActiveNodePos, setActiveNodeRot, setActiveNodeState]
   );
 
   const updateActiveNode = useCallback(
@@ -204,7 +193,6 @@ const NodeManager = (props: StateManagerProps) => {
       siteRotY: number;
       idleNodeId?: string;
     }) => {
-      console.log(eventState.node);
       switch (eventState.event) {
         case "site_up":
         case "site_down":

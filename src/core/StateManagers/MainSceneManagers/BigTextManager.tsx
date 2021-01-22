@@ -1,6 +1,4 @@
 import { useCallback, useEffect } from "react";
-import site_a from "../../../resources/site_a.json";
-import site_b from "../../../resources/site_b.json";
 import { useMainSceneStore } from "../../../store";
 import { NodeDataType } from "../../../components/MainScene/SyncedComponents/Site";
 import { StateManagerProps } from "../EventManager";
@@ -30,7 +28,7 @@ const BigTextManager = (props: StateManagerProps) => {
 
       setTimeout(() => {
         // make current hud big text shrink
-        setXOffset(-1, "xOffset");
+        setXOffset(-1);
       }, 2500);
 
       setTimeout(() => {
@@ -115,7 +113,7 @@ const BigTextManager = (props: StateManagerProps) => {
       setVisible(false);
 
       setTimeout(() => {
-        setPos(hud.big_text[0]);
+        setPos(hud.big_text);
         setColor("yellow");
         const targetText = node === "UNKNOWN" ? "Unknown" : node.node_name;
 

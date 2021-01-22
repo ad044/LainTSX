@@ -18,8 +18,8 @@ const handleMainSceneEvent = (gameContext: any) => {
   let activeHud;
   let nodeMatrixIndices = gameContext.nodeMatrixIndices;
   let level = parseInt(gameContext.activeLevel);
-  let siteRotY = gameContext.siteTransformState.rotY;
-  let sitePosY = gameContext.siteTransformState.posY;
+  let siteRotY = gameContext.siteRotY;
+  let sitePosY = gameContext.sitePosY;
   let scene = gameContext.scene;
 
   if (subscene === "site") {
