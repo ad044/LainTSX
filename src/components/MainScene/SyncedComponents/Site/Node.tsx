@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
-import { a, useSpring, interpolate } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
 import Cou from "../../../../static/sprite/Cou.png";
 import CouActive from "../../../../static/sprite/Cou_active.png";
@@ -102,11 +102,20 @@ const Node = memo((props: NodeContructorProps) => {
   `;
 
   const [
-    { activeNodePos, activeNodeRot, activeNodeScale, activeNodeVisible },
+    {
+      activeNodePosX,
+      activeNodePosY,
+      activeNodePosZ,
+      activeNodeRotZ,
+      activeNodeVisible,
+      activeNodeScale,
+    },
     set,
   ] = useSpring(() => ({
-    activeNodePos: props.position,
-    activeNodeRot: [0, 0, 0],
+    activeNodePosX: props.position[0],
+    activeNodePosY: props.position[1],
+    activeNodePosZ: props.position[2],
+    activeNodeRotZ: 0,
     activeNodeScale: 1,
     activeNodeVisible: true,
     config: { duration: 800 },
@@ -114,16 +123,30 @@ const Node = memo((props: NodeContructorProps) => {
 
   useEffect(() => {
     useMainSceneStore.subscribe(set, (state) => ({
-      activeNodePos: state.activeNodeState.interactedWith
-        ? state.activeNodePos
-        : props.position,
-      activeNodeRot: state.activeNodeState.interactedWith
-        ? state.activeNodeState.rotZ
+      activeNodePosX: state.activeNodeState.interactedWith
+        ? state.activeNodePos[0]
+        : props.position[0],
+      activeNodePosY: state.activeNodeState.interactedWith
+        ? state.activeNodePos[1]
+        : props.position[1],
+      activeNodePosZ: state.activeNodeState.interactedWith
+        ? state.activeNodePos[2]
+        : props.position[2],
+      activeNodeRotZ: state.activeNodeState.interactedWith
+        ? state.activeNodeRot[2]
         : 0,
       activeNodeScale: state.activeNodeState.shrinking ? 0 : 1,
       activeNodeVisible: state.activeNodeState.visible,
     }));
-  }, [props.level, props.position, set, props.rotation]);
+  }, [
+    props.level,
+    activeNodePosX,
+    activeNodePosZ,
+    activeNodeRotZ,
+    props.position,
+    set,
+    props.rotation,
+  ]);
 
   useFrame(() => {
     if (materialRef.current) {
@@ -147,9 +170,10 @@ const Node = memo((props: NodeContructorProps) => {
           scale-z={activeNodeScale}
         >
           <a.mesh
-            position-x={activeNodePos.interpolate((x, y, z) => x)}
-            position-y={activeNodePos.interpolate((x, y, z) => y)}
-            position-z={activeNodePos.interpolate((x, y, z) => z)}
+            position-x={activeNodePosX}
+            position-y={activeNodePosY}
+            position-z={activeNodePosZ}
+            rotation-z={activeNodeRotZ}
             rotation-y={props.rotation[1]}
             visible={activeNodeVisible}
             scale={[0.36, 0.18, 0.36]}

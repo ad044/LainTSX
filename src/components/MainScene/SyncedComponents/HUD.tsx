@@ -10,6 +10,7 @@ import boringHudMirrored from "../../../static/sprite/long_hud_boring_mirrored.p
 import { a, useSpring } from "@react-spring/three";
 import { useMainSceneStore } from "../../../store";
 import MediumLetter from "../../TextRenderer/MediumLetter";
+import { NodeDataType } from "./Site";
 
 export type HUDType = {
   mirrored: number;
@@ -36,7 +37,7 @@ const HUD = () => {
   const greenText = useMainSceneStore((state) =>
     state.activeNode.title.split("")
   );
-  const active = useMainSceneStore((state) => state.hudActive);
+  const active = useMainSceneStore((state) => Number(state.hudActive));
   const currentHud = useMainSceneStore((state) => state.hud);
 
   const hudElementState = useSpring({

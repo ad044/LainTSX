@@ -1,15 +1,16 @@
-import React, { Suspense, useMemo } from "react";
+import React, { Suspense, useEffect, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
-import { useLevelStore, useMainSceneStore, useSiteStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
-import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import Rings from "./Site/Rings";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import game_progress from "../../../resources/initial_progress.json";
 import NodeAnimations from "./Site/NodeAnimations";
+import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 
 export type NodeDataType = {
+  id: string;
   image_table_indices: { 1: string; 2: string; 3: string };
   triggers_final_video: number;
   required_final_video_viewcount: number;
@@ -32,25 +33,18 @@ export type SiteType = {
   [key: string]: LevelType;
 };
 
-export type NodesProps = {
-  currentSite: "a" | "b";
-  activeLevel: string;
-  siteData: typeof site_a | typeof site_b;
-  gameProgress: typeof game_progress;
-};
-
 type SiteProps = {
   shouldIntro: boolean;
   introFinished: boolean;
 };
 
 const Site = (props: SiteProps) => {
-  const siteTransformState = useSiteStore((state) => state.transformState);
-
+  const siteRot = useMainSceneStore((state) => state.siteRot);
+  const sitePos = useMainSceneStore((state) => state.sitePos);
   const siteState = useSpring({
-    siteRotY: siteTransformState.rotY,
-    sitePosY: siteTransformState.posY,
-    siteRotX: siteTransformState.rotX,
+    siteRotX: siteRot[0],
+    siteRotY: siteRot[1],
+    sitePosY: sitePos[1],
     config: { duration: 1200 },
   });
 
@@ -64,16 +58,6 @@ const Site = (props: SiteProps) => {
     config: { duration: 3400 },
   });
 
-  const gameProgress = useMainSceneStore((state) => state.gameProgress);
-
-  const currentSite = useSiteStore((state) => state.currentSite);
-
-  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
-    currentSite,
-  ]);
-
-  const activeLevel = useLevelStore((state) => state.activeLevel);
-
   return (
     <Suspense fallback={null}>
       <a.group
@@ -85,22 +69,10 @@ const Site = (props: SiteProps) => {
             rotation-y={siteState.siteRotY}
             position-y={siteState.sitePosY}
           >
-            <ActiveLevelNodes
-              currentSite={currentSite}
-              activeLevel={activeLevel}
-              siteData={siteData}
-              gameProgress={gameProgress}
-            />
-            <InactiveLevelNodes
-              currentSite={currentSite}
-              activeLevel={activeLevel}
-              siteData={siteData}
-              gameProgress={gameProgress}
-            />
+            <ActiveLevelNodes />
+            <InactiveLevelNodes />
             <NodeAnimations />
             <Rings
-              currentSite={currentSite}
-              activeLevel={activeLevel}
               activateAllRings={props.shouldIntro ? props.introFinished : true}
             />
           </a.group>
