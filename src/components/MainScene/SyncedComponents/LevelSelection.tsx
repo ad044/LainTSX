@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback } from "react";
 import level_selection_font from "../../../static/sprite/select_level_font.png";
 import verticalHud from "../../../static/sprite/select_level_hud_vertical.png";
 import horizontalHud from "../../../static/sprite/select_level_hud_horizontal.png";
 import levelSelectionText from "../../../static/sprite/select_level_text.png";
 import upArrow from "../../../static/sprite/select_level_up_arrow.png";
 import downArrow from "../../../static/sprite/select_level_down_arrow.png";
-import { useLevelSelectionStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
@@ -24,16 +24,16 @@ const LevelSelection = () => {
   const upArrowTex = useLoader(THREE.TextureLoader, upArrow);
   const downArrowTex = useLoader(THREE.TextureLoader, downArrow);
 
-  const selectedLevel = useLevelSelectionStore((state) => state.selectedLevel)
+  const toggled = useMainSceneStore(
+    useCallback((state) => Number(state.subscene === "level_selection"), [])
+  );
+
+  const selectedLevel = useMainSceneStore((state) => state.selectedLevel)
     .toString()
     .padStart(2, "0");
 
-  const levelSelectionToggled = useLevelSelectionStore(
-    (state) => state.levelSelectionToggled
-  );
-
   const { levelSelectionToggle } = useSpring({
-    levelSelectionToggle: levelSelectionToggled,
+    levelSelectionToggle: toggled,
     config: { duration: 500 },
   });
 

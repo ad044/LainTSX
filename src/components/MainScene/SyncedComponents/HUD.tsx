@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../../static/sprite/big_hud.png";
@@ -10,7 +10,6 @@ import boringHudMirrored from "../../../static/sprite/long_hud_boring_mirrored.p
 import { a, useSpring } from "@react-spring/three";
 import { useMainSceneStore } from "../../../store";
 import MediumLetter from "../../TextRenderer/MediumLetter";
-import { NodeDataType } from "./Site";
 
 export type HUDType = {
   mirrored: number;
@@ -33,7 +32,7 @@ export type HUDType = {
   };
 };
 
-const HUD = () => {
+const HUD = memo(() => {
   const greenText = useMainSceneStore((state) =>
     state.activeNode.title.split("")
   );
@@ -155,6 +154,6 @@ const HUD = () => {
       </a.group>
     </group>
   );
-};
+});
 
 export default HUD;

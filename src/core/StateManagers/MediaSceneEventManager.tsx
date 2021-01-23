@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useMediaStore, useMediaWordStore } from "../../store";
+import { useMainSceneStore, useMediaWordStore } from "../../store";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import SceneManager from "./GameManagers/SceneManager";
 import handleMediaSceneEvent from "../mediaSceneEventHandler";
@@ -8,23 +8,20 @@ import MediaYellowTextManager from "./MediaSceneManagers/MediaYellowTextManager"
 
 const MediaSceneEventManager = () => {
   // all the possible context needed to calculate new state
-  const mediaComponentMatrixIndices = useMediaStore(
-    (state) => state.componentMatrixIndices
-  );
-
-  const activeMediaComponent = useMediaStore(
+  const activeMediaComponent = useMainSceneStore(
     useCallback(
       (state) =>
-        state.componentMatrix[mediaComponentMatrixIndices.sideIdx][
-          mediaComponentMatrixIndices.sideIdx === 0
-            ? mediaComponentMatrixIndices.leftSideIdx
-            : mediaComponentMatrixIndices.rightSideIdx
+        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+          state.mediaComponentMatrixIndices.sideIdx === 0
+            ? state.mediaComponentMatrixIndices.leftSideIdx
+            : state.mediaComponentMatrixIndices.rightSideIdx
         ],
-      [mediaComponentMatrixIndices]
+      []
     )
   );
-  const rightSideComponentIdx = useMediaStore(
-    (state) => state.componentMatrixIndices.rightSideIdx
+
+  const rightSideComponentIdx = useMainSceneStore(
+    (state) => state.mediaComponentMatrixIndices.rightSideIdx
   );
 
   const wordPosStateIdx = useMediaWordStore((state) => state.posStateIdx);

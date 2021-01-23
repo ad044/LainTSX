@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { useMainSceneStore, useMediaStore } from "../store";
+import { useMainSceneStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
@@ -12,10 +12,6 @@ import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextA
 import MediaSceneEventManager from "../core/StateManagers/MediaSceneEventManager";
 
 const MediaScene = () => {
-  const mediaComponentMatrixIndices = useMediaStore(
-    (state) => state.componentMatrixIndices
-  );
-
   const activeNodeName = useMainSceneStore((state) =>
     state.activeNode.node_name.split("")
   );
@@ -23,15 +19,15 @@ const MediaScene = () => {
     (state) => state.activeNode.media_file
   );
 
-  const activeMediaComponent = useMediaStore(
+  const activeMediaComponent = useMainSceneStore(
     useCallback(
       (state) =>
-        state.componentMatrix[mediaComponentMatrixIndices.sideIdx][
-          mediaComponentMatrixIndices.sideIdx === 0
-            ? mediaComponentMatrixIndices.leftSideIdx
-            : mediaComponentMatrixIndices.rightSideIdx
+        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+          state.mediaComponentMatrixIndices.sideIdx === 0
+            ? state.mediaComponentMatrixIndices.leftSideIdx
+            : state.mediaComponentMatrixIndices.rightSideIdx
         ],
-      [mediaComponentMatrixIndices]
+      []
     )
   );
 
@@ -48,7 +44,7 @@ const MediaScene = () => {
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
-        <LeftSide activeMediaComponent={activeMediaComponent} />
+        <LeftSide activeMediaComponent={activeMediaComponent!} />
         <group position={[0, 0.5, -3]}>
           <MediaLoadingBar />
           <NodeNameContainer />
@@ -61,7 +57,7 @@ const MediaScene = () => {
         <MediaYellowTextAnimator />
 
         <group visible={activeNodeMedia.includes("XA")}>
-          <RightSide activeMediaComponent={activeMediaComponent} />
+          <RightSide activeMediaComponent={activeMediaComponent!} />
           <Lof />
           <AudioVisualizer />
           <Images />

@@ -7,7 +7,7 @@ import mouth1 from "../static/sprite/mouth_1.png";
 import mouth2 from "../static/sprite/mouth_2.png";
 import mouth3 from "../static/sprite/mouth_3.png";
 import mouth4 from "../static/sprite/mouth_4.png";
-import { useMediaStore } from "../store";
+import { useMainSceneStore } from "../store";
 import { LainConstructor } from "./MainScene/Lain";
 
 type LainTaKProps = {
@@ -39,12 +39,12 @@ const LainSpeak = (props: LainTaKProps) => {
     />
   );
 
-  const analyser = useMediaStore((state) => state.audioAnalyser);
+  const analyser = useMainSceneStore((state) => state.audioAnalyser);
 
   const mouthRef = useRef<THREE.SpriteMaterial>();
   useFrame(() => {
     if (analyser) {
-      const freq = parseInt(analyser.getAverageFrequency());
+      const freq = parseInt(String(analyser.getAverageFrequency()));
 
       if (mouthRef.current) {
         if (freq >= 50) {

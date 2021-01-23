@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import LainSpeak from "../components/LainSpeak";
 import * as THREE from "three";
-import { useMediaStore, useSceneStore } from "../store";
+import { useMainSceneStore, useSceneStore } from "../store";
 
 const TaKScene = () => {
-  const setAudioAnalyser = useMediaStore((state) => state.setAudioAnalyser);
+  const setAudioAnalyser = useMainSceneStore((state) => state.setAudioAnalyser);
   const setScene = useSceneStore((state) => state.setScene);
 
   const [isIntro, setIsIntro] = useState(true);
   const [isOutro, setIsOutro] = useState(false);
 
-  const percentageElapsed = useMediaStore(
+  const percentageElapsed = useMainSceneStore(
     (state) => state.mediaPercentageElapsed
   );
 

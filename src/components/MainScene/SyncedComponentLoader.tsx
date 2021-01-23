@@ -52,7 +52,6 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         shouldIntro={props.shouldIntro}
         introFinished={introFinished}
       />
-      <Pause visible={props.paused} />
       <Site shouldIntro={props.shouldIntro} introFinished={introFinished} />
       <MainSceneEventManager
         loaded={props.shouldIntro ? introFinished : true}

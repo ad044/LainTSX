@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import SSknIcon from "../components/SSknScene/SSknIcon";
 import SSknBackground from "../components/SSknScene/SSknBackground";
 import SSknHUD from "../components/SSknScene/SSknHUD";
-import { useMediaStore, useSSknStore } from "../store";
+import { useSSknStore } from "../store";
 import SSknSceneManager from "../core/StateManagers/SSknSceneManager";
 
 const SSknScene = () => {

@@ -10,7 +10,6 @@ import {
   useEndSceneStore,
   useIdleStore,
   useMainSceneStore,
-  useMediaStore,
   useSceneStore,
 } from "../../store";
 import t from "../../static/webvtt/test.vtt";
@@ -24,7 +23,7 @@ const MediaPlayer = () => {
   const currentScene = useSceneStore((state) => state.currentScene);
   const setScene = useSceneStore((state) => state.setScene);
 
-  const setPercentageElapsed = useMediaStore(
+  const setPercentageElapsed = useMainSceneStore(
     (state) => state.setPercentageElapsed
   );
 
@@ -53,7 +52,10 @@ const MediaPlayer = () => {
 
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
-    if (videoRef.current) {
+    if (
+      videoRef.current &&
+      ["media", "idle_media", "tak", "end"].includes(currentScene)
+    ) {
       const timeElapsed = videoRef.current.currentTime;
       const duration = videoRef.current.duration;
       const percentageElapsed = Math.floor((timeElapsed / duration) * 100);

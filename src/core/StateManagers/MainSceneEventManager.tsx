@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  useLevelSelectionStore,
-  useMainSceneStore,
-  usePauseStore,
-} from "../../store";
+import { useMainSceneStore } from "../../store";
 import handleMainSceneEvent from "../mainSceneEventHandler";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import NodeManager from "./MainSceneManagers/NodeManager";
@@ -37,10 +33,12 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   const sitePosY = useMainSceneStore((state) => state.sitePos[1]);
   const activeLevel = useMainSceneStore((state) => state.activeLevel);
   const mainSubscene = useMainSceneStore((state) => state.subscene);
-  const selectedLevel = useLevelSelectionStore((state) => state.selectedLevel);
-  const pauseMatrixIdx = usePauseStore((state) => state.componentMatrixIdx);
-  const activePauseComponent = usePauseStore(
-    useCallback((state) => state.componentMatrix[pauseMatrixIdx], [
+  const selectedLevel = useMainSceneStore((state) => state.selectedLevel);
+  const pauseMatrixIdx = useMainSceneStore(
+    (state) => state.pauseComponentMatrixIdx
+  );
+  const activePauseComponent = useMainSceneStore(
+    useCallback((state) => state.pauseComponentMatrix[pauseMatrixIdx], [
       pauseMatrixIdx,
     ])
   );

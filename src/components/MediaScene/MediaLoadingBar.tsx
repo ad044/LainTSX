@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import { useMediaStore } from "../../store";
+import { useMainSceneStore } from "../../store";
 import loadingBarContainer from "../../static/sprite/media_loading_bar_container.png";
 import loadingBar from "../../static/sprite/media_loading_bar.png";
 import loadingBar10Perc from "../../static/sprite/media_loading_bar_10perc.png";
@@ -12,7 +12,7 @@ import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
 const MediaLoadingBar = () => {
-  const mediaPercentageElapsed = useMediaStore(
+  const mediaPercentageElapsed = useMainSceneStore(
     (state) => state.mediaPercentageElapsed
   );
   const loadingBarContainerTex = useLoader(
