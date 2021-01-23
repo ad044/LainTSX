@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
-import {
-  useIdleStore,
-  useMainSceneStore,
-  useMediaStore,
-  useSceneStore,
-} from "../../store";
-import { a, useSpring } from "@react-spring/three";
+import React, {useEffect, useState} from "react";
+import {useIdleStore, useMainSceneStore, useSceneStore,} from "../../store";
+import {a, useSpring} from "@react-spring/three";
 import dummy from "../../static/sprite/dummy.png";
 import * as THREE from "three";
-import { useLoader } from "react-three-fiber";
+import {useLoader} from "react-three-fiber";
 
 const Images = () => {
   const idleNodeImages = useIdleStore((state) => state.images);
@@ -26,7 +21,7 @@ const Images = () => {
 
   const dummyTex = useLoader(THREE.TextureLoader, dummy);
 
-  const mediaPercentageElapsed = useMediaStore(
+  const mediaPercentageElapsed = useMainSceneStore(
     (state) => state.mediaPercentageElapsed
   );
 

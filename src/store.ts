@@ -1,8 +1,6 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
-import site_a from "./resources/site_a.json";
-import site_b from "./resources/site_b.json";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 import { HUDType } from "./components/MainScene/SyncedComponents/HUD";
@@ -38,21 +36,6 @@ type SiteSaveState = {
     sitePosY: number;
     level: string;
   };
-};
-
-type PauseState = {
-  exitAnimation: boolean;
-  componentMatrix: string[];
-  componentMatrixIdx: number;
-  setComponentMatrixIdx: (to: number) => void;
-  setExitAnimation: (to: boolean) => void;
-};
-
-type LevelSelectionState = {
-  selectedLevel: number;
-  levelSelectionToggled: number;
-  setSelectedLevel: (to: number) => void;
-  toggleLevelSelection: () => void;
 };
 
 type SceneState = {
@@ -179,62 +162,6 @@ export const useIdleStore = create<IdleState>((set) => ({
   setImages: (to) => set(() => ({ images: to })),
 }));
 
-export const useMediaStore = create(
-  combine(
-    {
-      audioAnalyser: undefined,
-      mediaPercentageElapsed: 0,
-      componentMatrix: [
-        ["play", "exit"],
-        ["fstWord", "sndWord", "thirdWord"],
-      ],
-      componentMatrixIndices: {
-        // 0 or 1 (left/right)
-        sideIdx: 0,
-        // 0 or 1 ("play" or "exit")
-        leftSideIdx: 0,
-        // 0 or 1 or 2 ("fstWord", "sndWord" or "thirdWord")
-        rightSideIdx: 0,
-      },
-    } as MediaState,
-    (set) => ({
-      toggleSide: () =>
-        set((state) => ({
-          componentMatrixIndices: {
-            ...state.componentMatrixIndices,
-            sideIdx: Number(!state.componentMatrixIndices.sideIdx),
-          },
-        })),
-      setLeftComponentMatrixIdx: (to: number) =>
-        set((state) => ({
-          componentMatrixIndices: {
-            ...state.componentMatrixIndices,
-            leftSideIdx: to,
-          },
-        })),
-      setRightComponentMatrixIdx: (to: number) =>
-        set((state) => ({
-          componentMatrixIndices: {
-            ...state.componentMatrixIndices,
-            rightSideIdx: to,
-          },
-        })),
-      resetComponentMatrixIndices: () =>
-        set(() => ({
-          componentMatrixIndices: {
-            sideIdx: 0,
-            leftSideIdx: 0,
-            rightSideIdx: 0,
-          },
-        })),
-      setPercentageElapsed: (to: number) =>
-        set(() => ({ mediaPercentageElapsed: to })),
-      setAudioAnalyser: (to: THREE.AudioAnalyser) =>
-        set(() => ({ audioAnalyser: to })),
-    })
-  )
-);
-
 export const useMediaWordStore = create<MediaWordState>((set) => ({
   posStateIdx: 1,
   setPosStateIdx: (to) => set(() => ({ posStateIdx: to })),
@@ -252,7 +179,7 @@ export const useSSknStore = create<SSknState>((set) => ({
 }));
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "main",
+  currentScene: "media",
   setScene: (to) => set(() => ({ currentScene: to })),
 }));
 
@@ -331,6 +258,16 @@ type MainSceneState = {
   pauseComponentMatrix: [string, string, string, string, string];
   pauseComponentMatrixIdx: number;
   pauseExitAnimation: boolean;
+
+  // media/media scene
+  audioAnalyser: undefined | THREE.AudioAnalyser;
+  mediaPercentageElapsed: number;
+  mediaComponentMatrix: [[string, string], [string, string, string]];
+  mediaComponentMatrixIndices: {
+    sideIdx: 0 | 1;
+    leftSideIdx: 0 | 1;
+    rightSideIdx: 0 | 1 | 2;
+  };
 };
 
 export const useMainSceneStore = create(
@@ -349,7 +286,7 @@ export const useMainSceneStore = create(
       bigText: "Tda028",
       bigTextVisible: true,
       bigTextColor: "yellow",
-      bigTextPos: [-0.35, 0.23, 0],
+      bigTextPos: [-0.35, 0.23, -8.7],
       bigTextXOffset: 0,
 
       // hud
@@ -377,6 +314,7 @@ export const useMainSceneStore = create(
 
       // nodes
       activeNode: {
+        id: "0422",
         image_table_indices: {
           "1": "93",
           "2": "356",
@@ -435,12 +373,27 @@ export const useMainSceneStore = create(
 
       // level selection
       selectedLevel: 4,
-      levelSelectionToggled: false,
 
       // pause
       pauseComponentMatrix: ["load", "about", "change", "save", "exit"],
       pauseComponentMatrixIdx: 2,
       pauseExitAnimation: false,
+
+      // media / media scene
+      audioAnalyser: undefined,
+      mediaPercentageElapsed: 0,
+      mediaComponentMatrix: [
+        ["play", "exit"],
+        ["fstWord", "sndWord", "thirdWord"],
+      ],
+      mediaComponentMatrixIndices: {
+        // 0 or 1 (left/right)
+        sideIdx: 0,
+        // 0 or 1 ("play" or "exit")
+        leftSideIdx: 0,
+        // 0 or 1 or 2 ("fstWord", "sndWord" or "thirdWord")
+        rightSideIdx: 0,
+      },
     } as MainSceneState,
     (set) => ({
       // subscene setters
@@ -511,16 +464,49 @@ export const useMainSceneStore = create(
 
       // level selection setters
       setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
-      toggleLevelSelection: () =>
-        set((state) => ({
-          levelSelectionToggled: !state.levelSelectionToggled,
-        })),
 
       // pause setters
       setPauseComponentMatrixIdx: (to: number) =>
         set(() => ({ pauseComponentMatrixIdx: to })),
       setPauseExitAnimation: (to: boolean) =>
         set(() => ({ pauseExitAnimation: to })),
+
+      // media/media scene setters
+      toggleMediaSide: () =>
+        set((state) => ({
+          mediaComponentMatrixIndices: {
+            ...state.mediaComponentMatrixIndices,
+            sideIdx: Number(!state.mediaComponentMatrixIndices.sideIdx) as
+              | 0
+              | 1,
+          },
+        })),
+      setMediaLeftComponentMatrixIdx: (to: 0 | 1) =>
+        set((state) => ({
+          mediaComponentMatrixIndices: {
+            ...state.mediaComponentMatrixIndices,
+            leftSideIdx: to,
+          },
+        })),
+      setMediaRightComponentMatrixIdx: (to: 0 | 1 | 2) =>
+        set((state) => ({
+          mediaComponentMatrixIndices: {
+            ...state.mediaComponentMatrixIndices,
+            rightSideIdx: to,
+          },
+        })),
+      resetMediaComponentMatrixIndices: () =>
+        set(() => ({
+          mediaComponentMatrixIndices: {
+            sideIdx: 0,
+            leftSideIdx: 0,
+            rightSideIdx: 0,
+          },
+        })),
+      setPercentageElapsed: (to: number) =>
+        set(() => ({ mediaPercentageElapsed: to })),
+      setAudioAnalyser: (to: THREE.AudioAnalyser) =>
+        set(() => ({ audioAnalyser: to })),
     })
   )
 );
@@ -581,24 +567,6 @@ export const usePolytanStore = create<any>((set) => ({
 export const useGateStore = create<GateState>((set) => ({
   gateLvl: 4,
   incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
-}));
-
-export const useLevelSelectionStore = create<LevelSelectionState>((set) => ({
-  selectedLevel: 4,
-  levelSelectionToggled: 0,
-  setSelectedLevel: (to) => set(() => ({ selectedLevel: to })),
-  toggleLevelSelection: () =>
-    set((state) => ({
-      levelSelectionToggled: Number(!state.levelSelectionToggled),
-    })),
-}));
-
-export const usePauseStore = create<PauseState>((set) => ({
-  componentMatrix: ["load", "about", "change", "save", "exit"],
-  componentMatrixIdx: 2,
-  exitAnimation: false,
-  setComponentMatrixIdx: (to) => set(() => ({ componentMatrixIdx: to })),
-  setExitAnimation: (to) => set(() => ({ exitAnimation: to })),
 }));
 
 export const useSiteSaveStore = create(

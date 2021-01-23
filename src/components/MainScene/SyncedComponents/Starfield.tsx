@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import Star from "./Starfield/Star";
 
 type StarfieldProps = {
@@ -7,7 +7,7 @@ type StarfieldProps = {
   introFinished: boolean;
 };
 
-const Starfield = (props: StarfieldProps) => {
+const Starfield = memo((props: StarfieldProps) => {
   const LCG = (a: number, c: number, m: number, s: number) => () =>
     (s = (s * a + c) % m);
 
@@ -128,6 +128,6 @@ const Starfield = (props: StarfieldProps) => {
       )}
     </group>
   );
-};
+});
 
 export default Starfield;

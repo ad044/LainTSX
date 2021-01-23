@@ -1,16 +1,12 @@
 import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useMemo } from "react";
-import Site from "../components/MainScene/SyncedComponents/Site";
 import Lain from "../components/MainScene/Lain";
 import Preloader from "../components/Preloader";
-import MiddleRing from "../components/MainScene/SyncedComponents/MiddleRing";
 import { useMainSceneStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
 import LevelSelection from "../components/MainScene/SyncedComponents/LevelSelection";
-import NodeExplosion from "../components/MainScene/SyncedComponents/Site/NodeAnimations/NodeExplosion";
-import NodeRip from "../components/MainScene/SyncedComponents/Site/NodeAnimations/NodeRip";
 
 const MainScene = () => {
   const currentSubscene = useMainSceneStore((state) => state.subscene);
@@ -31,6 +27,7 @@ const MainScene = () => {
         <a.group>
           <Preloader />
           <LevelSelection />
+          <Pause paused={isPaused} />
           <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
           <OrbitControls />
           <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />

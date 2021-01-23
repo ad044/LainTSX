@@ -2,10 +2,10 @@ import React, { createRef, MutableRefObject, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import AudioVisualizerColumn from "./AudioVisualizerColumn";
-import { useMediaStore } from "../../../store";
+import { useMainSceneStore } from "../../../store";
 
 const AudioVisualizer = () => {
-  const analyser = useMediaStore((state) => state.audioAnalyser);
+  const analyser = useMainSceneStore((state) => state.audioAnalyser);
 
   const columnRefs = useMemo(
     () =>

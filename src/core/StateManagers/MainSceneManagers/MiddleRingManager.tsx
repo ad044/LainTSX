@@ -37,14 +37,11 @@ const MiddleRingManager = (props: any) => {
 
   const moveDown = useCallback(() => {
     // make noise appear again
-    setTimeout(() => {
-      setNoiseAmp(0.06);
-    }, 800);
-
     // disable rotation of the ring
     setTimeout(() => {
+      setNoiseAmp(0.06);
       setRotating(false);
-    }, 700);
+    }, 800);
 
     setTimeout(() => {
       setPos([0, 1.39, 0]);

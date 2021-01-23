@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import EndCylinder from "../components/EndScene/EndCylinder";
-import EndSphere from "../components/EndScene/EndSphere";
-import LainSpeak from "../components/LainSpeak";
-import { useEndSceneStore, useMediaStore } from "../store";
+import { useEndSceneStore, useMainSceneStore } from "../store";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
 
 const EndScene = () => {
-  const setAudioAnalyser = useMediaStore((state) => state.setAudioAnalyser);
+  const setAudioAnalyser = useMainSceneStore((state) => state.setAudioAnalyser);
 
   const mediaPlayedCount = useEndSceneStore((state) => state.mediaPlayedCount);
 

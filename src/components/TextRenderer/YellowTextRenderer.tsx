@@ -11,8 +11,8 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   const textRef = useRef(useMainSceneStore.getState().bigText.split(""));
 
   const [trail, set] = useTrail(textRef.current.length, () => ({
-    posX: 0,
-    posY: 0,
+    posX: useMainSceneStore.getState().bigTextPos[0],
+    posY: useMainSceneStore.getState().bigTextPos[1],
     config: { duration: 280 },
   }));
 

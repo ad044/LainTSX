@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import Node from "./Node";
 import node_positions from "../../../../resources/node_positions.json";
 import { useMainSceneStore } from "../../../../store";
@@ -6,7 +6,7 @@ import { isNodeVisible } from "../../../../core/nodeSelector";
 import site_a from "../../../../resources/site_a.json";
 import site_b from "../../../../resources/site_b.json";
 
-const InactiveLevelNodes = () => {
+const InactiveLevelNodes = memo(() => {
   const gameProgress = useMainSceneStore((state) => state.gameProgress);
 
   const currentSite = useMainSceneStore((state) => state.activeSite);
@@ -57,6 +57,6 @@ const InactiveLevelNodes = () => {
       })}
     </>
   );
-};
+});
 
 export default InactiveLevelNodes;
