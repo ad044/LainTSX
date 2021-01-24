@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const LevelSelectionManager = (props: StateManagerProps) => {
-  const setSelectedLevel = useMainSceneStore((state) => state.setSelectedLevel);
+  const setSelectedLevel = useStore((state) => state.setSelectedLevel);
 
   const dispatchObject = useCallback(
     (eventState: { event: string; selectedLevelIdx: number }) => {

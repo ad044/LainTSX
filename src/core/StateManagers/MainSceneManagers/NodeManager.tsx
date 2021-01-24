@@ -1,14 +1,14 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 import { NodeDataType } from "../../../components/MainScene/SyncedComponents/Site";
 
 const NodeManager = (props: StateManagerProps) => {
-  const setActiveNode = useMainSceneStore((state) => state.setNode);
-  const setActiveNodePos = useMainSceneStore((state) => state.setNodePos);
-  const setActiveNodeRot = useMainSceneStore((state) => state.setNodeRot);
-  const setActiveNodeState = useMainSceneStore((state) => state.setNodeState);
-  const setNodeMatrixIndices = useMainSceneStore(
+  const setActiveNode = useStore((state) => state.setNode);
+  const setActiveNodePos = useStore((state) => state.setNodePos);
+  const setActiveNodeRot = useStore((state) => state.setNodeRot);
+  const setActiveNodeState = useStore((state) => state.setNodeState);
+  const setNodeMatrixIndices = useStore(
     (state) => state.setNodeMatrixIndices
   );
 

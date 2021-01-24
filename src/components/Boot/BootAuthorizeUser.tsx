@@ -8,7 +8,7 @@ import authorizeInactiveLetters from "../../static/sprite/authorize_inactive_let
 import authorizeActiveLetters from "../../static/sprite/authorize_active_letters.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { useAuthorizeUserStore, useBootStore } from "../../store";
+import { useAuthorizeUserStore } from "../../store";
 import { OrbitControls } from "@react-three/drei";
 
 type BootAuthorizeUserProps = {

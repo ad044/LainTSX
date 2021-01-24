@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useMainSceneStore, useSceneStore } from "../store";
+import { useStore } from "../store";
 
 const ChangeDiscScene = () => {
-  const setScene = useSceneStore((state) => state.setScene);
-  const currentSite = useMainSceneStore((state) => state.activeSite);
+  const setScene = useStore((state) => state.setScene);
+  const currentSite = useStore((state) => state.activeSite);
 
   useEffect(() => {
     if (currentSite === "a") {

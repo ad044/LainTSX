@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
 import Rings from "./Site/Rings";
 import site_a from "../../../resources/site_a.json";
@@ -39,8 +39,8 @@ type SiteProps = {
 };
 
 const Site = (props: SiteProps) => {
-  const siteRot = useMainSceneStore((state) => state.siteRot);
-  const sitePos = useMainSceneStore((state) => state.sitePos);
+  const siteRot = useStore((state) => state.siteRot);
+  const sitePos = useStore((state) => state.sitePos);
   const siteState = useSpring({
     siteRotX: siteRot[0],
     siteRotY: siteRot[1],

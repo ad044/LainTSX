@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore, useSiteSaveStore } from "../../../store";
+import { useStore, useSiteSaveStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 import node_huds from "../../../resources/node_huds.json";
 import site_a from "../../../resources/site_a.json";
@@ -18,21 +18,21 @@ const GameLoader = (props: StateManagerProps) => {
   // const setActiveLevel = useLevelStore((state) => state.setActiveLevel);
 
   // big text setter
-  const setBigTexPos = useMainSceneStore((state) => state.setBigTextPos);
-  const setBigText = useMainSceneStore((state) => state.setBigText);
+  const setBigTexPos = useStore((state) => state.setBigTextPos);
+  const setBigText = useStore((state) => state.setBigText);
 
   // site setter
-  const setSiteRot = useMainSceneStore((state) => state.setSiteRot);
-  const setCurrentSite = useMainSceneStore((state) => state.setActiveSite);
+  const setSiteRot = useStore((state) => state.setSiteRot);
+  const setCurrentSite = useStore((state) => state.setActiveSite);
 
   // node setter
-  const setActiveNode = useMainSceneStore((state) => state.setNode);
-  const setNodeMatrixIndices = useMainSceneStore(
+  const setActiveNode = useStore((state) => state.setNode);
+  const setNodeMatrixIndices = useStore(
     (state) => state.setNodeMatrixIndices
   );
 
   // node hud setter
-  const setHud = useMainSceneStore((state) => state.setHud);
+  const setHud = useStore((state) => state.setHud);
 
   const changeSite = useCallback((site: string) => {
     // load new site

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ssknOk from "../../static/sprite/sskn_ok.png";
 import ssknOkInactive from "../../static/sprite/sskn_ok_inactive.png";
 import ssknCancel from "../../static/sprite/sskn_cancel.png";
@@ -8,7 +8,6 @@ import ssknArrow from "../../static/sprite/sskn_arrow.png";
 import ssknTextWrapper from "../../static/sprite/sskn_text_wrapper.png";
 import ssknTextWrapperInactive from "../../static/sprite/sskn_text_wrapper_inactive.png";
 import ssknLine from "../../static/sprite/sskn_line.png";
-import ssknLoadingBar from "../../static/sprite/SSkn_loading_bar.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import SSknLoadingBar from "./SSknLoadingBar";
@@ -18,7 +17,7 @@ type SSknHUDProps = {
   loading: boolean;
 };
 
-const SSknHUD = (props: SSknHUDProps) => {
+const SSknHUD = memo((props: SSknHUDProps) => {
   const ssknOkTex = useLoader(THREE.TextureLoader, ssknOk);
   const ssknOkInactiveTex = useLoader(THREE.TextureLoader, ssknOkInactive);
   const ssknCancelTex = useLoader(THREE.TextureLoader, ssknCancel);
@@ -102,6 +101,6 @@ const SSknHUD = (props: SSknHUDProps) => {
       </sprite>
     </>
   );
-};
+});
 
 export default SSknHUD;

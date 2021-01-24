@@ -1,19 +1,24 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useSSknStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const SSknComponentManager = (props: StateManagerProps) => {
-  const toggleComponentMatrixIdx = useSSknStore(
-    (state) => state.toggleComponentMatrixIdx
+  const toggleComponentMatrixIdx = useStore(
+    (state) => state.toggleSSknComponentMatrixIdx
   );
-  const resetComponentMatrixIdx = useSSknStore(
-    (state) => state.resetComponentMatrixIdx
+  const resetComponentMatrixIdx = useStore(
+    (state) => state.resetSSknComponentMatrixIdx
   );
-  const toggleLoading = useSSknStore((state) => state.toggleLoading);
+  const setSSknLoading = useStore((state) => state.setSSknLoading);
 
   const dispatchObject = useCallback(
     (eventState: { event: string }) => {
       switch (eventState.event) {
+        case "throw_node_sskn":
+        case "rip_node_sskn":
+          return {
+            action: resetComponentMatrixIdx,
+          };
         case "sskn_ok_down":
         case "sskn_cancel_up":
           return {
@@ -21,11 +26,17 @@ const SSknComponentManager = (props: StateManagerProps) => {
           };
         case "sskn_ok_select":
           return {
-            action: toggleLoading,
+            action: setSSknLoading,
+            value: true,
+          };
+        case "sskn_cancel_select":
+          return {
+            action: setSSknLoading,
+            value: false,
           };
       }
     },
-    [toggleComponentMatrixIdx, toggleLoading]
+    [resetComponentMatrixIdx, setSSknLoading, toggleComponentMatrixIdx]
   );
 
   useEffect(() => {
@@ -33,7 +44,7 @@ const SSknComponentManager = (props: StateManagerProps) => {
       const dispatchedObject = dispatchObject(props.eventState);
 
       if (dispatchedObject) {
-        dispatchedObject.action();
+        dispatchedObject.action(dispatchedObject.value as any);
       }
     }
   }, [props.eventState, dispatchObject]);

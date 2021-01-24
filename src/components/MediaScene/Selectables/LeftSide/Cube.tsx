@@ -2,10 +2,10 @@ import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import grayTextureFile from "../../../../static/sprite/gray_box.png";
 import darkGrayTextureFile from "../../../../static/sprite/dark_gray_box.png";
-import React, { useRef } from "react";
+import React, {memo, useRef} from "react";
 import { ShapeProps } from "../LeftSide";
 
-const Cube = (props: ShapeProps) => {
+const Cube = memo((props: ShapeProps) => {
   const grayTex = useLoader(THREE.TextureLoader, grayTextureFile);
   const darkGrayTex = useLoader(THREE.TextureLoader, darkGrayTextureFile);
 
@@ -34,6 +34,6 @@ const Cube = (props: ShapeProps) => {
       />
     </mesh>
   );
-};
+});
 
 export default Cube;

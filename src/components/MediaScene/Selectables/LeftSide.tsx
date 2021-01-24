@@ -1,11 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, memo } from "react";
 import TriangularPrism from "./LeftSide/TriangularPrism";
 import Cube from "./LeftSide/Cube";
 import { useSpring, a } from "@react-spring/three";
-
-type LeftSideProps = {
-  activeMediaComponent: string;
-};
+import { useStore } from "../../../store";
 
 export type ShapeProps = {
   position: number[];
@@ -13,9 +10,25 @@ export type ShapeProps = {
   active?: boolean;
 };
 
-const LeftSide = (props: LeftSideProps) => {
-  const cubesActive = props.activeMediaComponent === "exit";
-  const trianglesActive = props.activeMediaComponent === "play";
+const LeftSide = memo(() => {
+  const activeMediaComponent = useStore(
+    useCallback(
+      (state) =>
+        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+          state.mediaComponentMatrixIndices.sideIdx === 0
+            ? state.mediaComponentMatrixIndices.leftSideIdx
+            : state.mediaComponentMatrixIndices.rightSideIdx
+        ],
+      []
+    )
+  );
+
+  const cubesActive = useMemo(() => activeMediaComponent === "exit", [
+    activeMediaComponent,
+  ]);
+  const trianglesActive = useMemo(() => activeMediaComponent === "play", [
+    activeMediaComponent,
+  ]);
 
   const groupSpringConfig = useMemo(() => ({ duration: 500 }), []);
   const groupSpringFinalDest = useMemo(
@@ -100,6 +113,6 @@ const LeftSide = (props: LeftSideProps) => {
       </a.group>
     </group>
   );
-};
+});
 
 export default LeftSide;

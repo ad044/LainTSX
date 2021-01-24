@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useMainSceneStore, useMediaWordStore } from "../../store";
+import { useStore } from "../../store";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import SceneManager from "./GameManagers/SceneManager";
 import handleMediaSceneEvent from "../mediaSceneEventHandler";
 import MediaComponentManager from "./MediaSceneManagers/MediaComponentManager";
-import MediaYellowTextManager from "./MediaSceneManagers/MediaYellowTextManager";
 
 const MediaSceneEventManager = () => {
   // all the possible context needed to calculate new state
-  const activeMediaComponent = useMainSceneStore(
+  const activeMediaComponent = useStore(
     useCallback(
       (state) =>
         state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
@@ -20,11 +19,13 @@ const MediaSceneEventManager = () => {
     )
   );
 
-  const rightSideComponentIdx = useMainSceneStore(
+  const rightSideComponentIdx = useStore(
     (state) => state.mediaComponentMatrixIndices.rightSideIdx
   );
 
-  const wordPosStateIdx = useMediaWordStore((state) => state.posStateIdx);
+  const wordPosStateIdx = useStore(
+    (state) => state.mediaWordPosStateIdx
+  );
 
   const [eventState, setEventState] = useState<any>();
 
@@ -60,7 +61,6 @@ const MediaSceneEventManager = () => {
     <>
       <MediaComponentManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
-      <MediaYellowTextManager eventState={eventState!} />
     </>
   );
 };

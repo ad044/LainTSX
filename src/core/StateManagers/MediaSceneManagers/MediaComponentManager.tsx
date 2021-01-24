@@ -1,26 +1,28 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useMainSceneStore, useMediaWordStore } from "../../../store";
+import { useStore } from "../../../store";
 import * as THREE from "three";
 
 const MediaComponentManager = (props: StateManagerProps) => {
-  const toggleSide = useMainSceneStore((state) => state.toggleMediaSide);
-  const setLeftComponentMatrixIdx = useMainSceneStore(
+  const toggleSide = useStore((state) => state.toggleMediaSide);
+  const setLeftComponentMatrixIdx = useStore(
     (state) => state.setMediaLeftComponentMatrixIdx
   );
-  const setRightComponentMatrixIdx = useMainSceneStore(
+  const setRightComponentMatrixIdx = useStore(
     (state) => state.setMediaRightComponentMatrixIdx
   );
-  const setWordPosStateIdx = useMediaWordStore((state) => state.setPosStateIdx);
+  const setWordPosStateIdx = useStore(
+    (state) => state.setMediaWordPosStateIdx
+  );
 
-  const resetComponentMatrixIndices = useMainSceneStore(
+  const resetComponentMatrixIndices = useStore(
     (state) => state.resetMediaComponentMatrixIndices
   );
-  const resetWordPosStateIdx = useMediaWordStore(
-    (state) => state.resetPosStateIdx
+  const resetWordPosStateIdx = useStore(
+    (state) => state.resetMediaWordPosStateIdx
   );
 
-  const setAudioAnalyser = useMainSceneStore((state) => state.setAudioAnalyser);
+  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
 
   const playMedia = useCallback(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;

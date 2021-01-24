@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useBootStore, useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const SubsceneManager = (props: StateManagerProps) => {
-  const setMainSubscene = useMainSceneStore((state) => state.setSubscene);
-  const setBootSubscene = useBootStore((state) => state.setSubscene);
+  const setMainSubscene = useStore((state) => state.setMainSubscene);
+  const setBootSubscene = useStore((state) => state.setBootSubscene);
 
   const dispatchObject = useCallback(
     (eventState: { event: string }) => {
@@ -62,7 +62,7 @@ const SubsceneManager = (props: StateManagerProps) => {
 
       if (dispatchedObject) {
         setTimeout(() => {
-          dispatchedObject.action(dispatchedObject.value);
+          dispatchedObject.action(dispatchedObject.value as any);
         }, dispatchedObject.delay);
       }
     }

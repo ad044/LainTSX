@@ -1,24 +1,24 @@
 import React, { useMemo, memo } from "react";
 import Node from "./Node";
 import node_positions from "../../../../resources/node_positions.json";
-import { useMainSceneStore } from "../../../../store";
+import { useStore } from "../../../../store";
 import { isNodeVisible } from "../../../../core/nodeSelector";
 import site_a from "../../../../resources/site_a.json";
 import site_b from "../../../../resources/site_b.json";
 import { NodeDataType } from "../Site";
 
 const ActiveLevelNodes = memo(() => {
-  const activeNodeId = useMainSceneStore((state) => state.activeNode.id);
+  const activeNodeId = useStore((state) => state.activeNode.id);
 
-  const gameProgress = useMainSceneStore((state) => state.gameProgress);
+  const gameProgress = useStore((state) => state.gameProgress);
 
-  const currentSite = useMainSceneStore((state) => state.activeSite);
+  const currentSite = useStore((state) => state.activeSite);
 
   const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
     currentSite,
   ]);
 
-  const activeLevel = useMainSceneStore((state) => state.activeLevel);
+  const activeLevel = useStore((state) => state.activeLevel);
 
   const visibleNodes = useMemo(
     () => siteData[activeLevel as keyof typeof siteData],

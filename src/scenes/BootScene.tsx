@@ -2,20 +2,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import BootAccela from "../components/Boot/BootAccela";
 import BootAnimation from "../components/Boot/BootAnimation";
 import BootMainMenuComponents from "../components/Boot/BootMainMenuComponents";
-import { useBootStore } from "../store";
+import { useStore } from "../store";
 import BootAuthorizeUser from "../components/Boot/BootAuthorizeUser";
 import BootLoadData from "../components/Boot/BootLoadData";
 
 const BootScene = () => {
-  const activeSubscene = useBootStore((state) => state.subscene);
-  const activeBootElement = useBootStore(
+  const activeSubscene = useStore((state) => state.bootSubscene);
+
+  const activeBootElement = useStore(
     useCallback(
       (state) =>
-        state.componentMatrix[
-          activeSubscene as keyof typeof state.componentMatrix
+        state.bootComponentMatrix[
+          activeSubscene as keyof typeof state.bootComponentMatrix
         ][
-          state.componentMatrixIndices[
-            activeSubscene as keyof typeof state.componentMatrixIndices
+          state.bootComponentMatrixIndices[
+            activeSubscene as keyof typeof state.bootComponentMatrixIndices
           ]
         ],
       [activeSubscene]

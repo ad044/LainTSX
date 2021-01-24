@@ -6,19 +6,6 @@ import game_progress from "./resources/initial_progress.json";
 import { HUDType } from "./components/MainScene/SyncedComponents/HUD";
 import { NodeDataType } from "./components/MainScene/SyncedComponents/Site";
 
-type EndState = {
-  mediaPlayedCount: number;
-  incrementMediaPlayedCount: () => void;
-  resetMediaPlayedCount: () => void;
-};
-
-type IdleState = {
-  media: any;
-  images: any;
-  setMedia: (to: any) => void;
-  setImages: (to: any) => void;
-};
-
 type SiteSaveState = {
   a: {
     activeNodeId: string;
@@ -38,152 +25,7 @@ type SiteSaveState = {
   };
 };
 
-type SceneState = {
-  currentScene: string;
-  setScene: (to: string) => void;
-};
-
-type MediaWordState = {
-  posStateIdx: number;
-  setPosStateIdx: (to: number) => void;
-  resetPosStateIdx: () => void;
-};
-
-export type BigTextState = {
-  visible: boolean;
-  disableTrail: boolean;
-  text: string;
-  color: string;
-  transformState: {
-    posX: number;
-    posY: number;
-    xOffset: number;
-  };
-};
-
-export type MediaState = {
-  audioAnalyser: any;
-  mediaPercentageElapsed: number;
-  componentMatrix: [[string, string], [string, string, string]];
-  componentMatrixIndices: {
-    sideIdx: number;
-    leftSideIdx: number;
-    rightSideIdx: number;
-  };
-};
-
-export type BootState = {
-  componentMatrix: {
-    main_menu: [string, string];
-    load_data: [string, string];
-    authorize_user: number[];
-  };
-  componentMatrixIndices: {
-    // 0 or 1
-    main_menu: number;
-    // 0 or 1
-    load_data: number;
-    authorize_user: number;
-  };
-  subscene: string;
-};
-
-export type AuthorizeUserState = {
-  bgLettersPos: {
-    x: number;
-    y: number;
-  };
-  activeLetterTextureOffset: {
-    x: number;
-    y: number;
-  };
-  setBgLettersPos: (to: { x: number; y: number }) => void;
-  setActiveLetterTexOffset: (to: { x: number; y: number }) => void;
-};
-
-export type GreenTextState = {
-  text: string;
-  transformState: {
-    posX: { initial: number; final: number };
-    posY: number;
-    xOffset: number;
-  };
-  active: number;
-};
-
-type GateState = {
-  gateLvl: number;
-  incrementGateLvl: () => void;
-};
-
-type SSknState = {
-  componentMatrix: string[];
-  componentMatrixIdx: number;
-  toggleComponentMatrixIdx: () => void;
-  resetComponentMatrixIdx: () => void;
-  loading: boolean;
-  toggleLoading: () => void;
-};
-
-export type MediaBigTextState = {
-  text: string;
-  transformState: {
-    posX: number;
-    posY: number;
-    xOffset: number;
-  };
-};
-
-export const useMediaBigTextStore = create(
-  combine(
-    {
-      transformState: {
-        posX: -0.8,
-        posY: 0.05,
-        xOffset: 0,
-      },
-      text: "Play",
-    } as MediaBigTextState,
-    (set) => ({
-      setText: (to: string) => set(() => ({ text: to })),
-      setTransformState: (to: number, at: string) =>
-        set((state) => ({
-          transformState: { ...state.transformState, [at]: to },
-        })),
-    })
-  )
-);
-
-export const useIdleStore = create<IdleState>((set) => ({
-  media: "INS01.STR",
-  // this may be undefined depending on whether or not the media is audio or not
-  images: undefined,
-  setMedia: (to) => set(() => ({ media: to })),
-  setImages: (to) => set(() => ({ images: to })),
-}));
-
-export const useMediaWordStore = create<MediaWordState>((set) => ({
-  posStateIdx: 1,
-  setPosStateIdx: (to) => set(() => ({ posStateIdx: to })),
-  resetPosStateIdx: () => set(() => ({ posStateIdx: 1 })),
-}));
-
-export const useSSknStore = create<SSknState>((set) => ({
-  componentMatrix: ["sskn_ok", "sskn_cancel"],
-  componentMatrixIdx: 0,
-  loading: false,
-  toggleComponentMatrixIdx: () =>
-    set((state) => ({ componentMatrixIdx: Number(!state.componentMatrixIdx) })),
-  resetComponentMatrixIdx: () => set(() => ({ componentMatrixIdx: 0 })),
-  toggleLoading: () => set(() => ({ loading: true })),
-}));
-
-export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "media",
-  setScene: (to) => set(() => ({ currentScene: to })),
-}));
-
-export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
+export const useAuthorizeUserStore = create<any>((set) => ({
   bgLettersPos: {
     x: 3.35,
     y: -0.7,
@@ -198,10 +40,12 @@ export const useAuthorizeUserStore = create<AuthorizeUserState>((set) => ({
     set(() => ({ activeLetterTextureOffset: to })),
 }));
 
-type MainSceneState = {
+type State = {
+  currentScene: string;
+
   gameProgress: typeof game_progress;
 
-  subscene: string;
+  mainSubscene: string;
 
   intro: boolean;
 
@@ -252,32 +96,75 @@ type MainSceneState = {
 
   // level selection
   selectedLevel: number;
-  levelSelectionToggled: boolean;
 
   // pause
-  pauseComponentMatrix: [string, string, string, string, string];
+  pauseComponentMatrix: ["load", "about", "change", "save", "exit"];
   pauseComponentMatrixIdx: number;
   pauseExitAnimation: boolean;
 
   // media/media scene
   audioAnalyser: undefined | THREE.AudioAnalyser;
   mediaPercentageElapsed: number;
-  mediaComponentMatrix: [[string, string], [string, string, string]];
+  mediaComponentMatrix: [["play", "exit"], ["fstWord", "sndWord", "thirdWord"]];
   mediaComponentMatrixIndices: {
     sideIdx: 0 | 1;
     leftSideIdx: 0 | 1;
     rightSideIdx: 0 | 1 | 2;
   };
+  mediaWordPosStateIdx: number;
+
+  // idle scene
+  idleMedia: string;
+  idleImages: any;
+
+  // sskn scene
+  ssknComponentMatrix: ["sskn_ok", "sskn_cancel"];
+  ssknComponentMatrixIdx: 0 | 1;
+  ssknLoading: boolean;
+
+  // polytan scene
+  polytanUnlockedParts: {
+    body: boolean;
+    head: boolean;
+    leftArm: boolean;
+    rightArm: boolean;
+    leftLeg: boolean;
+    rightLeg: boolean;
+  };
+
+  // gate scene
+  gateLvl: number;
+
+  // boot scene
+  bootComponentMatrix: {
+    main_menu: ["authorize_user", "load_data"];
+    load_data: ["load_data_yes", "load_data_no"];
+    authorize_user: typeof authorize_user_letters.letters;
+  };
+  bootComponentMatrixIndices: {
+    // 0 or 1
+    main_menu: 0 | 1;
+    // 0 or 1
+    load_data: 0 | 1;
+    authorize_user: 0;
+  };
+  bootSubscene: "main_menu" | "load_data" | "authorize_user";
+
+  // end scene
+  endMediaPlayedCount: number;
 };
 
-export const useMainSceneStore = create(
+export const useStore = create(
   combine(
     {
+      // scene data
+      currentScene: "main",
+
       // game progress
       gameProgress: game_progress,
 
-      // subscene
-      subscene: "site",
+      // main subscene
+      mainSubscene: "site",
 
       // whether or not to play the intro anim
       intro: true,
@@ -394,10 +281,55 @@ export const useMainSceneStore = create(
         // 0 or 1 or 2 ("fstWord", "sndWord" or "thirdWord")
         rightSideIdx: 0,
       },
-    } as MainSceneState,
+      mediaWordPosStateIdx: 1,
+
+      // idle scene
+      idleMedia: "INS01.STR",
+      // this may be undefined depending on whether or not the media is audio or not
+      idleImages: undefined,
+
+      // sskn scene
+      ssknComponentMatrix: ["sskn_ok", "sskn_cancel"],
+      ssknComponentMatrixIdx: 0,
+      ssknLoading: false,
+
+      // polytan scene
+      polytanUnlockedParts: {
+        body: true,
+        head: false,
+        leftArm: false,
+        rightArm: false,
+        leftLeg: false,
+        rightLeg: false,
+      },
+
+      // gate scene
+      gateLvl: 4,
+
+      // boot scene
+      bootComponentMatrix: {
+        main_menu: ["authorize_user", "load_data"],
+        load_data: ["load_data_yes", "load_data_no"],
+        authorize_user: authorize_user_letters.letters,
+      },
+      bootComponentMatrixIndices: {
+        // 0 or 1
+        main_menu: 0,
+        // 0 or 1
+        load_data: 0,
+        authorize_user: 0,
+      },
+      bootSubscene: "main_menu",
+
+      // end scene
+      endMediaPlayedCount: 0,
+    } as State,
     (set) => ({
-      // subscene setters
-      setSubscene: (to: string) => set(() => ({ subscene: to })),
+      // scene data setters
+      setScene: (to: string) => set(() => ({ currentScene: to })),
+
+      // main subscene setter
+      setMainSubscene: (to: string) => set(() => ({ mainSubscene: to })),
 
       // intro setters
       setIntro: (to: boolean) => set(() => ({ intro: to })),
@@ -507,67 +439,52 @@ export const useMainSceneStore = create(
         set(() => ({ mediaPercentageElapsed: to })),
       setAudioAnalyser: (to: THREE.AudioAnalyser) =>
         set(() => ({ audioAnalyser: to })),
-    })
-  )
-);
+      setMediaWordPosStateIdx: (to: number) =>
+        set(() => ({ mediaWordPosStateIdx: to })),
+      resetMediaWordPosStateIdx: () => set(() => ({ mediaWordPosStateIdx: 1 })),
 
-export const useBootStore = create(
-  combine(
-    {
-      componentMatrix: {
-        main_menu: ["authorize_user", "load_data"],
-        load_data: ["load_data_yes", "load_data_no"],
-        authorize_user: authorize_user_letters.letters,
-      },
-      componentMatrixIndices: {
-        // 0 or 1
-        main_menu: 0,
-        // 0 or 1
-        load_data: 0,
-        authorize_user: 0,
-      },
-      // main_menu, load_data or authorize_user
-      subscene: "main_menu",
-    } as BootState,
-    (set) => ({
-      setSubscene: (to: string) => set(() => ({ subscene: to })),
-      toggleComponentMatrixIdx: (subscene: string) =>
+      // idle media setters
+      setIdleMedia: (to: any) => set(() => ({ idleMedia: to })),
+      setIdleImages: (to: any) => set(() => ({ idleImages: to })),
+
+      // sskn scene setters
+      toggleSSknComponentMatrixIdx: () =>
         set((state) => ({
-          componentMatrixIndices: {
-            ...state.componentMatrixIndices,
+          ssknComponentMatrixIdx: Number(!state.ssknComponentMatrixIdx) as
+            | 0
+            | 1,
+        })),
+      resetSSknComponentMatrixIdx: () =>
+        set(() => ({ ssknComponentMatrixIdx: 0 })),
+      setSSknLoading: (to: boolean) => set(() => ({ ssknLoading: to })),
+
+      // gate scene setters
+      incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
+
+      // boot scene setters
+      setBootSubscene: (to: "load_data" | "authorize_user" | "main_menu") =>
+        set(() => ({ bootSubscene: to })),
+      toggleBootComponentMatrixIdx: (subscene: "load_data" | "main_menu") =>
+        set((state) => ({
+          bootComponentMatrixIndices: {
+            ...state.bootComponentMatrixIndices,
             [subscene]: Number(
-              !state.componentMatrixIndices[
-                subscene as keyof typeof state.componentMatrixIndices
+              !state.bootComponentMatrixIndices[
+                subscene as keyof typeof state.bootComponentMatrixIndices
               ]
             ),
           },
         })),
-      setAuthorizeUserMatrixIdx: (to: number) =>
+
+      // end scene setters
+      incrementEndMediaPlayedCount: () =>
         set((state) => ({
-          componentMatrixIndices: {
-            ...state.componentMatrixIndices,
-            authorize_user: to,
-          },
+          endMediaPlayedCount: state.endMediaPlayedCount + 1,
         })),
+      resetEndMediaPlayedCount: () => set(() => ({ endMediaPlayedCount: 0 })),
     })
   )
 );
-
-export const usePolytanStore = create<any>((set) => ({
-  unlockedParts: {
-    body: true,
-    head: false,
-    leftArm: false,
-    rightArm: false,
-    leftLeg: false,
-    rightLeg: false,
-  },
-}));
-
-export const useGateStore = create<GateState>((set) => ({
-  gateLvl: 4,
-  incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
-}));
 
 export const useSiteSaveStore = create(
   combine(
@@ -609,12 +526,5 @@ export const useSiteSaveStore = create(
   )
 );
 
-export const useEndSceneStore = create<EndState>((set) => ({
-  mediaPlayedCount: 0,
-  incrementMediaPlayedCount: () =>
-    set((state) => ({ mediaPlayedCount: state.mediaPlayedCount + 1 })),
-  resetMediaPlayedCount: () => set(() => ({ mediaPlayedCount: 0 })),
-}));
-
 export const getMainSceneContext = () =>
-  useMainSceneStore.getState().activeNode;
+  useStore.getState().activeNode;

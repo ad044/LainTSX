@@ -3,7 +3,7 @@ import middleRingTexture from "../../../../static/sprite/middle_ring_tex.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useMainSceneStore } from "../../../../store";
+import { useStore } from "../../../../store";
 
 type MiddleRingPartProps = {
   position: number[];
@@ -21,16 +21,16 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
   const [{ posX, posZ }, set] = useSpring(() => ({
     posX:
       props.position[0] /
-      useMainSceneStore.getState().middleRingPartSeparatorVal,
+      useStore.getState().middleRingPartSeparatorVal,
     posZ:
       props.position[2] /
-      useMainSceneStore.getState().middleRingPartSeparatorVal,
+      useStore.getState().middleRingPartSeparatorVal,
 
     config: { duration: 600 },
   }));
 
   useEffect(() => {
-    useMainSceneStore.subscribe(set, (state) => ({
+    useStore.subscribe(set, (state) => ({
       posX: props.position[0] / state.middleRingPartSeparatorVal,
       posZ: props.position[2] / state.middleRingPartSeparatorVal,
     }));

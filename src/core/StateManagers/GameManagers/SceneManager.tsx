@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useMainSceneStore, useSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const SceneManager = (props: StateManagerProps) => {
-  const setScene = useSceneStore((state) => state.setScene);
-  const setMainSceneIntro = useMainSceneStore((state) => state.setIntro);
+  const setScene = useStore((state) => state.setScene);
+  const setMainSceneIntro = useStore((state) => state.setIntro);
 
   const dispatchObject = useCallback(
     (eventState: { event: string; scene: string }) => {

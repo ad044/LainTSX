@@ -1,10 +1,12 @@
 import React from "react";
 import PolytanBear from "../components/PolytanScene/PolytanBear";
 import PolytanBackground from "../components/PolytanScene/PolytanBackground";
-import { usePolytanStore } from "../store";
+import { useStore } from "../store";
 
 const PolytanScene = () => {
-  const unlockedParts = usePolytanStore((state) => state.unlockedParts);
+  const unlockedParts = useStore(
+    (state) => state.polytanUnlockedParts
+  );
 
   return (
     <perspectiveCamera>

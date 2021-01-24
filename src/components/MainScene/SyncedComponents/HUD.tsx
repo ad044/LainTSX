@@ -8,7 +8,7 @@ import longHudMirrored from "../../../static/sprite/long_hud_mirrored.png";
 import boringHud from "../../../static/sprite/long_hud_boring.png";
 import boringHudMirrored from "../../../static/sprite/long_hud_boring_mirrored.png";
 import { a, useSpring } from "@react-spring/three";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import MediumLetter from "../../TextRenderer/MediumLetter";
 
 export type HUDType = {
@@ -33,11 +33,11 @@ export type HUDType = {
 };
 
 const HUD = memo(() => {
-  const greenText = useMainSceneStore((state) =>
+  const greenText = useStore((state) =>
     state.activeNode.title.split("")
   );
-  const active = useMainSceneStore((state) => Number(state.hudActive));
-  const currentHud = useMainSceneStore((state) => state.hud);
+  const active = useStore((state) => Number(state.hudActive));
+  const currentHud = useStore((state) => state.hud);
 
   const hudElementState = useSpring({
     bigHUDPositionX: active,
