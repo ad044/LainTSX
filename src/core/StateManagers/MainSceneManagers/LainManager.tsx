@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 
 const LainManager = (props: StateManagerProps) => {
-  const setLainMoveState = useMainSceneStore((state) => state.setLainMoveState);
+  const setLainMoveState = useStore((state) => state.setLainMoveState);
 
   const dispatchObject = useCallback(
     (eventState: { event: string }) => {

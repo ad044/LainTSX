@@ -3,11 +3,11 @@ import { StateManagerProps } from "../EventManager";
 import { SiteType } from "../../../components/MainScene/SyncedComponents/Site";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
-import { useIdleStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const IdleManager = (props: StateManagerProps) => {
-  const setImages = useIdleStore((state) => state.setImages);
-  const setMedia = useIdleStore((state) => state.setMedia);
+  const setImages = useStore((state) => state.setIdleImages);
+  const setMedia = useStore((state) => state.setIdleMedia);
 
   const playIdleMedia = useCallback(
     (site: string) => {

@@ -2,18 +2,16 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import SceneManager from "./GameManagers/SceneManager";
 import handleSSknSceneEvent from "../ssknSceneEventHandler";
-import { useSSknStore } from "../../store";
+import { useStore } from "../../store";
 import SSknComponentManager from "./SSknSceneManagers/SSknComponentManager";
 
 const SSknSceneManager = () => {
   // all the possible context needed to calculate new state
-  const ssknComponentMatrixIdx = useSSknStore(
-    (state) => state.componentMatrixIdx
-  );
-  const activeSSknComponent = useSSknStore(
-    useCallback((state) => state.componentMatrix[ssknComponentMatrixIdx], [
-      ssknComponentMatrixIdx,
-    ])
+  const activeSSknComponent = useStore(
+    useCallback(
+      (state) => state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
+      []
+    )
   );
 
   const [eventState, setEventState] = useState<any>();

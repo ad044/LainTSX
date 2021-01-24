@@ -7,7 +7,7 @@ import mouth1 from "../static/sprite/mouth_1.png";
 import mouth2 from "../static/sprite/mouth_2.png";
 import mouth3 from "../static/sprite/mouth_3.png";
 import mouth4 from "../static/sprite/mouth_4.png";
-import { useMainSceneStore } from "../store";
+import { useStore } from "../store";
 import { LainConstructor } from "./MainScene/Lain";
 
 type LainTaKProps = {
@@ -39,7 +39,7 @@ const LainSpeak = (props: LainTaKProps) => {
     />
   );
 
-  const analyser = useMainSceneStore((state) => state.audioAnalyser);
+  const analyser = useStore((state) => state.audioAnalyser);
 
   const mouthRef = useRef<THREE.SpriteMaterial>();
   useFrame(() => {

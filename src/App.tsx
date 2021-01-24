@@ -4,8 +4,7 @@ import "./static/css/page.css";
 import { Canvas } from "react-three-fiber";
 import MediaPlayer from "./components/MediaScene/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
-import EventManager from "./core/StateManagers/EventManager";
-import { useSceneStore } from "./store";
+import { useStore } from "./store";
 import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
 import SSknScene from "./scenes/SSknScene";
@@ -16,7 +15,7 @@ import EndScene from "./scenes/EndScene";
 import IdleMediaScene from "./scenes/IdleMediaScene";
 
 const App = () => {
-  const currentScene = useSceneStore((state) => state.currentScene);
+  const currentScene = useStore((state) => state.currentScene);
 
   useEffect(() => {
     document.title = "< index >";

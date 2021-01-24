@@ -3,19 +3,19 @@ import { useFrame, useLoader } from "react-three-fiber";
 import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import MiddleRingPart from "./MiddleRing/MiddleRingPart";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-  const pos = useMainSceneStore((state) => state.middleRingPos);
-  const rot = useMainSceneStore((state) => state.middleRingRot);
-  const wobbleAmp = useMainSceneStore((state) => state.middleRingWobbleAmp);
-  const noiseAmp = useMainSceneStore((state) => state.middleRingNoiseAmp);
+  const pos = useStore((state) => state.middleRingPos);
+  const rot = useStore((state) => state.middleRingRot);
+  const wobbleAmp = useStore((state) => state.middleRingWobbleAmp);
+  const noiseAmp = useStore((state) => state.middleRingNoiseAmp);
 
-  const rotating = useMainSceneStore((state) => state.middleRingRotating);
-  const mainRingVisible = useMainSceneStore(
+  const rotating = useStore((state) => state.middleRingRotating);
+  const mainRingVisible = useStore(
     (state) => !state.fakeMiddleRingVisible
   );
 

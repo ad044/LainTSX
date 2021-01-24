@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useMainSceneStore } from "../../store";
+import { useStore } from "../../store";
 import handleMainSceneEvent from "../mainSceneEventHandler";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import NodeManager from "./MainSceneManagers/NodeManager";
@@ -24,25 +24,25 @@ type MainSceneEventManagerProps = {
 
 const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   // all the possible context needed to calculate new state
-  const currentSite = useMainSceneStore((state) => state.activeSite);
-  const activeNodeId = useMainSceneStore((state) => state.activeNode.id);
-  const nodeMatrixIndices = useMainSceneStore(
+  const currentSite = useStore((state) => state.activeSite);
+  const activeNodeId = useStore((state) => state.activeNode.id);
+  const nodeMatrixIndices = useStore(
     (state) => state.activeNodeMatrixIndices
   );
-  const siteRotY = useMainSceneStore((state) => state.siteRot[1]);
-  const sitePosY = useMainSceneStore((state) => state.sitePos[1]);
-  const activeLevel = useMainSceneStore((state) => state.activeLevel);
-  const mainSubscene = useMainSceneStore((state) => state.subscene);
-  const selectedLevel = useMainSceneStore((state) => state.selectedLevel);
-  const pauseMatrixIdx = useMainSceneStore(
+  const siteRotY = useStore((state) => state.siteRot[1]);
+  const sitePosY = useStore((state) => state.sitePos[1]);
+  const activeLevel = useStore((state) => state.activeLevel);
+  const mainSubscene = useStore((state) => state.mainSubscene);
+  const selectedLevel = useStore((state) => state.selectedLevel);
+  const pauseMatrixIdx = useStore(
     (state) => state.pauseComponentMatrixIdx
   );
-  const activePauseComponent = useMainSceneStore(
+  const activePauseComponent = useStore(
     useCallback((state) => state.pauseComponentMatrix[pauseMatrixIdx], [
       pauseMatrixIdx,
     ])
   );
-  const gameProgress = useMainSceneStore((state) => state.gameProgress);
+  const gameProgress = useStore((state) => state.gameProgress);
 
   const timePassedSinceLastKeyPress = useRef(-1);
 

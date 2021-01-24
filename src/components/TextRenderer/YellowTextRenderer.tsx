@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from "react";
-import { useMainSceneStore } from "../../store";
+import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 
 const YellowTextRenderer = (props: { visible?: boolean }) => {
-  const xOffset = useMainSceneStore((state) => state.bigTextXOffset);
-  const visible = useMainSceneStore((state) => state.bigTextVisible);
-  const color = useMainSceneStore((state) => state.bigTextColor);
+  const xOffset = useStore((state) => state.bigTextXOffset);
+  const visible = useStore((state) => state.bigTextVisible);
+  const color = useStore((state) => state.bigTextColor);
 
-  const textRef = useRef(useMainSceneStore.getState().bigText.split(""));
+  const textRef = useRef(useStore.getState().bigText.split(""));
 
   const [trail, set] = useTrail(textRef.current.length, () => ({
-    posX: useMainSceneStore.getState().bigTextPos[0],
-    posY: useMainSceneStore.getState().bigTextPos[1],
+    posX: useStore.getState().bigTextPos[0],
+    posY: useStore.getState().bigTextPos[1],
     config: { duration: 280 },
   }));
 
   useEffect(
     () =>
-      useMainSceneStore.subscribe(
+      useStore.subscribe(
         (state) => {
           textRef.current = (state as any).bigText.split("");
         },
@@ -28,7 +28,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   );
 
   useEffect(() => {
-    useMainSceneStore.subscribe(set, (state) => ({
+    useStore.subscribe(set, (state) => ({
       posX: state.bigTextPos[0],
       posY: state.bigTextPos[1],
     }));

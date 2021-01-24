@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { useEndSceneStore, useMainSceneStore } from "../store";
+import { useStore } from "../store";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
 
 const EndScene = () => {
-  const setAudioAnalyser = useMainSceneStore((state) => state.setAudioAnalyser);
+  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
 
-  const mediaPlayedCount = useEndSceneStore((state) => state.mediaPlayedCount);
+  const mediaPlayedCount = useStore(
+    (state) => state.endMediaPlayedCount
+  );
 
   const mainCylinderRef = useRef<THREE.Object3D>();
 

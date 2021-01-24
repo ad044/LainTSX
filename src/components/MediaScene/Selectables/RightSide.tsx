@@ -1,26 +1,21 @@
-import React, { useCallback, useMemo } from "react";
-import { useMainSceneStore, useMediaWordStore } from "../../../store";
+import React, { memo, useCallback, useMemo } from "react";
+import { useStore } from "../../../store";
 import Word from "./RightSide/Word";
 import { a, useSpring } from "@react-spring/three";
 import word_position_states from "../../../resources/word_position_states.json";
 import * as THREE from "three";
+import Lof from "../Lof";
 
-type RightSideProps = {
-  activeMediaComponent: string;
-};
+const RightSide = memo(() => {
+  const words = useStore((state) => state.activeNode.words);
 
-const RightSide = (props: RightSideProps) => {
-  const words = useMainSceneStore((state) => state.activeNode.words);
-
-  const posStateIdx = useMediaWordStore(
-    (state) => state.posStateIdx
-  ).toString();
-
-  const wordPositionState = useMediaWordStore(
+  const wordPositionState = useStore(
     useCallback(
-      () =>
-        word_position_states[posStateIdx as keyof typeof word_position_states],
-      [posStateIdx]
+      (state) =>
+        word_position_states[
+          state.mediaWordPosStateIdx.toString() as keyof typeof word_position_states
+        ],
+      []
     )
   );
 
@@ -45,8 +40,21 @@ const RightSide = (props: RightSideProps) => {
     []
   );
 
+  const activeMediaComponent = useStore(
+    useCallback(
+      (state) =>
+        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+          state.mediaComponentMatrixIndices.sideIdx === 0
+            ? state.mediaComponentMatrixIndices.leftSideIdx
+            : state.mediaComponentMatrixIndices.rightSideIdx
+        ],
+      []
+    )
+  );
+
   return (
     <group position={[0, 0, -3]}>
+      <Lof />
       <a.group
         position-x={wordPositionStateSpring.crossPosX}
         position-y={wordPositionStateSpring.crossPosY}
@@ -74,22 +82,22 @@ const RightSide = (props: RightSideProps) => {
         word={words[1]}
         posX={wordPositionStateSpring.fstWordPosX}
         posY={wordPositionStateSpring.fstWordPosY}
-        active={props.activeMediaComponent === "fstWord"}
+        active={activeMediaComponent === "fstWord"}
       />
       <Word
         word={words[2]}
         posX={wordPositionStateSpring.sndWordPosX}
         posY={wordPositionStateSpring.sndWordPosY}
-        active={props.activeMediaComponent === "sndWord"}
+        active={activeMediaComponent === "sndWord"}
       />
       <Word
         word={words[3]}
         posX={wordPositionStateSpring.thirdWordPosX}
         posY={wordPositionStateSpring.thirdWordPosY}
-        active={props.activeMediaComponent === "thirdWord"}
+        active={activeMediaComponent === "thirdWord"}
       />
     </group>
   );
-};
+});
 
 export default RightSide;

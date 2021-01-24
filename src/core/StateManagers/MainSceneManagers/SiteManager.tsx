@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
-  const setPos = useMainSceneStore((state) => state.setSitePos);
-  const setRot = useMainSceneStore((state) => state.setSiteRot);
-  const setRotX = useMainSceneStore((state) => state.setSiteRotX);
+  const setPos = useStore((state) => state.setSitePos);
+  const setRot = useStore((state) => state.setSiteRot);
+  const setRotX = useStore((state) => state.setSiteRotX);
 
   const dispatchObject = useCallback(
     (eventState: { event: string; sitePosY: number; siteRotY: number }) => {

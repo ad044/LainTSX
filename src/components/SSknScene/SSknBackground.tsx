@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ssknBackground from "../../static/sprite/sskn_background.png";
 import ssknBackgroundText from "../../static/sprite/sskn_background_text.png";
 import { useLoader } from "react-three-fiber";
@@ -6,7 +6,7 @@ import * as THREE from "three";
 import ssknTopLabel from "../../static/sprite/sskn_top_label.png";
 import ssknDango from "../../static/sprite/sskn_dango.png";
 
-const SSknBackground = () => {
+const SSknBackground = memo(() => {
   const ssknBackgroundTex = useLoader(THREE.TextureLoader, ssknBackground);
   const ssknBackgroundTextTex = useLoader(
     THREE.TextureLoader,
@@ -41,6 +41,6 @@ const SSknBackground = () => {
       </sprite>
     </>
   );
-};
+});
 
 export default SSknBackground;

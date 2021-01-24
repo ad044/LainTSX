@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useIdleStore } from "../store";
+import { useStore } from "../store";
 import Images from "../components/MediaScene/Images";
 
 const IdleMediaScene = () => {
-  const idleMedia = useIdleStore((state) => state.media);
+  const idleMedia = useStore((state) => state.idleMedia);
 
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =

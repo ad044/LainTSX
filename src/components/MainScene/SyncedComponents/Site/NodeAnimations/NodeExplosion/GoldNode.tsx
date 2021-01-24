@@ -16,7 +16,7 @@ import Lda from "../../../../../../static/sprite/Lda.png";
 import LdaGold from "../../../../../../static/sprite/Lda_gold.png";
 import MULTI from "../../../../../../static/sprite/MULTI.png";
 import MULTIGold from "../../../../../../static/sprite/MULTI_gold.png";
-import { useMainSceneStore } from "../../../../../../store";
+import { useStore } from "../../../../../../store";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -35,7 +35,7 @@ type GoldNodeProps = {
 const GoldNode = (props: GoldNodeProps) => {
   const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/goldNode.glb");
 
-  const activeNodeName = useMainSceneStore(
+  const activeNodeName = useStore(
     (state) => state.activeNode.node_name
   );
 

@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import pauseGrayBoxes from "../../../static/sprite/pause_gray_boxes.png";
 import { a, useSpring } from "@react-spring/three";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
 type PauseSquareProps = {
   colIdx: number;
@@ -15,7 +15,7 @@ type PauseSquareProps = {
 };
 
 const PauseSquare = memo((props: PauseSquareProps) => {
-  const exitAnimation = useMainSceneStore((state) => state.pauseExitAnimation);
+  const exitAnimation = useStore((state) => state.pauseExitAnimation);
 
   const grayBoxesTex = useLoader(THREE.TextureLoader, pauseGrayBoxes);
 

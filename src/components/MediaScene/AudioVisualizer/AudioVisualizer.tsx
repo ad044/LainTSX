@@ -1,11 +1,11 @@
-import React, { createRef, MutableRefObject, useMemo } from "react";
+import React, { createRef, MutableRefObject, useMemo, memo } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import AudioVisualizerColumn from "./AudioVisualizerColumn";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
-const AudioVisualizer = () => {
-  const analyser = useMainSceneStore((state) => state.audioAnalyser);
+const AudioVisualizer = memo(() => {
+  const analyser = useStore((state) => state.audioAnalyser);
 
   const columnRefs = useMemo(
     () =>
@@ -84,6 +84,6 @@ const AudioVisualizer = () => {
       ))}
     </group>
   );
-};
+});
 
 export default AudioVisualizer;

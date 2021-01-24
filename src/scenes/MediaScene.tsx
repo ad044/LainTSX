@@ -1,34 +1,30 @@
-import React, { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../store";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
-import Lof from "../components/MediaScene/Lof";
 import Images from "../components/MediaScene/Images";
 import MediumLetter from "../components/TextRenderer/MediumLetter";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 import MediaSceneEventManager from "../core/StateManagers/MediaSceneEventManager";
 
 const MediaScene = () => {
-  const activeNodeName = useMainSceneStore((state) =>
-    state.activeNode.node_name.split("")
-  );
-  const activeNodeMedia = useMainSceneStore(
-    (state) => state.activeNode.media_file
-  );
-
-  const activeMediaComponent = useMainSceneStore(
+  const nodeNameText = useStore(
     useCallback(
       (state) =>
-        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-          state.mediaComponentMatrixIndices.sideIdx === 0
-            ? state.mediaComponentMatrixIndices.leftSideIdx
-            : state.mediaComponentMatrixIndices.rightSideIdx
-        ],
+        state.activeNode.node_name
+          .split("")
+          .map((letter: string, idx: number) => (
+            <MediumLetter letter={letter} letterIdx={idx} key={idx} />
+          )),
       []
     )
+  );
+
+  const activeNodeMedia = useStore(
+    (state) => state.activeNode.media_file
   );
 
   useEffect(() => {
@@ -44,21 +40,18 @@ const MediaScene = () => {
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>
         <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
-        <LeftSide activeMediaComponent={activeMediaComponent!} />
+        <LeftSide />
         <group position={[0, 0.5, -3]}>
           <MediaLoadingBar />
           <NodeNameContainer />
         </group>
         <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-          {activeNodeName.map((letter: string, idx: number) => (
-            <MediumLetter letter={letter} letterIdx={idx} key={idx} />
-          ))}
+          {nodeNameText}
         </group>
         <MediaYellowTextAnimator />
 
         <group visible={activeNodeMedia.includes("XA")}>
-          <RightSide activeMediaComponent={activeMediaComponent!} />
-          <Lof />
+          <RightSide />
           <AudioVisualizer />
           <Images />
         </group>

@@ -1,13 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useBootStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const BootComponentManager = (props: StateManagerProps) => {
-  const toggleComponentMatrixIdx = useBootStore(
-    (state) => state.toggleComponentMatrixIdx
-  );
-  const setAuthorizeUserMatrixIdx = useBootStore(
-    (state) => state.setAuthorizeUserMatrixIdx
+  const toggleComponentMatrixIdx = useStore(
+    (state) => state.toggleBootComponentMatrixIdx
   );
 
   const dispatchObject = useCallback(
@@ -29,13 +26,9 @@ const BootComponentManager = (props: StateManagerProps) => {
         case "authorize_user_up":
         case "authorize_user_left":
         case "authorize_user_down":
-          return {
-            action: setAuthorizeUserMatrixIdx,
-            value: newAuthorizeUserMatrixIdx,
-          };
       }
     },
-    [setAuthorizeUserMatrixIdx, toggleComponentMatrixIdx]
+    [toggleComponentMatrixIdx]
   );
 
   useEffect(() => {

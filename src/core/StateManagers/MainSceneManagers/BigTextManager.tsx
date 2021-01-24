@@ -1,15 +1,15 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { NodeDataType } from "../../../components/MainScene/SyncedComponents/Site";
 import { StateManagerProps } from "../EventManager";
 import { HUDType } from "../../../components/MainScene/SyncedComponents/HUD";
 
 const BigTextManager = (props: StateManagerProps) => {
-  const setText = useMainSceneStore((state) => state.setBigText);
-  const setColor = useMainSceneStore((state) => state.setBigTextColor);
-  const setVisible = useMainSceneStore((state) => state.setBigTextVisible);
-  const setXOffset = useMainSceneStore((state) => state.setBigTextXOffset);
-  const setPos = useMainSceneStore((state) => state.setBigTextPos);
+  const setText = useStore((state) => state.setBigText);
+  const setColor = useStore((state) => state.setBigTextColor);
+  const setVisible = useStore((state) => state.setBigTextVisible);
+  const setXOffset = useStore((state) => state.setBigTextXOffset);
+  const setPos = useStore((state) => state.setBigTextPos);
 
   const animateYellowTextWithMove = useCallback(
     (

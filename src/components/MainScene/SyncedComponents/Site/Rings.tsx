@@ -3,15 +3,15 @@ import level_y_values from "../../../../resources/level_y_values.json";
 import PurpleRing from "./PurpleRing";
 import GrayRing from "./GrayRing";
 import CyanCrystal from "./CyanCrystal";
-import { useMainSceneStore } from "../../../../store";
+import { useStore } from "../../../../store";
 
 type RingsProps = {
   activateAllRings: boolean;
 };
 
 const Rings = memo((props: RingsProps) => {
-  const activeLevel = useMainSceneStore((state) => state.activeLevel);
-  const currentSite = useMainSceneStore((state) => state.activeSite);
+  const activeLevel = useStore((state) => state.activeLevel);
+  const currentSite = useStore((state) => state.activeSite);
 
   const visibleRings = useMemo(() => {
     const rings: [string, number][] = [];

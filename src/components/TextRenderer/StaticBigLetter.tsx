@@ -6,7 +6,7 @@ import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
 import React, { useMemo, memo } from "react";
-import { useMainSceneStore } from "../../store";
+import { useStore } from "../../store";
 
 const StaticBigLetter = memo(
   (props: {
@@ -20,7 +20,7 @@ const StaticBigLetter = memo(
     colIdx?: number;
     intro?: boolean;
   }) => {
-    const exitAnimation = useMainSceneStore(
+    const exitAnimation = useStore(
       (state) => state.pauseExitAnimation
     );
 

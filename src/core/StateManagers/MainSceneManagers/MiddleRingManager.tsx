@@ -1,18 +1,18 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const MiddleRingManager = (props: any) => {
-  const setRot = useMainSceneStore((state) => state.setMiddleRingRot);
-  const setPos = useMainSceneStore((state) => state.setMiddleRingPos);
-  const setRotating = useMainSceneStore((state) => state.setMiddleRingRotating);
-  const setNoiseAmp = useMainSceneStore((state) => state.setMiddleRingNoiseAmp);
-  const setWobbleAmp = useMainSceneStore(
+  const setRot = useStore((state) => state.setMiddleRingRot);
+  const setPos = useStore((state) => state.setMiddleRingPos);
+  const setRotating = useStore((state) => state.setMiddleRingRotating);
+  const setNoiseAmp = useStore((state) => state.setMiddleRingNoiseAmp);
+  const setWobbleAmp = useStore(
     (state) => state.setMiddleRingWobbleAmp
   );
-  const setFakeRingVisible = useMainSceneStore(
+  const setFakeRingVisible = useStore(
     (state) => state.setFakeMiddleRingVisible
   );
-  const setPartSeparatorVal = useMainSceneStore(
+  const setPartSeparatorVal = useStore(
     (state) => state.setMiddleRingPartSeparatorVal
   );
 

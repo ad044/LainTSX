@@ -17,7 +17,7 @@ import LdaActive from "../../../../static/sprite/Lda_active.png";
 import MULTI from "../../../../static/sprite/MULTI.png";
 import MULTIActive from "../../../../static/sprite/MULTI_active.png";
 import level_y_values from "../../../../resources/level_y_values.json";
-import { useMainSceneStore } from "../../../../store";
+import { useStore } from "../../../../store";
 
 type NodeContructorProps = {
   nodeName: string;
@@ -122,7 +122,7 @@ const Node = memo((props: NodeContructorProps) => {
   }));
 
   useEffect(() => {
-    useMainSceneStore.subscribe(set, (state) => ({
+    useStore.subscribe(set, (state) => ({
       activeNodePosX: state.activeNodeState.interactedWith
         ? state.activeNodePos[0]
         : props.position[0],

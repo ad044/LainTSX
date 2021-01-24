@@ -2,7 +2,7 @@ import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import grayTextureFile from "../../../../static/sprite/gray_box.png";
 import darkGrayTextureFile from "../../../../static/sprite/dark_gray_box.png";
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import { ShapeProps } from "../LeftSide";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
@@ -15,7 +15,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-const TriangularPrism = (props: ShapeProps) => {
+const TriangularPrism = memo((props: ShapeProps) => {
   const grayTex = useLoader(THREE.TextureLoader, grayTextureFile);
   const darkGrayTex = useLoader(THREE.TextureLoader, darkGrayTextureFile);
 
@@ -33,7 +33,7 @@ const TriangularPrism = (props: ShapeProps) => {
 
   return (
     <mesh
-      scale={[0.45/2, 0.5/2, 0.45/2]}
+      scale={[0.45 / 2, 0.5 / 2, 0.45 / 2]}
       position={props.position as [number, number, number]}
       rotation-y={0.15}
       rotation-z={-0.02}
@@ -46,6 +46,6 @@ const TriangularPrism = (props: ShapeProps) => {
       />
     </mesh>
   );
-};
+});
 
 export default TriangularPrism;

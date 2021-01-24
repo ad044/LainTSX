@@ -5,7 +5,7 @@ import horizontalHud from "../../../static/sprite/select_level_hud_horizontal.pn
 import levelSelectionText from "../../../static/sprite/select_level_text.png";
 import upArrow from "../../../static/sprite/select_level_up_arrow.png";
 import downArrow from "../../../static/sprite/select_level_down_arrow.png";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
@@ -24,11 +24,11 @@ const LevelSelection = () => {
   const upArrowTex = useLoader(THREE.TextureLoader, upArrow);
   const downArrowTex = useLoader(THREE.TextureLoader, downArrow);
 
-  const toggled = useMainSceneStore(
-    useCallback((state) => Number(state.subscene === "level_selection"), [])
+  const toggled = useStore(
+    useCallback((state) => Number(state.mainSubscene === "level_selection"), [])
   );
 
-  const selectedLevel = useMainSceneStore((state) => state.selectedLevel)
+  const selectedLevel = useStore((state) => state.selectedLevel)
     .toString()
     .padStart(2, "0");
 

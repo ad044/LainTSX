@@ -6,12 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  useEndSceneStore,
-  useIdleStore,
-  useMainSceneStore,
-  useSceneStore,
-} from "../../store";
+import { useStore } from "../../store";
 import t from "../../static/webvtt/test.vtt";
 import endroll from "../../static/movie/ENDROLL1.STR[0].webm";
 import xa0001 from "../../static/audio/a/Xa0001.mp4";
@@ -20,34 +15,34 @@ import xa0006 from "../../static/audio/a/Xa0006.mp4";
 const MediaPlayer = () => {
   const [mediaSource, setMediaSource] = useState<any>();
 
-  const currentScene = useSceneStore((state) => state.currentScene);
-  const setScene = useSceneStore((state) => state.setScene);
+  const currentScene = useStore((state) => state.currentScene);
+  const setScene = useStore((state) => state.setScene);
 
-  const setPercentageElapsed = useMainSceneStore(
+  const setPercentageElapsed = useStore(
     (state) => state.setPercentageElapsed
   );
 
-  const idleMedia = useIdleStore((state) => state.media);
-  const nodeMedia = useMainSceneStore((state) => state.activeNode.media_file);
+  const idleMedia = useStore((state) => state.idleMedia);
+  const nodeMedia = useStore((state) => state.activeNode.media_file);
 
-  const triggersFinalVideo = useMainSceneStore(
+  const triggersFinalVideo = useStore(
     (state) => state.activeNode.triggers_final_video
   );
 
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
 
-  const currentSite = useMainSceneStore((state) => state.activeSite);
+  const currentSite = useStore((state) => state.activeSite);
 
   // end scene specific stuff
-  const endMediaPlayedCount = useEndSceneStore(
-    (state) => state.mediaPlayedCount
+  const endMediaPlayedCount = useStore(
+    (state) => state.endMediaPlayedCount
   );
-  const incrementEndMediaPlayedCount = useEndSceneStore(
-    (state) => state.incrementMediaPlayedCount
+  const incrementEndMediaPlayedCount = useStore(
+    (state) => state.incrementEndMediaPlayedCount
   );
-  const resetEndMediaPlayedCount = useEndSceneStore(
-    (state) => state.resetMediaPlayedCount
+  const resetEndMediaPlayedCount = useStore(
+    (state) => state.resetEndMediaPlayedCount
   );
 
   const updateTime = useCallback(() => {
@@ -60,7 +55,7 @@ const MediaPlayer = () => {
       const duration = videoRef.current.duration;
       const percentageElapsed = Math.floor((timeElapsed / duration) * 100);
 
-      if (percentageElapsed % 5 === 0) {
+      if (percentageElapsed % 5 === 0 && percentageElapsed !== 0) {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
           videoRef.current.currentTime = 0;

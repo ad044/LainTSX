@@ -1,14 +1,14 @@
 import React from "react";
-import { useMainSceneStore } from "../../../../store";
+import { useStore } from "../../../../store";
 import NodeExplosion from "./NodeAnimations/NodeExplosion";
 import NodeRip from "./NodeAnimations/NodeRip";
 
 const NodeAnimations = () => {
-  const nodeShrinking = useMainSceneStore(
+  const nodeShrinking = useStore(
     (state) => state.activeNodeState.shrinking
   );
 
-  const nodeExploding = useMainSceneStore(
+  const nodeExploding = useStore(
     (state) => state.activeNodeState.exploding
   );
 

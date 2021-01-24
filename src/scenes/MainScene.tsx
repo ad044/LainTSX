@@ -3,14 +3,14 @@ import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useMemo } from "react";
 import Lain from "../components/MainScene/Lain";
 import Preloader from "../components/Preloader";
-import { useMainSceneStore } from "../store";
+import { useStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
 import LevelSelection from "../components/MainScene/SyncedComponents/LevelSelection";
 
 const MainScene = () => {
-  const currentSubscene = useMainSceneStore((state) => state.subscene);
-  const shouldIntro = useMainSceneStore((state) => state.intro);
+  const currentSubscene = useStore((state) => state.mainSubscene);
+  const shouldIntro = useStore((state) => state.intro);
 
   const isPaused = useMemo(() => currentSubscene === "pause", [
     currentSubscene,

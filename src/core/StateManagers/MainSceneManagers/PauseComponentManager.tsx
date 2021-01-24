@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from "react";
 import { StateManagerProps } from "../EventManager";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 
 const PauseComponentManager = (props: StateManagerProps) => {
-  const setComponentMatrixIdx = useMainSceneStore(
+  const setComponentMatrixIdx = useStore(
     (state) => state.setPauseComponentMatrixIdx
   );
-  const setExitAnimation = useMainSceneStore(
+  const setExitAnimation = useStore(
     (state) => state.setPauseExitAnimation
   );
 

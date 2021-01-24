@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
 import StaticBigLetter from "../../TextRenderer/StaticBigLetter";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 
 type PauseProps = {
@@ -10,7 +10,7 @@ type PauseProps = {
 };
 
 const Pause = (props: PauseProps) => {
-  const exit = useMainSceneStore((state) => state.pauseExitAnimation);
+  const exit = useStore((state) => state.pauseExitAnimation);
   const [showActiveComponent, setShowActiveComponent] = useState(false);
   const [animation, setAnimation] = useState(false);
   const [intro, setIntro] = useState(true);
@@ -25,7 +25,7 @@ const Pause = (props: PauseProps) => {
     [wordFont]
   );
 
-  const activeComponent = useMainSceneStore(
+  const activeComponent = useStore(
     useCallback(
       (state) =>
         showActiveComponent

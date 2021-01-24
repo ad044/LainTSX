@@ -3,11 +3,11 @@ import GateSide from "../components/GateScene/GateSide";
 import { OrbitControls } from "@react-three/drei";
 import GateHUD from "../components/GateScene/GateHUD";
 import GateMiddleObject from "../components/GateScene/GateMiddleObject";
-import { useGateStore } from "../store";
+import { useStore } from "../store";
 import GateSceneManager from "../core/StateManagers/GateSceneManager";
 
 const GateScene = () => {
-  const gateLvl = useGateStore((state) => state.gateLvl);
+  const gateLvl = useStore((state) => state.gateLvl);
   const [introAnim, setIntroAnim] = useState(true);
 
   useEffect(() => {

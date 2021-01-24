@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from "react";
-import { useMainSceneStore } from "../../../store";
+import { useStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 import {HUDType} from "../../../components/MainScene/SyncedComponents/HUD";
 
 const NodeHUDManager = (props: StateManagerProps) => {
-  const set = useMainSceneStore((state) => state.setHud);
-  const toggleActive = useMainSceneStore((state) => state.toggleHudActive);
+  const set = useStore((state) => state.setHud);
+  const toggleActive = useStore((state) => state.toggleHudActive);
 
   const moveAndChangeNode = useCallback(
     (hud: HUDType) => {
