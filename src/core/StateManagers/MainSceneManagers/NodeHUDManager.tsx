@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
-import {HUDType} from "../../../components/MainScene/SyncedComponents/HUD";
+import { HUDType } from "../../../components/MainScene/SyncedComponents/HUD";
 
 const NodeHUDManager = (props: StateManagerProps) => {
   const set = useStore((state) => state.setHud);
@@ -15,18 +15,6 @@ const NodeHUDManager = (props: StateManagerProps) => {
         set(hud);
         toggleActive();
       }, 3900);
-    },
-    [set, toggleActive]
-  );
-
-  const changeNode = useCallback(
-    (hud: HUDType) => {
-      toggleActive();
-
-      setTimeout(() => {
-        set(hud);
-        toggleActive();
-      }, 500);
     },
     [set, toggleActive]
   );
@@ -52,11 +40,6 @@ const NodeHUDManager = (props: StateManagerProps) => {
             action: moveAndChangeNode,
             value: [eventState.hud],
           };
-        case "change_node":
-          return {
-            action: changeNode,
-            value: [eventState.hud],
-          };
         case "toggle_level_selection":
         case "level_selection_back":
           return {
@@ -70,7 +53,7 @@ const NodeHUDManager = (props: StateManagerProps) => {
           };
       }
     },
-    [changeNode, moveAndChangeNode, selectLevelAnimation, toggleActive]
+    [moveAndChangeNode, selectLevelAnimation, toggleActive]
   );
 
   useEffect(() => {

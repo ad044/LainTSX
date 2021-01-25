@@ -8,7 +8,6 @@ import authorizeInactiveLetters from "../../static/sprite/authorize_inactive_let
 import authorizeActiveLetters from "../../static/sprite/authorize_active_letters.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { useAuthorizeUserStore } from "../../store";
 import { OrbitControls } from "@react-three/drei";
 
 type BootAuthorizeUserProps = {
@@ -42,19 +41,15 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     authorizeActiveLetters
   );
 
-  const backgroundLettersPos = useAuthorizeUserStore(
-    (state) => state.bgLettersPos
-  );
-  const activeLetterTextureOffset = useAuthorizeUserStore(
-    (state) => state.activeLetterTextureOffset
-  );
+  const backgroundLettersPos = 1;
+  const activeLetterTextureOffset = 2;
 
   const authorizeActiveLettersMap = useMemo(() => {
     authorizeActiveLettersTex.wrapT = authorizeActiveLettersTex.wrapS =
       THREE.RepeatWrapping;
     authorizeActiveLettersTex.repeat.set(0.06, 0.2);
-    authorizeActiveLettersTex.offset.x = activeLetterTextureOffset.x;
-    authorizeActiveLettersTex.offset.y = activeLetterTextureOffset.y;
+    authorizeActiveLettersTex.offset.x = 1;
+    authorizeActiveLettersTex.offset.y = 2;
 
     return authorizeActiveLettersTex;
   }, [activeLetterTextureOffset, authorizeActiveLettersTex]);
@@ -129,7 +124,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             <mesh
               scale={[4, 1.28, 0]}
               renderOrder={-1}
-              position={[backgroundLettersPos.x, backgroundLettersPos.y, 0]}
+              position={[1, 2, 0]}
             >
               <planeBufferGeometry attach="geometry" />
               <meshBasicMaterial

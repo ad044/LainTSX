@@ -6,26 +6,12 @@ import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisua
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Images from "../components/MediaScene/Images";
-import MediumLetter from "../components/TextRenderer/MediumLetter";
+import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 import MediaSceneEventManager from "../core/StateManagers/MediaSceneEventManager";
 
 const MediaScene = () => {
-  const nodeNameText = useStore(
-    useCallback(
-      (state) =>
-        state.activeNode.node_name
-          .split("")
-          .map((letter: string, idx: number) => (
-            <MediumLetter letter={letter} letterIdx={idx} key={idx} />
-          )),
-      []
-    )
-  );
-
-  const activeNodeMedia = useStore(
-    (state) => state.activeNode.media_file
-  );
+  const activeNodeMedia = useStore((state) => state.activeNode.media_file);
 
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =
@@ -46,7 +32,7 @@ const MediaScene = () => {
           <NodeNameContainer />
         </group>
         <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-          {nodeNameText}
+          <GreenTextRenderer />
         </group>
         <MediaYellowTextAnimator />
 

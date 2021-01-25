@@ -25,21 +25,6 @@ type SiteSaveState = {
   };
 };
 
-export const useAuthorizeUserStore = create<any>((set) => ({
-  bgLettersPos: {
-    x: 3.35,
-    y: -0.7,
-  },
-  activeLetterTextureOffset: {
-    x: 0,
-    y: -0.2,
-  },
-  setBgLettersPos: (to: { x: number; y: number }) =>
-    set(() => ({ bgLettersPos: to })),
-  setActiveLetterTexOffset: (to: { x: number; y: number }) =>
-    set(() => ({ activeLetterTextureOffset: to })),
-}));
-
 type State = {
   currentScene: string;
 
