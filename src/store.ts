@@ -44,12 +44,6 @@ type State = {
   hudActive: boolean;
 
   activeNode: NodeDataType;
-
-  activeNodeMatrixIndices: {
-    matrixIdx: number;
-    rowIdx: number;
-    colIdx: number;
-  };
   activeNodePos: number[];
   activeNodeRot: number[];
   activeNodeState: {
@@ -212,8 +206,8 @@ export const useStore = create(
           "2": "quiet",
           "3": "hallucination",
         },
+        matrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
       },
-      activeNodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
       activeNodePos: [0, 0, 0],
       activeNodeRot: [0, 0, 0],
       activeNodeState: {
@@ -333,11 +327,6 @@ export const useStore = create(
 
       // node setters
       setNode: (to: NodeDataType) => set(() => ({ activeNode: to })),
-      setNodeMatrixIndices: (to: {
-        matrixIdx: number;
-        rowIdx: number;
-        colIdx: number;
-      }) => set(() => ({ activeNodeMatrixIndices: to })),
       setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
       setNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
       setNodeState: (
@@ -511,5 +500,4 @@ export const useSiteSaveStore = create(
   )
 );
 
-export const getMainSceneContext = () =>
-  useStore.getState().activeNode;
+export const getMainSceneContext = () => useStore.getState().activeNode;

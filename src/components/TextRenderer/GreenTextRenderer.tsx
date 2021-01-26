@@ -98,8 +98,6 @@ const GreenTextRenderer = memo(() => {
     });
   }, [colorTexture, textToRender]);
 
-  console.log("rend");
-
   return <>{text}</>;
 });
 

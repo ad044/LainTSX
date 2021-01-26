@@ -1,15 +1,14 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../../static/sprite/big_hud.png";
 import longHud from "../../../static/sprite/long_hud.png";
 import boringHud from "../../../static/sprite/long_hud_boring.png";
-import { a } from "@react-spring/three";
 import { useStore } from "../../../store";
 import { getNodeHud } from "../../../core/nodeSelector";
 import lerp from "../../../core/utils/lerp";
 import GreenTextRenderer from "../../TextRenderer/GreenTextRenderer";
-import MediaSceneEventManager from "../../../core/StateManagers/MediaSceneEventManager";
+import usePrevious from "../../../hooks/usePrevious";
 
 export type HUDType = {
   mirrored: number;
@@ -33,15 +32,18 @@ export type HUDType = {
 };
 
 const HUD = memo(() => {
-  const greenText = ["d", "i"];
   const activeRef = useRef(true);
   const currentHudRef = useRef(
-    getNodeHud(useStore.getState().activeNodeMatrixIndices)
+    getNodeHud(useStore.getState().activeNode.matrixIndices!)
   );
   const activeNodeMatrixIndices = useStore(
-    (state) => state.activeNodeMatrixIndices
+    (state) => state.activeNode.matrixIndices
   );
+  const siteRotY = useStore((state) => state.siteRot[1]);
+  const sitePosY = useStore((state) => state.sitePos[1]);
+  const prevData = usePrevious({ siteRotY, sitePosY });
 
+  // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
     if (
       longHudRef.current &&
@@ -84,45 +86,66 @@ const HUD = memo(() => {
   });
 
   useEffect(() => {
-    if (activeRef.current) {
-      activeRef.current = false;
-      setTimeout(() => {
-        const hud = getNodeHud(activeNodeMatrixIndices);
-        if (
-          longHudRef.current &&
-          bigHudRef.current &&
-          boringHudRef.current &&
-          greenTextRef.current
-        ) {
-          longHudRef.current.position.y = hud.long.position[1];
-          boringHudRef.current.position.y = hud.boring.position[1];
-          bigHudRef.current.position.y = hud.big.position[1];
-          greenTextRef.current.position.y = hud.medium_text.position[1];
+    if (activeRef.current !== undefined) {
+      if (prevData?.siteRotY !== siteRotY || prevData?.sitePosY !== sitePosY) {
+        activeRef.current = false;
+      } else {
+        const wasHidden = !activeRef.current;
+        activeRef.current = false;
+        setTimeout(
+          () => {
+            const hud = getNodeHud(activeNodeMatrixIndices!);
+            if (
+              longHudRef.current &&
+              bigHudRef.current &&
+              boringHudRef.current &&
+              greenTextRef.current
+            ) {
+              longHudRef.current.position.y = hud.long.position[1];
+              boringHudRef.current.position.y = hud.boring.position[1];
+              bigHudRef.current.position.y = hud.big.position[1];
+              greenTextRef.current.position.y = hud.medium_text.position[1];
 
-          longHudRef.current.position.x = hud.long.initial_position[0];
-          boringHudRef.current.position.x = hud.boring.initial_position[0];
-          bigHudRef.current.position.x = hud.big.initial_position[0];
-          greenTextRef.current.position.x = hud.medium_text.initial_position[0];
+              longHudRef.current.position.x = hud.long.initial_position[0];
+              boringHudRef.current.position.x = hud.boring.initial_position[0];
+              bigHudRef.current.position.x = hud.big.initial_position[0];
+              greenTextRef.current.position.x =
+                hud.medium_text.initial_position[0];
 
-          if (hud.mirrored) {
-            longHudRef.current.scale.x = -Math.abs(longHudRef.current.scale.x);
-            boringHudRef.current.scale.x = -Math.abs(
-              boringHudRef.current.scale.x
-            );
-            bigHudRef.current.scale.x = -Math.abs(bigHudRef.current.scale.x);
-          } else {
-            longHudRef.current.scale.x = Math.abs(longHudRef.current.scale.x);
-            boringHudRef.current.scale.x = Math.abs(
-              boringHudRef.current.scale.x
-            );
-            bigHudRef.current.scale.x = Math.abs(bigHudRef.current.scale.x);
-          }
-          currentHudRef.current = hud;
-          activeRef.current = true;
-        }
-      }, 500);
+              if (hud.mirrored) {
+                longHudRef.current.scale.x = -Math.abs(
+                  longHudRef.current.scale.x
+                );
+                boringHudRef.current.scale.x = -Math.abs(
+                  boringHudRef.current.scale.x
+                );
+                bigHudRef.current.scale.x = -Math.abs(
+                  bigHudRef.current.scale.x
+                );
+              } else {
+                longHudRef.current.scale.x = Math.abs(
+                  longHudRef.current.scale.x
+                );
+                boringHudRef.current.scale.x = Math.abs(
+                  boringHudRef.current.scale.x
+                );
+                bigHudRef.current.scale.x = Math.abs(bigHudRef.current.scale.x);
+              }
+              currentHudRef.current = hud;
+              activeRef.current = true;
+            }
+          },
+          wasHidden ? 0 : 500
+        );
+      }
     }
-  }, [activeNodeMatrixIndices]);
+  }, [
+    activeNodeMatrixIndices,
+    prevData?.sitePosY,
+    prevData?.siteRotY,
+    sitePosY,
+    siteRotY,
+  ]);
 
   const longHudRef = useRef<THREE.Object3D>();
   const boringHudRef = useRef<THREE.Object3D>();
@@ -133,10 +156,9 @@ const HUD = memo(() => {
   const boringHudTex = useLoader(THREE.TextureLoader, boringHud);
   const bigHudTex = useLoader(THREE.TextureLoader, bigHud);
 
-  // console.log("rend");
   return (
     <group position={[0, 0, 10]}>
-      <a.mesh
+      <mesh
         scale={[1, 0.03, 1]}
         renderOrder={2}
         ref={longHudRef}
@@ -149,8 +171,8 @@ const HUD = memo(() => {
           transparent={true}
           depthTest={false}
         />
-      </a.mesh>
-      <a.mesh
+      </mesh>
+      <mesh
         scale={[1, 0.03, 1]}
         renderOrder={2}
         ref={boringHudRef}
@@ -163,8 +185,8 @@ const HUD = memo(() => {
           transparent={true}
           depthTest={false}
         />
-      </a.mesh>
-      <a.mesh
+      </mesh>
+      <mesh
         scale={[0.5, 0.06, 1]}
         renderOrder={2}
         ref={bigHudRef}
@@ -177,10 +199,10 @@ const HUD = memo(() => {
           transparent={true}
           depthTest={false}
         />
-      </a.mesh>
-      <a.group position-z={-8.7} scale={[0.02, 0.035, 0.02]} ref={greenTextRef}>
+      </mesh>
+      <group position-z={-8.7} scale={[0.02, 0.035, 0.02]} ref={greenTextRef}>
         <GreenTextRenderer />
-      </a.group>
+      </group>
     </group>
   );
 });

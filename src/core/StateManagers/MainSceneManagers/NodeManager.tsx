@@ -8,9 +8,6 @@ const NodeManager = (props: StateManagerProps) => {
   const setActiveNodePos = useStore((state) => state.setNodePos);
   const setActiveNodeRot = useStore((state) => state.setNodeRot);
   const setActiveNodeState = useStore((state) => state.setNodeState);
-  const setNodeMatrixIndices = useStore(
-    (state) => state.setNodeMatrixIndices
-  );
 
   const calculateCoordsBasedOnRotation = (
     x: number,
@@ -174,11 +171,11 @@ const NodeManager = (props: StateManagerProps) => {
       delay?: number
     ) => {
       setTimeout(() => {
+        node.matrixIndices = newNodeMatrixIndices;
         setActiveNode(node);
-        setNodeMatrixIndices(newNodeMatrixIndices);
       }, delay);
     },
-    [setActiveNode, setNodeMatrixIndices]
+    [setActiveNode]
   );
 
   const dispatchObject = useCallback(

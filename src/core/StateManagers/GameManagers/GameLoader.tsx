@@ -27,9 +27,6 @@ const GameLoader = (props: StateManagerProps) => {
 
   // node setter
   const setActiveNode = useStore((state) => state.setNode);
-  const setNodeMatrixIndices = useStore(
-    (state) => state.setNodeMatrixIndices
-  );
 
   // node hud setter
   const setHud = useStore((state) => state.setHud);
