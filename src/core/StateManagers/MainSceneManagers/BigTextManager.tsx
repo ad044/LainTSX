@@ -48,29 +48,6 @@ const BigTextManager = (props: StateManagerProps) => {
     [setPos, setText, setXOffset]
   );
 
-  const animateYellowTextWithoutMove = useCallback(
-    (hud: HUDType, node: NodeDataType) => {
-      // make current hud big text shrink
-      setXOffset(-1);
-
-      setTimeout(() => {
-        // animate it to new pos x/y
-        setPos(hud.big_text);
-      }, 400);
-
-      setTimeout(() => {
-        // set new text according to the node name
-        setText(node.node_name);
-      }, 1000);
-
-      setTimeout(() => {
-        // unshrink text
-        setXOffset(0);
-      }, 1200);
-    },
-    [setPos, setText, setXOffset]
-  );
-
   const initializeLevelSelection = useCallback(() => {
     setXOffset(-1);
 
@@ -155,11 +132,6 @@ const BigTextManager = (props: StateManagerProps) => {
             action: animateYellowTextWithMove,
             value: [-Math.PI / 4, 0, eventState.hud, eventState.node, 1100],
           };
-        case "change_node":
-          return {
-            action: animateYellowTextWithoutMove,
-            value: [eventState.hud, eventState.node],
-          };
         case "level_selection_back":
           return {
             action: levelSelectionBack,
@@ -179,7 +151,6 @@ const BigTextManager = (props: StateManagerProps) => {
     },
     [
       animateYellowTextWithMove,
-      animateYellowTextWithoutMove,
       initializeLevelSelection,
       levelSelectionBack,
       toggleVisibleAfterLevelSelect,
@@ -194,12 +165,7 @@ const BigTextManager = (props: StateManagerProps) => {
         (dispatchedObject.action as any).apply(null, dispatchedObject.value);
       }
     }
-  }, [
-    animateYellowTextWithMove,
-    animateYellowTextWithoutMove,
-    props.eventState,
-    dispatchObject,
-  ]);
+  }, [animateYellowTextWithMove, props.eventState, dispatchObject]);
 
   return null;
 };

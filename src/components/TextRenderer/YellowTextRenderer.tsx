@@ -1,38 +1,33 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
+import { getNodeHud } from "../../core/nodeSelector";
 
 const YellowTextRenderer = (props: { visible?: boolean }) => {
-  const xOffset = useStore((state) => state.bigTextXOffset);
   const visible = useStore((state) => state.bigTextVisible);
   const color = useStore((state) => state.bigTextColor);
 
-  const textRef = useRef(useStore.getState().bigText.split(""));
+  const activeNode = useStore((state) => state.activeNode);
 
-  const [trail, set] = useTrail(textRef.current.length, () => ({
+  const [text, setText] = useState(useStore.getState().bigText.split(""));
+
+  const [trail, set] = useTrail(text.length, () => ({
     posX: useStore.getState().bigTextPos[0],
     posY: useStore.getState().bigTextPos[1],
     config: { duration: 280 },
   }));
 
-  useEffect(
-    () =>
-      useStore.subscribe(
-        (state) => {
-          textRef.current = (state as any).bigText.split("");
-        },
-        (state) => state
-      ),
-    []
-  );
-
   useEffect(() => {
-    useStore.subscribe(set, (state) => ({
-      posX: state.bigTextPos[0],
-      posY: state.bigTextPos[1],
-    }));
-  }, [set]);
+    const hud = getNodeHud(activeNode.matrixIndices!);
+    setTimeout(() => {
+      set({ posX: hud.big_text[0], posY: hud.big_text[1] });
+    }, 400);
+
+    setTimeout(() => {
+      setText(activeNode.node_name.split(""));
+    }, 1000);
+  }, [activeNode, set]);
 
   return (
     <group position={[0, 0, 10]} visible={props.visible && visible}>
@@ -46,8 +41,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
         >
           <BigLetter
             color={color}
-            xOffset={xOffset}
-            letter={textRef.current[idx]}
+            letter={text[idx]}
             letterIdx={idx}
             key={idx}
           />

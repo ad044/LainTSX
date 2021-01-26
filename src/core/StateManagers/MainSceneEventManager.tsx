@@ -3,7 +3,6 @@ import { useStore } from "../../store";
 import handleMainSceneEvent from "../mainSceneEventHandler";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import NodeManager from "./MainSceneManagers/NodeManager";
-import NodeHUDManager from "./MainSceneManagers/NodeHUDManager";
 import SiteManager from "./MainSceneManagers/SiteManager";
 import LainManager from "./MainSceneManagers/LainManager";
 import MiddleRingManager from "./MainSceneManagers/MiddleRingManager";
@@ -26,17 +25,13 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   // all the possible context needed to calculate new state
   const currentSite = useStore((state) => state.activeSite);
   const activeNodeId = useStore((state) => state.activeNode.id);
-  const nodeMatrixIndices = useStore(
-    (state) => state.activeNodeMatrixIndices
-  );
+  const nodeMatrixIndices = useStore((state) => state.activeNode.matrixIndices);
   const siteRotY = useStore((state) => state.siteRot[1]);
   const sitePosY = useStore((state) => state.sitePos[1]);
   const activeLevel = useStore((state) => state.activeLevel);
   const mainSubscene = useStore((state) => state.mainSubscene);
   const selectedLevel = useStore((state) => state.selectedLevel);
-  const pauseMatrixIdx = useStore(
-    (state) => state.pauseComponentMatrixIdx
-  );
+  const pauseMatrixIdx = useStore((state) => state.pauseComponentMatrixIdx);
   const activePauseComponent = useStore(
     useCallback((state) => state.pauseComponentMatrix[pauseMatrixIdx], [
       pauseMatrixIdx,
@@ -143,7 +138,6 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   return (
     <>
       <NodeManager eventState={eventState!} />
-      <NodeHUDManager eventState={eventState!} />
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />

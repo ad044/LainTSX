@@ -1,13 +1,13 @@
-import React, { Suspense, useEffect, useMemo } from "react";
+import React, { Suspense, useMemo, useRef } from "react";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
 import Rings from "./Site/Rings";
-import site_a from "../../../resources/site_a.json";
-import site_b from "../../../resources/site_b.json";
-import game_progress from "../../../resources/initial_progress.json";
 import NodeAnimations from "./Site/NodeAnimations";
 import InactiveLevelNodes from "./Site/InactiveLevelNodes";
+import { useFrame } from "react-three-fiber";
+import * as THREE from "three";
+import lerp from "../../../core/utils/lerp";
 
 export type NodeDataType = {
   id: string;
@@ -23,6 +23,11 @@ export type NodeDataType = {
   upgrade_requirement: number;
   protocol_lines: { 1: string; 2: string; 3: string; 4: string };
   words: { 1: string; 2: string; 3: string };
+  matrixIndices?: {
+    matrixIdx: number;
+    rowIdx: number;
+    colIdx: number;
+  };
 };
 
 export type LevelType = {
@@ -48,22 +53,24 @@ const Site = (props: SiteProps) => {
     config: { duration: 1200 },
   });
 
-  const introSiteState = useSpring({
-    posZ: 0,
-    rotX: 0,
-    from: {
-      posZ: -10,
-      rotX: Math.PI / 2,
-    },
-    config: { duration: 3400 },
+  const introWrapperRef = useRef<THREE.Object3D>();
+
+  // imperative because having a spring here seemed to behave clunkily if that's even a word
+  // the site would pop back after having done the intro anim sometimes
+  useFrame(() => {
+    if (introWrapperRef.current) {
+      if (introWrapperRef.current.position.z < 0) {
+        introWrapperRef.current.position.z += 0.05;
+      }
+      if (introWrapperRef.current.rotation.x > 0) {
+        introWrapperRef.current.rotation.x -= 0.008;
+      }
+    }
   });
 
   return (
     <Suspense fallback={null}>
-      <a.group
-        rotation-x={props.shouldIntro ? introSiteState.rotX : 0}
-        position-z={props.shouldIntro ? introSiteState.posZ : 0}
-      >
+      <a.group ref={introWrapperRef} position-z={-10} rotation-x={Math.PI / 2}>
         <a.group rotation-x={siteState.siteRotX}>
           <a.group
             rotation-y={siteState.siteRotY}

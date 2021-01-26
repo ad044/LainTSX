@@ -1,4 +1,3 @@
-import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useMemo } from "react";
 import Lain from "../components/MainScene/Lain";
@@ -24,18 +23,15 @@ const MainScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
-        <a.group>
-          <Preloader />
-          <LevelSelection />
-          <Pause paused={isPaused} />
-          <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
-          <OrbitControls />
-          <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
-          <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
-          <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
-          <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
-        </a.group>
-        <Lain shouldIntro={shouldIntro} />
+        <Preloader />
+        <LevelSelection />
+        <Pause paused={isPaused} />
+        <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
+        <OrbitControls />
+        <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
+        <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
+        <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
+        <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
       </Suspense>
     </perspectiveCamera>
   );

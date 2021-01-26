@@ -4,14 +4,15 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, { useMemo, memo } from "react";
+import React, { memo, useEffect, useMemo } from "react";
+import { useStore } from "../../store";
 
 const BigLetter = memo(
   (props: {
     color: string;
     letter: string;
     letterIdx: number;
-    xOffset: number;
+    xOffset?: number;
   }) => {
     const tex = useMemo(
       () =>
@@ -79,14 +80,24 @@ const BigLetter = memo(
       return geometry;
     }, [letterData, lineYOffset]);
 
-    const letterState = useSpring({
-      xOffset: props.letterIdx + 0.3 + (props.letterIdx + 0.3) * props.xOffset,
+    const activeNode = useStore((state) => state.activeNode);
+
+    const [shrinkState, set] = useSpring(() => ({
+      x: props.letterIdx + 0.3,
       config: { duration: 200 },
-    });
+    }));
+
+    useEffect(() => {
+      set({ x: 0 });
+
+      setTimeout(() => {
+        set({ x: props.letterIdx + 0.3 });
+      }, 1200);
+    }, [activeNode, props.letterIdx, set]);
 
     return (
       <a.mesh
-        position-x={letterState.xOffset}
+        position-x={shrinkState.x}
         position-y={-letterData[4] / 12.5}
         scale={[1, 1, 0]}
         geometry={geom}

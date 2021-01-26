@@ -9,6 +9,7 @@ import MiddleRing from "./SyncedComponents/MiddleRing";
 import MainSceneEventManager from "../../core/StateManagers/MainSceneEventManager";
 import Pause from "./PauseSubscene/Pause";
 import { a } from "@react-spring/three";
+import Lain from "./Lain";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;
@@ -56,6 +57,7 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
       <MainSceneEventManager
         loaded={props.shouldIntro ? introFinished : true}
       />
+      <Lain shouldIntro={props.shouldIntro} />
     </>
   );
 };
