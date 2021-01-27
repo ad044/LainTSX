@@ -7,7 +7,6 @@ import SiteManager from "./MainSceneManagers/SiteManager";
 import LainManager from "./MainSceneManagers/LainManager";
 import MiddleRingManager from "./MainSceneManagers/MiddleRingManager";
 import SceneManager from "./GameManagers/SceneManager";
-import BigTextManager from "./MainSceneManagers/BigTextManager";
 import LevelManager from "./MainSceneManagers/LevelManager";
 import LevelSelectionManager from "./MainSceneManagers/LevelSelectionManager";
 import SubsceneManager from "./GameManagers/SubsceneManager";
@@ -142,7 +141,6 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
       <LainManager eventState={eventState!} />
       <MiddleRingManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
-      <BigTextManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <LevelSelectionManager eventState={eventState!} />
       <SubsceneManager eventState={eventState!} />

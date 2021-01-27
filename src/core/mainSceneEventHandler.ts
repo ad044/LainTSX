@@ -46,7 +46,7 @@ const handleMainSceneEvent = (gameContext: any) => {
           nodeMatrixIndices = selectedNodeData.newNodeMatrixIndices;
           siteRotY = selectedNodeData.newSiteRotY;
           sitePosY = selectedNodeData.newSitePosY;
-          level = selectedNodeData.newLevel;
+          level = selectedNodeData.newLevel!;
           activeHud = selectedNodeData.newActiveHud;
         }
 
@@ -155,11 +155,11 @@ const handleMainSceneEvent = (gameContext: any) => {
             selectedLevel < level ? "select_level_down" : "select_level_up";
           return {
             event: event,
+            nodeMatrixIndices: selectedNodeData.nodeMatrixIndices,
+            sitePosY: -selectedNodeData.sitePosY!,
             level: selectedLevel.toString().padStart(2, "0"),
-            activeNodeId: selectedNodeData.node,
-            activeHud: selectedNodeData.newActiveHud,
-            nodeMatrixIndices: selectedNodeData.newNodeMatrixIndices,
-            sitePosY: -selectedNodeData.newSitePosY,
+            node: selectedNodeData.node,
+            hud: selectedNodeData.activeHud,
           };
         }
     }

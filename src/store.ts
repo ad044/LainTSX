@@ -34,12 +34,6 @@ type State = {
 
   intro: boolean;
 
-  bigText: string;
-  bigTextVisible: boolean;
-  bigTextColor: "yellow" | "orange";
-  bigTextPos: number[];
-  bigTextXOffset: 0 | -1;
-
   hud: HUDType;
   hudActive: boolean;
 
@@ -147,13 +141,6 @@ export const useStore = create(
 
       // whether or not to play the intro anim
       intro: true,
-
-      // big text (the one that displays node names)
-      bigText: "Tda028",
-      bigTextVisible: true,
-      bigTextColor: "yellow",
-      bigTextPos: [-0.35, 0.23, -8.7],
-      bigTextXOffset: 0,
 
       // hud
       hud: {
@@ -312,14 +299,6 @@ export const useStore = create(
 
       // intro setters
       setIntro: (to: boolean) => set(() => ({ intro: to })),
-
-      // big text setters
-      setBigText: (to: string) => set(() => ({ bigText: to })),
-      setBigTextVisible: (to: boolean) => set(() => ({ bigTextVisible: to })),
-      setBigTextColor: (to: "yellow" | "orange") =>
-        set(() => ({ bigTextColor: to })),
-      setBigTextPos: (to: number[]) => set(() => ({ bigTextPos: to })),
-      setBigTextXOffset: (to: 0 | -1) => set(() => ({ bigTextXOffset: to })),
 
       // hud setters
       setHud: (to: HUDType) => set(() => ({ hud: to })),

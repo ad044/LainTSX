@@ -17,10 +17,6 @@ const GameLoader = (props: StateManagerProps) => {
   // level setter
   // const setActiveLevel = useLevelStore((state) => state.setActiveLevel);
 
-  // big text setter
-  const setBigTexPos = useStore((state) => state.setBigTextPos);
-  const setBigText = useStore((state) => state.setBigText);
-
   // site setter
   const setSiteRot = useStore((state) => state.setSiteRot);
   const setCurrentSite = useStore((state) => state.setActiveSite);

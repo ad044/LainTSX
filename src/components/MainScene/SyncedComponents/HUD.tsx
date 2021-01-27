@@ -41,7 +41,8 @@ const HUD = memo(() => {
   );
   const siteRotY = useStore((state) => state.siteRot[1]);
   const sitePosY = useStore((state) => state.sitePos[1]);
-  const prevData = usePrevious({ siteRotY, sitePosY });
+  const subscene = useStore((state) => state.mainSubscene);
+  const prevData = usePrevious({ siteRotY, sitePosY, subscene });
 
   // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
@@ -87,7 +88,11 @@ const HUD = memo(() => {
 
   useEffect(() => {
     if (activeRef.current !== undefined) {
-      if (prevData?.siteRotY !== siteRotY || prevData?.sitePosY !== sitePosY) {
+      if (
+        prevData?.siteRotY !== siteRotY ||
+        prevData?.sitePosY !== sitePosY ||
+        subscene === "level_selection"
+      ) {
         activeRef.current = false;
       } else {
         const wasHidden = !activeRef.current;
@@ -145,6 +150,7 @@ const HUD = memo(() => {
     prevData?.siteRotY,
     sitePosY,
     siteRotY,
+    subscene,
   ]);
 
   const longHudRef = useRef<THREE.Object3D>();

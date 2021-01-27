@@ -4,22 +4,23 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, { memo, useEffect, useMemo } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { useStore } from "../../store";
+import usePrevious from "../../hooks/usePrevious";
 
 const BigLetter = memo(
   (props: {
-    color: string;
+    color?: string;
     letter: string;
     letterIdx: number;
     xOffset?: number;
   }) => {
+    const [color, setColor] = useState("yellow");
+
     const tex = useMemo(
       () =>
-        props.color === "orange" || props.letterIdx === 0
-          ? orangeFont
-          : yellowFont,
-      [props.color, props.letterIdx]
+        color === "orange" || props.letterIdx === 0 ? orangeFont : yellowFont,
+      [color, props.letterIdx]
     );
 
     const colorTexture: THREE.Texture = useLoader(THREE.TextureLoader, tex);
@@ -81,6 +82,7 @@ const BigLetter = memo(
     }, [letterData, lineYOffset]);
 
     const activeNode = useStore((state) => state.activeNode);
+    const subscene = useStore((state) => state.mainSubscene);
 
     const [shrinkState, set] = useSpring(() => ({
       x: props.letterIdx + 0.3,
@@ -89,11 +91,17 @@ const BigLetter = memo(
 
     useEffect(() => {
       set({ x: 0 });
-
+      if (subscene === "level_selection") {
+        setColor("orange");
+      } else {
+        if (color === "orange") {
+          setColor("yellow");
+        }
+      }
       setTimeout(() => {
         set({ x: props.letterIdx + 0.3 });
       }, 1200);
-    }, [activeNode, props.letterIdx, set]);
+    }, [activeNode, props.letterIdx, subscene, set, color]);
 
     return (
       <a.mesh

@@ -442,11 +442,11 @@ const nodeSelector = (context: NodeSelectorContext) => {
       if (newNodeData) {
         return {
           node: newNodeData.node,
-          newNodeMatrixIndices: newNodeData.newNodeMatrixIndices,
-          newActiveHud: newNodeData.newNodeHud,
-          newSiteRotY: context.siteRotY,
-          newLevel: newNodeData.newLevel,
-          newSitePosY: newNodeData.newSitePosY,
+          nodeMatrixIndices: newNodeData.newNodeMatrixIndices,
+          activeHud: newNodeData.newNodeHud,
+          siteRotY: context.siteRotY,
+          level: newNodeData.newLevel,
+          sitePosY: newNodeData.newSitePosY,
         };
       }
   }
