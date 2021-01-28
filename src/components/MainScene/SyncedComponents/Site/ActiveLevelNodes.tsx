@@ -1,29 +1,45 @@
-import React, { useMemo, memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Node from "./Node";
 import node_positions from "../../../../resources/node_positions.json";
 import { useStore } from "../../../../store";
 import { isNodeVisible } from "../../../../core/nodeSelector";
 import site_a from "../../../../resources/site_a.json";
 import site_b from "../../../../resources/site_b.json";
-import { NodeDataType } from "../Site";
+import { NodeDataType, SiteType } from "../Site";
+import usePrevious from "../../../../hooks/usePrevious";
 
-const ActiveLevelNodes = memo(() => {
+type ActiveLevelNodesProps = {
+  visibleNodes: any;
+};
+
+const ActiveLevelNodes = memo((props: ActiveLevelNodesProps) => {
   const activeNodeId = useStore((state) => state.activeNode.id);
-
   const gameProgress = useStore((state) => state.gameProgress);
-
   const currentSite = useStore((state) => state.activeSite);
-
-  const siteData = useMemo(() => (currentSite === "a" ? site_a : site_b), [
-    currentSite,
-  ]);
-
   const activeLevel = useStore((state) => state.activeLevel);
+  const prevData = usePrevious({ activeLevel });
 
-  const visibleNodes = useMemo(
-    () => siteData[activeLevel as keyof typeof siteData],
-    [activeLevel, siteData]
+  const [visibleNodes, setVisibleNodes] = useState(
+    props.visibleNodes[activeLevel]
   );
+
+  useEffect(() => {
+    const siteData = currentSite === "a" ? site_a : site_b;
+    if (
+      prevData?.activeLevel !== activeLevel &&
+      prevData?.activeLevel !== undefined
+    ) {
+      const prevLevel = parseInt(prevData?.activeLevel);
+      const newLevel = parseInt(activeLevel);
+      if (prevLevel - 1 === newLevel || prevLevel + 1 === newLevel) {
+        setVisibleNodes(siteData[activeLevel as keyof typeof siteData]);
+      } else {
+        setTimeout(() => {
+          setVisibleNodes(siteData[activeLevel as keyof typeof siteData]);
+        }, 1500);
+      }
+    }
+  }, [activeLevel, currentSite, gameProgress, prevData?.activeLevel]);
 
   return (
     <>

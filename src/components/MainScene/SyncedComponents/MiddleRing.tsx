@@ -1,50 +1,15 @@
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";
 import MiddleRingPart from "./MiddleRing/MiddleRingPart";
+import usePrevious from "../../../hooks/usePrevious";
+import lerp from "../../../core/utils/lerp";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
-
-  const pos = useStore((state) => state.middleRingPos);
-  const rot = useStore((state) => state.middleRingRot);
-  const wobbleAmp = useStore((state) => state.middleRingWobbleAmp);
-  const noiseAmp = useStore((state) => state.middleRingNoiseAmp);
-
-  const rotating = useStore((state) => state.middleRingRotating);
-  const mainRingVisible = useStore(
-    (state) => !state.fakeMiddleRingVisible
-  );
-
-  const wobbleState = useSpring({
-    wobbleStrength: wobbleAmp,
-    noiseStrength: noiseAmp,
-    config: { duration: 200 },
-  });
-
-  const posState = useSpring({
-    posY: pos[1],
-    config: { duration: 600 },
-  });
-
-  const rotState = useSpring({
-    rotX: rot[0],
-    rotZ: rot[2],
-    config: { duration: 1000 },
-  });
-
-  const uniforms = useMemo(
-    () => ({
-      tex: { type: "t", value: middleRingTex },
-      uTime: { value: 1.0 },
-      wobbleStrength: { value: 0.0 },
-      noiseAmp: { value: 0.03 },
-    }),
-    [middleRingTex]
-  );
 
   const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
   const middleRingRef = useRef<THREE.Object3D>();
@@ -193,11 +158,24 @@ const MiddleRing = () => {
 
   const clock = new THREE.Clock();
 
+  const [wobbleAmp, setWobbleAmp] = useState(0);
+  const [noiseAmp, setNoiseAmp] = useState(0.03);
+  const [rotating, setRotating] = useState(true);
+  const [fakeRingVisible, setFakeRingVisible] = useState(false);
+
+  const noiseAmpRef = useRef(0.03);
+  const wobbleAmpRef = useRef(0);
+
   useFrame(() => {
     if (middleRingMaterialRef.current) {
       middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
-      middleRingMaterialRef.current.uniforms.wobbleStrength.value = wobbleState.wobbleStrength.get();
-      middleRingMaterialRef.current.uniforms.noiseAmp.value = wobbleState.noiseStrength.get();
+      wobbleAmpRef.current = lerp(wobbleAmpRef.current, wobbleAmp, 0.1);
+      noiseAmpRef.current = lerp(noiseAmpRef.current, noiseAmp, 0.1);
+
+      middleRingMaterialRef.current.uniforms.wobbleStrength.value =
+        wobbleAmpRef.current;
+      middleRingMaterialRef.current.uniforms.noiseAmp.value =
+        noiseAmpRef.current;
 
       middleRingMaterialRef.current.needsUpdate = true;
     }
@@ -209,6 +187,198 @@ const MiddleRing = () => {
     }
   });
 
+  const [posState, setPos] = useSpring(() => ({
+    posY: -0.11,
+    config: { duration: 600 },
+  }));
+
+  const [rotState, setRot] = useSpring(() => ({
+    rotX: 0,
+    rotZ: 0,
+    config: { duration: 1000 },
+  }));
+
+  const uniforms = useMemo(
+    () => ({
+      tex: { type: "t", value: middleRingTex },
+      uTime: { value: 1.0 },
+      wobbleStrength: { value: 0.0 },
+      noiseAmp: { value: 0.03 },
+    }),
+    [middleRingTex]
+  );
+
+  const siteRotY = useStore((state) => state.siteRot[1]);
+  const activeLevel = useStore((state) => state.activeLevel);
+  const subscene = useStore((state) => state.mainSubscene);
+  const prevData = usePrevious({ siteRotY, activeLevel, subscene });
+
+  useEffect(() => {
+    const rotate = (rotValues: [number, number]) => {
+      setTimeout(() => {
+        setRot({ rotZ: rotValues[0] });
+      }, 2300);
+
+      setTimeout(() => {
+        setRot({ rotZ: rotValues[1] });
+      }, 3500);
+
+      setTimeout(() => {
+        setRot({ rotZ: 0 });
+      }, 4500);
+    };
+
+    const moveDown = () => {
+      setTimeout(() => {
+        setNoiseAmp(0.06);
+        setRotating(false);
+      }, 800);
+
+      setTimeout(() => {
+        setPos({ posY: 1.39 });
+      }, 1200);
+
+      // set ring rotation on x axis to craete motion effect
+      setTimeout(() => {
+        setRot({ rotX: 0.3 });
+      }, 1500);
+
+      setTimeout(() => {
+        setPos({ posY: -0.31 });
+      }, 3000);
+
+      setTimeout(() => {
+        setPos({ posY: -0.11 });
+      }, 3150);
+
+      // rotate it again, set ring noise to 0
+      setTimeout(() => {
+        setRot({ rotX: -0.1 });
+        setNoiseAmp(0);
+      }, 3500);
+
+      // rotate it back AGAIN (holy fuk psx game)
+      setTimeout(() => {
+        setRot({ rotX: 0.05 });
+      }, 4500);
+
+      // reset value, set noise to 0
+      setTimeout(() => {
+        setRot({ rotX: 0, rotZ: 0 });
+        setRotating(true);
+      }, 4800);
+
+      // enable noise again in about 11-12 secs
+      setTimeout(() => {
+        setNoiseAmp(0.03);
+      }, 11600);
+    };
+
+    const moveUp = () => {
+      // change noise to 0, make the ring bend downwards
+      setTimeout(() => {
+        setNoiseAmp(0);
+        setWobbleAmp(0.2);
+      }, 300);
+
+      // disable rotation of the ring
+      setTimeout(() => {
+        setRotating(false);
+      }, 700);
+
+      // make the ring bend upwards
+      setTimeout(() => {
+        setWobbleAmp(-0.3);
+        // the middle ring stays in place, therefore we animate it
+        // in the same direction as the site, creating that illusion.
+        setPos({ posY: -1.39 });
+      }, 1200);
+
+      // reset the ring bend, set the rotation to slightly curve
+      // to replicate a motion effect (since its moving upwards)
+      // and enable rotation again
+      setTimeout(() => {
+        setWobbleAmp(0);
+        setRot({ rotX: -0.2 });
+        setRotating(true);
+      }, 1500);
+
+      setTimeout(() => {
+        setPos({ posY: 0.09 });
+      }, 2900);
+
+      // reset the rotation value to 0
+      setTimeout(() => {
+        setRot({ rotX: 0, rotZ: 0 });
+        setPos({ posY: -0.11 });
+      }, 3150);
+
+      // enable noise again in about 8~ secs
+      setTimeout(() => {
+        setNoiseAmp(0.03);
+      }, 7800);
+    };
+
+    const pause = () => {
+      setPos({ posY: 0.5 });
+      setTimeout(() => {
+        setFakeRingVisible(true);
+      }, 600);
+      setTimeout(() => {
+        // move the hidden (main) ring below, cuz when the pause exists it needs to jump back up
+        // instead of reappearing
+        setPos({ posY: -2.5 });
+      }, 1100);
+
+      setTimeout(() => {
+        setFakeRingVisible(false);
+      }, 3800);
+    };
+
+    const unpause = () => {
+      setTimeout(() => {
+        setRot({ rotX: -0.4 });
+        setRotating(true);
+      }, 300);
+
+      setTimeout(() => {
+        setPos({ posY: -0.4 });
+      }, 700);
+
+      // reset the rotation value to 0
+      setTimeout(() => {
+        setRot({ rotZ: 0, rotX: 0 });
+        setPos({ posY: -0.11 });
+      }, 950);
+    };
+
+    if (prevData?.siteRotY !== undefined && prevData?.siteRotY !== siteRotY) {
+      rotate(prevData?.siteRotY > siteRotY ? [-0.07, 0.03] : [0.07, -0.03]);
+    } else if (
+      prevData?.activeLevel !== undefined &&
+      prevData.activeLevel !== activeLevel
+    ) {
+      if (prevData?.activeLevel > activeLevel) {
+        moveDown();
+      } else if (prevData?.activeLevel < activeLevel) {
+        moveUp();
+      }
+    } else if (subscene === "pause") {
+      pause();
+    } else if (subscene === "site" && prevData?.subscene === "pause") {
+      unpause();
+    }
+  }, [
+    activeLevel,
+    prevData?.activeLevel,
+    prevData?.siteRotY,
+    prevData?.subscene,
+    setPos,
+    setRot,
+    siteRotY,
+    subscene,
+  ]);
+
   return (
     <a.group rotation-z={rotState.rotZ}>
       <a.mesh
@@ -217,7 +387,7 @@ const MiddleRing = () => {
         ref={middleRingRef}
         rotation={[0, 0.9, 0]}
         rotation-x={rotState.rotX}
-        visible={mainRingVisible}
+        visible={!fakeRingVisible}
       >
         <cylinderBufferGeometry
           args={[0.75, 0.75, 0.027, 64, 64, true]}
@@ -234,7 +404,7 @@ const MiddleRing = () => {
         />
       </a.mesh>
 
-      {!mainRingVisible && (
+      {fakeRingVisible && (
         <group
           rotation={[0, 0.9, 0]}
           ref={middleRingPartRef}

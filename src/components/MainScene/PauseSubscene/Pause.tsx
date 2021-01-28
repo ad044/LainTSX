@@ -5,11 +5,7 @@ import StaticBigLetter from "../../TextRenderer/StaticBigLetter";
 import { useStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 
-type PauseProps = {
-  paused: boolean;
-};
-
-const Pause = (props: PauseProps) => {
+const Pause = () => {
   const exit = useStore((state) => state.pauseExitAnimation);
   const [showActiveComponent, setShowActiveComponent] = useState(false);
   const [animation, setAnimation] = useState(false);
@@ -58,20 +54,24 @@ const Pause = (props: PauseProps) => {
     [generateSqaureGeom]
   );
 
+  const subscene = useStore((state) => state.mainSubscene);
+
   useEffect(() => {
     setAnimation(false);
     setIntro(true);
     setShowActiveComponent(false);
-    if (props.paused) {
+    if (subscene === "pause") {
       setTimeout(() => {
-        setAnimation(true);
-      }, 1000);
-      setTimeout(() => {
-        setShowActiveComponent(true);
-        setIntro(false);
-      }, 3500);
+        setTimeout(() => {
+          setAnimation(true);
+        }, 1000);
+        setTimeout(() => {
+          setShowActiveComponent(true);
+          setIntro(false);
+        }, 3500);
+      }, 3400);
     }
-  }, [props.paused]);
+  }, [subscene]);
 
   return (
     <>

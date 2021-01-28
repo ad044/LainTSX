@@ -7,7 +7,6 @@ const MediaYellowTextAnimator = memo(() => {
   const [lastLeftComponent, setLastLeftComponent] = useState("play");
   const [textArr, setTextArr] = useState("Play".split(""));
   const [posY, setPosY] = useState(0.05);
-  const [xOffset, setXOffset] = useState(0);
 
   const trail = useTrail(textArr.length, {
     posY: posY,
@@ -32,8 +31,6 @@ const MediaYellowTextAnimator = memo(() => {
       activeMediaComponent !== lastLeftComponent
     ) {
       setLastLeftComponent(activeMediaComponent);
-      setXOffset(-1);
-
       setTimeout(() => {
         if (activeMediaComponent === "play") {
           setPosY(0.05);
@@ -50,10 +47,6 @@ const MediaYellowTextAnimator = memo(() => {
           ).split("")
         );
       }, 1000);
-
-      setTimeout(() => {
-        setXOffset(0);
-      }, 1200);
     }
   }, [activeMediaComponent, lastLeftComponent]);
 
@@ -73,13 +66,7 @@ const MediaYellowTextAnimator = memo(() => {
           position-z={-8.7}
           scale={[0.04, 0.06, 0.04]}
         >
-          <BigLetter
-            color={"yellow"}
-            xOffset={xOffset}
-            letter={textArr[idx]}
-            letterIdx={idx}
-            key={idx}
-          />
+          <BigLetter letter={textArr[idx]} letterIdx={idx} key={idx} />
         </a.group>
       ))}
     </group>

@@ -11,9 +11,7 @@ const MediaComponentManager = (props: StateManagerProps) => {
   const setRightComponentMatrixIdx = useStore(
     (state) => state.setMediaRightComponentMatrixIdx
   );
-  const setWordPosStateIdx = useStore(
-    (state) => state.setMediaWordPosStateIdx
-  );
+  const setWordPosStateIdx = useStore((state) => state.setMediaWordPosStateIdx);
 
   const resetComponentMatrixIndices = useStore(
     (state) => state.resetMediaComponentMatrixIndices
@@ -45,7 +43,9 @@ const MediaComponentManager = (props: StateManagerProps) => {
       mediaElement.pause();
       mediaElement.currentTime = 0;
     }
-  }, []);
+    resetComponentMatrixIndices();
+    resetWordPosStateIdx();
+  }, [resetComponentMatrixIndices, resetWordPosStateIdx]);
 
   const updateRightSide = useCallback(
     (newRightSideComponentIdx: 0 | 1 | 2, newWordPosStateIdx: number) => {
@@ -54,11 +54,6 @@ const MediaComponentManager = (props: StateManagerProps) => {
     },
     [setRightComponentMatrixIdx, setWordPosStateIdx]
   );
-
-  const resetMediaState = useCallback(() => {
-    resetComponentMatrixIndices();
-    resetWordPosStateIdx();
-  }, [resetComponentMatrixIndices, resetWordPosStateIdx]);
 
   const dispatchObject = useCallback(
     (eventState: {
@@ -88,10 +83,6 @@ const MediaComponentManager = (props: StateManagerProps) => {
           return {
             action: toggleSide,
           };
-        case "throw_node_media":
-          return {
-            action: resetMediaState,
-          };
         case "media_play_select":
           return { action: playMedia };
         case "media_exit_select":
@@ -101,7 +92,6 @@ const MediaComponentManager = (props: StateManagerProps) => {
     [
       exitMedia,
       playMedia,
-      resetMediaState,
       setLeftComponentMatrixIdx,
       toggleSide,
       updateRightSide,

@@ -18,28 +18,45 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
     return middleRingTex;
   }, [middleRingTex]);
 
-  const [{ posX, posZ }, set] = useSpring(() => ({
-    posX:
-      props.position[0] /
-      useStore.getState().middleRingPartSeparatorVal,
-    posZ:
-      props.position[2] /
-      useStore.getState().middleRingPartSeparatorVal,
-
+  const [posState, setPos] = useSpring(() => ({
+    posX: props.position[0],
+    posZ: props.position[2],
     config: { duration: 600 },
   }));
 
+  const subscene = useStore((state) => state.mainSubscene);
+
   useEffect(() => {
-    useStore.subscribe(set, (state) => ({
-      posX: props.position[0] / state.middleRingPartSeparatorVal,
-      posZ: props.position[2] / state.middleRingPartSeparatorVal,
-    }));
-  }, [props.position, set]);
+    if (subscene === "pause") {
+      const posX = props.position[0];
+      const posZ = props.position[2];
+      setTimeout(() => {
+        setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
+      }, 500);
+      setTimeout(() => {
+        setPos({ posX: posX, posZ: posZ });
+      }, 900);
+      setTimeout(() => {
+        setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
+      }, 1300);
+      setTimeout(() => {
+        setPos({ posX: posX, posZ: posZ });
+      }, 1700);
+
+      setTimeout(() => {
+        setPos({ posX: posX / 0.2, posZ: posZ / 0.2 });
+      }, 2500);
+
+      setTimeout(() => {
+        setPos({ posX: posX, posZ: posZ });
+      }, 3200);
+    }
+  }, [props.position, setPos, subscene]);
 
   return (
     <a.group
-      position-x={posX}
-      position-z={posZ}
+      position-x={posState.posX}
+      position-z={posState.posZ}
       position-y={props.position[1]}
       rotation={props.rotation as [number, number, number]}
     >

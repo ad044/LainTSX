@@ -25,7 +25,6 @@ const GameLoader = (props: StateManagerProps) => {
   const setActiveNode = useStore((state) => state.setNode);
 
   // node hud setter
-  const setHud = useStore((state) => state.setHud);
 
   const changeSite = useCallback((site: string) => {
     // load new site

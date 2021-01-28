@@ -9,18 +9,13 @@ const LevelManager = (props: StateManagerProps) => {
     (eventState: { event: string; level: string }) => {
       switch (eventState.event) {
         case "site_up":
+        case "select_level_down":
+        case "select_level_up":
         case "site_down":
           return {
             action: setActiveLevel,
             value: eventState.level,
             delay: 0,
-          };
-        case "select_level_down":
-        case "select_level_up":
-          return {
-            action: setActiveLevel,
-            value: eventState.level,
-            delay: 1500,
           };
       }
     },
