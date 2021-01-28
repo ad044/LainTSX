@@ -34,9 +34,6 @@ type State = {
 
   intro: boolean;
 
-  hud: HUDType;
-  hudActive: boolean;
-
   activeNode: NodeDataType;
   activeNodePos: number[];
   activeNodeRot: number[];
@@ -54,15 +51,6 @@ type State = {
   activeSite: "a" | "b";
   siteRot: number[];
   sitePos: number[];
-
-  // middle ring
-  middleRingPos: number[];
-  middleRingRot: number[];
-  middleRingWobbleAmp: number;
-  middleRingNoiseAmp: number;
-  middleRingPartSeparatorVal: number;
-  middleRingRotating: boolean;
-  fakeMiddleRingVisible: boolean;
 
   // level
   activeLevel: string;
@@ -142,29 +130,6 @@ export const useStore = create(
       // whether or not to play the intro anim
       intro: true,
 
-      // hud
-      hud: {
-        mirrored: 0,
-        long: {
-          position: [-0.45, 0.15, -8.6],
-          initial_position: [-1.45, 0.15, -8.6],
-        },
-        boring: {
-          position: [0.48, 0.174, -8.6],
-          initial_position: [1.48, 0.174, -8.6],
-        },
-        big: {
-          position: [0.36, 0.13, -8.6],
-          initial_position: [1.36, 0.13, -8.6],
-        },
-        big_text: [-0.35, 0.23, -8.7],
-        medium_text: {
-          position: [0.18, 0.16, -8.7],
-          initial_position: [1.18, 0.16, -8.7],
-        },
-      },
-      hudActive: true,
-
       // nodes
       activeNode: {
         id: "0422",
@@ -211,15 +176,6 @@ export const useStore = create(
       activeSite: "a",
       siteRot: [0, 0, 0],
       sitePos: [0, 0, 0],
-
-      // middle ring
-      middleRingPos: [0, -0.11, 0],
-      middleRingRot: [0, 0, 0],
-      middleRingWobbleAmp: 0,
-      middleRingNoiseAmp: 0,
-      middleRingPartSeparatorVal: 1,
-      middleRingRotating: true,
-      fakeMiddleRingVisible: false,
 
       // level
       activeLevel: "04",
@@ -300,10 +256,6 @@ export const useStore = create(
       // intro setters
       setIntro: (to: boolean) => set(() => ({ intro: to })),
 
-      // hud setters
-      setHud: (to: HUDType) => set(() => ({ hud: to })),
-      toggleHudActive: () => set((state) => ({ hudActive: !state.hudActive })),
-
       // node setters
       setNode: (to: NodeDataType) => set(() => ({ activeNode: to })),
       setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
@@ -329,20 +281,6 @@ export const useStore = create(
           return { siteRot: nextPos };
         }),
       setSitePos: (to: number[]) => set(() => ({ sitePos: to })),
-
-      // middle ring setters
-      setMiddleRingPos: (to: number[]) => set(() => ({ middleRingPos: to })),
-      setMiddleRingRot: (to: number[]) => set(() => ({ middleRingRot: to })),
-      setMiddleRingWobbleAmp: (to: number) =>
-        set(() => ({ middleRingWobbleAmp: to })),
-      setMiddleRingNoiseAmp: (to: number) =>
-        set(() => ({ middleRingNoiseAmp: to })),
-      setMiddleRingPartSeparatorVal: (to: number) =>
-        set(() => ({ middleRingPartSeparatorVal: to })),
-      setMiddleRingRotating: (to: boolean) =>
-        set(() => ({ middleRingRotating: to })),
-      setFakeMiddleRingVisible: (to: boolean) =>
-        set(() => ({ fakeMiddleRingVisible: to })),
 
       // level setters
       setActiveLevel: (to: string) => set(() => ({ activeLevel: to })),

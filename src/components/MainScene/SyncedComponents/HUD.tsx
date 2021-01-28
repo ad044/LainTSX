@@ -42,7 +42,8 @@ const HUD = memo(() => {
   const siteRotY = useStore((state) => state.siteRot[1]);
   const sitePosY = useStore((state) => state.sitePos[1]);
   const subscene = useStore((state) => state.mainSubscene);
-  const prevData = usePrevious({ siteRotY, sitePosY, subscene });
+  const scene = useStore((state) => state.currentScene);
+  const prevData = usePrevious({ siteRotY, sitePosY, subscene, scene });
 
   // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
@@ -87,67 +88,89 @@ const HUD = memo(() => {
   });
 
   useEffect(() => {
+    const mirror = () => {
+      longHudRef.current!.scale.x = -Math.abs(longHudRef.current!.scale.x);
+      boringHudRef.current!.scale.x = -Math.abs(boringHudRef.current!.scale.x);
+      bigHudRef.current!.scale.x = -Math.abs(bigHudRef.current!.scale.x);
+    };
+
+    const unMirror = () => {
+      longHudRef.current!.scale.x = Math.abs(longHudRef.current!.scale.x);
+      boringHudRef.current!.scale.x = Math.abs(boringHudRef.current!.scale.x);
+      bigHudRef.current!.scale.x = Math.abs(bigHudRef.current!.scale.x);
+    };
+
     if (activeRef.current !== undefined) {
+      const hud = getNodeHud(activeNodeMatrixIndices!);
       if (
-        prevData?.siteRotY !== siteRotY ||
-        prevData?.sitePosY !== sitePosY ||
-        subscene === "level_selection"
+        (!(scene === "main" && prevData?.scene === "main") ||
+          (subscene === "site" && prevData?.subscene === "pause") ||
+          subscene === "pause") &&
+        longHudRef.current &&
+        bigHudRef.current &&
+        boringHudRef.current &&
+        greenTextRef.current
       ) {
-        activeRef.current = false;
+        longHudRef.current.position.y = hud.long.position[1];
+        boringHudRef.current.position.y = hud.boring.position[1];
+        bigHudRef.current.position.y = hud.big.position[1];
+        greenTextRef.current.position.y = hud.medium_text.position[1];
+
+        longHudRef.current.position.x = hud.long.position[0];
+        boringHudRef.current.position.x = hud.boring.position[0];
+        bigHudRef.current.position.x = hud.big.position[0];
+        greenTextRef.current.position.x = hud.medium_text.position[0];
       } else {
-        const wasHidden = !activeRef.current;
-        activeRef.current = false;
-        setTimeout(
-          () => {
-            const hud = getNodeHud(activeNodeMatrixIndices!);
-            if (
-              longHudRef.current &&
-              bigHudRef.current &&
-              boringHudRef.current &&
-              greenTextRef.current
-            ) {
-              longHudRef.current.position.y = hud.long.position[1];
-              boringHudRef.current.position.y = hud.boring.position[1];
-              bigHudRef.current.position.y = hud.big.position[1];
-              greenTextRef.current.position.y = hud.medium_text.position[1];
+        if (
+          prevData?.siteRotY !== siteRotY ||
+          prevData?.sitePosY !== sitePosY ||
+          subscene === "level_selection"
+        ) {
+          activeRef.current = false;
+        } else {
+          const wasHidden = !activeRef.current;
+          activeRef.current = false;
+          setTimeout(
+            () => {
+              if (
+                longHudRef.current &&
+                bigHudRef.current &&
+                boringHudRef.current &&
+                greenTextRef.current
+              ) {
+                longHudRef.current.position.y = hud.long.position[1];
+                boringHudRef.current.position.y = hud.boring.position[1];
+                bigHudRef.current.position.y = hud.big.position[1];
+                greenTextRef.current.position.y = hud.medium_text.position[1];
 
-              longHudRef.current.position.x = hud.long.initial_position[0];
-              boringHudRef.current.position.x = hud.boring.initial_position[0];
-              bigHudRef.current.position.x = hud.big.initial_position[0];
-              greenTextRef.current.position.x =
-                hud.medium_text.initial_position[0];
+                longHudRef.current.position.x = hud.long.initial_position[0];
+                boringHudRef.current.position.x =
+                  hud.boring.initial_position[0];
+                bigHudRef.current.position.x = hud.big.initial_position[0];
+                greenTextRef.current.position.x =
+                  hud.medium_text.initial_position[0];
 
-              if (hud.mirrored) {
-                longHudRef.current.scale.x = -Math.abs(
-                  longHudRef.current.scale.x
-                );
-                boringHudRef.current.scale.x = -Math.abs(
-                  boringHudRef.current.scale.x
-                );
-                bigHudRef.current.scale.x = -Math.abs(
-                  bigHudRef.current.scale.x
-                );
-              } else {
-                longHudRef.current.scale.x = Math.abs(
-                  longHudRef.current.scale.x
-                );
-                boringHudRef.current.scale.x = Math.abs(
-                  boringHudRef.current.scale.x
-                );
-                bigHudRef.current.scale.x = Math.abs(bigHudRef.current.scale.x);
+                if (hud.mirrored) {
+                  mirror();
+                } else {
+                  unMirror();
+                }
+                currentHudRef.current = hud;
+                activeRef.current = true;
               }
-              currentHudRef.current = hud;
-              activeRef.current = true;
-            }
-          },
-          wasHidden ? 0 : 500
-        );
+            },
+            wasHidden ? 0 : 500
+          );
+        }
       }
     }
   }, [
     activeNodeMatrixIndices,
+    prevData?.scene,
     prevData?.sitePosY,
     prevData?.siteRotY,
+    prevData?.subscene,
+    scene,
     sitePosY,
     siteRotY,
     subscene,

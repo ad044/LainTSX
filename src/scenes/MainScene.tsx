@@ -1,6 +1,5 @@
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useMemo } from "react";
-import Lain from "../components/MainScene/Lain";
 import Preloader from "../components/Preloader";
 import { useStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
@@ -25,7 +24,7 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <Preloader />
         <LevelSelection />
-        <Pause paused={isPaused} />
+        <Pause />
         <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />
         <OrbitControls />
         <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />

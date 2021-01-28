@@ -21,25 +21,23 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   }));
 
   useEffect(() => {
-    if (prevData?.subscene !== "pause") {
-      const hud = getNodeHud(activeNode.matrixIndices!);
-      if (subscene === "level_selection") {
-        setTimeout(() => {
-          set({ posX: -0.02, posY: 0.005 });
-        }, 400);
+    const hud = getNodeHud(activeNode.matrixIndices!);
+    if (subscene === "level_selection") {
+      setTimeout(() => {
+        set({ posX: -0.02, posY: 0.005 });
+      }, 400);
 
-        setTimeout(() => {
-          setText("JumpTo".split(""));
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          set({ posX: hud.big_text[0], posY: hud.big_text[1] });
-        }, 400);
+      setTimeout(() => {
+        setText("JumpTo".split(""));
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        set({ posX: hud.big_text[0], posY: hud.big_text[1] });
+      }, 400);
 
-        setTimeout(() => {
-          setText(activeNode.node_name.split(""));
-        }, 1000);
-      }
+      setTimeout(() => {
+        setText(activeNode.node_name.split(""));
+      }, 1000);
     }
   }, [activeNode, prevData?.subscene, set, subscene]);
 

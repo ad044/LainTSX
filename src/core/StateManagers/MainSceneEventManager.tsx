@@ -5,7 +5,6 @@ import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import NodeManager from "./MainSceneManagers/NodeManager";
 import SiteManager from "./MainSceneManagers/SiteManager";
 import LainManager from "./MainSceneManagers/LainManager";
-import MiddleRingManager from "./MainSceneManagers/MiddleRingManager";
 import SceneManager from "./GameManagers/SceneManager";
 import LevelManager from "./MainSceneManagers/LevelManager";
 import LevelSelectionManager from "./MainSceneManagers/LevelSelectionManager";
@@ -139,7 +138,6 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
       <NodeManager eventState={eventState!} />
       <SiteManager eventState={eventState!} />
       <LainManager eventState={eventState!} />
-      <MiddleRingManager eventState={eventState!} />
       <SceneManager eventState={eventState!} />
       <LevelManager eventState={eventState!} />
       <LevelSelectionManager eventState={eventState!} />

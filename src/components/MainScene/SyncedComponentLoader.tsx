@@ -10,6 +10,7 @@ import MainSceneEventManager from "../../core/StateManagers/MainSceneEventManage
 import Pause from "./PauseSubscene/Pause";
 import { a } from "@react-spring/three";
 import Lain from "./Lain";
+import { useStore } from "../../store";
 
 type SyncedComponentLoaderProps = {
   paused: boolean;
@@ -18,6 +19,7 @@ type SyncedComponentLoaderProps = {
 
 const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
   const [introFinished, setIntroFinished] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     if (!props.shouldIntro) {
@@ -31,25 +33,33 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
     }, 4000);
   }, [props.shouldIntro]);
 
-  const visible = useMemo(() => {
-    if (props.paused) {
-      return false;
+  const subscene = useStore((state) => state.mainSubscene);
+
+  useEffect(() => {
+    if (subscene === "pause") {
+      setTimeout(() => {
+        setPaused(true);
+      }, 3400);
     } else {
-      return props.shouldIntro ? introFinished : true;
+      setPaused(false);
     }
-  }, [introFinished, props.paused, props.shouldIntro]);
+  }, [subscene]);
+
+  const visible = useMemo(() => {
+    return props.shouldIntro ? introFinished : true;
+  }, [introFinished, props.shouldIntro]);
 
   return (
     <>
-      <group visible={visible}>
+      <group visible={visible && !paused}>
         <HUD />
         <YellowTextRenderer />
-        <YellowOrb visible={visible} />
+        <YellowOrb visible={visible && !paused} />
         <MiddleRing />
         <GrayPlanes />
       </group>
       <Starfield
-        visible={!props.paused}
+        visible={!paused}
         shouldIntro={props.shouldIntro}
         introFinished={introFinished}
       />

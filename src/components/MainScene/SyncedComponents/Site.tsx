@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useRef } from "react";
+import React, { Suspense, useEffect, useMemo, useRef } from "react";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";
 import ActiveLevelNodes from "./Site/ActiveLevelNodes";
@@ -8,6 +8,9 @@ import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 import lerp from "../../../core/utils/lerp";
+import filterInvisibleNodes from "../../../core/utils/filterInvisibleNodes";
+import site_a from "../../../resources/site_a.json";
+import site_b from "../../../resources/site_b.json";
 
 export type NodeDataType = {
   id: string;
@@ -68,16 +71,32 @@ const Site = (props: SiteProps) => {
     }
   });
 
+  useEffect(() => {
+    if (props.shouldIntro && introWrapperRef.current) {
+      introWrapperRef.current.rotation.x = Math.PI / 2;
+      introWrapperRef.current.position.z = -10;
+    }
+  }, [props.shouldIntro]);
+
+  const currentSite = useStore((state) => state.activeSite);
+  const gameProgress = useStore((state) => state.gameProgress);
+
+  const visibleNodes = useMemo(
+    () =>
+      filterInvisibleNodes(currentSite === "a" ? site_a : site_b, gameProgress),
+    [currentSite, gameProgress]
+  );
+
   return (
     <Suspense fallback={null}>
-      <a.group ref={introWrapperRef} position-z={-10} rotation-x={Math.PI / 2}>
+      <a.group ref={introWrapperRef}>
         <a.group rotation-x={siteState.siteRotX}>
           <a.group
             rotation-y={siteState.siteRotY}
             position-y={siteState.sitePosY}
           >
             <ActiveLevelNodes />
-            <InactiveLevelNodes />
+            {/*<InactiveLevelNodes />*/}
             <NodeAnimations />
             <Rings
               activateAllRings={props.shouldIntro ? props.introFinished : true}

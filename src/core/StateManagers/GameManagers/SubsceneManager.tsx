@@ -27,7 +27,7 @@ const SubsceneManager = (props: StateManagerProps) => {
           return {
             action: setMainSubscene,
             value: "pause",
-            delay: 3400,
+            delay: 0,
           };
         case "pause_exit_select":
         case "pause_change_select":
