@@ -95,8 +95,8 @@ const Site = (props: SiteProps) => {
             rotation-y={siteState.siteRotY}
             position-y={siteState.sitePosY}
           >
-            <ActiveLevelNodes />
-            {/*<InactiveLevelNodes />*/}
+            <ActiveLevelNodes visibleNodes={visibleNodes} />
+            <InactiveLevelNodes visibleNodes={visibleNodes} />
             <NodeAnimations />
             <Rings
               activateAllRings={props.shouldIntro ? props.introFinished : true}

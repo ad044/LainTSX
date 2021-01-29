@@ -90,7 +90,7 @@ const handleMainSceneEvent = (gameContext: any) => {
         }
         break;
       case "L2":
-        return { event: "toggle_level_selection" };
+        return { event: "toggle_level_selection", level: level };
       case "TRIANGLE":
         return { event: "pause_game" };
       case "SPACE":

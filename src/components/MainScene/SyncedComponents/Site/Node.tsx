@@ -23,7 +23,7 @@ type NodeContructorProps = {
   nodeName: string;
   position: number[];
   rotation: number[];
-  active?: boolean;
+  active: boolean;
   level: string;
 };
 
