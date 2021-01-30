@@ -204,3 +204,162 @@ export const findNodeRight = (
       };
   }
 };
+
+const generateColPrecedence = (colIdx: number) => {
+  switch (colIdx) {
+    case 0:
+      return [0, 1, 2, 3];
+    case 1:
+      return [1, 0, 2, 3];
+    case 2:
+      return [2, 1, 3, 0];
+    case 3:
+      return [3, 2, 1, 0];
+    default:
+      return [0, 1, 2, 3];
+  }
+};
+
+export const findNodeUp = (
+  nodeMatrixIndices: {
+    matrixIdx: number;
+    rowIdx: number;
+    colIdx: number;
+  },
+  level: number,
+  currentSite: string,
+  gameProgress: any
+) => {
+  const { matrixIdx, rowIdx, colIdx } = nodeMatrixIndices;
+
+  const visibleNodes = getVisibleNodesMatrix(
+    matrixIdx,
+    level,
+    currentSite,
+    gameProgress
+  );
+
+  const precedence = generateColPrecedence(colIdx);
+
+  let chosenNode;
+  let matrixIndices;
+  loop: for (let row = rowIdx - 1; row > -1; row--) {
+    for (let i = 0; i < 4; i++) {
+      const current = visibleNodes[row][precedence[i]];
+      if (current) {
+        chosenNode = current;
+        matrixIndices = {
+          matrixIdx: matrixIdx,
+          rowIdx: row,
+          colIdx: precedence[i],
+        };
+        break loop;
+      }
+    }
+  }
+
+  if (chosenNode) {
+    return { node: chosenNode, didMove: false, matrixIndices: matrixIndices };
+  } else {
+    const visibleNodes = getVisibleNodesMatrix(
+      matrixIdx,
+      level + 1,
+      currentSite,
+      gameProgress
+    );
+
+    loop: for (let row = 2; row > -1; row--) {
+      for (let i = 0; i < 4; i++) {
+        const current = visibleNodes[row][precedence[i]];
+        if (current) {
+          chosenNode = current;
+          matrixIndices = {
+            matrixIdx: matrixIdx,
+            rowIdx: row,
+            colIdx: precedence[i],
+          };
+          break loop;
+        }
+      }
+    }
+
+    if (chosenNode)
+      return {
+        node: chosenNode,
+        matrixIndices: matrixIndices,
+        didMove: true,
+      };
+  }
+};
+
+export const findNodeDown = (
+  nodeMatrixIndices: {
+    matrixIdx: number;
+    rowIdx: number;
+    colIdx: number;
+  },
+  level: number,
+  currentSite: string,
+  gameProgress: any
+) => {
+  const { matrixIdx, rowIdx, colIdx } = nodeMatrixIndices;
+
+  const visibleNodes = getVisibleNodesMatrix(
+    matrixIdx,
+    level,
+    currentSite,
+    gameProgress
+  );
+
+  const precedence = generateColPrecedence(colIdx);
+
+  let chosenNode;
+  let matrixIndices;
+  loop: for (let row = rowIdx + 1; row < 3; row++) {
+    for (let i = 0; i < 4; i++) {
+      const current = visibleNodes[row][precedence[i]];
+      if (current) {
+        chosenNode = current;
+        matrixIndices = {
+          matrixIdx: matrixIdx,
+          rowIdx: row,
+          colIdx: precedence[i],
+        };
+        break loop;
+      }
+    }
+  }
+
+  if (chosenNode) {
+    return { node: chosenNode, didMove: false, matrixIndices: matrixIndices };
+  } else {
+    const visibleNodes = getVisibleNodesMatrix(
+      matrixIdx,
+      level - 1,
+      currentSite,
+      gameProgress
+    );
+
+    loop: for (let row = 0; row < 3; row++) {
+      for (let i = 0; i < 4; i++) {
+        const current = visibleNodes[row][precedence[i]];
+        if (current) {
+          chosenNode = current;
+          matrixIndices = {
+            matrixIdx: matrixIdx,
+            rowIdx: row,
+            colIdx: precedence[i],
+          };
+          break loop;
+        }
+      }
+    }
+
+    if (chosenNode)
+      return {
+        node: chosenNode,
+        matrixIndices: matrixIndices,
+        didMove: true,
+      };
+  }
+};

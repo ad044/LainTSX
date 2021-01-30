@@ -1,4 +1,10 @@
-import nodeSelector, { getNode, getNodeHud } from "./nodeSelector";
+import nodeSelector, { getNode, getNodeById, getNodeHud } from "./nodeSelector";
+import {
+  findNodeDown,
+  findNodeLeft,
+  findNodeRight,
+  findNodeUp,
+} from "./utils/nodeUtils";
 
 const handleMainSceneEvent = (gameContext: any) => {
   let event;
@@ -23,38 +29,56 @@ const handleMainSceneEvent = (gameContext: any) => {
   let scene = gameContext.scene;
 
   if (subscene === "site") {
-    let selectedNodeData;
     switch (keyPress) {
       case "LEFT":
       case "RIGHT":
-      case "DOWN":
-      case "UP":
-        selectedNodeData = nodeSelector({
-          action: `site_${keyPress.toLowerCase()}`,
-          activeId: activeNode,
-          nodeMatrixIndices: nodeMatrixIndices,
-          level: level,
-          siteRotY: siteRotY,
-          sitePosY: sitePosY,
-          gameProgress: gameProgress,
-          currentSite: currentSite,
-        });
+        const keyPressToLower = keyPress.toLowerCase();
 
-        if (selectedNodeData) {
-          event = selectedNodeData.event;
-          activeNode = selectedNodeData.node;
-          nodeMatrixIndices = selectedNodeData.newNodeMatrixIndices;
-          siteRotY = selectedNodeData.newSiteRotY;
-          sitePosY = selectedNodeData.newSitePosY;
-          level = selectedNodeData.newLevel!;
-          activeHud = selectedNodeData.newActiveHud;
+        const fn = keyPressToLower === "left" ? findNodeLeft : findNodeRight;
+
+        const nodeData = fn.apply(null, [
+          nodeMatrixIndices,
+          level,
+          currentSite,
+          gameProgress,
+        ]);
+
+        if (nodeData) {
+          return {
+            event: nodeData.didRotate
+              ? `site_${keyPressToLower}`
+              : "change_node",
+            siteRotY:
+              keyPressToLower === "left"
+                ? siteRotY + Math.PI / 4
+                : siteRotY - Math.PI / 4,
+            nodeMatrixIndices: nodeData.matrixIndices,
+            node: getNodeById(nodeData.node, currentSite),
+          };
         }
-
+        break;
+      case "UP":
+      case "DOWN":
+        const keyp = keyPress.toLowerCase();
+        const tt = keyp === "up" ? findNodeUp : findNodeDown;
+        const t = tt.apply(null, [
+          nodeMatrixIndices,
+          level,
+          currentSite,
+          gameProgress,
+        ]);
+        if (t) {
+          return {
+            event: t.didMove ? `site_${keyp}` : "change_node",
+            nodeMatrixIndices: t.matrixIndices,
+            level: (keyp === "up" ? level + 1 : level - 1)
+              .toString()
+              .padStart(2, "0"),
+            node: getNodeById(t.node, currentSite),
+          };
+        }
         break;
       case "CIRCLE":
-        // in this case we have to check the type of the blue orb
-        // and dispatch an action depending on that, so we have to precalculate the
-        // new active blue orb here.
         activeNode = getNode(level, nodeMatrixIndices, currentSite);
 
         const nodeType = activeNode.type;
