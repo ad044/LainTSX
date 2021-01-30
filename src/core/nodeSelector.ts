@@ -8,6 +8,12 @@ import {
 import unlocked_nodes from "../resources/initial_progress.json";
 import level_y_values from "../resources/level_y_values.json";
 import node_huds from "../resources/node_huds.json";
+import filterInvisibleNodes from "./utils/filterInvisibleNodes";
+import {
+  findNodeLeft,
+  findNodeRight,
+  getVisibleNodesMatrix,
+} from "./utils/nodeUtils";
 
 type NodeSelectorContext = {
   action: string;
@@ -33,6 +39,12 @@ const hudAssocs = {
   "03": "fg_hud_4",
   "13": "fg_hud_5",
   "23": "fg_hud_6",
+};
+
+export const getNodeById = (id: string, currentSite: string) => {
+  const siteData = currentSite === "a" ? site_a : site_b;
+  const level = id.substr(0, 2);
+  return (siteData as SiteType)[level][id];
 };
 
 export const getNode = (
@@ -377,6 +389,21 @@ const nodeSelector = (context: NodeSelectorContext) => {
   switch (context.action) {
     case "site_left":
     case "site_right":
+      const t =
+        context.action === "site_right"
+          ? findNodeRight(
+              context.nodeMatrixIndices,
+              context.level,
+              context.currentSite,
+              context.gameProgress
+            )
+          : findNodeLeft(
+              context.nodeMatrixIndices,
+              context.level,
+              context.currentSite,
+              context.gameProgress
+            );
+
       move = context.action === "site_left" ? "left" : "right";
       newNodeData = findNodeHorizontal(
         move,
@@ -387,14 +414,15 @@ const nodeSelector = (context: NodeSelectorContext) => {
         context.currentSite
       );
 
+      console.log(t!.matrixIndices);
       if (newNodeData) {
         const siteRotYModifier = move === "left" ? Math.PI / 4 : -Math.PI / 4;
 
         return {
           event: newNodeData.didMove ? context.action : "change_node",
-          node: newNodeData.node,
+          node: getNodeById(t!.node, context.currentSite),
           newActiveHud: newNodeData.newNodeHud,
-          newNodeMatrixIndices: newNodeData.newNodeMatrixIndices,
+          newNodeMatrixIndices: t!.matrixIndices,
           newSiteRotY: newNodeData.didMove
             ? context.siteRotY + siteRotYModifier
             : context.siteRotY,

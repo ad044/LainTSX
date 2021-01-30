@@ -7,10 +7,11 @@ import NodeAnimations from "./Site/NodeAnimations";
 import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
-import lerp from "../../../core/utils/lerp";
 import filterInvisibleNodes from "../../../core/utils/filterInvisibleNodes";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
+import level_y_values from "../../../resources/level_y_values.json";
+import usePrevious from "../../../hooks/usePrevious";
 
 export type NodeDataType = {
   id: string;
@@ -47,14 +48,33 @@ type SiteProps = {
 };
 
 const Site = (props: SiteProps) => {
-  const siteRot = useStore((state) => state.siteRot);
-  const sitePos = useStore((state) => state.sitePos);
-  const siteState = useSpring({
-    siteRotX: siteRot[0],
-    siteRotY: siteRot[1],
-    sitePosY: sitePos[1],
+  const activeLevel = useStore((state) => state.activeLevel);
+
+  const [state, setState] = useSpring(() => ({
+    posY: -level_y_values[
+      useStore.getState().activeLevel as keyof typeof level_y_values
+    ],
+    rotX: useStore.getState().siteRot[0],
+    rotY: useStore.getState().siteRot[1],
     config: { duration: 1200 },
-  });
+  }));
+
+  useEffect(() => {
+    setTimeout(() => {
+      setState({
+        posY: -level_y_values[activeLevel as keyof typeof level_y_values],
+      });
+    }, 1200);
+  }, [activeLevel, setState]);
+
+  useEffect(() => {
+    useStore.subscribe(setState, (state) => {
+      return {
+        rotX: state.siteRot[0],
+        rotY: state.siteRot[1],
+      };
+    });
+  }, [setState]);
 
   const introWrapperRef = useRef<THREE.Object3D>();
 
@@ -90,18 +110,15 @@ const Site = (props: SiteProps) => {
   return (
     <Suspense fallback={null}>
       <a.group ref={introWrapperRef}>
-        <a.group rotation-x={siteState.siteRotX}>
-          <a.group
-            rotation-y={siteState.siteRotY}
-            position-y={siteState.sitePosY}
-          >
+        <a.group rotation-x={state.rotX}>
+          <a.group rotation-y={state.rotY} position-y={state.posY}>
             <ActiveLevelNodes visibleNodes={visibleNodes} />
             <InactiveLevelNodes visibleNodes={visibleNodes} />
-            <NodeAnimations />
             <Rings
               activateAllRings={props.shouldIntro ? props.introFinished : true}
             />
           </a.group>
+          <NodeAnimations />
         </a.group>
       </a.group>
     </Suspense>

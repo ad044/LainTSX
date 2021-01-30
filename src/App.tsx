@@ -21,8 +21,8 @@ const App = () => {
     document.title = "< index >";
   }, []);
 
-  const dispatchScene = useMemo(() => {
-    return {
+  const dispatchScene = useMemo(
+    () => ({
       main: <MainScene />,
       media: <MediaScene />,
       idle_media: <IdleMediaScene />,
@@ -33,8 +33,9 @@ const App = () => {
       tak: <TaKScene />,
       change_disc: <ChangeDiscScene />,
       end: <EndScene />,
-    };
-  }, []);
+    }),
+    []
+  );
 
   return (
     <div id="game-root" className="game">
@@ -45,7 +46,9 @@ const App = () => {
           </Suspense>
         </Canvas>
       </span>
-      <MediaPlayer />
+      {["media", "idle_media", "tak", "end"].includes(currentScene) && (
+        <MediaPlayer />
+      )}
     </div>
   );
 };

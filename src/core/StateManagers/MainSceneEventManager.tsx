@@ -25,7 +25,6 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
   const activeNodeId = useStore((state) => state.activeNode.id);
   const nodeMatrixIndices = useStore((state) => state.activeNode.matrixIndices);
   const siteRotY = useStore((state) => state.siteRot[1]);
-  const sitePosY = useStore((state) => state.sitePos[1]);
   const activeLevel = useStore((state) => state.activeLevel);
   const mainSubscene = useStore((state) => state.mainSubscene);
   const selectedLevel = useStore((state) => state.selectedLevel);
@@ -54,7 +53,7 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
         //   scene: "idle_media",
         //   site: currentSite,
         // });
-        // timePassedSinceLastKeyPress.current = -1;
+        timePassedSinceLastKeyPress.current = -1;
       } else if (now > timePassedSinceLastKeyPress.current + 10000) {
         const moves = [
           "prayer",
@@ -94,7 +93,6 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
         const event = handleMainSceneEvent({
           mainSubscene: mainSubscene,
           keyPress: keyPress,
-          sitePosY: sitePosY,
           siteRotY: siteRotY,
           activeNodeId: activeNodeId,
           nodeMatrixIndices: nodeMatrixIndices,
@@ -112,7 +110,6 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
     [
       props.loaded,
       mainSubscene,
-      sitePosY,
       siteRotY,
       activeNodeId,
       nodeMatrixIndices,
