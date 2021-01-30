@@ -137,6 +137,7 @@ const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
     activeMediaComponent,
     lastMediaLeftComponent,
     prevData?.scene,
+    prevData?.subscene,
   ]);
 
   return (

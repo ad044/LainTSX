@@ -40,10 +40,10 @@ const HUD = memo(() => {
     (state) => state.activeNode.matrixIndices
   );
   const siteRotY = useStore((state) => state.siteRot[1]);
-  const sitePosY = useStore((state) => state.sitePos[1]);
+  const activeLevel = useStore((state) => state.activeLevel);
   const subscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
-  const prevData = usePrevious({ siteRotY, sitePosY, subscene, scene });
+  const prevData = usePrevious({ siteRotY, activeLevel, subscene, scene });
 
   // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
@@ -123,7 +123,7 @@ const HUD = memo(() => {
       } else {
         if (
           prevData?.siteRotY !== siteRotY ||
-          prevData?.sitePosY !== sitePosY ||
+          prevData?.activeLevel !== activeLevel ||
           subscene === "level_selection"
         ) {
           activeRef.current = false;
@@ -165,13 +165,13 @@ const HUD = memo(() => {
       }
     }
   }, [
+    activeLevel,
     activeNodeMatrixIndices,
+    prevData?.activeLevel,
     prevData?.scene,
-    prevData?.sitePosY,
     prevData?.siteRotY,
     prevData?.subscene,
     scene,
-    sitePosY,
     siteRotY,
     subscene,
   ]);

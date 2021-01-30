@@ -3,22 +3,12 @@ import { useStore } from "../../../store";
 import { StateManagerProps } from "../EventManager";
 
 const SiteManager = (props: StateManagerProps) => {
-  const setPos = useStore((state) => state.setSitePos);
   const setRot = useStore((state) => state.setSiteRot);
   const setRotX = useStore((state) => state.setSiteRotX);
 
   const dispatchObject = useCallback(
-    (eventState: { event: string; sitePosY: number; siteRotY: number }) => {
+    (eventState: { event: string; siteRotY: number }) => {
       switch (eventState.event) {
-        case "site_up":
-        case "site_down":
-        case "select_level_up":
-        case "select_level_down":
-          return {
-            action: setPos,
-            value: [[0, eventState.sitePosY, 0]],
-            actionDelay: 1300,
-          };
         case "site_left":
         case "site_right":
           return {
@@ -40,7 +30,7 @@ const SiteManager = (props: StateManagerProps) => {
           };
       }
     },
-    [setPos, setRot, setRotX]
+    [setRot, setRotX]
   );
 
   useEffect(() => {

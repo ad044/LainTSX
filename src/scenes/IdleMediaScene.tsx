@@ -6,12 +6,12 @@ const IdleMediaScene = () => {
   const idleMedia = useStore((state) => state.idleMedia);
 
   useEffect(() => {
-    document.getElementsByTagName("canvas")[0].className =
-      "media-scene-background";
+    const mediaElement = document.getElementById("media") as HTMLMediaElement;
 
-    return () => {
-      document.getElementsByTagName("canvas")[0].className = "";
-    };
+    if (mediaElement) {
+      mediaElement.currentTime = 0;
+      mediaElement.play();
+    }
   }, []);
 
   return (

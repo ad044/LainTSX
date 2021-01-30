@@ -50,7 +50,6 @@ type State = {
   // site
   activeSite: "a" | "b";
   siteRot: number[];
-  sitePos: number[];
 
   // level
   activeLevel: string;
@@ -175,7 +174,6 @@ export const useStore = create(
       // site
       activeSite: "a",
       siteRot: [0, 0, 0],
-      sitePos: [0, 0, 0],
 
       // level
       activeLevel: "04",
@@ -280,7 +278,6 @@ export const useStore = create(
           nextPos[0] = to;
           return { siteRot: nextPos };
         }),
-      setSitePos: (to: number[]) => set(() => ({ sitePos: to })),
 
       // level setters
       setActiveLevel: (to: string) => set(() => ({ activeLevel: to })),

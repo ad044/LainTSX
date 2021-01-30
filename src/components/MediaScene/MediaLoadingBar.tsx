@@ -31,6 +31,11 @@ const MediaLoadingBar = () => {
   // doing it declaratively like this fixes that concern
   const loadingBarState = useMemo(() => {
     const mediaPercentageDispatch = {
+      0: {
+        scaleX: 0,
+        texture: loadingBar10PercTex,
+        offsetX: 0,
+      },
       5: {
         scaleX: 0.25,
         texture: loadingBar10PercTex,

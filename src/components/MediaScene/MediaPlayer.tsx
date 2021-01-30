@@ -9,8 +9,8 @@ import React, {
 import { useStore } from "../../store";
 import t from "../../static/webvtt/test.vtt";
 import endroll from "../../static/movie/ENDROLL1.STR[0].webm";
-import xa0001 from "../../static/audio/a/Xa0001.mp4";
-import xa0006 from "../../static/audio/a/Xa0006.mp4";
+import xa0001 from "../../static/audio/Xa0001.mp4";
+import xa0006 from "../../static/audio/Xa0006.mp4";
 
 const MediaPlayer = () => {
   const [mediaSource, setMediaSource] = useState<any>();
@@ -18,9 +18,7 @@ const MediaPlayer = () => {
   const currentScene = useStore((state) => state.currentScene);
   const setScene = useStore((state) => state.setScene);
 
-  const setPercentageElapsed = useStore(
-    (state) => state.setPercentageElapsed
-  );
+  const setPercentageElapsed = useStore((state) => state.setPercentageElapsed);
 
   const idleMedia = useStore((state) => state.idleMedia);
   const nodeMedia = useStore((state) => state.activeNode.media_file);
@@ -32,12 +30,8 @@ const MediaPlayer = () => {
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
 
-  const currentSite = useStore((state) => state.activeSite);
-
   // end scene specific stuff
-  const endMediaPlayedCount = useStore(
-    (state) => state.endMediaPlayedCount
-  );
+  const endMediaPlayedCount = useStore((state) => state.endMediaPlayedCount);
   const incrementEndMediaPlayedCount = useStore(
     (state) => state.incrementEndMediaPlayedCount
   );
@@ -47,10 +41,7 @@ const MediaPlayer = () => {
 
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
-    if (
-      videoRef.current &&
-      ["media", "idle_media", "tak", "end"].includes(currentScene)
-    ) {
+    if (videoRef.current) {
       const timeElapsed = videoRef.current.currentTime;
       const duration = videoRef.current.duration;
       const percentageElapsed = Math.floor((timeElapsed / duration) * 100);
@@ -58,6 +49,7 @@ const MediaPlayer = () => {
       if (percentageElapsed % 5 === 0 && percentageElapsed !== 0) {
         setPercentageElapsed(percentageElapsed);
         if (percentageElapsed === 100) {
+          if (currentScene === "media") setPercentageElapsed(0);
           videoRef.current.currentTime = 0;
           if (currentScene === "idle_media") {
             videoRef.current.pause();
@@ -124,45 +116,30 @@ const MediaPlayer = () => {
         }
       }
     } else {
-      if (currentScene === "media" || currentScene === "tak") {
-        if (nodeMedia.includes("XA")) {
-          import(
-            "../../static/audio/" + currentSite + "/" + nodeMedia + ".ogg"
-          ).then((media) => {
-            setMediaSource(media.default);
-            if (videoRef.current) {
-              videoRef.current.load();
-            }
-          });
-        } else {
-          import("../../static/movie/" + nodeMedia + "[0].webm").then(
-            (media) => {
-              setMediaSource(media.default);
-              if (videoRef.current) {
-                videoRef.current.load();
-              }
-            }
-          );
-        }
-      } else if (currentScene === "idle_media") {
-        if (idleMedia) {
-          if (idleMedia.includes("XA")) {
-            import(
-              "../../static/audio/" + currentSite + "/" + idleMedia + ".ogg"
-            ).then((media) => {
-              setMediaSource(media.default);
-              if (videoRef.current) {
-                videoRef.current.load();
-                videoRef.current.play();
-              }
-            });
-          } else {
-            import("../../static/movie/" + idleMedia + "[0].webm").then(
+      if (
+        currentScene === "media" ||
+        currentScene === "tak" ||
+        currentScene === "idle_media"
+      ) {
+        if (currentScene === "media") setPercentageElapsed(0);
+        const mediaToPlay =
+          currentScene === "idle_media" ? idleMedia : nodeMedia;
+        if (mediaToPlay) {
+          if (mediaToPlay.includes("XA")) {
+            import("../../static/audio/" + mediaToPlay + ".ogg").then(
               (media) => {
                 setMediaSource(media.default);
                 if (videoRef.current) {
                   videoRef.current.load();
-                  videoRef.current.play();
+                }
+              }
+            );
+          } else {
+            import("../../static/movie/" + mediaToPlay + "[0].webm").then(
+              (media) => {
+                setMediaSource(media.default);
+                if (videoRef.current) {
+                  videoRef.current.load();
                 }
               }
             );
@@ -172,10 +149,10 @@ const MediaPlayer = () => {
     }
   }, [
     currentScene,
-    currentSite,
     endMediaPlayedCount,
     idleMedia,
     nodeMedia,
+    setPercentageElapsed,
     videoRef,
   ]);
 

@@ -111,6 +111,7 @@ const LevelSelection = () => {
   }, [
     activeLevel,
     downArrowActiveTex,
+    downArrowTex,
     prevData?.selectedLevel,
     prevData?.subscene,
     selectedLevel,
