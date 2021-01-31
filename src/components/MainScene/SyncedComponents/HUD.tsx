@@ -45,6 +45,18 @@ const HUD = memo(() => {
   const scene = useStore((state) => state.currentScene);
   const prevData = usePrevious({ siteRotY, activeLevel, subscene, scene });
 
+  const lerpObject = (
+    obj: THREE.Object3D,
+    posX: number,
+    initialPosX: number
+  ) => {
+    obj.position.x = lerp(
+      obj.position.x,
+      activeRef.current ? posX : initialPosX,
+      0.12
+    );
+  };
+
   // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
     if (
@@ -53,36 +65,26 @@ const HUD = memo(() => {
       boringHudRef.current &&
       greenTextRef.current
     ) {
-      longHudRef.current.position.x = lerp(
-        longHudRef.current.position.x,
-        !activeRef.current
-          ? currentHudRef.current.long.initial_position[0]
-          : currentHudRef.current.long.position[0],
-        0.12
+      const hud = currentHudRef.current;
+      lerpObject(
+        longHudRef.current,
+        hud.long.position[0],
+        hud.long.initial_position[0]
       );
-
-      boringHudRef.current.position.x = lerp(
-        boringHudRef.current.position.x,
-        !activeRef.current
-          ? currentHudRef.current.boring.initial_position[0]
-          : currentHudRef.current.boring.position[0],
-        0.12
+      lerpObject(
+        boringHudRef.current,
+        hud.boring.position[0],
+        hud.boring.initial_position[0]
       );
-
-      bigHudRef.current.position.x = lerp(
-        bigHudRef.current.position.x,
-        !activeRef.current
-          ? currentHudRef.current.big.initial_position[0]
-          : currentHudRef.current.big.position[0],
-        0.12
+      lerpObject(
+        bigHudRef.current,
+        hud.big.position[0],
+        hud.big.initial_position[0]
       );
-
-      greenTextRef.current.position.x = lerp(
-        greenTextRef.current.position.x,
-        !activeRef.current
-          ? currentHudRef.current.medium_text.initial_position[0]
-          : currentHudRef.current.medium_text.position[0],
-        0.12
+      lerpObject(
+        greenTextRef.current,
+        hud.medium_text.position[0],
+        hud.medium_text.initial_position[0]
       );
     }
   });
@@ -100,26 +102,38 @@ const HUD = memo(() => {
       bigHudRef.current!.scale.x = Math.abs(bigHudRef.current!.scale.x);
     };
 
+    const setPos = (hud: HUDType, pos: string) => {
+      longHudRef.current!.position.set(
+        ...(hud.long[pos as keyof typeof hud.long] as [number, number, number])
+      );
+      boringHudRef.current!.position.set(
+        ...(hud.boring[pos as keyof typeof hud.boring] as [
+          number,
+          number,
+          number
+        ])
+      );
+      bigHudRef.current!.position.set(
+        ...(hud.big[pos as keyof typeof hud.big] as [number, number, number])
+      );
+      greenTextRef.current!.position.set(
+        ...(hud.medium_text[pos as keyof typeof hud.medium_text] as [
+          number,
+          number,
+          number
+        ])
+      );
+    };
+
     if (activeRef.current !== undefined) {
       const hud = getNodeHud(activeNodeMatrixIndices!);
       if (
-        (!(scene === "main" && prevData?.scene === "main") ||
-          (subscene === "site" && prevData?.subscene === "pause") ||
-          subscene === "pause") &&
-        longHudRef.current &&
-        bigHudRef.current &&
-        boringHudRef.current &&
-        greenTextRef.current
+        !(scene === "main" && prevData?.scene === "main") ||
+        (subscene === "site" && prevData?.subscene === "pause") ||
+        subscene === "pause"
       ) {
-        longHudRef.current.position.y = hud.long.position[1];
-        boringHudRef.current.position.y = hud.boring.position[1];
-        bigHudRef.current.position.y = hud.big.position[1];
-        greenTextRef.current.position.y = hud.medium_text.position[1];
-
-        longHudRef.current.position.x = hud.long.position[0];
-        boringHudRef.current.position.x = hud.boring.position[0];
-        bigHudRef.current.position.x = hud.big.position[0];
-        greenTextRef.current.position.x = hud.medium_text.position[0];
+        // set to final pos instantly
+        setPos(hud, "position");
       } else {
         if (
           prevData?.siteRotY !== siteRotY ||
@@ -132,32 +146,15 @@ const HUD = memo(() => {
           activeRef.current = false;
           setTimeout(
             () => {
-              if (
-                longHudRef.current &&
-                bigHudRef.current &&
-                boringHudRef.current &&
-                greenTextRef.current
-              ) {
-                longHudRef.current.position.y = hud.long.position[1];
-                boringHudRef.current.position.y = hud.boring.position[1];
-                bigHudRef.current.position.y = hud.big.position[1];
-                greenTextRef.current.position.y = hud.medium_text.position[1];
-
-                longHudRef.current.position.x = hud.long.initial_position[0];
-                boringHudRef.current.position.x =
-                  hud.boring.initial_position[0];
-                bigHudRef.current.position.x = hud.big.initial_position[0];
-                greenTextRef.current.position.x =
-                  hud.medium_text.initial_position[0];
-
-                if (hud.mirrored) {
-                  mirror();
-                } else {
-                  unMirror();
-                }
-                currentHudRef.current = hud;
-                activeRef.current = true;
+              // set to initial pos instantly while its hidden
+              setPos(hud, "initial_position");
+              if (hud.mirrored) {
+                mirror();
+              } else {
+                unMirror();
               }
+              currentHudRef.current = hud;
+              activeRef.current = true;
             },
             wasHidden ? 0 : 500
           );
