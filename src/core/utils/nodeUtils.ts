@@ -44,26 +44,35 @@ export const getVisibleNodesMatrix = (
 
 function reorder<T>(array: T[], order: number[]): T[]
 {
-    return order.map(i => array[i]);
+  return order.map(i => array[i]);
+}
+
+function transpose<T>(matrix: T[][]): T[][]
+{
+  return Object.keys(matrix[0])
+    .map(Number)
+    .map(
+      (c: number) => matrix.map(
+        (r: T[]) => r[c]));
 }
 
 function RowPrecedence(rowIdx: number): number[]
 {
-    switch (rowIdx) {
-        default: case 0: return [0, 1, 2];
-                 case 1: return [1, 0, 2];
-                 case 2: return [2, 1, 0];
-    }
+  switch (rowIdx) {
+    default: case 0: return [0, 1, 2];
+             case 1: return [1, 0, 2];
+             case 2: return [2, 1, 0];
+  }
 };
 
 function ColPrecedence(colIdx: number): number[]
 {
-    switch (colIdx) {
-        default: case 0: return [0, 1, 2, 3];
-                 case 1: return [1, 0, 2, 3];
-                 case 2: return [2, 1, 3, 0];
-                 case 3: return [3, 2, 1, 0];
-    }
+  switch (colIdx) {
+    default: case 0: return [0, 1, 2, 3];
+             case 1: return [1, 0, 2, 3];
+             case 2: return [2, 1, 3, 0];
+             case 3: return [3, 2, 1, 0];
+  }
 }
 
 function getNodesMatrixWithIndices
@@ -96,9 +105,9 @@ function getNodesMatrixWithIndices
 }
 
 interface NodeMatrixIndices {
-    matrixIdx: number;
-    rowIdx: number;
-    colIdx: number;
+  matrixIdx: number;
+  rowIdx: number;
+  colIdx: number;
 }
 
 function findNode_current
@@ -119,11 +128,15 @@ function findNode_current
   );
 
   const filters: any = {
-    left: () => reorder(nodes, RowPrecedence(rowIdx))
-      .flatMap(r => r.slice(0, colIdx).reverse()),
+    left: () => transpose(
+        reorder(nodes, RowPrecedence(rowIdx))
+          .map(r => r.slice(0, colIdx).reverse())
+      ).flat(),
 
-    right: () => reorder(nodes, RowPrecedence(rowIdx))
-      .flatMap(r => r.slice(colIdx + 1)),
+    right: () => transpose(
+        reorder(nodes, RowPrecedence(rowIdx))
+          .map(r => r.slice(colIdx + 1))
+      ).flat(),
 
     up: () => nodes.slice(0, rowIdx).reverse()
       .flatMap(r => reorder(r, ColPrecedence(colIdx))),
@@ -155,8 +168,9 @@ function findNode_next
         gameProgress
       ),
 
-      filter: (ns: any[]) =>
-        reorder(ns, RowPrecedence(rowIdx)).flat()
+      filter: (ns: any[]) => transpose(
+        reorder(ns, RowPrecedence(rowIdx))
+      ).flat()
     },
 
     right: {
@@ -167,8 +181,10 @@ function findNode_next
         gameProgress
       ),
 
-      filter: (ns: any[]) => reorder(ns, RowPrecedence(rowIdx))
-        .flatMap(r => [...r].reverse())
+      filter: (ns: any[]) => transpose(
+        reorder(ns, RowPrecedence(rowIdx))
+          .map(r => [...r].reverse())
+      ).flat()
     },
 
     up: {
