@@ -1,10 +1,5 @@
 import nodeSelector, { getNode, getNodeById, getNodeHud } from "./nodeSelector";
-import {
-  findNodeDown,
-  findNodeLeft,
-  findNodeRight,
-  findNodeUp,
-} from "./utils/nodeUtils";
+import { findNode } from "./utils/nodeUtils";
 
 const handleMainSceneEvent = (gameContext: any) => {
   let event;
@@ -34,18 +29,17 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "RIGHT":
         const keyPressToLower = keyPress.toLowerCase();
 
-        const fn = keyPressToLower === "left" ? findNodeLeft : findNodeRight;
-
-        const nodeData = fn.apply(null, [
+        const nodeData = findNode.apply(null, [
+          keyPressToLower,
           nodeMatrixIndices,
           level,
           currentSite,
-          gameProgress,
+          gameProgress
         ]);
 
         if (nodeData) {
           return {
-            event: nodeData.didRotate
+            event: nodeData.didMove
               ? `site_${keyPressToLower}`
               : "change_node",
             siteRotY:
@@ -60,12 +54,12 @@ const handleMainSceneEvent = (gameContext: any) => {
       case "UP":
       case "DOWN":
         const keyp = keyPress.toLowerCase();
-        const tt = keyp === "up" ? findNodeUp : findNodeDown;
-        const t = tt.apply(null, [
+        const t = findNode.apply(null, [
+          keyp,
           nodeMatrixIndices,
           level,
           currentSite,
-          gameProgress,
+          gameProgress
         ]);
         if (t) {
           return {
