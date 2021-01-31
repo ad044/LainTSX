@@ -155,7 +155,8 @@ function findNode_next
         gameProgress
       ),
 
-      filter: (ns: any[]) => ns.flat()
+      filter: (ns: any[]) =>
+        reorder(ns, RowPrecedence(rowIdx)).flat()
     },
 
     right: {
@@ -166,7 +167,8 @@ function findNode_next
         gameProgress
       ),
 
-      filter: (ns: any[]) => ns.flatMap(r => [...r].reverse())
+      filter: (ns: any[]) => reorder(ns, RowPrecedence(rowIdx))
+        .flatMap(r => [...r].reverse())
     },
 
     up: {
