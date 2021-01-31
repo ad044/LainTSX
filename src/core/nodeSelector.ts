@@ -10,8 +10,7 @@ import level_y_values from "../resources/level_y_values.json";
 import node_huds from "../resources/node_huds.json";
 import filterInvisibleNodes from "./utils/filterInvisibleNodes";
 import {
-  findNodeLeft,
-  findNodeRight,
+  findNode,
   getVisibleNodesMatrix,
 } from "./utils/nodeUtils";
 
@@ -389,20 +388,13 @@ const nodeSelector = (context: NodeSelectorContext) => {
   switch (context.action) {
     case "site_left":
     case "site_right":
-      const t =
-        context.action === "site_right"
-          ? findNodeRight(
-              context.nodeMatrixIndices,
-              context.level,
-              context.currentSite,
-              context.gameProgress
-            )
-          : findNodeLeft(
-              context.nodeMatrixIndices,
-              context.level,
-              context.currentSite,
-              context.gameProgress
-            );
+      const t = findNode(
+        context.action === "site_right" ? "right" : "left",
+        context.nodeMatrixIndices,
+        context.level,
+        context.currentSite,
+        context.gameProgress
+      );
 
       move = context.action === "site_left" ? "left" : "right";
       newNodeData = findNodeHorizontal(
