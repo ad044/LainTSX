@@ -3,7 +3,7 @@ import site_b from "../resources/site_b.json";
 import { SiteType } from "../components/MainScene/SyncedComponents/Site";
 import { useStore } from "../store";
 
-const getIdleMedia = (site: string) => {
+export const getRandomIdleMedia = (site: string) => {
   const siteAIdleNodes = {
     audio: [
       "0000",
@@ -81,4 +81,26 @@ const getIdleMedia = (site: string) => {
   }
 };
 
-export default getIdleMedia;
+export const getRandomIdleLainAnim = () => {
+  const moves = [
+    "prayer",
+    "touch_sleeve",
+    "thinking",
+    "stretch_2",
+    "stretch",
+    "spin",
+    "scratch_head",
+    "blush",
+    "hands_behind_head",
+    "hands_on_hips",
+    "hands_on_hips_2",
+    "hands_together",
+    "lean_forward",
+    "lean_left",
+    "lean_right",
+    "look_around",
+    "play_with_hair",
+  ];
+
+  return moves[Math.floor(Math.random() * moves.length)];
+};

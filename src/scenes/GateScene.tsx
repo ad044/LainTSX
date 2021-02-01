@@ -4,7 +4,6 @@ import { OrbitControls } from "@react-three/drei";
 import GateHUD from "../components/GateScene/GateHUD";
 import GateMiddleObject from "../components/GateScene/GateMiddleObject";
 import { useStore } from "../store";
-import GateSceneManager from "../core/StateManagers/GateSceneManager";
 
 const GateScene = () => {
   const gateLvl = useStore((state) => state.gateLvl);
@@ -23,7 +22,6 @@ const GateScene = () => {
       <GateSide />
       <GateHUD intro={introAnim} gateLvl={gateLvl} />
       <GateMiddleObject intro={introAnim} gateLvl={gateLvl} />
-      <GateSceneManager />
     </perspectiveCamera>
   );
 };

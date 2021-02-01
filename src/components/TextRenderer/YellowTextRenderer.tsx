@@ -3,7 +3,7 @@ import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 import usePrevious from "../../hooks/usePrevious";
-import {getNodeHud} from "../../utils/nodeUtils";
+import {getNodeHud} from "../../utils/node-utils";
 
 const YellowTextRenderer = (props: { visible?: boolean }) => {
   const activeNode = useStore((state) => state.activeNode);

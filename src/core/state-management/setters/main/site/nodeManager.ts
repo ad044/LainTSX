@@ -1,5 +1,5 @@
-import { useStore } from "../../../../store";
-import { NodeDataType } from "../../../../components/MainScene/SyncedComponents/Site";
+import { useStore } from "../../../../../store";
+import { NodeDataType } from "../../../../../components/MainScene/SyncedComponents/Site";
 
 const nodeManager = (eventState: any) => {
   const setActiveNode = useStore.getState().setNode;

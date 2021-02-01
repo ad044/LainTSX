@@ -32,24 +32,24 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
       const posZ = props.position[2];
       setTimeout(() => {
         setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
-      }, 500);
+      }, 300);
       setTimeout(() => {
         setPos({ posX: posX, posZ: posZ });
-      }, 900);
+      }, 700);
       setTimeout(() => {
         setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
-      }, 1300);
+      }, 1100);
       setTimeout(() => {
         setPos({ posX: posX, posZ: posZ });
-      }, 1700);
+      }, 1500);
 
       setTimeout(() => {
         setPos({ posX: posX / 0.2, posZ: posZ / 0.2 });
-      }, 2500);
+      }, 2300);
 
       setTimeout(() => {
         setPos({ posX: posX, posZ: posZ });
-      }, 3200);
+      }, 3000);
     }
   }, [props.position, setPos, subscene]);
 

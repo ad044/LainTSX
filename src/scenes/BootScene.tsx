@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import BootAccela from "../components/Boot/BootAccela";
-import BootAnimation from "../components/Boot/BootAnimation";
-import BootMainMenuComponents from "../components/Boot/BootMainMenuComponents";
+import BootAccela from "../components/BootScene/BootAccela";
+import BootAnimation from "../components/BootScene/BootAnimation";
+import BootMainMenuComponents from "../components/BootScene/BootMainMenuComponents";
 import { useStore } from "../store";
-import BootAuthorizeUser from "../components/Boot/BootAuthorizeUser";
-import BootLoadData from "../components/Boot/BootLoadData";
+import BootAuthorizeUser from "../components/BootScene/BootAuthorizeUser";
+import BootLoadData from "../components/BootScene/BootLoadData";
 
 const BootScene = () => {
   const activeSubscene = useStore((state) => state.bootSubscene);
