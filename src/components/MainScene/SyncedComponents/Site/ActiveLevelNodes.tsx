@@ -2,11 +2,11 @@ import React, { memo, useEffect, useState } from "react";
 import Node from "./Node";
 import node_positions from "../../../../resources/node_positions.json";
 import { useStore } from "../../../../store";
-import { isNodeVisible } from "../../../../core/nodeSelector";
 import site_a from "../../../../resources/site_a.json";
 import site_b from "../../../../resources/site_b.json";
 import { NodeDataType, SiteType } from "../Site";
 import usePrevious from "../../../../hooks/usePrevious";
+import {isNodeVisible} from "../../../../utils/nodeUtils";
 
 type ActiveLevelNodesProps = {
   visibleNodes: SiteType;

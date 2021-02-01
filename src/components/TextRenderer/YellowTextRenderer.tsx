@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
-import { getNodeHud } from "../../core/nodeSelector";
 import usePrevious from "../../hooks/usePrevious";
+import {getNodeHud} from "../../utils/nodeUtils";
 
 const YellowTextRenderer = (props: { visible?: boolean }) => {
   const activeNode = useStore((state) => state.activeNode);

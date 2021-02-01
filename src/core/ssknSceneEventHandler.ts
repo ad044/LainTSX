@@ -1,6 +1,6 @@
-const handleSSknSceneEvent = (gameContext: any) => {
-  const keyPress = gameContext.keyPress;
-  const activeSSknComponent = gameContext.activeSSknComponent;
+const handleSSknSceneEvent = (ssknSceneContext: any) => {
+  const { keyPress, activeSSknComponent } = ssknSceneContext;
+  
   switch (keyPress) {
     case "UP":
     case "DOWN":

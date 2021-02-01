@@ -1,11 +1,10 @@
-const handleMediaSceneEvent = (gameContext: any) => {
-  const keyPress = gameContext.keyPress;
-  const activeMediaComponent = gameContext.activeMediaComponent;
-
-  const wordPosStateIdx = gameContext.wordPosStateIdx;
-  const rightSideComponentIdx = gameContext.rightSideComponentIdx;
-
-  const rightSideComponents = ["fstWord", "sndWord", "thirdWord"];
+const handleMediaSceneEvent = (mediaSceneContext: any) => {
+  const {
+    keyPress,
+    activeMediaComponent,
+    wordPosStateIdx,
+    rightSideComponentIdx,
+  } = mediaSceneContext;
 
   const calculateNewRightSide = (
     direction: string,
@@ -43,7 +42,7 @@ const handleMediaSceneEvent = (gameContext: any) => {
     case "DOWN":
     case "RIGHT":
     case "LEFT":
-      if (rightSideComponents.includes(activeMediaComponent)) {
+      if (["fstWord", "sndWord", "thirdWord"].includes(activeMediaComponent)) {
         const rightSide = calculateNewRightSide(
           keyPress,
           wordPosStateIdx,

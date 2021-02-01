@@ -5,10 +5,10 @@ import bigHud from "../../../static/sprite/big_hud.png";
 import longHud from "../../../static/sprite/long_hud.png";
 import boringHud from "../../../static/sprite/long_hud_boring.png";
 import { useStore } from "../../../store";
-import { getNodeHud } from "../../../core/nodeSelector";
-import lerp from "../../../core/utils/lerp";
+import lerp from "../../../utils/lerp";
 import GreenTextRenderer from "../../TextRenderer/GreenTextRenderer";
 import usePrevious from "../../../hooks/usePrevious";
+import {getNodeHud} from "../../../utils/nodeUtils";
 
 export type HUDType = {
   mirrored: number;

@@ -1,44 +1,39 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useStore } from "../../store";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { getMainSceneContext, useStore } from "../../store";
 import handleMainSceneEvent from "../mainSceneEventHandler";
-import { getKeyCodeAssociation } from "../utils/keyPressUtils";
-import NodeManager from "./MainSceneManagers/NodeManager";
-import SiteManager from "./MainSceneManagers/SiteManager";
-import LainManager from "./MainSceneManagers/LainManager";
-import SceneManager from "./GameManagers/SceneManager";
-import LevelManager from "./MainSceneManagers/LevelManager";
-import LevelSelectionManager from "./MainSceneManagers/LevelSelectionManager";
-import SubsceneManager from "./GameManagers/SubsceneManager";
-import PauseComponentManager from "./MainSceneManagers/PauseComponentManager";
-import GameSaver from "./GameManagers/GameSaver";
-import GameLoader from "./GameManagers/GameLoader";
-import IdleManager from "./MainSceneManagers/IdleManager";
+import { getKeyCodeAssociation } from "../../utils/keyPressUtils";
 import { useFrame } from "react-three-fiber";
+import levelSelectionManager from "../setters/main/level_selection/levelSelectionManager";
+import lainManager from "../setters/main/site/lainManager";
+import levelManager from "../setters/main/site/levelManager";
+import nodeManager from "../setters/main/site/nodeManager";
+import pauseManager from "../setters/main/pause/pauseManager";
+import siteManager from "../setters/main/site/siteManager";
+import mainSubsceneManager from "../setters/main/mainSubsceneManager";
+import sceneManager from "../setters/sceneManager";
 
 type MainSceneEventManagerProps = {
   loaded: boolean;
 };
 
 const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
-  // all the possible context needed to calculate new state
-  const currentSite = useStore((state) => state.activeSite);
-  const activeNodeId = useStore((state) => state.activeNode.id);
-  const nodeMatrixIndices = useStore((state) => state.activeNode.matrixIndices);
-  const siteRotY = useStore((state) => state.siteRot[1]);
-  const activeLevel = useStore((state) => state.activeLevel);
   const mainSubscene = useStore((state) => state.mainSubscene);
-  const selectedLevel = useStore((state) => state.selectedLevel);
-  const pauseMatrixIdx = useStore((state) => state.pauseComponentMatrixIdx);
-  const activePauseComponent = useStore(
-    useCallback((state) => state.pauseComponentMatrix[pauseMatrixIdx], [
-      pauseMatrixIdx,
-    ])
-  );
-  const gameProgress = useStore((state) => state.gameProgress);
 
   const timePassedSinceLastKeyPress = useRef(-1);
 
-  const [eventState, setEventState] = useState<any>();
+  const mainSceneSetters = useMemo(
+    () => [
+      levelSelectionManager,
+      nodeManager,
+      levelManager,
+      lainManager,
+      siteManager,
+      pauseManager,
+      mainSubsceneManager,
+      sceneManager,
+    ],
+    []
+  );
 
   useFrame(() => {
     const now = Date.now();
@@ -76,7 +71,7 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
         ];
 
         const event = moves[Math.floor(Math.random() * moves.length)];
-        setEventState({ event: event });
+        // setEventState({ event: event });
         timePassedSinceLastKeyPress.current = now - 2500;
       }
     }
@@ -90,36 +85,13 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
 
       if (keyPress && props.loaded) {
         timePassedSinceLastKeyPress.current = Date.now() + 2500;
-        const event = handleMainSceneEvent({
-          mainSubscene: mainSubscene,
-          keyPress: keyPress,
-          siteRotY: siteRotY,
-          activeNodeId: activeNodeId,
-          nodeMatrixIndices: nodeMatrixIndices,
-          activeLevel: activeLevel,
-          selectedLevel: selectedLevel,
-          pauseMatrixIdx: pauseMatrixIdx,
-          activePauseComponent: activePauseComponent,
-          gameProgress: gameProgress,
-          currentSite: currentSite,
-        });
+        const ctx = { ...getMainSceneContext(), keyPress: keyPress };
 
-        setEventState(event);
+        const event = handleMainSceneEvent(ctx);
+        mainSceneSetters.forEach((fn) => fn(event));
       }
     },
-    [
-      props.loaded,
-      mainSubscene,
-      siteRotY,
-      activeNodeId,
-      nodeMatrixIndices,
-      activeLevel,
-      selectedLevel,
-      pauseMatrixIdx,
-      activePauseComponent,
-      gameProgress,
-      currentSite,
-    ]
+    [mainSceneSetters, props.loaded]
   );
 
   useEffect(() => {
@@ -130,21 +102,7 @@ const MainSceneEventManager = (props: MainSceneEventManagerProps) => {
     };
   }, [handleKeyPress]);
 
-  return (
-    <>
-      <NodeManager eventState={eventState!} />
-      <SiteManager eventState={eventState!} />
-      <LainManager eventState={eventState!} />
-      <SceneManager eventState={eventState!} />
-      <LevelManager eventState={eventState!} />
-      <LevelSelectionManager eventState={eventState!} />
-      <SubsceneManager eventState={eventState!} />
-      <PauseComponentManager eventState={eventState!} />
-      <GameSaver eventState={eventState!} />
-      <GameLoader eventState={eventState!} />
-      <IdleManager eventState={eventState!} />
-    </>
-  );
+  return null;
 };
 
 export default MainSceneEventManager;
