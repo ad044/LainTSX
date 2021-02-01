@@ -1,4 +1,4 @@
-const handleMediaSceneEvent = (mediaSceneContext: any) => {
+const handleMediaKeyPress = (mediaSceneContext: any) => {
   const {
     keyPress,
     activeMediaComponent,
@@ -65,4 +65,4 @@ const handleMediaSceneEvent = (mediaSceneContext: any) => {
   }
 };
 
-export default handleMediaSceneEvent;
+export default handleMediaKeyPress;

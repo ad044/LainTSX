@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useMemo } from "react";
-import Preloader from "../components/Preloader";
+import Preloader from "../core/Preloader";
 import { useStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
@@ -22,7 +22,6 @@ const MainScene = () => {
   return (
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
-        <Preloader />
         <LevelSelection />
         <Pause />
         <SyncedComponentLoader paused={isPaused} shouldIntro={shouldIntro} />

@@ -1,4 +1,4 @@
-import { useStore } from "../../store";
+import { useStore } from "../../../store";
 
 const sceneManager = (eventState: any) => {
   const dispatchAction = (eventState: { event: string; scene: string }) => {
@@ -38,7 +38,7 @@ const sceneManager = (eventState: any) => {
       case "pause_change_select":
         return {
           action: () =>
-            useStore.setState({ currentScene: "change_dic", intro: true }),
+            useStore.setState({ currentScene: "change_disc", intro: true }),
           delay: 0,
         };
       case "play_idle_media":

@@ -1,4 +1,4 @@
-import {findNode, getNodeById} from "../utils/nodeUtils";
+import {findNode, getNodeById} from "../../../utils/node-utils";
 
 const handleMainSceneEvent = (mainSceneContext: any) => {
   const {

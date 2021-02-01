@@ -1,4 +1,4 @@
-import { useStore } from "../../../../store";
+import { useStore } from "../../../../../store";
 
 const siteManager = (eventState: any) => {
   const setRotY = useStore.getState().setSiteRotY;

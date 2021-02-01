@@ -8,7 +8,7 @@ import { useStore } from "../../../store";
 import lerp from "../../../utils/lerp";
 import GreenTextRenderer from "../../TextRenderer/GreenTextRenderer";
 import usePrevious from "../../../hooks/usePrevious";
-import {getNodeHud} from "../../../utils/nodeUtils";
+import {getNodeHud} from "../../../utils/node-utils";
 
 export type HUDType = {
   mirrored: number;

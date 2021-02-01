@@ -11,7 +11,7 @@ import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import level_y_values from "../../../resources/level_y_values.json";
 import usePrevious from "../../../hooks/usePrevious";
-import { filterInvisibleNodes } from "../../../utils/nodeUtils";
+import { filterInvisibleNodes } from "../../../utils/node-utils";
 
 export type NodeDataType = {
   id: string;

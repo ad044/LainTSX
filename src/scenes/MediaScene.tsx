@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
@@ -8,7 +8,6 @@ import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Images from "../components/MediaScene/Images";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
-import MediaSceneEventManager from "../core/StateManagers/MediaSceneEventManager";
 
 const MediaScene = () => {
   const activeNodeMedia = useStore((state) => state.activeNode.media_file);
@@ -42,7 +41,6 @@ const MediaScene = () => {
           <Images />
         </group>
       </group>
-      <MediaSceneEventManager />
     </perspectiveCamera>
   );
 };

@@ -1,4 +1,4 @@
-import { useStore } from "../../../store";
+import { useStore } from "../../../../store";
 
 const ssknManager = (eventState: any) => {
   const toggleComponentMatrixIdx = useStore.getState()

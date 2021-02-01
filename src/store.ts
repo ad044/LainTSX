@@ -3,28 +3,7 @@ import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
-import { HUDType } from "./components/MainScene/SyncedComponents/HUD";
 import { NodeDataType } from "./components/MainScene/SyncedComponents/Site";
-import { useCallback } from "react";
-
-type SiteSaveState = {
-  a: {
-    activeNodeId: string;
-    nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
-    nodeHudId: string;
-    siteRotY: number;
-    sitePosY: number;
-    level: string;
-  };
-  b: {
-    activeNodeId: string;
-    nodeMatrixIndices: { matrixIdx: number; rowIdx: number; colIdx: number };
-    nodeHudId: string;
-    siteRotY: number;
-    sitePosY: number;
-    level: string;
-  };
-};
 
 type State = {
   currentScene: string;
@@ -375,46 +354,6 @@ export const useStore = create(
           endMediaPlayedCount: state.endMediaPlayedCount + 1,
         })),
       resetEndMediaPlayedCount: () => set(() => ({ endMediaPlayedCount: 0 })),
-    })
-  )
-);
-
-export const useSiteSaveStore = create(
-  combine(
-    {
-      a: {
-        activeNodeId: "0422",
-        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
-        nodeHudId: "fg_hud_1",
-        siteRotY: 0,
-        sitePosY: 0,
-        level: "04",
-      },
-      b: {
-        activeNodeId: "0414",
-        nodeMatrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
-        nodeHudId: "fg_hud_2",
-        siteRotY: 0,
-        sitePosY: 0,
-        level: "04",
-      },
-    } as SiteSaveState,
-    (set) => ({
-      setSiteSaveState: (
-        site: string,
-        to: {
-          activeNodeId: string;
-          nodeMatrixIndices: {
-            matrixIdx: number;
-            rowIdx: number;
-            colIdx: number;
-          };
-          nodeHudId: string;
-          siteRotY: number;
-          sitePosY: number;
-          level: string;
-        }
-      ) => set(() => ({ [site]: to })),
     })
   )
 );

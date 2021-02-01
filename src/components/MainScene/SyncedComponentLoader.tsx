@@ -6,9 +6,6 @@ import GrayPlanes from "./SyncedComponents/GrayPlanes";
 import Starfield from "./SyncedComponents/Starfield";
 import Site from "./SyncedComponents/Site";
 import MiddleRing from "./SyncedComponents/MiddleRing";
-import MainSceneEventManager from "../../core/StateManagers/MainSceneEventManager";
-import Pause from "./PauseSubscene/Pause";
-import { a } from "@react-spring/three";
 import Lain from "./Lain";
 import { useStore } from "../../store";
 
@@ -64,9 +61,6 @@ const SyncedComponentLoader = (props: SyncedComponentLoaderProps) => {
         introFinished={introFinished}
       />
       <Site shouldIntro={props.shouldIntro} introFinished={introFinished} />
-      <MainSceneEventManager
-        loaded={props.shouldIntro ? introFinished : true}
-      />
       <Lain shouldIntro={props.shouldIntro} />
     </>
   );
