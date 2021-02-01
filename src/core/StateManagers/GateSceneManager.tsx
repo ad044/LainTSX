@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { getKeyCodeAssociation } from "../utils/keyPressUtils";
-import SceneManager from "./GameManagers/SceneManager";
+import { getKeyCodeAssociation } from "../../utils/keyPressUtils";
 
 const GateSceneManager = () => {
   const [eventState, setEventState] = useState<any>();

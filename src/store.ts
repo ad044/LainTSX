@@ -5,6 +5,7 @@ import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 import { HUDType } from "./components/MainScene/SyncedComponents/HUD";
 import { NodeDataType } from "./components/MainScene/SyncedComponents/Site";
+import { useCallback } from "react";
 
 type SiteSaveState = {
   a: {
@@ -271,12 +272,17 @@ export const useStore = create(
 
       // site setters
       setActiveSite: (to: "a" | "b") => set(() => ({ activeSite: to })),
-      setSiteRot: (to: number[]) => set(() => ({ siteRot: to })),
+      setSiteRotY: (to: number) =>
+        set((prev) => {
+          const nextRot = [...prev.siteRot];
+          nextRot[1] = to;
+          return { siteRot: nextRot };
+        }),
       setSiteRotX: (to: number) =>
         set((prev) => {
-          const nextPos = [...prev.siteRot];
-          nextPos[0] = to;
-          return { siteRot: nextPos };
+          const nextRot = [...prev.siteRot];
+          nextRot[0] = to;
+          return { siteRot: nextRot };
         }),
 
       // level setters
@@ -308,28 +314,27 @@ export const useStore = create(
             leftSideIdx: to,
           },
         })),
-      setMediaRightComponentMatrixIdx: (to: 0 | 1 | 2) =>
+      updateRightSide: (matrixIdx: 0 | 1 | 2, wordPosIdx: number) =>
         set((state) => ({
           mediaComponentMatrixIndices: {
             ...state.mediaComponentMatrixIndices,
-            rightSideIdx: to,
+            rightSideIdx: matrixIdx,
           },
+          mediaWordPosStateIdx: wordPosIdx,
         })),
-      resetMediaComponentMatrixIndices: () =>
+      setPercentageElapsed: (to: number) =>
+        set(() => ({ mediaPercentageElapsed: to })),
+      setAudioAnalyser: (to: THREE.AudioAnalyser) =>
+        set(() => ({ audioAnalyser: to })),
+      resetMediaScene: () =>
         set(() => ({
+          mediaWordPosStateIdx: 1,
           mediaComponentMatrixIndices: {
             sideIdx: 0,
             leftSideIdx: 0,
             rightSideIdx: 0,
           },
         })),
-      setPercentageElapsed: (to: number) =>
-        set(() => ({ mediaPercentageElapsed: to })),
-      setAudioAnalyser: (to: THREE.AudioAnalyser) =>
-        set(() => ({ audioAnalyser: to })),
-      setMediaWordPosStateIdx: (to: number) =>
-        set(() => ({ mediaWordPosStateIdx: to })),
-      resetMediaWordPosStateIdx: () => set(() => ({ mediaWordPosStateIdx: 1 })),
 
       // idle media setters
       setIdleMedia: (to: any) => set(() => ({ idleMedia: to })),
@@ -414,4 +419,42 @@ export const useSiteSaveStore = create(
   )
 );
 
-export const getMainSceneContext = () => useStore.getState().activeNode;
+export const getMainSceneContext = () => {
+  const state = useStore.getState();
+
+  return {
+    subscene: state.mainSubscene,
+    selectedLevel: state.selectedLevel,
+    pauseMatrixIdx: state.pauseComponentMatrixIdx,
+    activePauseComponent:
+      state.pauseComponentMatrix[state.pauseComponentMatrixIdx],
+    gameProgress: state.gameProgress,
+    currentSite: state.activeSite,
+    siteRotY: state.siteRot[1],
+    activeNode: state.activeNode,
+    level: parseInt(state.activeLevel),
+  };
+};
+
+export const getSSknSceneContext = () => {
+  const state = useStore.getState();
+  return {
+    activeSSknComponent:
+      state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
+  };
+};
+
+export const getMediaSceneContext = () => {
+  const state = useStore.getState();
+
+  return {
+    activeMediaComponent:
+      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+        state.mediaComponentMatrixIndices.sideIdx === 0
+          ? state.mediaComponentMatrixIndices.leftSideIdx
+          : state.mediaComponentMatrixIndices.rightSideIdx
+      ],
+    rightSideComponentIdx: state.mediaComponentMatrixIndices.rightSideIdx,
+    wordPosStateIdx: state.mediaWordPosStateIdx,
+  };
+};

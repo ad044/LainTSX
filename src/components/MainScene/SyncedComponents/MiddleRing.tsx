@@ -6,7 +6,7 @@ import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";
 import MiddleRingPart from "./MiddleRing/MiddleRingPart";
 import usePrevious from "../../../hooks/usePrevious";
-import lerp from "../../../core/utils/lerp";
+import lerp from "../../../utils/lerp";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);

@@ -7,11 +7,11 @@ import NodeAnimations from "./Site/NodeAnimations";
 import InactiveLevelNodes from "./Site/InactiveLevelNodes";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
-import filterInvisibleNodes from "../../../core/utils/filterInvisibleNodes";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import level_y_values from "../../../resources/level_y_values.json";
 import usePrevious from "../../../hooks/usePrevious";
+import { filterInvisibleNodes } from "../../../utils/nodeUtils";
 
 export type NodeDataType = {
   id: string;

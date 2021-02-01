@@ -1,20 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { getKeyCodeAssociation } from "../utils/keyPressUtils";
-import SceneManager from "./GameManagers/SceneManager";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { getKeyCodeAssociation } from "../../utils/keyPressUtils";
 import handleSSknSceneEvent from "../ssknSceneEventHandler";
-import { useStore } from "../../store";
-import SSknComponentManager from "./SSknSceneManagers/SSknComponentManager";
+import { getSSknSceneContext } from "../../store";
+import ssknManager from "../setters/sskn/ssknManager";
+import sceneManager from "../setters/sceneManager";
 
 const SSknSceneManager = () => {
-  // all the possible context needed to calculate new state
-  const activeSSknComponent = useStore(
-    useCallback(
-      (state) => state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
-      []
-    )
-  );
-
-  const [eventState, setEventState] = useState<any>();
+  const ssknSceneSetters = useMemo(() => [ssknManager, sceneManager], []);
 
   const handleKeyPress = useCallback(
     (event) => {
@@ -23,15 +15,14 @@ const SSknSceneManager = () => {
       const keyPress = getKeyCodeAssociation(keyCode);
 
       if (keyPress) {
-        const event = handleSSknSceneEvent({
-          keyPress: keyPress,
-          activeSSknComponent: activeSSknComponent,
-        });
+        const ctx = { ...getSSknSceneContext(), keyPress: keyPress };
 
-        setEventState(event);
+        const event = handleSSknSceneEvent(ctx);
+
+        ssknSceneSetters.forEach((fn) => fn(event));
       }
     },
-    [activeSSknComponent]
+    [ssknSceneSetters]
   );
 
   useEffect(() => {
@@ -42,12 +33,7 @@ const SSknSceneManager = () => {
     };
   }, [handleKeyPress]);
 
-  return (
-    <>
-      <SceneManager eventState={eventState!} />
-      <SSknComponentManager eventState={eventState!} />
-    </>
-  );
+  return null;
 };
 
 export default SSknSceneManager;
