@@ -95,7 +95,9 @@ const KeyPressHandler = () => {
             const { contextProvider, handler, setters } = { ...sceneFns };
             const ctx = { ...contextProvider(), keyPress: keyPress };
             const event = handler(ctx);
-            setters.forEach((fn) => fn(event));
+            if (event) {
+              setters.forEach((fn) => fn(event));
+            }
           }
         }
       }

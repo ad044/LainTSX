@@ -5,13 +5,11 @@ import {
   NodeDataType,
   SiteType,
 } from "../components/MainScene/SyncedComponents/Site";
-import { NodeLib } from "three/examples/jsm/nodes/core/NodeLib";
-import { isNodeVisible } from "./node-utils";
 
 export const findNodeFromWord = (
   wordLabel: string,
   activeNode: NodeDataType,
-  site: string
+  site: "a" | "b"
 ) => {
   const labelToIdx = (() => {
     switch (wordLabel) {
@@ -46,30 +44,29 @@ export const findNodeFromWord = (
   //todo check if visible
   const pos = chosenNode.id.substr(2);
 
-  const matIdx = Object.entries(node_matrices).flatMap((matrixData) =>
-    matrixData[1].filter((row) => row[0] === pos).length > 0
-      ? matrixData[0]
-      : []
+  const matrixIndices = Object.entries(node_matrices).flatMap((matrixData) =>
+    matrixData[1].flatMap((row, idx) =>
+      row[0] === pos ? { matrixIdx: matrixData[0], rowIdx: idx, colIdx: 0 } : []
+    )
   )[0];
 
   const rotValues = {
-    "1": 6 * (-Math.PI / 4),
-    "2": 5 * (-Math.PI / 4),
-    "3": 4 * (-Math.PI / 4),
-    "4": 3 * (-Math.PI / 4),
-    "5": 2 * (-Math.PI / 4),
-    "6": -Math.PI / 4,
+    "1": 2 * (Math.PI / 4),
+    "2": 3 * (Math.PI / 4),
+    "3": 4 * (Math.PI / 4),
+    "4": 5 * (Math.PI / 4),
+    "5": 6 * (Math.PI / 4),
+    "6": 7 * (Math.PI / 4),
     "7": 0,
     "8": Math.PI / 4,
   };
 
-  console.log(chosenNode);
   return {
     node: {
       ...chosenNode,
-      matrixIndices: { colIdx: 0, matrixIdx: matIdx, rowIdx: 0 },
+      matrixIndices: matrixIndices,
     },
-    siteRotY: rotValues[matIdx as keyof typeof rotValues],
+    siteRotY: rotValues[matrixIndices.matrixIdx as keyof typeof rotValues],
     level: chosenNode.id.substr(0, 2),
   };
 };
