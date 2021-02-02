@@ -1,4 +1,4 @@
-import { useStore } from "../../../../../store";
+import { useStore } from "../../../../store";
 
 const levelSelectionManager = (eventState: any) => {
   const setSelectedLevel = useStore.getState().setSelectedLevel;

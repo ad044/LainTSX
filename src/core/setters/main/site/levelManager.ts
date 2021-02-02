@@ -1,4 +1,4 @@
-import { useStore } from "../../../../../store";
+import { useStore } from "../../../../store";
 
 const levelManager = (eventState: any) => {
   const setActiveLevel = useStore.getState().setActiveLevel;

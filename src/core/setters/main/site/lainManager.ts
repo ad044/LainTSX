@@ -1,4 +1,4 @@
-import { useStore } from "../../../../../store";
+import { useStore } from "../../../../store";
 
 const lainManager = (eventState: any) => {
   const setLainMoveState = useStore.getState().setLainMoveState;

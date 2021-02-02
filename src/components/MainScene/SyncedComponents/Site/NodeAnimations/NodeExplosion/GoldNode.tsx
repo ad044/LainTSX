@@ -33,7 +33,7 @@ type GoldNodeProps = {
 };
 
 const GoldNode = (props: GoldNodeProps) => {
-  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/goldNode.glb");
+  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/gold_node.glb");
 
   const activeNodeName = useStore(
     (state) => state.activeNode.node_name

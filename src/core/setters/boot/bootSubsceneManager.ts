@@ -1,4 +1,4 @@
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 
 const bootSubsceneManager = (eventState: any) => {
   const setBootSubscene = useStore.getState().setBootSubscene;

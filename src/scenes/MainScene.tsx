@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useMemo } from "react";
-import Preloader from "../core/Preloader";
+import Preloader from "../components/Preloader";
 import { useStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import SyncedComponentLoader from "../components/MainScene/SyncedComponentLoader";
