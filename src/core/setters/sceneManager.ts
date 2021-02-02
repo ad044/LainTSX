@@ -1,4 +1,4 @@
-import { useStore } from "../../../store";
+import { useStore } from "../../store";
 
 const sceneManager = (eventState: any) => {
   const dispatchAction = (eventState: { event: string; scene: string }) => {

@@ -1,4 +1,4 @@
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 import { useCallback } from "react";
 import * as THREE from "three";
 

@@ -1,4 +1,4 @@
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 
 const mainSubsceneManager = (eventState: any) => {
   const setMainSubscene = useStore.getState().setMainSubscene;

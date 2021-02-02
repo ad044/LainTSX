@@ -15,7 +15,7 @@ type GLTFResult = GLTF & {
 };
 
 const CyanCrystal = memo((props: CrystalRingProps) => {
-  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/cyancrystal.glb");
+  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/cyan_crystal.glb");
 
   return (
     <mesh

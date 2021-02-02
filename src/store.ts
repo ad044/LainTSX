@@ -4,6 +4,7 @@ import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 import { NodeDataType } from "./components/MainScene/SyncedComponents/Site";
+import { getNodeById } from "./utils/node-utils";
 
 type State = {
   currentScene: string;
@@ -92,6 +93,21 @@ type State = {
 
   // end scene
   endMediaPlayedCount: number;
+
+  // save state
+
+  siteSaveState: {
+    a: {
+      activeNode: NodeDataType;
+      siteRot: number[];
+      activeLevel: string;
+    };
+    b: {
+      activeNode: NodeDataType;
+      siteRot: number[];
+      activeLevel: string;
+    };
+  };
 };
 
 export const useStore = create(
@@ -223,6 +239,26 @@ export const useStore = create(
 
       // end scene
       endMediaPlayedCount: 0,
+
+      // save states for loading the game/changing sites
+      siteSaveState: {
+        a: {
+          activeNode: {
+            ...getNodeById("0422", "a"),
+            matrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+          },
+          siteRot: [0, 0, 0],
+          activeLevel: "04",
+        },
+        b: {
+          activeNode: {
+            ...getNodeById("0414", "b"),
+            matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
+          },
+          siteRot: [0, 0, 0],
+          activeLevel: "04",
+        },
+      },
     } as State,
     (set) => ({
       // scene data setters
@@ -354,9 +390,43 @@ export const useStore = create(
           endMediaPlayedCount: state.endMediaPlayedCount + 1,
         })),
       resetEndMediaPlayedCount: () => set(() => ({ endMediaPlayedCount: 0 })),
+
+      // site state setters
+      setSiteSaveState: (
+        site: string,
+        to: {
+          activeNode: NodeDataType;
+          siteRot: number[];
+          activeLevel: string;
+        }
+      ) =>
+        set((state) => ({
+          siteSaveState: { ...state.siteSaveState, [site]: to },
+        })),
+
+      loadSiteSaveState: (site: "a" | "b") =>
+        set((state) => {
+          const stateToLoad = state.siteSaveState[site];
+          return {
+            activeSite: site,
+            activeNode: stateToLoad.activeNode,
+            siteRot: stateToLoad.siteRot,
+            activeLevel: stateToLoad.activeLevel,
+          };
+        }),
     })
   )
 );
+
+export const getSiteState = (site: "a" | "b") => {
+  const siteState = useStore.getState().siteSaveState[site];
+
+  return {
+    activeNode: siteState.activeNode,
+    siteRot: siteState.siteRot,
+    activeLevel: siteState.activeLevel,
+  };
+};
 
 export const getMainSceneContext = () => {
   const state = useStore.getState();

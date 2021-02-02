@@ -21,7 +21,7 @@ type MirrorProps = {
 
 const Mirror = (props: MirrorProps) => {
   const mirrorTex = useLoader(THREE.TextureLoader, mirrorTexture);
-  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/gatePass.glb");
+  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/gate_mirror.glb");
 
   const mirrorGroupRef = useRef<THREE.Object3D>();
   const materialRef = useRef<THREE.MeshBasicMaterial>();

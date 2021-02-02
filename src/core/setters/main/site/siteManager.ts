@@ -1,4 +1,4 @@
-import { useStore } from "../../../../../store";
+import { useStore } from "../../../../store";
 
 const siteManager = (eventState: any) => {
   const setRotY = useStore.getState().setSiteRotY;
@@ -18,6 +18,7 @@ const siteManager = (eventState: any) => {
           delay: 3600,
         };
       case "pause_exit_select":
+      case "pause_change_select":
         return {
           action: () => setRotX(0),
           delay: 0,

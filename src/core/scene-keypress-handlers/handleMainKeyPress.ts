@@ -1,4 +1,4 @@
-import {findNode, getNodeById} from "../../../utils/node-utils";
+import { findNode, getNodeById } from "../../utils/node-utils";
 
 const handleMainSceneEvent = (mainSceneContext: any) => {
   const {
@@ -209,6 +209,7 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
         case "CIRCLE":
           return {
             event: `pause_${activePauseComponent}_select`,
+            site: currentSite,
           };
       }
   }

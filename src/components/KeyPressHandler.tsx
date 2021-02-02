@@ -4,21 +4,23 @@ import {
   getMediaSceneContext,
   getSSknSceneContext,
   useStore,
-} from "../../store";
-import { getKeyCodeAssociation } from "../../utils/keyPressUtils";
-import mediaManager from "../state-management/setters/media/mediaManager";
-import handleMediaSceneEvent from "./scene-keypress-handlers/handleMediaKeyPress";
-import sceneManager from "../state-management/setters/sceneManager";
-import levelSelectionManager from "./setters/main/level_selection/levelSelectionManager";
-import nodeManager from "./setters/main/site/nodeManager";
-import levelManager from "./setters/main/site/levelManager";
-import lainManager from "./setters/main/site/lainManager";
-import siteManager from "./setters/main/site/siteManager";
-import pauseManager from "./setters/main/pause/pauseManager";
-import mainSubsceneManager from "./setters/main/mainSubsceneManager";
-import ssknManager from "./setters/sskn/ssknManager";
-import handleSSknSceneEvent from "./scene-keypress-handlers/handleSSknKeyPress";
-import handleMainSceneEvent from "./scene-keypress-handlers/handleMainKeyPress";
+} from "../store";
+import { getKeyCodeAssociation } from "../utils/keyPressUtils";
+import mediaManager from "../core/setters/media/mediaManager";
+import handleMediaSceneEvent from "../core/scene-keypress-handlers/handleMediaKeyPress";
+import sceneManager from "../core/setters/sceneManager";
+import levelSelectionManager from "../core/setters/main/level_selection/levelSelectionManager";
+import nodeManager from "../core/setters/main/site/nodeManager";
+import levelManager from "../core/setters/main/site/levelManager";
+import lainManager from "../core/setters/main/site/lainManager";
+import siteManager from "../core/setters/main/site/siteManager";
+import pauseManager from "../core/setters/main/pause/pauseManager";
+import mainSubsceneManager from "../core/setters/main/mainSubsceneManager";
+import ssknManager from "../core/setters/sskn/ssknManager";
+import handleSSknSceneEvent from "../core/scene-keypress-handlers/handleSSknKeyPress";
+import handleMainSceneEvent from "../core/scene-keypress-handlers/handleMainKeyPress";
+import gameLoader from "../core/setters/gameLoader";
+import gameSaver from "../core/setters/gameSaver";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(() => [mediaManager, sceneManager], []);
@@ -33,6 +35,8 @@ const KeyPressHandler = () => {
       pauseManager,
       mainSubsceneManager,
       sceneManager,
+      gameLoader,
+      gameSaver,
     ],
     []
   );
@@ -49,7 +53,7 @@ const KeyPressHandler = () => {
 
       const now = Date.now();
 
-      if (keyPress && now > timePassedSinceLastKeyPress.current + 1500) {
+      if (keyPress) {
         timePassedSinceLastKeyPress.current = Date.now();
 
         const sceneFns = (() => {

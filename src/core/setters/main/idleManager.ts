@@ -1,4 +1,4 @@
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 
 const idleManager = (eventState: any) => {
   const dispatchAction = (eventState: {

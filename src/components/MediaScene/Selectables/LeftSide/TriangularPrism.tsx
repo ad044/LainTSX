@@ -19,7 +19,7 @@ const TriangularPrism = memo((props: ShapeProps) => {
   const grayTex = useLoader(THREE.TextureLoader, grayTextureFile);
   const darkGrayTex = useLoader(THREE.TextureLoader, darkGrayTextureFile);
 
-  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/cutcube.glb");
+  const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/cut_cube.glb");
 
   const prismRef = useRef<THREE.Object3D>();
 
