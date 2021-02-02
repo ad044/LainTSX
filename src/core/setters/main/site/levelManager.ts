@@ -9,6 +9,9 @@ const levelManager = (eventState: any) => {
       case "site_down":
       case "select_level_up":
       case "select_level_down":
+      case "media_fstWord_select":
+      case "media_sndWord_select":
+      case "media_thirdWord_select":
         return { action: () => setActiveLevel(eventState.level) };
     }
   };

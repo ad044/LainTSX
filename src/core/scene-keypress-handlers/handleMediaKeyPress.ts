@@ -1,9 +1,13 @@
+import { findNodeFromWord } from "../../utils/media-utils";
+
 const handleMediaKeyPress = (mediaSceneContext: any) => {
   const {
     keyPress,
     activeMediaComponent,
     wordPosStateIdx,
     rightSideComponentIdx,
+    activeNode,
+    activeSite,
   } = mediaSceneContext;
 
   const calculateNewRightSide = (
@@ -61,7 +65,25 @@ const handleMediaKeyPress = (mediaSceneContext: any) => {
         };
       }
     case "CIRCLE":
-      return { event: `media_${activeMediaComponent}_select` };
+      switch (activeMediaComponent) {
+        case "fstWord":
+        case "sndWord":
+        case "thirdWord":
+          const data = findNodeFromWord(
+            activeMediaComponent,
+            activeNode,
+            activeSite
+          );
+
+          if (data) {
+            return { event: `media_${activeMediaComponent}_select`, ...data };
+          } else {
+            // todo in case node isnt unlocked yet
+            return;
+          }
+        default:
+          return { event: `media_${activeMediaComponent}_select` };
+      }
   }
 };
 
