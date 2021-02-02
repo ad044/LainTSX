@@ -62,12 +62,16 @@ const mediaManager = (eventState: any) => {
       case "media_leftside_right":
       case "media_rightside_left":
         return {
-          action: () => toggleSide,
+          action: () => toggleSide(),
         };
       case "media_play_select":
-        return { action: () => playMedia };
+        return { action: () => playMedia() };
       case "media_exit_select":
-        return { action: () => exitMedia };
+        return { action: () => exitMedia() };
+      case "media_fstWord_select":
+      case "media_sndWord_select":
+      case "media_thirdWord_select":
+        return { action: () => undefined };
     }
   };
 

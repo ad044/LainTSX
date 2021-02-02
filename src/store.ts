@@ -465,5 +465,7 @@ export const getMediaSceneContext = () => {
       ],
     rightSideComponentIdx: state.mediaComponentMatrixIndices.rightSideIdx,
     wordPosStateIdx: state.mediaWordPosStateIdx,
+    activeNode: state.activeNode,
+    site: state.activeSite,
   };
 };

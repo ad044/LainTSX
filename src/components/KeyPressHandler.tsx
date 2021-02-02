@@ -23,7 +23,10 @@ import gameLoader from "../core/setters/gameLoader";
 import gameSaver from "../core/setters/gameSaver";
 
 const KeyPressHandler = () => {
-  const mediaSceneSetters = useMemo(() => [mediaManager, sceneManager], []);
+  const mediaSceneSetters = useMemo(
+    () => [mediaManager, sceneManager, nodeManager, levelManager, siteManager],
+    []
+  );
   const ssknSceneSetters = useMemo(() => [ssknManager, sceneManager], []);
   const mainSceneSetters = useMemo(
     () => [
@@ -55,7 +58,6 @@ const KeyPressHandler = () => {
 
       if (keyPress) {
         timePassedSinceLastKeyPress.current = Date.now();
-
         const sceneFns = (() => {
           switch (scene) {
             case "main":
@@ -76,14 +78,25 @@ const KeyPressHandler = () => {
                 handler: handleSSknSceneEvent,
                 setters: ssknSceneSetters,
               };
+            case "gate":
+            case "polytan":
+              return {
+                action: () => useStore.setState({ currentScene: "main" }),
+              };
           }
         })();
 
         if (sceneFns) {
-          const { contextProvider, handler, setters } = { ...sceneFns };
-          const ctx = { ...contextProvider(), keyPress: keyPress };
-          const event = handler(ctx);
-          setters.forEach((fn) => fn(event));
+          // in case of polytan/gate we only need to do one thing, which is reset the scene.
+          // we check for that here
+          if (sceneFns.action) {
+            sceneFns.action();
+          } else {
+            const { contextProvider, handler, setters } = { ...sceneFns };
+            const ctx = { ...contextProvider(), keyPress: keyPress };
+            const event = handler(ctx);
+            setters.forEach((fn) => fn(event));
+          }
         }
       }
     },

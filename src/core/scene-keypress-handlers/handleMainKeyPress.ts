@@ -103,28 +103,33 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
               return {
                 event: `${eventAnimation}_media`,
                 scene: "media",
+                siteRotY: siteRotY,
               };
             case 6:
               if (activeNode.node_name.substr(0, 3) === "TaK") {
                 return {
                   event: `${eventAnimation}_tak`,
                   scene: "tak",
+                  siteRotY: siteRotY,
                 };
               } else {
                 return {
                   event: `${eventAnimation}_media`,
                   scene: "media",
+                  siteRotY: siteRotY,
                 };
               }
             case 8:
               return {
                 event: `${eventAnimation}_gate`,
                 scene: "gate",
+                siteRotY: siteRotY,
               };
             case 7:
               return {
                 event: `${eventAnimation}_sskn`,
                 scene: "sskn",
+                siteRotY: siteRotY,
               };
           }
           break;

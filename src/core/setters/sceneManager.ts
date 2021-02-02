@@ -24,6 +24,9 @@ const sceneManager = (eventState: any) => {
       case "media_exit_select":
       case "exit_gate":
       case "sskn_cancel_select":
+      case "media_fstWord_select":
+      case "media_sndWord_select":
+      case "media_thirdWord_select":
         return {
           action: () =>
             useStore.setState({ currentScene: "main", intro: false }),

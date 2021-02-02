@@ -8,6 +8,9 @@ const siteManager = (eventState: any) => {
     switch (eventState.event) {
       case "site_left":
       case "site_right":
+      case "media_fstWord_select":
+      case "media_sndWord_select":
+      case "media_thirdWord_select":
         return {
           action: () => setRotY(eventState.siteRotY),
           delay: 1100,
