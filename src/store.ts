@@ -114,7 +114,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "main",
+      currentScene: "media",
 
       // game progress
       gameProgress: game_progress,
@@ -466,6 +466,6 @@ export const getMediaSceneContext = () => {
     rightSideComponentIdx: state.mediaComponentMatrixIndices.rightSideIdx,
     wordPosStateIdx: state.mediaWordPosStateIdx,
     activeNode: state.activeNode,
-    site: state.activeSite,
+    activeSite: state.activeSite,
   };
 };
