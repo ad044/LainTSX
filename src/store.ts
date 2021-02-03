@@ -53,6 +53,7 @@ type State = {
     rightSideIdx: 0 | 1 | 2;
   };
   mediaWordPosStateIdx: number;
+  wordSelected: boolean;
 
   // idle scene
   idleMedia: string;
@@ -114,7 +115,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "media",
+      currentScene: "main",
 
       // game progress
       gameProgress: game_progress,
@@ -198,6 +199,7 @@ export const useStore = create(
         rightSideIdx: 0,
       },
       mediaWordPosStateIdx: 1,
+      wordSelected: false,
 
       // idle scene
       idleMedia: "INS01.STR",
@@ -350,6 +352,7 @@ export const useStore = create(
             rightSideIdx: 0,
           },
         })),
+      setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
 
       // idle media setters
       setIdleMedia: (to: any) => set(() => ({ idleMedia: to })),

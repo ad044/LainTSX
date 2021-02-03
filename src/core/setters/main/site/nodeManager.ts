@@ -156,13 +156,13 @@ const nodeManager = (eventState: any) => {
       case "site_right":
       case "select_level_up":
       case "select_level_down":
-      case "media_fstWord_select":
-      case "media_sndWord_select":
-      case "media_thirdWord_select":
         return {
           action: () => updateActiveNode(eventState.node, 3900),
         };
       case "change_node":
+      case "media_fstWord_select":
+      case "media_sndWord_select":
+      case "media_thirdWord_select":
         return {
           action: () => updateActiveNode(eventState.node),
         };
