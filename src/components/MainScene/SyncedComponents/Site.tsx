@@ -10,8 +10,8 @@ import * as THREE from "three";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import level_y_values from "../../../resources/level_y_values.json";
-import usePrevious from "../../../hooks/usePrevious";
 import { filterInvisibleNodes } from "../../../utils/node-utils";
+import usePrevious from "../../../hooks/usePrevious";
 
 export type NodeDataType = {
   id: string;
@@ -48,33 +48,34 @@ type SiteProps = {
 };
 
 const Site = (props: SiteProps) => {
-  const activeLevel = useStore((state) => state.activeLevel);
+  const wordSelected = useStore((state) => state.wordSelected);
 
-  const [state, setState] = useSpring(() => ({
-    posY: -level_y_values[
-      useStore.getState().activeLevel as keyof typeof level_y_values
-    ],
-    rotX: useStore.getState().siteRot[0],
-    rotY: useStore.getState().siteRot[1],
+  const [rotState, setRot] = useSpring(() => ({
+    x: wordSelected ? 0 : useStore.getState().siteRot[0],
+    y: wordSelected ? 0 : useStore.getState().siteRot[1],
+    config: { duration: 1200 },
+  }));
+
+  const [posState, setPos] = useSpring(() => ({
+    y: wordSelected
+      ? 0
+      : -level_y_values[
+          useStore.getState().activeLevel as keyof typeof level_y_values
+        ],
+    delay: 1300,
     config: { duration: 1200 },
   }));
 
   useEffect(() => {
-    setTimeout(() => {
-      setState({
-        posY: -level_y_values[activeLevel as keyof typeof level_y_values],
-      });
-    }, 1200);
-  }, [activeLevel, setState]);
-
-  useEffect(() => {
-    useStore.subscribe(setState, (state) => {
-      return {
-        rotX: state.siteRot[0],
-        rotY: state.siteRot[1],
-      };
-    });
-  }, [setState]);
+    useStore.subscribe(setRot, (state) => ({
+      x: state.siteRot[0],
+      y: state.siteRot[1],
+    }));
+    useStore.subscribe(setPos, (state) => ({
+      y: -level_y_values[state.activeLevel as keyof typeof level_y_values],
+      delay: 1300,
+    }));
+  }, [setPos, setRot]);
 
   const introWrapperRef = useRef<THREE.Object3D>();
 
@@ -110,8 +111,8 @@ const Site = (props: SiteProps) => {
   return (
     <Suspense fallback={null}>
       <a.group ref={introWrapperRef}>
-        <a.group rotation-x={state.rotX}>
-          <a.group rotation-y={state.rotY} position-y={state.posY}>
+        <a.group rotation-x={rotState.x}>
+          <a.group rotation-y={rotState.y} position-y={posState.y}>
             <ActiveLevelNodes visibleNodes={visibleNodes} />
             <InactiveLevelNodes visibleNodes={visibleNodes} />
             <Rings

@@ -5,7 +5,6 @@ const siteManager = (eventState: any) => {
   const setRotX = useStore.getState().setSiteRotX;
 
   const dispatchAction = (eventState: any) => {
-    console.log(eventState.siteRotY);
     switch (eventState.event) {
       case "site_left":
       case "site_right":

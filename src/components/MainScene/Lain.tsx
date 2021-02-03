@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
@@ -66,6 +66,7 @@ export const LainConstructor = (props: LainConstructorProps) => {
       attach="material"
       map={lainSpriteTexture}
       alphaTest={0.01}
+      color={0xffffff}
     />
   );
 };
@@ -355,6 +356,8 @@ type LainProps = {
 const Lain = (props: LainProps) => {
   const lainMoveState = useStore((state) => state.lainMoveState);
 
+  const wordSelected = useStore((state) => state.wordSelected);
+
   const lainAnimationDispatch = useMemo(() => {
     const anims = {
       standing: <LainStanding />,
@@ -401,9 +404,27 @@ const Lain = (props: LainProps) => {
     return props.shouldIntro ? introFinished : true;
   }, [introFinished, props.shouldIntro]);
 
+  const lainRef = useRef<THREE.Sprite>();
+
+  const glowColor = useMemo(() => new THREE.Color(2, 2, 2), []);
+  const regularColor = useMemo(() => new THREE.Color(1, 1, 1), []);
+
+  useEffect(() => {
+    if (wordSelected)
+      setTimeout(() => {
+        if (lainRef.current) lainRef.current.material.color = glowColor;
+      }, 3100);
+  }, [glowColor, wordSelected]);
+
+  useFrame(() => {
+    if (lainRef.current) {
+      lainRef.current.material.color.lerp(regularColor, 0.07);
+    }
+  });
+
   return (
     <Suspense fallback={null}>
-      <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]}>
+      <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]} ref={lainRef}>
         {stopIntroAnim ? lainAnimationDispatch : <LainIntro />}
       </sprite>
     </Suspense>

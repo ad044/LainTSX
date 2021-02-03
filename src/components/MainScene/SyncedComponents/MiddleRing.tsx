@@ -158,6 +158,8 @@ const MiddleRing = () => {
 
   const clock = new THREE.Clock();
 
+  const wordSelected = useStore((state) => state.wordSelected);
+
   const [wobbleAmp, setWobbleAmp] = useState(0);
   const [noiseAmp, setNoiseAmp] = useState(0.03);
   const [rotating, setRotating] = useState(true);
@@ -352,6 +354,16 @@ const MiddleRing = () => {
       }, 950);
     };
 
+    const afterWordSelection = () => {
+      setRotating(true);
+      setRot({ rotX: -0.4 });
+
+      // reset the rotation value to 0
+      setTimeout(() => {
+        setRot({ rotZ: 0, rotX: 0 });
+      }, 3100);
+    };
+
     if (prevData?.siteRotY !== undefined && prevData?.siteRotY !== siteRotY) {
       rotate(prevData?.siteRotY > siteRotY ? [-0.07, 0.03] : [0.07, -0.03]);
     } else if (
@@ -367,6 +379,8 @@ const MiddleRing = () => {
       pause();
     } else if (subscene === "site" && prevData?.subscene === "pause") {
       unpause();
+    } else if (wordSelected) {
+      afterWordSelection();
     }
   }, [
     activeLevel,
@@ -377,6 +391,7 @@ const MiddleRing = () => {
     setRot,
     siteRotY,
     subscene,
+    wordSelected,
   ]);
 
   return (

@@ -46,7 +46,9 @@ export const findNodeFromWord = (
 
   const matrixIndices = Object.entries(node_matrices).flatMap((matrixData) =>
     matrixData[1].flatMap((row, idx) =>
-      row[0] === pos ? { matrixIdx: matrixData[0], rowIdx: idx, colIdx: 0 } : []
+      row[0] === pos
+        ? { matrixIdx: parseInt(matrixData[0]), rowIdx: idx, colIdx: 0 }
+        : []
     )
   )[0];
 
@@ -66,7 +68,8 @@ export const findNodeFromWord = (
       ...chosenNode,
       matrixIndices: matrixIndices,
     },
-    siteRotY: rotValues[matrixIndices.matrixIdx as keyof typeof rotValues],
+    siteRotY:
+      rotValues[matrixIndices.matrixIdx.toString() as keyof typeof rotValues],
     level: chosenNode.id.substr(0, 2),
   };
 };

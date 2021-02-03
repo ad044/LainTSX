@@ -7,6 +7,8 @@ const mediaManager = (eventState: any) => {
   const setLeftComponentMatrixIdx = useStore.getState()
     .setMediaLeftComponentMatrixIdx;
 
+  const setWordSelected = useStore.getState().setWordSelected;
+
   const updateRightSide = useStore.getState().updateRightSide;
 
   const resetScene = useStore.getState().resetMediaScene;
@@ -71,7 +73,12 @@ const mediaManager = (eventState: any) => {
       case "media_fstWord_select":
       case "media_sndWord_select":
       case "media_thirdWord_select":
-        return { action: () => undefined };
+        return {
+          action: () => {
+            exitMedia();
+            setWordSelected(true);
+          },
+        };
     }
   };
 
