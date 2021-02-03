@@ -83,6 +83,7 @@ export const isNodeVisible = (
     return false;
   }
 };
+
 export const getVisibleNodesMatrix = (
   matrixIdx: number,
   activeLevel: number,
@@ -102,16 +103,6 @@ export const getVisibleNodesMatrix = (
     })
   );
 };
-
-function reorder<T>(array: T[], order: number[]): T[] {
-  return order.map((i) => array[i]);
-}
-
-function transpose<T>(matrix: T[][]): T[][] {
-  return Object.keys(matrix[0])
-    .map(Number)
-    .map((c: number) => matrix.map((r: T[]) => r[c]));
-}
 
 function RowPrecedence(rowIdx: number): number[] {
   switch (rowIdx) {
@@ -139,155 +130,108 @@ function ColPrecedence(colIdx: number): number[] {
   }
 }
 
-function getNodesMatrixWithIndices(
-  matrixIdx: number,
-  activeLevel: number,
-  currentSite: string,
-  gameProgress: any
-): any[][] {
-  return getVisibleNodesMatrix(
-    matrixIdx,
-    activeLevel,
-    currentSite,
-    gameProgress
-  ).map((r, i) =>
-    r.map((n, j) =>
-      n
-        ? {
-            node: n,
-            matrixIndices: {
-              matrixIdx,
-              rowIdx: i,
-              colIdx: j,
-            },
-          }
-        : null
-    )
-  );
+function* nextPos_left([row, col]: [number, number]) {
+  const p = RowPrecedence(row);
+
+  for (let c = col - 1; c > -1; c--)
+    for (let r = 0; r < 3; r++)
+      yield [p[r], c];
 }
 
-interface NodeMatrixIndices {
-  matrixIdx: number;
-  rowIdx: number;
-  colIdx: number;
+function* nextPos_right([row, col]: [number, number]) {
+  const p = RowPrecedence(row);
+
+  for (let c = col + 1; c < 4; c++)
+    for (let r = 0; r < 3; r++)
+      yield [p[r], c];
 }
 
-function findNode_current(
+function* nextPos_up([row, col]: [number, number]) {
+  const p = ColPrecedence(col);
+
+  for (let r = row - 1; r > -1; r--)
+    for (let c = 0; c < 4; c++)
+      yield [r, p[c]];
+}
+
+function* nextPos_down([row, col]: [number, number]) {
+  const p = ColPrecedence(col);
+
+  for (let r = row + 1; r < 3; r++)
+    for (let c = 0; c < 4; c++)
+      yield [r, p[c]];
+}
+
+function move(direction: string, [matrix, level]: [number, number]) {
+  switch (direction) {
+    case "left":  matrix = matrix + 1 > 8 ? 1 : matrix + 1; break;
+    case "right": matrix = matrix - 1 < 1 ? 8 : matrix - 1; break;
+    case "up":    level++; break;
+    case "down":  level--; break;
+  }
+
+  return [matrix, level];
+}
+
+export function findNode
+(
   direction: string,
-  { matrixIdx, rowIdx, colIdx }: NodeMatrixIndices,
+
+  {matrixIdx, rowIdx, colIdx}:
+  {matrixIdx: number, rowIdx: number, colIdx: number},
+
   level: number,
   currentSite: string,
   gameProgress: any
-): any | undefined {
-  const nodes = getNodesMatrixWithIndices(
-    matrixIdx,
-    level,
-    currentSite,
-    gameProgress
-  );
-
-  const filters: any = {
-    left: () =>
-      transpose(
-        reorder(nodes, RowPrecedence(rowIdx)).map((r) =>
-          r.slice(0, colIdx).reverse()
-        )
-      ).flat(),
-
-    right: () =>
-      transpose(
-        reorder(nodes, RowPrecedence(rowIdx)).map((r) => r.slice(colIdx + 1))
-      ).flat(),
-
-    up: () =>
-      nodes
-        .slice(0, rowIdx)
-        .reverse()
-        .flatMap((r) => reorder(r, ColPrecedence(colIdx))),
-
-    down: () =>
-      nodes.slice(rowIdx + 1).flatMap((r) => reorder(r, ColPrecedence(colIdx))),
-  };
-
-  const chosen = filters[direction]().find((e: any) => e);
-  if (chosen) return { ...chosen, didMove: false };
-}
-
-function findNode_next(
-  direction: string,
-  { matrixIdx, rowIdx, colIdx }: NodeMatrixIndices,
-  level: number,
-  currentSite: string,
-  gameProgress: any
-): any | undefined {
+)
+: any | undefined
+{
   const funcs: any = {
-    left: {
-      getMatrix: () =>
-        getNodesMatrixWithIndices(
-          matrixIdx + 1 > 8 ? 1 : matrixIdx + 1,
-          level,
-          currentSite,
-          gameProgress
-        ),
-
-      filter: (ns: any[]) =>
-        transpose(reorder(ns, RowPrecedence(rowIdx))).flat(),
-    },
-
-    right: {
-      getMatrix: () =>
-        getNodesMatrixWithIndices(
-          matrixIdx - 1 < 1 ? 8 : matrixIdx - 1,
-          level,
-          currentSite,
-          gameProgress
-        ),
-
-      filter: (ns: any[]) =>
-        transpose(
-          reorder(ns, RowPrecedence(rowIdx)).map((r) => [...r].reverse())
-        ).flat(),
-    },
-
-    up: {
-      getMatrix: () =>
-        getNodesMatrixWithIndices(
-          matrixIdx,
-          level + 1,
-          currentSite,
-          gameProgress
-        ),
-
-      filter: (ns: any[]) =>
-        ns.reverse().flatMap((r) => reorder(r, ColPrecedence(colIdx))),
-    },
-
-    down: {
-      getMatrix: () =>
-        getNodesMatrixWithIndices(
-          matrixIdx,
-          level - 1,
-          currentSite,
-          gameProgress
-        ),
-
-      filter: (ns: any[]) =>
-        ns.flatMap((r) => reorder(r, ColPrecedence(colIdx))),
-    },
+    left: [
+      nextPos_left,
+      ([r]: [number, number]) => nextPos_right([r, -1])
+    ],
+    right: [
+      nextPos_right,
+      ([r]: [number, number]) => nextPos_left([r, 4])
+    ],
+    up: [
+      nextPos_up,
+      ([, c]: [number, number]) => nextPos_up([3, c])
+    ],
+    down: [
+      nextPos_down,
+      ([, c]: [number, number]) => nextPos_down([-1, c])
+    ]
   };
 
-  const { getMatrix, filter } = funcs[direction];
+  const nextPos = funcs[direction];
 
-  const chosen = filter(getMatrix()).find((e: any) => e);
-  if (chosen) return { ...chosen, didMove: true };
+
+  for (let i = 0; i < 2; i++) {
+    const nodes = getVisibleNodesMatrix(
+      matrixIdx, level,
+      currentSite, gameProgress
+    );
+
+    for (const [r, c] of nextPos[i]([rowIdx, colIdx])) {
+      const node = nodes[r][c];
+
+      if (node) return {
+        node,
+
+        matrixIndices: {
+          matrixIdx,
+          rowIdx: r, colIdx: c
+        },
+
+        didMove: Boolean(i)
+      };
+    }
+
+    [matrixIdx, level] = move(direction, [matrixIdx, level]);
+  }
 }
-
-export function findNode(
-  ...args: [string, NodeMatrixIndices, number, string, any]
-): any | undefined {
-  return findNode_current(...args) ?? findNode_next(...args);
-}
-
 export const filterInvisibleNodes = (
   siteData: SiteType,
   gameProgress: typeof game_progress
