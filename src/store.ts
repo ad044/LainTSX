@@ -62,7 +62,7 @@ type State = {
   idleImages: any;
 
   // sskn scene
-  ssknComponentMatrix: ["sskn_ok", "sskn_cancel"];
+  ssknComponentMatrix: ["ok", "cancel"];
   ssknComponentMatrixIdx: 0 | 1;
   ssknLoading: boolean;
 
@@ -212,7 +212,7 @@ export const useStore = create(
       idleImages: undefined,
 
       // sskn scene
-      ssknComponentMatrix: ["sskn_ok", "sskn_cancel"],
+      ssknComponentMatrix: ["ok", "cancel"],
       ssknComponentMatrixIdx: 0,
       ssknLoading: false,
 
@@ -416,7 +416,6 @@ export const useStore = create(
         set((state) => ({
           siteSaveState: { ...state.siteSaveState, [site]: to },
         })),
-
       loadSiteSaveState: (site: "a" | "b") =>
         set((state) => {
           const stateToLoad = state.siteSaveState[site];
@@ -427,6 +426,18 @@ export const useStore = create(
             activeLevel: stateToLoad.activeLevel,
           };
         }),
+
+      // progress setters
+      setNodeViewed: (nodeName: string) =>
+        set((state) => ({
+          gameProgress: {
+            ...state.gameProgress,
+            [nodeName]: {
+              is_viewed: 1,
+              is_visible: nodeName.includes("SSkn") ? 0 : 1,
+            },
+          },
+        })),
     })
   )
 );
@@ -463,6 +474,7 @@ export const getSSknSceneContext = () => {
   return {
     activeSSknComponent:
       state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
+    activeNode: state.activeNode,
   };
 };
 
