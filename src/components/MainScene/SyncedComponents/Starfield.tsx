@@ -3,7 +3,7 @@ import Star from "./Starfield/Star";
 
 type StarfieldProps = {
   shouldIntro: boolean;
-  introFinished: boolean;
+  mainVisible: boolean;
 };
 
 const Starfield = memo((props: StarfieldProps) => {
@@ -39,13 +39,9 @@ const Starfield = memo((props: StarfieldProps) => {
     ])
   );
 
-  const [mainVisible, setMainVisible] = useState(false);
   const [introVisible, setIntroVisible] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setMainVisible(true);
-    }, 2800);
     setTimeout(() => {
       setIntroVisible(false);
     }, 3200);
@@ -53,10 +49,7 @@ const Starfield = memo((props: StarfieldProps) => {
 
   return (
     <>
-      <group
-        position={[0, -1, 2]}
-        visible={props.shouldIntro ? mainVisible : true}
-      >
+      <group position={[0, -1, 2]} visible={props.mainVisible}>
         <group rotation={[0, 0.75, Math.PI / 2]} position={[-0.7, -1, -5]}>
           {posesBlueFromLeft.map((poses, idx) => (
             <Star

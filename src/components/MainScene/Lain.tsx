@@ -40,6 +40,7 @@ type LainConstructorProps = {
   framesVertical: number;
   framesHorizontal: number;
   fps?: number;
+  shouldAnimate?: boolean;
 };
 
 export const LainConstructor = (props: LainConstructorProps) => {
@@ -58,7 +59,9 @@ export const LainConstructor = (props: LainConstructorProps) => {
   });
 
   useFrame(() => {
-    animator.animate();
+    if (props.shouldAnimate !== false) {
+      animator.animate();
+    }
   });
 
   return (
@@ -71,12 +74,14 @@ export const LainConstructor = (props: LainConstructorProps) => {
   );
 };
 
-export const LainIntro = () => (
+export const LainIntro = (props: { shouldAnimate: boolean }) => (
   <LainConstructor
     sprite={introSpriteSheet}
-    frameCount={50}
-    framesHorizontal={10}
-    framesVertical={5}
+    frameCount={3}
+    framesHorizontal={3}
+    framesVertical={1}
+    fps={10}
+    shouldAnimate={props.shouldAnimate}
   />
 );
 
@@ -350,7 +355,8 @@ export const LainPlayWithHair = () => (
 );
 
 type LainProps = {
-  shouldIntro: boolean;
+  shouldAnimate: boolean;
+  introFinished: boolean;
 };
 
 const Lain = (props: LainProps) => {
@@ -392,28 +398,17 @@ const Lain = (props: LainProps) => {
     return anims[lainMoveState as keyof typeof anims];
   }, [lainMoveState]);
 
-  const [introFinished, setIntroFinished] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIntroFinished(true);
-    }, 3900);
-  }, []);
-
-  const stopIntroAnim = useMemo(() => {
-    return props.shouldIntro ? introFinished : true;
-  }, [introFinished, props.shouldIntro]);
-
   const lainRef = useRef<THREE.Sprite>();
 
   const glowColor = useMemo(() => new THREE.Color(2, 2, 2), []);
   const regularColor = useMemo(() => new THREE.Color(1, 1, 1), []);
 
   useEffect(() => {
-    if (wordSelected)
+    if (wordSelected) {
       setTimeout(() => {
         if (lainRef.current) lainRef.current.material.color = glowColor;
       }, 3100);
+    }
   }, [glowColor, wordSelected]);
 
   useFrame(() => {
@@ -425,7 +420,11 @@ const Lain = (props: LainProps) => {
   return (
     <Suspense fallback={null}>
       <sprite scale={[4.5, 4.5, 4.5]} position={[0, -0.15, 0]} ref={lainRef}>
-        {stopIntroAnim ? lainAnimationDispatch : <LainIntro />}
+        {props.introFinished ? (
+          lainAnimationDispatch
+        ) : (
+          <LainIntro shouldAnimate={props.shouldAnimate} />
+        )}
       </sprite>
     </Suspense>
   );

@@ -60,29 +60,19 @@ export const getNodeHud = (nodeMatrixIndices: {
     ] as keyof typeof node_huds
   ];
 };
+
+//visible = (global_final_viewcount > 0) && (req_final_viewcount <= global_final_viewcount + 1)
 export const isNodeVisible = (
   node: NodeDataType,
   gameProgress: typeof unlocked_nodes
-) => {
-  if (node) {
-    const unlockedBy = node.unlocked_by;
-
-    let unlocked;
-    if (unlockedBy === "") unlocked = true;
-    else
-      unlocked =
-        gameProgress[unlockedBy as keyof typeof gameProgress].is_viewed;
-
-    // visible = (global_final_viewcount > 0) && (req_final_viewcount <= global_final_viewcount + 1)
-
-    return (
-      unlocked &&
-      gameProgress[node.node_name as keyof typeof gameProgress].is_visible
-    );
-  } else {
-    return false;
-  }
-};
+) =>
+  node
+    ? (node.unlocked_by === "" ||
+        gameProgress[node.unlocked_by as keyof typeof gameProgress]
+          .is_viewed) &&
+      gameProgress[node.node_name as keyof typeof gameProgress].is_visible &&
+      node.required_final_video_viewcount < 1
+    : false;
 
 export const getVisibleNodesMatrix = (
   matrixIdx: number,
@@ -134,99 +124,92 @@ function* nextPos_left([row, col]: [number, number]) {
   const p = RowPrecedence(row);
 
   for (let c = col - 1; c > -1; c--)
-    for (let r = 0; r < 3; r++)
-      yield [p[r], c];
+    for (let r = 0; r < 3; r++) yield [p[r], c];
 }
 
 function* nextPos_right([row, col]: [number, number]) {
   const p = RowPrecedence(row);
 
-  for (let c = col + 1; c < 4; c++)
-    for (let r = 0; r < 3; r++)
-      yield [p[r], c];
+  for (let c = col + 1; c < 4; c++) for (let r = 0; r < 3; r++) yield [p[r], c];
 }
 
 function* nextPos_up([row, col]: [number, number]) {
   const p = ColPrecedence(col);
 
   for (let r = row - 1; r > -1; r--)
-    for (let c = 0; c < 4; c++)
-      yield [r, p[c]];
+    for (let c = 0; c < 4; c++) yield [r, p[c]];
 }
 
 function* nextPos_down([row, col]: [number, number]) {
   const p = ColPrecedence(col);
 
-  for (let r = row + 1; r < 3; r++)
-    for (let c = 0; c < 4; c++)
-      yield [r, p[c]];
+  for (let r = row + 1; r < 3; r++) for (let c = 0; c < 4; c++) yield [r, p[c]];
 }
 
 function move(direction: string, [matrix, level]: [number, number]) {
   switch (direction) {
-    case "left":  matrix = matrix + 1 > 8 ? 1 : matrix + 1; break;
-    case "right": matrix = matrix - 1 < 1 ? 8 : matrix - 1; break;
-    case "up":    level++; break;
-    case "down":  level--; break;
+    case "left":
+      matrix = matrix + 1 > 8 ? 1 : matrix + 1;
+      break;
+    case "right":
+      matrix = matrix - 1 < 1 ? 8 : matrix - 1;
+      break;
+    case "up":
+      level++;
+      break;
+    case "down":
+      level--;
+      break;
   }
 
   return [matrix, level];
 }
 
-export function findNode
-(
+export function findNode(
   direction: string,
 
-  {matrixIdx, rowIdx, colIdx}:
-  {matrixIdx: number, rowIdx: number, colIdx: number},
+  {
+    matrixIdx,
+    rowIdx,
+    colIdx,
+  }: { matrixIdx: number; rowIdx: number; colIdx: number },
 
   level: number,
   currentSite: string,
   gameProgress: any
-)
-: any | undefined
-{
+): any | undefined {
   const funcs: any = {
-    left: [
-      nextPos_left,
-      ([r]: [number, number]) => nextPos_right([r, -1])
-    ],
-    right: [
-      nextPos_right,
-      ([r]: [number, number]) => nextPos_left([r, 4])
-    ],
-    up: [
-      nextPos_up,
-      ([, c]: [number, number]) => nextPos_up([3, c])
-    ],
-    down: [
-      nextPos_down,
-      ([, c]: [number, number]) => nextPos_down([-1, c])
-    ]
+    left: [nextPos_left, ([r]: [number, number]) => nextPos_right([r, -1])],
+    right: [nextPos_right, ([r]: [number, number]) => nextPos_left([r, 4])],
+    up: [nextPos_up, ([, c]: [number, number]) => nextPos_up([3, c])],
+    down: [nextPos_down, ([, c]: [number, number]) => nextPos_down([-1, c])],
   };
 
   const nextPos = funcs[direction];
 
-
   for (let i = 0; i < 2; i++) {
     const nodes = getVisibleNodesMatrix(
-      matrixIdx, level,
-      currentSite, gameProgress
+      matrixIdx,
+      level,
+      currentSite,
+      gameProgress
     );
 
     for (const [r, c] of nextPos[i]([rowIdx, colIdx])) {
       const node = nodes[r][c];
 
-      if (node) return {
-        node,
+      if (node)
+        return {
+          node,
 
-        matrixIndices: {
-          matrixIdx,
-          rowIdx: r, colIdx: c
-        },
+          matrixIndices: {
+            matrixIdx,
+            rowIdx: r,
+            colIdx: c,
+          },
 
-        didMove: Boolean(i)
-      };
+          didMove: Boolean(i),
+        };
     }
 
     [matrixIdx, level] = move(direction, [matrixIdx, level]);

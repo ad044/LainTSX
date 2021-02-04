@@ -31,9 +31,11 @@ type State = {
   // site
   activeSite: "a" | "b";
   siteRot: number[];
+  oldSiteRot: number[];
 
   // level
   activeLevel: string;
+  oldLevel: string;
 
   // level selection
   selectedLevel: number;
@@ -96,7 +98,6 @@ type State = {
   endMediaPlayedCount: number;
 
   // save state
-
   siteSaveState: {
     a: {
       activeNode: NodeDataType;
@@ -171,9 +172,13 @@ export const useStore = create(
       // site
       activeSite: "a",
       siteRot: [0, 0, 0],
+      // this one is used for word selection animation to start from the correct point
+      oldSiteRot: [0, 0, 0],
 
       // level
       activeLevel: "04",
+      // this one is used for word selection animation to start from the correct point
+      oldLevel: "04",
 
       // level selection
       selectedLevel: 4,
@@ -301,9 +306,14 @@ export const useStore = create(
           nextRot[0] = to;
           return { siteRot: nextRot };
         }),
+      setOldSiteRot: (to: number[]) =>
+        set(() => ({
+          oldSiteRot: to,
+        })),
 
       // level setters
       setActiveLevel: (to: string) => set(() => ({ activeLevel: to })),
+      setOldLevel: (to: string) => set(() => ({ oldLevel: to })),
 
       // level selection setters
       setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
