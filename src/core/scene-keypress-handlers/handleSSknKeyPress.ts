@@ -1,6 +1,6 @@
 const handleSSknSceneEvent = (ssknSceneContext: any) => {
-  const { keyPress, activeSSknComponent } = ssknSceneContext;
-  
+  const { keyPress, activeSSknComponent, activeNode } = ssknSceneContext;
+
   switch (keyPress) {
     case "UP":
     case "DOWN":
@@ -8,9 +8,16 @@ const handleSSknSceneEvent = (ssknSceneContext: any) => {
         event: `${activeSSknComponent}_${keyPress.toLowerCase()}`,
       };
     case "CIRCLE":
-      return {
-        event: `${activeSSknComponent}_select`,
-      };
+      if (activeSSknComponent === "ok") {
+        return {
+          event: `sskn_${activeSSknComponent}_select`,
+          nodeName: activeNode.node_name,
+        };
+      } else {
+        return {
+          event: `${activeSSknComponent}_select`,
+        };
+      }
   }
 };
 

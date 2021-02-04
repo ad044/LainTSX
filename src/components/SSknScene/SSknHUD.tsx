@@ -44,7 +44,7 @@ const SSknHUD = memo((props: SSknHUDProps) => {
             <spriteMaterial
               attach="material"
               map={
-                props.activeSSknComponent === "sskn_ok"
+                props.activeSSknComponent === "ok"
                   ? ssknOkTex
                   : ssknOkInactiveTex
               }
@@ -54,7 +54,7 @@ const SSknHUD = memo((props: SSknHUDProps) => {
             <spriteMaterial
               attach="material"
               map={
-                props.activeSSknComponent === "sskn_cancel"
+                props.activeSSknComponent === "cancel"
                   ? ssknCancelTex
                   : ssknCancelInactiveTex
               }
@@ -64,7 +64,7 @@ const SSknHUD = memo((props: SSknHUDProps) => {
             <spriteMaterial
               attach="material"
               map={
-                props.activeSSknComponent === "sskn_ok"
+                props.activeSSknComponent === "ok"
                   ? ssknTextWrapperTex
                   : ssknTextWrapperInactiveTex
               }
@@ -74,7 +74,7 @@ const SSknHUD = memo((props: SSknHUDProps) => {
             <spriteMaterial
               attach="material"
               map={
-                props.activeSSknComponent === "sskn_cancel"
+                props.activeSSknComponent === "cancel"
                   ? ssknTextWrapperTex
                   : ssknTextWrapperInactiveTex
               }

@@ -65,14 +65,20 @@ export const getNodeHud = (nodeMatrixIndices: {
 export const isNodeVisible = (
   node: NodeDataType,
   gameProgress: typeof unlocked_nodes
-) =>
-  node
+) => {
+  // if (node && node.node_name === "SSkn01") {
+  //   console.log(
+  //     gameProgress[node.node_name as keyof typeof gameProgress].is_visible
+  //   );
+  // }
+  return node
     ? (node.unlocked_by === "" ||
         gameProgress[node.unlocked_by as keyof typeof gameProgress]
           .is_viewed) &&
-      gameProgress[node.node_name as keyof typeof gameProgress].is_visible &&
-      node.required_final_video_viewcount < 1
+        gameProgress[node.node_name as keyof typeof gameProgress].is_visible &&
+        node.required_final_video_viewcount < 1
     : false;
+};
 
 export const getVisibleNodesMatrix = (
   matrixIdx: number,

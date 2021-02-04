@@ -21,13 +21,24 @@ import handleSSknSceneEvent from "../core/scene-keypress-handlers/handleSSknKeyP
 import handleMainSceneEvent from "../core/scene-keypress-handlers/handleMainKeyPress";
 import gameLoader from "../core/setters/gameLoader";
 import gameSaver from "../core/setters/gameSaver";
+import progressManager from "../core/setters/progressManager";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
-    () => [mediaManager, sceneManager, nodeManager, levelManager, siteManager],
+    () => [
+      mediaManager,
+      sceneManager,
+      nodeManager,
+      levelManager,
+      siteManager,
+      progressManager,
+    ],
     []
   );
-  const ssknSceneSetters = useMemo(() => [ssknManager, sceneManager], []);
+  const ssknSceneSetters = useMemo(
+    () => [ssknManager, sceneManager, progressManager],
+    []
+  );
   const mainSceneSetters = useMemo(
     () => [
       levelSelectionManager,

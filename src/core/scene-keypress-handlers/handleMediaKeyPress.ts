@@ -82,7 +82,14 @@ const handleMediaKeyPress = (mediaSceneContext: any) => {
             return;
           }
         default:
-          return { event: `media_${activeMediaComponent}_select` };
+          if (activeMediaComponent === "play") {
+            return {
+              event: `media_${activeMediaComponent}_select`,
+              node: activeNode,
+            };
+          } else {
+            return { event: `media_${activeMediaComponent}_select` };
+          }
       }
   }
 };
