@@ -104,6 +104,7 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
                 event: `${eventAnimation}_media`,
                 scene: "media",
                 siteRotY: siteRotY,
+                level: level.toString().padStart(2, "0"),
               };
             case 6:
               if (activeNode.node_name.substr(0, 3) === "TaK") {
@@ -117,6 +118,7 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
                   event: `${eventAnimation}_media`,
                   scene: "media",
                   siteRotY: siteRotY,
+                  level: level.toString().padStart(2, "0"),
                 };
               }
             case 8:
