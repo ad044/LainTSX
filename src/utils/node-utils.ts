@@ -1,7 +1,4 @@
-import {
-  NodeDataType,
-  SiteType,
-} from "../components/MainScene/SyncedComponents/Site";
+import { NodeDataType, SiteType } from "../components/MainScene/Site";
 import node_matrices from "../resources/node_matrices.json";
 import game_progress from "../resources/initial_progress.json";
 import unlocked_nodes from "../resources/initial_progress.json";
@@ -66,11 +63,6 @@ export const isNodeVisible = (
   node: NodeDataType,
   gameProgress: typeof unlocked_nodes
 ) => {
-  // if (node && node.node_name === "SSkn01") {
-  //   console.log(
-  //     gameProgress[node.node_name as keyof typeof gameProgress].is_visible
-  //   );
-  // }
   return node
     ? (node.unlocked_by === "" ||
         gameProgress[node.unlocked_by as keyof typeof gameProgress]
@@ -230,7 +222,12 @@ export const filterInvisibleNodes = (
     visibleNodes[level[0]] = {};
     Object.entries(level[1]).forEach((node) => {
       if (isNodeVisible(node[1], gameProgress)) {
-        visibleNodes[level[0]][node[0]] = node[1];
+        visibleNodes[level[0]][node[0]] = {
+          ...node[1],
+          is_viewed:
+            gameProgress[node[1].node_name as keyof typeof gameProgress]
+              .is_viewed,
+        };
       }
     });
   });

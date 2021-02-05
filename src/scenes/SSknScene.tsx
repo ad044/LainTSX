@@ -1,24 +1,14 @@
-import React, { useCallback } from "react";
+import React from "react";
 import SSknIcon from "../components/SSknScene/SSknIcon";
 import SSknBackground from "../components/SSknScene/SSknBackground";
 import SSknHUD from "../components/SSknScene/SSknHUD";
-import { useStore } from "../store";
 
 const SSknScene = () => {
-  const activeSSknComponent = useStore(
-    useCallback(
-      (state) => state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
-      []
-    )
-  );
-
-  const loading = useStore((state) => state.ssknLoading);
-
   return (
     <>
       <SSknBackground />
       <SSknIcon />
-      <SSknHUD activeSSknComponent={activeSSknComponent} loading={loading} />
+      <SSknHUD />
     </>
   );
 };

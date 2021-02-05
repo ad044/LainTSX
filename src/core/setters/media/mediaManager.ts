@@ -11,8 +11,6 @@ const mediaManager = (eventState: any) => {
 
   const updateRightSide = useStore.getState().updateRightSide;
 
-  const resetScene = useStore.getState().resetMediaScene;
-
   const setAudioAnalyser = useStore.getState().setAudioAnalyser;
 
   const playMedia = () => {
@@ -36,7 +34,6 @@ const mediaManager = (eventState: any) => {
       mediaElement.pause();
       mediaElement.currentTime = 0;
     }
-    resetScene();
   };
 
   const dispatchAction = (eventState: {

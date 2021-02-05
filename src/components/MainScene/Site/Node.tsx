@@ -2,22 +2,29 @@ import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
-import Cou from "../../../../static/sprite/Cou.png";
-import CouActive from "../../../../static/sprite/Cou_active.png";
-import Dc from "../../../../static/sprite/Dc.png";
-import DcActive from "../../../../static/sprite/Dc_active.png";
-import SSkn from "../../../../static/sprite/SSkn.png";
-import SSKnActive from "../../../../static/sprite/SSkn_active.png";
-import Tda from "../../../../static/sprite/Tda.png";
-import TdaActive from "../../../../static/sprite/Tda_active.png";
-import Dia from "../../../../static/sprite/Dia.png";
-import DiaActive from "../../../../static/sprite/Dia_active.png";
-import Lda from "../../../../static/sprite/Lda.png";
-import LdaActive from "../../../../static/sprite/Lda_active.png";
-import MULTI from "../../../../static/sprite/MULTI.png";
-import MULTIActive from "../../../../static/sprite/MULTI_active.png";
-import level_y_values from "../../../../resources/level_y_values.json";
-import { useStore } from "../../../../store";
+import Cou from "../../../static/sprite/Cou.png";
+import CouActive from "../../../static/sprite/Cou_active.png";
+import CouViewed from "../../../static/sprite/Cou_viewed.png";
+import Dc from "../../../static/sprite/Dc.png";
+import DcActive from "../../../static/sprite/Dc_active.png";
+import DcViewed from "../../../static/sprite/Dc_viewed.png";
+import SSkn from "../../../static/sprite/SSkn.png";
+import SSKnActive from "../../../static/sprite/SSkn_active.png";
+import SSknViewed from "../../../static/sprite/SSkn_viewed.png";
+import Tda from "../../../static/sprite/Tda.png";
+import TdaActive from "../../../static/sprite/Tda_active.png";
+import TdaViewed from "../../../static/sprite/Tda_viewed.png";
+import Dia from "../../../static/sprite/Dia.png";
+import DiaActive from "../../../static/sprite/Dia_active.png";
+import DiaViewed from "../../../static/sprite/Dia_viewed.png";
+import Lda from "../../../static/sprite/Lda.png";
+import LdaActive from "../../../static/sprite/Lda_active.png";
+import LdaViewed from "../../../static/sprite/Lda_viewed.png";
+import MULTI from "../../../static/sprite/MULTI.png";
+import MULTIActive from "../../../static/sprite/MULTI_active.png";
+import MULTIViewed from "../../../static/sprite/MULTI_viewed.png";
+import level_y_values from "../../../resources/level_y_values.json";
+import { useStore } from "../../../store";
 
 type NodeContructorProps = {
   nodeName: string;
@@ -25,43 +32,47 @@ type NodeContructorProps = {
   rotation: number[];
   active: boolean;
   level: string;
+  viewed: boolean;
 };
 
 const Node = memo((props: NodeContructorProps) => {
   const tex = useMemo(() => {
     if (props.nodeName.includes("S")) {
-      return [SSkn, SSKnActive];
+      return [SSkn, SSKnActive, SSknViewed];
     } else if (
       props.nodeName.startsWith("P") ||
       props.nodeName.startsWith("G") ||
       props.nodeName.includes("?")
     ) {
-      return [MULTI, MULTIActive];
+      return [MULTI, MULTIActive, MULTIViewed];
     } else if (props.nodeName.includes("Dc")) {
-      return [Dc, DcActive];
+      return [Dc, DcActive, DcViewed];
     } else {
       switch (props.nodeName.substr(0, 3)) {
         case "Tda":
-          return [Tda, TdaActive];
+          return [Tda, TdaActive, TdaViewed];
         case "Cou":
-          return [Cou, CouActive];
+          return [Cou, CouActive, CouViewed];
         case "Dia":
-          return [Dia, DiaActive];
+          return [Dia, DiaActive, DiaViewed];
         case "Lda":
-          return [Lda, LdaActive];
+          return [Lda, LdaActive, LdaViewed];
         case "Ere":
         case "Ekm":
         case "Eda":
         case "TaK":
         case "Env":
-          return [MULTI, MULTIActive];
+          return [MULTI, MULTIActive, MULTIViewed];
       }
     }
   }, [props.nodeName]);
 
   const materialRef = useRef<THREE.ShaderMaterial>();
 
-  const nonActiveTexture = useLoader(THREE.TextureLoader, tex![0]);
+  const nonActiveTexture = useLoader(
+    THREE.TextureLoader,
+    props.viewed ? tex![2] : tex![0]
+  );
   const activeTexture = useLoader(THREE.TextureLoader, tex![1]);
 
   const uniforms = useMemo(

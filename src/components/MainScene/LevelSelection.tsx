@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import level_selection_font from "../../../static/sprite/select_level_font.png";
-import verticalHud from "../../../static/sprite/select_level_hud_vertical.png";
-import horizontalHud from "../../../static/sprite/select_level_hud_horizontal.png";
-import levelSelectionText from "../../../static/sprite/select_level_text.png";
-import upArrow from "../../../static/sprite/select_level_up_arrow.png";
-import downArrow from "../../../static/sprite/select_level_down_arrow.png";
-import upArrowActive from "../../../static/sprite/select_level_up_arrow_active.png";
-import downArrowActive from "../../../static/sprite/select_level_down_arrow_active.png";
-import { useStore } from "../../../store";
+import level_selection_font from "../../static/sprite/select_level_font.png";
+import verticalHud from "../../static/sprite/select_level_hud_vertical.png";
+import horizontalHud from "../../static/sprite/select_level_hud_horizontal.png";
+import levelSelectionText from "../../static/sprite/select_level_text.png";
+import upArrow from "../../static/sprite/select_level_up_arrow.png";
+import downArrow from "../../static/sprite/select_level_down_arrow.png";
+import upArrowActive from "../../static/sprite/select_level_up_arrow_active.png";
+import downArrowActive from "../../static/sprite/select_level_down_arrow_active.png";
+import { useStore } from "../../store";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import usePrevious from "../../../hooks/usePrevious";
+import usePrevious from "../../hooks/usePrevious";
 
 const LevelSelection = () => {
   const levelSelectionFontTex = useLoader(

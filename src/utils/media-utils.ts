@@ -4,7 +4,7 @@ import node_matrices from "../resources/node_matrices.json";
 import {
   NodeDataType,
   SiteType,
-} from "../components/MainScene/SyncedComponents/Site";
+} from "../components/MainScene/Site";
 
 export const findNodeFromWord = (
   wordLabel: string,

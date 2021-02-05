@@ -2,21 +2,21 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
-import Cou from "../../../../../../static/sprite/Cou.png";
-import CouGold from "../../../../../../static/sprite/Cou_gold.png";
-import Dc from "../../../../../../static/sprite/Dc.png";
-import DcGold from "../../../../../../static/sprite/Dc_gold.png";
-import SSkn from "../../../../../../static/sprite/SSkn.png";
-import SSKnGold from "../../../../../../static/sprite/SSkn_gold.png";
-import Tda from "../../../../../../static/sprite/Tda.png";
-import TdaGold from "../../../../../../static/sprite/Tda_gold.png";
-import Dia from "../../../../../../static/sprite/Dia.png";
-import DiaGold from "../../../../../../static/sprite/Dia_gold.png";
-import Lda from "../../../../../../static/sprite/Lda.png";
-import LdaGold from "../../../../../../static/sprite/Lda_gold.png";
-import MULTI from "../../../../../../static/sprite/MULTI.png";
-import MULTIGold from "../../../../../../static/sprite/MULTI_gold.png";
-import { useStore } from "../../../../../../store";
+import Cou from "../../../../../static/sprite/Cou.png";
+import CouGold from "../../../../../static/sprite/Cou_gold.png";
+import Dc from "../../../../../static/sprite/Dc.png";
+import DcGold from "../../../../../static/sprite/Dc_gold.png";
+import SSkn from "../../../../../static/sprite/SSkn.png";
+import SSKnGold from "../../../../../static/sprite/SSkn_gold.png";
+import Tda from "../../../../../static/sprite/Tda.png";
+import TdaGold from "../../../../../static/sprite/Tda_gold.png";
+import Dia from "../../../../../static/sprite/Dia.png";
+import DiaGold from "../../../../../static/sprite/Dia_gold.png";
+import Lda from "../../../../../static/sprite/Lda.png";
+import LdaGold from "../../../../../static/sprite/Lda_gold.png";
+import MULTI from "../../../../../static/sprite/MULTI.png";
+import MULTIGold from "../../../../../static/sprite/MULTI_gold.png";
+import { useStore } from "../../../../../store";
 
 type GLTFResult = GLTF & {
   nodes: {

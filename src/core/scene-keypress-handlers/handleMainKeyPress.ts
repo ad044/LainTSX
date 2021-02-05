@@ -12,6 +12,7 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
     activeNode,
     level,
     keyPress,
+    ssknLvl,
   } = mainSceneContext;
 
   switch (subscene) {
@@ -94,6 +95,24 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
 
           const nodeType = activeNode.type;
 
+          if (activeNode.upgrade_requirement > ssknLvl) {
+            const rejectAnimations = [
+              "touch_and_scare",
+              "knock_and_fall",
+              "knock",
+            ];
+
+            const pickedAnim =
+              rejectAnimations[
+                Math.floor(Math.random() * rejectAnimations.length)
+              ];
+
+            return {
+              event: pickedAnim,
+              siteRotY: siteRotY,
+            };
+          }
+
           switch (nodeType) {
             case 0:
             case 2:
@@ -112,6 +131,7 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
                   event: `${eventAnimation}_tak`,
                   scene: "tak",
                   siteRotY: siteRotY,
+                  node: activeNode,
                 };
               } else {
                 return {
@@ -126,12 +146,37 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
                 event: `${eventAnimation}_gate`,
                 scene: "gate",
                 siteRotY: siteRotY,
+                node: activeNode,
               };
             case 7:
               return {
                 event: `${eventAnimation}_sskn`,
                 scene: "sskn",
                 siteRotY: siteRotY,
+              };
+            case 9:
+              const bodyPart = (() => {
+                switch (parseInt(activeNode.node_name.slice(-1))) {
+                  case 6:
+                    return "head";
+                  case 5:
+                    return "rightArm";
+                  case 4:
+                    return "leftArm";
+                  case 3:
+                    return "rightLeg";
+                  case 2:
+                    return "leftLeg";
+                  case 1:
+                    return "body";
+                }
+              })();
+              return {
+                event: `${eventAnimation}_polytan`,
+                scene: "polytan",
+                siteRotY: siteRotY,
+                node: activeNode,
+                bodyPart: bodyPart,
               };
           }
           break;
