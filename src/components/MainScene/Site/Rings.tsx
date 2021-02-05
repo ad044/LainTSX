@@ -1,9 +1,9 @@
 import React, { useMemo, memo } from "react";
-import level_y_values from "../../../../resources/level_y_values.json";
+import level_y_values from "../../../resources/level_y_values.json";
 import PurpleRing from "./PurpleRing";
 import GrayRing from "./GrayRing";
 import CyanCrystal from "./CyanCrystal";
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 
 type RingsProps = {
   activateAllRings: boolean;

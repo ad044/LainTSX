@@ -1,6 +1,6 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { SiteType } from "../components/MainScene/SyncedComponents/Site";
+import { SiteType } from "../components/MainScene/Site";
 import { useStore } from "../store";
 
 export const getRandomIdleMedia = (site: string) => {

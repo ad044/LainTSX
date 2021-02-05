@@ -3,7 +3,7 @@ import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
-import { NodeDataType } from "./components/MainScene/SyncedComponents/Site";
+import { NodeDataType } from "./components/MainScene/Site";
 import { getNodeById } from "./utils/node-utils";
 
 type State = {
@@ -65,6 +65,7 @@ type State = {
   ssknComponentMatrix: ["ok", "cancel"];
   ssknComponentMatrixIdx: 0 | 1;
   ssknLoading: boolean;
+  ssknLvl: number;
 
   // polytan scene
   polytanUnlockedParts: {
@@ -215,10 +216,11 @@ export const useStore = create(
       ssknComponentMatrix: ["ok", "cancel"],
       ssknComponentMatrixIdx: 0,
       ssknLoading: false,
+      ssknLvl: 0,
 
       // polytan scene
       polytanUnlockedParts: {
-        body: true,
+        body: false,
         head: false,
         leftArm: false,
         rightArm: false,
@@ -227,7 +229,7 @@ export const useStore = create(
       },
 
       // gate scene
-      gateLvl: 4,
+      gateLvl: 0,
 
       // boot scene
       bootComponentMatrix: {
@@ -353,21 +355,20 @@ export const useStore = create(
         set(() => ({ mediaPercentageElapsed: to })),
       setAudioAnalyser: (to: THREE.AudioAnalyser) =>
         set(() => ({ audioAnalyser: to })),
-      resetMediaScene: () =>
-        set(() => ({
-          mediaWordPosStateIdx: 1,
-          mediaComponentMatrixIndices: {
-            sideIdx: 0,
-            leftSideIdx: 0,
-            rightSideIdx: 0,
-          },
-        })),
       setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
 
       // idle media setters
       setIdleMedia: (to: any) => set(() => ({ idleMedia: to })),
       setIdleImages: (to: any) => set(() => ({ idleImages: to })),
 
+      //polytan setters
+      setPolytanPartUnlocked: (bodyPart: string) =>
+        set((state) => ({
+          polytanUnlockedParts: {
+            ...state.polytanUnlockedParts,
+            [bodyPart]: true,
+          },
+        })),
       // sskn scene setters
       toggleSSknComponentMatrixIdx: () =>
         set((state) => ({
@@ -375,9 +376,8 @@ export const useStore = create(
             | 0
             | 1,
         })),
-      resetSSknComponentMatrixIdx: () =>
-        set(() => ({ ssknComponentMatrixIdx: 0 })),
       setSSknLoading: (to: boolean) => set(() => ({ ssknLoading: to })),
+      incrementSSknLvl: () => set((state) => ({ ssknLvl: state.ssknLvl + 1 })),
 
       // gate scene setters
       incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
@@ -428,14 +428,14 @@ export const useStore = create(
         }),
 
       // progress setters
-      setNodeViewed: (nodeName: string) =>
+      setNodeViewed: (
+        nodeName: string,
+        to: { is_viewed: number; is_visible: number }
+      ) =>
         set((state) => ({
           gameProgress: {
             ...state.gameProgress,
-            [nodeName]: {
-              is_viewed: 1,
-              is_visible: nodeName.includes("SSkn") ? 0 : 1,
-            },
+            [nodeName]: to,
           },
         })),
     })
@@ -466,6 +466,7 @@ export const getMainSceneContext = () => {
     siteRotY: state.siteRot[1],
     activeNode: state.activeNode,
     level: parseInt(state.activeLevel),
+    ssknLvl: state.ssknLvl,
   };
 };
 

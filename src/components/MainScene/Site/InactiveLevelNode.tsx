@@ -2,55 +2,66 @@ import React, { memo, useMemo } from "react";
 import { useLoader } from "react-three-fiber";
 import { a } from "@react-spring/three";
 import * as THREE from "three";
-import Cou from "../../../../static/sprite/Cou.png";
-import Dc from "../../../../static/sprite/Dc.png";
-import SSkn from "../../../../static/sprite/SSkn.png";
-import Tda from "../../../../static/sprite/Tda.png";
-import Dia from "../../../../static/sprite/Dia.png";
-import Lda from "../../../../static/sprite/Lda.png";
-import MULTI from "../../../../static/sprite/MULTI.png";
-import level_y_values from "../../../../resources/level_y_values.json";
+import Cou from "../../../static/sprite/Cou.png";
+import CouViewed from "../../../static/sprite/Cou_viewed.png";
+import Dc from "../../../static/sprite/Dc.png";
+import DcViewed from "../../../static/sprite/Dc_viewed.png";
+import SSkn from "../../../static/sprite/SSkn.png";
+import SSknViewed from "../../../static/sprite/SSkn_viewed.png";
+import Tda from "../../../static/sprite/Tda.png";
+import TdaViewed from "../../../static/sprite/Tda_viewed.png";
+import Dia from "../../../static/sprite/Dia.png";
+import DiaViewed from "../../../static/sprite/Dia_viewed.png";
+import Lda from "../../../static/sprite/Lda.png";
+import LdaViewed from "../../../static/sprite/Lda_viewed.png";
+import MULTI from "../../../static/sprite/MULTI.png";
+import MULTIViewed from "../../../static/sprite/MULTI_viewed.png";
+import level_y_values from "../../../resources/level_y_values.json";
 
 type NodeContructorProps = {
   nodeName: string;
   position: number[];
   rotation: number[];
   level: string;
+  viewed: boolean;
 };
 
 const InactiveLevelNode = memo((props: NodeContructorProps) => {
   const tex = useMemo(() => {
     if (props.nodeName.includes("S")) {
-      return SSkn;
+      return [SSkn, SSknViewed];
     } else if (
       props.nodeName.startsWith("P") ||
       props.nodeName.startsWith("G") ||
       props.nodeName.includes("?")
     ) {
-      return MULTI;
+      return [MULTI, MULTIViewed];
     } else if (props.nodeName.includes("Dc")) {
-      return Dc;
+      return [Dc, DcViewed];
     } else {
       switch (props.nodeName.substr(0, 3)) {
         case "Tda":
-          return Tda;
+          return [Tda, TdaViewed];
         case "Cou":
-          return Cou;
+          return [Cou, CouViewed];
         case "Dia":
-          return Dia;
+          return [Dia, DiaViewed];
         case "Lda":
-          return Lda;
+          return [Lda, LdaViewed];
         case "Ere":
         case "Ekm":
         case "Eda":
         case "TaK":
         case "Env":
-          return MULTI;
+          return [MULTI, MULTIViewed];
       }
     }
   }, [props.nodeName]);
 
-  const nonActiveTexture = useLoader(THREE.TextureLoader, tex!);
+  const nonActiveTexture = useLoader(
+    THREE.TextureLoader,
+    props.viewed ? tex![1] : tex![0]
+  );
 
   return (
     <group

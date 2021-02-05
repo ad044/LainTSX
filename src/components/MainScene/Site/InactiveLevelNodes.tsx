@@ -1,10 +1,10 @@
 import React, { memo, useEffect, useState } from "react";
-import node_positions from "../../../../resources/node_positions.json";
-import { useStore } from "../../../../store";
+import node_positions from "../../../resources/node_positions.json";
+import { useStore } from "../../../store";
 import { SiteType } from "../Site";
 import InactiveLevelNode from "./InactiveLevelNode";
-import usePrevious from "../../../../hooks/usePrevious";
-import { generateInactiveNodes } from "../../../../utils/node-utils";
+import usePrevious from "../../../hooks/usePrevious";
+import { generateInactiveNodes } from "../../../utils/node-utils";
 
 type ActiveLevelNodesProps = {
   visibleNodes: SiteType;
@@ -53,6 +53,7 @@ const InactiveLevelNodes = memo((props: ActiveLevelNodesProps) => {
             }
             key={node[1].node_name}
             level={node[0].substr(0, 2)}
+            viewed={Boolean(node[1].is_viewed)}
           />
         );
       })}

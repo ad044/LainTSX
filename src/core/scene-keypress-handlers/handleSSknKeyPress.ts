@@ -5,17 +5,17 @@ const handleSSknSceneEvent = (ssknSceneContext: any) => {
     case "UP":
     case "DOWN":
       return {
-        event: `${activeSSknComponent}_${keyPress.toLowerCase()}`,
+        event: `sskn_${activeSSknComponent}_${keyPress.toLowerCase()}`,
       };
     case "CIRCLE":
       if (activeSSknComponent === "ok") {
         return {
-          event: `sskn_${activeSSknComponent}_select`,
-          nodeName: activeNode.node_name,
+          event: `sskn_ok_select`,
+          node: activeNode,
         };
       } else {
         return {
-          event: `${activeSSknComponent}_select`,
+          event: `sskn_cancel_select`,
         };
       }
   }

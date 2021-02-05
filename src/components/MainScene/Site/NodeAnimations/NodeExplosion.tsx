@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ExplosionLine from "./NodeExplosion/ExplosionLine";
-import node_explosion_line_positions from "../../../../../resources/node_explosion_line_positions.json";
+import node_explosion_line_positions from "../../../../resources/node_explosion_line_positions.json";
 
 import { useFrame } from "react-three-fiber";
 import GoldNode from "./NodeExplosion/GoldNode";
-import { useStore } from "../../../../../store";
+import { useStore } from "../../../../store";
 
 const NodeExplosion = () => {
   const explosionVisible = useStore(

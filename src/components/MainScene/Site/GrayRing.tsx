@@ -1,8 +1,8 @@
 import React, { memo, useMemo } from "react";
 import * as THREE from "three";
-import lofTexture from "../../../../static/sprite/gray_ring_lof.png";
-import holeTexture from "../../../../static/sprite/hole.png";
-import lifeTexture from "../../../../static/sprite/life.png";
+import lofTexture from "../../../static/sprite/gray_ring_lof.png";
+import holeTexture from "../../../static/sprite/hole.png";
+import lifeTexture from "../../../static/sprite/life.png";
 import { useLoader } from "react-three-fiber";
 
 type GrayRingProps = {

@@ -1,5 +1,5 @@
 import React from "react";
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 import NodeExplosion from "./NodeAnimations/NodeExplosion";
 import NodeRip from "./NodeAnimations/NodeRip";
 

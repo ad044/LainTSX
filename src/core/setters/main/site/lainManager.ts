@@ -38,15 +38,19 @@ const lainManager = (eventState: any) => {
       case "throw_node_gate":
       case "throw_node_sskn":
       case "throw_node_tak":
+      case "throw_node_polytan":
         return { action: () => setLainMoveState("throw_node"), duration: 3900 };
       case "rip_node_media":
       case "rip_node_gate":
       case "rip_node_sskn":
       case "rip_node_tak":
+      case "rip_node_polytan":
         return { action: () => setLainMoveState("rip_node"), duration: 6000 };
-      case "knock_node_and_fall":
+      case "knock_and_fall":
+      case "knock":
+      case "touch_and_scare":
         return {
-          action: () => setLainMoveState("knock_node_and_fall"),
+          action: () => setLainMoveState(eventState.event),
           duration: 6000,
         };
     }

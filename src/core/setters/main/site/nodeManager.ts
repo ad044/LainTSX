@@ -1,5 +1,5 @@
 import { useStore } from "../../../../store";
-import { NodeDataType } from "../../../../components/MainScene/SyncedComponents/Site";
+import { NodeDataType } from "../../../../components/MainScene/Site";
 
 const nodeManager = (eventState: any) => {
   const setActiveNode = useStore.getState().setNode;
@@ -150,6 +150,18 @@ const nodeManager = (eventState: any) => {
 
   const dispatchAction = (eventState: any) => {
     switch (eventState.event) {
+      case "touch_and_scare":
+        return {
+          action: () => animateNodeTouchAndScare(eventState.siteRotY),
+        };
+      case "knock_and_fall":
+        return {
+          action: () => animateNodeKnockAndFall(eventState.siteRotY),
+        };
+      case "knock":
+        return {
+          action: () => animateNodeKnock(eventState.siteRotY),
+        };
       case "site_up":
       case "site_down":
       case "site_left":
@@ -170,6 +182,7 @@ const nodeManager = (eventState: any) => {
       case "throw_node_gate":
       case "throw_node_sskn":
       case "throw_node_tak":
+      case "throw_node_polytan":
         return {
           action: () => animateActiveNodeThrow(eventState.siteRotY),
         };
@@ -177,6 +190,7 @@ const nodeManager = (eventState: any) => {
       case "rip_node_gate":
       case "rip_node_sskn":
       case "rip_node_tak":
+      case "rip_node_polytan":
         return {
           action: () => animateShrinkAndRip(eventState.siteRotY),
         };

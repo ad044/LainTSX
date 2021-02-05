@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import TriangleNode from "./NodeRip/TriangleNode";
-import { useStore } from "../../../../../store";
+import { useStore } from "../../../../store";
 import RipLine from "./NodeRip/RipLine";
 import { useFrame } from "react-three-fiber";
 

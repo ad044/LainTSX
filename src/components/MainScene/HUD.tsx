@@ -1,14 +1,14 @@
 import React, { memo, useEffect, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import bigHud from "../../../static/sprite/big_hud.png";
-import longHud from "../../../static/sprite/long_hud.png";
-import boringHud from "../../../static/sprite/long_hud_boring.png";
-import { useStore } from "../../../store";
-import lerp from "../../../utils/lerp";
-import GreenTextRenderer from "../../TextRenderer/GreenTextRenderer";
-import usePrevious from "../../../hooks/usePrevious";
-import {getNodeHud} from "../../../utils/node-utils";
+import bigHud from "../../static/sprite/big_hud.png";
+import longHud from "../../static/sprite/long_hud.png";
+import boringHud from "../../static/sprite/long_hud_boring.png";
+import { useStore } from "../../store";
+import lerp from "../../utils/lerp";
+import GreenTextRenderer from "../TextRenderer/GreenTextRenderer";
+import usePrevious from "../../hooks/usePrevious";
+import { getNodeHud } from "../../utils/node-utils";
 
 export type HUDType = {
   mirrored: number;

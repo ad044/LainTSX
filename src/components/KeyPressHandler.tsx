@@ -51,6 +51,7 @@ const KeyPressHandler = () => {
       sceneManager,
       gameLoader,
       gameSaver,
+      progressManager,
     ],
     []
   );

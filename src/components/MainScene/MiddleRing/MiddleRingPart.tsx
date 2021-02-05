@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from "react";
-import middleRingTexture from "../../../../static/sprite/middle_ring_tex.png";
+import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useStore } from "../../../../store";
+import { useStore } from "../../../store";
 
 type MiddleRingPartProps = {
   position: number[];
