@@ -102,12 +102,10 @@ const Node = memo((props: NodeContructorProps) => {
 
     varying vec2 vUv;
 
-    #define M_PI 3.1415926535897932384626433832795
-
     void main() {
         vec4 t1 = texture2D(tex1,vUv);
         vec4 t2 = texture2D(tex2,vUv);
-        float bias = abs(sin(timeMSeconds / (1.6 / M_PI)));
+        float bias = (1.0 - timeMSeconds) - floor(1.0 - timeMSeconds);
         gl_FragColor = mix(t1, t2, bias);
     }
   `;
@@ -162,7 +160,7 @@ const Node = memo((props: NodeContructorProps) => {
   useFrame(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.timeMSeconds.value =
-        (Date.now() % (Math.PI * 2000)) / 1000.0;
+        (Date.now() % 3000) / 1500.0;
     }
   });
 
