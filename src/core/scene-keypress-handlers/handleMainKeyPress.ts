@@ -1,4 +1,9 @@
-import { findNode, getNodeById } from "../../utils/node-utils";
+import {
+  findNode,
+  getNodeById,
+  isNodeVisible,
+  unknownNodeTemplate,
+} from "../../utils/node-utils";
 
 const handleMainSceneEvent = (mainSceneContext: any) => {
   const {
@@ -23,11 +28,13 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
           const keyPressToLower = keyPress.toLowerCase();
 
           const nodeData = findNode(
+            activeNode.id,
             keyPressToLower,
             activeNode.matrixIndices!,
             level,
             currentSite,
-            gameProgress
+            gameProgress,
+            true
           );
 
           if (!nodeData) return;
@@ -40,7 +47,9 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
                   ? siteRotY + Math.PI / 4
                   : siteRotY - Math.PI / 4,
               node: {
-                ...getNodeById(nodeData.node, currentSite),
+                ...(nodeData.node !== "unknown"
+                  ? getNodeById(nodeData.node, currentSite)
+                  : unknownNodeTemplate),
                 matrixIndices: nodeData.matrixIndices,
               },
             };
@@ -59,11 +68,13 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
         case "DOWN": {
           const keyPressToLower = keyPress.toLowerCase();
           const nodeData = findNode(
+            activeNode.id,
             keyPressToLower,
             activeNode.matrixIndices!,
             level,
             currentSite,
-            gameProgress
+            gameProgress,
+            true
           );
 
           if (!nodeData) return;
@@ -75,7 +86,9 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
                 .toString()
                 .padStart(2, "0"),
               node: {
-                ...getNodeById(nodeData.node, currentSite),
+                ...(nodeData.node !== "unknown"
+                  ? getNodeById(nodeData.node, currentSite)
+                  : unknownNodeTemplate),
                 matrixIndices: nodeData.matrixIndices,
               },
             };
@@ -94,6 +107,9 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
             Math.random() < 0.4 ? "rip_node" : "throw_node";
 
           const nodeType = activeNode.type;
+
+          if (activeNode.id === "" || !isNodeVisible(activeNode, gameProgress))
+            return;
 
           if (activeNode.upgrade_requirement > ssknLvl) {
             const rejectAnimations = [
@@ -222,12 +238,15 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
 
           const direction = selectedLevel > level ? "up" : "down";
 
+          const rowIdx = direction === "up" ? 2 : 0;
           const nodeData = findNode(
+            activeNode.id,
             direction,
-            activeNode.matrixIndices!,
+            { ...activeNode.matrixIndices!, rowIdx: rowIdx },
             selectedLevel,
             currentSite,
-            gameProgress
+            gameProgress,
+            false
           );
 
           if (nodeData) {
@@ -236,7 +255,9 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
             return {
               event: event,
               node: {
-                ...getNodeById(nodeData.node, currentSite),
+                ...(nodeData.node !== "unknown"
+                  ? getNodeById(nodeData.node, currentSite)
+                  : unknownNodeTemplate),
                 matrixIndices: nodeData.matrixIndices,
               },
               level: selectedLevel.toString().padStart(2, "0"),

@@ -92,7 +92,7 @@ export const getVisibleNodesMatrix = (
   );
 };
 
-function RowPrecedence(rowIdx: number): number[] {
+const RowPrecedence = (rowIdx: number): number[] => {
   switch (rowIdx) {
     default:
     case 0:
@@ -102,9 +102,9 @@ function RowPrecedence(rowIdx: number): number[] {
     case 2:
       return [2, 1, 0];
   }
-}
+};
 
-function ColPrecedence(colIdx: number): number[] {
+const ColPrecedence = (colIdx: number): number[] => {
   switch (colIdx) {
     default:
     case 0:
@@ -116,7 +116,7 @@ function ColPrecedence(colIdx: number): number[] {
     case 3:
       return [3, 2, 1, 0];
   }
-}
+};
 
 function* nextPos_left([row, col]: [number, number]) {
   const p = RowPrecedence(row);
@@ -144,7 +144,7 @@ function* nextPos_down([row, col]: [number, number]) {
   for (let r = row + 1; r < 3; r++) for (let c = 0; c < 4; c++) yield [r, p[c]];
 }
 
-function move(direction: string, [matrix, level]: [number, number]) {
+const move = (direction: string, [matrix, level]: [number, number]) => {
   switch (direction) {
     case "left":
       matrix = matrix + 1 > 8 ? 1 : matrix + 1;
@@ -161,9 +161,11 @@ function move(direction: string, [matrix, level]: [number, number]) {
   }
 
   return [matrix, level];
-}
+};
 
-export function findNode(
+export const findNode = (
+  nodeId: string,
+
   direction: string,
 
   {
@@ -174,18 +176,26 @@ export function findNode(
 
   level: number,
   currentSite: string,
-  gameProgress: any
-): any | undefined {
-  const funcs: any = {
+  gameProgress: typeof game_progress,
+  shouldSearchNext: boolean
+) => {
+  const funcs: {
+    [key: string]: (([row, col]: [number, number]) => Generator<
+      number[],
+      void
+    >)[];
+  } = {
     left: [nextPos_left, ([r]: [number, number]) => nextPos_right([r, -1])],
     right: [nextPos_right, ([r]: [number, number]) => nextPos_left([r, 4])],
     up: [nextPos_up, ([, c]: [number, number]) => nextPos_up([3, c])],
     down: [nextPos_down, ([, c]: [number, number]) => nextPos_down([-1, c])],
   };
 
+  const initialMatrixIdx = matrixIdx;
+
   const nextPos = funcs[direction];
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < (shouldSearchNext ? 2 : 1); i++) {
     const nodes = getVisibleNodesMatrix(
       matrixIdx,
       level,
@@ -212,7 +222,21 @@ export function findNode(
 
     [matrixIdx, level] = move(direction, [matrixIdx, level]);
   }
-}
+
+  if (nodeId === "") [matrixIdx] = move(direction, [initialMatrixIdx, level]);
+
+  if (direction === "up" || direction === "down" || nodeId === "") {
+    return {
+      node: "unknown",
+      matrixIndices: {
+        matrixIdx,
+        rowIdx: rowIdx,
+        colIdx: colIdx,
+      },
+      didMove: true,
+    };
+  }
+};
 export const filterInvisibleNodes = (
   siteData: SiteType,
   gameProgress: typeof game_progress
@@ -233,4 +257,27 @@ export const filterInvisibleNodes = (
   });
 
   return visibleNodes;
+};
+
+export const unknownNodeTemplate = {
+  id: "",
+  image_table_indices: {
+    "1": "",
+    "2": "",
+    "3": "",
+  },
+  media_file: "",
+  node_name: "Unknown",
+  required_final_video_viewcount: 0,
+  site: "",
+  title: "",
+  triggers_final_video: 0,
+  type: 0,
+  unlocked_by: "",
+  upgrade_requirement: 0,
+  words: {
+    "1": "",
+    "2": "",
+    "3": "",
+  },
 };

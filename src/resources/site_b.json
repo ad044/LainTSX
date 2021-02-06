@@ -9,12 +9,6 @@
       },
       "media_file": "INS05.STR",
       "node_name": "SSkn04#",
-      "protocol_lines": {
-        "1": "mT up-date App.",
-        "2": "movie tool",
-        "3": "playing movie",
-        "4": "freeware"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "mT up-date App.",
@@ -37,12 +31,6 @@
       },
       "media_file": "INS03.STR",
       "node_name": "Dc1025",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -65,12 +53,6 @@
       },
       "media_file": "LAIN18.XA[8]",
       "node_name": "Tda045",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -93,12 +75,6 @@
       },
       "media_file": "LAIN18.XA[9]",
       "node_name": "Tda046",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -121,12 +97,6 @@
       },
       "media_file": "LAIN15.XA[17]",
       "node_name": "Lda151",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -149,12 +119,6 @@
       },
       "media_file": "LAIN15.XA[18]",
       "node_name": "Lda152",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -177,12 +141,6 @@
       },
       "media_file": "LAIN18.XA[10]",
       "node_name": "Tda047",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -205,12 +163,6 @@
       },
       "media_file": "LAIN19.XA[24]",
       "node_name": "TaK091",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 5,
       "site": "B",
       "title": "",
@@ -233,12 +185,6 @@
       },
       "media_file": "LAIN20.XA[23]",
       "node_name": "TaK168",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -261,12 +207,6 @@
       },
       "media_file": "LAIN15.XA[19]",
       "node_name": "Lda153",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -289,12 +229,6 @@
       },
       "media_file": "LAIN15.XA[20]",
       "node_name": "Lda154",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -317,12 +251,6 @@
       },
       "media_file": "LAIN15.XA[22]",
       "node_name": "Lda156",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -345,12 +273,6 @@
       },
       "media_file": "LAIN18.XA[11]",
       "node_name": "Tda048",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -373,12 +295,6 @@
       },
       "media_file": "LAIN19.XA[25]",
       "node_name": "TaK092",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "",
@@ -401,12 +317,6 @@
       },
       "media_file": "LAIN20.XA[24]",
       "node_name": "TaK169",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -429,12 +339,6 @@
       },
       "media_file": "LAIN15.XA[21]",
       "node_name": "Lda155",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -459,12 +363,6 @@
       },
       "media_file": "LAIN15.XA[23]",
       "node_name": "Lda157",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -487,12 +385,6 @@
       },
       "media_file": "LAIN15.XA[24]",
       "node_name": "Lda158",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -515,12 +407,6 @@
       },
       "media_file": "INS04.STR",
       "node_name": "Dc1026",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -543,12 +429,6 @@
       },
       "media_file": "LAIN18.XA[12]",
       "node_name": "Tda049",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -571,12 +451,6 @@
       },
       "media_file": "LAIN18.XA[13]",
       "node_name": "Tda050",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -599,12 +473,6 @@
       },
       "media_file": "LAIN19.XA[26]",
       "node_name": "TaK093",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -627,12 +495,6 @@
       },
       "media_file": "LAIN15.XA[25]",
       "node_name": "Lda159",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -655,12 +517,6 @@
       },
       "media_file": "LAIN15.XA[26]",
       "node_name": "Lda160",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -683,12 +539,6 @@
       },
       "media_file": "LAIN18.XA[14]",
       "node_name": "Tda051",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -711,12 +561,6 @@
       },
       "media_file": "LAIN15.XA[27]",
       "node_name": "Lda161",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -739,12 +583,6 @@
       },
       "media_file": "LAIN15.XA[28]",
       "node_name": "Lda162",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -767,12 +605,6 @@
       },
       "media_file": "LAIN18.XA[15]",
       "node_name": "Tda052",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -795,12 +627,6 @@
       },
       "media_file": "LAIN18.XA[16]",
       "node_name": "Tda053",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -823,15 +649,9 @@
       },
       "media_file": "F002.STR",
       "node_name": "Dc1042",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -851,12 +671,6 @@
       },
       "media_file": "LAIN18.XA[17]",
       "node_name": "Tda054",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -879,12 +693,6 @@
       },
       "media_file": "LAIN15.XA[29]",
       "node_name": "Lda163",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -907,12 +715,6 @@
       },
       "media_file": "LAIN15.XA[30]",
       "node_name": "Lda164",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -937,12 +739,6 @@
       },
       "media_file": "LAIN19.XA[27]",
       "node_name": "TaK094",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -965,12 +761,6 @@
       },
       "media_file": "LAIN20.XA[25]",
       "node_name": "TaK170",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -993,12 +783,6 @@
       },
       "media_file": "LAIN19.XA[28]",
       "node_name": "TaK095",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -1021,12 +805,6 @@
       },
       "media_file": "LAIN20.XA[26]",
       "node_name": "TaK171",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -1049,12 +827,6 @@
       },
       "media_file": "LAIN18.XA[18]",
       "node_name": "Tda055",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1077,12 +849,6 @@
       },
       "media_file": "LAIN15.XA[31]",
       "node_name": "Lda165",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1105,12 +871,6 @@
       },
       "media_file": "LAIN16.XA[0]",
       "node_name": "Lda166",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1133,12 +893,6 @@
       },
       "media_file": "LAIN16.XA[2]",
       "node_name": "Lda168",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1161,12 +915,6 @@
       },
       "media_file": "LAIN16.XA[3]",
       "node_name": "Lda169",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1189,12 +937,6 @@
       },
       "media_file": "LAIN16.XA[4]",
       "node_name": "Lda170",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1217,12 +959,6 @@
       },
       "media_file": "LAIN18.XA[19]",
       "node_name": "Tda056",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1245,12 +981,6 @@
       },
       "media_file": "LAIN18.XA[20]",
       "node_name": "Tda057",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1273,12 +1003,6 @@
       },
       "media_file": "LAIN18.XA[21]",
       "node_name": "Tda058",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1301,12 +1025,6 @@
       },
       "media_file": "LAIN18.XA[22]",
       "node_name": "Tda059",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1329,12 +1047,6 @@
       },
       "media_file": "LAIN16.XA[1]",
       "node_name": "Lda167",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1357,12 +1069,6 @@
       },
       "media_file": "LAIN16.XA[5]",
       "node_name": "Lda171",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1385,12 +1091,6 @@
       },
       "media_file": "LAIN16.XA[6]",
       "node_name": "Lda172",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1413,12 +1113,6 @@
       },
       "media_file": "LAIN16.XA[7]",
       "node_name": "Lda173",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1441,12 +1135,6 @@
       },
       "media_file": "LAIN16.XA[8]",
       "node_name": "Lda174",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1469,12 +1157,6 @@
       },
       "media_file": "LAIN18.XA[23]",
       "node_name": "Tda060",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1497,12 +1179,6 @@
       },
       "media_file": "LAIN18.XA[24]",
       "node_name": "Tda061",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1525,12 +1201,6 @@
       },
       "media_file": "LAIN19.XA[29]",
       "node_name": "TaK096",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -1555,12 +1225,6 @@
       },
       "media_file": "LAIN16.XA[9]",
       "node_name": "Lda175",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1583,12 +1247,6 @@
       },
       "media_file": "LAIN16.XA[10]",
       "node_name": "Lda176",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1611,12 +1269,6 @@
       },
       "media_file": "LAIN16.XA[11]",
       "node_name": "Lda177",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1639,12 +1291,6 @@
       },
       "media_file": "LAIN16.XA[12]",
       "node_name": "Lda178",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1667,12 +1313,6 @@
       },
       "media_file": "LAIN16.XA[13]",
       "node_name": "Lda179",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -1695,12 +1335,6 @@
       },
       "media_file": "LAIN19.XA[30]",
       "node_name": "TaK097",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -1723,12 +1357,6 @@
       },
       "media_file": "LAIN20.XA[27]",
       "node_name": "TaK172",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -1751,12 +1379,6 @@
       },
       "media_file": "LAIN18.XA[25]",
       "node_name": "Tda062",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1779,12 +1401,6 @@
       },
       "media_file": "LAIN18.XA[26]",
       "node_name": "Tda063",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1807,12 +1423,6 @@
       },
       "media_file": "LAIN18.XA[27]",
       "node_name": "Tda064",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -1835,12 +1445,6 @@
       },
       "media_file": "LAIN19.XA[31]",
       "node_name": "TaK098",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 5,
       "site": "B",
       "title": "",
@@ -1863,12 +1467,6 @@
       },
       "media_file": "LAIN20.XA[0]",
       "node_name": "TaK099",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "",
@@ -1891,12 +1489,6 @@
       },
       "media_file": "LAIN20.XA[28]",
       "node_name": "TaK173",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -1919,12 +1511,6 @@
       },
       "media_file": "INS06.STR",
       "node_name": "SSkn05",
-      "protocol_lines": {
-        "1": "mT up-date App.",
-        "2": "movie tool",
-        "3": "playing movie",
-        "4": "freeware"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "mT up-date App.",
@@ -1947,15 +1533,9 @@
       },
       "media_file": "LAIN14.XA[15]",
       "node_name": "Dia030",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou039",
@@ -1975,12 +1555,6 @@
       },
       "media_file": "LAIN16.XA[14]",
       "node_name": "Lda180",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2003,12 +1577,6 @@
       },
       "media_file": "LAIN16.XA[15]",
       "node_name": "Lda181",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2031,15 +1599,9 @@
       },
       "media_file": "LAIN15.XA[7]",
       "node_name": "Ere001",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ky\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ky\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "",
@@ -2059,12 +1621,6 @@
       },
       "media_file": "LAIN18.XA[28]",
       "node_name": "Tda065",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2087,12 +1643,6 @@
       },
       "media_file": "LAIN18.XA[29]",
       "node_name": "Tda066",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2115,12 +1665,6 @@
       },
       "media_file": "LAIN18.XA[30]",
       "node_name": "Tda067",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2143,12 +1687,6 @@
       },
       "media_file": "LAIN14.XA[0]",
       "node_name": "Cou039",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -2173,15 +1711,9 @@
       },
       "media_file": "LAIN15.XA[8]",
       "node_name": "Ere002",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ky\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ky\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere001",
@@ -2201,15 +1733,9 @@
       },
       "media_file": "LAIN15.XA[9]",
       "node_name": "Ere003",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ky\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ky\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere002",
@@ -2229,12 +1755,6 @@
       },
       "media_file": "LAIN16.XA[16]",
       "node_name": "Lda182",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2257,12 +1777,6 @@
       },
       "media_file": "LAIN16.XA[17]",
       "node_name": "Lda183",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2285,12 +1799,6 @@
       },
       "media_file": "LAIN18.XA[31]",
       "node_name": "Tda068",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2313,12 +1821,6 @@
       },
       "media_file": "LAIN19.XA[0]",
       "node_name": "Tda069",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2341,12 +1843,6 @@
       },
       "media_file": "LAIN19.XA[1]",
       "node_name": "Tda070",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2369,12 +1865,6 @@
       },
       "media_file": "LAIN19.XA[2]",
       "node_name": "Tda071",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -2397,15 +1887,9 @@
       },
       "media_file": "LAIN15.XA[10]",
       "node_name": "Ere004",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ky\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ky\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere003",
@@ -2425,15 +1909,9 @@
       },
       "media_file": "LAIN15.XA[11]",
       "node_name": "Ere005",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ky\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ky\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere004",
@@ -2453,15 +1931,9 @@
       },
       "media_file": "LAIN15.XA[12]",
       "node_name": "Ere006",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ky\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ky\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere005",
@@ -2481,12 +1953,6 @@
       },
       "media_file": "LAIN16.XA[18]",
       "node_name": "Lda184",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2509,12 +1975,6 @@
       },
       "media_file": "LAIN16.XA[19]",
       "node_name": "Lda185",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2537,15 +1997,9 @@
       },
       "media_file": "LAIN15.XA[13]",
       "node_name": "Ere007",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ka\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ka\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "",
@@ -2565,15 +2019,9 @@
       },
       "media_file": "LAIN15.XA[14]",
       "node_name": "Ere008",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ka\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ka\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere007",
@@ -2593,15 +2041,9 @@
       },
       "media_file": "LAIN15.XA[15]",
       "node_name": "Ere009",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ka\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ka\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere008",
@@ -2621,15 +2063,9 @@
       },
       "media_file": "LAIN15.XA[16]",
       "node_name": "Ere010",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ka\"",
-        "2": "authorized_il",
-        "3": "decoded file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ka\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Ere009",
@@ -2649,12 +2085,6 @@
       },
       "media_file": "LAIN14.XA[1]",
       "node_name": "Cou040",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -2677,15 +2107,9 @@
       },
       "media_file": "LAIN14.XA[16]",
       "node_name": "Dia031",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou040",
@@ -2705,12 +2129,6 @@
       },
       "media_file": "LAIN16.XA[20]",
       "node_name": "Lda186",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -2733,12 +2151,6 @@
       },
       "media_file": "LAIN20.XA[1]",
       "node_name": "TaK100",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -2761,12 +2173,6 @@
       },
       "media_file": "LAIN20.XA[29]",
       "node_name": "TaK174",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -2791,12 +2197,6 @@
       },
       "media_file": "LAIN14.XA[3]",
       "node_name": "Cou042",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -2819,12 +2219,6 @@
       },
       "media_file": "LAIN20.XA[2]",
       "node_name": "TaK101",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -2847,15 +2241,9 @@
       },
       "media_file": "LAIN14.XA[19]",
       "node_name": "Dia034",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Dia033",
@@ -2875,12 +2263,6 @@
       },
       "media_file": "LAIN20.XA[3]",
       "node_name": "TaK102",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -2903,12 +2285,6 @@
       },
       "media_file": "LAIN20.XA[30]",
       "node_name": "TaK175",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -2931,12 +2307,6 @@
       },
       "media_file": "LAIN14.XA[2]",
       "node_name": "Cou041",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -2959,15 +2329,9 @@
       },
       "media_file": "LAIN14.XA[17]",
       "node_name": "Dia032",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou041",
@@ -2987,12 +2351,6 @@
       },
       "media_file": "INS15.STR",
       "node_name": "Dc1040",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -3015,12 +2373,6 @@
       },
       "media_file": "LAIN20.XA[4]",
       "node_name": "TaK103",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "",
@@ -3043,12 +2395,6 @@
       },
       "media_file": "LAIN19.XA[3]",
       "node_name": "Tda072",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -3071,12 +2417,6 @@
       },
       "media_file": "LAIN19.XA[4]",
       "node_name": "Tda073",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -3099,12 +2439,6 @@
       },
       "media_file": "LAIN16.XA[21]",
       "node_name": "Lda187",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3127,12 +2461,6 @@
       },
       "media_file": "LAIN16.XA[22]",
       "node_name": "Lda188",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3155,12 +2483,6 @@
       },
       "media_file": "LAIN19.XA[5]",
       "node_name": "Tda074",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -3183,12 +2505,6 @@
       },
       "media_file": "LAIN14.XA[4]",
       "node_name": "Cou043",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -3211,15 +2527,9 @@
       },
       "media_file": "LAIN14.XA[18]",
       "node_name": "Dia033",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou042",
@@ -3239,15 +2549,9 @@
       },
       "media_file": "LAIN14.XA[20]",
       "node_name": "Dia035",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou044",
@@ -3267,15 +2571,9 @@
       },
       "media_file": "LAIN14.XA[21]",
       "node_name": "Dia036",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Dia035",
@@ -3295,15 +2593,9 @@
       },
       "media_file": "F001.STR",
       "node_name": "Dc1041",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -3323,12 +2615,6 @@
       },
       "media_file": "LAIN16.XA[23]",
       "node_name": "Lda189",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3351,12 +2637,6 @@
       },
       "media_file": "LAIN16.XA[24]",
       "node_name": "Lda190",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3381,12 +2661,6 @@
       },
       "media_file": "LAIN16.XA[26]",
       "node_name": "Lda192",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3409,12 +2683,6 @@
       },
       "media_file": "LAIN16.XA[27]",
       "node_name": "Lda193",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3437,12 +2705,6 @@
       },
       "media_file": "LAIN16.XA[28]",
       "node_name": "Lda194",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3465,12 +2727,6 @@
       },
       "media_file": "LAIN19.XA[6]",
       "node_name": "Tda075",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -3493,15 +2749,9 @@
       },
       "media_file": "LAIN14.XA[22]",
       "node_name": "Dia037",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou046",
@@ -3521,12 +2771,6 @@
       },
       "media_file": "LAIN14.XA[7]",
       "node_name": "Cou046",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -3549,12 +2793,6 @@
       },
       "media_file": "LAIN16.XA[25]",
       "node_name": "Lda191",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3577,12 +2815,6 @@
       },
       "media_file": "LAIN20.XA[5]",
       "node_name": "TaK104",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "",
@@ -3605,12 +2837,6 @@
       },
       "media_file": "LAIN20.XA[31]",
       "node_name": "TaK176",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -3633,12 +2859,6 @@
       },
       "media_file": "LAIN16.XA[29]",
       "node_name": "Lda195",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3661,12 +2881,6 @@
       },
       "media_file": "LAIN16.XA[30]",
       "node_name": "Lda196",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3689,12 +2903,6 @@
       },
       "media_file": "LAIN20.XA[6]",
       "node_name": "TaK105",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "",
@@ -3717,12 +2925,6 @@
       },
       "media_file": "LAIN21.XA[0]",
       "node_name": "TaK177",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -3745,12 +2947,6 @@
       },
       "media_file": "LAIN20.XA[7]",
       "node_name": "TaK106",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -3773,12 +2969,6 @@
       },
       "media_file": "INS07.STR",
       "node_name": "SSkn06",
-      "protocol_lines": {
-        "1": "mT up-date App.",
-        "2": "movie tool",
-        "3": "playing movie",
-        "4": "freeware"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "mT up-date App.",
@@ -3801,12 +2991,6 @@
       },
       "media_file": "LAIN14.XA[5]",
       "node_name": "Cou044",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -3829,12 +3013,6 @@
       },
       "media_file": "LAIN14.XA[6]",
       "node_name": "Cou045",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -3857,15 +3035,9 @@
       },
       "media_file": "F003.STR",
       "node_name": "Dc1043",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -3885,12 +3057,6 @@
       },
       "media_file": "LAIN16.XA[31]",
       "node_name": "Lda197",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3913,12 +3079,6 @@
       },
       "media_file": "LAIN17.XA[0]",
       "node_name": "Lda198",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -3941,15 +3101,9 @@
       },
       "media_file": "F004.STR",
       "node_name": "Dc1044",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "Lda192",
@@ -3969,12 +3123,6 @@
       },
       "media_file": "LAIN19.XA[7]",
       "node_name": "Tda076",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -3999,15 +3147,9 @@
       },
       "media_file": "LAIN14.XA[23]",
       "node_name": "Dia038",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN01",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN01",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou047",
@@ -4027,12 +3169,6 @@
       },
       "media_file": "LAIN20.XA[9]",
       "node_name": "TaK108",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -4055,12 +3191,6 @@
       },
       "media_file": "LAIN14.XA[8]",
       "node_name": "Cou047",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -4083,15 +3213,9 @@
       },
       "media_file": "F008.STR",
       "node_name": "Dc1046",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -4111,15 +3235,9 @@
       },
       "media_file": "F006.STR",
       "node_name": "Dc1045",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -4139,12 +3257,6 @@
       },
       "media_file": "LAIN17.XA[1]",
       "node_name": "Lda199",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4167,12 +3279,6 @@
       },
       "media_file": "LAIN17.XA[2]",
       "node_name": "Lda200",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4195,15 +3301,9 @@
       },
       "media_file": "LAIN15.XA[2]",
       "node_name": "Eda001",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ma\"",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/poa_server"
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ma\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "",
@@ -4223,15 +3323,9 @@
       },
       "media_file": "LAIN15.XA[3]",
       "node_name": "Eda002",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ma\"",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/poa_server"
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ma\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Eda001",
@@ -4251,15 +3345,9 @@
       },
       "media_file": "LAIN15.XA[4]",
       "node_name": "Eda003",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ma\"",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/poa_server"
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ma\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Eda002",
@@ -4279,12 +3367,6 @@
       },
       "media_file": "LAIN21.XA[2]",
       "node_name": "TaK179",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -4307,12 +3389,6 @@
       },
       "media_file": "F015.STR",
       "node_name": "Dc1051",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -4335,12 +3411,6 @@
       },
       "media_file": "LAIN20.XA[8]",
       "node_name": "TaK107",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -4363,12 +3433,6 @@
       },
       "media_file": "LAIN21.XA[1]",
       "node_name": "TaK178",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -4391,12 +3455,6 @@
       },
       "media_file": "LAIN17.XA[3]",
       "node_name": "Lda201",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4419,12 +3477,6 @@
       },
       "media_file": "LAIN17.XA[4]",
       "node_name": "Lda202",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4447,12 +3499,6 @@
       },
       "media_file": "LAIN17.XA[5]",
       "node_name": "Lda203",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4475,12 +3521,6 @@
       },
       "media_file": "LAIN17.XA[6]",
       "node_name": "Lda204",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4503,12 +3543,6 @@
       },
       "media_file": "LAIN17.XA[7]",
       "node_name": "Lda205",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4531,12 +3565,6 @@
       },
       "media_file": "LAIN14.XA[9]",
       "node_name": "Cou048",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -4559,12 +3587,6 @@
       },
       "media_file": "INS05.STR",
       "node_name": "Dc1030",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -4587,15 +3609,9 @@
       },
       "media_file": "LAIN14.XA[24]",
       "node_name": "Dia039",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou048",
@@ -4615,15 +3631,9 @@
       },
       "media_file": "LAIN14.XA[25]",
       "node_name": "Dia040",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Dia039",
@@ -4643,12 +3653,6 @@
       },
       "media_file": "INS06.STR",
       "node_name": "Dc1031",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -4673,12 +3677,6 @@
       },
       "media_file": "LAIN17.XA[8]",
       "node_name": "Lda206",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4701,12 +3699,6 @@
       },
       "media_file": "LAIN17.XA[9]",
       "node_name": "Lda207",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4729,12 +3721,6 @@
       },
       "media_file": "LAIN17.XA[10]",
       "node_name": "Lda208",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4757,12 +3743,6 @@
       },
       "media_file": "INS07.STR",
       "node_name": "Dc1032",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -4785,12 +3765,6 @@
       },
       "media_file": "INS08.STR",
       "node_name": "Dc1033",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -4813,12 +3787,6 @@
       },
       "media_file": "LAIN19.XA[8]",
       "node_name": "Tda077",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -4841,12 +3809,6 @@
       },
       "media_file": "LAIN19.XA[9]",
       "node_name": "Tda078",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -4869,15 +3831,9 @@
       },
       "media_file": "LAIN14.XA[26]",
       "node_name": "Dia041",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Dia040",
@@ -4897,12 +3853,6 @@
       },
       "media_file": "LAIN14.XA[10]",
       "node_name": "Cou049",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -4925,12 +3875,6 @@
       },
       "media_file": "LAIN17.XA[11]",
       "node_name": "Lda209",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4953,12 +3897,6 @@
       },
       "media_file": "LAIN17.XA[12]",
       "node_name": "Lda210",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -4981,12 +3919,6 @@
       },
       "media_file": "LAIN17.XA[13]",
       "node_name": "Lda211",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5009,12 +3941,6 @@
       },
       "media_file": "INS09.STR",
       "node_name": "Dc1034",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -5037,12 +3963,6 @@
       },
       "media_file": "LAIN19.XA[10]",
       "node_name": "Tda079",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5065,12 +3985,6 @@
       },
       "media_file": "LAIN19.XA[11]",
       "node_name": "Tda080",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5093,15 +4007,9 @@
       },
       "media_file": "LAIN14.XA[27]",
       "node_name": "Dia042",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou049",
@@ -5121,15 +4029,9 @@
       },
       "media_file": "LAIN14.XA[28]",
       "node_name": "Dia043",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou050",
@@ -5149,12 +4051,6 @@
       },
       "media_file": "LAIN14.XA[11]",
       "node_name": "Cou050",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -5177,12 +4073,6 @@
       },
       "media_file": "LAIN17.XA[14]",
       "node_name": "Lda212",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5205,12 +4095,6 @@
       },
       "media_file": "INS10.STR",
       "node_name": "Dc1035",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -5233,12 +4117,6 @@
       },
       "media_file": "INS12.STR",
       "node_name": "Dc1037",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -5261,12 +4139,6 @@
       },
       "media_file": "LAIN19.XA[12]",
       "node_name": "Tda081",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5291,12 +4163,6 @@
       },
       "media_file": "LAIN20.XA[10]",
       "node_name": "TaK109",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -5319,12 +4185,6 @@
       },
       "media_file": "LAIN19.XA[13]",
       "node_name": "Tda082",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5347,12 +4207,6 @@
       },
       "media_file": "LAIN19.XA[14]",
       "node_name": "Tda083",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5375,12 +4229,6 @@
       },
       "media_file": "LAIN17.XA[15]",
       "node_name": "Lda213",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5403,12 +4251,6 @@
       },
       "media_file": "LAIN17.XA[16]",
       "node_name": "Lda214",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5431,12 +4273,6 @@
       },
       "media_file": "INS13.STR",
       "node_name": "Dc1038",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -5459,15 +4295,9 @@
       },
       "media_file": "INS14.STR",
       "node_name": "Dc1039",
-      "protocol_lines": {
-        "1": "DATA of CLN-1",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN-1",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -5487,12 +4317,6 @@
       },
       "media_file": "LAIN17.XA[17]",
       "node_name": "Lda215",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5515,12 +4339,6 @@
       },
       "media_file": "LAIN17.XA[18]",
       "node_name": "Lda216",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5543,12 +4361,6 @@
       },
       "media_file": "F020.STR",
       "node_name": "Dc1052",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -5571,12 +4383,6 @@
       },
       "media_file": "LAIN20.XA[11]",
       "node_name": "TaK110",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -5599,12 +4405,6 @@
       },
       "media_file": "LAIN19.XA[15]",
       "node_name": "Tda084",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5627,12 +4427,6 @@
       },
       "media_file": "LAIN21.XA[3]",
       "node_name": "TaK180",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -5655,15 +4449,9 @@
       },
       "media_file": "LAIN15.XA[5]",
       "node_name": "Eda004",
-      "protocol_lines": {
-        "1": "RESEARCH_\"Ma\"",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/poa_server"
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
-      "title": "",
+      "title": "RESEARCH \"Ma\"",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Eda003",
@@ -5683,12 +4471,6 @@
       },
       "media_file": "LAIN17.XA[19]",
       "node_name": "Lda217",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5711,12 +4493,6 @@
       },
       "media_file": "LAIN17.XA[20]",
       "node_name": "Lda218",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5739,12 +4515,6 @@
       },
       "media_file": "LAIN17.XA[21]",
       "node_name": "Lda219",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5767,15 +4537,9 @@
       },
       "media_file": "LAIN14.XA[29]",
       "node_name": "Dia044",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou051",
@@ -5795,15 +4559,9 @@
       },
       "media_file": "LAIN14.XA[30]",
       "node_name": "Dia045",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Dia044",
@@ -5823,12 +4581,6 @@
       },
       "media_file": "LAIN19.XA[16]",
       "node_name": "Tda085",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -5851,12 +4603,6 @@
       },
       "media_file": "LAIN14.XA[12]",
       "node_name": "Cou051",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -5881,12 +4627,6 @@
       },
       "media_file": "LAIN17.XA[22]",
       "node_name": "Lda220",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5909,12 +4649,6 @@
       },
       "media_file": "LAIN17.XA[23]",
       "node_name": "Lda221",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5937,12 +4671,6 @@
       },
       "media_file": "LAIN17.XA[24]",
       "node_name": "Lda222",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5965,12 +4693,6 @@
       },
       "media_file": "LAIN17.XA[25]",
       "node_name": "Lda223",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -5993,12 +4715,6 @@
       },
       "media_file": "LAIN19.XA[17]",
       "node_name": "Tda086",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6021,12 +4737,6 @@
       },
       "media_file": "LAIN19.XA[18]",
       "node_name": "Tda087",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6049,12 +4759,6 @@
       },
       "media_file": "LAIN14.XA[13]",
       "node_name": "Cou052",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -6077,15 +4781,9 @@
       },
       "media_file": "LAIN14.XA[31]",
       "node_name": "Dia046",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Cou052",
@@ -6105,15 +4803,9 @@
       },
       "media_file": "LAIN15.XA[0]",
       "node_name": "Dia047",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 0,
       "type": 5,
       "unlocked_by": "Dia046",
@@ -6133,12 +4825,6 @@
       },
       "media_file": "LAIN20.XA[12]",
       "node_name": "TaK111",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -6161,12 +4847,6 @@
       },
       "media_file": "LAIN17.XA[26]",
       "node_name": "Lda224",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6189,12 +4869,6 @@
       },
       "media_file": "LAIN17.XA[27]",
       "node_name": "Lda225",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6217,12 +4891,6 @@
       },
       "media_file": "LAIN19.XA[19]",
       "node_name": "Tda088",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6245,12 +4913,6 @@
       },
       "media_file": "LAIN19.XA[20]",
       "node_name": "Tda089",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6273,12 +4935,6 @@
       },
       "media_file": "LAIN17.XA[30]",
       "node_name": "Lda228",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6301,12 +4957,6 @@
       },
       "media_file": "LAIN17.XA[31]",
       "node_name": "Lda229",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6329,12 +4979,6 @@
       },
       "media_file": "F022.STR",
       "node_name": "Dc1053",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -6357,12 +5001,6 @@
       },
       "media_file": "LAIN20.XA[13]",
       "node_name": "TaK112",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 5,
       "site": "B",
       "title": "",
@@ -6385,12 +5023,6 @@
       },
       "media_file": "LAIN19.XA[21]",
       "node_name": "Tda090",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6413,12 +5045,6 @@
       },
       "media_file": "LAIN17.XA[28]",
       "node_name": "Lda226",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6441,12 +5067,6 @@
       },
       "media_file": "LAIN17.XA[29]",
       "node_name": "Lda227",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6471,12 +5091,6 @@
       },
       "media_file": "LAIN14.XA[14]",
       "node_name": "Cou053",
-      "protocol_lines": {
-        "1": "COUNSELING_REC.",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "COUNSELING REC.",
@@ -6499,15 +5113,9 @@
       },
       "media_file": "LAIN15.XA[1]",
       "node_name": "Dia048",
-      "protocol_lines": {
-        "1": "DIAGNOSIS_CLN00",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "",
+      "title": "DIAGNOSIS CLN00",
       "triggers_final_video": 1,
       "type": 5,
       "unlocked_by": "Cou053",
@@ -6527,12 +5135,6 @@
       },
       "media_file": "LAIN21.XA[4]",
       "node_name": "TaK181",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -6555,12 +5157,6 @@
       },
       "media_file": "F024.STR",
       "node_name": "Dc1054",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -6583,12 +5179,6 @@
       },
       "media_file": "LAIN19.XA[22]",
       "node_name": "Tda091",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6611,15 +5201,9 @@
       },
       "media_file": "F012.STR",
       "node_name": "Dc1048",
-      "protocol_lines": {
-        "1": "DATA of CLN00",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN00",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -6639,15 +5223,9 @@
       },
       "media_file": "F010.STR",
       "node_name": "Dc1047",
-      "protocol_lines": {
-        "1": "DATA of CLN00",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN00",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -6667,12 +5245,6 @@
       },
       "media_file": "LAIN20.XA[14]",
       "node_name": "TaK113",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -6695,12 +5267,6 @@
       },
       "media_file": "LAIN20.XA[15]",
       "node_name": "TaK114",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -6723,12 +5289,6 @@
       },
       "media_file": "INS11.STR",
       "node_name": "Dc1036",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -6751,12 +5311,6 @@
       },
       "media_file": "LAIN19.XA[23]",
       "node_name": "Tda092",
-      "protocol_lines": {
-        "1": "TOUKO's_DIARY",
-        "2": "authorized_il",
-        "3": "decoded file:t",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "TOUKO's DIARY",
@@ -6779,15 +5333,9 @@
       },
       "media_file": "F013.STR",
       "node_name": "Dc1049",
-      "protocol_lines": {
-        "1": "DATA of CLN00",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN00",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -6807,15 +5355,9 @@
       },
       "media_file": "F014.STR",
       "node_name": "Dc1050",
-      "protocol_lines": {
-        "1": "DATA of CLN00",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "DATA of CLN00",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "",
@@ -6835,15 +5377,9 @@
       },
       "media_file": "LAIN15.XA[6]",
       "node_name": "Eda005",
-      "protocol_lines": {
-        "1": "NEWS_SHOW",
-        "2": "authorized_il",
-        "3": "downloaded file",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
-      "title": "",
+      "title": "NEWS SHOW",
       "triggers_final_video": 0,
       "type": 6,
       "unlocked_by": "Eda004",
@@ -6863,12 +5399,6 @@
       },
       "media_file": "LAIN20.XA[16]",
       "node_name": "TaK115",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -6891,12 +5421,6 @@
       },
       "media_file": "F025.STR",
       "node_name": "Dc1055",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -6921,12 +5445,6 @@
       },
       "media_file": "LAIN18.XA[0]",
       "node_name": "Lda230",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -6949,12 +5467,6 @@
       },
       "media_file": "LAIN18.XA[1]",
       "node_name": "Lda231",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "lain's DIARY",
@@ -6977,12 +5489,6 @@
       },
       "media_file": "LAIN18.XA[2]",
       "node_name": "Lda232",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -7005,12 +5511,6 @@
       },
       "media_file": "LAIN20.XA[17]",
       "node_name": "TaK116",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 3,
       "site": "B",
       "title": "",
@@ -7033,12 +5533,6 @@
       },
       "media_file": "LAIN20.XA[18]",
       "node_name": "TaK117",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 4,
       "site": "B",
       "title": "",
@@ -7061,12 +5555,6 @@
       },
       "media_file": "LAIN20.XA[19]",
       "node_name": "TaK118",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 5,
       "site": "B",
       "title": "",
@@ -7089,12 +5577,6 @@
       },
       "media_file": "F026.STR",
       "node_name": "Dc1056",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -7117,12 +5599,6 @@
       },
       "media_file": "LAIN18.XA[3]",
       "node_name": "Lda233",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -7145,12 +5621,6 @@
       },
       "media_file": "LAIN18.XA[4]",
       "node_name": "Lda234",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "lain's DIARY",
@@ -7173,12 +5643,6 @@
       },
       "media_file": "LAIN18.XA[5]",
       "node_name": "Lda235",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -7201,12 +5665,6 @@
       },
       "media_file": "LAIN20.XA[20]",
       "node_name": "TaK119",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 2,
       "site": "B",
       "title": "",
@@ -7229,12 +5687,6 @@
       },
       "media_file": "LAIN20.XA[21]",
       "node_name": "TaK120",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 1,
       "site": "B",
       "title": "",
@@ -7257,12 +5709,6 @@
       },
       "media_file": "F027.STR",
       "node_name": "Dc1057",
-      "protocol_lines": {
-        "1": "DATA of CLN01",
-        "2": "authorized_il",
-        "3": "active_file:lv",
-        "4": "ftp/tl.S_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "DATA of CLN01",
@@ -7285,15 +5731,9 @@
       },
       "media_file": "F029.STR",
       "node_name": "Dc1058",
-      "protocol_lines": {
-        "1": "101",
-        "2": "DATA of CLN01",
-        "3": "authorized_il",
-        "4": "active_file:lv"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
-      "title": "DATA of CLN01",
+      "title": "101",
       "triggers_final_video": 0,
       "type": 4,
       "unlocked_by": "Dc1001",
@@ -7313,12 +5753,6 @@
       },
       "media_file": "LAIN18.XA[6]",
       "node_name": "Lda236",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -7341,12 +5775,6 @@
       },
       "media_file": "LAIN18.XA[7]",
       "node_name": "Lda237",
-      "protocol_lines": {
-        "1": "lain's_DIARY",
-        "2": "anonymous_user",
-        "3": "active_file:",
-        "4": "ftp/tl.L_server"
-      },
       "required_final_video_viewcount": 0,
       "site": "B",
       "title": "lain's DIARY",
@@ -7369,12 +5797,6 @@
       },
       "media_file": "LAIN20.XA[22]",
       "node_name": "TaK121",
-      "protocol_lines": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": ""
-      },
       "required_final_video_viewcount": 5,
       "site": "B",
       "title": "",

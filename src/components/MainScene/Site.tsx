@@ -22,7 +22,6 @@ export type NodeDataType = {
   title: string;
   unlocked_by: string;
   upgrade_requirement: number;
-  protocol_lines: { 1: string; 2: string; 3: string; 4: string };
   words: { 1: string; 2: string; 3: string };
   matrixIndices?: {
     matrixIdx: number;
