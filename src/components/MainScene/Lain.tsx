@@ -153,19 +153,20 @@ export const LainRipMiddleRing = () => (
 export const LainKnock = () => (
   <LainConstructor
     sprite={knockSpriteSheet}
-    frameCount={32}
+    frameCount={30}
     framesHorizontal={6}
-    framesVertical={6}
+    framesVertical={5}
+    fps={30 * 0.35}
   />
 );
 
 export const LainKnockAndFall = () => (
   <LainConstructor
     sprite={knockAndFallSpriteSheet}
-    frameCount={64}
+    frameCount={62}
     framesHorizontal={8}
     framesVertical={8}
-    fps={64 * 0.17}
+    fps={62 * 0.17}
   />
 );
 
