@@ -5,9 +5,15 @@ const mainSubsceneManager = (eventState: any) => {
 
   const dispatchAction = (eventState: { event: string }) => {
     switch (eventState.event) {
+      case "word_node_not_found":
+        return {
+          action: () => setMainSubscene("not_found"),
+          delay: 0,
+        };
       case "level_selection_back":
       case "select_level_up":
       case "select_level_down":
+      case "exit_not_found":
         return {
           action: () => setMainSubscene("site"),
           delay: 0,

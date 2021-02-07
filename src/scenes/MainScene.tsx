@@ -13,6 +13,7 @@ import Site from "../components/MainScene/Site";
 import Lain from "../components/MainScene/Lain";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
+import NotFound from "../components/MainScene/NotFound";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -94,10 +95,13 @@ const MainScene = () => {
       <Suspense fallback={null}>
         <LevelSelection />
         <Pause />
+        <NotFound visible={subscene === "not_found"} />
         <group visible={!paused}>
           <group visible={!wordSelected && (intro ? introFinished : true)}>
-            <HUD />
-            <YellowTextRenderer />
+            <group visible={subscene !== "not_found"}>
+              <HUD />
+              <YellowTextRenderer />
+            </group>
             <MiddleRing />
             <GrayPlanes />
           </group>

@@ -22,6 +22,7 @@ import handleMainSceneEvent from "../core/scene-keypress-handlers/handleMainKeyP
 import gameLoader from "../core/setters/gameLoader";
 import gameSaver from "../core/setters/gameSaver";
 import progressManager from "../core/setters/progressManager";
+import promptManager from "../core/setters/promptManager";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -32,6 +33,7 @@ const KeyPressHandler = () => {
       levelManager,
       siteManager,
       progressManager,
+      mainSubsceneManager,
     ],
     []
   );
@@ -52,6 +54,7 @@ const KeyPressHandler = () => {
       gameLoader,
       gameSaver,
       progressManager,
+      promptManager,
     ],
     []
   );
@@ -92,6 +95,7 @@ const KeyPressHandler = () => {
               };
             case "gate":
             case "polytan":
+            case "about":
               return {
                 action: () => useStore.setState({ currentScene: "main" }),
               };

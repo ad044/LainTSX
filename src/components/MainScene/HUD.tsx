@@ -130,6 +130,7 @@ const HUD = memo(() => {
       if (
         !(scene === "main" && prevData?.scene === "main") ||
         (subscene === "site" && prevData?.subscene === "pause") ||
+        (subscene === "site" && prevData?.subscene === "not_found") ||
         subscene === "pause"
       ) {
         // set to final pos instantly
