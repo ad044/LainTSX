@@ -8,7 +8,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useStore } from "../../store";
 import usePrevious from "../../hooks/usePrevious";
 
-const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
+const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   const [color, setColor] = useState("yellow");
 
   const tex = useMemo(
@@ -158,4 +158,4 @@ const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
   );
 });
 
-export default BigLetter;
+export default SiteBigLetter;

@@ -4,6 +4,11 @@ const promptManager = (eventState: any) => {
   const setComponentMatrixIdx = useStore.getState().setPromptComponentMatrixIdx;
   const setPromptVisible = useStore.getState().setPromptVisible;
 
+  const exitAndResetPrompt = () => {
+    setPromptVisible(false);
+    setComponentMatrixIdx(1);
+  };
+
   const dispatchAction = (eventState: { event: string; scene: string }) => {
     switch (eventState.event) {
       case "display_prompt": {
@@ -16,9 +21,9 @@ const promptManager = (eventState: any) => {
       case "prompt_left":
         return { action: () => setComponentMatrixIdx(0) };
       case "pause_change_select":
-        return { action: () => setPromptVisible(false) };
+        return { action: () => exitAndResetPrompt() };
       case "exit_prompt":
-        return { action: () => setPromptVisible(false) };
+        return { action: () => exitAndResetPrompt() };
     }
   };
 

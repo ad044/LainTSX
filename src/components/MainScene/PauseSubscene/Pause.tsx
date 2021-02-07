@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
-import StaticBigLetter from "../../TextRenderer/StaticBigLetter";
+import PauseBigLetter from "../../TextRenderer/PauseBigLetter";
 import { useStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
 import About from "./About";
 import Prompt from "../../Prompt";
+import PermissionDenied from "./PermissionDenied";
 
 const Pause = () => {
   const exit = useStore((state) => state.pauseExitAnimation);
   const showingAbout = useStore((state) => state.showingAbout);
+  const promptVisible = useStore((state) => state.promptVisible);
+  const permissionDenied = useStore((state) => state.permissionDenied);
   const [showActiveComponent, setShowActiveComponent] = useState(false);
   const [animation, setAnimation] = useState(false);
   const [intro, setIntro] = useState(true);
@@ -85,7 +88,7 @@ const Pause = () => {
               if (rowIdx === 5 && col > 0 && col < 5) {
                 return col === 1 ? (
                   <React.Fragment key={`Lfragment`}>
-                    <StaticBigLetter
+                    <PauseBigLetter
                       color={"white"}
                       letter={"L"}
                       letterIdx={col}
@@ -119,7 +122,7 @@ const Pause = () => {
               } else if (rowIdx === 4 && col > 4 && col < 7) {
                 return col === 5 ? (
                   <React.Fragment key={"AFragment"}>
-                    <StaticBigLetter
+                    <PauseBigLetter
                       color={"white"}
                       letter={"A"}
                       letterIdx={col}
@@ -153,7 +156,7 @@ const Pause = () => {
               } else if (rowIdx === 3 && col > 2 && col < 7) {
                 return col === 3 ? (
                   <React.Fragment key={"CFragment"}>
-                    <StaticBigLetter
+                    <PauseBigLetter
                       color={"white"}
                       letter={"C"}
                       letterIdx={col}
@@ -187,7 +190,7 @@ const Pause = () => {
               } else if (rowIdx === 1 && col > 0 && col < 5) {
                 return col === 1 ? (
                   <React.Fragment key={"Sfragment"}>
-                    <StaticBigLetter
+                    <PauseBigLetter
                       color={"white"}
                       letter={"S"}
                       letterIdx={col}
@@ -221,7 +224,7 @@ const Pause = () => {
               } else if (rowIdx === 0 && col > 4 && col < 7) {
                 return col === 5 ? (
                   <React.Fragment key={"Efragment"}>
-                    <StaticBigLetter
+                    <PauseBigLetter
                       color={"white"}
                       letter={"E"}
                       letterIdx={col}
@@ -267,7 +270,7 @@ const Pause = () => {
             })
           )}
           {"Load".split("").map((letter, idx) => (
-            <StaticBigLetter
+            <PauseBigLetter
               color={idx > 0 ? "yellow" : "orange"}
               letter={letter}
               letterIdx={idx}
@@ -278,7 +281,7 @@ const Pause = () => {
             />
           ))}
           {"About".split("").map((letter, idx) => (
-            <StaticBigLetter
+            <PauseBigLetter
               color={idx > 0 ? "yellow" : "orange"}
               letter={letter}
               letterIdx={idx}
@@ -289,7 +292,7 @@ const Pause = () => {
             />
           ))}
           {"Change".split("").map((letter, idx) => (
-            <StaticBigLetter
+            <PauseBigLetter
               color={idx > 0 ? "yellow" : "orange"}
               letter={letter}
               letterIdx={idx}
@@ -300,7 +303,7 @@ const Pause = () => {
             />
           ))}
           {"Save".split("").map((letter, idx) => (
-            <StaticBigLetter
+            <PauseBigLetter
               color={idx > 0 ? "yellow" : "orange"}
               letter={letter}
               letterIdx={idx}
@@ -311,7 +314,7 @@ const Pause = () => {
             />
           ))}
           {"Exit".split("").map((letter, idx) => (
-            <StaticBigLetter
+            <PauseBigLetter
               color={idx > 0 ? "yellow" : "orange"}
               letter={letter}
               letterIdx={idx}
@@ -352,9 +355,16 @@ const Pause = () => {
             </mesh>
           </group>
           {showingAbout && <About />}
-          <group position={[1, 0.6, 0]} scale={[1.2, 1.2, 0]}>
-            <Prompt />
-          </group>
+          {promptVisible && (
+            <group position={[1, 0.6, 0]} scale={[1.2, 1.2, 0]}>
+              <Prompt />
+            </group>
+          )}
+          {permissionDenied && (
+            <group position={[1, 0.6, 0]} scale={[1.2, 1.2, 0]}>
+              <PermissionDenied />
+            </group>
+          )}
         </group>
       )}
     </>
