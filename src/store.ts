@@ -45,6 +45,7 @@ type State = {
   pauseComponentMatrixIdx: number;
   pauseExitAnimation: boolean;
   showingAbout: boolean;
+  permissionDenied: boolean;
 
   // media/media scene
   audioAnalyser: undefined | THREE.AudioAnalyser;
@@ -195,6 +196,7 @@ export const useStore = create(
       pauseComponentMatrixIdx: 2,
       pauseExitAnimation: false,
       showingAbout: false,
+      permissionDenied: false,
 
       // media / media scene
       audioAnalyser: undefined,
@@ -338,6 +340,8 @@ export const useStore = create(
       setPauseExitAnimation: (to: boolean) =>
         set(() => ({ pauseExitAnimation: to })),
       setShowingAbout: (to: boolean) => set(() => ({ showingAbout: to })),
+      setPermissionDenied: (to: boolean) =>
+        set(() => ({ permissionDenied: to })),
 
       // media/media scene setters
       toggleMediaSide: () =>
@@ -489,6 +493,7 @@ export const getMainSceneContext = () => {
     promptVisible: state.promptVisible,
     activePromptComponent:
       state.promptComponentMatrix[state.promptComponentMatrixIdx],
+    gateLvl: state.gateLvl,
   };
 };
 

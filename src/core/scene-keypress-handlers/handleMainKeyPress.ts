@@ -21,6 +21,7 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
     showingAbout,
     promptVisible,
     activePromptComponent,
+    gateLvl,
   } = mainSceneContext;
 
   if (promptVisible) {
@@ -310,8 +311,23 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
               };
             case "CIRCLE":
               if (activePauseComponent === "change") {
+                if (gateLvl < 4) {
+                  return { event: "show_permission_denied" };
+                } else {
+                  return {
+                    event: "display_prompt",
+                  };
+                }
+              } else if (
+                activePauseComponent === "save" ||
+                activePauseComponent === "load"
+              ) {
                 return {
                   event: "display_prompt",
+                };
+              } else {
+                return {
+                  event: `pause_${activePauseComponent}_select`,
                 };
               }
           }

@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
-import BigLetter from "./BigLetter";
+import SiteBigLetter from "./SiteBigLetter";
 
 const MediaYellowTextAnimator = memo(() => {
   const [lastLeftComponent, setLastLeftComponent] = useState("play");
@@ -66,7 +66,7 @@ const MediaYellowTextAnimator = memo(() => {
           position-z={-8.7}
           scale={[0.04, 0.06, 0.04]}
         >
-          <BigLetter letter={textArr[idx]} letterIdx={idx} key={idx} />
+          <SiteBigLetter letter={textArr[idx]} letterIdx={idx} key={idx} />
         </a.group>
       ))}
     </group>

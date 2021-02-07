@@ -8,14 +8,14 @@ import { a, useSpring } from "@react-spring/three";
 import React, { useMemo, memo } from "react";
 import { useStore } from "../../store";
 
-const StaticBigLetter = memo(
+const PauseBigLetter = memo(
   (props: {
     color: string;
     letter: string;
     letterIdx: number;
     position: number[];
     scale: number[];
-    active: boolean;
+    active?: boolean;
     rowIdx?: number;
     colIdx?: number;
     intro?: boolean;
@@ -155,4 +155,4 @@ const StaticBigLetter = memo(
   }
 );
 
-export default StaticBigLetter;
+export default PauseBigLetter;
