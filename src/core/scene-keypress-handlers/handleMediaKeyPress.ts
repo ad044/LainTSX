@@ -8,6 +8,7 @@ const handleMediaKeyPress = (mediaSceneContext: any) => {
     rightSideComponentIdx,
     activeNode,
     activeSite,
+    gameProgress,
   } = mediaSceneContext;
 
   const calculateNewRightSide = (
@@ -72,14 +73,14 @@ const handleMediaKeyPress = (mediaSceneContext: any) => {
           const data = findNodeFromWord(
             activeMediaComponent,
             activeNode,
-            activeSite
+            activeSite,
+            gameProgress
           );
 
           if (data) {
             return { event: `media_${activeMediaComponent}_select`, ...data };
           } else {
-            // todo in case node isnt unlocked yet
-            return;
+            return { event: `word_node_not_found` };
           }
         default:
           if (activeMediaComponent === "play") {

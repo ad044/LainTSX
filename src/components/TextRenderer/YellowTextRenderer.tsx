@@ -3,7 +3,7 @@ import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 import usePrevious from "../../hooks/usePrevious";
-import {getNodeHud} from "../../utils/node-utils";
+import { getNodeHud } from "../../utils/node-utils";
 
 const YellowTextRenderer = (props: { visible?: boolean }) => {
   const activeNode = useStore((state) => state.activeNode);
@@ -22,6 +22,7 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
 
   useEffect(() => {
     const hud = getNodeHud(activeNode.matrixIndices!);
+
     if (subscene === "level_selection") {
       setTimeout(() => {
         set({ posX: -0.02, posY: 0.005 });

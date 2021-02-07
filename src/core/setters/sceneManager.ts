@@ -52,6 +52,7 @@ const sceneManager = (eventState: any) => {
       case "media_fstWord_select":
       case "media_sndWord_select":
       case "media_thirdWord_select":
+      case "word_node_not_found":
         return {
           action: () =>
             useStore.setState({ currentScene: "main", intro: false }),

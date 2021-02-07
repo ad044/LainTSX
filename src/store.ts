@@ -44,6 +44,7 @@ type State = {
   pauseComponentMatrix: ["load", "about", "change", "save", "exit"];
   pauseComponentMatrixIdx: number;
   pauseExitAnimation: boolean;
+  showingAbout: boolean;
 
   // media/media scene
   audioAnalyser: undefined | THREE.AudioAnalyser;
@@ -97,6 +98,11 @@ type State = {
 
   // end scene
   endMediaPlayedCount: number;
+
+  // prompt
+  promptVisible: boolean;
+  promptComponentMatrix: ["yes", "no"];
+  promptComponentMatrixIdx: 1 | 0;
 
   // save state
   siteSaveState: {
@@ -188,6 +194,7 @@ export const useStore = create(
       pauseComponentMatrix: ["load", "about", "change", "save", "exit"],
       pauseComponentMatrixIdx: 2,
       pauseExitAnimation: false,
+      showingAbout: false,
 
       // media / media scene
       audioAnalyser: undefined,
@@ -248,6 +255,11 @@ export const useStore = create(
 
       // end scene
       endMediaPlayedCount: 0,
+
+      // prompt
+      promptVisible: false,
+      promptComponentMatrix: ["yes", "no"],
+      promptComponentMatrixIdx: 1,
 
       // save states for loading the game/changing sites
       siteSaveState: {
@@ -325,6 +337,7 @@ export const useStore = create(
         set(() => ({ pauseComponentMatrixIdx: to })),
       setPauseExitAnimation: (to: boolean) =>
         set(() => ({ pauseExitAnimation: to })),
+      setShowingAbout: (to: boolean) => set(() => ({ showingAbout: to })),
 
       // media/media scene setters
       toggleMediaSide: () =>
@@ -404,6 +417,11 @@ export const useStore = create(
         })),
       resetEndMediaPlayedCount: () => set(() => ({ endMediaPlayedCount: 0 })),
 
+      // prompt setters
+      setPromptVisible: (to: boolean) => set(() => ({ promptVisible: to })),
+      setPromptComponentMatrixIdx: (to: 1 | 0) =>
+        set(() => ({ promptComponentMatrixIdx: to })),
+
       // site state setters
       setSiteSaveState: (
         site: string,
@@ -467,6 +485,10 @@ export const getMainSceneContext = () => {
     activeNode: state.activeNode,
     level: parseInt(state.activeLevel),
     ssknLvl: state.ssknLvl,
+    showingAbout: state.showingAbout,
+    promptVisible: state.promptVisible,
+    activePromptComponent:
+      state.promptComponentMatrix[state.promptComponentMatrixIdx],
   };
 };
 
@@ -493,5 +515,6 @@ export const getMediaSceneContext = () => {
     wordPosStateIdx: state.mediaWordPosStateIdx,
     activeNode: state.activeNode,
     activeSite: state.activeSite,
+    gameProgress: state.gameProgress,
   };
 };

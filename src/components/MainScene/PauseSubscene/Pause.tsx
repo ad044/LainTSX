@@ -4,9 +4,12 @@ import PauseSquare from "./PauseSquare";
 import StaticBigLetter from "../../TextRenderer/StaticBigLetter";
 import { useStore } from "../../../store";
 import { useLoader } from "react-three-fiber";
+import About from "./About";
+import Prompt from "../../Prompt";
 
 const Pause = () => {
   const exit = useStore((state) => state.pauseExitAnimation);
+  const showingAbout = useStore((state) => state.showingAbout);
   const [showActiveComponent, setShowActiveComponent] = useState(false);
   const [animation, setAnimation] = useState(false);
   const [intro, setIntro] = useState(true);
@@ -274,7 +277,6 @@ const Pause = () => {
               active={activeComponent === "load"}
             />
           ))}
-
           {"About".split("").map((letter, idx) => (
             <StaticBigLetter
               color={idx > 0 ? "yellow" : "orange"}
@@ -286,7 +288,6 @@ const Pause = () => {
               key={idx}
             />
           ))}
-
           {"Change".split("").map((letter, idx) => (
             <StaticBigLetter
               color={idx > 0 ? "yellow" : "orange"}
@@ -298,7 +299,6 @@ const Pause = () => {
               key={idx}
             />
           ))}
-
           {"Save".split("").map((letter, idx) => (
             <StaticBigLetter
               color={idx > 0 ? "yellow" : "orange"}
@@ -310,7 +310,6 @@ const Pause = () => {
               key={idx}
             />
           ))}
-
           {"Exit".split("").map((letter, idx) => (
             <StaticBigLetter
               color={idx > 0 ? "yellow" : "orange"}
@@ -322,7 +321,6 @@ const Pause = () => {
               active={activeComponent === "exit"}
             />
           ))}
-
           <group visible={!exit}>
             <sprite
               position={[0.5, -0.8, 0]}
@@ -352,6 +350,10 @@ const Pause = () => {
                 depthTest={false}
               />
             </mesh>
+          </group>
+          {showingAbout && <About />}
+          <group position={[1, 0.6, 0]} scale={[1.2, 1.2, 0]}>
+            <Prompt />
           </group>
         </group>
       )}

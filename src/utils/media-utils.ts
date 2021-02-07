@@ -1,15 +1,14 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import node_matrices from "../resources/node_matrices.json";
-import {
-  NodeDataType,
-  SiteType,
-} from "../components/MainScene/Site";
+import { NodeDataType, SiteType } from "../components/MainScene/Site";
+import { isNodeVisible } from "./node-utils";
 
 export const findNodeFromWord = (
   wordLabel: string,
   activeNode: NodeDataType,
-  site: "a" | "b"
+  site: "a" | "b",
+  gameProgress: any
 ) => {
   const labelToIdx = (() => {
     switch (wordLabel) {
@@ -41,7 +40,8 @@ export const findNodeFromWord = (
       ) + 1
     ] ?? nodesWithSameWords[0];
 
-  //todo check if visible
+  if (!isNodeVisible(chosenNode, gameProgress)) return;
+
   const pos = chosenNode.id.substr(2);
 
   const matrixIndices = Object.entries(node_matrices).flatMap((matrixData) =>

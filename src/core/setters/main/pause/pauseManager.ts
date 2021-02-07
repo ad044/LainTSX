@@ -5,6 +5,7 @@ type PauseManagerProps = { event: string; pauseMatrixIdx: number };
 const pauseManager = (eventState: any) => {
   const setComponentMatrixIdx = useStore.getState().setPauseComponentMatrixIdx;
   const setExitAnimation = useStore.getState().setPauseExitAnimation;
+  const setShowingAbout = useStore.getState().setShowingAbout;
 
   const dispatchAction = (eventState: PauseManagerProps) => {
     switch (eventState.event) {
@@ -16,6 +17,14 @@ const pauseManager = (eventState: any) => {
       case "pause_exit_select":
         return {
           action: () => setExitAnimation(true),
+        };
+      case "pause_about_select":
+        return {
+          action: () => setShowingAbout(true),
+        };
+      case "exit_about":
+        return {
+          action: () => setShowingAbout(false),
         };
       case "pause_game":
         return { action: () => setExitAnimation(false) };

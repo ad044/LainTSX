@@ -100,6 +100,7 @@ const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
   useEffect(() => {
     if (
       subscene === "pause" ||
+      (subscene === "site" && prevData?.subscene === "not_found") ||
       (subscene === "site" && prevData?.subscene === "pause")
     )
       return;
