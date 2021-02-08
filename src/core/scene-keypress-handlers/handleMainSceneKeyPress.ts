@@ -5,7 +5,7 @@ import {
   unknownNodeTemplate,
 } from "../../utils/node-utils";
 
-const handleMainSceneEvent = (mainSceneContext: any) => {
+const handleMainSceneKeyPress = (mainSceneContext: any) => {
   const {
     subscene,
     selectedLevel,
@@ -339,4 +339,4 @@ const handleMainSceneEvent = (mainSceneContext: any) => {
   }
 };
 
-export default handleMainSceneEvent;
+export default handleMainSceneKeyPress;

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
 import authorizeActive from "../../static/sprite/authorize_user_active.png";
 import authorizeInactive from "../../static/sprite/authorize_user_inactive.png";
@@ -8,11 +8,11 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import authorizeUserHeader from "../../static/sprite/authorize_user_scene_header.png";
 import loadDataHeader from "../../static/sprite/load_data_header.png";
+import { useStore } from "../../store";
 
 type BootMainMenuProps = {
   visible: boolean;
   activeSubScene: string;
-  activeBootElement: any;
 };
 
 const BootMainMenuComponents = (props: BootMainMenuProps) => {
@@ -24,6 +24,14 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
   const authorizeUserHeaderTex = useLoader(
     THREE.TextureLoader,
     authorizeUserHeader
+  );
+
+  const activeMainMenuElement = useStore(
+    useCallback(
+      (state) =>
+        state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],
+      []
+    )
   );
 
   const loadDataActiveTex = useLoader(THREE.TextureLoader, loadDataActive);
@@ -39,7 +47,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
     } else {
       return {
         texture:
-          props.activeBootElement === "load_data"
+          activeMainMenuElement === "load_data"
             ? loadDataActiveTex
             : loadDataInactiveTex,
         position: { x: 0, y: -0.5 },
@@ -49,7 +57,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
     loadDataActiveTex,
     loadDataHeaderTex,
     loadDataInactiveTex,
-    props.activeBootElement,
+    activeMainMenuElement,
     props.activeSubScene,
   ]);
 
@@ -64,7 +72,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
       return {
         scale: [1.8, 0.3, 0],
         texture:
-          props.activeBootElement === "authorize_user"
+          activeMainMenuElement === "authorize_user"
             ? authorizeActiveTex
             : authorizeInactiveTex,
         position: { x: 0, y: 0.5 },
@@ -74,7 +82,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
     authorizeActiveTex,
     authorizeInactiveTex,
     authorizeUserHeaderTex,
-    props.activeBootElement,
+    activeMainMenuElement,
     props.activeSubScene,
   ]);
 
@@ -90,7 +98,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
 
   return (
     <>
-      {props.visible ? (
+      {props.visible && (
         <>
           <a.sprite
             scale={authorizeUserTextState.scale as [number, number, number]}
@@ -120,8 +128,6 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
             />
           </a.sprite>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

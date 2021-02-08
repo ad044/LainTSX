@@ -14,6 +14,7 @@ import Lain from "../components/MainScene/Lain";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import NotFound from "../components/MainScene/NotFound";
+import PausePopUps from "../components/MainScene/PauseSubscene/PausePopUps";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -94,6 +95,7 @@ const MainScene = () => {
     <perspectiveCamera position-z={3}>
       <Suspense fallback={null}>
         <LevelSelection />
+        <PausePopUps />
         <Pause />
         <NotFound visible={subscene === "not_found"} />
         <group visible={!paused}>

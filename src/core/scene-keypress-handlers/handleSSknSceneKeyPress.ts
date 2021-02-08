@@ -1,4 +1,4 @@
-const handleSSknSceneEvent = (ssknSceneContext: any) => {
+const handleSSknSceneKeyPress = (ssknSceneContext: any) => {
   const { keyPress, activeSSknComponent, activeNode } = ssknSceneContext;
 
   switch (keyPress) {
@@ -21,4 +21,4 @@ const handleSSknSceneEvent = (ssknSceneContext: any) => {
   }
 };
 
-export default handleSSknSceneEvent;
+export default handleSSknSceneKeyPress;

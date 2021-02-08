@@ -9,20 +9,6 @@ import BootLoadData from "../components/BootScene/BootLoadData";
 const BootScene = () => {
   const activeSubscene = useStore((state) => state.bootSubscene);
 
-  const activeBootElement = useStore(
-    useCallback(
-      (state) =>
-        state.bootComponentMatrix[
-          activeSubscene as keyof typeof state.bootComponentMatrix
-        ][
-          state.bootComponentMatrixIndices[
-            activeSubscene as keyof typeof state.bootComponentMatrixIndices
-          ]
-        ],
-      [activeSubscene]
-    )
-  );
-
   const [accelaVisible, setAccelaVisible] = useState(true);
   const [mainMenuVisible, setMainMenuVisible] = useState(false);
 
@@ -44,13 +30,9 @@ const BootScene = () => {
       <BootMainMenuComponents
         visible={mainMenuVisible}
         activeSubScene={activeSubscene}
-        activeBootElement={activeBootElement}
       />
       <BootAuthorizeUser visible={activeSubscene === "authorize_user"} />
-      <BootLoadData
-        visible={activeSubscene === "load_data"}
-        activeBootElement={activeBootElement}
-      />
+      <BootLoadData visible={activeSubscene === "load_data"} />
     </perspectiveCamera>
   );
 };
