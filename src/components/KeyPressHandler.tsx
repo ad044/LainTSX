@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
+  getBootSceneContext,
   getMainSceneContext,
   getMediaSceneContext,
   getSSknSceneContext,
@@ -7,7 +8,7 @@ import {
 } from "../store";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
 import mediaManager from "../core/setters/media/mediaManager";
-import handleMediaSceneEvent from "../core/scene-keypress-handlers/handleMediaKeyPress";
+import handleMediaSceneKeyPress from "../core/scene-keypress-handlers/handleMediaSceneKeyPress";
 import sceneManager from "../core/setters/sceneManager";
 import levelSelectionManager from "../core/setters/main/level_selection/levelSelectionManager";
 import nodeManager from "../core/setters/main/site/nodeManager";
@@ -17,12 +18,15 @@ import siteManager from "../core/setters/main/site/siteManager";
 import pauseManager from "../core/setters/main/pause/pauseManager";
 import mainSubsceneManager from "../core/setters/main/mainSubsceneManager";
 import ssknManager from "../core/setters/sskn/ssknManager";
-import handleSSknSceneEvent from "../core/scene-keypress-handlers/handleSSknKeyPress";
-import handleMainSceneEvent from "../core/scene-keypress-handlers/handleMainKeyPress";
+import handleSSknSceneKeyPress from "../core/scene-keypress-handlers/handleSSknSceneKeyPress";
+import handleMainSceneKeyPress from "../core/scene-keypress-handlers/handleMainSceneKeyPress";
 import gameLoader from "../core/setters/gameLoader";
 import gameSaver from "../core/setters/gameSaver";
 import progressManager from "../core/setters/progressManager";
 import promptManager from "../core/setters/promptManager";
+import bootSubsceneManager from "../core/setters/boot/bootSubsceneManager";
+import bootManager from "../core/setters/boot/bootManager";
+import handleBootSceneKeyPress from "../core/scene-keypress-handlers/handleBootSceneKeyPress";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -59,6 +63,11 @@ const KeyPressHandler = () => {
     []
   );
 
+  const bootSceneSetters = useMemo(
+    () => [bootSubsceneManager, bootManager, promptManager, gameLoader],
+    []
+  );
+
   const scene = useStore((state) => state.currentScene);
 
   const timePassedSinceLastKeyPress = useRef(-1);
@@ -78,20 +87,26 @@ const KeyPressHandler = () => {
             case "main":
               return {
                 contextProvider: getMainSceneContext,
-                handler: handleMainSceneEvent,
+                handler: handleMainSceneKeyPress,
                 setters: mainSceneSetters,
               };
             case "media":
               return {
                 contextProvider: getMediaSceneContext,
-                handler: handleMediaSceneEvent,
+                handler: handleMediaSceneKeyPress,
                 setters: mediaSceneSetters,
               };
             case "sskn":
               return {
                 contextProvider: getSSknSceneContext,
-                handler: handleSSknSceneEvent,
+                handler: handleSSknSceneKeyPress,
                 setters: ssknSceneSetters,
+              };
+            case "boot":
+              return {
+                contextProvider: getBootSceneContext,
+                handler: handleBootSceneKeyPress,
+                setters: bootSceneSetters,
               };
             case "gate":
             case "polytan":
@@ -118,7 +133,13 @@ const KeyPressHandler = () => {
         }
       }
     },
-    [mainSceneSetters, mediaSceneSetters, scene, ssknSceneSetters]
+    [
+      bootSceneSetters,
+      mainSceneSetters,
+      mediaSceneSetters,
+      scene,
+      ssknSceneSetters,
+    ]
   );
 
   useEffect(() => {

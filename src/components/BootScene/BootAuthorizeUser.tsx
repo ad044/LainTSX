@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { Suspense, useEffect, useMemo, useRef } from "react";
 import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
 import authorizeGlass from "../../static/sprite/authorize_glass.png";
 import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
@@ -9,6 +9,8 @@ import authorizeActiveLetters from "../../static/sprite/authorize_active_letters
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
+import { useStore } from "../../store";
+import usePrevious from "../../hooks/usePrevious";
 
 type BootAuthorizeUserProps = {
   visible: boolean;
@@ -36,28 +38,65 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     THREE.TextureLoader,
     authorizeInactiveLetters
   );
-  const authorizeActiveLettersTex = useLoader(
+  const activeLettersTex = useLoader(
     THREE.TextureLoader,
     authorizeActiveLetters
   );
 
-  const backgroundLettersPos = 1;
-  const activeLetterTextureOffset = 2;
+  const letterIdx = useStore((state) => state.authorizeUserLetterIdx);
+  const subscene = useStore((state) => state.bootSubscene);
+  const prevData = usePrevious({ letterIdx, subscene });
 
-  const authorizeActiveLettersMap = useMemo(() => {
-    authorizeActiveLettersTex.wrapT = authorizeActiveLettersTex.wrapS =
-      THREE.RepeatWrapping;
-    authorizeActiveLettersTex.repeat.set(0.06, 0.2);
-    authorizeActiveLettersTex.offset.x = 1;
-    authorizeActiveLettersTex.offset.y = 2;
+  const bgLettersRef = useRef<THREE.Object3D>();
+  const activeLetterRef = useRef<THREE.Mesh>();
 
-    return authorizeActiveLettersTex;
-  }, [activeLetterTextureOffset, authorizeActiveLettersTex]);
+  const activeLetterMap = useMemo(() => {
+    activeLettersTex.wrapT = activeLettersTex.wrapS = THREE.RepeatWrapping;
+    activeLettersTex.repeat.set(0.06, 0.2);
+    activeLettersTex.offset.x = 0;
+    activeLettersTex.offset.y = -0.2;
+    return activeLettersTex;
+  }, [activeLettersTex]);
+
+  useEffect(() => {
+    if (
+      prevData?.subscene === "main_menu" &&
+      subscene === "authorize_user" &&
+      activeLetterRef
+    ) {
+      activeLetterMap.offset.x = 0;
+      activeLetterMap.offset.y = -0.2;
+    }
+  }, [subscene, prevData?.subscene, activeLetterMap.offset]);
+
+  useEffect(() => {
+    if (bgLettersRef.current) {
+      //down
+      if (letterIdx === prevData!.letterIdx + 13) {
+        bgLettersRef.current.position.y += 0.25;
+        activeLetterMap.offset.y -= 0.2;
+      }
+      // up
+      else if (letterIdx === prevData!.letterIdx - 13) {
+        bgLettersRef.current.position.y -= 0.25;
+        activeLetterMap.offset.y += 0.2;
+      }
+      // left
+      else if (letterIdx === prevData!.letterIdx - 1) {
+        bgLettersRef.current.position.x += 0.3;
+        activeLetterMap.offset.x -= 0.0775;
+      }
+      // right
+      else if (letterIdx === prevData!.letterIdx + 1) {
+        bgLettersRef.current.position.x -= 0.3;
+        activeLetterMap.offset.x += 0.0775;
+      }
+    }
+  }, [activeLetterMap.offset, letterIdx, prevData]);
 
   return (
     <>
-      <OrbitControls />
-      {props.visible ? (
+      {props.visible && (
         <>
           <sprite
             scale={[3.5, 0.01, 0]}
@@ -120,17 +159,19 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             />
           </sprite>
 
+          <OrbitControls />
           <group position={[-1.15, 0.4, 0.3]} rotation={[-0.8, 0, -0.3]}>
             <mesh
               scale={[4, 1.28, 0]}
-              renderOrder={-1}
-              position={[1, 2, 0]}
+              position={[3.35, -0.7, 0]}
+              ref={bgLettersRef}
             >
               <planeBufferGeometry attach="geometry" />
               <meshBasicMaterial
                 map={authorizeInactiveLettersTex}
                 attach="material"
                 transparent={true}
+                side={THREE.DoubleSide}
               />
             </mesh>
             <mesh
@@ -140,7 +181,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             >
               <planeBufferGeometry attach="geometry" />
               <meshBasicMaterial
-                map={authorizeActiveLettersMap}
+                map={activeLetterMap}
                 attach="material"
                 transparent={true}
                 depthTest={false}
@@ -157,8 +198,6 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             </mesh>
           </group>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

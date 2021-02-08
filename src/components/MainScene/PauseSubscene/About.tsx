@@ -29,7 +29,7 @@ const About = () => {
       <sprite
         ref={bgRef}
         scale={[10.5 / 2.5, 52.8 / 2.5, 0]}
-        position={[1.1, -13, 0]}
+        position={[1.1, -13, 0.1]}
         renderOrder={200}
       >
         <spriteMaterial attach="material" map={aboutBgTex} depthTest={false} />

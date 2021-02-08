@@ -2,6 +2,7 @@ import { getSiteState, useStore } from "../../store";
 
 const gameSaver = (eventState: any) => {
   const setSiteSaveState = useStore.getState().setSiteSaveState;
+  const setSaveSuccessful = useStore.getState().setSaveSuccessful;
 
   const dispatchAction = (eventState: { event: string; site: "a" | "b" }) => {
     switch (eventState.event) {
@@ -9,6 +10,17 @@ const gameSaver = (eventState: any) => {
         return {
           action: () =>
             setSiteSaveState(eventState.site, getSiteState(eventState.site)),
+        };
+      case "pause_save_select":
+        return {
+          action: () => {
+            setSaveSuccessful(true);
+
+            setTimeout(() => {
+              //todo actually save
+              setSaveSuccessful(undefined);
+            }, 1200);
+          },
         };
     }
   };

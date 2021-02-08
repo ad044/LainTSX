@@ -83,18 +83,9 @@ type State = {
   gateLvl: number;
 
   // boot scene
-  bootComponentMatrix: {
-    main_menu: ["authorize_user", "load_data"];
-    load_data: ["load_data_yes", "load_data_no"];
-    authorize_user: typeof authorize_user_letters.letters;
-  };
-  bootComponentMatrixIndices: {
-    // 0 or 1
-    main_menu: 0 | 1;
-    // 0 or 1
-    load_data: 0 | 1;
-    authorize_user: 0;
-  };
+  mainMenuComponentMatrix: ["authorize_user", "load_data"];
+  mainMenuComponentMatrixIdx: 0 | 1;
+  authorizeUserLetterIdx: number;
   bootSubscene: "main_menu" | "load_data" | "authorize_user";
 
   // end scene
@@ -104,6 +95,10 @@ type State = {
   promptVisible: boolean;
   promptComponentMatrix: ["yes", "no"];
   promptComponentMatrixIdx: 1 | 0;
+
+  // status notifiers
+  loadSuccessful: boolean | undefined;
+  saveSuccessful: boolean | undefined;
 
   // save state
   siteSaveState: {
@@ -124,7 +119,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "main",
+      currentScene: "boot",
 
       // game progress
       gameProgress: game_progress,
@@ -241,18 +236,9 @@ export const useStore = create(
       gateLvl: 0,
 
       // boot scene
-      bootComponentMatrix: {
-        main_menu: ["authorize_user", "load_data"],
-        load_data: ["load_data_yes", "load_data_no"],
-        authorize_user: authorize_user_letters.letters,
-      },
-      bootComponentMatrixIndices: {
-        // 0 or 1
-        main_menu: 0,
-        // 0 or 1
-        load_data: 0,
-        authorize_user: 0,
-      },
+      mainMenuComponentMatrix: ["authorize_user", "load_data"],
+      mainMenuComponentMatrixIdx: 0,
+      authorizeUserLetterIdx: 0,
       bootSubscene: "main_menu",
 
       // end scene
@@ -262,6 +248,10 @@ export const useStore = create(
       promptVisible: false,
       promptComponentMatrix: ["yes", "no"],
       promptComponentMatrixIdx: 1,
+
+      // status notifiers
+      loadSuccessful: undefined,
+      saveSuccessful: undefined,
 
       // save states for loading the game/changing sites
       siteSaveState: {
@@ -402,17 +392,12 @@ export const useStore = create(
       // boot scene setters
       setBootSubscene: (to: "load_data" | "authorize_user" | "main_menu") =>
         set(() => ({ bootSubscene: to })),
-      toggleBootComponentMatrixIdx: (subscene: "load_data" | "main_menu") =>
-        set((state) => ({
-          bootComponentMatrixIndices: {
-            ...state.bootComponentMatrixIndices,
-            [subscene]: Number(
-              !state.bootComponentMatrixIndices[
-                subscene as keyof typeof state.bootComponentMatrixIndices
-              ]
-            ),
-          },
+      setMainMenuComponentMatrixIdx: (to: 0 | 1) =>
+        set(() => ({
+          mainMenuComponentMatrixIdx: to,
         })),
+      setAuthorizeUserLetterIdx: (to: number) =>
+        set(() => ({ authorizeUserLetterIdx: to })),
 
       // end scene setters
       incrementEndMediaPlayedCount: () =>
@@ -449,6 +434,12 @@ export const useStore = create(
           };
         }),
 
+      // status notifier setters
+      setSaveSuccessful: (to: boolean | undefined) =>
+        set(() => ({ saveSuccessful: to })),
+      setLoadSuccessful: (to: boolean | undefined) =>
+        set(() => ({ loadSuccessful: to })),
+
       // progress setters
       setNodeViewed: (
         nodeName: string,
@@ -474,10 +465,21 @@ export const getSiteState = (site: "a" | "b") => {
   };
 };
 
+const getPromptContext = () => {
+  const state = useStore.getState();
+
+  return {
+    promptVisible: state.promptVisible,
+    activePromptComponent:
+      state.promptComponentMatrix[state.promptComponentMatrixIdx],
+  };
+};
+
 export const getMainSceneContext = () => {
   const state = useStore.getState();
 
   return {
+    ...getPromptContext(),
     subscene: state.mainSubscene,
     selectedLevel: state.selectedLevel,
     pauseMatrixIdx: state.pauseComponentMatrixIdx,
@@ -490,9 +492,6 @@ export const getMainSceneContext = () => {
     level: parseInt(state.activeLevel),
     ssknLvl: state.ssknLvl,
     showingAbout: state.showingAbout,
-    promptVisible: state.promptVisible,
-    activePromptComponent:
-      state.promptComponentMatrix[state.promptComponentMatrixIdx],
     gateLvl: state.gateLvl,
   };
 };
@@ -521,5 +520,17 @@ export const getMediaSceneContext = () => {
     activeNode: state.activeNode,
     activeSite: state.activeSite,
     gameProgress: state.gameProgress,
+  };
+};
+
+export const getBootSceneContext = () => {
+  const state = useStore.getState();
+
+  return {
+    ...getPromptContext(),
+    subscene: state.bootSubscene,
+    activeMainMenuComponent:
+      state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],
+    authorizeUserLetterIdx: state.authorizeUserLetterIdx,
   };
 };

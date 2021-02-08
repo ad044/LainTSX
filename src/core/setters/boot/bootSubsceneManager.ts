@@ -6,15 +6,15 @@ const bootSubsceneManager = (eventState: any) => {
   const dispatchAction = (eventState: { event: string }) => {
     switch (eventState.event) {
       case "authorize_user_back":
-      case "load_data_no_select":
+      case "load_data_no":
         return {
           action: () => setBootSubscene("main_menu"),
         };
-      case "authorize_user_select":
+      case "main_menu_authorize_user_select":
         return {
           action: () => setBootSubscene("authorize_user"),
         };
-      case "load_data_select":
+      case "main_menu_load_data_select":
         return { action: () => setBootSubscene("load_data") };
     }
   };

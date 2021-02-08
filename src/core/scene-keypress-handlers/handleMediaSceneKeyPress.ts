@@ -1,6 +1,6 @@
 import { findNodeFromWord } from "../../utils/media-utils";
 
-const handleMediaKeyPress = (mediaSceneContext: any) => {
+const handleMediaSceneKeyPress = (mediaSceneContext: any) => {
   const {
     keyPress,
     activeMediaComponent,
@@ -97,4 +97,4 @@ const handleMediaKeyPress = (mediaSceneContext: any) => {
   }
 };
 
-export default handleMediaKeyPress;
+export default handleMediaSceneKeyPress;

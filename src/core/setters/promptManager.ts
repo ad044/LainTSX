@@ -23,7 +23,16 @@ const promptManager = (eventState: any) => {
       case "pause_change_select":
         return { action: () => exitAndResetPrompt() };
       case "exit_prompt":
+      case "load_data_no":
         return { action: () => exitAndResetPrompt() };
+      case "main_menu_load_data_select":
+        return {
+          action: () => {
+            setTimeout(() => {
+              setPromptVisible(true);
+            }, 500);
+          },
+        };
     }
   };
 
