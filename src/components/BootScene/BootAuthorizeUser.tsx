@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
 import authorizeGlass from "../../static/sprite/authorize_glass.png";
 import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
@@ -11,6 +11,7 @@ import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
 import { useStore } from "../../store";
 import usePrevious from "../../hooks/usePrevious";
+import StaticJpCharacter from "../TextRenderer/StaticJpCharacter";
 
 type BootAuthorizeUserProps = {
   visible: boolean;
@@ -94,6 +95,8 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     }
   }, [activeLetterMap.offset, letterIdx, prevData]);
 
+  const playerName = useStore((state) => state.playerName.split(""));
+
   return (
     <>
       {props.visible && (
@@ -146,6 +149,11 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             />
           </sprite>
 
+          <group position={[playerName.length * -0.25 - 0.2, -0.27, 0]}>
+            {playerName.map((char, idx) => (
+              <StaticJpCharacter char={char} charIdx={idx} key={idx} />
+            ))}
+          </group>
           <sprite
             scale={[2, 0.01, 0]}
             position={[-1.06, -0.42, 0]}

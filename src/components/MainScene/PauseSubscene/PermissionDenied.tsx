@@ -21,10 +21,8 @@ const PermissionDenied = memo(() => {
       <group scale={[0.08, 0.7, 0]} position={[-1, 0.19, 0]}>
         {"Permission denied".split("").map((letter, idx) => (
           <StaticOrangeLetter
-            color={"orange"}
             letter={letter}
             letterIdx={idx}
-            scale={[1.5, 0.25, 0.25]}
             key={idx}
           />
         ))}

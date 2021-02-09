@@ -7,9 +7,12 @@ const bootManager = (eventState: any) => {
   const setAuthorizeUserLetterIdx = useStore.getState()
     .setAuthorizeUserLetterIdx;
 
+  const setPlayerName = useStore.getState().setPlayerName;
+
   const dispatchAction = (eventState: {
     event: string;
     authorizeUserLetterIdx: number;
+    playerName: string;
   }) => {
     switch (eventState.event) {
       case "main_menu_up":
@@ -29,6 +32,14 @@ const bootManager = (eventState: any) => {
         return {
           action: () =>
             setAuthorizeUserLetterIdx(eventState.authorizeUserLetterIdx),
+        };
+      case "authorize_user_back":
+        return {
+          action: () => setPlayerName(""),
+        };
+      case "update_player_name":
+        return {
+          action: () => setPlayerName(eventState.playerName),
         };
     }
   };

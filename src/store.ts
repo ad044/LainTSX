@@ -82,6 +82,9 @@ type State = {
   // gate scene
   gateLvl: number;
 
+  // player name
+  playerName: string;
+
   // boot scene
   mainMenuComponentMatrix: ["authorize_user", "load_data"];
   mainMenuComponentMatrixIdx: 0 | 1;
@@ -234,6 +237,9 @@ export const useStore = create(
 
       // gate scene
       gateLvl: 0,
+
+      // player name
+      playerName: "",
 
       // boot scene
       mainMenuComponentMatrix: ["authorize_user", "load_data"],
@@ -389,6 +395,9 @@ export const useStore = create(
       // gate scene setters
       incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
 
+      // player name setters
+      setPlayerName: (to: string) => set(() => ({ playerName: to })),
+
       // boot scene setters
       setBootSubscene: (to: "load_data" | "authorize_user" | "main_menu") =>
         set(() => ({ bootSubscene: to })),
@@ -528,6 +537,7 @@ export const getBootSceneContext = () => {
 
   return {
     ...getPromptContext(),
+    playerName: state.playerName,
     subscene: state.bootSubscene,
     activeMainMenuComponent:
       state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],

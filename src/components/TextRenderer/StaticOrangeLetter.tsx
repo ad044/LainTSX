@@ -5,12 +5,7 @@ import orange_font_json from "../../resources/font_data/big_font.json";
 import React, { memo, useMemo } from "react";
 
 const StaticOrangeLetter = memo(
-  (props: {
-    color: string;
-    letter: string;
-    letterIdx: number;
-    scale: number[];
-  }) => {
+  (props: { letter: string; letterIdx: number }) => {
     const colorTexture: THREE.Texture = useLoader(
       THREE.TextureLoader,
       orangeFont
@@ -75,7 +70,7 @@ const StaticOrangeLetter = memo(
     return (
       <mesh
         position={[props.letterIdx * 1.6, -letterData[4] / 50, 0]}
-        scale={props.scale as [number, number, number]}
+        scale={[1.5, 0.25, 0.25]}
         geometry={geom}
         renderOrder={205}
       >
