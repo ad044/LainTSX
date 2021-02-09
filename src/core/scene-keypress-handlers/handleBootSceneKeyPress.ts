@@ -1,3 +1,6 @@
+import authorize_user_letters from "../../resources/authorize_user_letters.json";
+import handleNameSelection from "../../utils/handleNameSelection";
+
 const handleBootSceneKeyPress = (bootSceneContext: any) => {
   const {
     keyPress,
@@ -6,6 +9,7 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
     activePromptComponent,
     promptVisible,
     authorizeUserLetterIdx,
+    playerName,
   } = bootSceneContext;
 
   if (promptVisible) {
@@ -38,7 +42,14 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
       case "authorize_user":
         switch (keyPress) {
           case "X":
-            return { event: "authorize_user_back" };
+            if (playerName.length > 0) {
+              return {
+                event: "update_player_name",
+                playerName: playerName.slice(0, -1),
+              };
+            } else {
+              return { event: "authorize_user_back" };
+            }
           case "LEFT":
             // if utmost left, break
             if ([0, 13, 26, 39, 52].includes(authorizeUserLetterIdx)) break;
@@ -85,7 +96,19 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 13,
               };
             }
+          case "CIRCLE":
+            const chosenCharacter =
+              authorize_user_letters[
+                authorizeUserLetterIdx.toString() as keyof typeof authorize_user_letters
+              ];
+
+            const newName = handleNameSelection(playerName, chosenCharacter);
+
+            if (newName !== undefined)
+              return { event: "update_player_name", playerName: newName };
+            break;
         }
+        break;
     }
   }
 };

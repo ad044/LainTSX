@@ -150,7 +150,7 @@ const BootAnimation = (props: BootAnimationProps) => {
 
         setBackgroundFloatingTextShown(true);
         //4200
-      }, 4200);
+      }, 0);
     }
   }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
 

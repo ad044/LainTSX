@@ -16,11 +16,11 @@ const BootScene = () => {
     setTimeout(() => {
       setAccelaVisible(false);
       // 2000
-    }, 2000);
+    }, 0);
     setTimeout(() => {
       setMainMenuVisible(true);
       //6200
-    }, 6200);
+    }, 0);
   }, []);
 
   return (
