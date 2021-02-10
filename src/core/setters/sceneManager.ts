@@ -76,6 +76,11 @@ const sceneManager = (eventState: any) => {
             useStore.setState({ currentScene: "idle_media", intro: false }),
           delay: 0,
         };
+      case "start_new_game":
+        return {
+          action: () => useStore.setState({ currentScene: "main" }),
+          delay: 0,
+        };
     }
   };
 

@@ -41,6 +41,10 @@ const bootManager = (eventState: any) => {
         return {
           action: () => setPlayerName(eventState.playerName),
         };
+      case "remove_last_char":
+        return {
+          action: () => setPlayerName(eventState.playerName),
+        };
     }
   };
 

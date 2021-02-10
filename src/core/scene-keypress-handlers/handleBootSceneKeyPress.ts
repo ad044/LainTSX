@@ -41,10 +41,17 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
         break;
       case "authorize_user":
         switch (keyPress) {
+          case "START":
+            if (playerName.length > 0) {
+              return {
+                event: "start_new_game",
+              };
+            }
+            break;
           case "X":
             if (playerName.length > 0) {
               return {
-                event: "update_player_name",
+                event: "remove_last_char",
                 playerName: playerName.slice(0, -1),
               };
             } else {
@@ -52,8 +59,25 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
             }
           case "LEFT":
             // if utmost left, break
-            if ([0, 13, 26, 39, 52].includes(authorizeUserLetterIdx)) break;
-            else {
+            if (
+              [0, 13, 26, 39, 52].includes(authorizeUserLetterIdx) ||
+              authorizeUserLetterIdx === 15
+            )
+              break;
+            // skip
+            else if (
+              authorizeUserLetterIdx === 41 ||
+              authorizeUserLetterIdx === 17 ||
+              authorizeUserLetterIdx === 30 ||
+              authorizeUserLetterIdx === 43 ||
+              authorizeUserLetterIdx === 19 ||
+              authorizeUserLetterIdx === 45
+            ) {
+              return {
+                event: "authorize_user_left",
+                authorizeUserLetterIdx: authorizeUserLetterIdx - 2,
+              };
+            } else {
               return {
                 event: "authorize_user_left",
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 1,
@@ -62,7 +86,20 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
           case "RIGHT":
             // if utmost right, break
             if ([12, 25, 38, 51, 64].includes(authorizeUserLetterIdx)) break;
-            else {
+            // skip empty
+            else if (
+              authorizeUserLetterIdx === 39 ||
+              authorizeUserLetterIdx === 41 ||
+              authorizeUserLetterIdx === 28 ||
+              authorizeUserLetterIdx === 15 ||
+              authorizeUserLetterIdx === 43 ||
+              authorizeUserLetterIdx === 17
+            ) {
+              return {
+                event: "authorize_user_right",
+                authorizeUserLetterIdx: authorizeUserLetterIdx + 2,
+              };
+            } else {
               return {
                 event: "authorize_user_right",
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 1,
@@ -74,9 +111,27 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
               Array.from(new Array(13), (x, i) => i + 52).includes(
                 authorizeUserLetterIdx
               )
-            )
+            ) {
               break;
-            else {
+              // skip empty
+            } else if (
+              authorizeUserLetterIdx === 0 ||
+              authorizeUserLetterIdx === 1 ||
+              authorizeUserLetterIdx === 52 ||
+              authorizeUserLetterIdx === 27 ||
+              authorizeUserLetterIdx === 31 ||
+              authorizeUserLetterIdx === 5
+            ) {
+              return {
+                event: "authorize_user_down",
+                authorizeUserLetterIdx: authorizeUserLetterIdx + 26,
+              };
+            } else if (authorizeUserLetterIdx === 3) {
+              return {
+                event: "authorize_user_down",
+                authorizeUserLetterIdx: authorizeUserLetterIdx + 52,
+              };
+            } else {
               return {
                 event: "authorize_user_down",
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 13,
@@ -88,9 +143,26 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
               Array.from(new Array(13), (x, i) => i).includes(
                 authorizeUserLetterIdx
               )
-            )
+            ) {
               break;
-            else {
+              // skip empty
+            } else if (
+              authorizeUserLetterIdx === 26 ||
+              authorizeUserLetterIdx === 27 ||
+              authorizeUserLetterIdx === 53 ||
+              authorizeUserLetterIdx === 31 ||
+              authorizeUserLetterIdx === 57
+            ) {
+              return {
+                event: "authorize_user_up",
+                authorizeUserLetterIdx: authorizeUserLetterIdx - 26,
+              };
+            } else if (authorizeUserLetterIdx === 55) {
+              return {
+                event: "authorize_user_up",
+                authorizeUserLetterIdx: authorizeUserLetterIdx - 52,
+              };
+            } else {
               return {
                 event: "authorize_user_up",
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 13,
@@ -106,7 +178,7 @@ const handleBootSceneKeyPress = (bootSceneContext: any) => {
 
             if (newName !== undefined)
               return { event: "update_player_name", playerName: newName };
-            break;
+            else return { event: "update_player_name_denied" };
         }
         break;
     }
