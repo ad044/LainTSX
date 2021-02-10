@@ -130,7 +130,7 @@ export const useStore = create(
       // main subscene
       mainSubscene: "site",
 
-      // whether or not to play the intro anim
+      // whether or not to play the intro anim on main scene
       intro: true,
 
       // nodes
@@ -543,4 +543,12 @@ export const getBootSceneContext = () => {
       state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],
     authorizeUserLetterIdx: state.authorizeUserLetterIdx,
   };
+};
+
+export const playAudio = (audio: HTMLAudioElement) => {
+  audio.currentTime = 0;
+  audio.currentTime = 0;
+  audio.volume = 1;
+  audio.loop = false;
+  audio.play();
 };

@@ -8,6 +8,7 @@ export const getKeyCodeAssociation = (keyCode: number) => {
     90: "X", // z key
     68: "TRIANGLE", // d key
     69: "L2", // e key
+    86: "START", // v key
     32: "SPACE",
   };
   return keyCodeAssocs[keyCode as keyof typeof keyCodeAssocs];

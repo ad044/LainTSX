@@ -73,24 +73,46 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
   useEffect(() => {
     if (bgLettersRef.current) {
       //down
-      if (letterIdx === prevData!.letterIdx + 13) {
+      if (prevData!.letterIdx + 13 === letterIdx) {
         bgLettersRef.current.position.y += 0.25;
         activeLetterMap.offset.y -= 0.2;
+        // down skip
+      } else if (letterIdx === prevData!.letterIdx + 26) {
+        bgLettersRef.current.position.y += 0.5;
+        activeLetterMap.offset.y -= 0.4;
+      } else if (letterIdx === prevData!.letterIdx + 52) {
+        bgLettersRef.current.position.y += 1;
+        activeLetterMap.offset.y -= 0.8;
       }
       // up
       else if (letterIdx === prevData!.letterIdx - 13) {
         bgLettersRef.current.position.y -= 0.25;
         activeLetterMap.offset.y += 0.2;
+        // up skip
+      } else if (letterIdx === prevData!.letterIdx - 26) {
+        bgLettersRef.current.position.y -= 0.5;
+        activeLetterMap.offset.y += 0.4;
+      } else if (letterIdx === prevData!.letterIdx - 52) {
+        bgLettersRef.current.position.y -= 1;
+        activeLetterMap.offset.y += 0.8;
       }
       // left
       else if (letterIdx === prevData!.letterIdx - 1) {
         bgLettersRef.current.position.x += 0.3;
         activeLetterMap.offset.x -= 0.0775;
       }
+      // left skip
+      else if (letterIdx === prevData!.letterIdx - 2) {
+        bgLettersRef.current.position.x += 0.6;
+        activeLetterMap.offset.x -= 0.155;
+      }
       // right
       else if (letterIdx === prevData!.letterIdx + 1) {
         bgLettersRef.current.position.x -= 0.3;
         activeLetterMap.offset.x += 0.0775;
+      } else if (letterIdx === prevData!.letterIdx + 2) {
+        bgLettersRef.current.position.x -= 0.6;
+        activeLetterMap.offset.x += 0.155;
       }
     }
   }, [activeLetterMap.offset, letterIdx, prevData]);

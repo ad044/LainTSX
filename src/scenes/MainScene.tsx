@@ -15,6 +15,8 @@ import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import NotFound from "../components/MainScene/NotFound";
 import PausePopUps from "../components/MainScene/PauseSubscene/PausePopUps";
+import { playAudio } from "../store";
+import * as audio from "../static/sfx";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -42,12 +44,10 @@ const MainScene = () => {
     }
   }, [setWordSelected, wordSelected]);
 
+  const introWrapperRef = useRef<THREE.Group>();
+
   useEffect(() => {
     if (intro) {
-      if (introWrapperRef.current) {
-        introWrapperRef.current.rotation.x = Math.PI / 2;
-        introWrapperRef.current.position.z = -10;
-      }
       setStarfieldIntro(false);
       setLainIntroAnim(false);
       setIntroFinished(false);
@@ -57,10 +57,10 @@ const MainScene = () => {
   const [starfieldIntro, setStarfieldIntro] = useState(false);
   const [lainIntroAnim, setLainIntroAnim] = useState(false);
   const [introFinished, setIntroFinished] = useState(false);
-  const introWrapperRef = useRef<THREE.Group>();
 
   useFrame(() => {
-    if (intro && introWrapperRef.current) {
+    if (intro && introWrapperRef.current && !introFinished) {
+      if (introWrapperRef.current.position.z === -10) playAudio(audio.sound32);
       if (
         Math.round(introWrapperRef.current.position.z) === -3 &&
         !starfieldIntro
@@ -121,7 +121,11 @@ const MainScene = () => {
             introFinished={intro ? introFinished : true}
           />
         </group>
-        <group ref={introWrapperRef}>
+        <group
+          ref={introWrapperRef}
+          position-z={intro ? -10 : 0}
+          rotation-x={intro ? Math.PI / 2 : 0}
+        >
           <Site introFinished={intro ? introFinished : true} />
         </group>
         <OrbitControls />

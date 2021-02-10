@@ -27,6 +27,7 @@ import promptManager from "../core/setters/promptManager";
 import bootSubsceneManager from "../core/setters/boot/bootSubsceneManager";
 import bootManager from "../core/setters/boot/bootManager";
 import handleBootSceneKeyPress from "../core/scene-keypress-handlers/handleBootSceneKeyPress";
+import soundManager from "../core/setters/soundManager";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -59,12 +60,20 @@ const KeyPressHandler = () => {
       gameSaver,
       progressManager,
       promptManager,
+      soundManager,
     ],
     []
   );
 
   const bootSceneSetters = useMemo(
-    () => [bootSubsceneManager, bootManager, promptManager, gameLoader],
+    () => [
+      bootSubsceneManager,
+      bootManager,
+      promptManager,
+      gameLoader,
+      soundManager,
+      sceneManager,
+    ],
     []
   );
 
