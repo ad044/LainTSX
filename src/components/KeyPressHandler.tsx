@@ -39,6 +39,7 @@ const KeyPressHandler = () => {
       siteManager,
       progressManager,
       mainSubsceneManager,
+      soundManager,
     ],
     []
   );
