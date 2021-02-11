@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import aboutBg from "../../../static/sprite/about_background.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { useStore } from "../../../store";
+import { playAudio, useStore } from "../../../store";
+import { sound27, sound6, sound7 } from "../../../static/sfx";
 
 const About = () => {
   const setShowingAbout = useStore((state) => state.setShowingAbout);

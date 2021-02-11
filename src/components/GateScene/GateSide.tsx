@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import blueBinary from "../../static/sprite/blue_binary.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
 
 const GateSide = () => {
   const blueBinaryTex = useLoader(THREE.TextureLoader, blueBinary);
@@ -15,13 +14,17 @@ const GateSide = () => {
     return blueBinaryTex;
   }, [blueBinaryTex]);
 
-  useEffect(() => {
-    setInterval(() => {
-      if (matRef.current) {
+  const last = useRef(0);
+
+  useFrame(() => {
+    const now = Date.now();
+    if (matRef.current && last.current) {
+      if (now > last.current + 50) {
         matRef.current.uniforms.offset.value += 0.5;
+        last.current = now;
       }
-    }, 50);
-  }, []);
+    }
+  });
 
   const matRef = useRef<THREE.ShaderMaterial>();
 

@@ -4,6 +4,41 @@ import * as audio from "../../static/sfx";
 const soundManager = (eventState: any) => {
   const dispatchAction = (eventState: { event: string; scene: string }) => {
     switch (eventState.event) {
+      case "knock_and_fall":
+        return {
+          action: () => {
+            setTimeout(() => {
+              playAudio(audio.sound14);
+            }, 1200);
+
+            setTimeout(() => {
+              playAudio(audio.sound19);
+            }, 2300);
+
+            setTimeout(() => {
+              playAudio(audio.sound33);
+            }, 3150);
+          },
+        };
+      case "knock":
+        return {
+          action: () => {
+            setTimeout(() => {
+              playAudio(audio.sound18);
+            }, 1200);
+          },
+        };
+      case "touch_and_scare":
+        return {
+          action: () => {
+            setTimeout(() => {
+              playAudio(audio.sound17);
+            }, 2400);
+            setTimeout(() => {
+              playAudio(audio.sound33);
+            }, 3150);
+          },
+        };
       case "throw_node_media":
       case "throw_node_gate":
       case "throw_node_sskn":
@@ -50,6 +85,7 @@ const soundManager = (eventState: any) => {
       case "show_permission_denied":
       case "pause_about_select":
       case "display_prompt":
+      case "pause_exit_select":
         return {
           action: () => playAudio(audio.sound0),
         };
@@ -131,6 +167,7 @@ const soundManager = (eventState: any) => {
       case "exit_prompt":
       case "pause_save_select":
       case "pause_load_select":
+      case "pause_change_select":
         return {
           action: () => playAudio(audio.sound28),
         };
