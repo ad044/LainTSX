@@ -122,7 +122,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "media",
+      currentScene: "main",
 
       // game progress
       gameProgress: game_progress,
@@ -134,7 +134,18 @@ export const useStore = create(
       intro: true,
 
       // nodes
-      activeNode: site_a["17"]["1717"],
+      activeNode: {
+        ...site_a["04"]["0422"],
+        matrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+      },
+      activeNodePos: [0, 0, 0],
+      activeNodeRot: [0, 0, 0],
+      activeNodeState: {
+        interactedWith: false,
+        exploding: false,
+        shrinking: false,
+        visible: true,
+      },
 
       // lain
       lainMoveState: "standing",

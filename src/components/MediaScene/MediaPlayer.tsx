@@ -26,8 +26,8 @@ const MediaPlayer = () => {
 
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
-  const audioRef = createRef<HTMLVideoElement>();
   const trackRef = createRef<HTMLTrackElement>();
+  const subtitleRef = createRef<HTMLParagraphElement>();
 
   // end scene specific stuff
   const endMediaPlayedCount = useStore((state) => state.endMediaPlayedCount);
@@ -37,6 +37,25 @@ const MediaPlayer = () => {
   const resetEndMediaPlayedCount = useStore(
     (state) => state.resetEndMediaPlayedCount
   );
+
+  useEffect(() => {
+    const handleCueChange = (e: any) => {
+      const { track } = e.target;
+      const { activeCues } = track;
+      const text = [...activeCues].map(
+        (cue) => cue.getCueAsHTML().textContent
+      )[0];
+      if (subtitleRef.current && videoRef.current) {
+        if (!text || videoRef.current.currentTime === 0)
+          subtitleRef.current.textContent = text;
+        else subtitleRef.current.textContent = text;
+      }
+    };
+
+    if (trackRef.current) {
+      trackRef.current.addEventListener("cuechange", handleCueChange);
+    }
+  }, [subtitleRef, trackRef, videoRef]);
 
   const updateTime = useCallback(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
@@ -96,7 +115,6 @@ const MediaPlayer = () => {
   }, [endMediaPlayedCount]);
 
   useEffect(() => {
-    console.log("here");
     if (currentScene === "end") {
       if (endMediaPlayedCount === 0) {
         if (videoRef.current) {
@@ -142,11 +160,9 @@ const MediaPlayer = () => {
           } else {
             import("../../static/movie/" + mediaToPlay + "[0].webm").then(
               (media) => {
-                if (videoRef.current && audioRef.current) {
+                if (videoRef.current) {
                   videoRef.current.src = media.default;
-                  audioRef.current.src = xa0006;
                   videoRef.current.load();
-                  audioRef.current.load();
                 }
               }
             );
@@ -167,12 +183,12 @@ const MediaPlayer = () => {
 
   return (
     <>
-      <video width="800" height="600" id="media" ref={videoRef}>
-        <track kind="captions" default />
-      </video>
-      <video width="800" height="600" id="audio" ref={audioRef}>
+      <video width="800" height="600" id="media" ref={videoRef} controls>
         <track ref={trackRef} kind="captions" default />
       </video>
+      <div id={"subtitle-container"}>
+        <p ref={subtitleRef} id={"subtitle"} />
+      </div>
     </>
   );
 };
