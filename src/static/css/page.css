@@ -27,7 +27,7 @@ video {
   height: 100% !important;
   position: absolute;
   z-index: -1;
-  margin-top: -650px;
+  margin-top: -600px;
 }
 
 @font-face {
@@ -51,3 +51,26 @@ video {
   background: url(../sprite/change_disc_a_bg.png);
 }
 
+::cue {
+  font-size: 0;
+}
+
+#subtitle-container {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  margin-top: -600px;
+  justify-content: center;
+  display: flex;
+}
+
+#subtitle {
+  text-shadow: 3px 0 0 #000, -3px 0 0 #000, 0 3px 0 #000, 0 -3px 0 #000,
+    1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  text-align: center;
+  color: white;
+  align-self: flex-end;
+  font-size: 2rem;
+}
