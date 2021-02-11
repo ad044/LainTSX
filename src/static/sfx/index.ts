@@ -15,6 +15,11 @@ import sound23Audio from "./snd_00023.wav";
 import sound34Audio from "./snd_00034.wav";
 import sound15Audio from "./snd_00015.wav";
 import sound30Audio from "./snd_00030.wav";
+import sound27Audio from "./snd_00027.wav";
+import sound18Audio from "./snd_00018.wav";
+import sound17Audio from "./snd_00017.wav";
+import sound33Audio from "./snd_00033.wav";
+import sound19Audio from "./snd_00019.wav";
 
 const sound0 = new Audio(sound0Audio);
 const sound29 = new Audio(sound29Audio);
@@ -33,6 +38,11 @@ const sound23 = new Audio(sound23Audio);
 const sound34 = new Audio(sound34Audio);
 const sound15 = new Audio(sound15Audio);
 const sound30 = new Audio(sound30Audio);
+const sound27 = new Audio(sound27Audio);
+const sound18 = new Audio(sound18Audio);
+const sound17 = new Audio(sound17Audio);
+const sound33 = new Audio(sound33Audio);
+const sound19 = new Audio(sound19Audio);
 
 export {
   sound0,
@@ -52,4 +62,9 @@ export {
   sound34,
   sound15,
   sound30,
+  sound27,
+  sound18,
+  sound17,
+  sound33,
+  sound19,
 };

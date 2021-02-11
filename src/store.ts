@@ -1,10 +1,10 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
-import authorize_user_letters from "./resources/authorize_user_letters.json";
 import game_progress from "./resources/initial_progress.json";
 import { NodeDataType } from "./components/MainScene/Site";
 import { getNodeById } from "./utils/node-utils";
+import site_a from "./resources/site_a.json";
 
 type State = {
   currentScene: string;
@@ -122,7 +122,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "boot",
+      currentScene: "media",
 
       // game progress
       gameProgress: game_progress,
@@ -134,43 +134,7 @@ export const useStore = create(
       intro: true,
 
       // nodes
-      activeNode: {
-        id: "0422",
-        image_table_indices: {
-          "1": "93",
-          "2": "356",
-          "3": "562",
-        },
-        media_file: "LAIN08.XA[26]",
-        node_name: "Tda028",
-        protocol_lines: {
-          "1": "TOUKO's_DIARY",
-          "2": "authorized_il",
-          "3": "decoded file:t",
-          "4": "ftp/tl.S_server",
-        },
-        required_final_video_viewcount: 0,
-        site: "A",
-        title: "TOUKO's DIARY",
-        triggers_final_video: 0,
-        type: 2,
-        unlocked_by: "",
-        upgrade_requirement: 0,
-        words: {
-          "1": "eye",
-          "2": "quiet",
-          "3": "hallucination",
-        },
-        matrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
-      },
-      activeNodePos: [0, 0, 0],
-      activeNodeRot: [0, 0, 0],
-      activeNodeState: {
-        interactedWith: false,
-        exploding: false,
-        shrinking: false,
-        visible: true,
-      },
+      activeNode: site_a["17"]["1717"],
 
       // lain
       lainMoveState: "standing",
@@ -548,7 +512,7 @@ export const getBootSceneContext = () => {
 export const playAudio = (audio: HTMLAudioElement) => {
   audio.currentTime = 0;
   audio.currentTime = 0;
-  audio.volume = 1;
+  audio.volume = 0.5;
   audio.loop = false;
   audio.play();
 };

@@ -19,7 +19,7 @@
 .canvas {
   pointer-events: none;
   position: relative;
-  z-index: -1;
+  z-index: 1;
 }
 
 video {
@@ -27,7 +27,7 @@ video {
   height: 100% !important;
   position: absolute;
   z-index: -1;
-  margin-top: -600px;
+  margin-top: -650px;
 }
 
 @font-face {
@@ -50,5 +50,4 @@ video {
 .change-disc-scene-a-background {
   background: url(../sprite/change_disc_a_bg.png);
 }
-
 

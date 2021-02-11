@@ -4,22 +4,19 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
 import { useStore } from "../../store";
-import t from "../../static/webvtt/test.vtt";
 import endroll from "../../static/movie/ENDROLL1.STR[0].webm";
 import xa0001 from "../../static/audio/Xa0001.mp4";
 import xa0006 from "../../static/audio/Xa0006.mp4";
 
 const MediaPlayer = () => {
-  const [mediaSource, setMediaSource] = useState<any>();
-
   const currentScene = useStore((state) => state.currentScene);
   const setScene = useStore((state) => state.setScene);
 
   const setPercentageElapsed = useStore((state) => state.setPercentageElapsed);
 
+  const nodeName = useStore((state) => state.activeNode.node_name);
   const idleMedia = useStore((state) => state.idleMedia);
   const nodeMedia = useStore((state) => state.activeNode.media_file);
 
@@ -29,6 +26,8 @@ const MediaPlayer = () => {
 
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
+  const audioRef = createRef<HTMLVideoElement>();
+  const trackRef = createRef<HTMLTrackElement>();
 
   // end scene specific stuff
   const endMediaPlayedCount = useStore((state) => state.endMediaPlayedCount);
@@ -97,6 +96,7 @@ const MediaPlayer = () => {
   }, [endMediaPlayedCount]);
 
   useEffect(() => {
+    console.log("here");
     if (currentScene === "end") {
       if (endMediaPlayedCount === 0) {
         if (videoRef.current) {
@@ -116,6 +116,11 @@ const MediaPlayer = () => {
         }
       }
     } else {
+      import("../../static/webvtt/" + nodeName + ".vtt").then((vtt) => {
+        if (trackRef.current) {
+          trackRef.current.src = vtt.default;
+        }
+      });
       if (
         currentScene === "media" ||
         currentScene === "tak" ||
@@ -128,8 +133,8 @@ const MediaPlayer = () => {
           if (mediaToPlay.includes("XA")) {
             import("../../static/audio/" + mediaToPlay + ".ogg").then(
               (media) => {
-                setMediaSource(media.default);
                 if (videoRef.current) {
+                  videoRef.current.src = media.default;
                   videoRef.current.load();
                 }
               }
@@ -137,9 +142,11 @@ const MediaPlayer = () => {
           } else {
             import("../../static/movie/" + mediaToPlay + "[0].webm").then(
               (media) => {
-                setMediaSource(media.default);
-                if (videoRef.current) {
+                if (videoRef.current && audioRef.current) {
+                  videoRef.current.src = media.default;
+                  audioRef.current.src = xa0006;
                   videoRef.current.load();
+                  audioRef.current.load();
                 }
               }
             );
@@ -152,26 +159,21 @@ const MediaPlayer = () => {
     endMediaPlayedCount,
     idleMedia,
     nodeMedia,
+    nodeName,
     setPercentageElapsed,
+    trackRef,
     videoRef,
   ]);
 
   return (
-    <video
-      width="800"
-      height="600"
-      controls
-      id="media"
-      ref={videoRef}
-      style={{
-        display: ["media", "idle_media", "tak", "end"].includes(currentScene)
-          ? "block"
-          : "none",
-      }}
-      src={currentScene === "end" ? endMediaSource : mediaSource}
-    >
-      <track src={t} kind="captions" default />
-    </video>
+    <>
+      <video width="800" height="600" id="media" ref={videoRef}>
+        <track kind="captions" default />
+      </video>
+      <video width="800" height="600" id="audio" ref={audioRef}>
+        <track ref={trackRef} kind="captions" default />
+      </video>
+    </>
   );
 };
 
