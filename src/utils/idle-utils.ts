@@ -3,7 +3,7 @@ import site_b from "../resources/site_b.json";
 import { SiteType } from "../components/MainScene/Site";
 import { useStore } from "../store";
 
-export const getRandomIdleMedia = (site: string) => {
+export const getRandomIdleMedia = () => {
   const siteAIdleNodes = {
     audio: [
       "0000",
@@ -56,7 +56,9 @@ export const getRandomIdleMedia = (site: string) => {
     ],
   };
 
-  const siteData = site === "a" ? site_a : site_b;
+  const site = useStore.getState().activeSite;
+
+  const siteData: SiteType = site === "a" ? site_a : site_b;
   const idleNodes = site === "a" ? siteAIdleNodes : siteBIdleNodes;
 
   if (Math.random() < 0.5) {
@@ -65,19 +67,22 @@ export const getRandomIdleMedia = (site: string) => {
 
     const level = nodeToPlay.substr(0, 2);
 
-    const images = (siteData as SiteType)[level][nodeToPlay]
-      .image_table_indices;
-    const media = (siteData as SiteType)[level][nodeToPlay].media_file;
+    const images = siteData[level][nodeToPlay].image_table_indices;
+    const media = siteData[level][nodeToPlay].media_file;
+    const nodeName = siteData[level][nodeToPlay].node_name;
 
-    useStore.setState({
-      idleImages: images,
-      idleMedia: media,
-    });
+    return {
+      images: images,
+      media: media,
+      nodeName: nodeName,
+    };
   } else {
-    useStore.setState({
-      idleMedia:
+    return {
+      media:
         idleNodes.video[Math.floor(Math.random() * idleNodes.video.length)],
-    });
+      nodeName: undefined,
+      images: undefined,
+    };
   }
 };
 

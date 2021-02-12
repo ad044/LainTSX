@@ -21,9 +21,36 @@ const MediaScene = () => {
     };
   }, []);
 
-  useEffect(()=> {
-    console.log('rend')
-  }, [])
+  const nodeMedia = useStore((state) => state.activeNode.media_file);
+  const nodeName = useStore((state) => state.activeNode.node_name);
+
+  useEffect(() => {
+    const mediaElement = document.getElementById("media") as HTMLMediaElement;
+    const trackElement = document.getElementById("track") as HTMLTrackElement;
+
+    if (mediaElement) {
+      mediaElement.currentTime = 0;
+      import("../static/webvtt/" + nodeName + ".vtt")
+        .then((vtt) => {
+          if (vtt) trackElement.src = vtt.default;
+        })
+        // some entries have no spoken words, so the file doesnt exist. we catch that here.
+        .catch((e) => console.log(e));
+
+      if (nodeMedia.includes("XA")) {
+        import("../static/audio/" + nodeMedia + ".ogg").then((media) => {
+          mediaElement.src = media.default;
+          mediaElement.load();
+        });
+      } else {
+        import("../static/movie/" + nodeMedia + "[0].webm").then((media) => {
+          mediaElement.src = media.default;
+          mediaElement.load();
+        });
+      }
+    }
+  }, [nodeMedia, nodeName]);
+
   return (
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>

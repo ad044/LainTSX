@@ -28,6 +28,9 @@ import bootSubsceneManager from "../core/setters/boot/bootSubsceneManager";
 import bootManager from "../core/setters/boot/bootManager";
 import handleBootSceneKeyPress from "../core/scene-keypress-handlers/handleBootSceneKeyPress";
 import soundManager from "../core/setters/soundManager";
+import { useFrame } from "react-three-fiber";
+import { getRandomIdleLainAnim, getRandomIdleMedia } from "../utils/idle-utils";
+import idleManager from "../core/setters/main/idleManager";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -79,8 +82,36 @@ const KeyPressHandler = () => {
   );
 
   const scene = useStore((state) => state.currentScene);
+  const mainSubscene = useStore((state) => state.mainSubscene);
 
-  const timePassedSinceLastKeyPress = useRef(-1);
+  const lainIdleCounter = useRef(-1);
+  const idleSceneCounter = useRef(-1);
+
+  useFrame(() => {
+    const now = Date.now();
+    if (
+      lainIdleCounter.current > -1 &&
+      idleSceneCounter.current > -1 &&
+      mainSubscene !== "pause" &&
+      mainSubscene !== "level_selection" &&
+      scene === "main"
+    ) {
+      if (now > lainIdleCounter.current + 10000) {
+        lainManager({ event: getRandomIdleLainAnim() });
+        // after one idle animation plays, the second comes sooner than it would after a regular keypress
+        lainIdleCounter.current = now - 2500;
+      }
+      if (now > idleSceneCounter.current + 15000) {
+        idleManager(getRandomIdleMedia());
+        sceneManager({ event: "play_idle_media" });
+        // put it on lock until the next action, since while the idle media plays, the
+        // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
+        // one way to work around this would be to modify the value depending on the last played idle media's duration
+        // but i'm way too lazy for that
+        idleSceneCounter.current = -1;
+      }
+    }
+  });
 
   const handleKeyPress = useCallback(
     (event) => {
@@ -91,7 +122,8 @@ const KeyPressHandler = () => {
       const now = Date.now();
 
       if (keyPress) {
-        timePassedSinceLastKeyPress.current = Date.now();
+        lainIdleCounter.current = now;
+        idleSceneCounter.current = now;
         const sceneFns = (() => {
           switch (scene) {
             case "main":
@@ -120,7 +152,6 @@ const KeyPressHandler = () => {
               };
             case "gate":
             case "polytan":
-            case "about":
               return {
                 action: () => useStore.setState({ currentScene: "main" }),
               };

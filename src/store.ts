@@ -61,7 +61,8 @@ type State = {
 
   // idle scene
   idleMedia: string;
-  idleImages: any;
+  idleImages: { "1": string; "2": string; "3": string } | undefined;
+  idleNodeName: string | undefined;
 
   // sskn scene
   ssknComponentMatrix: ["ok", "cancel"];
@@ -122,7 +123,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "boot",
+      currentScene: "main",
 
       // game progress
       gameProgress: game_progress,
@@ -190,9 +191,10 @@ export const useStore = create(
       wordSelected: false,
 
       // idle scene
-      idleMedia: "INS01.STR",
+      idleMedia: site_a["00"]["0000"].media_file,
+      idleNodeName: site_a["00"]["0000"].node_name,
       // this may be undefined depending on whether or not the media is audio or not
-      idleImages: undefined,
+      idleImages: site_a["00"]["0000"].image_table_indices,
 
       // sskn scene
       ssknComponentMatrix: ["ok", "cancel"],
@@ -346,8 +348,16 @@ export const useStore = create(
       setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
 
       // idle media setters
-      setIdleMedia: (to: any) => set(() => ({ idleMedia: to })),
-      setIdleImages: (to: any) => set(() => ({ idleImages: to })),
+      setIdleScene: (to: {
+        images: { "1": string; "2": string; "3": string } | undefined;
+        media: string | undefined;
+        nodeName: string | undefined;
+      }) =>
+        set(() => ({
+          idleMedia: to.media,
+          idleImages: to.images,
+          idleNodeName: to.nodeName,
+        })),
 
       //polytan setters
       setPolytanPartUnlocked: (bodyPart: string) =>
