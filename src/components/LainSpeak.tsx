@@ -39,12 +39,12 @@ const LainSpeak = (props: LainTaKProps) => {
     />
   );
 
-  const analyser = useStore((state) => state.audioAnalyser);
-
   const mouthRef = useRef<THREE.SpriteMaterial>();
+  const audioAnalyser = useStore((state) => state.audioAnalyser);
+
   useFrame(() => {
-    if (analyser) {
-      const freq = parseInt(String(analyser.getAverageFrequency()));
+    if (audioAnalyser) {
+      const freq = parseInt(String(audioAnalyser.getAverageFrequency()));
 
       if (mouthRef.current) {
         if (freq >= 50) {

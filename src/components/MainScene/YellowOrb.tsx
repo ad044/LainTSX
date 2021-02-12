@@ -1,118 +1,111 @@
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import orbSprite from "../../static/sprite/orb.png";
-import { useStore } from "../../store";
-
-// initialize outside the component otherwise it gets overwritten when it rerenders
-let orbIdx = 0;
-let orbDirectionChangeCount = 0;
-let renderOrder = -1;
 
 type YellowOrbProps = {
   visible: boolean;
-}
+};
 
-const YellowOrb = (props: YellowOrbProps) => {
+const YellowOrb = memo((props: YellowOrbProps) => {
   const orbRef = useRef<THREE.Object3D>();
-  const [orbDirection, setOrbDirection] = useState("left");
-  const [currentCurve, setCurrentCurve] = useState("first");
+  const idxRef = useRef(0);
+  const directionChangeCountRef = useRef(0);
+  // left or right (0/1)
+  const directionRef = useRef(0);
+  // first curve and second curve (0/1)
+  const curveIdxRef = useRef(0);
 
   const orbSpriteTexture = useLoader(THREE.TextureLoader, orbSprite);
 
   // first one goes from up to down left to right
-  const firstCurve = new THREE.QuadraticBezierCurve3(
-    new THREE.Vector3(1.2, 0, 0),
-    new THREE.Vector3(0.5, -0.8, 0),
-    new THREE.Vector3(-1.2, 1, 0)
-  );
-
   // second one goes from down to up left to right
-  const secondCurve = new THREE.QuadraticBezierCurve3(
-    new THREE.Vector3(-1.2, -0.8, 0),
-    new THREE.Vector3(-0.5, -0.1, 0),
-    new THREE.Vector3(1.2, 0.8, 0)
+  const curves = useMemo(
+    () => [
+      new THREE.QuadraticBezierCurve3(
+        new THREE.Vector3(1.2, 0, 0),
+        new THREE.Vector3(0.5, -0.8, 0),
+        new THREE.Vector3(-1.2, 1, 0)
+      ),
+      new THREE.QuadraticBezierCurve3(
+        new THREE.Vector3(-1.2, -0.8, 0),
+        new THREE.Vector3(-0.5, -0.1, 0),
+        new THREE.Vector3(1.2, 0.8, 0)
+      ),
+    ],
+    []
   );
 
   useFrame(() => {
     if (props.visible) {
-      let orbPosFirst = firstCurve.getPoint(orbIdx / 250);
-      let orbPosSecond = secondCurve.getPoint(orbIdx / 250);
+      const orbPosFirst = curves[0].getPoint(idxRef.current / 250);
+      const orbPosSecond = curves[1].getPoint(idxRef.current / 250);
 
       if (orbPosFirst.x < -1.4) {
-        switch (currentCurve) {
-          case "first":
-            setOrbDirection("right");
-            renderOrder = 0;
-            break;
-          case "second":
-            setOrbDirection("left");
-            break;
+        if (curveIdxRef.current === 0) {
+          directionRef.current = 1;
+          if (orbRef.current) orbRef.current.renderOrder = 0;
+        } else {
+          directionRef.current = 0;
         }
-        orbDirectionChangeCount++;
+        if (directionChangeCountRef.current) directionChangeCountRef.current++;
       }
 
       if (orbPosFirst.x > 1.4) {
-        switch (currentCurve) {
-          case "first":
-            setOrbDirection("left");
-            break;
-          case "second":
-            setOrbDirection("right");
-            renderOrder = -1;
-            break;
+        if (curveIdxRef.current === 0) {
+          directionRef.current = 0;
+        } else {
+          directionRef.current = 1;
+
+          if (orbRef.current) orbRef.current.renderOrder = -1;
         }
-        orbDirectionChangeCount++;
+        if (directionChangeCountRef.current) directionChangeCountRef.current++;
       }
 
-      if (orbDirection === "left") {
-        switch (currentCurve) {
-          case "first":
-            orbIdx++;
-            break;
-          case "second":
-            orbIdx--;
-            break;
+      if (directionRef.current === 0) {
+        if (curveIdxRef.current === 0) {
+          idxRef.current++;
+        } else {
+          idxRef.current--;
         }
       } else {
-        switch (currentCurve) {
-          case "first":
-            orbIdx--;
-            break;
-          case "second":
-            orbIdx++;
-            break;
+        if (curveIdxRef.current === 0) {
+          idxRef.current--;
+        } else {
+          idxRef.current++;
         }
       }
 
-      if (orbDirectionChangeCount % 6 === 0 && orbDirectionChangeCount !== 0) {
-        orbDirectionChangeCount = 0;
-        switch (currentCurve) {
-          case "first":
-            orbIdx = 250;
-            setCurrentCurve("second");
-            break;
-          case "second":
-            orbIdx = 0;
-            setCurrentCurve("first");
-            break;
+      if (
+        directionChangeCountRef.current % 6 === 0 &&
+        directionChangeCountRef.current !== 0
+      ) {
+        directionChangeCountRef.current = 0;
+        if (curveIdxRef.current === 0) {
+          idxRef.current = 250;
+          curveIdxRef.current = 1;
+        } else {
+          idxRef.current = 0;
+          curveIdxRef.current = 0;
         }
-        setOrbDirection("left");
+        directionRef.current = 0;
       }
 
-      if (currentCurve === "first") {
-        orbRef.current!.position.x = orbPosFirst.x;
-        orbRef.current!.position.y = orbPosFirst.y;
-      } else {
-        orbRef.current!.position.x = orbPosSecond.x;
-        orbRef.current!.position.y = orbPosSecond.y;
+      if (orbRef.current) {
+        if (curveIdxRef.current === 0) {
+          orbRef.current.position.x = orbPosFirst.x;
+          orbRef.current.position.y = orbPosFirst.y;
+        } else {
+          orbRef.current.position.x = orbPosSecond.x;
+          orbRef.current.position.y = orbPosSecond.y;
+        }
       }
     }
   });
 
   return (
     <group position={[0, -0.1, 1]}>
-      <sprite scale={[0.5, 0.5, 0.5]} ref={orbRef} renderOrder={renderOrder}>
+      <sprite scale={[0.5, 0.5, 0.5]} ref={orbRef}>
         <spriteMaterial
           attach="material"
           map={orbSpriteTexture}
@@ -122,6 +115,6 @@ const YellowOrb = (props: YellowOrbProps) => {
       </sprite>
     </group>
   );
-};
+});
 
 export default YellowOrb;

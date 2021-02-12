@@ -67,8 +67,7 @@ export const isNodeVisible = (
     ? (node.unlocked_by === "" ||
         gameProgress[node.unlocked_by as keyof typeof gameProgress]
           .is_viewed) &&
-        gameProgress[node.node_name as keyof typeof gameProgress].is_visible &&
-        node.required_final_video_viewcount < 1
+        gameProgress[node.node_name as keyof typeof gameProgress].is_visible
     : false;
 };
 

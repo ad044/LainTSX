@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import LainSpeak from "../components/LainSpeak";
-import * as THREE from "three";
-import { useStore } from "../store";
+import { createAudioAnalyser, useStore } from "../store";
 
 const TaKScene = () => {
-  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
   const setScene = useStore((state) => state.setScene);
+  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
+
+  const nodeMedia = useStore((state) => state.activeNode.media_file);
+  const nodeName = useStore((state) => state.activeNode.node_name);
 
   const [isIntro, setIsIntro] = useState(true);
   const [isOutro, setIsOutro] = useState(false);
 
-  const percentageElapsed = useStore(
-    (state) => state.mediaPercentageElapsed
-  );
+  const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
 
   useEffect(() => {
     if (percentageElapsed === 100) {
@@ -26,21 +26,35 @@ const TaKScene = () => {
   useEffect(() => {
     setTimeout(() => {
       const mediaElement = document.getElementById("media") as HTMLMediaElement;
-
-      const listener = new THREE.AudioListener();
-      const audio = new THREE.Audio(listener);
-
-      audio.setMediaElementSource(mediaElement);
-
-      setAudioAnalyser(new THREE.AudioAnalyser(audio, 2048));
+      const trackElement = document.getElementById("track") as HTMLTrackElement;
 
       if (mediaElement) {
+        setAudioAnalyser(createAudioAnalyser());
         mediaElement.currentTime = 0;
-        mediaElement.play();
+        import("../static/webvtt/" + nodeName + ".vtt")
+          .then((vtt) => {
+            if (vtt) trackElement.src = vtt.default;
+          })
+          // some entries have no spoken words, so the file doesnt exist. we catch that here.
+          .catch((e) => console.log(e));
+
+        if (nodeMedia.includes("XA")) {
+          import("../static/audio/" + nodeMedia + ".ogg").then((media) => {
+            mediaElement.src = media.default;
+            mediaElement.load();
+            mediaElement.play();
+          });
+        } else {
+          import("../static/movie/" + nodeMedia + "[0].webm").then((media) => {
+            mediaElement.src = media.default;
+            mediaElement.load();
+            mediaElement.play();
+          });
+        }
         setIsIntro(false);
       }
     }, 3800);
-  }, [setAudioAnalyser]);
+  }, [nodeMedia, nodeName]);
 
   return <LainSpeak intro={isIntro} outro={isOutro} />;
 };

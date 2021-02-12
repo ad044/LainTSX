@@ -5,8 +5,7 @@ import AudioVisualizerColumn from "./AudioVisualizerColumn";
 import { useStore } from "../../../store";
 
 const AudioVisualizer = memo(() => {
-  const analyser = useStore((state) => state.audioAnalyser);
-
+  const audioAnalyser = useStore(state=> state.audioAnalyser)
   const columnRefs = useMemo(
     () =>
       Array.from({ length: 15 }, () => [
@@ -19,8 +18,8 @@ const AudioVisualizer = memo(() => {
   );
 
   useFrame(() => {
-    if (analyser) {
-      const frequencyData = analyser.getFrequencyData();
+    if (audioAnalyser) {
+      const frequencyData = audioAnalyser.getFrequencyData();
 
       columnRefs.forEach((refArray, idx) => {
         const ref1 = refArray[0];

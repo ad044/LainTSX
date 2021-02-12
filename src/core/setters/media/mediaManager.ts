@@ -10,18 +10,13 @@ const mediaManager = (eventState: any) => {
 
   const updateRightSide = useStore.getState().updateRightSide;
 
-  const setAudioAnalyser = useStore.getState().setAudioAnalyser;
+  const setPercentageElapsed = useStore.getState().setPercentageElapsed;
 
   const playMedia = () => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
 
     if (mediaElement && mediaElement.paused) {
-      const listener = new THREE.AudioListener();
-      const audio = new THREE.Audio(listener);
-
-      audio.setMediaElementSource(mediaElement);
-
-      setAudioAnalyser(new THREE.AudioAnalyser(audio, 2048));
+      setPercentageElapsed(0);
 
       mediaElement.play();
     }
