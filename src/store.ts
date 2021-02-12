@@ -18,7 +18,7 @@ type State = {
   activeNode: NodeDataType;
   activeNodePos: number[];
   activeNodeRot: number[];
-  activeNodeState: {
+  activeNodeAttributes: {
     interactedWith: boolean;
     exploding: boolean;
     shrinking: boolean;
@@ -122,7 +122,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "main",
+      currentScene: "boot",
 
       // game progress
       gameProgress: game_progress,
@@ -140,7 +140,7 @@ export const useStore = create(
       },
       activeNodePos: [0, 0, 0],
       activeNodeRot: [0, 0, 0],
-      activeNodeState: {
+      activeNodeAttributes: {
         interactedWith: false,
         exploding: false,
         shrinking: false,
@@ -268,12 +268,12 @@ export const useStore = create(
       setNode: (to: NodeDataType) => set(() => ({ activeNode: to })),
       setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
       setNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
-      setNodeState: (
+      setNodeAttributes: (
         to: boolean,
         at: "interactedWith" | "visible" | "exploding" | "shrinking"
       ) =>
         set((state) => ({
-          activeNodeState: { ...state.activeNodeState, [at]: to },
+          activeNodeAttributes: { ...state.activeNodeAttributes, [at]: to },
         })),
 
       // lain setters

@@ -27,7 +27,7 @@ const GreenTextRenderer = memo(() => {
 
     let lineNum: number;
     if (letter === " ") {
-      lineNum = 5;
+      lineNum = 6;
     } else {
       if (lineOne.includes(letter)) {
         lineNum = 1;

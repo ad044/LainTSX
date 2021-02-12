@@ -14,6 +14,9 @@ import throwNodeSpriteSheet from "../static/sprite/throw_node.png";
 import ripMiddleRingSpriteSheet from "../static/sprite/rip_middle_ring.png";
 import ripNodeSpriteSheet from "../static/sprite/rip_node.png";
 import prayerSpriteSheet from "../static/sprite/prayer.png";
+import knockSpriteSheet from "../static/sprite/knock.png";
+import knockAndFallSpriteSheet from "../static/sprite/knock_and_fall.png";
+import touchAndScareSpriteSheet from "../static/sprite/touch_and_scare.png";
 
 import * as THREE from "three";
 import { useLoader, useThree } from "react-three-fiber";
@@ -50,6 +53,12 @@ const Preloader = () => {
   );
   const ripNode = useLoader(THREE.TextureLoader, ripNodeSpriteSheet);
   const prayer = useLoader(THREE.TextureLoader, prayerSpriteSheet);
+  const knock = useLoader(THREE.TextureLoader, knockSpriteSheet);
+  const knockAndFall = useLoader(THREE.TextureLoader, knockAndFallSpriteSheet);
+  const touchAndScare = useLoader(
+    THREE.TextureLoader,
+    touchAndScareSpriteSheet
+  );
 
   const { gl } = useThree();
   useLayoutEffect(() => {
@@ -69,6 +78,9 @@ const Preloader = () => {
     gl.initTexture(ripMiddleRing);
     gl.initTexture(ripNode);
     gl.initTexture(prayer);
+    gl.initTexture(touchAndScare);
+    gl.initTexture(knock);
+    gl.initTexture(knockAndFall);
   }, [
     moveDown,
     moveUp,
@@ -87,6 +99,9 @@ const Preloader = () => {
     ripMiddleRing,
     ripNode,
     prayer,
+    touchAndScare,
+    knock,
+    knockAndFall,
   ]);
   return null;
 };

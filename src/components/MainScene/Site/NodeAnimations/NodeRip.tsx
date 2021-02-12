@@ -6,7 +6,7 @@ import { useFrame } from "react-three-fiber";
 
 const NodeRip = () => {
   const nodeShrinking = useStore(
-    (state) => state.activeNodeState.shrinking
+    (state) => state.activeNodeAttributes.shrinking
   );
   const [shouldAnimate, setShouldAnimate] = useState(false);
 

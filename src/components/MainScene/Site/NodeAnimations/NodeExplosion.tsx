@@ -7,7 +7,7 @@ import GoldNode from "./NodeExplosion/GoldNode";
 import { useStore } from "../../../../store";
 
 const NodeExplosion = () => {
-  const explosionVisible = useStore((state) => state.activeNodeState.exploding);
+  const explosionVisible = useStore((state) => state.activeNodeAttributes.exploding);
 
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [shouldRotate, setShouldRotate] = useState(false);
