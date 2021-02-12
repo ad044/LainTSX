@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useMemo } from "react";
 import MainScene from "./scenes/MainScene";
 import "./static/css/page.css";
 import { Canvas } from "react-three-fiber";
-import MediaPlayer from "./components/MediaScene/MediaPlayer";
+import MediaPlayer from "./components/MediaPlayer";
 import MediaScene from "./scenes/MediaScene";
 import { useStore } from "./store";
 import GateScene from "./scenes/GateScene";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import TriangleNode from "./NodeRip/TriangleNode";
 import { useStore } from "../../../../store";
 import RipLine from "./NodeRip/RipLine";
@@ -13,7 +13,7 @@ const NodeRip = () => {
   const LCG = (a: number, c: number, m: number, s: number) => () =>
     (s = (s * a + c) % m);
 
-  const lcgInstance = LCG(1664525, 1013904223, 2 ** 32, 2);
+  const lcgInstance = useMemo(() => LCG(1664525, 1013904223, 2 ** 32, 2), []);
 
   const firstLineSet = Array.from({ length: 25 }, (_, idx) => {
     let coordSet = [lcgInstance() / 7000000000, lcgInstance() / 7000000000];

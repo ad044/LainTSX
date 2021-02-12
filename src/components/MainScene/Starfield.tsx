@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo, useMemo } from "react";
 import Star from "./Starfield/Star";
 
 type StarfieldProps = {
@@ -10,7 +10,7 @@ const Starfield = memo((props: StarfieldProps) => {
   const LCG = (a: number, c: number, m: number, s: number) => () =>
     (s = (s * a + c) % m);
 
-  const lcgInstance = LCG(1664525, 1013904223, 2 ** 32, 2);
+  const lcgInstance = useMemo(() => LCG(1664525, 1013904223, 2 ** 32, 2), []);
 
   const [
     posesBlueFromRight,
