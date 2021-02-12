@@ -6,6 +6,7 @@ import { NodeDataType } from "./components/MainScene/Site";
 import { getNodeById } from "./utils/node-utils";
 import site_a from "./resources/site_a.json";
 
+
 type State = {
   currentScene: string;
 
@@ -48,7 +49,7 @@ type State = {
   permissionDenied: boolean;
 
   // media/media scene
-  audioAnalyser: undefined | THREE.AudioAnalyser;
+  audioAnalyser: any;
   mediaPercentageElapsed: number;
   mediaComponentMatrix: [["play", "exit"], ["fstWord", "sndWord", "thirdWord"]];
   mediaComponentMatrixIndices: {
@@ -172,7 +173,7 @@ export const useStore = create(
       showingAbout: false,
       permissionDenied: false,
 
-      // media / media scene
+      // media scene
       audioAnalyser: undefined,
       mediaPercentageElapsed: 0,
       mediaComponentMatrix: [
@@ -316,7 +317,8 @@ export const useStore = create(
       setPermissionDenied: (to: boolean) =>
         set(() => ({ permissionDenied: to })),
 
-      // media/media scene setters
+      // media scene setters
+      setAudioAnalyser: (to: any) => set(() => ({ audioAnalyser: to })),
       toggleMediaSide: () =>
         set((state) => ({
           mediaComponentMatrixIndices: {
@@ -343,8 +345,6 @@ export const useStore = create(
         })),
       setPercentageElapsed: (to: number) =>
         set(() => ({ mediaPercentageElapsed: to })),
-      setAudioAnalyser: (to: THREE.AudioAnalyser) =>
-        set(() => ({ audioAnalyser: to })),
       setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
 
       // idle media setters
@@ -536,4 +536,14 @@ export const playAudio = (audio: HTMLAudioElement) => {
   audio.volume = 0.5;
   audio.loop = false;
   audio.play();
+};
+
+export const createAudioAnalyser = () => {
+    const mediaElement = document.getElementById("media") as HTMLMediaElement;
+    const listener = new THREE.AudioListener();
+    const audio = new THREE.Audio(listener);
+
+    audio.setMediaElementSource(mediaElement);
+
+    return new THREE.AudioAnalyser(audio, 2048);
 };

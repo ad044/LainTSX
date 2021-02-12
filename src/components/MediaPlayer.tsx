@@ -37,8 +37,6 @@ const MediaPlayer = () => {
 
       if (percentageElapsed % 5 === 0 && percentageElapsed !== 0) {
         setPercentageElapsed(percentageElapsed);
-        if (percentageElapsed === 100 && videoRef.current)
-          videoRef.current.currentTime = 0;
       }
     }
   }, [setPercentageElapsed, videoRef]);

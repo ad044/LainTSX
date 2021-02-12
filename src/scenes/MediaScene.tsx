@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useStore } from "../store";
+import { createAudioAnalyser, useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
@@ -10,6 +10,8 @@ import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 
 const MediaScene = () => {
+  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
+
   const activeNodeMedia = useStore((state) => state.activeNode.media_file);
 
   useEffect(() => {
@@ -29,6 +31,8 @@ const MediaScene = () => {
     const trackElement = document.getElementById("track") as HTMLTrackElement;
 
     if (mediaElement) {
+      setAudioAnalyser(createAudioAnalyser());
+
       mediaElement.currentTime = 0;
       import("../static/webvtt/" + nodeName + ".vtt")
         .then((vtt) => {
@@ -49,7 +53,7 @@ const MediaScene = () => {
         });
       }
     }
-  }, [nodeMedia, nodeName]);
+  }, [nodeMedia, nodeName, setAudioAnalyser]);
 
   return (
     <perspectiveCamera position-z={3}>

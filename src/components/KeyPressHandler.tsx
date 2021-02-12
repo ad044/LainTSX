@@ -96,20 +96,20 @@ const KeyPressHandler = () => {
       mainSubscene !== "level_selection" &&
       scene === "main"
     ) {
-      if (now > lainIdleCounter.current + 10000) {
-        lainManager({ event: getRandomIdleLainAnim() });
-        // after one idle animation plays, the second comes sooner than it would after a regular keypress
-        lainIdleCounter.current = now - 2500;
-      }
-      if (now > idleSceneCounter.current + 15000) {
-        idleManager(getRandomIdleMedia());
-        sceneManager({ event: "play_idle_media" });
-        // put it on lock until the next action, since while the idle media plays, the
-        // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
-        // one way to work around this would be to modify the value depending on the last played idle media's duration
-        // but i'm way too lazy for that
-        idleSceneCounter.current = -1;
-      }
+      // if (now > lainIdleCounter.current + 10000) {
+      //   lainManager({ event: getRandomIdleLainAnim() });
+      //   // after one idle animation plays, the second comes sooner than it would after a regular keypress
+      //   lainIdleCounter.current = now - 2500;
+      // }
+      // if (now > idleSceneCounter.current + 15000) {
+      //   idleManager(getRandomIdleMedia());
+      //   sceneManager({ event: "play_idle_media" });
+      //   // put it on lock until the next action, since while the idle media plays, the
+      //   // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
+      //   // one way to work around this would be to modify the value depending on the last played idle media's duration
+      //   // but i'm way too lazy for that
+      //   idleSceneCounter.current = -1;
+      // }
     }
   });
 

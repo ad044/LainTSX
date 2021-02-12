@@ -5,11 +5,7 @@ import { useStore } from "../store";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
 
 const EndScene = () => {
-  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
-
-  const mediaPlayedCount = useStore(
-    (state) => state.endMediaPlayedCount
-  );
+  const mediaPlayedCount = useStore((state) => state.endMediaPlayedCount);
 
   const mainCylinderRef = useRef<THREE.Object3D>();
 
@@ -37,13 +33,6 @@ const EndScene = () => {
           "media"
         ) as HTMLMediaElement;
 
-        const listener = new THREE.AudioListener();
-        const audio = new THREE.Audio(listener);
-
-        audio.setMediaElementSource(mediaElement);
-
-        setAudioAnalyser(new THREE.AudioAnalyser(audio, 2048));
-
         if (mediaElement) {
           mediaElement.play();
           setIsIntro(false);
@@ -55,7 +44,7 @@ const EndScene = () => {
         setSceneOutro(true);
       }, 4000);
     }
-  }, [mediaPlayedCount, setAudioAnalyser]);
+  }, [mediaPlayedCount]);
 
   // return mediaPlayedCount > 0 ? (
   //   <>
