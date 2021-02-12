@@ -132,20 +132,20 @@ const Node = memo((props: NodeContructorProps) => {
 
   useEffect(() => {
     useStore.subscribe(set, (state) => ({
-      activeNodePosX: state.activeNodeState.interactedWith
+      activeNodePosX: state.activeNodeAttributes.interactedWith
         ? state.activeNodePos[0]
         : props.position[0],
-      activeNodePosY: state.activeNodeState.interactedWith
+      activeNodePosY: state.activeNodeAttributes.interactedWith
         ? state.activeNodePos[1]
         : props.position[1],
-      activeNodePosZ: state.activeNodeState.interactedWith
+      activeNodePosZ: state.activeNodeAttributes.interactedWith
         ? state.activeNodePos[2]
         : props.position[2],
-      activeNodeRotZ: state.activeNodeState.interactedWith
+      activeNodeRotZ: state.activeNodeAttributes.interactedWith
         ? state.activeNodeRot[2]
         : 0,
-      activeNodeScale: state.activeNodeState.shrinking ? 0 : 1,
-      activeNodeVisible: state.activeNodeState.visible,
+      activeNodeScale: state.activeNodeAttributes.shrinking ? 0 : 1,
+      activeNodeVisible: state.activeNodeAttributes.visible,
     }));
   }, [
     props.level,

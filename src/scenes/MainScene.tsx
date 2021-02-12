@@ -59,7 +59,7 @@ const MainScene = () => {
   const [introFinished, setIntroFinished] = useState(false);
 
   useFrame(() => {
-    if (intro && introWrapperRef.current && !introFinished) {
+    if (!introFinished && intro && introWrapperRef.current) {
       if (introWrapperRef.current.position.z === -10) playAudio(audio.sound32);
       if (
         Math.round(introWrapperRef.current.position.z) === -3 &&
@@ -74,19 +74,20 @@ const MainScene = () => {
         setLainIntroAnim(true);
       }
 
-      if (
-        Math.round(introWrapperRef.current.position.z) === 0 &&
-        Math.round(introWrapperRef.current.rotation.x) === 0 &&
-        !introFinished
-      ) {
-        setIntroFinished(true);
-      }
-
       if (introWrapperRef.current.position.z < 0) {
         introWrapperRef.current.position.z += 0.05;
       }
       if (introWrapperRef.current.rotation.x > 0) {
         introWrapperRef.current.rotation.x -= 0.008;
+      }
+
+      if (
+        !(
+          introWrapperRef.current.rotation.x > 0 &&
+          introWrapperRef.current.position.z < 0
+        )
+      ) {
+        setIntroFinished(true);
       }
     }
   });

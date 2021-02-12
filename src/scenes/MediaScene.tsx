@@ -21,6 +21,9 @@ const MediaScene = () => {
     };
   }, []);
 
+  useEffect(()=> {
+    console.log('rend')
+  }, [])
   return (
     <perspectiveCamera position-z={3}>
       <group position={[0.4, -0.3, 0]}>

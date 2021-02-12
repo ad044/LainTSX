@@ -9,6 +9,7 @@ import site_a from "../../resources/site_a.json";
 import site_b from "../../resources/site_b.json";
 import level_y_values from "../../resources/level_y_values.json";
 import { filterInvisibleNodes } from "../../utils/node-utils";
+import NodeNameContainer from "../MediaScene/NodeNameContainer";
 
 export type NodeDataType = {
   id: string;

@@ -5,7 +5,7 @@ const nodeManager = (eventState: any) => {
   const setActiveNode = useStore.getState().setNode;
   const setActiveNodePos = useStore.getState().setNodePos;
   const setActiveNodeRot = useStore.getState().setNodeRot;
-  const setActiveNodeState = useStore.getState().setNodeState;
+  const setActiveNodeAttributes = useStore.getState().setNodeAttributes;
 
   const calculateCoordsBasedOnRotation = (
     x: number,
@@ -17,7 +17,7 @@ const nodeManager = (eventState: any) => {
   });
 
   const animateActiveNodeThrow = (siteRotY: number) => {
-    setActiveNodeState(true, "interactedWith");
+    setActiveNodeAttributes(true, "interactedWith");
 
     const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
     const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
@@ -40,70 +40,70 @@ const nodeManager = (eventState: any) => {
 
     setTimeout(() => {
       setActiveNodeRot([0, 0, 0]);
-      setActiveNodeState(false, "interactedWith");
+      setActiveNodeAttributes(false, "interactedWith");
     }, 3800);
   };
 
   const animateNodeKnock = (siteRotY: number) => {
-    setActiveNodeState(true, "interactedWith");
+    setActiveNodeAttributes(true, "interactedWith");
 
     const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
 
     setActiveNodePos([fstCoordSet.x, -0.6, fstCoordSet.z]);
 
     setTimeout(() => {
-      setActiveNodeState(false, "interactedWith");
+      setActiveNodeAttributes(false, "interactedWith");
     }, 2500);
   };
 
   const animateNodeKnockAndFall = (siteRotY: number) => {
-    setActiveNodeState(true, "interactedWith");
+    setActiveNodeAttributes(true, "interactedWith");
 
     const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
 
     setActiveNodePos([fstCoordSet.x, -0.6, fstCoordSet.z]);
 
     setTimeout(() => {
-      setActiveNodeState(false, "visible");
+      setActiveNodeAttributes(false, "visible");
     }, 2300);
 
     setTimeout(() => {
-      setActiveNodeState(false, "interactedWith");
+      setActiveNodeAttributes(false, "interactedWith");
     }, 2500);
 
     setTimeout(() => {
-      setActiveNodeState(true, "visible");
+      setActiveNodeAttributes(true, "visible");
     }, 3200);
   };
 
   const animateNodeTouchAndScare = (siteRotY: number) => {
-    setActiveNodeState(true, "interactedWith");
+    setActiveNodeAttributes(true, "interactedWith");
 
     const fstCoordSet = calculateCoordsBasedOnRotation(-0.6, 0.2, siteRotY);
 
     setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
 
     setTimeout(() => {
-      setActiveNodeState(true, "exploding");
-      setActiveNodeState(false, "visible");
+      setActiveNodeAttributes(true, "exploding");
+      setActiveNodeAttributes(false, "visible");
     }, 1200);
 
     setTimeout(() => {
-      setActiveNodeState(false, "interactedWith");
+      setActiveNodeAttributes(false, "interactedWith");
       setActiveNodeRot([0, 0, 0]);
     }, 1400);
 
     setTimeout(() => {
-      setActiveNodeState(false, "exploding");
+      setActiveNodeAttributes(false, "exploding");
     }, 3150);
 
     setTimeout(() => {
-      setActiveNodeState(true, "visible");
+      setActiveNodeAttributes(true, "visible");
     }, 3500);
   };
 
   const animateShrinkAndRip = (siteRotY: number) => {
-    setActiveNodeState(true, "interactedWith");
+    setActiveNodeAttributes(true, "interactedWith");
 
     const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
     const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
@@ -120,7 +120,7 @@ const nodeManager = (eventState: any) => {
     }, 2800);
 
     setTimeout(() => {
-      setActiveNodeState(true, "shrinking");
+      setActiveNodeAttributes(true, "shrinking");
     }, 3000);
 
     setTimeout(() => {
@@ -128,17 +128,17 @@ const nodeManager = (eventState: any) => {
     }, 3200);
 
     setTimeout(() => {
-      setActiveNodeState(false, "visible");
+      setActiveNodeAttributes(false, "visible");
     }, 3500);
 
     setTimeout(() => {
-      setActiveNodeState(false, "interactedWith");
-      setActiveNodeState(false, "shrinking");
+      setActiveNodeAttributes(false, "interactedWith");
+      setActiveNodeAttributes(false, "shrinking");
       setActiveNodeRot([0, 0, 0]);
     }, 6400);
 
     setTimeout(() => {
-      setActiveNodeState(true, "visible");
+      setActiveNodeAttributes(true, "visible");
     }, 7500);
   };
 

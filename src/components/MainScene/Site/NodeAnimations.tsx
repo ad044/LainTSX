@@ -5,11 +5,11 @@ import NodeRip from "./NodeAnimations/NodeRip";
 
 const NodeAnimations = () => {
   const nodeShrinking = useStore(
-    (state) => state.activeNodeState.shrinking
+    (state) => state.activeNodeAttributes.shrinking
   );
 
   const nodeExploding = useStore(
-    (state) => state.activeNodeState.exploding
+    (state) => state.activeNodeAttributes.exploding
   );
 
   return (
