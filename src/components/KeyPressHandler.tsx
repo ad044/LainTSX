@@ -101,9 +101,11 @@ const KeyPressHandler = () => {
       //   // after one idle animation plays, the second comes sooner than it would after a regular keypress
       //   lainIdleCounter.current = now - 2500;
       // }
-      // if (now > idleSceneCounter.current + 15000) {
+      // if (now > idleSceneCounter.current + 5000) {
       //   idleManager(getRandomIdleMedia());
-      //   sceneManager({ event: "play_idle_media" });
+      //   setTimeout(() => {
+      //     sceneManager({ event: "play_idle_media" });
+      //   }, 1200);
       //   // put it on lock until the next action, since while the idle media plays, the
       //   // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
       //   // one way to work around this would be to modify the value depending on the last played idle media's duration

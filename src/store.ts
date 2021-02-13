@@ -6,7 +6,6 @@ import { NodeDataType } from "./components/MainScene/Site";
 import { getNodeById } from "./utils/node-utils";
 import site_a from "./resources/site_a.json";
 
-
 type State = {
   currentScene: string;
 
@@ -61,6 +60,7 @@ type State = {
   wordSelected: boolean;
 
   // idle scene
+  idleStarting: boolean;
   idleMedia: string;
   idleImages: { "1": string; "2": string; "3": string } | undefined;
   idleNodeName: string | undefined;
@@ -192,6 +192,7 @@ export const useStore = create(
       wordSelected: false,
 
       // idle scene
+      idleStarting: false,
       idleMedia: site_a["00"]["0000"].media_file,
       idleNodeName: site_a["00"]["0000"].node_name,
       // this may be undefined depending on whether or not the media is audio or not
@@ -348,6 +349,7 @@ export const useStore = create(
       setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
 
       // idle media setters
+      setIdleStarting: (to: boolean) => set(() => ({ idleStarting: to })),
       setIdleScene: (to: {
         images: { "1": string; "2": string; "3": string } | undefined;
         media: string | undefined;
@@ -539,11 +541,11 @@ export const playAudio = (audio: HTMLAudioElement) => {
 };
 
 export const createAudioAnalyser = () => {
-    const mediaElement = document.getElementById("media") as HTMLMediaElement;
-    const listener = new THREE.AudioListener();
-    const audio = new THREE.Audio(listener);
+  const mediaElement = document.getElementById("media") as HTMLMediaElement;
+  const listener = new THREE.AudioListener();
+  const audio = new THREE.Audio(listener);
 
-    audio.setMediaElementSource(mediaElement);
+  audio.setMediaElementSource(mediaElement);
 
-    return new THREE.AudioAnalyser(audio, 2048);
+  return new THREE.AudioAnalyser(audio, 2048);
 };
