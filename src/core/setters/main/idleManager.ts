@@ -12,10 +12,6 @@ const idleManager = (eventState: any) => {
     action: () => {
       setIdleStarting(true);
       setIdleScene(eventState);
-
-      setTimeout(() => {
-        setIdleStarting(false);
-      }, 6000);
     },
   });
 

@@ -54,7 +54,7 @@ const TaKScene = () => {
         setIsIntro(false);
       }
     }, 3800);
-  }, [nodeMedia, nodeName]);
+  }, [nodeMedia, nodeName, setAudioAnalyser]);
 
   return <LainSpeak intro={isIntro} outro={isOutro} />;
 };

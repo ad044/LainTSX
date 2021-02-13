@@ -45,7 +45,7 @@ const App = () => {
         <Canvas concurrent>
           <KeyPressHandler />
           <Suspense fallback={null}>
-            <Preloader />
+            {/*<Preloader />*/}
             {dispatchScene[currentScene as keyof typeof dispatchScene]}
           </Suspense>
         </Canvas>
