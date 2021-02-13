@@ -10,9 +10,13 @@ import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 
 const MediaScene = () => {
+  const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
+
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
 
-  const activeNodeMedia = useStore((state) => state.activeNode.media_file);
+  const activeNode = useStore((state) => state.activeNode);
+
+  const setScene = useStore((state) => state.setScene);
 
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =
@@ -23,8 +27,11 @@ const MediaScene = () => {
     };
   }, []);
 
-  const nodeMedia = useStore((state) => state.activeNode.media_file);
-  const nodeName = useStore((state) => state.activeNode.node_name);
+  useEffect(() => {
+    if (percentageElapsed === 100) {
+      setScene("end");
+    }
+  }, [percentageElapsed, setScene]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
@@ -34,26 +41,30 @@ const MediaScene = () => {
       setAudioAnalyser(createAudioAnalyser());
 
       mediaElement.currentTime = 0;
-      import("../static/webvtt/" + nodeName + ".vtt")
+      import("../static/webvtt/" + activeNode.node_name + ".vtt")
         .then((vtt) => {
           if (vtt) trackElement.src = vtt.default;
         })
         // some entries have no spoken words, so the file doesnt exist. we catch that here.
         .catch((e) => console.log(e));
 
-      if (nodeMedia.includes("XA")) {
-        import("../static/audio/" + nodeMedia + ".ogg").then((media) => {
-          mediaElement.src = media.default;
-          mediaElement.load();
-        });
+      if (activeNode.media_file.includes("XA")) {
+        import("../static/audio/" + activeNode.media_file + ".ogg").then(
+          (media) => {
+            mediaElement.src = media.default;
+            mediaElement.load();
+          }
+        );
       } else {
-        import("../static/movie/" + nodeMedia + "[0].webm").then((media) => {
-          mediaElement.src = media.default;
-          mediaElement.load();
-        });
+        import("../static/movie/" + activeNode.media_file + "[0].webm").then(
+          (media) => {
+            mediaElement.src = media.default;
+            mediaElement.load();
+          }
+        );
       }
     }
-  }, [nodeMedia, nodeName, setAudioAnalyser]);
+  }, [activeNode.media_file, activeNode.node_name, setAudioAnalyser]);
 
   return (
     <perspectiveCamera position-z={3}>
@@ -69,7 +80,7 @@ const MediaScene = () => {
         </group>
         <MediaYellowTextAnimator />
 
-        <group visible={activeNodeMedia.includes("XA")}>
+        <group visible={activeNode.media_file.includes("XA")}>
           <RightSide />
           <AudioVisualizer />
           <Images />

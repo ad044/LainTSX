@@ -6,14 +6,17 @@ const IdleMediaScene = () => {
   const mediaPercentageElapsed = useStore(
     (state) => state.mediaPercentageElapsed
   );
-  const setScene = useStore((state) => state.setScene);
 
   const idleMedia = useStore((state) => state.idleMedia);
   const idleNodeName = useStore((state) => state.idleNodeName);
 
   useEffect(() => {
-    if (mediaPercentageElapsed === 100) setScene("main");
-  }, [mediaPercentageElapsed, setScene]);
+    if (mediaPercentageElapsed === 100)
+      useStore.setState({
+        currentScene: "main",
+        idleStarting: false,
+      });
+  }, [mediaPercentageElapsed]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;

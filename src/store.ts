@@ -93,9 +93,6 @@ type State = {
   authorizeUserLetterIdx: number;
   bootSubscene: "main_menu" | "load_data" | "authorize_user";
 
-  // end scene
-  endMediaPlayedCount: number;
-
   // prompt
   promptVisible: boolean;
   promptComponentMatrix: ["yes", "no"];
@@ -124,7 +121,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "main",
+      currentScene: "media",
 
       // game progress
       gameProgress: game_progress,
@@ -225,9 +222,6 @@ export const useStore = create(
       mainMenuComponentMatrixIdx: 0,
       authorizeUserLetterIdx: 0,
       bootSubscene: "main_menu",
-
-      // end scene
-      endMediaPlayedCount: 0,
 
       // prompt
       promptVisible: false,
@@ -394,13 +388,6 @@ export const useStore = create(
         })),
       setAuthorizeUserLetterIdx: (to: number) =>
         set(() => ({ authorizeUserLetterIdx: to })),
-
-      // end scene setters
-      incrementEndMediaPlayedCount: () =>
-        set((state) => ({
-          endMediaPlayedCount: state.endMediaPlayedCount + 1,
-        })),
-      resetEndMediaPlayedCount: () => set(() => ({ endMediaPlayedCount: 0 })),
 
       // prompt setters
       setPromptVisible: (to: boolean) => set(() => ({ promptVisible: to })),

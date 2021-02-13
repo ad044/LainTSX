@@ -4,6 +4,9 @@ import { useStore } from "../store";
 const MediaPlayer = () => {
   const setPercentageElapsed = useStore((state) => state.setPercentageElapsed);
 
+  // use it as a guard to avoid multiple set states inside updateTime
+  const lastSetPercentageRef = useRef<undefined | number>(undefined);
+
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
   const trackRef = createRef<HTMLTrackElement>();
@@ -35,8 +38,12 @@ const MediaPlayer = () => {
       const duration = videoRef.current.duration;
       const percentageElapsed = Math.floor((timeElapsed / duration) * 100);
 
-      if (percentageElapsed % 5 === 0 && percentageElapsed !== 0) {
+      if (
+        percentageElapsed % 5 === 0 &&
+        lastSetPercentageRef.current !== percentageElapsed
+      ) {
         setPercentageElapsed(percentageElapsed);
+        lastSetPercentageRef.current = percentageElapsed;
       }
     }
   }, [setPercentageElapsed, videoRef]);

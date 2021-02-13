@@ -4,6 +4,7 @@ import {
   getMainSceneContext,
   getMediaSceneContext,
   getSSknSceneContext,
+  playAudio,
   useStore,
 } from "../store";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
@@ -31,6 +32,7 @@ import soundManager from "../core/setters/soundManager";
 import { useFrame } from "react-three-fiber";
 import { getRandomIdleLainAnim, getRandomIdleMedia } from "../utils/idle-utils";
 import idleManager from "../core/setters/main/idleManager";
+import * as audio from "../static/sfx";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -96,13 +98,14 @@ const KeyPressHandler = () => {
       mainSubscene !== "level_selection" &&
       scene === "main"
     ) {
-      // if (now > lainIdleCounter.current + 10000) {
-      //   lainManager({ event: getRandomIdleLainAnim() });
-      //   // after one idle animation plays, the second comes sooner than it would after a regular keypress
-      //   lainIdleCounter.current = now - 2500;
-      // }
+      if (now > lainIdleCounter.current + 10000) {
+        lainManager({ event: getRandomIdleLainAnim() });
+        // after one idle animation plays, the second comes sooner than it would after a regular keypress
+        lainIdleCounter.current = now - 2500;
+      }
       // if (now > idleSceneCounter.current + 5000) {
       //   idleManager(getRandomIdleMedia());
+      //   playAudio(audio.sound32);
       //   setTimeout(() => {
       //     sceneManager({ event: "play_idle_media" });
       //   }, 1200);
@@ -124,8 +127,10 @@ const KeyPressHandler = () => {
       const now = Date.now();
 
       if (keyPress) {
-        lainIdleCounter.current = now;
-        idleSceneCounter.current = now;
+        if (scene === "main") {
+          lainIdleCounter.current = now;
+          idleSceneCounter.current = now;
+        }
         const sceneFns = (() => {
           switch (scene) {
             case "main":
@@ -156,6 +161,14 @@ const KeyPressHandler = () => {
             case "polytan":
               return {
                 action: () => useStore.setState({ currentScene: "main" }),
+              };
+            case "idle_media":
+              return {
+                action: () =>
+                  useStore.setState({
+                    currentScene: "main",
+                    idleStarting: false,
+                  }),
               };
           }
         })();
