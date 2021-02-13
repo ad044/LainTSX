@@ -68,7 +68,7 @@ export const LainConstructor = (props: LainConstructorProps) => {
     <spriteMaterial
       attach="material"
       map={lainSpriteTexture}
-      alphaTest={0.01}
+      alphaTest={0.665}
       color={0xffffff}
     />
   );
