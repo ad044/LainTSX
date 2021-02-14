@@ -40,6 +40,11 @@ type State = {
   // level selection
   selectedLevel: number;
 
+  // end scene
+  endComponentMatrix: ["end", "continue"];
+  endComponentMatrixIdx: 0 | 1;
+  endSceneSelectionVisible: boolean;
+
   // pause
   pauseComponentMatrix: ["load", "about", "change", "save", "exit"];
   pauseComponentMatrixIdx: number;
@@ -121,7 +126,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "media",
+      currentScene: "boot",
 
       // game progress
       gameProgress: game_progress,
@@ -162,6 +167,11 @@ export const useStore = create(
 
       // level selection
       selectedLevel: 4,
+
+      // end scene
+      endComponentMatrix: ["end", "continue"],
+      endComponentMatrixIdx: 0,
+      endSceneSelectionVisible: false,
 
       // pause
       pauseComponentMatrix: ["load", "about", "change", "save", "exit"],
@@ -215,7 +225,7 @@ export const useStore = create(
       gateLvl: 0,
 
       // player name
-      playerName: "",
+      playerName: "アイウエオ",
 
       // boot scene
       mainMenuComponentMatrix: ["authorize_user", "load_data"],
@@ -302,6 +312,12 @@ export const useStore = create(
 
       // level selection setters
       setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
+
+      // end scene setters
+      setEndComponentMatrixIdx: (to: 0 | 1) =>
+        set(() => ({ endComponentMatrixIdx: to })),
+      setEndSceneSelectionVisible: (to: boolean) =>
+        set(() => ({ endSceneSelectionVisible: to })),
 
       // pause setters
       setPauseComponentMatrixIdx: (to: number) =>
@@ -516,6 +532,15 @@ export const getBootSceneContext = () => {
     activeMainMenuComponent:
       state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],
     authorizeUserLetterIdx: state.authorizeUserLetterIdx,
+  };
+};
+
+export const getEndSceneContext = () => {
+  const state = useStore.getState();
+
+  return {
+    activeEndComponent: state.endComponentMatrix[state.endComponentMatrixIdx],
+    selectionVisible: state.endSceneSelectionVisible,
   };
 };
 

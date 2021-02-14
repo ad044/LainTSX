@@ -1,42 +1,39 @@
 import { playAudio } from "../../store";
 import * as audio from "../../static/sfx";
+import sleep from "../../utils/sleep";
 
 const soundManager = (eventState: any) => {
   const dispatchAction = (eventState: { event: string; scene: string }) => {
     switch (eventState.event) {
       case "knock_and_fall":
         return {
-          action: () => {
-            setTimeout(() => {
-              playAudio(audio.sound14);
-            }, 1200);
+          action: async () => {
+            await sleep(1200);
+            playAudio(audio.sound14);
 
-            setTimeout(() => {
-              playAudio(audio.sound19);
-            }, 2300);
+            await sleep(1100);
 
-            setTimeout(() => {
-              playAudio(audio.sound33);
-            }, 3150);
+            playAudio(audio.sound19);
+
+            await sleep(850);
+            playAudio(audio.sound33);
           },
         };
       case "knock":
         return {
-          action: () => {
-            setTimeout(() => {
-              playAudio(audio.sound18);
-            }, 1200);
+          action: async () => {
+            await sleep(1200);
+            playAudio(audio.sound18);
           },
         };
       case "touch_and_scare":
         return {
-          action: () => {
-            setTimeout(() => {
-              playAudio(audio.sound17);
-            }, 2400);
-            setTimeout(() => {
-              playAudio(audio.sound33);
-            }, 3150);
+          action: async () => {
+            await sleep(2400);
+            playAudio(audio.sound17);
+
+            await sleep(750);
+            playAudio(audio.sound33);
           },
         };
       case "throw_node_media":
@@ -45,17 +42,15 @@ const soundManager = (eventState: any) => {
       case "throw_node_tak":
       case "throw_node_polytan":
         return {
-          action: () => {
+          action: async () => {
             playAudio(audio.sound0);
 
-            setTimeout(() => {
-              playAudio(audio.sound12);
-            }, 1600);
+            await sleep(1600);
+            playAudio(audio.sound12);
 
-            setTimeout(() => {
-              playAudio(audio.sound13);
-              playAudio(audio.sound14);
-            }, 2800);
+            await sleep(1200);
+            playAudio(audio.sound13);
+            playAudio(audio.sound14);
           },
         };
       case "rip_node_media":
@@ -64,17 +59,15 @@ const soundManager = (eventState: any) => {
       case "rip_node_tak":
       case "rip_node_polytan":
         return {
-          action: () => {
+          action: async () => {
             playAudio(audio.sound0);
 
-            setTimeout(() => {
-              playAudio(audio.sound12);
-            }, 1600);
+            await sleep(1600);
+            playAudio(audio.sound12);
 
-            setTimeout(() => {
-              playAudio(audio.sound15);
-              playAudio(audio.sound13);
-            }, 4000);
+            await sleep(2400);
+            playAudio(audio.sound15);
+            playAudio(audio.sound13);
           },
         };
 
@@ -86,55 +79,53 @@ const soundManager = (eventState: any) => {
       case "pause_about_select":
       case "display_prompt":
       case "pause_exit_select":
+      case "end_continue_select":
+      case "end_end_select":
         return {
           action: () => playAudio(audio.sound0),
         };
       case "site_left":
       case "site_right":
         return {
-          action: () => {
-            setTimeout(() => {
-              playAudio(audio.sound6);
-              playAudio(audio.sound34);
-            }, 1100);
+          action: async () => {
+            await sleep(1100);
+            playAudio(audio.sound6);
+            playAudio(audio.sound34);
           },
         };
       case "pause_game":
         return {
-          action: () => {
+          action: async () => {
             playAudio(audio.sound7);
-            setTimeout(() => {
-              playAudio(audio.sound23);
-            }, 3400);
+
+            await sleep(3400);
+            playAudio(audio.sound23);
           },
         };
       case "select_level_up":
       case "select_level_down":
         return {
-          action: () => {
-            setTimeout(() => {
-              playAudio(audio.sound10);
-              playAudio(audio.sound9);
-            }, 1300);
+          action: async () => {
+            await sleep(1300);
+            playAudio(audio.sound10);
+            playAudio(audio.sound9);
 
-            setTimeout(() => {
-              playAudio(audio.sound8);
-            }, 2700);
+            await sleep(1400);
+            playAudio(audio.sound8);
           },
         };
       case "site_up":
       case "site_down":
         return {
-          action: () => {
+          action: async () => {
             playAudio(audio.sound13);
-            setTimeout(() => {
-              playAudio(audio.sound10);
-              playAudio(audio.sound9);
-            }, 1300);
 
-            setTimeout(() => {
-              playAudio(audio.sound8);
-            }, 2700);
+            await sleep(1300);
+            playAudio(audio.sound10);
+            playAudio(audio.sound9);
+
+            await sleep(1400);
+            playAudio(audio.sound8);
           },
         };
       case "main_menu_down":
@@ -150,6 +141,8 @@ const soundManager = (eventState: any) => {
       case "media_leftside_up":
       case "media_rightside_down":
       case "media_rightside_up":
+      case "end_selection_up":
+      case "end_selection_down":
         return {
           action: () => playAudio(audio.sound1),
         };

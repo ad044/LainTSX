@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useStore } from "../store";
-import Images from "../components/MediaScene/Images";
+import Images from "../components/Images";
 
 const IdleMediaScene = () => {
   const mediaPercentageElapsed = useStore(

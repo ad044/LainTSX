@@ -7,6 +7,7 @@ import { useStore } from "../../store";
 import MiddleRingPart from "./MiddleRing/MiddleRingPart";
 import usePrevious from "../../hooks/usePrevious";
 import lerp from "../../utils/lerp";
+import sleep from "../../utils/sleep";
 
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
@@ -216,94 +217,79 @@ const MiddleRing = () => {
   const prevData = usePrevious({ siteRotY, activeLevel, subscene });
 
   useEffect(() => {
-    const rotate = (rotValues: [number, number]) => {
-      setTimeout(() => {
-        setRot({ rotZ: rotValues[0] });
-      }, 2300);
+    const rotate = async (rotValues: [number, number]) => {
+      await sleep(2300);
+      setRot({ rotZ: rotValues[0] });
 
-      setTimeout(() => {
-        setRot({ rotZ: rotValues[1] });
-      }, 3500);
+      await sleep(1200);
+      setRot({ rotZ: rotValues[1] });
 
-      setTimeout(() => {
-        setRot({ rotZ: 0 });
-      }, 4500);
+      await sleep(1000);
+      setRot({ rotZ: 0 });
     };
 
-    const moveDown = () => {
-      setTimeout(() => {
-        setNoiseAmp(0.06);
-        setRotating(false);
-      }, 800);
+    const moveDown = async () => {
+      await sleep(800);
+      setNoiseAmp(0.06);
+      setRotating(false);
 
-      setTimeout(() => {
-        setPos({ posY: 1.39 });
-      }, 1200);
+      await sleep(400);
+      setPos({ posY: 1.39 });
 
       // set ring rotation on x axis to craete motion effect
-      setTimeout(() => {
-        setRot({ rotX: 0.3 });
-      }, 1500);
+      await sleep(300);
+      setRot({ rotX: 0.3 });
 
-      setTimeout(() => {
-        setPos({ posY: -0.31 });
-      }, 3000);
+      await sleep(1500);
+      setPos({ posY: -0.31 });
 
-      setTimeout(() => {
-        setPos({ posY: -0.11 });
-      }, 3150);
+      await sleep(150);
+      setPos({ posY: -0.11 });
 
       // rotate it again, set ring noise to 0
-      setTimeout(() => {
-        setRot({ rotX: -0.1 });
-        setNoiseAmp(0);
-      }, 3500);
+      await sleep(350);
+      setRot({ rotX: -0.1 });
+      setNoiseAmp(0);
 
       // rotate it back AGAIN (holy fuk psx game)
-      setTimeout(() => {
-        setRot({ rotX: 0.05 });
-      }, 4500);
+      await sleep(1000);
+      setRot({ rotX: 0.05 });
 
       // reset value, set noise to 0
-      setTimeout(() => {
-        setRot({ rotX: 0, rotZ: 0 });
-        setRotating(true);
-      }, 4800);
+      await sleep(300);
+      setRot({ rotX: 0, rotZ: 0 });
+      setRotating(true);
 
-      // enable noise again in about 11-12 secs
-      setTimeout(() => {
-        setNoiseAmp(0.03);
-      }, 11600);
+      // enable noise again
+      await sleep(6000);
+      setNoiseAmp(0.03);
     };
 
-    const moveUp = () => {
+    const moveUp = async () => {
       // change noise to 0, make the ring bend downwards
-      setTimeout(() => {
-        setNoiseAmp(0);
-        setWobbleAmp(0.2);
-      }, 300);
+
+      await sleep(300);
+      setNoiseAmp(0);
+      setWobbleAmp(0.2);
 
       // disable rotation of the ring
-      setTimeout(() => {
-        setRotating(false);
-      }, 700);
+      await sleep(400);
+      setRotating(false);
 
       // make the ring bend upwards
-      setTimeout(() => {
-        setWobbleAmp(-0.3);
-        // the middle ring stays in place, therefore we animate it
-        // in the same direction as the site, creating that illusion.
-        setPos({ posY: -1.39 });
-      }, 1200);
+      await sleep(500);
+      setWobbleAmp(-0.3);
+      // the middle ring stays in place, therefore we animate it
+      // in the same direction as the site, creating that illusion.
+      setPos({ posY: -1.39 });
 
+      await sleep(300);
       // reset the ring bend, set the rotation to slightly curve
       // to replicate a motion effect (since its moving upwards)
       // and enable rotation again
-      setTimeout(() => {
-        setWobbleAmp(0);
-        setRot({ rotX: -0.2 });
-        setRotating(true);
-      }, 1500);
+      setWobbleAmp(0);
+      setRot({ rotX: -0.2 });
+      setRotating(true);
 
       setTimeout(() => {
         setPos({ posY: 0.09 });
