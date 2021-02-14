@@ -236,7 +236,6 @@ const MiddleRing = () => {
       await sleep(400);
       setPos({ posY: 1.39 });
 
-      // set ring rotation on x axis to craete motion effect
       await sleep(300);
       setRot({ rotX: 0.3 });
 
@@ -246,108 +245,85 @@ const MiddleRing = () => {
       await sleep(150);
       setPos({ posY: -0.11 });
 
-      // rotate it again, set ring noise to 0
       await sleep(350);
       setRot({ rotX: -0.1 });
       setNoiseAmp(0);
 
-      // rotate it back AGAIN (holy fuk psx game)
       await sleep(1000);
       setRot({ rotX: 0.05 });
 
-      // reset value, set noise to 0
       await sleep(300);
       setRot({ rotX: 0, rotZ: 0 });
       setRotating(true);
 
-      // enable noise again
       await sleep(6000);
       setNoiseAmp(0.03);
     };
 
     const moveUp = async () => {
-      // change noise to 0, make the ring bend downwards
-
       await sleep(300);
       setNoiseAmp(0);
       setWobbleAmp(0.2);
 
-      // disable rotation of the ring
       await sleep(400);
       setRotating(false);
 
-      // make the ring bend upwards
       await sleep(500);
       setWobbleAmp(-0.3);
-      // the middle ring stays in place, therefore we animate it
-      // in the same direction as the site, creating that illusion.
       setPos({ posY: -1.39 });
 
       await sleep(300);
-      // reset the ring bend, set the rotation to slightly curve
-      // to replicate a motion effect (since its moving upwards)
-      // and enable rotation again
+
       setWobbleAmp(0);
       setRot({ rotX: -0.2 });
       setRotating(true);
 
-      setTimeout(() => {
-        setPos({ posY: 0.09 });
-      }, 2900);
+      await sleep(1400);
+      setPos({ posY: 0.09 });
 
-      // reset the rotation value to 0
-      setTimeout(() => {
-        setRot({ rotX: 0, rotZ: 0 });
-        setPos({ posY: -0.11 });
-      }, 3150);
+      await sleep(250);
+      setRot({ rotX: 0, rotZ: 0 });
+      setPos({ posY: -0.11 });
 
-      // enable noise again in about 8~ secs
-      setTimeout(() => {
-        setNoiseAmp(0.03);
-      }, 7800);
+      await sleep(3000);
+      setNoiseAmp(0.03);
     };
 
-    const pause = () => {
+    const pause = async () => {
       setPos({ posY: 0.5 });
-      setTimeout(() => {
-        setFakeRingVisible(true);
-      }, 600);
-      setTimeout(() => {
-        // move the hidden (main) ring below, cuz when the pause exists it needs to jump back up
-        // instead of reappearing
-        setPos({ posY: -2.5 });
-      }, 1100);
 
-      setTimeout(() => {
-        setFakeRingVisible(false);
-      }, 3800);
+      await sleep(600);
+      setFakeRingVisible(true);
+
+      await sleep(500);
+      // move the hidden (main) ring below, cuz when the pause exists it needs to jump back up
+      // instead of reappearing
+      setPos({ posY: -2.5 });
+
+      await sleep(2700);
+      setFakeRingVisible(false);
     };
 
-    const unpause = () => {
-      setTimeout(() => {
-        setRot({ rotX: -0.4 });
-        setRotating(true);
-      }, 300);
+    const unpause = async () => {
+      await sleep(300);
+      setRot({ rotX: -0.4 });
+      setRotating(true);
 
-      setTimeout(() => {
-        setPos({ posY: -0.4 });
-      }, 700);
+      await sleep(400);
+      setPos({ posY: -0.4 });
 
-      // reset the rotation value to 0
-      setTimeout(() => {
-        setRot({ rotZ: 0, rotX: 0 });
-        setPos({ posY: -0.11 });
-      }, 950);
+      await sleep(250);
+      setRot({ rotZ: 0, rotX: 0 });
+      setPos({ posY: -0.11 });
     };
 
-    const afterWordSelection = () => {
+    const afterWordSelection = async () => {
       setRotating(true);
       setRot({ rotX: -0.4 });
 
       // reset the rotation value to 0
-      setTimeout(() => {
-        setRot({ rotZ: 0, rotX: 0 });
-      }, 3100);
+      await sleep(3100);
+      setRot({ rotZ: 0, rotX: 0 });
     };
 
     if (prevData?.siteRotY !== undefined && prevData?.siteRotY !== siteRotY) {

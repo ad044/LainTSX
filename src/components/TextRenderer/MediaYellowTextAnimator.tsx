@@ -1,7 +1,8 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import SiteBigLetter from "./SiteBigLetter";
+import sleep from "../../utils/sleep";
 
 const MediaYellowTextAnimator = memo(() => {
   const [lastLeftComponent, setLastLeftComponent] = useState("play");
@@ -14,40 +15,37 @@ const MediaYellowTextAnimator = memo(() => {
   });
 
   const activeMediaComponent = useStore(
-    useCallback(
-      (state) =>
-        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-          state.mediaComponentMatrixIndices.sideIdx === 0
-            ? state.mediaComponentMatrixIndices.leftSideIdx
-            : state.mediaComponentMatrixIndices.rightSideIdx
-        ],
-      []
-    )
+    (state) =>
+      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+        state.mediaComponentMatrixIndices.sideIdx === 0
+          ? state.mediaComponentMatrixIndices.leftSideIdx
+          : state.mediaComponentMatrixIndices.rightSideIdx
+      ]
   );
 
   useEffect(() => {
-    if (
-      (activeMediaComponent === "play" || activeMediaComponent === "exit") &&
-      activeMediaComponent !== lastLeftComponent
-    ) {
-      setLastLeftComponent(activeMediaComponent);
-      setTimeout(() => {
+    (async () => {
+      if (
+        (activeMediaComponent === "play" || activeMediaComponent === "exit") &&
+        activeMediaComponent !== lastLeftComponent
+      ) {
+        setLastLeftComponent(activeMediaComponent);
+        await sleep(400);
         if (activeMediaComponent === "play") {
           setPosY(0.05);
         } else {
           setPosY(-0.08);
         }
-      }, 400);
 
-      setTimeout(() => {
+        await sleep(600);
         setTextArr(
           (
             activeMediaComponent.charAt(0).toUpperCase() +
             activeMediaComponent.slice(1)
           ).split("")
         );
-      }, 1000);
-    }
+      }
+    })();
   }, [activeMediaComponent, lastLeftComponent]);
 
   useEffect(() => {

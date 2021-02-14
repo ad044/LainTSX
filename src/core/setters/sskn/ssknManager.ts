@@ -25,9 +25,7 @@ const ssknManager = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  action && action();
 };
 
 export default ssknManager;

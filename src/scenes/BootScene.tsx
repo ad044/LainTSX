@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BootAccela from "../components/BootScene/BootAccela";
 import BootAnimation from "../components/BootScene/BootAnimation";
 import BootMainMenuComponents from "../components/BootScene/BootMainMenuComponents";
 import { useStore } from "../store";
 import BootAuthorizeUser from "../components/BootScene/BootAuthorizeUser";
 import BootLoadData from "../components/BootScene/BootLoadData";
+import sleep from "../utils/sleep";
 
 const BootScene = () => {
   const activeSubscene = useStore((state) => state.bootSubscene);
@@ -13,14 +14,13 @@ const BootScene = () => {
   const [mainMenuVisible, setMainMenuVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    (async () => {
+      await sleep(2000);
       setAccelaVisible(false);
-      // 2000
-    }, 0);
-    setTimeout(() => {
+
+      await sleep(4200);
       setMainMenuVisible(true);
-      //6200
-    }, 0);
+    })();
   }, []);
 
   return (

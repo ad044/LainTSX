@@ -1,7 +1,8 @@
 import { useStore } from "../../store";
 import { NodeDataType } from "../../components/MainScene/Site";
+import sleep from "../../utils/sleep";
 
-const progressManager = (eventState: any) => {
+const progressManager = async (eventState: any) => {
   const updateNodeViewed = useStore.getState().setNodeViewed;
   const setPolytanPartUnlocked = useStore.getState().setPolytanPartUnlocked;
   const incrementGateLvl = useStore.getState().incrementGateLvl;
@@ -43,7 +44,6 @@ const progressManager = (eventState: any) => {
             });
             incrementGateLvl();
           },
-          delay: 0,
         };
       case "throw_node_polytan":
       case "rip_node_polytan":
@@ -59,7 +59,6 @@ const progressManager = (eventState: any) => {
             });
             setPolytanPartUnlocked(eventState.bodyPart);
           },
-          delay: 0,
         };
       case "media_play_select":
         return {
@@ -72,7 +71,6 @@ const progressManager = (eventState: any) => {
                 )
               ),
             }),
-          delay: 0,
         };
       case "sskn_ok_select":
         return {
@@ -87,18 +85,14 @@ const progressManager = (eventState: any) => {
             });
             incrementSSknLvl();
           },
-          delay: 0,
         };
     }
   };
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    setTimeout(() => {
-      action();
-    }, delay);
-  }
+  delay && (await sleep(delay));
+  action && action();
 };
 
 export default progressManager;

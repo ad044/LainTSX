@@ -3,6 +3,7 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import gateBlueBinarySingularZero from "../../../static/sprite/blue_binary_singular_zero.png";
 import { a, SpringValue } from "@react-spring/three";
+import sleep from "../../../utils/sleep";
 
 type BlueZeroProps = {
   posX: SpringValue<number>;
@@ -47,11 +48,12 @@ const BlueZero = (props: BlueZeroProps) => {
       `;
 
   useEffect(() => {
-    setTimeout(() => {
+    (async () => {
+      await sleep(1400);
       if (matRef.current) {
         matRef.current.uniforms.brightnessMultiplier.value = 3.5;
       }
-    }, 1400);
+    })();
   }, []);
 
   return (

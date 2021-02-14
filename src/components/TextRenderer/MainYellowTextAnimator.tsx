@@ -4,8 +4,9 @@ import { a, useTrail } from "@react-spring/three";
 import SiteBigLetter from "./SiteBigLetter";
 import usePrevious from "../../hooks/usePrevious";
 import { getNodeHud } from "../../utils/node-utils";
+import sleep from "../../utils/sleep";
 
-const YellowTextRenderer = (props: { visible?: boolean }) => {
+const MainYellowTextAnimator = (props: { visible?: boolean }) => {
   const activeNode = useStore((state) => state.activeNode);
   const subscene = useStore((state) => state.mainSubscene);
   const prevData = usePrevious({ subscene });
@@ -21,25 +22,23 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   }));
 
   useEffect(() => {
-    const hud = getNodeHud(activeNode.matrixIndices!);
+    (async () => {
+      const hud = getNodeHud(activeNode.matrixIndices!);
 
-    if (subscene === "level_selection") {
-      setTimeout(() => {
+      if (subscene === "level_selection") {
+        await sleep(400);
         set({ posX: -0.02, posY: 0.005 });
-      }, 400);
 
-      setTimeout(() => {
+        await sleep(600);
         setText("JumpTo".split(""));
-      }, 1000);
-    } else {
-      setTimeout(() => {
+      } else {
+        await sleep(400);
         set({ posX: hud.big_text[0], posY: hud.big_text[1] });
-      }, 400);
 
-      setTimeout(() => {
+        await sleep(600);
         setText(activeNode.node_name.split(""));
-      }, 1000);
-    }
+      }
+    })();
   }, [activeNode, prevData?.subscene, set, subscene]);
 
   return (
@@ -59,4 +58,4 @@ const YellowTextRenderer = (props: { visible?: boolean }) => {
   );
 };
 
-export default YellowTextRenderer;
+export default MainYellowTextAnimator;

@@ -16,6 +16,7 @@ import Xa0006 from "../static/audio/Xa0006.mp4";
 import LainSpeak from "../components/LainSpeak";
 import EndSphere from "../components/EndScene/EndSphere";
 import EndCylinder from "../components/EndScene/EndCylinder";
+import sleep from "../utils/sleep";
 
 const EndScene = () => {
   const mainCylinderRef = useRef<THREE.Object3D>();
@@ -52,20 +53,19 @@ const EndScene = () => {
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
 
-    const playNextMedia = () => {
+    const playNextMedia = async () => {
       playedMediaCountRef.current++;
       mediaElement.currentTime = 0;
       if (playedMediaCountRef.current === 1) {
         setObjectsVisible(true);
         setIsIntro(true);
 
-        setTimeout(() => {
-          mediaElement.src = Xa0001;
+        await sleep(3800);
+        mediaElement.src = Xa0001;
 
-          mediaElement.load();
-          mediaElement.play();
-          setIsIntro(false);
-        }, 3800);
+        mediaElement.load();
+        mediaElement.play();
+        setIsIntro(false);
       }
 
       if (
@@ -88,16 +88,15 @@ const EndScene = () => {
 
         mediaElement.load();
         mediaElement.play();
-        setIsOutro(true);
-        setTimeout(() => {
-          setSceneOutro(true);
-        }, 4000);
 
-        setTimeout(() => {
-          setObjectsVisible(false);
-          setShowSelectionScreen(true);
-          setSelectionVisible(true);
-        }, 7000);
+        await sleep(4000);
+        setIsOutro(true);
+        setSceneOutro(true);
+
+        await sleep(3000);
+        setObjectsVisible(false);
+        setShowSelectionScreen(true);
+        setSelectionVisible(true);
       }
     };
 

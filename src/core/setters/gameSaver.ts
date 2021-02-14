@@ -1,4 +1,5 @@
 import { getSiteState, useStore } from "../../store";
+import sleep from "../../utils/sleep";
 
 const gameSaver = (eventState: any) => {
   const setSiteSaveState = useStore.getState().setSiteSaveState;
@@ -13,13 +14,12 @@ const gameSaver = (eventState: any) => {
         };
       case "pause_save_select":
         return {
-          action: () => {
+          action: async () => {
             setSaveSuccessful(true);
 
-            setTimeout(() => {
-              //todo actually save
-              setSaveSuccessful(undefined);
-            }, 1200);
+            await sleep(1200);
+            //todo actually save
+            setSaveSuccessful(undefined);
           },
         };
     }
@@ -27,9 +27,7 @@ const gameSaver = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  action && action();
 };
 
 export default gameSaver;

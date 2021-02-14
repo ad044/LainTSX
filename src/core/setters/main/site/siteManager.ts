@@ -1,6 +1,7 @@
 import { useStore } from "../../../../store";
+import sleep from "../../../../utils/sleep";
 
-const siteManager = (eventState: any) => {
+const siteManager = async (eventState: any) => {
   const setRotY = useStore.getState().setSiteRotY;
   const setRotX = useStore.getState().setSiteRotX;
   const setOldRot = useStore.getState().setOldSiteRot;
@@ -18,30 +19,30 @@ const siteManager = (eventState: any) => {
       case "media_sndWord_select":
       case "media_thirdWord_select":
         return {
-          action: () => setRotY(eventState.siteRotY),
+          action: async () => {
+            setRotY(eventState.siteRotY);
+          },
           delay: 1100,
         };
       case "pause_game":
         return {
-          action: () => setRotX(Math.PI / 2),
+          action: () => {
+            setRotX(Math.PI / 2);
+          },
           delay: 3600,
         };
       case "pause_exit_select":
       case "pause_change_select":
         return {
           action: () => setRotX(0),
-          delay: 0,
         };
     }
   };
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    setTimeout(() => {
-      action();
-    }, delay);
-  }
+  delay && (await sleep(delay));
+  action && action();
 };
 
 export default siteManager;

@@ -1,6 +1,7 @@
 import { useStore } from "../../../../store";
+import sleep from "../../../../utils/sleep";
 
-const lainManager = (eventState: any) => {
+const lainManager = async (eventState: any) => {
   const setLainMoveState = useStore.getState().setLainMoveState;
 
   const dispatchAction = (eventState: any) => {
@@ -58,12 +59,10 @@ const lainManager = (eventState: any) => {
 
   const { action, duration } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-    setTimeout(() => {
-      setLainMoveState("standing");
-    }, duration);
-  }
+  action && action();
+
+  duration && (await sleep(duration));
+  setLainMoveState("standing");
 };
 
 export default lainManager;

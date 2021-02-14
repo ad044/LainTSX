@@ -3,6 +3,7 @@ import TriangleNode from "./NodeRip/TriangleNode";
 import { useStore } from "../../../../store";
 import RipLine from "./NodeRip/RipLine";
 import { useFrame } from "react-three-fiber";
+import sleep from "../../../../utils/sleep";
 
 const NodeRip = () => {
   const nodeShrinking = useStore(
@@ -52,14 +53,15 @@ const NodeRip = () => {
   });
 
   useEffect(() => {
-    if (nodeShrinking) {
-      setTimeout(() => {
+    (async () => {
+      if (nodeShrinking) {
+        await sleep(1150);
         setShouldAnimate(true);
-      }, 1150);
-    } else {
-      setShouldAnimate(false);
-      setCurrentFrame(1);
-    }
+      } else {
+        setShouldAnimate(false);
+        setCurrentFrame(1);
+      }
+    })();
   }, [nodeShrinking]);
 
   return (

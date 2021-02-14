@@ -1,7 +1,8 @@
 import { useStore } from "../../../../store";
 import { NodeDataType } from "../../../../components/MainScene/Site";
+import sleep from "../../../../utils/sleep";
 
-const nodeManager = (eventState: any) => {
+const nodeManager = async (eventState: any) => {
   const setActiveNode = useStore.getState().setNode;
   const setActiveNodePos = useStore.getState().setNodePos;
   const setActiveNodeRot = useStore.getState().setNodeRot;
@@ -16,136 +17,117 @@ const nodeManager = (eventState: any) => {
     z: x * Math.sin(rotation) + z * Math.cos(rotation),
   });
 
-  const animateActiveNodeThrow = (siteRotY: number) => {
-    setActiveNodeAttributes(true, "interactedWith");
-
+  const animateActiveNodeThrow = async (siteRotY: number) => {
     const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
     const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
     const thirdCoordSet = calculateCoordsBasedOnRotation(1.55, 0.2, siteRotY);
     const fourthCoordSet = calculateCoordsBasedOnRotation(0, 2, siteRotY);
 
+    setActiveNodeAttributes(true, "interactedWith");
+
     setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodePos([sndCoordSet.x, 0, sndCoordSet.z]);
-    }, 800);
-    setTimeout(() => {
-      setActiveNodePos([thirdCoordSet.x, 0, sndCoordSet.z]);
-      setActiveNodeRot([0, 0, -0.005]);
-    }, 2600);
-    setTimeout(() => {
-      setActiveNodePos([fourthCoordSet.x, 0, fourthCoordSet.z]);
-      setActiveNodeRot([0, 0, -0.5]);
-    }, 2700);
+    await sleep(800);
+    setActiveNodePos([sndCoordSet.x, 0, sndCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodeRot([0, 0, 0]);
-      setActiveNodeAttributes(false, "interactedWith");
-    }, 3800);
+    await sleep(1800);
+    setActiveNodePos([thirdCoordSet.x, 0, sndCoordSet.z]);
+    setActiveNodeRot([0, 0, -0.005]);
+
+    await sleep(100);
+    setActiveNodePos([fourthCoordSet.x, 0, fourthCoordSet.z]);
+    setActiveNodeRot([0, 0, -0.5]);
+
+    await sleep(1100);
+    setActiveNodeRot([0, 0, 0]);
+    setActiveNodeAttributes(false, "interactedWith");
   };
 
-  const animateNodeKnock = (siteRotY: number) => {
-    setActiveNodeAttributes(true, "interactedWith");
-
+  const animateNodeKnock = async (siteRotY: number) => {
     const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
+
+    setActiveNodeAttributes(true, "interactedWith");
 
     setActiveNodePos([fstCoordSet.x, -0.6, fstCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "interactedWith");
-    }, 2500);
+    await sleep(2500);
+    setActiveNodeAttributes(false, "interactedWith");
   };
 
-  const animateNodeKnockAndFall = (siteRotY: number) => {
-    setActiveNodeAttributes(true, "interactedWith");
-
+  const animateNodeKnockAndFall = async (siteRotY: number) => {
     const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
+
+    setActiveNodeAttributes(true, "interactedWith");
 
     setActiveNodePos([fstCoordSet.x, -0.6, fstCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "visible");
-    }, 2300);
+    await sleep(2300);
+    setActiveNodeAttributes(false, "visible");
 
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "interactedWith");
-    }, 2500);
+    await sleep(200);
+    setActiveNodeAttributes(false, "interactedWith");
 
-    setTimeout(() => {
-      setActiveNodeAttributes(true, "visible");
-    }, 3200);
+    await sleep(700);
+    setActiveNodeAttributes(true, "visible");
   };
 
-  const animateNodeTouchAndScare = (siteRotY: number) => {
-    setActiveNodeAttributes(true, "interactedWith");
-
+  const animateNodeTouchAndScare = async (siteRotY: number) => {
     const fstCoordSet = calculateCoordsBasedOnRotation(-0.6, 0.2, siteRotY);
 
-    setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
-
-    setTimeout(() => {
-      setActiveNodeAttributes(true, "exploding");
-      setActiveNodeAttributes(false, "visible");
-    }, 1200);
-
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "interactedWith");
-      setActiveNodeRot([0, 0, 0]);
-    }, 1400);
-
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "exploding");
-    }, 3150);
-
-    setTimeout(() => {
-      setActiveNodeAttributes(true, "visible");
-    }, 3500);
-  };
-
-  const animateShrinkAndRip = (siteRotY: number) => {
     setActiveNodeAttributes(true, "interactedWith");
 
+    setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
+
+    await sleep(1200);
+    setActiveNodeAttributes(true, "exploding");
+    setActiveNodeAttributes(false, "visible");
+
+    await sleep(200);
+    setActiveNodeAttributes(false, "interactedWith");
+    setActiveNodeRot([0, 0, 0]);
+
+    await sleep(1750);
+    setActiveNodeAttributes(false, "exploding");
+
+    await sleep(350);
+    setActiveNodeAttributes(true, "visible");
+  };
+
+  const animateShrinkAndRip = async (siteRotY: number) => {
     const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
     const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
     const thirdCoordSet = calculateCoordsBasedOnRotation(0, 0.2, siteRotY);
 
+    setActiveNodeAttributes(true, "interactedWith");
+
     setActiveNodePos([fstCoordSet.x, 0, fstCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodePos([sndCoordSet.x, 0, sndCoordSet.z]);
-    }, 800);
+    await sleep(800);
+    setActiveNodePos([sndCoordSet.x, 0, sndCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodePos([thirdCoordSet.x, -0.4, thirdCoordSet.z]);
-    }, 2800);
+    await sleep(2000);
+    setActiveNodePos([thirdCoordSet.x, -0.4, thirdCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodeAttributes(true, "shrinking");
-    }, 3000);
+    await sleep(200);
+    setActiveNodeAttributes(true, "shrinking");
 
-    setTimeout(() => {
-      setActiveNodePos([thirdCoordSet.x, -1.5, thirdCoordSet.z]);
-    }, 3200);
+    await sleep(200);
+    setActiveNodePos([thirdCoordSet.x, -1.5, thirdCoordSet.z]);
 
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "visible");
-    }, 3500);
+    await sleep(300);
+    setActiveNodeAttributes(false, "visible");
 
-    setTimeout(() => {
-      setActiveNodeAttributes(false, "interactedWith");
-      setActiveNodeAttributes(false, "shrinking");
-      setActiveNodeRot([0, 0, 0]);
-    }, 6400);
+    await sleep(2900);
+    setActiveNodeAttributes(false, "interactedWith");
+    setActiveNodeAttributes(false, "shrinking");
+    setActiveNodeRot([0, 0, 0]);
 
-    setTimeout(() => {
-      setActiveNodeAttributes(true, "visible");
-    }, 7500);
+    await sleep(1100);
+    setActiveNodeAttributes(true, "visible");
   };
 
-  const updateActiveNode = (node: NodeDataType, delay?: number) => {
-    setTimeout(() => {
-      setActiveNode(node);
-    }, delay);
+  const updateActiveNode = async (node: NodeDataType) => {
+    setActiveNode(node);
   };
 
   const dispatchAction = (eventState: any) => {
@@ -169,7 +151,8 @@ const nodeManager = (eventState: any) => {
       case "select_level_up":
       case "select_level_down":
         return {
-          action: () => updateActiveNode(eventState.node, 3900),
+          action: () => updateActiveNode(eventState.node),
+          delay: 3900,
         };
       case "change_node":
       case "media_fstWord_select":
@@ -197,11 +180,10 @@ const nodeManager = (eventState: any) => {
     }
   };
 
-  const { action } = { ...dispatchAction(eventState) };
+  const { action, delay } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  delay && (await sleep(delay));
+  action && action();
 };
 
 export default nodeManager;

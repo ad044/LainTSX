@@ -4,6 +4,7 @@ import node_positions from "../../../resources/node_positions.json";
 import { useStore } from "../../../store";
 import { NodeDataType, SiteType } from "../Site";
 import usePrevious from "../../../hooks/usePrevious";
+import sleep from "../../../utils/sleep";
 
 type ActiveLevelNodesProps = {
   visibleNodes: SiteType;
@@ -19,24 +20,25 @@ const ActiveLevelNodes = memo((props: ActiveLevelNodesProps) => {
   );
 
   useEffect(() => {
-    if (
-      prevData?.activeLevel !== activeLevel &&
-      prevData?.activeLevel !== undefined
-    ) {
-      const prevLevel = parseInt(prevData?.activeLevel);
-      const newLevel = parseInt(activeLevel);
-      if (prevLevel - 1 === newLevel || prevLevel + 1 === newLevel) {
-        setVisibleNodes(
-          props.visibleNodes[activeLevel as keyof typeof props.visibleNodes]
-        );
-      } else {
-        setTimeout(() => {
+    (async () => {
+      if (
+        prevData?.activeLevel !== activeLevel &&
+        prevData?.activeLevel !== undefined
+      ) {
+        const prevLevel = parseInt(prevData?.activeLevel);
+        const newLevel = parseInt(activeLevel);
+        if (prevLevel - 1 === newLevel || prevLevel + 1 === newLevel) {
           setVisibleNodes(
             props.visibleNodes[activeLevel as keyof typeof props.visibleNodes]
           );
-        }, 1500);
+        } else {
+          await sleep(1500);
+          setVisibleNodes(
+            props.visibleNodes[activeLevel as keyof typeof props.visibleNodes]
+          );
+        }
       }
-    }
+    })();
   }, [activeLevel, prevData?.activeLevel, props, props.visibleNodes]);
 
   return (
