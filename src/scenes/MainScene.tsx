@@ -17,6 +17,7 @@ import NotFound from "../components/MainScene/NotFound";
 import PausePopUps from "../components/MainScene/PauseSubscene/PausePopUps";
 import { playAudio } from "../store";
 import * as audio from "../static/sfx";
+import sleep from "../utils/sleep";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -27,21 +28,23 @@ const MainScene = () => {
   const setWordSelected = useStore((state) => state.setWordSelected);
 
   useEffect(() => {
-    if (subscene === "pause") {
-      setTimeout(() => {
+    (async () => {
+      if (subscene === "pause") {
+        await sleep(3400);
         setPaused(true);
-      }, 3400);
-    } else {
-      setPaused(false);
-    }
+      } else {
+        setPaused(false);
+      }
+    })();
   }, [subscene]);
 
   useEffect(() => {
-    if (wordSelected) {
-      setTimeout(() => {
+    (async () => {
+      if (wordSelected) {
+        await sleep(3100);
         setWordSelected(false);
-      }, 3100);
-    }
+      }
+    })();
   }, [setWordSelected, wordSelected]);
 
   const introWrapperRef = useRef<THREE.Group>();

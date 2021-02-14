@@ -33,6 +33,7 @@ import lookAroundSpriteSheet from "../../static/sprite/look_around.png";
 import playWithHairSpriteSheet from "../../static/sprite/play_with_hair.png";
 
 import { useStore } from "../../store";
+import sleep from "../../utils/sleep";
 
 type LainConstructorProps = {
   sprite: string;
@@ -408,11 +409,12 @@ const Lain = (props: LainProps) => {
   const regularColor = useMemo(() => new THREE.Color(1, 1, 1), []);
 
   useEffect(() => {
-    if (wordSelected) {
-      setTimeout(() => {
+    (async () => {
+      if (wordSelected) {
+        await sleep(3100);
         if (lainRef.current) lainRef.current.material.color = glowColor;
-      }, 3100);
-    }
+      }
+    })();
   }, [glowColor, wordSelected]);
 
   useFrame(() => {

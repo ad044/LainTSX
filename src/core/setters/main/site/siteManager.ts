@@ -1,7 +1,7 @@
 import { useStore } from "../../../../store";
 import sleep from "../../../../utils/sleep";
 
-const siteManager = async (eventState: any) => {
+const siteManager = (eventState: any) => {
   const setRotY = useStore.getState().setSiteRotY;
   const setRotX = useStore.getState().setSiteRotX;
   const setOldRot = useStore.getState().setOldSiteRot;
@@ -41,8 +41,10 @@ const siteManager = async (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  delay && (await sleep(delay));
-  action && action();
+  (async () => {
+    delay && (await sleep(delay));
+    action && action();
+  })();
 };
 
 export default siteManager;

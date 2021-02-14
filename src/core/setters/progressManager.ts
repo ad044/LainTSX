@@ -2,7 +2,7 @@ import { useStore } from "../../store";
 import { NodeDataType } from "../../components/MainScene/Site";
 import sleep from "../../utils/sleep";
 
-const progressManager = async (eventState: any) => {
+const progressManager = (eventState: any) => {
   const updateNodeViewed = useStore.getState().setNodeViewed;
   const setPolytanPartUnlocked = useStore.getState().setPolytanPartUnlocked;
   const incrementGateLvl = useStore.getState().incrementGateLvl;
@@ -91,8 +91,10 @@ const progressManager = async (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  delay && (await sleep(delay));
-  action && action();
+  (async () => {
+    delay && (await sleep(delay));
+    action && action();
+  })();
 };
 
 export default progressManager;

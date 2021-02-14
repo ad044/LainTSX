@@ -1,7 +1,7 @@
 import { useStore } from "../../../store";
 import sleep from "../../../utils/sleep";
 
-const mainSubsceneManager = async (eventState: any) => {
+const mainSubsceneManager = (eventState: any) => {
   const setMainSubscene = useStore.getState().setMainSubscene;
 
   const dispatchAction = (eventState: { event: string }) => {
@@ -38,8 +38,10 @@ const mainSubsceneManager = async (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  delay && (await sleep(delay));
-  action && action();
+  (async () => {
+    delay && (await sleep(delay));
+    action && action();
+  })();
 };
 
 export default mainSubsceneManager;

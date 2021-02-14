@@ -1,7 +1,7 @@
 import { useStore } from "../../store";
 import sleep from "../../utils/sleep";
 
-const sceneManager = async (eventState: any) => {
+const sceneManager = (eventState: any) => {
   const dispatchAction = (eventState: { event: string; scene: string }) => {
     switch (eventState.event) {
       case "throw_node_sskn":
@@ -9,7 +9,7 @@ const sceneManager = async (eventState: any) => {
         return {
           action: () => {
             useStore.setState({
-              currentScene: "sskn",
+              currentScene: eventState.scene,
               intro: false,
               ssknComponentMatrixIdx: 0,
               ssknLoading: false,
@@ -93,9 +93,11 @@ const sceneManager = async (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  delay && (await sleep(delay));
+  (async () => {
+    delay && (await sleep(delay));
 
-  action && action();
+    action && action();
+  })();
 };
 
 export default sceneManager;

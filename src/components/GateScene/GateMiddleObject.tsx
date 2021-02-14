@@ -4,6 +4,7 @@ import BlueOne from "./GateMiddleObject/BlueOne";
 import { a, useSpring, useSprings } from "@react-spring/three";
 import blue_digit_positions from "../../resources/blue_digit_positions.json";
 import Mirror from "./GateMiddleObject/Mirror";
+import sleep from "../../utils/sleep";
 
 type GateMiddleObjectProps = {
   intro: boolean;
@@ -29,24 +30,26 @@ const GateMiddleObject = (props: GateMiddleObjectProps) => {
   });
 
   useEffect(() => {
-    set((intIdx) => {
-      const idx = intIdx.toString();
-      return {
-        posX:
-          blue_digit_positions[idx as keyof typeof blue_digit_positions]
-            .final_x,
-        posY:
-          blue_digit_positions[idx as keyof typeof blue_digit_positions]
-            .final_y,
-        delay:
-          blue_digit_positions[idx as keyof typeof blue_digit_positions].delay,
-        visibility: true,
-      };
-    });
+    (async () => {
+      set((intIdx) => {
+        const idx = intIdx.toString();
+        return {
+          posX:
+            blue_digit_positions[idx as keyof typeof blue_digit_positions]
+              .final_x,
+          posY:
+            blue_digit_positions[idx as keyof typeof blue_digit_positions]
+              .final_y,
+          delay:
+            blue_digit_positions[idx as keyof typeof blue_digit_positions]
+              .delay,
+          visibility: true,
+        };
+      });
 
-    setTimeout(() => {
+      await sleep(1400);
       setMiddleGroupPos([-0.15, -0.2, -0.1]);
-    }, 1400);
+    })();
   }, [set]);
 
   const middleObjectGroupState = useSpring({

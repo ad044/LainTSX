@@ -1,5 +1,4 @@
 import { useStore } from "../../../store";
-import * as THREE from "three";
 
 const mediaManager = (eventState: any) => {
   const toggleSide = useStore.getState().toggleMediaSide;

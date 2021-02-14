@@ -18,7 +18,7 @@ const GateSide = () => {
 
   useFrame(() => {
     const now = Date.now();
-    if (matRef.current && last.current) {
+    if (matRef.current) {
       if (now > last.current + 50) {
         matRef.current.uniforms.offset.value += 0.5;
         last.current = now;
