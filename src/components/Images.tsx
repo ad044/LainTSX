@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "../../store";
+import { useStore } from "../store";
 import { a, useSpring } from "@react-spring/three";
-import dummy from "../../static/sprite/dummy.png";
+import dummy from "../static/sprite/dummy.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 
 const Images = () => {
   const idleNodeImages = useStore((state) => state.idleImages);
-  const nodeImages = useStore(
-    (state) => state.activeNode.image_table_indices
-  );
+  const nodeImages = useStore((state) => state.activeNode.image_table_indices);
 
   const currentScene = useStore((state) => state.currentScene);
 
@@ -49,7 +47,7 @@ const Images = () => {
         imgTries++;
         if (img[1] !== "-1") {
           import(
-            "../../static/media_images/" + currentSite + "/" + img[1] + ".png"
+            "../static/media_images/" + currentSite + "/" + img[1] + ".png"
           ).then((imageSrc: { default: string }) => {
             imgArr.splice(parseInt(img[0]), 0, imageSrc);
             if (imgTries === 3) {

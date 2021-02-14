@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import { createAudioAnalyser, useStore } from "../store";
@@ -15,6 +21,9 @@ const EndScene = () => {
   const mainCylinderRef = useRef<THREE.Object3D>();
 
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
+  const setSelectionVisible = useStore(
+    (state) => state.setEndSceneSelectionVisible
+  );
 
   useFrame(() => {
     if (mainCylinderRef.current) {
@@ -33,10 +42,12 @@ const EndScene = () => {
   const [isIntro, setIsIntro] = useState(false);
   const [isOutro, setIsOutro] = useState(false);
   const [sceneOutro, setSceneOutro] = useState(false);
+  const [showSelectionScreen, setShowSelectionScreen] = useState(false);
 
   const playedMediaCountRef = useRef(0);
 
-  const mediaList = useMemo(() => [Xa0001, Xa0006], []);
+  const playerName = useStore((state) => state.playerName);
+  const playerNameVoices = useMemo(() => playerName.split(""), [playerName]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
@@ -57,7 +68,22 @@ const EndScene = () => {
         }, 3800);
       }
 
-      if (playedMediaCountRef.current === mediaList.length) {
+      if (
+        playedMediaCountRef.current > 1 &&
+        playedMediaCountRef.current < playerNameVoices.length + 1
+      ) {
+        import(
+          "../static/voice/" +
+            playerNameVoices[playedMediaCountRef.current - 1] +
+            ".WAV"
+        ).then((media) => {
+          mediaElement.src = media.default;
+          mediaElement.load();
+          mediaElement.play();
+        });
+      }
+
+      if (playedMediaCountRef.current === playerNameVoices.length + 1) {
         mediaElement.src = Xa0006;
 
         mediaElement.load();
@@ -66,11 +92,17 @@ const EndScene = () => {
         setTimeout(() => {
           setSceneOutro(true);
         }, 4000);
+
+        setTimeout(() => {
+          setObjectsVisible(false);
+          setShowSelectionScreen(true);
+          setSelectionVisible(true);
+        }, 7000);
       }
     };
 
     mediaElement.addEventListener("ended", playNextMedia);
-  }, [mediaList]);
+  }, [playerNameVoices, setSelectionVisible]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
@@ -89,20 +121,25 @@ const EndScene = () => {
   }, [setAudioAnalyser]);
 
   return (
-    <group visible={objectsVisible}>
-      <pointLight position={[0, 0, 5]} intensity={0.9} />
-      <pointLight position={[0, 0, -5]} intensity={0.9} />
+    <>
+      <group visible={objectsVisible}>
+        <pointLight position={[0, 0, 5]} intensity={0.9} />
+        <pointLight position={[0, 0, -5]} intensity={0.9} />
 
-      <group ref={mainCylinderRef} position={[0, -1, 2.2]}>
-        <EndCylinder />
+        <group ref={mainCylinderRef} position={[0, -1, 2.2]}>
+          <EndCylinder />
+        </group>
+        <EndSphere position={[-1.8, -1.6, 1.4]} outroAnim={sceneOutro} />
+        <EndSphere position={[1.8, -0.5, 0]} outroAnim={sceneOutro} />
+        <EndSphere position={[2, -1.7, 1]} outroAnim={sceneOutro} />
+        <EndSphere position={[-1.6, 1.4, 1.5]} outroAnim={sceneOutro} />
+        <EndSphere position={[2, 1.7, -0.5]} outroAnim={sceneOutro} />
+        <LainSpeak intro={isIntro} outro={isOutro} />
       </group>
-      <EndSphere position={[-1.8, -1.6, 1.4]} outroAnim={sceneOutro} />
-      <EndSphere position={[1.8, -0.5, 0]} outroAnim={sceneOutro} />
-      <EndSphere position={[2, -1.7, 1]} outroAnim={sceneOutro} />
-      <EndSphere position={[-1.6, 1.4, 1.5]} outroAnim={sceneOutro} />
-      <EndSphere position={[2, 1.7, -0.5]} outroAnim={sceneOutro} />
-      <LainSpeak intro={isIntro} outro={isOutro} />
-    </group>
+      <group visible={showSelectionScreen}>
+        <EndSelectionScreen />
+      </group>
+    </>
   );
 };
 

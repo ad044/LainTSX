@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   getBootSceneContext,
+  getEndSceneContext,
   getMainSceneContext,
   getMediaSceneContext,
   getSSknSceneContext,
@@ -33,6 +34,8 @@ import { useFrame } from "react-three-fiber";
 import { getRandomIdleLainAnim, getRandomIdleMedia } from "../utils/idle-utils";
 import idleManager from "../core/setters/main/idleManager";
 import * as audio from "../static/sfx";
+import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
+import endManager from "../core/setters/end/endManager";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -80,6 +83,11 @@ const KeyPressHandler = () => {
       soundManager,
       sceneManager,
     ],
+    []
+  );
+
+  const endSceneSetters = useMemo(
+    () => [sceneManager, soundManager, endManager],
     []
   );
 
@@ -157,6 +165,12 @@ const KeyPressHandler = () => {
                 handler: handleBootSceneKeyPress,
                 setters: bootSceneSetters,
               };
+            case "end":
+              return {
+                contextProvider: getEndSceneContext,
+                handler: handleEndSceneKeyPress,
+                setters: endSceneSetters,
+              };
             case "gate":
             case "polytan":
               return {
@@ -191,6 +205,7 @@ const KeyPressHandler = () => {
     },
     [
       bootSceneSetters,
+      endSceneSetters,
       mainSceneSetters,
       mediaSceneSetters,
       scene,

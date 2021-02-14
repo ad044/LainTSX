@@ -65,6 +65,7 @@ const sceneManager = (eventState: any) => {
           delay: 6000,
         };
       case "pause_change_select":
+      case "end_continue_select":
         return {
           action: () =>
             useStore.setState({ currentScene: "change_disc", intro: true }),
@@ -79,6 +80,11 @@ const sceneManager = (eventState: any) => {
       case "start_new_game":
         return {
           action: () => useStore.setState({ currentScene: "main" }),
+          delay: 0,
+        };
+      case "end_end_select":
+        return {
+          action: () => useStore.setState({ currentScene: "boot" }),
           delay: 0,
         };
     }

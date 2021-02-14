@@ -5,7 +5,7 @@ import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
 import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
-import Images from "../components/MediaScene/Images";
+import Images from "../components/Images";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 

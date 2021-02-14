@@ -8,6 +8,7 @@ import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
 import { a, useSpring } from "@react-spring/three";
+import { useStore } from "../../store";
 
 const EndSelectionScreen = () => {
   const middleSpritesheetTex: any = useLoader(
@@ -21,6 +22,8 @@ const EndSelectionScreen = () => {
   const endTextTex = useLoader(THREE.TextureLoader, endText);
   const continueTextTex = useLoader(THREE.TextureLoader, continueText);
   const middleLainTex = useLoader(THREE.TextureLoader, middleLain);
+
+  const componentMatrixIdx = useStore((state) => state.endComponentMatrixIdx);
 
   const [middleSpritesheetAnimator] = useState(() => {
     const anim = new PlainAnimator(middleSpritesheetTex, 1, 4, 4, 24);
@@ -71,7 +74,10 @@ const EndSelectionScreen = () => {
         <boxBufferGeometry attach="geometry" />
         <meshBasicMaterial attach="material" color={0x000000} />
       </mesh>
-      <sprite position={[0, 1, 0]} scale={[0.5, 0.5, 0]}>
+      <sprite
+        position={componentMatrixIdx === 0 ? [0, 1, 0] : [0, -1.5, 0]}
+        scale={[0.5, 0.5, 0]}
+      >
         <spriteMaterial attach="material" map={circleSpritesheetTex} />
       </sprite>
       <sprite position={[0, 1.6, 0]} scale={[1.5, 0.5, 0]}>
