@@ -36,6 +36,7 @@ import idleManager from "../core/setters/main/idleManager";
 import * as audio from "../static/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
 import endManager from "../core/setters/end/endManager";
+import sleep from "../utils/sleep";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(
@@ -111,20 +112,26 @@ const KeyPressHandler = () => {
         // after one idle animation plays, the second comes sooner than it would after a regular keypress
         lainIdleCounter.current = now - 2500;
       }
-      // if (now > idleSceneCounter.current + 5000) {
-      //   idleManager(getRandomIdleMedia());
-      //   playAudio(audio.sound32);
-      //   setTimeout(() => {
-      //     sceneManager({ event: "play_idle_media" });
-      //   }, 1200);
-      //   // put it on lock until the next action, since while the idle media plays, the
-      //   // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
-      //   // one way to work around this would be to modify the value depending on the last played idle media's duration
-      //   // but i'm way too lazy for that
-      //   idleSceneCounter.current = -1;
-      // }
+      if (now > idleSceneCounter.current + 30000) {
+        (async () => {
+          idleManager(getRandomIdleMedia());
+          playAudio(audio.sound32);
+          await sleep(1200);
+
+          sceneManager({ event: "play_idle_media" });
+          // put it on lock until the next action, since while the idle media plays, the
+          // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
+          // one way to work around this would be to modify the value depending on the last played idle media's duration
+          // but i'm way too lazy for that
+          idleSceneCounter.current = -1;
+        })();
+      }
     }
   });
+
+  useEffect(() => {
+    if (scene !== "main") idleSceneCounter.current = -1;
+  }, [scene]);
 
   const handleKeyPress = useCallback(
     (event) => {

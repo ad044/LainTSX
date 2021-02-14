@@ -2,7 +2,7 @@ import { useStore } from "../../../../store";
 import { NodeDataType } from "../../../../components/MainScene/Site";
 import sleep from "../../../../utils/sleep";
 
-const nodeManager = async (eventState: any) => {
+const nodeManager = (eventState: any) => {
   const setActiveNode = useStore.getState().setNode;
   const setActiveNodePos = useStore.getState().setNodePos;
   const setActiveNodeRot = useStore.getState().setNodeRot;
@@ -182,8 +182,10 @@ const nodeManager = async (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  delay && (await sleep(delay));
-  action && action();
+  (async () => {
+    delay && (await sleep(delay));
+    action && action();
+  })();
 };
 
 export default nodeManager;
