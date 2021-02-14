@@ -4,9 +4,10 @@ import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { useStore } from "../../store";
 import usePrevious from "../../hooks/usePrevious";
+import sleep from "../../utils/sleep";
 
 const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   const [color, setColor] = useState("yellow");
@@ -77,16 +78,14 @@ const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
 
   const activeNode = useStore((state) => state.activeNode);
   const activeMediaComponent = useStore(
-    useCallback(
-      (state) =>
-        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-          state.mediaComponentMatrixIndices.sideIdx === 0
-            ? state.mediaComponentMatrixIndices.leftSideIdx
-            : state.mediaComponentMatrixIndices.rightSideIdx
-        ],
-      []
-    )
+    (state) =>
+      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+        state.mediaComponentMatrixIndices.sideIdx === 0
+          ? state.mediaComponentMatrixIndices.leftSideIdx
+          : state.mediaComponentMatrixIndices.rightSideIdx
+      ]
   );
+
   const subscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
   const prevData = usePrevious({ scene, subscene });
@@ -98,36 +97,39 @@ const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   }));
 
   useEffect(() => {
-    if (
-      subscene === "pause" ||
-      (subscene === "site" && prevData?.subscene === "not_found") ||
-      (subscene === "site" && prevData?.subscene === "pause")
-    )
-      return;
-    if (scene === "main" && prevData?.scene === "main") {
-      set({ x: 0 });
-      if (subscene === "level_selection") {
-        setColor("orange");
-      } else {
-        if (color === "orange") {
-          setColor("yellow");
+    (async () => {
+      if (
+        subscene === "pause" ||
+        (subscene === "site" && prevData?.subscene === "not_found") ||
+        (subscene === "site" && prevData?.subscene === "pause")
+      )
+        return;
+      if (scene === "main" && prevData?.scene === "main") {
+        set({ x: 0 });
+        if (subscene === "level_selection") {
+          setColor("orange");
+        } else {
+          if (color === "orange") {
+            setColor("yellow");
+          }
+        }
+        await sleep(1200);
+
+        set({ x: props.letterIdx + 0.3 });
+      } else if (scene === "media") {
+        if (
+          (activeMediaComponent === "play" ||
+            activeMediaComponent === "exit") &&
+          activeMediaComponent !== lastMediaLeftComponent
+        ) {
+          setLastMediaLeftComponent(activeMediaComponent);
+          set({ x: 0 });
+
+          await sleep(1200);
+          set({ x: props.letterIdx + 0.3 });
         }
       }
-      setTimeout(() => {
-        set({ x: props.letterIdx + 0.3 });
-      }, 1200);
-    } else if (scene === "media") {
-      if (
-        (activeMediaComponent === "play" || activeMediaComponent === "exit") &&
-        activeMediaComponent !== lastMediaLeftComponent
-      ) {
-        setLastMediaLeftComponent(activeMediaComponent);
-        set({ x: 0 });
-        setTimeout(() => {
-          set({ x: props.letterIdx + 0.3 });
-        }, 1200);
-      }
-    }
+    })();
   }, [
     activeNode,
     props.letterIdx,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LainSpeak from "../components/LainSpeak";
 import { createAudioAnalyser, useStore } from "../store";
+import sleep from "../utils/sleep";
 
 const TaKScene = () => {
   const setScene = useStore((state) => state.setScene);
@@ -15,16 +16,20 @@ const TaKScene = () => {
   const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
 
   useEffect(() => {
-    if (percentageElapsed === 100) {
-      setIsOutro(true);
-      setTimeout(() => {
+    (async () => {
+      if (percentageElapsed === 100) {
+        setIsOutro(true);
+
+        await sleep(4600);
         setScene("main");
-      }, 4600);
-    }
+      }
+    })();
   }, [percentageElapsed, setScene]);
 
   useEffect(() => {
-    setTimeout(() => {
+    (async () => {
+      await sleep(3800);
+
       const mediaElement = document.getElementById("media") as HTMLMediaElement;
       const trackElement = document.getElementById("track") as HTMLTrackElement;
 
@@ -53,7 +58,7 @@ const TaKScene = () => {
         }
         setIsIntro(false);
       }
-    }, 3800);
+    })();
   }, [nodeMedia, nodeName, setAudioAnalyser]);
 
   return <LainSpeak intro={isIntro} outro={isOutro} />;

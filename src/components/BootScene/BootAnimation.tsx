@@ -14,6 +14,7 @@ import bootBackgroundDistortedTex from "../../static/sprite/distorted_text.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
+import sleep from "../../utils/sleep";
 
 type BootAnimationProps = {
   visible: boolean;
@@ -110,37 +111,31 @@ const BootAnimation = (props: BootAnimationProps) => {
 
   useEffect(() => {
     if (props.visible) {
-      setTimeout(() => {
+      (async () => {
+        await sleep(900);
         currentBootStatusTextTex.offset.y = 0.528;
-      }, 900);
 
-      setTimeout(() => {
+        await sleep(300);
         currentBootStatusTextTex.offset.y = 0.79;
-      }, 1200);
 
-      setTimeout(() => {
+        await sleep(300);
         currentBootStatusTextTex.offset.y = 0.264;
-      }, 1500);
 
-      setTimeout(() => {
+        await sleep(100);
         currentBootStatusTextTex.offset.y = 0.79;
-      }, 1600);
 
-      setTimeout(() => {
+        await sleep(500);
         currentBootStatusTextTex.offset.x = 0.5;
         currentBootStatusTextTex.offset.y = 0.264;
-      }, 2100);
 
-      setTimeout(() => {
+        await sleep(300);
         currentBootStatusTextTex.offset.x = 0;
         currentBootStatusTextTex.offset.y = 0.005;
-      }, 2400);
 
-      setTimeout(() => {
+        await sleep(100);
         currentBootStatusTextTex.offset.y = 0.79;
-      }, 2500);
 
-      setTimeout(() => {
+        await sleep(1700);
         currentBootStatusTextTex.offset.x = 0.5;
         currentBootStatusTextTex.offset.y = 0.005;
         setBootOpacity(0);
@@ -149,8 +144,7 @@ const BootAnimation = (props: BootAnimationProps) => {
         setLofPosY(1);
 
         setBackgroundFloatingTextShown(true);
-        //4200
-      }, 0);
+      })();
     }
   }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
 
@@ -276,7 +270,11 @@ const BootAnimation = (props: BootAnimationProps) => {
               opacity={bootState.bootOpacity}
             />
           </sprite>
-          <sprite scale={[0.2, 0.2, 0]} position={[0, -0.8, 0]} renderOrder={-1}>
+          <sprite
+            scale={[0.2, 0.2, 0]}
+            position={[0, -0.8, 0]}
+            renderOrder={-1}
+          >
             <a.spriteMaterial
               attach="material"
               map={bootPurpleSquareTex}

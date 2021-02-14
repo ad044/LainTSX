@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useStore } from "../store";
 import { a, useSpring } from "@react-spring/three";
 import dummy from "../static/sprite/dummy.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
+import sleep from "../utils/sleep";
 
 const Images = () => {
   const idleNodeImages = useStore((state) => state.idleImages);
@@ -27,6 +28,8 @@ const Images = () => {
     imageScaleY: imageScaleY,
     config: { duration: 300 },
   });
+
+  const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
 
   useEffect(() => {
     let images;
@@ -61,24 +64,24 @@ const Images = () => {
   }, [currentScene, currentSite, idleNodeImages, nodeImages]);
 
   useEffect(() => {
-    if (mediaPercentageElapsed === 0 && sceneImages[0]) {
-      new THREE.TextureLoader().load(sceneImages[0].default, setActiveImage);
-    }
-    if (mediaPercentageElapsed === 35 && sceneImages[1]) {
-      setImageScaleY(0);
-      setTimeout(() => {
-        new THREE.TextureLoader().load(sceneImages[1].default, setActiveImage);
+    (async () => {
+      if (mediaPercentageElapsed === 0 && sceneImages[0]) {
+        textureLoader.load(sceneImages[0].default, setActiveImage);
+      } else if (mediaPercentageElapsed === 35 && sceneImages[1]) {
+        setImageScaleY(0);
+
+        await sleep(300);
+        textureLoader.load(sceneImages[1].default, setActiveImage);
         setImageScaleY(3.75);
-      }, 300);
-    }
-    if (mediaPercentageElapsed === 70 && sceneImages[2]) {
-      setImageScaleY(0);
-      setTimeout(() => {
-        new THREE.TextureLoader().load(sceneImages[2].default, setActiveImage);
+      } else if (mediaPercentageElapsed === 70 && sceneImages[2]) {
+        setImageScaleY(0);
+
+        await sleep(300);
+        textureLoader.load(sceneImages[2].default, setActiveImage);
         setImageScaleY(3.75);
-      }, 300);
-    }
-  }, [mediaPercentageElapsed, sceneImages]);
+      }
+    })();
+  }, [mediaPercentageElapsed, sceneImages, textureLoader]);
 
   return (
     <a.sprite

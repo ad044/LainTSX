@@ -4,7 +4,7 @@ import { useStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import HUD from "../components/MainScene/HUD";
-import YellowTextRenderer from "../components/TextRenderer/YellowTextRenderer";
+import MainYellowTextAnimator from "../components/TextRenderer/MainYellowTextAnimator";
 import YellowOrb from "../components/MainScene/YellowOrb";
 import MiddleRing from "../components/MainScene/MiddleRing";
 import GrayPlanes from "../components/MainScene/GrayPlanes";
@@ -103,7 +103,7 @@ const MainScene = () => {
           <group visible={!wordSelected && (intro ? introFinished : true)}>
             <group visible={subscene !== "not_found"}>
               <HUD />
-              <YellowTextRenderer />
+              <MainYellowTextAnimator />
             </group>
             <MiddleRing />
             <GrayPlanes />

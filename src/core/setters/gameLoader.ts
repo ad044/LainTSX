@@ -1,4 +1,5 @@
 import { useStore } from "../../store";
+import sleep from "../../utils/sleep";
 
 const gameLoader = (eventState: any) => {
   const loadSiteSaveState = useStore.getState().loadSiteSaveState;
@@ -13,14 +14,13 @@ const gameLoader = (eventState: any) => {
       case "pause_load_select":
       case "load_data_yes":
         return {
-          action: () => {
+          action: async () => {
             // todo check if data exists
             setLoadSuccessful(true);
 
-            setTimeout(() => {
-              //todo actually load
-              setLoadSuccessful(undefined);
-            }, 1200);
+            await sleep(1200);
+            //todo actually load
+            setLoadSuccessful(undefined);
           },
         };
     }
@@ -28,9 +28,7 @@ const gameLoader = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  action && action();
 };
 
 export default gameLoader;

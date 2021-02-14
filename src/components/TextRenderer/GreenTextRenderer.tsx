@@ -3,19 +3,15 @@ import * as THREE from "three";
 import greenFont from "../../static/sprite/white_and_green_texture.png";
 import medium_font_json from "../../resources/font_data/medium_font.json";
 import { a } from "@react-spring/three";
-import React, { memo, useCallback, useEffect, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { useStore } from "../../store";
 
 const GreenTextRenderer = memo(() => {
-  const textToRender = useStore(
-    useCallback(
-      (state) =>
-        (state.currentScene === "main"
-          ? state.activeNode.title
-          : state.activeNode.node_name
-        ).split(""),
-      []
-    )
+  const textToRender = useStore((state) =>
+    (state.currentScene === "main"
+      ? state.activeNode.title
+      : state.activeNode.node_name
+    ).split("")
   );
 
   const colorTexture = useLoader(THREE.TextureLoader, greenFont);

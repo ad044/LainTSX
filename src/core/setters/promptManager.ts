@@ -1,4 +1,5 @@
 import { useStore } from "../../store";
+import sleep from "../../utils/sleep";
 
 const promptManager = (eventState: any) => {
   const setComponentMatrixIdx = useStore.getState().setPromptComponentMatrixIdx;
@@ -27,10 +28,9 @@ const promptManager = (eventState: any) => {
         return { action: () => exitAndResetPrompt() };
       case "main_menu_load_data_select":
         return {
-          action: () => {
-            setTimeout(() => {
-              setPromptVisible(true);
-            }, 500);
+          action: async () => {
+            await sleep(500);
+            setPromptVisible(true);
           },
         };
     }
@@ -38,9 +38,7 @@ const promptManager = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  action && action()
 };
 
 export default promptManager;

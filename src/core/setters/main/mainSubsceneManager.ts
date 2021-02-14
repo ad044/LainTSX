@@ -1,6 +1,7 @@
 import { useStore } from "../../../store";
+import sleep from "../../../utils/sleep";
 
-const mainSubsceneManager = (eventState: any) => {
+const mainSubsceneManager = async (eventState: any) => {
   const setMainSubscene = useStore.getState().setMainSubscene;
 
   const dispatchAction = (eventState: { event: string }) => {
@@ -8,7 +9,6 @@ const mainSubsceneManager = (eventState: any) => {
       case "word_node_not_found":
         return {
           action: () => setMainSubscene("not_found"),
-          delay: 0,
         };
       case "level_selection_back":
       case "select_level_up":
@@ -16,23 +16,21 @@ const mainSubsceneManager = (eventState: any) => {
       case "exit_not_found":
         return {
           action: () => setMainSubscene("site"),
-          delay: 0,
         };
       case "toggle_level_selection":
         return {
           action: () => setMainSubscene("level_selection"),
-          delay: 0,
         };
       case "pause_game":
         return {
           action: () => setMainSubscene("pause"),
-          value: "pause",
-          delay: 0,
         };
       case "pause_exit_select":
       case "pause_change_select":
         return {
-          action: () => setMainSubscene("site"),
+          action: () => {
+            setMainSubscene("site");
+          },
           delay: 1800,
         };
     }
@@ -40,11 +38,8 @@ const mainSubsceneManager = (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    setTimeout(() => {
-      action();
-    }, delay);
-  }
+  delay && (await sleep(delay));
+  action && action();
 };
 
 export default mainSubsceneManager;

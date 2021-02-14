@@ -4,6 +4,7 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";
+import sleep from "../../../utils/sleep";
 
 type MiddleRingPartProps = {
   position: number[];
@@ -27,30 +28,28 @@ const MiddleRingPart = (props: MiddleRingPartProps) => {
   const subscene = useStore((state) => state.mainSubscene);
 
   useEffect(() => {
-    if (subscene === "pause") {
+    (async () => {
       const posX = props.position[0];
       const posZ = props.position[2];
-      setTimeout(() => {
-        setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
-      }, 300);
-      setTimeout(() => {
-        setPos({ posX: posX, posZ: posZ });
-      }, 700);
-      setTimeout(() => {
-        setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
-      }, 1100);
-      setTimeout(() => {
-        setPos({ posX: posX, posZ: posZ });
-      }, 1500);
 
-      setTimeout(() => {
-        setPos({ posX: posX / 0.2, posZ: posZ / 0.2 });
-      }, 2300);
+      await sleep(300);
+      setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
 
-      setTimeout(() => {
-        setPos({ posX: posX, posZ: posZ });
-      }, 3000);
-    }
+      await sleep(400);
+      setPos({ posX: posX, posZ: posZ });
+
+      await sleep(400);
+      setPos({ posX: posX / 0.9, posZ: posZ / 0.9 });
+
+      await sleep(400);
+      setPos({ posX: posX, posZ: posZ });
+
+      await sleep(800);
+      setPos({ posX: posX / 0.2, posZ: posZ / 0.2 });
+
+      await sleep(700);
+      setPos({ posX: posX, posZ: posZ });
+    })();
   }, [props.position, setPos, subscene]);
 
   return (

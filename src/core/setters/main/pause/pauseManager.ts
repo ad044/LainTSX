@@ -1,4 +1,5 @@
 import { useStore } from "../../../../store";
+import sleep from "../../../../utils/sleep";
 
 type PauseManagerProps = { event: string; pauseMatrixIdx: number };
 
@@ -24,11 +25,11 @@ const pauseManager = (eventState: any) => {
         };
       case "show_permission_denied":
         return {
-          action: () => {
+          action: async () => {
             setPermissionDenied(true);
-            setTimeout(() => {
-              setPermissionDenied(false);
-            }, 1200);
+
+            await sleep(1200);
+            setPermissionDenied(false);
           },
         };
       case "pause_about_select":
@@ -45,9 +46,7 @@ const pauseManager = (eventState: any) => {
   };
   const { action } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  action && action();
 };
 
 export default pauseManager;

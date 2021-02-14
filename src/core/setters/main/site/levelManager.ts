@@ -24,9 +24,7 @@ const levelManager = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  if (action) {
-    action();
-  }
+  action && action();
 };
 
 export default levelManager;
