@@ -4,18 +4,13 @@ import { OrbitControls } from "@react-three/drei";
 import GateHUD from "../components/GateScene/GateHUD";
 import GateMiddleObject from "../components/GateScene/GateMiddleObject";
 import { useStore } from "../store";
-import sleep from "../utils/sleep";
 
 const GateScene = () => {
   const gateLvl = useStore((state) => state.gateLvl);
   const [introAnim, setIntroAnim] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      await sleep(2500);
-
-      setIntroAnim(false);
-    })();
+    setTimeout(() => setIntroAnim(false), 2500);
   }, []);
 
   return (

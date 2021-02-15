@@ -5,7 +5,6 @@ import BootMainMenuComponents from "../components/BootScene/BootMainMenuComponen
 import { useStore } from "../store";
 import BootAuthorizeUser from "../components/BootScene/BootAuthorizeUser";
 import BootLoadData from "../components/BootScene/BootLoadData";
-import sleep from "../utils/sleep";
 
 const BootScene = () => {
   const activeSubscene = useStore((state) => state.bootSubscene);
@@ -14,13 +13,8 @@ const BootScene = () => {
   const [mainMenuVisible, setMainMenuVisible] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await sleep(2000);
-      setAccelaVisible(false);
-
-      await sleep(4200);
-      setMainMenuVisible(true);
-    })();
+    setTimeout(() => setAccelaVisible(false), 2000);
+    setTimeout(() => setMainMenuVisible(true), 6200);
   }, []);
 
   return (

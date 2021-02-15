@@ -28,23 +28,17 @@ const MainScene = () => {
   const setWordSelected = useStore((state) => state.setWordSelected);
 
   useEffect(() => {
-    (async () => {
-      if (subscene === "pause") {
-        await sleep(3400);
-        setPaused(true);
-      } else {
-        setPaused(false);
-      }
-    })();
+    if (subscene === "pause") {
+      setTimeout(() => setPaused(true), 3400);
+    } else {
+      setPaused(false);
+    }
   }, [subscene]);
 
   useEffect(() => {
-    (async () => {
-      if (wordSelected) {
-        await sleep(3100);
-        setWordSelected(false);
-      }
-    })();
+    if (wordSelected) {
+      setTimeout(() => setWordSelected(false), 3100);
+    }
   }, [setWordSelected, wordSelected]);
 
   const introWrapperRef = useRef<THREE.Group>();

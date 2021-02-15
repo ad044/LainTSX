@@ -28,10 +28,9 @@ const MediaScene = () => {
   }, []);
 
   useEffect(() => {
-    if (percentageElapsed === 100) {
+    if (percentageElapsed === 100 && activeNode.triggers_final_video)
       setScene("end");
-    }
-  }, [percentageElapsed, setScene]);
+  }, [activeNode.triggers_final_video, percentageElapsed, setScene]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;

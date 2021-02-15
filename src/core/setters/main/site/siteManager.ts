@@ -41,10 +41,11 @@ const siteManager = (eventState: any) => {
 
   const { action, delay } = { ...dispatchAction(eventState) };
 
-  (async () => {
-    delay && (await sleep(delay));
-    action && action();
-  })();
+  if (action)
+    (async () => {
+      if (delay) await sleep(delay);
+      action();
+    })();
 };
 
 export default siteManager;

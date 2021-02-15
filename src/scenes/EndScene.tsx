@@ -108,7 +108,6 @@ const EndScene = () => {
     const trackElement = document.getElementById("track") as HTMLTrackElement;
 
     if (mediaElement) {
-      setAudioAnalyser(createAudioAnalyser());
       mediaElement.currentTime = 0;
 
       trackElement.src = endrollVtt;

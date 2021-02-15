@@ -50,7 +50,7 @@ const bootManager = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  action && action();
+  if (action) action();
 };
 
 export default bootManager;

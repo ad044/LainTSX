@@ -59,12 +59,10 @@ const lainManager = (eventState: any) => {
 
   const { action, duration } = { ...dispatchAction(eventState) };
 
-  (async () => {
-    action && action();
-
-    duration && (await sleep(duration));
-    setLainMoveState("standing");
-  })();
+  if (action) {
+    action();
+    setTimeout(() => setLainMoveState("standing"), duration);
+  }
 };
 
 export default lainManager;

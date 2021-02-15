@@ -173,7 +173,7 @@ const soundManager = (eventState: any) => {
 
   const { action } = { ...dispatchAction(eventState) };
 
-  action && action();
+  if (action) action();
 };
 
 export default soundManager;

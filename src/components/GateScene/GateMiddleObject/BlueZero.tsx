@@ -48,12 +48,11 @@ const BlueZero = (props: BlueZeroProps) => {
       `;
 
   useEffect(() => {
-    (async () => {
-      await sleep(1400);
+    setTimeout(() => {
       if (matRef.current) {
         matRef.current.uniforms.brightnessMultiplier.value = 3.5;
       }
-    })();
+    }, 1400);
   }, []);
 
   return (

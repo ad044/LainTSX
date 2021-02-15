@@ -24,28 +24,31 @@ const MediaYellowTextAnimator = memo(() => {
   );
 
   useEffect(() => {
-    (async () => {
-      if (
-        (activeMediaComponent === "play" || activeMediaComponent === "exit") &&
-        activeMediaComponent !== lastLeftComponent
-      ) {
-        setLastLeftComponent(activeMediaComponent);
-        await sleep(400);
+    if (
+      (activeMediaComponent === "play" || activeMediaComponent === "exit") &&
+      activeMediaComponent !== lastLeftComponent
+    ) {
+      setLastLeftComponent(activeMediaComponent);
+
+      setTimeout(() => {
         if (activeMediaComponent === "play") {
           setPosY(0.05);
         } else {
           setPosY(-0.08);
         }
+      }, 400);
 
-        await sleep(600);
-        setTextArr(
-          (
-            activeMediaComponent.charAt(0).toUpperCase() +
-            activeMediaComponent.slice(1)
-          ).split("")
-        );
-      }
-    })();
+      setTimeout(
+        () =>
+          setTextArr(
+            (
+              activeMediaComponent.charAt(0).toUpperCase() +
+              activeMediaComponent.slice(1)
+            ).split("")
+          ),
+        1000
+      );
+    }
   }, [activeMediaComponent, lastLeftComponent]);
 
   useEffect(() => {

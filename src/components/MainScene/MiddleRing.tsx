@@ -216,6 +216,8 @@ const MiddleRing = () => {
   const subscene = useStore((state) => state.mainSubscene);
   const prevData = usePrevious({ siteRotY, activeLevel, subscene });
 
+  const isAnimatingRef = useRef(false);
+
   useEffect(() => {
     const rotate = async (rotValues: [number, number]) => {
       await sleep(2300);
@@ -224,6 +226,8 @@ const MiddleRing = () => {
       await sleep(1200);
       setRot({ rotZ: rotValues[1] });
 
+      isAnimatingRef.current = false;
+      
       await sleep(1000);
       setRot({ rotZ: 0 });
     };
@@ -256,6 +260,8 @@ const MiddleRing = () => {
       setRot({ rotX: 0, rotZ: 0 });
       setRotating(true);
 
+      isAnimatingRef.current = false;
+
       await sleep(6000);
       setNoiseAmp(0.03);
     };
@@ -285,6 +291,8 @@ const MiddleRing = () => {
       setRot({ rotX: 0, rotZ: 0 });
       setPos({ posY: -0.11 });
 
+      isAnimatingRef.current = false;
+
       await sleep(3000);
       setNoiseAmp(0.03);
     };
@@ -302,6 +310,7 @@ const MiddleRing = () => {
 
       await sleep(2700);
       setFakeRingVisible(false);
+      isAnimatingRef.current = false;
     };
 
     const unpause = async () => {
@@ -315,6 +324,7 @@ const MiddleRing = () => {
       await sleep(250);
       setRot({ rotZ: 0, rotX: 0 });
       setPos({ posY: -0.11 });
+      isAnimatingRef.current = false;
     };
 
     const afterWordSelection = async () => {
@@ -324,25 +334,39 @@ const MiddleRing = () => {
       // reset the rotation value to 0
       await sleep(3100);
       setRot({ rotZ: 0, rotX: 0 });
+      isAnimatingRef.current = false;
     };
 
-    if (prevData?.siteRotY !== undefined && prevData?.siteRotY !== siteRotY) {
-      rotate(prevData?.siteRotY > siteRotY ? [-0.07, 0.03] : [0.07, -0.03]);
-    } else if (
-      prevData?.activeLevel !== undefined &&
-      prevData.activeLevel !== activeLevel
-    ) {
-      if (prevData?.activeLevel > activeLevel) {
-        moveDown();
-      } else if (prevData?.activeLevel < activeLevel) {
-        moveUp();
+    if (!isAnimatingRef.current) {
+      if (wordSelected) {
+        isAnimatingRef.current = true;
+        afterWordSelection();
+      } else if (
+        prevData?.siteRotY !== undefined &&
+        prevData?.siteRotY !== siteRotY
+      ) {
+        isAnimatingRef.current = true;
+
+        rotate(prevData?.siteRotY > siteRotY ? [-0.07, 0.03] : [0.07, -0.03]);
+      } else if (
+        prevData?.activeLevel !== undefined &&
+        prevData.activeLevel !== activeLevel
+      ) {
+        isAnimatingRef.current = true;
+        if (prevData?.activeLevel > activeLevel) {
+          moveDown();
+        } else if (prevData?.activeLevel < activeLevel) {
+          moveUp();
+        }
+      } else if (subscene === "pause") {
+        isAnimatingRef.current = true;
+
+        pause();
+      } else if (subscene === "site" && prevData?.subscene === "pause") {
+        isAnimatingRef.current = true;
+
+        unpause();
       }
-    } else if (subscene === "pause") {
-      pause();
-    } else if (subscene === "site" && prevData?.subscene === "pause") {
-      unpause();
-    } else if (wordSelected) {
-      afterWordSelection();
     }
   }, [
     activeLevel,

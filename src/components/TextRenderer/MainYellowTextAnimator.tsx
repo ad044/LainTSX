@@ -22,23 +22,18 @@ const MainYellowTextAnimator = (props: { visible?: boolean }) => {
   }));
 
   useEffect(() => {
-    (async () => {
-      const hud = getNodeHud(activeNode.matrixIndices!);
+    const hud = getNodeHud(activeNode.matrixIndices!);
 
-      if (subscene === "level_selection") {
-        await sleep(400);
-        set({ posX: -0.02, posY: 0.005 });
-
-        await sleep(600);
-        setText("JumpTo".split(""));
-      } else {
-        await sleep(400);
-        set({ posX: hud.big_text[0], posY: hud.big_text[1] });
-
-        await sleep(600);
-        setText(activeNode.node_name.split(""));
-      }
-    })();
+    if (subscene === "level_selection") {
+      setTimeout(() => set({ posX: -0.02, posY: 0.005 }), 400);
+      setTimeout(() => setText("JumpTo".split("")), 1000);
+    } else {
+      setTimeout(
+        () => set({ posX: hud.big_text[0], posY: hud.big_text[1] }),
+        400
+      );
+      setTimeout(() => setText(activeNode.node_name.split("")), 1000);
+    }
   }, [activeNode, prevData?.subscene, set, subscene]);
 
   return (

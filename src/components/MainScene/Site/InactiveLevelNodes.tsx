@@ -20,25 +20,24 @@ const InactiveLevelNodes = memo((props: ActiveLevelNodesProps) => {
   );
 
   useEffect(() => {
-    (async () => {
-      if (
-        prevData?.activeLevel !== activeLevel &&
-        prevData?.activeLevel !== undefined
-      ) {
-        const prevLevel = parseInt(prevData?.activeLevel);
-        const newLevel = parseInt(activeLevel);
-        if (prevLevel - 1 === newLevel || prevLevel + 1 === newLevel) {
-          setVisibleNodes(
-            generateInactiveNodes(props.visibleNodes, activeLevel)
-          );
-        } else {
-          await sleep(1500);
-          setVisibleNodes(
-            generateInactiveNodes(props.visibleNodes, activeLevel)
-          );
-        }
+    if (
+      prevData?.activeLevel !== activeLevel &&
+      prevData?.activeLevel !== undefined
+    ) {
+      const prevLevel = parseInt(prevData?.activeLevel);
+      const newLevel = parseInt(activeLevel);
+      if (prevLevel - 1 === newLevel || prevLevel + 1 === newLevel) {
+        setVisibleNodes(generateInactiveNodes(props.visibleNodes, activeLevel));
+      } else {
+        setTimeout(
+          () =>
+            setVisibleNodes(
+              generateInactiveNodes(props.visibleNodes, activeLevel)
+            ),
+          1500
+        );
       }
-    })();
+    }
   }, [activeLevel, prevData?.activeLevel, props.visibleNodes]);
 
   return (
