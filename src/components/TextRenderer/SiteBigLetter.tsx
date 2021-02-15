@@ -7,7 +7,6 @@ import { a, useSpring } from "@react-spring/three";
 import React, { memo, useEffect, useMemo, useState } from "react";
 import { useStore } from "../../store";
 import usePrevious from "../../hooks/usePrevious";
-import sleep from "../../utils/sleep";
 
 const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   const [color, setColor] = useState("yellow");
@@ -97,39 +96,30 @@ const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   }));
 
   useEffect(() => {
-    (async () => {
+    if (
+      subscene === "pause" ||
+      (subscene === "site" && prevData?.subscene === "not_found") ||
+      (subscene === "site" && prevData?.subscene === "pause")
+    )
+      return;
+    if (scene === "main" && prevData?.scene === "main") {
+      set({ x: 0 });
+
+      if (subscene === "level_selection") setColor("orange");
+      else if (color === "orange") setColor("yellow");
+
+      setTimeout(() => set({ x: props.letterIdx + 0.3 }), 1200);
+    } else if (scene === "media") {
       if (
-        subscene === "pause" ||
-        (subscene === "site" && prevData?.subscene === "not_found") ||
-        (subscene === "site" && prevData?.subscene === "pause")
-      )
-        return;
-      if (scene === "main" && prevData?.scene === "main") {
+        (activeMediaComponent === "play" || activeMediaComponent === "exit") &&
+        activeMediaComponent !== lastMediaLeftComponent
+      ) {
+        setLastMediaLeftComponent(activeMediaComponent);
         set({ x: 0 });
-        if (subscene === "level_selection") {
-          setColor("orange");
-        } else {
-          if (color === "orange") {
-            setColor("yellow");
-          }
-        }
-        await sleep(1200);
 
-        set({ x: props.letterIdx + 0.3 });
-      } else if (scene === "media") {
-        if (
-          (activeMediaComponent === "play" ||
-            activeMediaComponent === "exit") &&
-          activeMediaComponent !== lastMediaLeftComponent
-        ) {
-          setLastMediaLeftComponent(activeMediaComponent);
-          set({ x: 0 });
-
-          await sleep(1200);
-          set({ x: props.letterIdx + 0.3 });
-        }
+        setTimeout(() => set({ x: props.letterIdx + 0.3 }), 1200);
       }
-    })();
+    }
   }, [
     activeNode,
     props.letterIdx,

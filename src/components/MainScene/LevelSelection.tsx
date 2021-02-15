@@ -49,72 +49,68 @@ const LevelSelection = () => {
   const downArrowRef = useRef<THREE.Sprite>();
 
   useEffect(() => {
-    (async () => {
-      const generateGeom = (number: number) => {
-        const geometry = new THREE.PlaneBufferGeometry();
+    const generateGeom = (number: number) => {
+      const geometry = new THREE.PlaneBufferGeometry();
 
-        const uvAttribute = geometry.attributes.uv;
+      const uvAttribute = geometry.attributes.uv;
 
-        for (let i = 0; i < uvAttribute.count; i++) {
-          let u = uvAttribute.getX(i);
-          let v = uvAttribute.getY(i);
+      for (let i = 0; i < uvAttribute.count; i++) {
+        let u = uvAttribute.getX(i);
+        let v = uvAttribute.getY(i);
 
-          u = (u * 22) / 240 + number / 10;
+        u = (u * 22) / 240 + number / 10;
 
-          uvAttribute.setXY(i, u, v);
-        }
-        return geometry;
-      };
-
-      if (subscene === "level_selection") {
-        set({ vertPosY: 0, horizPosX: -0.6 });
-        if (fstNumberRef.current && sndNumberRef.current) {
-          fstNumberRef.current.geometry = generateGeom(
-            parseInt(activeLevel[0])
-          );
-          sndNumberRef.current.geometry = generateGeom(
-            parseInt(activeLevel[1])
-          );
-        }
-      } else if (
-        subscene === "site" &&
-        prevData?.subscene === "level_selection"
-      ) {
-        set({ vertPosY: -2.5, horizPosX: -4 });
+        uvAttribute.setXY(i, u, v);
       }
-      if (selectedLevel !== prevData?.selectedLevel) {
-        if (fstNumberRef.current && sndNumberRef.current) {
-          fstNumberRef.current.geometry = generateGeom(
-            parseInt(selectedLevel[0])
-          );
-          sndNumberRef.current.geometry = generateGeom(
-            parseInt(selectedLevel[1])
-          );
+      return geometry;
+    };
 
-          if (
-            prevData?.selectedLevel &&
-            upArrowRef.current &&
-            downArrowRef.current
-          ) {
-            if (selectedLevel > prevData?.selectedLevel) {
-              upArrowRef.current.material.map = upArrowActiveTex;
-              upArrowRef.current.material.needsUpdate = true;
+    if (subscene === "level_selection") {
+      set({ vertPosY: 0, horizPosX: -0.6 });
+      if (fstNumberRef.current && sndNumberRef.current) {
+        fstNumberRef.current.geometry = generateGeom(parseInt(activeLevel[0]));
+        sndNumberRef.current.geometry = generateGeom(parseInt(activeLevel[1]));
+      }
+    } else if (
+      subscene === "site" &&
+      prevData?.subscene === "level_selection"
+    ) {
+      set({ vertPosY: -2.5, horizPosX: -4 });
+    }
+    if (selectedLevel !== prevData?.selectedLevel) {
+      if (fstNumberRef.current && sndNumberRef.current) {
+        fstNumberRef.current.geometry = generateGeom(
+          parseInt(selectedLevel[0])
+        );
+        sndNumberRef.current.geometry = generateGeom(
+          parseInt(selectedLevel[1])
+        );
 
-              await sleep(100);
+        if (
+          prevData?.selectedLevel &&
+          upArrowRef.current &&
+          downArrowRef.current
+        ) {
+          if (selectedLevel > prevData?.selectedLevel) {
+            upArrowRef.current.material.map = upArrowActiveTex;
+            upArrowRef.current.material.needsUpdate = true;
+
+            setTimeout(() => {
               upArrowRef.current!.material.map = upArrowTex;
               upArrowRef.current!.material.needsUpdate = true;
-            } else if (selectedLevel < prevData?.selectedLevel) {
-              downArrowRef.current.material.map = downArrowActiveTex;
-              downArrowRef.current.material.needsUpdate = true;
+            }, 100);
+          } else if (selectedLevel < prevData?.selectedLevel) {
+            downArrowRef.current.material.map = downArrowActiveTex;
+            downArrowRef.current.material.needsUpdate = true;
 
-              await sleep(100);
+            setTimeout(() => {
               downArrowRef.current!.material.map = downArrowTex;
               downArrowRef.current!.material.needsUpdate = true;
-            }
+            }, 100);
           }
         }
       }
-    })();
+    }
   }, [
     activeLevel,
     downArrowActiveTex,

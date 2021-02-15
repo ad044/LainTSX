@@ -183,8 +183,8 @@ const nodeManager = (eventState: any) => {
   const { action, delay } = { ...dispatchAction(eventState) };
 
   (async () => {
-    delay && (await sleep(delay));
-    action && action();
+    if (delay) await sleep(delay);
+    if (action) action();
   })();
 };
 

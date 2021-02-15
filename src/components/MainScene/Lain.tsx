@@ -409,12 +409,11 @@ const Lain = (props: LainProps) => {
   const regularColor = useMemo(() => new THREE.Color(1, 1, 1), []);
 
   useEffect(() => {
-    (async () => {
-      if (wordSelected) {
-        await sleep(3100);
+    if (wordSelected) {
+      setTimeout(() => {
         if (lainRef.current) lainRef.current.material.color = glowColor;
-      }
-    })();
+      }, 3100);
+    }
   }, [glowColor, wordSelected]);
 
   useFrame(() => {

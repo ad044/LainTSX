@@ -16,20 +16,15 @@ const TaKScene = () => {
   const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
 
   useEffect(() => {
-    (async () => {
-      if (percentageElapsed === 100) {
-        setIsOutro(true);
+    if (percentageElapsed === 100) {
+      setIsOutro(true);
 
-        await sleep(4600);
-        setScene("main");
-      }
-    })();
+      setTimeout(() => setScene("main"), 4600);
+    }
   }, [percentageElapsed, setScene]);
 
   useEffect(() => {
-    (async () => {
-      await sleep(3800);
-
+    setTimeout(() => {
       const mediaElement = document.getElementById("media") as HTMLMediaElement;
       const trackElement = document.getElementById("track") as HTMLTrackElement;
 
@@ -58,7 +53,7 @@ const TaKScene = () => {
         }
         setIsIntro(false);
       }
-    })();
+    }, 3800);
   }, [nodeMedia, nodeName, setAudioAnalyser]);
 
   return <LainSpeak intro={isIntro} outro={isOutro} />;

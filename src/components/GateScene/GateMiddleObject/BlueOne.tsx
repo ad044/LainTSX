@@ -47,12 +47,10 @@ const BlueOne = (props: BlueOneProps) => {
       `;
 
   useEffect(() => {
-    (async () => {
-      await sleep(1400);
-      if (matRef.current) {
+    setTimeout(() => {
+      if (matRef.current)
         matRef.current.uniforms.brightnessMultiplier.value = 3.5;
-      }
-    })();
+    }, 1400);
   }, []);
 
   return (

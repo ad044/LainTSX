@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ExplosionLine from "./NodeExplosion/ExplosionLine";
 import node_explosion_line_positions from "../../../../resources/node_explosion_line_positions.json";
-
 import { useFrame } from "react-three-fiber";
 import GoldNode from "./NodeExplosion/GoldNode";
 import { useStore } from "../../../../store";
-import sleep from "../../../../utils/sleep";
 
 const NodeExplosion = () => {
   const explosionVisible = useStore(
@@ -39,18 +37,14 @@ const NodeExplosion = () => {
   });
 
   useEffect(() => {
-    (async () => {
-      if (explosionVisible) {
-        setShouldRotate(true);
-
-        await sleep(1100);
-        setShouldAnimate(true);
-      } else {
-        setShouldAnimate(false);
-        setShouldRotate(false);
-        setCurrentFrame(1);
-      }
-    })();
+    if (explosionVisible) {
+      setShouldRotate(true);
+      setTimeout(() => setShouldAnimate(true), 1100);
+    } else {
+      setShouldAnimate(false);
+      setShouldRotate(false);
+      setCurrentFrame(1);
+    }
   }, [explosionVisible]);
 
   return explosionVisible ? (

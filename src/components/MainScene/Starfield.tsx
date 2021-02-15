@@ -1,6 +1,5 @@
-import React, { useEffect, useState, memo, useMemo } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import Star from "./Starfield/Star";
-import sleep from "../../utils/sleep";
 
 type StarfieldProps = {
   shouldIntro: boolean;
@@ -43,10 +42,7 @@ const Starfield = memo((props: StarfieldProps) => {
   const [introVisible, setIntroVisible] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      await sleep(3200);
-      setIntroVisible(false);
-    })();
+    setTimeout(() => setIntroVisible(false), 3200);
   }, []);
 
   return (

@@ -113,18 +113,18 @@ const KeyPressHandler = () => {
         lainIdleCounter.current = now - 2500;
       }
       if (now > idleSceneCounter.current + 30000) {
-        (async () => {
-          idleManager(getRandomIdleMedia());
-          playAudio(audio.sound32);
-          await sleep(1200);
+        // put it on lock until the next action, since while the idle media plays, the
+        // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
+        // one way to work around this would be to modify the value depending on the last played idle media's duration
+        // but i'm way too lazy for that
+        idleSceneCounter.current = -1;
 
+        idleManager(getRandomIdleMedia());
+        playAudio(audio.sound32);
+
+        setTimeout(() => {
           sceneManager({ event: "play_idle_media" });
-          // put it on lock until the next action, since while the idle media plays, the
-          // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
-          // one way to work around this would be to modify the value depending on the last played idle media's duration
-          // but i'm way too lazy for that
-          idleSceneCounter.current = -1;
-        })();
+        }, 1200);
       }
     }
   });
