@@ -10,13 +10,10 @@ const RightSide = memo(() => {
   const words = useStore((state) => state.activeNode.words);
 
   const wordPositionState = useStore(
-    useCallback(
-      (state) =>
-        word_position_states[
-          state.mediaWordPosStateIdx.toString() as keyof typeof word_position_states
-        ],
-      []
-    )
+    (state) =>
+      word_position_states[
+        state.mediaWordPosStateIdx.toString() as keyof typeof word_position_states
+      ]
   );
 
   const wordPositionStateSpring = useSpring({

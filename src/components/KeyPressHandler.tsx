@@ -36,7 +36,6 @@ import idleManager from "../core/setters/main/idleManager";
 import * as audio from "../static/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
 import endManager from "../core/setters/end/endManager";
-import sleep from "../utils/sleep";
 
 const KeyPressHandler = () => {
   const mediaSceneSetters = useMemo(

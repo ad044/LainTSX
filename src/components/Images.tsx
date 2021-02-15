@@ -4,7 +4,6 @@ import { a, useSpring } from "@react-spring/three";
 import dummy from "../static/sprite/dummy.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import sleep from "../utils/sleep";
 
 const Images = () => {
   const idleNodeImages = useStore((state) => state.idleImages);

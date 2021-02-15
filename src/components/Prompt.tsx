@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import answerContainer from "../static/sprite/prompt_answer_container.png";
 import questionContainer from "../static/sprite/prompt_question_container.png";
 import yes from "../static/sprite/prompt_yes.png";
@@ -19,10 +19,7 @@ const Prompt = () => {
   const noTex = useLoader(THREE.TextureLoader, no);
 
   const activeComponent = useStore(
-    useCallback(
-      (state) => state.promptComponentMatrix[state.promptComponentMatrixIdx],
-      []
-    )
+    (state) => state.promptComponentMatrix[state.promptComponentMatrixIdx]
   );
 
   return (

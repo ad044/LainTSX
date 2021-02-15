@@ -1,13 +1,7 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { createAudioAnalyser, useStore } from "../store";
+import { useStore } from "../store";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
 import endroll from "../static/movie/ENDROLL1.STR[0].webm";
 import endrollVtt from "../static/webvtt/Endroll.vtt";

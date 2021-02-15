@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { useFrame, useLoader } from "react-three-fiber";
+import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
+import {useFrame, useLoader} from "react-three-fiber";
 import * as THREE from "three";
-import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
+import {PlainSingularAnimator} from "three-plain-animator/lib/plain-singular-animator";
 import moveDownSpriteSheet from "../../static/sprite/jump_down.png";
 import moveUpSpriteSheet from "../../static/sprite/jump_up.png";
 import moveLeftSpriteSheet from "../../static/sprite/move_left.png";
@@ -32,8 +32,7 @@ import leanRightSpriteSheet from "../../static/sprite/lean_right.png";
 import lookAroundSpriteSheet from "../../static/sprite/look_around.png";
 import playWithHairSpriteSheet from "../../static/sprite/play_with_hair.png";
 
-import { useStore } from "../../store";
-import sleep from "../../utils/sleep";
+import {useStore} from "../../store";
 
 type LainConstructorProps = {
   sprite: string;

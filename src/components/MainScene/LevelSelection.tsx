@@ -12,7 +12,6 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import usePrevious from "../../hooks/usePrevious";
-import sleep from "../../utils/sleep";
 
 const LevelSelection = () => {
   const levelSelectionFontTex = useLoader(

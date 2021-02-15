@@ -21,14 +21,10 @@ const Pause = () => {
     [wordFont]
   );
 
-  const activeComponent = useStore(
-    useCallback(
-      (state) =>
-        showActiveComponent
-          ? state.pauseComponentMatrix[state.pauseComponentMatrixIdx]
-          : "",
-      [showActiveComponent]
-    )
+  const activeComponent = useStore((state) =>
+    showActiveComponent
+      ? state.pauseComponentMatrix[state.pauseComponentMatrixIdx]
+      : ""
   );
 
   const generateSqaureGeom = useCallback((row: number, square: number) => {

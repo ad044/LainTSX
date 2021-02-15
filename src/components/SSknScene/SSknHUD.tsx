@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 import ssknOk from "../../static/sprite/sskn_ok.png";
 import ssknOkInactive from "../../static/sprite/sskn_ok_inactive.png";
 import ssknCancel from "../../static/sprite/sskn_cancel.png";
@@ -31,10 +31,7 @@ const SSknHUD = memo(() => {
   const ssknLineTex = useLoader(THREE.TextureLoader, ssknLine);
 
   const activeSSknComponent = useStore(
-    useCallback(
-      (state) => state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
-      []
-    )
+    (state) => state.ssknComponentMatrix[state.ssknComponentMatrixIdx]
   );
 
   const loading = useStore((state) => state.ssknLoading);

@@ -157,12 +157,12 @@ export const useStore = create(
       // site
       activeSite: "a",
       siteRot: [0, 0, 0],
-      // this one is used for word selection animation to start from the correct point
+      // this is used for word selection animation to start from the correct point
       oldSiteRot: [0, 0, 0],
 
       // level
       activeLevel: "04",
-      // this one is used for word selection animation to start from the correct point
+      // this is used for word selection animation to start from the correct point
       oldLevel: "04",
 
       // level selection

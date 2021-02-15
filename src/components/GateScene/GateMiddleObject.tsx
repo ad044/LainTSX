@@ -62,25 +62,23 @@ const GateMiddleObject = (props: GateMiddleObjectProps) => {
         position-z={middleObjectGroupState.posZ}
         visible={props.intro}
       >
-        {springs.map((item, idx) => {
-          if (item.type) {
-            return item.type.get() === 1 ? (
-              <BlueOne
-                posX={item.posX}
-                posY={item.posY}
-                key={idx}
-                visibility={item.visibility}
-              />
-            ) : (
-              <BlueZero
-                posX={item.posX}
-                posY={item.posY}
-                key={idx}
-                visibility={item.visibility}
-              />
-            );
-          }
-        })}
+        {springs.map((item, idx) =>
+          item.type.get() === 1 ? (
+            <BlueOne
+              posX={item.posX}
+              posY={item.posY}
+              key={idx}
+              visibility={item.visibility}
+            />
+          ) : (
+            <BlueZero
+              posX={item.posX}
+              posY={item.posY}
+              key={idx}
+              visibility={item.visibility}
+            />
+          )
+        )}
       </a.group>
       <Mirror
         visible={props.gateLvl === 1 ? !props.intro : props.gateLvl > 0}
