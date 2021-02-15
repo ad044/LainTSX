@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo, memo } from "react";
+import React, { memo, useMemo } from "react";
 import TriangularPrism from "./LeftSide/TriangularPrism";
 import Cube from "./LeftSide/Cube";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";
 
 export type ShapeProps = {
@@ -12,15 +12,12 @@ export type ShapeProps = {
 
 const LeftSide = memo(() => {
   const activeMediaComponent = useStore(
-    useCallback(
-      (state) =>
-        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-          state.mediaComponentMatrixIndices.sideIdx === 0
-            ? state.mediaComponentMatrixIndices.leftSideIdx
-            : state.mediaComponentMatrixIndices.rightSideIdx
-        ],
-      []
-    )
+    (state) =>
+      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
+        state.mediaComponentMatrixIndices.sideIdx === 0
+          ? state.mediaComponentMatrixIndices.leftSideIdx
+          : state.mediaComponentMatrixIndices.rightSideIdx
+      ]
   );
 
   const cubesActive = useMemo(() => activeMediaComponent === "exit", [

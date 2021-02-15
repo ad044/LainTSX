@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createAudioAnalyser, useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
@@ -8,6 +8,7 @@ import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Images from "../components/Images";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
+import Loading from "../components/Loading";
 
 const MediaScene = () => {
   const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
@@ -65,26 +66,36 @@ const MediaScene = () => {
     }
   }, [activeNode.media_file, activeNode.node_name, setAudioAnalyser]);
 
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   return (
     <perspectiveCamera position-z={3}>
-      <group position={[0.4, -0.3, 0]}>
-        <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
-        <LeftSide />
-        <group position={[0, 0.5, -3]}>
-          <MediaLoadingBar />
-          <NodeNameContainer />
-        </group>
-        <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-          <GreenTextRenderer />
-        </group>
-        <MediaYellowTextAnimator />
+      {loaded ? (
+        <group position={[0.4, -0.3, 0]}>
+          <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
+          <LeftSide />
+          <group position={[0, 0.5, -3]}>
+            <MediaLoadingBar />
+            <NodeNameContainer />
+          </group>
+          <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
+            <GreenTextRenderer />
+          </group>
+          <MediaYellowTextAnimator />
 
-        <group visible={activeNode.media_file.includes("XA")}>
-          <RightSide />
-          <AudioVisualizer />
-          <Images />
+          <group visible={activeNode.media_file.includes("XA")}>
+            <RightSide />
+            <AudioVisualizer />
+            <Images />
+          </group>
         </group>
-      </group>
+      ) : (
+        <Loading />
+      )}
     </perspectiveCamera>
   );
 };

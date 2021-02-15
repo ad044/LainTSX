@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { useStore } from "../store";
+import { playAudio, useStore } from "../store";
 import Pause from "../components/MainScene/PauseSubscene/Pause";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import HUD from "../components/MainScene/HUD";
@@ -15,9 +15,8 @@ import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import NotFound from "../components/MainScene/NotFound";
 import PausePopUps from "../components/MainScene/PauseSubscene/PausePopUps";
-import { playAudio } from "../store";
 import * as audio from "../static/sfx";
-import sleep from "../utils/sleep";
+import Loading from "../components/Loading";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -91,7 +90,7 @@ const MainScene = () => {
 
   return (
     <perspectiveCamera position-z={3}>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loading />}>
         <LevelSelection />
         <PausePopUps />
         <Pause />

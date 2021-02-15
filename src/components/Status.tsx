@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import statusContainer from "../static/sprite/status_container.png";
 import loadSuccessfulImg from "../static/sprite/load_successful.png";
 import loadFailImg from "../static/sprite/load_fail.png";

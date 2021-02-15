@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
 import authorizeActive from "../../static/sprite/authorize_user_active.png";
 import authorizeInactive from "../../static/sprite/authorize_user_inactive.png";
@@ -27,11 +27,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
   );
 
   const activeMainMenuElement = useStore(
-    useCallback(
-      (state) =>
-        state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],
-      []
-    )
+    (state) => state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx]
   );
 
   const loadDataActiveTex = useLoader(THREE.TextureLoader, loadDataActive);

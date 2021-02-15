@@ -3,7 +3,6 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import gateBlueBinarySingularOne from "../../../static/sprite/blue_binary_singular_one.png";
 import { a, SpringValue } from "@react-spring/three";
-import sleep from "../../../utils/sleep";
 
 type BlueOneProps = {
   posX: SpringValue<number>;

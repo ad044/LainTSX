@@ -4,7 +4,6 @@ import node_positions from "../../../resources/node_positions.json";
 import { useStore } from "../../../store";
 import { NodeDataType, SiteType } from "../Site";
 import usePrevious from "../../../hooks/usePrevious";
-import sleep from "../../../utils/sleep";
 
 type ActiveLevelNodesProps = {
   visibleNodes: SiteType;

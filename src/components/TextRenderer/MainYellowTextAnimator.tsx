@@ -4,7 +4,6 @@ import { a, useTrail } from "@react-spring/three";
 import SiteBigLetter from "./SiteBigLetter";
 import usePrevious from "../../hooks/usePrevious";
 import { getNodeHud } from "../../utils/node-utils";
-import sleep from "../../utils/sleep";
 
 const MainYellowTextAnimator = (props: { visible?: boolean }) => {
   const activeNode = useStore((state) => state.activeNode);

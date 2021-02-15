@@ -2,7 +2,6 @@ import React, { memo, useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import SiteBigLetter from "./SiteBigLetter";
-import sleep from "../../utils/sleep";
 
 const MediaYellowTextAnimator = memo(() => {
   const [lastLeftComponent, setLastLeftComponent] = useState("play");
