@@ -3,7 +3,7 @@ import ssknIcon from "../../static/sprite/SSkn_icon.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
-const SSknIcon = memo(() => {
+const SsknIcon = memo(() => {
   const ssknIconTex = useLoader(THREE.TextureLoader, ssknIcon);
   const ssknIconRef = useRef<THREE.Object3D>();
   const ssknIconShadowRef = useRef<THREE.Object3D>();
@@ -51,4 +51,4 @@ const SSknIcon = memo(() => {
   );
 });
 
-export default SSknIcon;
+export default SsknIcon;

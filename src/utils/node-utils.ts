@@ -1,13 +1,13 @@
-import { NodeDataType, SiteType } from "../components/MainScene/Site";
+import { NodeData, SiteData } from "../components/MainScene/Site";
 import node_matrices from "../resources/node_matrices.json";
-import game_progress from "../resources/initial_progress.json";
 import unlocked_nodes from "../resources/initial_progress.json";
 import node_huds from "../resources/node_huds.json";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
+import {GameProgress} from "../store";
 
 export const generateInactiveNodes = (
-  visibleNodes: SiteType,
+  visibleNodes: SiteData,
   activeLevel: string
 ) => {
   const obj = {};
@@ -26,10 +26,10 @@ export const generateInactiveNodes = (
   return obj;
 };
 
-export const getNodeById = (id: string, currentSite: string) => {
-  const siteData = currentSite === "a" ? site_a : site_b;
+export const getNodeById = (id: string, activeSite: string) => {
+  const siteData = activeSite === "a" ? site_a : site_b;
   const level = id.substr(0, 2);
-  return (siteData as SiteType)[level][id];
+  return (siteData as SiteData)[level][id];
 };
 export const getNodeHud = (nodeMatrixIndices: {
   matrixIdx: number;
@@ -60,7 +60,7 @@ export const getNodeHud = (nodeMatrixIndices: {
 
 //visible = (global_final_viewcount > 0) && (req_final_viewcount <= global_final_viewcount + 1)
 export const isNodeVisible = (
-  node: NodeDataType,
+  node: NodeData,
   gameProgress: typeof unlocked_nodes
 ) => {
   return node
@@ -74,7 +74,7 @@ export const isNodeVisible = (
 export const getVisibleNodesMatrix = (
   matrixIdx: number,
   activeLevel: number,
-  currentSite: string,
+  activeSite: string,
   gameProgress: any
 ) => {
   const formattedLevel = activeLevel.toString().padStart(2, "0");
@@ -84,7 +84,7 @@ export const getVisibleNodesMatrix = (
   return currentMatrix.map((row: string[]) =>
     row.map((nodePos: string) => {
       const nodeId = formattedLevel + nodePos;
-      if (isNodeVisible(getNodeById(nodeId, currentSite), gameProgress))
+      if (isNodeVisible(getNodeById(nodeId, activeSite), gameProgress))
         return nodeId;
       else return undefined;
     })
@@ -174,8 +174,8 @@ export const findNode = (
   }: { matrixIdx: number; rowIdx: number; colIdx: number },
 
   level: number,
-  currentSite: string,
-  gameProgress: typeof game_progress,
+  activeSite: string,
+  gameProgress: GameProgress,
   shouldSearchNext: boolean
 ) => {
   const funcs: {
@@ -198,7 +198,7 @@ export const findNode = (
     const nodes = getVisibleNodesMatrix(
       matrixIdx,
       level,
-      currentSite,
+      activeSite,
       gameProgress
     );
 
@@ -237,10 +237,10 @@ export const findNode = (
   }
 };
 export const filterInvisibleNodes = (
-  siteData: SiteType,
-  gameProgress: typeof game_progress
+  siteData: SiteData,
+  gameProgress: GameProgress
 ) => {
-  const visibleNodes: SiteType = {};
+  const visibleNodes: SiteData = {};
   Object.entries(siteData).forEach((level) => {
     visibleNodes[level[0]] = {};
     Object.entries(level[1]).forEach((node) => {

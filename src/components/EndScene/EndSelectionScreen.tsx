@@ -23,7 +23,7 @@ const EndSelectionScreen = () => {
   const continueTextTex = useLoader(THREE.TextureLoader, continueText);
   const middleLainTex = useLoader(THREE.TextureLoader, middleLain);
 
-  const componentMatrixIdx = useStore((state) => state.endComponentMatrixIdx);
+  const activeComponent = useStore((state) => state.activeEndComponent);
 
   const [middleSpritesheetAnimator] = useState(() => {
     const anim = new PlainAnimator(middleSpritesheetTex, 1, 4, 4, 24);
@@ -75,7 +75,7 @@ const EndSelectionScreen = () => {
         <meshBasicMaterial attach="material" color={0x000000} />
       </mesh>
       <sprite
-        position={componentMatrixIdx === 0 ? [0, 1, 0] : [0, -1.5, 0]}
+        position={activeComponent === "end" ? [0, 1, 0] : [0, -1.5, 0]}
         scale={[0.5, 0.5, 0]}
       >
         <spriteMaterial attach="material" map={circleSpritesheetTex} />

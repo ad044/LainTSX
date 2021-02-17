@@ -2,20 +2,22 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import game_progress from "./resources/initial_progress.json";
-import { NodeDataType } from "./components/MainScene/Site";
+import { NodeData } from "./components/MainScene/Site";
 import { getNodeById } from "./utils/node-utils";
 import site_a from "./resources/site_a.json";
+
+export type GameProgress = typeof game_progress;
 
 type State = {
   currentScene: string;
 
-  gameProgress: typeof game_progress;
+  gameProgress: GameProgress;
 
   mainSubscene: string;
 
   intro: boolean;
 
-  activeNode: NodeDataType;
+  activeNode: NodeData;
   activeNodePos: number[];
   activeNodeRot: number[];
   activeNodeAttributes: {
@@ -41,13 +43,11 @@ type State = {
   selectedLevel: number;
 
   // end scene
-  endComponentMatrix: ["end", "continue"];
-  endComponentMatrixIdx: 0 | 1;
+  activeEndComponent: "end" | "continue";
   endSceneSelectionVisible: boolean;
 
   // pause
-  pauseComponentMatrix: ["load", "about", "change", "save", "exit"];
-  pauseComponentMatrixIdx: number;
+  activePauseComponent: "load" | "about" | "change" | "save" | "exit";
   pauseExitAnimation: boolean;
   showingAbout: boolean;
   permissionDenied: boolean;
@@ -55,12 +55,13 @@ type State = {
   // media/media scene
   audioAnalyser: any;
   mediaPercentageElapsed: number;
-  mediaComponentMatrix: [["play", "exit"], ["fstWord", "sndWord", "thirdWord"]];
-  mediaComponentMatrixIndices: {
-    sideIdx: 0 | 1;
-    leftSideIdx: 0 | 1;
-    rightSideIdx: 0 | 1 | 2;
+  currentMediaSide: "left" | "right";
+  activeMediaComponent: "play" | "exit" | "fstWord" | "sndWord" | "thirdWord";
+  lastActiveMediaComponents: {
+    left: "play" | "exit";
+    right: "fstWord" | "sndWord" | "thirdWord";
   };
+
   mediaWordPosStateIdx: number;
   wordSelected: boolean;
 
@@ -71,8 +72,7 @@ type State = {
   idleNodeName: string | undefined;
 
   // sskn scene
-  ssknComponentMatrix: ["ok", "cancel"];
-  ssknComponentMatrixIdx: 0 | 1;
+  activeSsknComponent: "ok" | "cancel";
   ssknLoading: boolean;
   ssknLvl: number;
 
@@ -93,15 +93,13 @@ type State = {
   playerName: string;
 
   // boot scene
-  mainMenuComponentMatrix: ["authorize_user", "load_data"];
-  mainMenuComponentMatrixIdx: 0 | 1;
+  activeMainMenuComponent: "authorize_user" | "load_data";
   authorizeUserLetterIdx: number;
   bootSubscene: "main_menu" | "load_data" | "authorize_user";
 
   // prompt
   promptVisible: boolean;
-  promptComponentMatrix: ["yes", "no"];
-  promptComponentMatrixIdx: 1 | 0;
+  activePromptComponent: "yes" | "no";
 
   // status notifiers
   loadSuccessful: boolean | undefined;
@@ -110,23 +108,25 @@ type State = {
   // save state
   siteSaveState: {
     a: {
-      activeNode: NodeDataType;
+      activeNode: NodeData;
       siteRot: number[];
       activeLevel: string;
     };
     b: {
-      activeNode: NodeDataType;
+      activeNode: NodeData;
       siteRot: number[];
       activeLevel: string;
     };
   };
+
+  inputCooldown: boolean;
 };
 
 export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "main",
+      currentScene: "boot",
 
       // game progress
       gameProgress: game_progress,
@@ -169,13 +169,11 @@ export const useStore = create(
       selectedLevel: 4,
 
       // end scene
-      endComponentMatrix: ["end", "continue"],
-      endComponentMatrixIdx: 0,
+      activeEndComponent: "end",
       endSceneSelectionVisible: false,
 
       // pause
-      pauseComponentMatrix: ["load", "about", "change", "save", "exit"],
-      pauseComponentMatrixIdx: 2,
+      activePauseComponent: "change",
       pauseExitAnimation: false,
       showingAbout: false,
       permissionDenied: false,
@@ -183,17 +181,12 @@ export const useStore = create(
       // media scene
       audioAnalyser: undefined,
       mediaPercentageElapsed: 0,
-      mediaComponentMatrix: [
-        ["play", "exit"],
-        ["fstWord", "sndWord", "thirdWord"],
-      ],
-      mediaComponentMatrixIndices: {
-        // 0 or 1 (left/right)
-        sideIdx: 0,
-        // 0 or 1 ("play" or "exit")
-        leftSideIdx: 0,
-        // 0 or 1 or 2 ("fstWord", "sndWord" or "thirdWord")
-        rightSideIdx: 0,
+
+      currentMediaSide: "left",
+      activeMediaComponent: "play",
+      lastActiveMediaComponents: {
+        left: "play",
+        right: "fstWord",
       },
       mediaWordPosStateIdx: 1,
       wordSelected: false,
@@ -206,8 +199,7 @@ export const useStore = create(
       idleImages: site_a["00"]["0000"].image_table_indices,
 
       // sskn scene
-      ssknComponentMatrix: ["ok", "cancel"],
-      ssknComponentMatrixIdx: 0,
+      activeSsknComponent: "ok",
       ssknLoading: false,
       ssknLvl: 0,
 
@@ -228,15 +220,13 @@ export const useStore = create(
       playerName: "アイウエオ",
 
       // boot scene
-      mainMenuComponentMatrix: ["authorize_user", "load_data"],
-      mainMenuComponentMatrixIdx: 0,
+      activeMainMenuComponent: "authorize_user",
       authorizeUserLetterIdx: 0,
       bootSubscene: "main_menu",
 
       // prompt
       promptVisible: false,
-      promptComponentMatrix: ["yes", "no"],
-      promptComponentMatrixIdx: 1,
+      activePromptComponent: "no",
 
       // status notifiers
       loadSuccessful: undefined,
@@ -261,6 +251,8 @@ export const useStore = create(
           activeLevel: "04",
         },
       },
+
+      inputCooldown: false,
     } as State,
     (set) => ({
       // scene data setters
@@ -273,7 +265,7 @@ export const useStore = create(
       setIntro: (to: boolean) => set(() => ({ intro: to })),
 
       // node setters
-      setNode: (to: NodeDataType) => set(() => ({ activeNode: to })),
+      setNode: (to: NodeData) => set(() => ({ activeNode: to })),
       setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
       setNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
       setNodeAttributes: (
@@ -314,14 +306,10 @@ export const useStore = create(
       setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
 
       // end scene setters
-      setEndComponentMatrixIdx: (to: 0 | 1) =>
-        set(() => ({ endComponentMatrixIdx: to })),
       setEndSceneSelectionVisible: (to: boolean) =>
         set(() => ({ endSceneSelectionVisible: to })),
 
       // pause setters
-      setPauseComponentMatrixIdx: (to: number) =>
-        set(() => ({ pauseComponentMatrixIdx: to })),
       setPauseExitAnimation: (to: boolean) =>
         set(() => ({ pauseExitAnimation: to })),
       setShowingAbout: (to: boolean) => set(() => ({ showingAbout: to })),
@@ -330,33 +318,33 @@ export const useStore = create(
 
       // media scene setters
       setAudioAnalyser: (to: any) => set(() => ({ audioAnalyser: to })),
-      toggleMediaSide: () =>
-        set((state) => ({
-          mediaComponentMatrixIndices: {
-            ...state.mediaComponentMatrixIndices,
-            sideIdx: Number(!state.mediaComponentMatrixIndices.sideIdx) as
-              | 0
-              | 1,
-          },
-        })),
-      setMediaLeftComponentMatrixIdx: (to: 0 | 1) =>
-        set((state) => ({
-          mediaComponentMatrixIndices: {
-            ...state.mediaComponentMatrixIndices,
-            leftSideIdx: to,
-          },
-        })),
-      updateRightSide: (matrixIdx: 0 | 1 | 2, wordPosIdx: number) =>
-        set((state) => ({
-          mediaComponentMatrixIndices: {
-            ...state.mediaComponentMatrixIndices,
-            rightSideIdx: matrixIdx,
-          },
-          mediaWordPosStateIdx: wordPosIdx,
-        })),
       setPercentageElapsed: (to: number) =>
         set(() => ({ mediaPercentageElapsed: to })),
       setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
+      updateLeftSide: (
+        newActiveComponent: "fstWord" | "sndWord" | "thirdWord",
+        lastActiveComponent: "exit" | "play"
+      ) =>
+        set((state) => ({
+          activeMediaComponent: newActiveComponent,
+          lastActiveMediaComponents: {
+            ...state.lastActiveMediaComponents,
+            left: lastActiveComponent,
+          },
+          currentMediaSide: "right",
+        })),
+      updateRightSide: (
+        newActiveComponent: "play" | "exit",
+        lastActiveComponent: "fstWord" | "sndWord" | "thirdWord"
+      ) =>
+        set((state) => ({
+          activeMediaComponent: newActiveComponent,
+          lastActiveMediaComponents: {
+            ...state.lastActiveMediaComponents,
+            right: lastActiveComponent,
+          },
+          currentMediaSide: "left",
+        })),
 
       // idle media setters
       setIdleStarting: (to: boolean) => set(() => ({ idleStarting: to })),
@@ -379,15 +367,6 @@ export const useStore = create(
             [bodyPart]: true,
           },
         })),
-      // sskn scene setters
-      toggleSSknComponentMatrixIdx: () =>
-        set((state) => ({
-          ssknComponentMatrixIdx: Number(!state.ssknComponentMatrixIdx) as
-            | 0
-            | 1,
-        })),
-      setSSknLoading: (to: boolean) => set(() => ({ ssknLoading: to })),
-      incrementSSknLvl: () => set((state) => ({ ssknLvl: state.ssknLvl + 1 })),
 
       // gate scene setters
       incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
@@ -398,23 +377,15 @@ export const useStore = create(
       // boot scene setters
       setBootSubscene: (to: "load_data" | "authorize_user" | "main_menu") =>
         set(() => ({ bootSubscene: to })),
-      setMainMenuComponentMatrixIdx: (to: 0 | 1) =>
-        set(() => ({
-          mainMenuComponentMatrixIdx: to,
-        })),
+
       setAuthorizeUserLetterIdx: (to: number) =>
         set(() => ({ authorizeUserLetterIdx: to })),
-
-      // prompt setters
-      setPromptVisible: (to: boolean) => set(() => ({ promptVisible: to })),
-      setPromptComponentMatrixIdx: (to: 1 | 0) =>
-        set(() => ({ promptComponentMatrixIdx: to })),
 
       // site state setters
       setSiteSaveState: (
         site: string,
         to: {
-          activeNode: NodeDataType;
+          activeNode: NodeData;
           siteRot: number[];
           activeLevel: string;
         }
@@ -430,6 +401,30 @@ export const useStore = create(
             activeNode: stateToLoad.activeNode,
             siteRot: stateToLoad.siteRot,
             activeLevel: stateToLoad.activeLevel,
+          };
+        }),
+      changeSite: (to: "a" | "b") =>
+        set((state) => {
+          const newState = state.siteSaveState[to];
+          return {
+            currentScene: "change_disc",
+            promptVisible: false,
+            activePromptComponent: "no",
+            mainSubscene: "site",
+            // load new state
+            activeSite: to,
+            activeNode: newState.activeNode,
+            siteRot: newState.siteRot,
+            activeLevel: newState.activeLevel,
+            // save current state
+            siteSaveState: {
+              ...state.siteSaveState,
+              [to === "a" ? "b" : "a"]: {
+                activeNode: state.activeNode,
+                siteRot: [0, state.siteRot[1], 0],
+                activeLevel: state.activeLevel,
+              },
+            },
           };
         }),
 
@@ -450,6 +445,10 @@ export const useStore = create(
             [nodeName]: to,
           },
         })),
+
+      setInputCooldown: (to: boolean) => set(() => ({ inputCooldown: to })),
+
+      incrementSsknLvl: () => set((state) => ({ ssknLvl: state.ssknLvl + 1 })),
     })
   )
 );
@@ -464,28 +463,46 @@ export const getSiteState = (site: "a" | "b") => {
   };
 };
 
+type PromptContext = {
+  activePromptComponent: "yes" | "no";
+  promptVisible: boolean;
+};
+
 const getPromptContext = () => {
   const state = useStore.getState();
 
   return {
     promptVisible: state.promptVisible,
-    activePromptComponent:
-      state.promptComponentMatrix[state.promptComponentMatrixIdx],
+    activePromptComponent: state.activePromptComponent,
   };
 };
 
-export const getMainSceneContext = () => {
+export interface MainSceneContext extends PromptContext {
+  keyPress: string;
+  ssknLvl: number;
+  activeNode: NodeData;
+  showingAbout: boolean;
+  level: number;
+  activePauseComponent: "load" | "about" | "change" | "save" | "exit";
+  gameProgress: GameProgress;
+  gateLvl: number;
+  subscene: string;
+  siteRotY: number;
+  activeSite: "a" | "b";
+  selectedLevel: number;
+}
+
+export const getMainSceneContext = (keyPress: string): MainSceneContext => {
   const state = useStore.getState();
 
   return {
     ...getPromptContext(),
+    keyPress: keyPress,
     subscene: state.mainSubscene,
     selectedLevel: state.selectedLevel,
-    pauseMatrixIdx: state.pauseComponentMatrixIdx,
-    activePauseComponent:
-      state.pauseComponentMatrix[state.pauseComponentMatrixIdx],
+    activePauseComponent: state.activePauseComponent,
     gameProgress: state.gameProgress,
-    currentSite: state.activeSite,
+    activeSite: state.activeSite,
     siteRotY: state.siteRot[1],
     activeNode: state.activeNode,
     level: parseInt(state.activeLevel),
@@ -495,26 +512,43 @@ export const getMainSceneContext = () => {
   };
 };
 
-export const getSSknSceneContext = () => {
+export type SsknSceneContext = {
+  keyPress: string;
+  activeSsknComponent: "ok" | "cancel";
+  activeNode: NodeData;
+};
+
+export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
   const state = useStore.getState();
   return {
-    activeSSknComponent:
-      state.ssknComponentMatrix[state.ssknComponentMatrixIdx],
+    keyPress: keyPress,
+    activeSsknComponent: state.activeSsknComponent,
     activeNode: state.activeNode,
   };
 };
 
-export const getMediaSceneContext = () => {
+export type MediaSceneContext = {
+  keyPress: string;
+  wordPosStateIdx: number;
+  currentMediaSide: "left" | "right";
+  activeMediaComponent: "play" | "exit" | "fstWord" | "sndWord" | "thirdWord";
+  activeNode: NodeData;
+  gameProgress: GameProgress;
+  lastActiveMediaComponents: {
+    left: "play" | "exit";
+    right: "fstWord" | "sndWord" | "thirdWord";
+  };
+  activeSite: "a" | "b";
+};
+
+export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
   const state = useStore.getState();
 
   return {
-    activeMediaComponent:
-      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-        state.mediaComponentMatrixIndices.sideIdx === 0
-          ? state.mediaComponentMatrixIndices.leftSideIdx
-          : state.mediaComponentMatrixIndices.rightSideIdx
-      ],
-    rightSideComponentIdx: state.mediaComponentMatrixIndices.rightSideIdx,
+    keyPress: keyPress,
+    lastActiveMediaComponents: state.lastActiveMediaComponents,
+    currentMediaSide: state.currentMediaSide,
+    activeMediaComponent: state.activeMediaComponent,
     wordPosStateIdx: state.mediaWordPosStateIdx,
     activeNode: state.activeNode,
     activeSite: state.activeSite,
@@ -522,24 +556,39 @@ export const getMediaSceneContext = () => {
   };
 };
 
-export const getBootSceneContext = () => {
+export interface BootSceneContext extends PromptContext {
+  keyPress: string;
+  playerName: string;
+  subscene: "main_menu" | "load_data" | "authorize_user";
+  activeMainMenuComponent: "load_data" | "authorize_user";
+  authorizeUserLetterIdx: number;
+}
+
+export const getBootSceneContext = (keyPress: string): BootSceneContext => {
   const state = useStore.getState();
 
   return {
     ...getPromptContext(),
+    keyPress: keyPress,
     playerName: state.playerName,
     subscene: state.bootSubscene,
-    activeMainMenuComponent:
-      state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx],
+    activeMainMenuComponent: state.activeMainMenuComponent,
     authorizeUserLetterIdx: state.authorizeUserLetterIdx,
   };
 };
 
-export const getEndSceneContext = () => {
+export type EndSceneContext = {
+  keyPress: string;
+  activeEndComponent: "end" | "continue";
+  selectionVisible: boolean;
+};
+
+export const getEndSceneContext = (keyPress: string): EndSceneContext => {
   const state = useStore.getState();
 
   return {
-    activeEndComponent: state.endComponentMatrix[state.endComponentMatrixIdx],
+    keyPress: keyPress,
+    activeEndComponent: state.activeEndComponent,
     selectionVisible: state.endSceneSelectionVisible,
   };
 };
@@ -560,4 +609,20 @@ export const createAudioAnalyser = () => {
   audio.setMediaElementSource(mediaElement);
 
   return new THREE.AudioAnalyser(audio, 2048);
+};
+
+export const getSceneResetValues = (scene: string) => {
+  switch (scene) {
+    case "media":
+      return {
+        mediaWordPosStateIdx: 1,
+        mediaComponentMatrixIndices: {
+          sideIdx: 0,
+          leftSideIdx: 0,
+          rightSideIdx: 0,
+        },
+      };
+    case "sskn":
+      return { ssknComponentMatrixIdx: 0, ssknLoading: false };
+  }
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
-import SiteBigLetter from "./SiteBigLetter";
+import BigLetter from "./BigLetter";
 import usePrevious from "../../hooks/usePrevious";
 import { getNodeHud } from "../../utils/node-utils";
 
@@ -45,7 +45,7 @@ const MainYellowTextAnimator = (props: { visible?: boolean }) => {
           position-z={-8.7}
           scale={[0.04, 0.06, 0.04]}
         >
-          <SiteBigLetter letter={text[idx]} letterIdx={idx} key={idx} />
+          <BigLetter letter={text[idx]} letterIdx={idx} key={idx} />
         </a.group>
       ))}
     </a.group>

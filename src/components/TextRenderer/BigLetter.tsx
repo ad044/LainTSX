@@ -8,7 +8,7 @@ import React, { memo, useEffect, useMemo, useState } from "react";
 import { useStore } from "../../store";
 import usePrevious from "../../hooks/usePrevious";
 
-const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
+const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
   const [color, setColor] = useState("yellow");
 
   const tex = useMemo(
@@ -76,14 +76,7 @@ const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   }, [letterData, lineYOffset]);
 
   const activeNode = useStore((state) => state.activeNode);
-  const activeMediaComponent = useStore(
-    (state) =>
-      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-        state.mediaComponentMatrixIndices.sideIdx === 0
-          ? state.mediaComponentMatrixIndices.leftSideIdx
-          : state.mediaComponentMatrixIndices.rightSideIdx
-      ]
-  );
+  const activeMediaComponent = useStore((state) => state.activeMediaComponent);
 
   const subscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
@@ -150,4 +143,4 @@ const SiteBigLetter = memo((props: { letter: string; letterIdx: number }) => {
   );
 });
 
-export default SiteBigLetter;
+export default BigLetter;

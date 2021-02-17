@@ -11,7 +11,7 @@ import level_y_values from "../../resources/level_y_values.json";
 import { filterInvisibleNodes } from "../../utils/node-utils";
 import Loading from "../Loading";
 
-export type NodeDataType = {
+export type NodeData = {
   id: string;
   image_table_indices: { 1: string; 2: string; 3: string };
   triggers_final_video: number;
@@ -32,12 +32,12 @@ export type NodeDataType = {
   is_viewed?: number;
 };
 
-export type LevelType = {
-  [key: string]: NodeDataType;
+export type Level = {
+  [key: string]: NodeData;
 };
 
-export type SiteType = {
-  [key: string]: LevelType;
+export type SiteData = {
+  [key: string]: Level;
 };
 
 type SiteProps = {
@@ -47,11 +47,16 @@ type SiteProps = {
 const Site = (props: SiteProps) => {
   const wordSelected = useStore((state) => state.wordSelected);
 
-  const [rotState, setRot] = useSpring(() => ({
-    x: wordSelected ? 0 : useStore.getState().siteRot[0],
+  const [rotXState, setRotX] = useSpring(() => ({
+    x: 0,
+    config: { duration: 1200 },
+  }));
+
+  const [rotYState, setRotY] = useSpring(() => ({
     y: wordSelected
       ? useStore.getState().oldSiteRot[1]
       : useStore.getState().siteRot[1],
+    delay: 1100,
     config: { duration: 1200 },
   }));
 
@@ -68,29 +73,32 @@ const Site = (props: SiteProps) => {
   }));
 
   useEffect(() => {
-    useStore.subscribe(setRot, (state) => ({
-      x: state.siteRot[0],
+    useStore.subscribe(setRotY, (state) => ({
       y: state.siteRot[1],
+      delay: 1100,
+    }));
+    useStore.subscribe(setRotX, (state) => ({
+      x: state.siteRot[0],
     }));
     useStore.subscribe(setPos, (state) => ({
       y: -level_y_values[state.activeLevel as keyof typeof level_y_values],
       delay: 1300,
     }));
-  }, [setPos, setRot]);
+  }, [setPos, setRotX, setRotY]);
 
-  const currentSite = useStore((state) => state.activeSite);
+  const activeSite = useStore((state) => state.activeSite);
   const gameProgress = useStore((state) => state.gameProgress);
 
   const visibleNodes = useMemo(
     () =>
-      filterInvisibleNodes(currentSite === "a" ? site_a : site_b, gameProgress),
-    [currentSite, gameProgress]
+      filterInvisibleNodes(activeSite === "a" ? site_a : site_b, gameProgress),
+    [activeSite, gameProgress]
   );
 
   return (
     <Suspense fallback={<Loading />}>
-      <a.group rotation-x={rotState.x}>
-        <a.group rotation-y={rotState.y} position-y={posState.y}>
+      <a.group rotation-x={rotXState.x}>
+        <a.group rotation-y={rotYState.y} position-y={posState.y}>
           <ActiveLevelNodes visibleNodes={visibleNodes} />
           <InactiveLevelNodes visibleNodes={visibleNodes} />
           <Rings activateAllRings={props.introFinished} />

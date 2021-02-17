@@ -4,15 +4,15 @@ import {
   isNodeVisible,
   unknownNodeTemplate,
 } from "../../utils/node-utils";
+import { MainSceneContext } from "../../store";
 
-const handleMainSceneKeyPress = (mainSceneContext: any) => {
+const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
   const {
     subscene,
     selectedLevel,
-    pauseMatrixIdx,
     activePauseComponent,
     gameProgress,
-    currentSite,
+    activeSite,
     siteRotY,
     activeNode,
     level,
@@ -37,7 +37,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
           case "yes":
             return {
               event: `pause_${activePauseComponent}_select`,
-              site: currentSite,
+              site: activeSite === "a" ? "b" : "a",
             };
         }
     }
@@ -54,7 +54,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
               keyPressToLower,
               activeNode.matrixIndices!,
               level,
-              currentSite,
+              activeSite,
               gameProgress,
               true
             );
@@ -70,7 +70,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
                     : siteRotY - Math.PI / 4,
                 node: {
                   ...(nodeData.node !== "unknown"
-                    ? getNodeById(nodeData.node, currentSite)
+                    ? getNodeById(nodeData.node, activeSite)
                     : unknownNodeTemplate),
                   matrixIndices: nodeData.matrixIndices,
                 },
@@ -80,7 +80,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
                 event: "change_node",
                 nodeMatrixIndices: nodeData.matrixIndices,
                 node: {
-                  ...getNodeById(nodeData.node, currentSite),
+                  ...getNodeById(nodeData.node, activeSite),
                   matrixIndices: nodeData.matrixIndices,
                 },
               };
@@ -94,7 +94,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
               keyPressToLower,
               activeNode.matrixIndices!,
               level,
-              currentSite,
+              activeSite,
               gameProgress,
               true
             );
@@ -109,7 +109,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
                   .padStart(2, "0"),
                 node: {
                   ...(nodeData.node !== "unknown"
-                    ? getNodeById(nodeData.node, currentSite)
+                    ? getNodeById(nodeData.node, activeSite)
                     : unknownNodeTemplate),
                   matrixIndices: nodeData.matrixIndices,
                 },
@@ -118,7 +118,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
               return {
                 event: "change_node",
                 node: {
-                  ...getNodeById(nodeData.node, currentSite),
+                  ...getNodeById(nodeData.node, activeSite),
                   matrixIndices: nodeData.matrixIndices,
                 },
               };
@@ -222,7 +222,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
             }
             break;
           case "L2":
-            return { event: "toggle_level_selection", level: level };
+            return { event: "enter_level_selection", level: level };
           case "TRIANGLE":
             return { event: "pause_game" };
           case "SPACE":
@@ -232,13 +232,13 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
       case "level_selection":
         switch (keyPress) {
           case "UP":
-            if (currentSite === "a") {
+            if (activeSite === "a") {
               if (selectedLevel + 1 <= 22)
                 return {
                   event: `level_selection_up`,
                   selectedLevelIdx: selectedLevel + 1,
                 };
-            } else if (currentSite === "b") {
+            } else if (activeSite === "b") {
               if (selectedLevel + 1 <= 13)
                 return {
                   event: `level_selection_up`,
@@ -269,7 +269,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
               direction,
               { ...activeNode.matrixIndices!, rowIdx: rowIdx },
               selectedLevel,
-              currentSite,
+              activeSite,
               gameProgress,
               false
             );
@@ -281,7 +281,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
                 event: event,
                 node: {
                   ...(nodeData.node !== "unknown"
-                    ? getNodeById(nodeData.node, currentSite)
+                    ? getNodeById(nodeData.node, activeSite)
                     : unknownNodeTemplate),
                   matrixIndices: nodeData.matrixIndices,
                 },
@@ -297,21 +297,50 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
           };
         else {
           switch (keyPress) {
-            case "UP":
-              if (pauseMatrixIdx - 1 < 0) break;
-              return {
-                event: "pause_up",
-                pauseMatrixIdx: pauseMatrixIdx - 1,
-              };
-            case "DOWN":
-              if (pauseMatrixIdx + 1 > 4) break;
-              return {
-                event: "pause_down",
-                pauseMatrixIdx: pauseMatrixIdx + 1,
-              };
+            case "UP": {
+              const newComponent = (() => {
+                switch (activePauseComponent) {
+                  case "exit":
+                    return "save";
+                  case "save":
+                    return "change";
+                  case "change":
+                    return "about";
+                  case "about":
+                    return "load";
+                }
+              })();
+
+              if (newComponent)
+                return {
+                  event: "pause_up",
+                  activePauseComponent: newComponent,
+                };
+              break;
+            }
+            case "DOWN": {
+              const newComponent = (() => {
+                switch (activePauseComponent) {
+                  case "load":
+                    return "about";
+                  case "about":
+                    return "change";
+                  case "change":
+                    return "save";
+                  case "save":
+                    return "exit";
+                }
+              })();
+              if (newComponent)
+                return {
+                  event: "pause_down",
+                  activePauseComponent: newComponent,
+                };
+              break;
+            }
             case "CIRCLE":
               if (activePauseComponent === "change") {
-                if (gateLvl < 4) {
+                if (gateLvl > 4) {
                   return { event: "show_permission_denied" };
                 } else {
                   return {
@@ -328,6 +357,7 @@ const handleMainSceneKeyPress = (mainSceneContext: any) => {
               } else {
                 return {
                   event: `pause_${activePauseComponent}_select`,
+                  siteRot: [0, siteRotY, 0],
                 };
               }
           }

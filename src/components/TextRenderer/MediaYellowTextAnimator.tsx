@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
-import SiteBigLetter from "./SiteBigLetter";
+import BigLetter from "./BigLetter";
 
 const MediaYellowTextAnimator = memo(() => {
   const [lastLeftComponent, setLastLeftComponent] = useState("play");
@@ -13,14 +13,7 @@ const MediaYellowTextAnimator = memo(() => {
     config: { duration: 280 },
   });
 
-  const activeMediaComponent = useStore(
-    (state) =>
-      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-        state.mediaComponentMatrixIndices.sideIdx === 0
-          ? state.mediaComponentMatrixIndices.leftSideIdx
-          : state.mediaComponentMatrixIndices.rightSideIdx
-      ]
-  );
+  const activeMediaComponent = useStore((state) => state.activeMediaComponent);
 
   useEffect(() => {
     if (
@@ -66,7 +59,7 @@ const MediaYellowTextAnimator = memo(() => {
           position-z={-8.7}
           scale={[0.04, 0.06, 0.04]}
         >
-          <SiteBigLetter letter={textArr[idx]} letterIdx={idx} key={idx} />
+          <BigLetter letter={textArr[idx]} letterIdx={idx} key={idx} />
         </a.group>
       ))}
     </group>

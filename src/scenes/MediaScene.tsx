@@ -13,6 +13,7 @@ import Loading from "../components/Loading";
 const MediaScene = () => {
   const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
 
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
 
   const activeNode = useStore((state) => state.activeNode);
@@ -70,7 +71,8 @@ const MediaScene = () => {
 
   useEffect(() => {
     setLoaded(true);
-  }, []);
+    setTimeout(() => setInputCooldown(false), 1000);
+  }, [setInputCooldown]);
 
   return (
     <perspectiveCamera position-z={3}>

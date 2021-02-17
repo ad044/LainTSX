@@ -12,10 +12,10 @@ type RingsProps = {
 const Rings = memo((props: RingsProps) => {
   const activeLevel = useStore((state) => state.activeLevel);
 
-  const currentSite = useStore((state) => state.activeSite);
+  const activeSite = useStore((state) => state.activeSite);
 
-  const levelUpperLimit = useMemo(() => (currentSite === "a" ? 22 : 13), [
-    currentSite,
+  const levelUpperLimit = useMemo(() => (activeSite === "a" ? 22 : 13), [
+    activeSite,
   ]);
 
   const possibleLevels = useMemo(
@@ -55,7 +55,7 @@ const Rings = memo((props: RingsProps) => {
           <PurpleRing
             purpleRingPosY={0.44}
             level={level[0]}
-            site={currentSite}
+            site={activeSite}
           />
           <GrayRing grayRingPosY={-0.29} />
           <CyanCrystal crystalRingPosY={-0.45} />

@@ -1,99 +1,37 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   getBootSceneContext,
   getEndSceneContext,
   getMainSceneContext,
   getMediaSceneContext,
-  getSSknSceneContext,
+  getSsknSceneContext,
+  MainSceneContext,
   playAudio,
   useStore,
 } from "../store";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
-import mediaManager from "../core/setters/media/mediaManager";
 import handleMediaSceneKeyPress from "../core/scene-keypress-handlers/handleMediaSceneKeyPress";
-import sceneManager from "../core/setters/sceneManager";
-import levelSelectionManager from "../core/setters/main/level_selection/levelSelectionManager";
-import nodeManager from "../core/setters/main/site/nodeManager";
-import levelManager from "../core/setters/main/site/levelManager";
-import lainManager from "../core/setters/main/site/lainManager";
-import siteManager from "../core/setters/main/site/siteManager";
-import pauseManager from "../core/setters/main/pause/pauseManager";
-import mainSubsceneManager from "../core/setters/main/mainSubsceneManager";
-import ssknManager from "../core/setters/sskn/ssknManager";
-import handleSSknSceneKeyPress from "../core/scene-keypress-handlers/handleSSknSceneKeyPress";
+import handleSsknSceneKeyPress from "../core/scene-keypress-handlers/handleSsknSceneKeyPress";
 import handleMainSceneKeyPress from "../core/scene-keypress-handlers/handleMainSceneKeyPress";
-import gameLoader from "../core/setters/gameLoader";
-import gameSaver from "../core/setters/gameSaver";
-import progressManager from "../core/setters/progressManager";
-import promptManager from "../core/setters/promptManager";
-import bootSubsceneManager from "../core/setters/boot/bootSubsceneManager";
-import bootManager from "../core/setters/boot/bootManager";
 import handleBootSceneKeyPress from "../core/scene-keypress-handlers/handleBootSceneKeyPress";
-import soundManager from "../core/setters/soundManager";
 import { useFrame } from "react-three-fiber";
-import { getRandomIdleLainAnim, getRandomIdleMedia } from "../utils/idle-utils";
-import idleManager from "../core/setters/main/idleManager";
+import { getRandomIdleLainAnim } from "../utils/idle-utils";
 import * as audio from "../static/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
-import endManager from "../core/setters/end/endManager";
+import handleMainSceneEvent from "../core/scene-event-handlers/handleMainSceneEvent";
+import handleMediaSceneEvent from "../core/scene-event-handlers/handleMediaSceneEvent";
+import handleSsknSceneEvent from "../core/scene-event-handlers/handleSsknSceneEvent";
+import handleBootSceneEvent from "../core/scene-event-handlers/handleBootSceneEvent";
+import handleEndSceneEvent from "../core/scene-event-handlers/handleEndSceneEvent";
 
 const KeyPressHandler = () => {
-  const mediaSceneSetters = useMemo(
-    () => [
-      mediaManager,
-      sceneManager,
-      nodeManager,
-      levelManager,
-      siteManager,
-      progressManager,
-      mainSubsceneManager,
-      soundManager,
-    ],
-    []
-  );
-  const ssknSceneSetters = useMemo(
-    () => [ssknManager, sceneManager, progressManager],
-    []
-  );
-  const mainSceneSetters = useMemo(
-    () => [
-      levelSelectionManager,
-      nodeManager,
-      levelManager,
-      lainManager,
-      siteManager,
-      pauseManager,
-      mainSubsceneManager,
-      sceneManager,
-      gameLoader,
-      gameSaver,
-      progressManager,
-      promptManager,
-      soundManager,
-    ],
-    []
-  );
-
-  const bootSceneSetters = useMemo(
-    () => [
-      bootSubsceneManager,
-      bootManager,
-      promptManager,
-      gameLoader,
-      soundManager,
-      sceneManager,
-    ],
-    []
-  );
-
-  const endSceneSetters = useMemo(
-    () => [sceneManager, soundManager, endManager],
-    []
-  );
-
   const scene = useStore((state) => state.currentScene);
   const mainSubscene = useStore((state) => state.mainSubscene);
+  const inputCooldown = useStore((state) => state.inputCooldown);
 
+  const setLainMoveState = useStore((state) => state.setLainMoveState);
+
+  const timeSinceLastKeyPress = useRef(-1);
   const lainIdleCounter = useRef(-1);
   const idleSceneCounter = useRef(-1);
 
@@ -107,7 +45,7 @@ const KeyPressHandler = () => {
       scene === "main"
     ) {
       if (now > lainIdleCounter.current + 10000) {
-        lainManager({ event: getRandomIdleLainAnim() });
+        setLainMoveState(getRandomIdleLainAnim());
         // after one idle animation plays, the second comes sooner than it would after a regular keypress
         lainIdleCounter.current = now - 2500;
       }
@@ -118,11 +56,11 @@ const KeyPressHandler = () => {
         // but i'm way too lazy for that
         idleSceneCounter.current = -1;
 
-        idleManager(getRandomIdleMedia());
+        // idleManager(getRandomIdleMedia());
         playAudio(audio.sound32);
 
         setTimeout(() => {
-          sceneManager({ event: "play_idle_media" });
+          // useStore.setState({ event: "play_idle_media" });
         }, 1200);
       }
     }
@@ -140,83 +78,71 @@ const KeyPressHandler = () => {
 
       const now = Date.now();
 
-      if (keyPress) {
+      if (
+        keyPress &&
+        !inputCooldown &&
+        now > timeSinceLastKeyPress.current + 1500
+      ) {
         if (scene === "main") {
           lainIdleCounter.current = now;
           idleSceneCounter.current = now;
+          timeSinceLastKeyPress.current = now;
         }
         const sceneFns = (() => {
           switch (scene) {
             case "main":
               return {
                 contextProvider: getMainSceneContext,
-                handler: handleMainSceneKeyPress,
-                setters: mainSceneSetters,
+                keyPressHandler: handleMainSceneKeyPress,
+                eventHandler: handleMainSceneEvent,
               };
             case "media":
               return {
                 contextProvider: getMediaSceneContext,
-                handler: handleMediaSceneKeyPress,
-                setters: mediaSceneSetters,
+                keyPressHandler: handleMediaSceneKeyPress,
+                eventHandler: handleMediaSceneEvent,
               };
             case "sskn":
               return {
-                contextProvider: getSSknSceneContext,
-                handler: handleSSknSceneKeyPress,
-                setters: ssknSceneSetters,
+                contextProvider: getSsknSceneContext,
+                keyPressHandler: handleSsknSceneKeyPress,
+                eventHandler: handleSsknSceneEvent,
               };
             case "boot":
               return {
                 contextProvider: getBootSceneContext,
-                handler: handleBootSceneKeyPress,
-                setters: bootSceneSetters,
+                keyPressHandler: handleBootSceneKeyPress,
+                eventHandler: handleBootSceneEvent,
               };
             case "end":
               return {
                 contextProvider: getEndSceneContext,
-                handler: handleEndSceneKeyPress,
-                setters: endSceneSetters,
+                keyPressHandler: handleEndSceneKeyPress,
+                eventHandler: handleEndSceneEvent,
               };
             case "gate":
             case "polytan":
-              return {
-                action: () => useStore.setState({ currentScene: "main" }),
-              };
+              useStore.setState({ currentScene: "main" });
+              break;
             case "idle_media":
-              return {
-                action: () =>
-                  useStore.setState({
-                    currentScene: "main",
-                    idleStarting: false,
-                  }),
-              };
+              useStore.setState({
+                currentScene: "main",
+                idleStarting: false,
+              });
+              break;
           }
         })();
 
         if (sceneFns) {
-          // in case of polytan/gate we only need to do one thing, which is reset the scene.
-          // we check for that here
-          if (sceneFns.action) {
-            sceneFns.action();
-          } else {
-            const { contextProvider, handler, setters } = { ...sceneFns };
-            const ctx = { ...contextProvider(), keyPress: keyPress };
-            const event = handler(ctx);
-            if (event) {
-              setters.forEach((fn) => fn(event));
-            }
-          }
+          const { contextProvider, keyPressHandler, eventHandler } = sceneFns;
+
+          const ctx = contextProvider(keyPress);
+          const event = keyPressHandler(ctx);
+          if (event) eventHandler(event);
         }
       }
     },
-    [
-      bootSceneSetters,
-      endSceneSetters,
-      mainSceneSetters,
-      mediaSceneSetters,
-      scene,
-      ssknSceneSetters,
-    ]
+    [inputCooldown, scene]
   );
 
   useEffect(() => {

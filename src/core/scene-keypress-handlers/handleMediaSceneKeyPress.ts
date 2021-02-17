@@ -1,75 +1,96 @@
 import { findNodeFromWord } from "../../utils/media-utils";
+import { MediaSceneContext } from "../../store";
 
-const handleMediaSceneKeyPress = (mediaSceneContext: any) => {
+const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
   const {
     keyPress,
     activeMediaComponent,
     wordPosStateIdx,
-    rightSideComponentIdx,
     activeNode,
     activeSite,
     gameProgress,
+    currentMediaSide,
+    lastActiveMediaComponents,
   } = mediaSceneContext;
 
-  const calculateNewRightSide = (
-    direction: string,
-    wordPosStateIdx: number,
-    rightSideComponentIdx: number
-  ) => {
-    if (direction === "UP") {
-      wordPosStateIdx--;
-      if (wordPosStateIdx < 1) {
-        wordPosStateIdx = 6;
+  switch (currentMediaSide) {
+    case "left":
+      switch (keyPress) {
+        case "UP":
+        case "DOWN":
+          return {
+            event: `media_leftside_${keyPress.toLowerCase()}`,
+          };
+        case "RIGHT":
+          return {
+            event: "media_leftside_right",
+            lastActiveComponent: activeMediaComponent,
+            newActiveComponent: lastActiveMediaComponents.right,
+          };
+        case "CIRCLE":
+          switch (activeMediaComponent) {
+            case "play":
+              return {
+                event: "media_play_select",
+                node: activeNode,
+              };
+            case "exit":
+              return {
+                event: "media_play_select",
+              };
+          }
       }
-      rightSideComponentIdx--;
-      if (rightSideComponentIdx < 0) {
-        rightSideComponentIdx = 2;
-      }
-    } else if (direction === "DOWN") {
-      wordPosStateIdx++;
-      if (wordPosStateIdx > 6) {
-        wordPosStateIdx = 1;
-      }
-      rightSideComponentIdx++;
-      if (rightSideComponentIdx > 2) {
-        rightSideComponentIdx = 0;
-      }
-    }
+      break;
+    case "right":
+      switch (keyPress) {
+        case "UP": {
+          const newWordPosStateIdx =
+            wordPosStateIdx - 1 < 1 ? 6 : wordPosStateIdx - 1;
+          const newComponent = (() => {
+            switch (activeMediaComponent) {
+              case "fstWord":
+                return "thirdWord";
+              case "sndWord":
+                return "fstWord";
+              case "thirdWord":
+                return "sndWord";
+            }
+          })();
+          return {
+            event: "media_rightside_up",
+            newActiveComponent: newComponent,
+            wordPosStateIdx: newWordPosStateIdx,
+          };
+        }
+        case "DOWN": {
+          const newWordPosStateIdx =
+            wordPosStateIdx + 1 > 6 ? 1 : wordPosStateIdx + 1;
+          const newComponent = (() => {
+            switch (activeMediaComponent) {
+              case "fstWord":
+                return "sndWord";
+              case "sndWord":
+                return "thirdWord";
+              case "thirdWord":
+                return "fstWord";
+            }
+          })();
 
-    return {
-      wordPosStateIdx: wordPosStateIdx,
-      rightSideComponentIdx: rightSideComponentIdx,
-    };
-  };
+          return {
+            event: "media_rightside_down",
+            newActiveComponent: newComponent,
+            wordPosStateIdx: newWordPosStateIdx,
+          };
+        }
 
-  switch (keyPress) {
-    case "UP":
-    case "DOWN":
-    case "RIGHT":
-    case "LEFT":
-      if (["fstWord", "sndWord", "thirdWord"].includes(activeMediaComponent)) {
-        const rightSide = calculateNewRightSide(
-          keyPress,
-          wordPosStateIdx,
-          rightSideComponentIdx
-        );
-        return {
-          event: `media_rightside_${keyPress.toLowerCase()}`,
-          rightSideComponentIdx: rightSide.rightSideComponentIdx,
-          wordPosStateIdx: rightSide.wordPosStateIdx,
-        };
-      } else {
-        const leftSideComponentIdx = keyPress === "UP" ? 0 : 1;
-        return {
-          event: `media_leftside_${keyPress.toLowerCase()}`,
-          leftSideComponentIdx: leftSideComponentIdx,
-        };
-      }
-    case "CIRCLE":
-      switch (activeMediaComponent) {
-        case "fstWord":
-        case "sndWord":
-        case "thirdWord":
+        case "LEFT":
+          return {
+            event: "media_rightside_left",
+            lastActiveComponent: activeMediaComponent,
+            newActiveComponent: lastActiveMediaComponents.left,
+          };
+
+        case "CIRCLE":
           const data = findNodeFromWord(
             activeMediaComponent,
             activeNode,
@@ -78,20 +99,9 @@ const handleMediaSceneKeyPress = (mediaSceneContext: any) => {
           );
 
           if (data) {
-            return { event: `media_${activeMediaComponent}_select`, ...data };
+            return { event: `media_word_select`, ...data };
           } else {
             return { event: `word_node_not_found` };
-          }
-        default:
-          if (activeMediaComponent === "play") {
-            return {
-              event: `media_play_select`,
-              node: activeNode,
-            };
-          } else {
-            return {
-              event: `media_exit_select`,
-            };
           }
       }
   }

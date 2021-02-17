@@ -11,14 +11,7 @@ export type ShapeProps = {
 };
 
 const LeftSide = memo(() => {
-  const activeMediaComponent = useStore(
-    (state) =>
-      state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-        state.mediaComponentMatrixIndices.sideIdx === 0
-          ? state.mediaComponentMatrixIndices.leftSideIdx
-          : state.mediaComponentMatrixIndices.rightSideIdx
-      ]
-  );
+  const activeMediaComponent = useStore((state) => state.activeMediaComponent);
 
   const cubesActive = useMemo(() => activeMediaComponent === "exit", [
     activeMediaComponent,

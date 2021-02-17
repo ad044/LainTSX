@@ -15,7 +15,7 @@ const Images = () => {
   const [sceneImages, setSceneImages] = useState([] as any);
   const [activeImage, setActiveImage] = useState<THREE.Texture>();
 
-  const currentSite = useStore((state) => state.activeSite);
+  const activeSite = useStore((state) => state.activeSite);
 
   const dummyTex = useLoader(THREE.TextureLoader, dummy);
 
@@ -49,7 +49,7 @@ const Images = () => {
         imgTries++;
         if (img[1] !== "-1") {
           import(
-            "../static/media_images/" + currentSite + "/" + img[1] + ".png"
+            "../static/media_images/" + activeSite + "/" + img[1] + ".png"
           ).then((imageSrc: { default: string }) => {
             imgArr.splice(parseInt(img[0]), 0, imageSrc);
             if (imgTries === 3) {
@@ -60,7 +60,7 @@ const Images = () => {
         }
       });
     }
-  }, [currentScene, currentSite, idleNodeImages, nodeImages]);
+  }, [currentScene, activeSite, idleNodeImages, nodeImages]);
 
   useEffect(() => {
     const loadNewImage = (imgIdx: number) => {

@@ -9,9 +9,16 @@ const GateScene = () => {
   const gateLvl = useStore((state) => state.gateLvl);
   const [introAnim, setIntroAnim] = useState(true);
 
+  const activeNodeName = useStore((state) => state.activeNode.node_name);
+  const setNodeViewed = useStore((state) => state.setNodeViewed);
+
   useEffect(() => {
+    setNodeViewed(activeNodeName, {
+      is_viewed: 1,
+      is_visible: 0,
+    });
     setTimeout(() => setIntroAnim(false), 2500);
-  }, []);
+  }, [activeNodeName, setNodeViewed]);
 
   return (
     <perspectiveCamera position-z={3}>
