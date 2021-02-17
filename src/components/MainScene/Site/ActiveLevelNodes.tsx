@@ -2,11 +2,11 @@ import React, { memo, useEffect, useState } from "react";
 import Node from "./Node";
 import node_positions from "../../../resources/node_positions.json";
 import { useStore } from "../../../store";
-import { NodeDataType, SiteType } from "../Site";
+import { NodeData, SiteData } from "../Site";
 import usePrevious from "../../../hooks/usePrevious";
 
 type ActiveLevelNodesProps = {
-  visibleNodes: SiteType;
+  visibleNodes: SiteData;
 };
 
 const ActiveLevelNodes = memo((props: ActiveLevelNodesProps) => {
@@ -43,7 +43,7 @@ const ActiveLevelNodes = memo((props: ActiveLevelNodesProps) => {
 
   return (
     <>
-      {Object.values(visibleNodes).map((node: NodeDataType) => {
+      {Object.values(visibleNodes).map((node: NodeData) => {
         return (
           <Node
             nodeName={node.node_name}

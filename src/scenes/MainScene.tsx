@@ -17,11 +17,13 @@ import NotFound from "../components/MainScene/NotFound";
 import PausePopUps from "../components/MainScene/PauseSubscene/PausePopUps";
 import * as audio from "../static/sfx";
 import Loading from "../components/Loading";
+import usePrevious from "../hooks/usePrevious";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
   const [paused, setPaused] = useState(false);
   const subscene = useStore((state) => state.mainSubscene);
+  const prevData = usePrevious({ subscene });
 
   const wordSelected = useStore((state) => state.wordSelected);
   const setWordSelected = useStore((state) => state.setWordSelected);
@@ -29,10 +31,10 @@ const MainScene = () => {
   useEffect(() => {
     if (subscene === "pause") {
       setTimeout(() => setPaused(true), 3400);
-    } else {
+    } else if (prevData?.subscene === "pause" && subscene === "site") {
       setPaused(false);
     }
-  }, [subscene]);
+  }, [prevData?.subscene, subscene]);
 
   useEffect(() => {
     if (wordSelected) {

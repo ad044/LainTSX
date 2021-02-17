@@ -7,7 +7,7 @@ import MediaScene from "./scenes/MediaScene";
 import { useStore } from "./store";
 import GateScene from "./scenes/GateScene";
 import BootScene from "./scenes/BootScene";
-import SSknScene from "./scenes/SSknScene";
+import SsknScene from "./scenes/SsknScene";
 import PolytanScene from "./scenes/PolytanScene";
 import TaKScene from "./scenes/TaKScene";
 import ChangeDiscScene from "./scenes/ChangeDiscScene";
@@ -30,7 +30,7 @@ const App = () => {
       idle_media: <IdleMediaScene />,
       gate: <GateScene />,
       boot: <BootScene />,
-      sskn: <SSknScene />,
+      sskn: <SsknScene />,
       polytan: <PolytanScene />,
       tak: <TaKScene />,
       change_disc: <ChangeDiscScene />,

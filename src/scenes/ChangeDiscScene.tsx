@@ -3,13 +3,13 @@ import { useStore } from "../store";
 
 const ChangeDiscScene = () => {
   const setScene = useStore((state) => state.setScene);
-  const currentSite = useStore((state) => state.activeSite);
+  const activeSite = useStore((state) => state.activeSite);
 
   useEffect(() => {
-    if (currentSite === "a") {
+    if (activeSite === "a") {
       document.getElementsByTagName("canvas")[0].className =
         "change-disc-scene-a-background";
-    } else if (currentSite === "b") {
+    } else if (activeSite === "b") {
       document.getElementsByTagName("canvas")[0].className =
         "change-disc-scene-b-background";
     }
@@ -20,7 +20,7 @@ const ChangeDiscScene = () => {
       document.getElementsByTagName("canvas")[0].className =
         "main-scene-background";
     };
-  }, [currentSite, setScene]);
+  }, [activeSite, setScene]);
 
   return <></>;
 };

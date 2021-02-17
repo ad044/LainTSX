@@ -8,9 +8,9 @@ import CouViewed from "../../../static/sprite/Cou_viewed.png";
 import Dc from "../../../static/sprite/Dc.png";
 import DcActive from "../../../static/sprite/Dc_active.png";
 import DcViewed from "../../../static/sprite/Dc_viewed.png";
-import SSkn from "../../../static/sprite/SSkn.png";
-import SSKnActive from "../../../static/sprite/SSkn_active.png";
-import SSknViewed from "../../../static/sprite/SSkn_viewed.png";
+import Sskn from "../../../static/sprite/SSkn.png";
+import SsknActive from "../../../static/sprite/SSkn_active.png";
+import SsknViewed from "../../../static/sprite/SSkn_viewed.png";
 import Tda from "../../../static/sprite/Tda.png";
 import TdaActive from "../../../static/sprite/Tda_active.png";
 import TdaViewed from "../../../static/sprite/Tda_viewed.png";
@@ -38,7 +38,7 @@ type NodeContructorProps = {
 const Node = memo((props: NodeContructorProps) => {
   const tex = useMemo(() => {
     if (props.nodeName.includes("S")) {
-      return [SSkn, SSKnActive, SSknViewed];
+      return [Sskn, SsknActive, SsknViewed];
     } else if (
       props.nodeName.startsWith("P") ||
       props.nodeName.startsWith("G") ||

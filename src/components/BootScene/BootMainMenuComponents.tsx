@@ -27,7 +27,7 @@ const BootMainMenuComponents = (props: BootMainMenuProps) => {
   );
 
   const activeMainMenuElement = useStore(
-    (state) => state.mainMenuComponentMatrix[state.mainMenuComponentMatrixIdx]
+    (state) => state.activeMainMenuComponent
   );
 
   const loadDataActiveTex = useLoader(THREE.TextureLoader, loadDataActive);

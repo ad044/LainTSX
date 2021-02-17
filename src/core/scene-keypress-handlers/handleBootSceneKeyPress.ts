@@ -1,7 +1,8 @@
 import authorize_user_letters from "../../resources/authorize_user_letters.json";
 import handleNameSelection from "../../utils/handleNameSelection";
+import { BootSceneContext } from "../../store";
 
-const handleBootSceneKeyPress = (bootSceneContext: any) => {
+const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
   const {
     keyPress,
     subscene,

@@ -6,7 +6,7 @@ import * as THREE from "three";
 import ssknTopLabel from "../../static/sprite/sskn_top_label.png";
 import ssknDango from "../../static/sprite/sskn_dango.png";
 
-const SSknBackground = memo(() => {
+const SsknBackground = memo(() => {
   const ssknBackgroundTex = useLoader(THREE.TextureLoader, ssknBackground);
   const ssknBackgroundTextTex = useLoader(
     THREE.TextureLoader,
@@ -43,4 +43,4 @@ const SSknBackground = memo(() => {
   );
 });
 
-export default SSknBackground;
+export default SsknBackground;

@@ -6,8 +6,8 @@ import Cou from "../../../static/sprite/Cou.png";
 import CouViewed from "../../../static/sprite/Cou_viewed.png";
 import Dc from "../../../static/sprite/Dc.png";
 import DcViewed from "../../../static/sprite/Dc_viewed.png";
-import SSkn from "../../../static/sprite/SSkn.png";
-import SSknViewed from "../../../static/sprite/SSkn_viewed.png";
+import Sskn from "../../../static/sprite/SSkn.png";
+import SsknViewed from "../../../static/sprite/SSkn_viewed.png";
 import Tda from "../../../static/sprite/Tda.png";
 import TdaViewed from "../../../static/sprite/Tda_viewed.png";
 import Dia from "../../../static/sprite/Dia.png";
@@ -29,7 +29,7 @@ type NodeContructorProps = {
 const InactiveLevelNode = memo((props: NodeContructorProps) => {
   const tex = useMemo(() => {
     if (props.nodeName.includes("S")) {
-      return [SSkn, SSknViewed];
+      return [Sskn, SsknViewed];
     } else if (
       props.nodeName.startsWith("P") ||
       props.nodeName.startsWith("G") ||

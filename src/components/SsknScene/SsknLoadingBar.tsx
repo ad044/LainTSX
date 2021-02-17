@@ -9,7 +9,7 @@ import loadingBar40Perc from "../../static/sprite/media_loading_bar_40perc.png";
 import loadingBar50Perc from "../../static/sprite/media_loading_bar_50perc.png";
 import loadingBar from "../../static/sprite/media_loading_bar.png";
 
-const SSknLoadingBar = () => {
+const SsknLoadingBar = () => {
   const ssknLoadingBarContainerTex = useLoader(
     THREE.TextureLoader,
     ssknLoadingBarContainer
@@ -92,4 +92,4 @@ const SSknLoadingBar = () => {
   );
 };
 
-export default SSknLoadingBar;
+export default SsknLoadingBar;

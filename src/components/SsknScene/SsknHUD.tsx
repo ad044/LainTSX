@@ -10,10 +10,10 @@ import ssknTextWrapperInactive from "../../static/sprite/sskn_text_wrapper_inact
 import ssknLine from "../../static/sprite/sskn_line.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import SSknLoadingBar from "./SSknLoadingBar";
+import SsknLoadingBar from "./SsknLoadingBar";
 import { useStore } from "../../store";
 
-const SSknHUD = memo(() => {
+const SsknHUD = memo(() => {
   const ssknOkTex = useLoader(THREE.TextureLoader, ssknOk);
   const ssknOkInactiveTex = useLoader(THREE.TextureLoader, ssknOkInactive);
   const ssknCancelTex = useLoader(THREE.TextureLoader, ssknCancel);
@@ -30,29 +30,27 @@ const SSknHUD = memo(() => {
   );
   const ssknLineTex = useLoader(THREE.TextureLoader, ssknLine);
 
-  const activeSSknComponent = useStore(
-    (state) => state.ssknComponentMatrix[state.ssknComponentMatrixIdx]
-  );
+  const activeSsknComponent = useStore((state) => state.activeSsknComponent);
 
   const loading = useStore((state) => state.ssknLoading);
 
   return (
     <>
       {loading ? (
-        <SSknLoadingBar />
+        <SsknLoadingBar />
       ) : (
         <group>
           <sprite position={[2.8, -2, 0]} scale={[1, 0.5, 0]}>
             <spriteMaterial
               attach="material"
-              map={activeSSknComponent === "ok" ? ssknOkTex : ssknOkInactiveTex}
+              map={activeSsknComponent === "ok" ? ssknOkTex : ssknOkInactiveTex}
             />
           </sprite>
           <sprite position={[3.3, -3, 0]} scale={[2, 0.5, 0]}>
             <spriteMaterial
               attach="material"
               map={
-                activeSSknComponent === "cancel"
+                activeSsknComponent === "cancel"
                   ? ssknCancelTex
                   : ssknCancelInactiveTex
               }
@@ -62,7 +60,7 @@ const SSknHUD = memo(() => {
             <spriteMaterial
               attach="material"
               map={
-                activeSSknComponent === "ok"
+                activeSsknComponent === "ok"
                   ? ssknTextWrapperTex
                   : ssknTextWrapperInactiveTex
               }
@@ -72,7 +70,7 @@ const SSknHUD = memo(() => {
             <spriteMaterial
               attach="material"
               map={
-                activeSSknComponent === "cancel"
+                activeSsknComponent === "cancel"
                   ? ssknTextWrapperTex
                   : ssknTextWrapperInactiveTex
               }
@@ -101,4 +99,4 @@ const SSknHUD = memo(() => {
   );
 });
 
-export default SSknHUD;
+export default SsknHUD;

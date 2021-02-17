@@ -6,8 +6,8 @@ import Cou from "../../../../../static/sprite/Cou.png";
 import CouGold from "../../../../../static/sprite/Cou_gold.png";
 import Dc from "../../../../../static/sprite/Dc.png";
 import DcGold from "../../../../../static/sprite/Dc_gold.png";
-import SSkn from "../../../../../static/sprite/SSkn.png";
-import SSKnGold from "../../../../../static/sprite/SSkn_gold.png";
+import Sskn from "../../../../../static/sprite/SSkn.png";
+import SsknGold from "../../../../../static/sprite/SSkn_gold.png";
 import Tda from "../../../../../static/sprite/Tda.png";
 import TdaGold from "../../../../../static/sprite/Tda_gold.png";
 import Dia from "../../../../../static/sprite/Dia.png";
@@ -41,7 +41,7 @@ const GoldNode = (props: GoldNodeProps) => {
 
   const tex = useMemo(() => {
     if (activeNodeName.includes("S")) {
-      return [SSkn, SSKnGold];
+      return [Sskn, SsknGold];
     } else if (
       activeNodeName.startsWith("P") ||
       activeNodeName.startsWith("G") ||

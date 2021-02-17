@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { useStore } from "../../../store";
 import Word from "./RightSide/Word";
 import { a, useSpring } from "@react-spring/three";
@@ -37,17 +37,7 @@ const RightSide = memo(() => {
     []
   );
 
-  const activeMediaComponent = useStore(
-    useCallback(
-      (state) =>
-        state.mediaComponentMatrix[state.mediaComponentMatrixIndices.sideIdx][
-          state.mediaComponentMatrixIndices.sideIdx === 0
-            ? state.mediaComponentMatrixIndices.leftSideIdx
-            : state.mediaComponentMatrixIndices.rightSideIdx
-        ],
-      []
-    )
-  );
+  const activeMediaComponent = useStore((state) => state.activeMediaComponent);
 
   return (
     <group position={[0, 0, -3]}>

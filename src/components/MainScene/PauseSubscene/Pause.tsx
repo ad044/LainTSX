@@ -22,9 +22,7 @@ const Pause = () => {
   );
 
   const activeComponent = useStore((state) =>
-    showActiveComponent
-      ? state.pauseComponentMatrix[state.pauseComponentMatrixIdx]
-      : ""
+    showActiveComponent ? state.activePauseComponent : ""
   );
 
   const generateSqaureGeom = useCallback((row: number, square: number) => {

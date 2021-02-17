@@ -1,6 +1,6 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { SiteType } from "../components/MainScene/Site";
+import { SiteData } from "../components/MainScene/Site";
 import { useStore } from "../store";
 
 export const getRandomIdleMedia = () => {
@@ -58,7 +58,7 @@ export const getRandomIdleMedia = () => {
 
   const site = useStore.getState().activeSite;
 
-  const siteData: SiteType = site === "a" ? site_a : site_b;
+  const siteData: SiteData = site === "a" ? site_a : site_b;
   const idleNodes = site === "a" ? siteAIdleNodes : siteBIdleNodes;
 
   if (Math.random() < 0.5) {

@@ -18,9 +18,7 @@ const Prompt = () => {
   const yesTex = useLoader(THREE.TextureLoader, yes);
   const noTex = useLoader(THREE.TextureLoader, no);
 
-  const activeComponent = useStore(
-    (state) => state.promptComponentMatrix[state.promptComponentMatrixIdx]
-  );
+  const activeComponent = useStore((state) => state.activePromptComponent);
 
   return (
     <>
