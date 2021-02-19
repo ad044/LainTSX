@@ -2,7 +2,7 @@ import { playAudio, useStore } from "../../store";
 import sleep from "../../utils/sleep";
 
 type Mutation = {
-  mutation: any;
+  mutation: Object;
   delay: number;
 };
 
@@ -19,7 +19,6 @@ type Event = {
 
 // the async/await here might be misleading for some, it functions as a setTimeout that fires
 // multiple async calls without stopping the execution, which is what we want.
-
 const handleEvent = (event: Event) => {
   const now = performance.now();
   const setState = useStore.setState;
@@ -42,7 +41,7 @@ const handleEvent = (event: Event) => {
     });
   }
 
-  console.log(performance.now() - now);
+  // console.log(performance.now() - now);
 };
 
 export default handleEvent;

@@ -1,15 +1,15 @@
 import React, { Suspense, useEffect, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
-import { useStore } from "../../store";
-import ActiveLevelNodes from "./Site/ActiveLevelNodes";
-import Rings from "./Site/Rings";
-import NodeAnimations from "./Site/NodeAnimations";
-import InactiveLevelNodes from "./Site/InactiveLevelNodes";
-import site_a from "../../resources/site_a.json";
-import site_b from "../../resources/site_b.json";
-import level_y_values from "../../resources/level_y_values.json";
-import { filterInvisibleNodes } from "../../utils/node-utils";
-import Loading from "../Loading";
+import { useStore } from "../../../store";
+import ActiveLevelNodes from "./ActiveLevelNodes";
+import Rings from "./Rings";
+import NodeAnimations from "./NodeAnimations";
+import InactiveLevelNodes from "./InactiveLevelNodes";
+import site_a from "../../../resources/site_a.json";
+import site_b from "../../../resources/site_b.json";
+import level_y_values from "../../../resources/level_y_values.json";
+import { filterInvisibleNodes } from "../../../utils/node-utils";
+import Loading from "../../Loading";
 
 export type NodeData = {
   id: string;

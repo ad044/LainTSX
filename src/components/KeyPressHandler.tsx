@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useRef } from "react";
 import {
+  BootSceneContext,
+  EndSceneContext,
   getBootSceneContext,
   getEndSceneContext,
   getMainSceneContext,
   getMediaSceneContext,
   getSsknSceneContext,
   MainSceneContext,
+  MediaSceneContext,
   playAudio,
+  SsknSceneContext,
   useStore,
 } from "../store";
 import { getKeyCodeAssociation } from "../utils/keyPressUtils";
@@ -18,11 +22,11 @@ import { useFrame } from "react-three-fiber";
 import { getRandomIdleLainAnim } from "../utils/idle-utils";
 import * as audio from "../static/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
-import handleMainSceneEvent from "../core/scene-event-handlers/handleMainSceneEvent";
 import handleMediaSceneEvent from "../core/scene-event-handlers/handleMediaSceneEvent";
 import handleSsknSceneEvent from "../core/scene-event-handlers/handleSsknSceneEvent";
 import handleBootSceneEvent from "../core/scene-event-handlers/handleBootSceneEvent";
 import handleEndSceneEvent from "../core/scene-event-handlers/handleEndSceneEvent";
+import handleEvent from "../core/scene-event-handlers/handleEvent";
 
 const KeyPressHandler = () => {
   const scene = useStore((state) => state.currentScene);
@@ -79,66 +83,66 @@ const KeyPressHandler = () => {
       const now = Date.now();
 
       if (
-        keyPress &&
-        !inputCooldown &&
-        now > timeSinceLastKeyPress.current + 1500
+        keyPress
+        // !inputCooldown &&
+        // now > timeSinceLastKeyPress.current + 1500
       ) {
         if (scene === "main") {
           lainIdleCounter.current = now;
           idleSceneCounter.current = now;
           timeSinceLastKeyPress.current = now;
         }
+
         const sceneFns = (() => {
           switch (scene) {
             case "main":
               return {
                 contextProvider: getMainSceneContext,
                 keyPressHandler: handleMainSceneKeyPress,
-                eventHandler: handleMainSceneEvent,
               };
             case "media":
               return {
                 contextProvider: getMediaSceneContext,
                 keyPressHandler: handleMediaSceneKeyPress,
-                eventHandler: handleMediaSceneEvent,
               };
-            case "sskn":
-              return {
-                contextProvider: getSsknSceneContext,
-                keyPressHandler: handleSsknSceneKeyPress,
-                eventHandler: handleSsknSceneEvent,
-              };
-            case "boot":
-              return {
-                contextProvider: getBootSceneContext,
-                keyPressHandler: handleBootSceneKeyPress,
-                eventHandler: handleBootSceneEvent,
-              };
-            case "end":
-              return {
-                contextProvider: getEndSceneContext,
-                keyPressHandler: handleEndSceneKeyPress,
-                eventHandler: handleEndSceneEvent,
-              };
-            case "gate":
-            case "polytan":
-              useStore.setState({ currentScene: "main" });
-              break;
-            case "idle_media":
-              useStore.setState({
-                currentScene: "main",
-                idleStarting: false,
-              });
-              break;
+            // case "sskn":
+            //   return {
+            //     contextProvider: getSsknSceneContext,
+            //     keyPressHandler: handleSsknSceneKeyPress,
+            //     eventHandler: handleSsknSceneEvent,
+            //   };
+            // case "boot":
+            //   return {
+            //     contextProvider: getBootSceneContext,
+            //     keyPressHandler: handleBootSceneKeyPress,
+            //     eventHandler: handleBootSceneEvent,
+            //   };
+            // case "end":
+            //   return {
+            //     contextProvider: getEndSceneContext,
+            //     keyPressHandler: handleEndSceneKeyPress,
+            //     eventHandler: handleEndSceneEvent,
+            //   };
+            // case "gate":
+            // case "polytan":
+            //   useStore.setState({ currentScene: "main" });
+            //   break;
+            // case "idle_media":
+            //   useStore.setState({
+            //     currentScene: "main",
+            //     idleStarting: false,
+            //   });
+            //   break;
           }
         })();
 
         if (sceneFns) {
-          const { contextProvider, keyPressHandler, eventHandler } = sceneFns;
+          const { contextProvider, keyPressHandler } = sceneFns;
 
           const ctx = contextProvider(keyPress);
-          const event = keyPressHandler(ctx);
-          if (event) eventHandler(event);
+          const event = keyPressHandler(ctx as any) as any;
+          if (event) handleEvent(event);
+          // if (event) eventHandler(event.event, event.mutations);
         }
       }
     },

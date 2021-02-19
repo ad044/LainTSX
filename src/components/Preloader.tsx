@@ -13,7 +13,7 @@ import ripNodeSpriteSheet from "../static/sprite/rip_node.png";
 import prayerSpriteSheet from "../static/sprite/prayer.png";
 import knockSpriteSheet from "../static/sprite/knock.png";
 import knockAndFallSpriteSheet from "../static/sprite/knock_and_fall.png";
-import touchAndScareSpriteSheet from "../static/sprite/touch_and_scare.png";
+import touchAndScareSpriteSheet from "../static/sprite/touch_node_and_get_scared.png";
 import touchSleeveSpriteSheet from "../static/sprite/touch_sleeve.png";
 import thinkingSpriteSheet from "../static/sprite/thinking.png";
 import stretchSpriteSheet from "../static/sprite/stretch.png";

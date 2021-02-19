@@ -37,14 +37,6 @@ const handleMediaSceneEvent = (eventState: any) => {
       });
       playAudio(audio.sound1);
       break;
-    case "media_leftside_down":
-      setState({ activeMediaComponent: "exit" });
-      playAudio(audio.sound1);
-      break;
-    case "media_leftside_up":
-      setState({ activeMediaComponent: "play" });
-      playAudio(audio.sound1);
-      break;
     case "media_leftside_right":
       updateLeftSide(
         eventState.newActiveComponent,

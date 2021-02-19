@@ -1,4 +1,4 @@
-import { NodeData } from "../components/MainScene/Site";
+import { NodeData } from "../components/MainScene/Site/Site";
 import * as audio from "../static/sfx";
 import {
   nodeExplodeAnimation,
@@ -7,6 +7,7 @@ import {
   nodeRipAnimation,
   nodeThrowAnimation,
 } from "../utils/node-animations";
+import { playAudio } from "../store";
 
 export const siteMoveHorizontal = (calculatedState: {
   lainMoveAnimation: string;
@@ -263,3 +264,159 @@ export const changePauseComponent = (calculatedState: {
   ],
   audio: [{ sfx: [audio.sound1], delay: 0 }],
 });
+
+export const showPermissionDenied = {
+  state: [
+    { mutation: { permissionDenied: true }, delay: 0 },
+    { mutation: { permissionDenied: false }, delay: 1200 },
+  ],
+  audio: [{ sfx: [audio.sound0], delay: 0 }],
+};
+
+export const displayPrompt = {
+  state: [{ mutation: { promptVisible: true }, delay: 0 }],
+  audio: [{ sfx: [audio.sound0], delay: 0 }],
+};
+
+export const showAbout = {
+  state: [{ mutation: { showingAbout: true }, delay: 0 }],
+  audio: [{ sfx: [audio.sound0], delay: 0 }],
+};
+
+export const exitPause = (calculatedState: { siteRot: number[] }) => ({
+  state: [
+    {
+      mutation: {
+        siteRot: calculatedState.siteRot,
+        pauseExitAnimation: true,
+        activePauseComponent: "change",
+        inputCooldown: true,
+      },
+      delay: 0,
+    },
+    {
+      mutation: {
+        mainSubscene: "site",
+        inputCooldown: false,
+        lainMoveState: "standing",
+      },
+      delay: 1200,
+    },
+  ],
+  audio: [{ sfx: [audio.sound0], delay: 0 }],
+});
+
+export const exitAbout = {
+  state: [{ mutation: { showingAbout: false }, delay: 0 }],
+};
+
+export const changePromptComponent = (calculatedState: {
+  activePromptComponent: "yes" | "no";
+}) => ({
+  state: [
+    {
+      mutation: {
+        activePromptComponent: calculatedState.activePromptComponent,
+      },
+      delay: 0,
+    },
+  ],
+  audio: [{ sfx: [audio.sound1], delay: 0 }],
+});
+
+export const exitPrompt = {
+  state: [
+    {
+      mutation: { activePromptComponent: "no", promptVisible: false },
+      delay: 0,
+    },
+  ],
+  audio: [{ sfx: [audio.sound28], delay: 0 }],
+};
+
+// todo actually save
+export const saveGame = () => ({
+  state: [
+    {
+      mutation: { saveSuccessful: true },
+      delay: 0,
+    },
+    {
+      mutation: { saveSuccessful: undefined },
+      delay: 1200,
+    },
+  ],
+  audio: [{ sfx: [audio.sound28], delay: 0 }],
+});
+
+// todo actually load
+export const loadGame = () => ({
+  state: [
+    {
+      mutation: { loadSuccessful: true },
+      delay: 0,
+    },
+    {
+      mutation: { loadSuccessful: undefined },
+      delay: 1200,
+    },
+  ],
+  audio: [{ sfx: [audio.sound28], delay: 0 }],
+});
+
+export const changeSite = (calculatedState: {
+  newActiveSite: "a" | "b";
+  newActiveNode: NodeData;
+  newActiveLevel: string;
+  newSiteRot: number[];
+  newSiteSaveState: {
+    a: {
+      activeNode: NodeData;
+      siteRot: number[];
+      activeLevel: string;
+    };
+    b: {
+      activeNode: NodeData;
+      siteRot: number[];
+      activeLevel: string;
+    };
+  };
+}) => ({
+  state: [
+    {
+      mutation: {
+        currentScene: "change_disc",
+        lainMoveState: "standing",
+        promptVisible: false,
+        activePromptComponent: "no",
+        mainSubscene: "site",
+        // load state
+        activeSite: calculatedState.newActiveSite,
+        activeNode: calculatedState.newActiveNode,
+        siteRot: calculatedState.newSiteRot,
+        activeLevel: calculatedState.newActiveLevel,
+        // save state
+        siteSaveState: calculatedState.newSiteSaveState,
+      },
+      delay: 0,
+    },
+  ],
+});
+
+export const changeLeftMediaComponent = (calculatedState: {
+  activeComponent: "play" | "exit";
+}) => ({
+  state: [
+    { mutation: { activeMediaComponent: calculatedState.activeComponent } },
+  ],
+  audio: [{ sfx: [audio.sound1], delay: 0 }],
+});
+
+export const changeMediaSide = (calculatedState: {
+  activeMediaComponent: "fstWord" | "sndWord" | "thirdWord" | "exit" | "play";
+  lastActiveMediaComponents: {
+    left: "play" | "exit";
+    right: "fstWord" | "sndWord" | "thirdWord";
+  };
+  currentMediaSide: "right" | "left";
+}) => ({});

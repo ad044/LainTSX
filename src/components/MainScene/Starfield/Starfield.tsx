@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useMemo, useState } from "react";
-import Star from "./Starfield/Star";
+import Star from "./Star";
 
 type StarfieldProps = {
   shouldIntro: boolean;

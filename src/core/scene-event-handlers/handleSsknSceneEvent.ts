@@ -4,7 +4,6 @@ const handleSsknSceneEvent = (eventState: any) => {
   const setState = useStore.setState;
 
   const setNodeViewed = useStore.getState().setNodeViewed;
-  const incrementSsknLvl = useStore.getState().incrementSsknLvl;
 
   switch (eventState.event) {
     case "sskn_cancel_up":
@@ -25,7 +24,7 @@ const handleSsknSceneEvent = (eventState: any) => {
         is_viewed: 1,
         is_visible: 0,
       });
-      incrementSsknLvl();
+      // incrementSsknLvl();
 
       setTimeout(() => setState({ currentScene: "main" }), 6000);
 
