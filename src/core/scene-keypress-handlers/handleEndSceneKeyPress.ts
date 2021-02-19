@@ -1,4 +1,6 @@
-const handleEndSceneKeyPress = (endSceneContext: any) => {
+import { EndSceneContext } from "../../store";
+
+const handleEndSceneKeyPress = (endSceneContext: EndSceneContext) => {
   const { keyPress, selectionVisible, activeEndComponent } = endSceneContext;
 
   if (selectionVisible) {

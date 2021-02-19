@@ -1,4 +1,4 @@
-import { NodeData, SiteData } from "../components/MainScene/Site";
+import { NodeData, SiteData } from "../components/MainScene/Site/Site";
 import node_matrices from "../resources/node_matrices.json";
 import unlocked_nodes from "../resources/initial_progress.json";
 import node_huds from "../resources/node_huds.json";

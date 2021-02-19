@@ -5,6 +5,30 @@ import {
   unknownNodeTemplate,
 } from "../../utils/node-utils";
 import { MainSceneContext } from "../../store";
+import {
+  changeNode,
+  changePauseComponent,
+  changePromptComponent,
+  changeSelectedLevel,
+  changeSite,
+  displayPrompt,
+  enterLevelSelection,
+  exitAbout,
+  exitLevelSelection,
+  exitPause,
+  exitPrompt,
+  explodeNode,
+  knockNode,
+  knockNodeAndFall,
+  loadGame,
+  pauseGame,
+  saveGame,
+  selectLevel,
+  showAbout,
+  showPermissionDenied,
+  siteMoveHorizontal,
+  siteMoveVertical,
+} from "../eventTemplates";
 
 const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
   const {
@@ -22,23 +46,47 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
     promptVisible,
     activePromptComponent,
     gateLvl,
+    siteSaveState,
   } = mainSceneContext;
 
   if (promptVisible) {
     switch (keyPress) {
       case "LEFT":
-        return { event: "prompt_left" };
+        return changePromptComponent({ activePromptComponent: "yes" });
       case "RIGHT":
-        return { event: "prompt_right" };
+        return changePromptComponent({ activePromptComponent: "no" });
       case "CIRCLE":
         switch (activePromptComponent) {
           case "no":
-            return { event: "exit_prompt" };
+            return exitPrompt;
           case "yes":
-            return {
-              event: `pause_${activePauseComponent}_select`,
-              site: activeSite === "a" ? "b" : "a",
-            };
+            switch (activePauseComponent) {
+              case "change":
+                const siteToLoad = activeSite === "a" ? "b" : "a";
+                const stateToLoad = siteSaveState[siteToLoad];
+
+                const newSiteSaveState = {
+                  ...siteSaveState,
+                  [activeSite]: {
+                    activeNode: activeNode,
+                    siteRot: [0, siteRotY, 0],
+                    activeLevel: level.toString().padStart(2, "0"),
+                  },
+                };
+                console.log(newSiteSaveState);
+
+                return changeSite({
+                  newActiveSite: siteToLoad,
+                  newActiveNode: stateToLoad.activeNode,
+                  newSiteRot: stateToLoad.siteRot,
+                  newActiveLevel: stateToLoad.activeLevel,
+                  newSiteSaveState: newSiteSaveState,
+                });
+              case "save":
+                return saveGame();
+              case "load":
+                return loadGame();
+            }
         }
     }
   } else {
@@ -47,11 +95,10 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
         switch (keyPress) {
           case "LEFT":
           case "RIGHT": {
-            const keyPressToLower = keyPress.toLowerCase();
-
+            const direction = keyPress.toLowerCase();
             const nodeData = findNode(
               activeNode.id,
-              keyPressToLower,
+              direction,
               activeNode.matrixIndices!,
               level,
               activeSite,
@@ -61,37 +108,38 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
 
             if (!nodeData) return;
 
+            const lainMoveAnimation = `move_${direction}`;
+            const newSiteRot = [
+              0,
+              direction === "left"
+                ? siteRotY + Math.PI / 4
+                : siteRotY - Math.PI / 4,
+              0,
+            ];
+            const newNode = {
+              ...(nodeData.node !== "unknown"
+                ? getNodeById(nodeData.node, activeSite)
+                : unknownNodeTemplate),
+              matrixIndices: nodeData.matrixIndices,
+            };
+
             if (nodeData.didMove) {
-              return {
-                event: keyPressToLower === "left" ? `site_left` : "site_right",
-                siteRotY:
-                  keyPressToLower === "left"
-                    ? siteRotY + Math.PI / 4
-                    : siteRotY - Math.PI / 4,
-                node: {
-                  ...(nodeData.node !== "unknown"
-                    ? getNodeById(nodeData.node, activeSite)
-                    : unknownNodeTemplate),
-                  matrixIndices: nodeData.matrixIndices,
-                },
-              };
+              return siteMoveHorizontal({
+                lainMoveAnimation: lainMoveAnimation,
+                siteRot: newSiteRot,
+                activeNode: newNode,
+              });
             } else {
-              return {
-                event: "change_node",
-                nodeMatrixIndices: nodeData.matrixIndices,
-                node: {
-                  ...getNodeById(nodeData.node, activeSite),
-                  matrixIndices: nodeData.matrixIndices,
-                },
-              };
+              return changeNode({ activeNode: newNode });
             }
           }
           case "UP":
           case "DOWN": {
-            const keyPressToLower = keyPress.toLowerCase();
+            const direction = keyPress.toLowerCase();
+
             const nodeData = findNode(
               activeNode.id,
-              keyPressToLower,
+              direction,
               activeNode.matrixIndices!,
               level,
               activeSite,
@@ -101,28 +149,24 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
 
             if (!nodeData) return;
 
-            if (nodeData.didMove) {
-              return {
-                event: keyPressToLower === "up" ? "site_up" : "site_down",
-                level: (keyPressToLower === "up" ? level + 1 : level - 1)
-                  .toString()
-                  .padStart(2, "0"),
-                node: {
-                  ...(nodeData.node !== "unknown"
-                    ? getNodeById(nodeData.node, activeSite)
-                    : unknownNodeTemplate),
-                  matrixIndices: nodeData.matrixIndices,
-                },
-              };
-            } else {
-              return {
-                event: "change_node",
-                node: {
-                  ...getNodeById(nodeData.node, activeSite),
-                  matrixIndices: nodeData.matrixIndices,
-                },
-              };
-            }
+            const lainMoveAnimation = `jump_${direction}`;
+            const newLevel = (direction === "up" ? level + 1 : level - 1)
+              .toString()
+              .padStart(2, "0");
+            const newNode = {
+              ...(nodeData.node !== "unknown"
+                ? getNodeById(nodeData.node, activeSite)
+                : unknownNodeTemplate),
+              matrixIndices: nodeData.matrixIndices,
+            };
+
+            if (nodeData.didMove)
+              return siteMoveVertical({
+                lainMoveAnimation: lainMoveAnimation,
+                activeLevel: newLevel,
+                activeNode: newNode,
+              });
+            else return changeNode({ activeNode: newNode });
           }
           case "CIRCLE":
             const eventAnimation =
@@ -137,21 +181,8 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
               return;
 
             if (activeNode.upgrade_requirement > ssknLvl) {
-              const rejectAnimations = [
-                "touch_and_scare",
-                "knock_and_fall",
-                "knock",
-              ];
-
-              const pickedAnim =
-                rejectAnimations[
-                  Math.floor(Math.random() * rejectAnimations.length)
-                ];
-
-              return {
-                event: pickedAnim,
-                siteRotY: siteRotY,
-              };
+              const rejectEvents = [explodeNode, knockNode, knockNodeAndFall];
+              return rejectEvents[Math.floor(Math.random() * 3)];
             }
 
             switch (nodeType) {
@@ -162,101 +193,56 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
               case 5:
                 return {
                   event: `${eventAnimation}_media`,
-                  scene: "media",
-                  siteRotY: siteRotY,
-                  level: level.toString().padStart(2, "0"),
+                  mutations: { scene: "media" },
                 };
               case 6:
                 if (activeNode.node_name.substr(0, 3) === "TaK") {
                   return {
                     event: `${eventAnimation}_tak`,
-                    scene: "tak",
-                    siteRotY: siteRotY,
-                    node: activeNode,
+                    mutations: { scene: "tak" },
                   };
                 } else {
                   return {
                     event: `${eventAnimation}_media`,
-                    scene: "media",
-                    siteRotY: siteRotY,
-                    level: level.toString().padStart(2, "0"),
+                    mutations: { scene: "media" },
                   };
                 }
               case 8:
                 return {
                   event: `${eventAnimation}_gate`,
-                  scene: "gate",
-                  siteRotY: siteRotY,
-                  node: activeNode,
+                  mutations: { scene: "gate" },
                 };
               case 7:
                 return {
                   event: `${eventAnimation}_sskn`,
-                  scene: "sskn",
-                  siteRotY: siteRotY,
+                  mutations: { scene: "sskn" },
                 };
               case 9:
-                const bodyPart = (() => {
-                  switch (parseInt(activeNode.node_name.slice(-1))) {
-                    case 6:
-                      return "head";
-                    case 5:
-                      return "rightArm";
-                    case 4:
-                      return "leftArm";
-                    case 3:
-                      return "rightLeg";
-                    case 2:
-                      return "leftLeg";
-                    case 1:
-                      return "body";
-                  }
-                })();
                 return {
                   event: `${eventAnimation}_polytan`,
-                  scene: "polytan",
-                  siteRotY: siteRotY,
-                  node: activeNode,
-                  bodyPart: bodyPart,
+                  mutations: { scene: "polytan" },
                 };
             }
             break;
           case "L2":
-            return { event: "enter_level_selection", level: level };
+            return enterLevelSelection({ selectedLevel: level });
           case "TRIANGLE":
-            return { event: "pause_game" };
-          case "SPACE":
-            return { event: "play_with_hair", siteRotY: siteRotY };
+            return pauseGame({ siteRot: [Math.PI / 2, siteRotY, 0] });
         }
         break;
       case "level_selection":
         switch (keyPress) {
           case "UP":
-            if (activeSite === "a") {
-              if (selectedLevel + 1 <= 22)
-                return {
-                  event: `level_selection_up`,
-                  selectedLevelIdx: selectedLevel + 1,
-                };
-            } else if (activeSite === "b") {
-              if (selectedLevel + 1 <= 13)
-                return {
-                  event: `level_selection_up`,
-                  selectedLevelIdx: selectedLevel + 1,
-                };
-            }
+            const upperLimit = activeSite === "a" ? 22 : 13;
+            if (selectedLevel + 1 <= upperLimit)
+              return changeSelectedLevel({ selectedLevel: selectedLevel + 1 });
             break;
           case "DOWN":
             if (selectedLevel - 1 >= 1)
-              return {
-                event: `level_selection_down`,
-                selectedLevelIdx: selectedLevel - 1,
-              };
+              return changeSelectedLevel({ selectedLevel: selectedLevel - 1 });
             break;
           case "X":
-            return {
-              event: "level_selection_back",
-            };
+            return exitLevelSelection;
 
           case "CIRCLE":
             if (level === selectedLevel) return;
@@ -275,96 +261,59 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
             );
 
             if (nodeData) {
-              const event =
-                selectedLevel < level ? "select_level_down" : "select_level_up";
-              return {
-                event: event,
-                node: {
-                  ...(nodeData.node !== "unknown"
-                    ? getNodeById(nodeData.node, activeSite)
-                    : unknownNodeTemplate),
-                  matrixIndices: nodeData.matrixIndices,
-                },
-                level: selectedLevel.toString().padStart(2, "0"),
+              const newLevel = selectedLevel.toString().padStart(2, "0");
+              const newNode = {
+                ...(nodeData.node !== "unknown"
+                  ? getNodeById(nodeData.node, activeSite)
+                  : unknownNodeTemplate),
+                matrixIndices: nodeData.matrixIndices,
               };
+              const lainMoveState =
+                selectedLevel < level ? "jump_down" : "jump_up";
+
+              return selectLevel({
+                lainMoveState: lainMoveState,
+                activeLevel: newLevel,
+                activeNode: newNode,
+              });
             }
         }
         break;
       case "pause":
-        if (showingAbout)
-          return {
-            event: "exit_about",
-          };
-        else {
-          switch (keyPress) {
-            case "UP": {
-              const newComponent = (() => {
-                switch (activePauseComponent) {
-                  case "exit":
-                    return "save";
-                  case "save":
-                    return "change";
-                  case "change":
-                    return "about";
-                  case "about":
-                    return "load";
-                }
-              })();
+        if (showingAbout) return exitAbout;
+        switch (keyPress) {
+          case "UP":
+          case "DOWN":
+            const direction = keyPress.toLowerCase();
+            const components = ["load", "about", "change", "save", "exit"];
 
-              if (newComponent)
-                return {
-                  event: "pause_up",
-                  activePauseComponent: newComponent,
-                };
-              break;
+            const newComponent =
+              components[
+                components.indexOf(activePauseComponent) +
+                  (direction === "up" ? -1 : 1)
+              ];
+
+            if (newComponent)
+              return changePauseComponent({
+                activePauseComponent: newComponent,
+              });
+            break;
+          case "CIRCLE":
+            switch (activePauseComponent) {
+              case "about":
+                return showAbout;
+              case "exit":
+                return exitPause({ siteRot: [0, siteRotY, 0] });
+              case "save":
+              case "load":
+                return displayPrompt;
+              case "change":
+                if (activePauseComponent === "change" && gateLvl > 4)
+                  return showPermissionDenied;
+                else return displayPrompt;
             }
-            case "DOWN": {
-              const newComponent = (() => {
-                switch (activePauseComponent) {
-                  case "load":
-                    return "about";
-                  case "about":
-                    return "change";
-                  case "change":
-                    return "save";
-                  case "save":
-                    return "exit";
-                }
-              })();
-              if (newComponent)
-                return {
-                  event: "pause_down",
-                  activePauseComponent: newComponent,
-                };
-              break;
-            }
-            case "CIRCLE":
-              if (activePauseComponent === "change") {
-                if (gateLvl > 4) {
-                  return { event: "show_permission_denied" };
-                } else {
-                  return {
-                    event: "display_prompt",
-                  };
-                }
-              } else if (
-                activePauseComponent === "save" ||
-                activePauseComponent === "load"
-              ) {
-                return {
-                  event: "display_prompt",
-                };
-              } else {
-                return {
-                  event: `pause_${activePauseComponent}_select`,
-                  siteRot: [0, siteRotY, 0],
-                };
-              }
-          }
         }
         break;
-      case "not_found":
-        return { event: "exit_not_found" };
     }
   }
 };

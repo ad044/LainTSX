@@ -14,8 +14,14 @@ const calculateCoordsBasedOnRotation = (
   z: x * Math.sin(rotation) + z * Math.cos(rotation),
 });
 
-export const nodeThrow = (siteRotY: number) => {
+// async calls in this file are executed inside IIAFE-s because defining them as async would
+// throw a warning about an unhandled promise, and we dont care about that.
+// async/awaits here are used simply to improve readability, nothing else.
+
+export const nodeThrowAnimation = () => {
   (async () => {
+    const siteRotY = useStore.getState().siteRot[1];
+
     const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
     const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
     const thirdCoordSet = calculateCoordsBasedOnRotation(1.55, 0.2, siteRotY);
@@ -42,7 +48,9 @@ export const nodeThrow = (siteRotY: number) => {
   })();
 };
 
-export const nodeKnock = (siteRotY: number) => {
+export const nodeKnockAnimation = () => {
+  const siteRotY = useStore.getState().siteRot[1];
+
   const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
 
   setActiveNodeAttributes(true, "interactedWith");
@@ -52,8 +60,10 @@ export const nodeKnock = (siteRotY: number) => {
   setTimeout(() => setActiveNodeAttributes(false, "interactedWith"), 2500);
 };
 
-export const nodeKnockAndFall = (siteRotY: number) => {
+export const nodeKnockAndFallAnimation = () => {
   (async () => {
+    const siteRotY = useStore.getState().siteRot[1];
+
     const fstCoordSet = calculateCoordsBasedOnRotation(1.1, 0.2, siteRotY);
 
     setActiveNodeAttributes(true, "interactedWith");
@@ -71,8 +81,10 @@ export const nodeKnockAndFall = (siteRotY: number) => {
   })();
 };
 
-export const nodeTouchAndScare = (siteRotY: number) => {
+export const nodeExplodeAnimation = () => {
   (async () => {
+    const siteRotY = useStore.getState().siteRot[1];
+
     const fstCoordSet = calculateCoordsBasedOnRotation(-0.6, 0.2, siteRotY);
 
     setActiveNodeAttributes(true, "interactedWith");
@@ -95,8 +107,10 @@ export const nodeTouchAndScare = (siteRotY: number) => {
   })();
 };
 
-export const nodeRip = (siteRotY: number) => {
+export const nodeRipAnimation = () => {
   (async () => {
+    const siteRotY = useStore.getState().siteRot[1];
+
     const fstCoordSet = calculateCoordsBasedOnRotation(0.9, 0.3, siteRotY);
     const sndCoordSet = calculateCoordsBasedOnRotation(0.5, 0.2, siteRotY);
     const thirdCoordSet = calculateCoordsBasedOnRotation(0, 0.2, siteRotY);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import answerContainer from "../static/sprite/prompt_answer_container.png";
 import questionContainer from "../static/sprite/prompt_question_container.png";
 import yes from "../static/sprite/prompt_yes.png";
@@ -8,7 +8,7 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../store";
 
-const Prompt = () => {
+const Prompt = memo(() => {
   const questionContainerTex = useLoader(
     THREE.TextureLoader,
     questionContainer
@@ -20,8 +20,10 @@ const Prompt = () => {
 
   const activeComponent = useStore((state) => state.activePromptComponent);
 
+  const promptVisible = useStore((state) => state.promptVisible);
+
   return (
-    <>
+    <group visible={promptVisible}>
       <sprite scale={[4.1, 0.3, 0]} renderOrder={200} position={[0, 0.2, 0]}>
         <spriteMaterial
           map={questionContainerTex}
@@ -79,8 +81,8 @@ const Prompt = () => {
           depthTest={false}
         />
       </sprite>
-    </>
+    </group>
   );
-};
+});
 
 export default Prompt;

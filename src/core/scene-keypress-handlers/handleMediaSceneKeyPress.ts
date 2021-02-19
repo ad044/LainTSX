@@ -1,5 +1,6 @@
 import { findNodeFromWord } from "../../utils/media-utils";
 import { MediaSceneContext } from "../../store";
+import { changeLeftMediaComponent, changeMediaSide } from "../eventTemplates";
 
 const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
   const {
@@ -17,16 +18,21 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
     case "left":
       switch (keyPress) {
         case "UP":
-        case "DOWN":
-          return {
-            event: `media_leftside_${keyPress.toLowerCase()}`,
-          };
-        case "RIGHT":
-          return {
-            event: "media_leftside_right",
-            lastActiveComponent: activeMediaComponent,
-            newActiveComponent: lastActiveMediaComponents.right,
-          };
+        case "DOWN": {
+          const direction = keyPress.toLowerCase();
+          const newComponent = direction === "up" ? "play" : "exit";
+          return changeLeftMediaComponent({ activeComponent: newComponent });
+        }
+        case "RIGHT": {
+          return changeMediaSide({
+            activeMediaComponent: lastActiveMediaComponents.right,
+            lastActiveMediaComponents: {
+              ...lastActiveMediaComponents,
+              left: activeMediaComponent as "play" | "exit",
+            },
+            currentMediaSide: "right",
+          });
+        }
         case "CIRCLE":
           switch (activeMediaComponent) {
             case "play":
@@ -84,11 +90,17 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
         }
 
         case "LEFT":
-          return {
-            event: "media_rightside_left",
-            lastActiveComponent: activeMediaComponent,
-            newActiveComponent: lastActiveMediaComponents.left,
-          };
+          return changeMediaSide({
+            activeMediaComponent: lastActiveMediaComponents.left,
+            lastActiveMediaComponents: {
+              ...lastActiveMediaComponents,
+              right: activeMediaComponent as
+                | "fstWord"
+                | "sndWord"
+                | "thirdWord",
+            },
+            currentMediaSide: "left",
+          });
 
         case "CIRCLE":
           const data = findNodeFromWord(

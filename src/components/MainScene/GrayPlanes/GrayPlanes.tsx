@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, memo } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import GrayPlane from "./GrayPlanes/GrayPlane";
+import GrayPlane from "./GrayPlane";
 
 const GrayPlanes = memo(() => {
   const grayPlaneGroupRef = useRef<THREE.Object3D>();

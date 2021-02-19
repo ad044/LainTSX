@@ -1,20 +1,19 @@
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { playAudio, useStore } from "../store";
-import Pause from "../components/MainScene/PauseSubscene/Pause";
+import Pause from "../components/MainScene/Pause/Pause";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import HUD from "../components/MainScene/HUD";
 import MainYellowTextAnimator from "../components/TextRenderer/MainYellowTextAnimator";
 import YellowOrb from "../components/MainScene/YellowOrb";
-import MiddleRing from "../components/MainScene/MiddleRing";
-import GrayPlanes from "../components/MainScene/GrayPlanes";
-import Starfield from "../components/MainScene/Starfield";
-import Site from "../components/MainScene/Site";
+import MiddleRing from "../components/MainScene/MiddleRing/MiddleRing";
+import GrayPlanes from "../components/MainScene/GrayPlanes/GrayPlanes";
+import Starfield from "../components/MainScene/Starfield/Starfield";
+import Site from "../components/MainScene/Site/Site";
 import Lain from "../components/MainScene/Lain";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import NotFound from "../components/MainScene/NotFound";
-import PausePopUps from "../components/MainScene/PauseSubscene/PausePopUps";
+import Popups from "../components/MainScene/Popups/Popups";
 import * as audio from "../static/sfx";
 import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
@@ -94,9 +93,8 @@ const MainScene = () => {
     <perspectiveCamera position-z={3}>
       <Suspense fallback={<Loading />}>
         <LevelSelection />
-        <PausePopUps />
+        <Popups />
         <Pause />
-        <NotFound visible={subscene === "not_found"} />
         <group visible={!paused}>
           <group visible={!wordSelected && (intro ? introFinished : true)}>
             <group visible={subscene !== "not_found"}>

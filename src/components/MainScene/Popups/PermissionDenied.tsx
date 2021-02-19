@@ -3,13 +3,16 @@ import headerContainer from "../../../static/sprite/prompt_question_container.pn
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import StaticOrangeLetter from "../../TextRenderer/StaticOrangeLetter";
+import { useStore } from "../../../store";
 
 const PermissionDenied = memo(() => {
   const headerContainerTex = useLoader(THREE.TextureLoader, headerContainer);
 
+  const permissionDenied = useStore((state) => state.permissionDenied);
+
   return (
-    <>
-      <sprite scale={[4.1, 0.3, 0]} renderOrder={200} position={[0, 0.2, 0]}>
+    <group position={[0, 0.5, 0]} visible={permissionDenied}>
+      <sprite scale={[5, 0.36, 0]} renderOrder={200} position={[1, 0.2, 0]}>
         <spriteMaterial
           map={headerContainerTex}
           attach="material"
@@ -18,16 +21,12 @@ const PermissionDenied = memo(() => {
           depthTest={false}
         />
       </sprite>
-      <group scale={[0.08, 0.7, 0]} position={[-1, 0.19, 0]}>
+      <group scale={[0.08, 0.7, 0]} position={[0, 0.19, 0]}>
         {"Permission denied".split("").map((letter, idx) => (
-          <StaticOrangeLetter
-            letter={letter}
-            letterIdx={idx}
-            key={idx}
-          />
+          <StaticOrangeLetter letter={letter} letterIdx={idx} key={idx} />
         ))}
       </group>
-    </>
+    </group>
   );
 });
 

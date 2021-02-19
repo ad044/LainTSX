@@ -1,6 +1,6 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { SiteData } from "../components/MainScene/Site";
+import { SiteData } from "../components/MainScene/Site/Site";
 import { useStore } from "../store";
 
 export const getRandomIdleMedia = () => {

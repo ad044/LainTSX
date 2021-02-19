@@ -2,7 +2,7 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import game_progress from "./resources/initial_progress.json";
-import { NodeData } from "./components/MainScene/Site";
+import { NodeData } from "./components/MainScene/Site/Site";
 import { getNodeById } from "./utils/node-utils";
 import site_a from "./resources/site_a.json";
 
@@ -126,7 +126,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "boot",
+      currentScene: "media",
 
       // game progress
       gameProgress: game_progress,
@@ -258,14 +258,7 @@ export const useStore = create(
       // scene data setters
       setScene: (to: string) => set(() => ({ currentScene: to })),
 
-      // main subscene setter
-      setMainSubscene: (to: string) => set(() => ({ mainSubscene: to })),
-
-      // intro setters
-      setIntro: (to: boolean) => set(() => ({ intro: to })),
-
       // node setters
-      setNode: (to: NodeData) => set(() => ({ activeNode: to })),
       setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
       setNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
       setNodeAttributes: (
@@ -280,41 +273,19 @@ export const useStore = create(
       setLainMoveState: (to: string) => set(() => ({ lainMoveState: to })),
 
       // site setters
-      setActiveSite: (to: "a" | "b") => set(() => ({ activeSite: to })),
-      setSiteRotY: (to: number) =>
-        set((prev) => {
-          const nextRot = [...prev.siteRot];
-          nextRot[1] = to;
-          return { siteRot: nextRot };
-        }),
       setSiteRotX: (to: number) =>
         set((prev) => {
           const nextRot = [...prev.siteRot];
           nextRot[0] = to;
           return { siteRot: nextRot };
         }),
-      setOldSiteRot: (to: number[]) =>
-        set(() => ({
-          oldSiteRot: to,
-        })),
-
-      // level setters
-      setActiveLevel: (to: string) => set(() => ({ activeLevel: to })),
-      setOldLevel: (to: string) => set(() => ({ oldLevel: to })),
-
-      // level selection setters
-      setSelectedLevel: (to: number) => set(() => ({ selectedLevel: to })),
 
       // end scene setters
       setEndSceneSelectionVisible: (to: boolean) =>
         set(() => ({ endSceneSelectionVisible: to })),
 
       // pause setters
-      setPauseExitAnimation: (to: boolean) =>
-        set(() => ({ pauseExitAnimation: to })),
       setShowingAbout: (to: boolean) => set(() => ({ showingAbout: to })),
-      setPermissionDenied: (to: boolean) =>
-        set(() => ({ permissionDenied: to })),
 
       // media scene setters
       setAudioAnalyser: (to: any) => set(() => ({ audioAnalyser: to })),
@@ -368,41 +339,6 @@ export const useStore = create(
           },
         })),
 
-      // gate scene setters
-      incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
-
-      // player name setters
-      setPlayerName: (to: string) => set(() => ({ playerName: to })),
-
-      // boot scene setters
-      setBootSubscene: (to: "load_data" | "authorize_user" | "main_menu") =>
-        set(() => ({ bootSubscene: to })),
-
-      setAuthorizeUserLetterIdx: (to: number) =>
-        set(() => ({ authorizeUserLetterIdx: to })),
-
-      // site state setters
-      setSiteSaveState: (
-        site: string,
-        to: {
-          activeNode: NodeData;
-          siteRot: number[];
-          activeLevel: string;
-        }
-      ) =>
-        set((state) => ({
-          siteSaveState: { ...state.siteSaveState, [site]: to },
-        })),
-      loadSiteSaveState: (site: "a" | "b") =>
-        set((state) => {
-          const stateToLoad = state.siteSaveState[site];
-          return {
-            activeSite: site,
-            activeNode: stateToLoad.activeNode,
-            siteRot: stateToLoad.siteRot,
-            activeLevel: stateToLoad.activeLevel,
-          };
-        }),
       changeSite: (to: "a" | "b") =>
         set((state) => {
           const newState = state.siteSaveState[to];
@@ -428,12 +364,6 @@ export const useStore = create(
           };
         }),
 
-      // status notifier setters
-      setSaveSuccessful: (to: boolean | undefined) =>
-        set(() => ({ saveSuccessful: to })),
-      setLoadSuccessful: (to: boolean | undefined) =>
-        set(() => ({ loadSuccessful: to })),
-
       // progress setters
       setNodeViewed: (
         nodeName: string,
@@ -447,21 +377,9 @@ export const useStore = create(
         })),
 
       setInputCooldown: (to: boolean) => set(() => ({ inputCooldown: to })),
-
-      incrementSsknLvl: () => set((state) => ({ ssknLvl: state.ssknLvl + 1 })),
     })
   )
 );
-
-export const getSiteState = (site: "a" | "b") => {
-  const siteState = useStore.getState().siteSaveState[site];
-
-  return {
-    activeNode: siteState.activeNode,
-    siteRot: siteState.siteRot,
-    activeLevel: siteState.activeLevel,
-  };
-};
 
 type PromptContext = {
   activePromptComponent: "yes" | "no";
@@ -490,6 +408,18 @@ export interface MainSceneContext extends PromptContext {
   siteRotY: number;
   activeSite: "a" | "b";
   selectedLevel: number;
+  siteSaveState: {
+    a: {
+      activeNode: NodeData;
+      siteRot: number[];
+      activeLevel: string;
+    };
+    b: {
+      activeNode: NodeData;
+      siteRot: number[];
+      activeLevel: string;
+    };
+  };
 }
 
 export const getMainSceneContext = (keyPress: string): MainSceneContext => {
@@ -509,6 +439,7 @@ export const getMainSceneContext = (keyPress: string): MainSceneContext => {
     ssknLvl: state.ssknLvl,
     showingAbout: state.showingAbout,
     gateLvl: state.gateLvl,
+    siteSaveState: state.siteSaveState,
   };
 };
 
@@ -609,20 +540,4 @@ export const createAudioAnalyser = () => {
   audio.setMediaElementSource(mediaElement);
 
   return new THREE.AudioAnalyser(audio, 2048);
-};
-
-export const getSceneResetValues = (scene: string) => {
-  switch (scene) {
-    case "media":
-      return {
-        mediaWordPosStateIdx: 1,
-        mediaComponentMatrixIndices: {
-          sideIdx: 0,
-          leftSideIdx: 0,
-          rightSideIdx: 0,
-        },
-      };
-    case "sskn":
-      return { ssknComponentMatrixIdx: 0, ssknLoading: false };
-  }
 };

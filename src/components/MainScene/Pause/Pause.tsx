@@ -50,6 +50,8 @@ const Pause = () => {
 
   const subscene = useStore((state) => state.mainSubscene);
 
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+
   useEffect(() => {
     setAnimation(false);
     setIntro(true);
@@ -62,10 +64,11 @@ const Pause = () => {
         setTimeout(() => {
           setShowActiveComponent(true);
           setIntro(false);
+          setInputCooldown(false);
         }, 3500);
       }, 3400);
     }
-  }, [subscene]);
+  }, [setInputCooldown, subscene]);
 
   return (
     <>

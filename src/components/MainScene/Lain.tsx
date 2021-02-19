@@ -1,7 +1,7 @@
-import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
-import {useFrame, useLoader} from "react-three-fiber";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import {PlainSingularAnimator} from "three-plain-animator/lib/plain-singular-animator";
+import { PlainSingularAnimator } from "three-plain-animator/lib/plain-singular-animator";
 import moveDownSpriteSheet from "../../static/sprite/jump_down.png";
 import moveUpSpriteSheet from "../../static/sprite/jump_up.png";
 import moveLeftSpriteSheet from "../../static/sprite/move_left.png";
@@ -12,7 +12,7 @@ import throwNodeSpriteSheet from "../../static/sprite/throw_node.png";
 import ripMiddleRingSpriteSheet from "../../static/sprite/rip_middle_ring.png";
 import knockSpriteSheet from "../../static/sprite/knock.png";
 import knockAndFallSpriteSheet from "../../static/sprite/knock_and_fall.png";
-import touchAndScareSpriteSheet from "../../static/sprite/touch_and_scare.png";
+import touchAndScareSpriteSheet from "../../static/sprite/touch_node_and_get_scared.png";
 import ripNodeSpriteSheet from "../../static/sprite/rip_node.png";
 import touchSleeveSpriteSheet from "../../static/sprite/touch_sleeve.png";
 import prayerSpriteSheet from "../../static/sprite/prayer.png";
@@ -32,7 +32,7 @@ import leanRightSpriteSheet from "../../static/sprite/lean_right.png";
 import lookAroundSpriteSheet from "../../static/sprite/look_around.png";
 import playWithHairSpriteSheet from "../../static/sprite/play_with_hair.png";
 
-import {useStore} from "../../store";
+import { useStore } from "../../store";
 
 type LainConstructorProps = {
   sprite: string;
@@ -368,17 +368,17 @@ const Lain = (props: LainProps) => {
   const lainAnimationDispatch = useMemo(() => {
     const anims = {
       standing: <LainStanding />,
-      site_left: <LainMoveLeft />,
-      site_right: <LainMoveRight />,
-      site_up: <LainMoveUp />,
-      site_down: <LainMoveDown />,
+      move_left: <LainMoveLeft />,
+      move_right: <LainMoveRight />,
+      jump_up: <LainMoveUp />,
+      jump_down: <LainMoveDown />,
       knock_and_fall: <LainKnockAndFall />,
-      touch_and_scare: <LainTouchAndScare />,
+      touch_node_and_get_scared: <LainTouchAndScare />,
       knock: <LainKnock />,
       select_level_down: <LainMoveDown />,
       select_level_up: <LainMoveUp />,
       throw_node: <LainThrowNode />,
-      pause_game: <LainRipMiddleRing />,
+      rip_middle_ring: <LainRipMiddleRing />,
       rip_node: <LainRipNode />,
       prayer: <LainPrayer />,
       scratch_head: <LainScratchHead />,
