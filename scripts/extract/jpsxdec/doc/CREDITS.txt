@@ -1,0 +1,126 @@
+CREDITS & THANKS
+----------------
+
+The following people either helped make jPSXdec possible, or are just
+really cool (usually both):
+
+My dad, for everything he did for me (1949-2009).
+
+Mike Melanson and Stuart Caie for adding STR decoding support to xine,
+including the documentation in the source. Also for archiving some example STR
+files.
+
+The q-gears development team and forum members for their source code and
+documentation. Their STR decoding source code PSXMDECDecoder.cpp was invaluable.
+
+"Everything You Have Always Wanted to Know about the Playstation But
+Were Afraid to Ask." Compiled / edited by Joshua Walker.
+A valuable reference for any kind of PSX hacking, especially the PSX assembly
+instruction set.
+
+no$psx for his outstanding documentation of the PlayStation guts.
+http://problemkaputt.de/psx-spx.htm
+
+smf, developer for MAME, for figuring out that everyone was getting the
+order of CrCb wrong.
+http://www.twingalaxies.com/showthread.php/140003-M-A-M-E-Mr-Driller-DRI1-VER-A2-1000M-Mode-918-940-Nick-Vis?p=752883&viewfull=1#post752883
+
+Gabriele Gorla for clarifying to me the details of the Cb/Cr swap error,
+verifying that jPSXdec is doing things right, and for
+pointing how the quantization table is uploaded to the MDEC.
+
+Jonathan Atkins for his open source cdxa code and documentation.
+http://freshmeat.net/projects/cdxa/
+
+The PCSX Team, creators of one of the two open source PlayStation emulators.
+
+The MAME emulator team for their efforts to document and accurately
+emulate hardware, and for their license.
+http://mamedev.org/
+
+Developers of the pSX emulator for the very nice debugger for reverse
+engineering games.
+http://psxemulator.gazaxian.com/
+
+"Fyiro", the Japanese fellow that wrote the source code for the PsxMC
+FF8 plugin.
+
+T_chan for sharing a bit of his knowledge about the FF9 format.
+
+The most excellent folks at IRCNet #lain :D
+
+cclh12 at romhacking.net for generously providing some actual PlayStation 1
+hardware RAM dumps.
+
+Mezmorize at gshi.org for helping me get an old PlayStation and GameShark
+working to make my own RAM dumps.
+
+Jen (a.k.a. punistation) for her (formally) long standing PlayStation Serial
+Experiments Lain page (rip http://www.geocities.com/punistation10/).
+
+Yoshitoshi ABe et al. for Serial Experiments Lain and other captivating anime.
+
+Andrew Z for pursuing high quality ADPCM decoding, and verifying jPSXdec
+is doing an impeccable job.
+
+John O. for verifying that jPSXdec video encoder is at least as good as
+Sony's official SDK movconv tool.
+
+Víctor González and Sergi Medina for the Spanish translation.
+
+Gianluigi "Infrid" Cusimano for adding the Italian translation.
+
+XBrav for adding support for Reboot video.
+
+The Hitmen for releasing invaluable source code related to PSX hacking.
+
+The countless people who created so many open source tools that I've used
+in this project, and in my every day life. It is a huge list.
+
+................................................................................
+Thanks to those who wrote code that I've used or referenced at some point 
+during development:
+
+Alexander Strange for porting the ffmpeg simple_idct to Java.
+
+Stephen Manley for generously sharing his DCT.java class.
+http://www.nyx.net/~smanley/
+
+Bernhard Huber for his very nice javadoc-templates.
+http://members.aon.at/bhuber14/
+
+ImageJ for its AVIWriter implementation.
+
+Morten Nobel-Joergensen for the Java Image Scaling Library.
+https://github.com/mortennobel/java-image-scaling
+
+Doug Lea for sharing his Fraction.java class.
+
+Sequence Point Software for the J2ME MPEG implementation of the IDCT.
+https://bitbucket.org/sequencepoint/j2me_mpeg
+
+Eclipse SWT for the Java JPEG implementation of the IDCT.
+
+John E. Lloyd for the handy argparser library.
+http://people.cs.ubc.ca/~lloyd/java/argparser.html
+
+Joerg Anders for managing to write an mpeg1 decoder in pure Java.
+
+The JSmooth tool http://jsmooth.sourceforge.net/
+The launch4j tool http://launch4j.sourceforge.net/
+
+PDFJet for their PDF library.
+
+Jerry Huxtable for his awesome ParagraphLayout.
+
+L2Fprod for the directory chooser.
+
+Sun for the Java platform, SwingWorker and SwingX libraries,
+and the Netbeans IDE.
+
+................................................................................
+
+Finally, a shout-out to all the PlayStation hackers who thought it was a good
+idea to keep their decoders/emulators/hacking tools closed source, then
+completely stop working on them. Extra recognition for those who now provide a
+404 page for a web site.

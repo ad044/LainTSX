@@ -24,6 +24,11 @@ yarn-error.log*
 
 src/static/media_images
 src/static/sprite
+src/static/audio
+src/static/movie
+
+scripts/extract/discs
+scripts/extract/*.log
 
 .idea
 
