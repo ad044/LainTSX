@@ -1,15 +1,29 @@
 import { EndSceneContext } from "../../store";
+import {
+  changeEndComponent,
+  continueGameAfterEnd,
+  endGame,
+} from "../eventTemplates";
+import { GameEvent } from "../handleEvent";
 
-const handleEndSceneKeyPress = (endSceneContext: EndSceneContext) => {
+const handleEndSceneKeyPress = (
+  endSceneContext: EndSceneContext
+): GameEvent | undefined => {
   const { keyPress, selectionVisible, activeEndComponent } = endSceneContext;
 
   if (selectionVisible) {
     switch (keyPress) {
       case "UP":
       case "DOWN":
-        return { event: `end_selection_${keyPress.toLowerCase()}` };
+        const newComponent = keyPress === "UP" ? "end" : "continue";
+        return changeEndComponent({ activeEndComponent: newComponent });
       case "CIRCLE":
-        return { event: `end_${activeEndComponent}_select` };
+        switch (activeEndComponent) {
+          case "end":
+            return endGame;
+          case "continue":
+            return continueGameAfterEnd;
+        }
     }
   }
 };

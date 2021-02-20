@@ -8,7 +8,7 @@ import { useStore } from "../../store";
 import lerp from "../../utils/lerp";
 import GreenTextRenderer from "../TextRenderer/GreenTextRenderer";
 import usePrevious from "../../hooks/usePrevious";
-import { getNodeHud } from "../../utils/node-utils";
+import { getNodeHud } from "../../helpers/node-helpers";
 
 export type HUDType = {
   mirrored: number;
@@ -130,7 +130,6 @@ const HUD = memo(() => {
       if (
         !(scene === "main" && prevData?.scene === "main") ||
         (subscene === "site" && prevData?.subscene === "pause") ||
-        (subscene === "site" && prevData?.subscene === "not_found") ||
         subscene === "pause"
       ) {
         // set to final pos instantly

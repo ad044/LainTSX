@@ -2,12 +2,13 @@ import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import node_matrices from "../resources/node_matrices.json";
 import { NodeData, SiteData } from "../components/MainScene/Site/Site";
-import { isNodeVisible } from "./node-utils";
+import { isNodeVisible } from "./node-helpers";
+import { ActiveSite, RightMediaComponent } from "../store";
 
 export const findNodeFromWord = (
-  wordLabel: string,
+  wordLabel: RightMediaComponent,
   activeNode: NodeData,
-  site: "a" | "b",
+  site: ActiveSite,
   gameProgress: any
 ) => {
   const labelToIdx = (() => {
@@ -72,4 +73,19 @@ export const findNodeFromWord = (
       rotValues[matrixIndices.matrixIdx.toString() as keyof typeof rotValues],
     level: chosenNode.id.substr(0, 2),
   };
+};
+
+export const playMediaElement = () => {
+  const mediaElement = document.getElementById("media") as HTMLMediaElement;
+
+  if (mediaElement && mediaElement.paused) mediaElement.play();
+};
+
+export const resetMediaElement = () => {
+  const mediaElement = document.getElementById("media") as HTMLMediaElement;
+  if (mediaElement) {
+    mediaElement.pause();
+
+    mediaElement.currentTime = 0;
+  }
 };

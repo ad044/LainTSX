@@ -64,7 +64,7 @@ const Pause = () => {
         setTimeout(() => {
           setShowActiveComponent(true);
           setIntro(false);
-          setInputCooldown(false);
+          setInputCooldown(1000);
         }, 3500);
       }, 3400);
     }

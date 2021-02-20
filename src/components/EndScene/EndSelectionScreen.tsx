@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import middleSpritesheet from "../../static/sprite/end_middle_spritesheet.png";
 import middleLain from "../../static/sprite/end_middle_lain.png";
 import circleSpritesheet from "../../static/sprite/end_circle_spritesheet.png";
@@ -10,7 +10,11 @@ import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../store";
 
-const EndSelectionScreen = () => {
+type EndSelectionScreenProps = {
+  visible: boolean;
+};
+
+const EndSelectionScreen = memo((props: EndSelectionScreenProps) => {
   const middleSpritesheetTex: any = useLoader(
     THREE.TextureLoader,
     middleSpritesheet
@@ -63,7 +67,7 @@ const EndSelectionScreen = () => {
   const lainOpacity = lainOpacityToggle.to([0, 1], [0, 0.5]);
 
   return (
-    <>
+    <group visible={props.visible}>
       <sprite position={[-3.5, 0, -3]} scale={[10, 0.8, 0]}>
         <spriteMaterial attach="material" map={middleSpritesheetTex} />
       </sprite>
@@ -93,8 +97,8 @@ const EndSelectionScreen = () => {
           opacity={lainOpacity}
         />
       </sprite>
-    </>
+    </group>
   );
-};
+});
 
 export default EndSelectionScreen;

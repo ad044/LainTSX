@@ -1,9 +1,5 @@
 import { useStore } from "../store";
-import sleep from "./sleep";
-
-const setActiveNodePos = useStore.getState().setNodePos;
-const setActiveNodeRot = useStore.getState().setNodeRot;
-const setActiveNodeAttributes = useStore.getState().setNodeAttributes;
+import sleep from "../utils/sleep";
 
 const calculateCoordsBasedOnRotation = (
   x: number,
@@ -17,6 +13,10 @@ const calculateCoordsBasedOnRotation = (
 // async calls in this file are executed inside IIAFE-s because defining them as async would
 // throw a warning about an unhandled promise, and we dont care about that.
 // async/awaits here are used simply to improve readability, nothing else.
+
+const setActiveNodePos = useStore.getState().setNodePos;
+const setActiveNodeRot = useStore.getState().setNodeRot;
+const setActiveNodeAttributes = useStore.getState().setNodeAttributes;
 
 export const nodeThrowAnimation = () => {
   (async () => {

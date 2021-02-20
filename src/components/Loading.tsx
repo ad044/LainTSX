@@ -21,6 +21,9 @@ const Loading = () => {
 
   return (
     <>
+      <sprite scale={[5, 5, 5]}>
+        <spriteMaterial attach="material" color={0x000000} />
+      </sprite>
       <sprite scale={[0.35, 0.6, 0.35]} position={[0, 0.2, 0]}>
         <spriteMaterial attach="material" map={loadingTex} />
       </sprite>

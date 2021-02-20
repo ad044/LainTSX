@@ -31,13 +31,7 @@ const Images = () => {
   const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
 
   useEffect(() => {
-    let images;
-    if (currentScene === "media" || currentScene === "tak") {
-      images = nodeImages;
-    } else if (currentScene === "idle_media") {
-      images = idleNodeImages;
-    }
-
+    const images = currentScene === "idle_media" ? idleNodeImages : nodeImages;
     if (images) {
       // checking the length of the img arr doesn't work in some cases
       // since the amount of images varies from 1 to 3.
