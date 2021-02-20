@@ -4,7 +4,6 @@ import PolytanBackground from "../components/PolytanScene/PolytanBackground";
 import { useStore } from "../store";
 
 const PolytanScene = () => {
-  const unlockedParts = useStore((state) => state.polytanUnlockedParts);
   const setNodeViewed = useStore((state) => state.setNodeViewed);
   const setPolytanPartUnlocked = useStore.getState().setPolytanPartUnlocked;
   const activeNodeName = useStore((state) => state.activeNode.node_name);
@@ -34,10 +33,10 @@ const PolytanScene = () => {
   }, [activeNodeName, setNodeViewed, setPolytanPartUnlocked]);
 
   return (
-    <perspectiveCamera>
-      <PolytanBear unlockedParts={unlockedParts} />
+    <>
+      <PolytanBear />
       <PolytanBackground />
-    </perspectiveCamera>
+    </>
   );
 };
 

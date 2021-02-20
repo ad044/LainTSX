@@ -71,7 +71,7 @@ const MediaScene = () => {
 
   useEffect(() => {
     setLoaded(true);
-    setTimeout(() => setInputCooldown(false), 1000);
+    setTimeout(() => setInputCooldown(500), 1000);
   }, [setInputCooldown]);
 
   return (

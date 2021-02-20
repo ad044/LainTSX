@@ -1,32 +1,23 @@
 import { useCallback, useEffect, useRef } from "react";
 import {
-  BootSceneContext,
-  EndSceneContext,
   getBootSceneContext,
   getEndSceneContext,
   getMainSceneContext,
   getMediaSceneContext,
   getSsknSceneContext,
-  MainSceneContext,
-  MediaSceneContext,
   playAudio,
-  SsknSceneContext,
   useStore,
 } from "../store";
-import { getKeyCodeAssociation } from "../utils/keyPressUtils";
+import { getKeyCodeAssociation } from "../utils/getKey";
 import handleMediaSceneKeyPress from "../core/scene-keypress-handlers/handleMediaSceneKeyPress";
 import handleSsknSceneKeyPress from "../core/scene-keypress-handlers/handleSsknSceneKeyPress";
 import handleMainSceneKeyPress from "../core/scene-keypress-handlers/handleMainSceneKeyPress";
 import handleBootSceneKeyPress from "../core/scene-keypress-handlers/handleBootSceneKeyPress";
 import { useFrame } from "react-three-fiber";
-import { getRandomIdleLainAnim } from "../utils/idle-utils";
-import * as audio from "../static/sfx";
+import { getRandomIdleLainAnim } from "../helpers/idle-helpers";
+import * as audio from "../static/audio/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
-import handleMediaSceneEvent from "../core/scene-event-handlers/handleMediaSceneEvent";
-import handleSsknSceneEvent from "../core/scene-event-handlers/handleSsknSceneEvent";
-import handleBootSceneEvent from "../core/scene-event-handlers/handleBootSceneEvent";
-import handleEndSceneEvent from "../core/scene-event-handlers/handleEndSceneEvent";
-import handleEvent from "../core/scene-event-handlers/handleEvent";
+import handleEvent, { GameEvent } from "../core/handleEvent";
 
 const KeyPressHandler = () => {
   const scene = useStore((state) => state.currentScene);
@@ -83,9 +74,9 @@ const KeyPressHandler = () => {
       const now = Date.now();
 
       if (
-        keyPress
-        // !inputCooldown &&
-        // now > timeSinceLastKeyPress.current + 1500
+        keyPress &&
+        now > timeSinceLastKeyPress.current + inputCooldown &&
+        inputCooldown !== -1
       ) {
         if (scene === "main") {
           lainIdleCounter.current = now;
@@ -105,34 +96,31 @@ const KeyPressHandler = () => {
                 contextProvider: getMediaSceneContext,
                 keyPressHandler: handleMediaSceneKeyPress,
               };
-            // case "sskn":
-            //   return {
-            //     contextProvider: getSsknSceneContext,
-            //     keyPressHandler: handleSsknSceneKeyPress,
-            //     eventHandler: handleSsknSceneEvent,
-            //   };
-            // case "boot":
-            //   return {
-            //     contextProvider: getBootSceneContext,
-            //     keyPressHandler: handleBootSceneKeyPress,
-            //     eventHandler: handleBootSceneEvent,
-            //   };
-            // case "end":
-            //   return {
-            //     contextProvider: getEndSceneContext,
-            //     keyPressHandler: handleEndSceneKeyPress,
-            //     eventHandler: handleEndSceneEvent,
-            //   };
-            // case "gate":
-            // case "polytan":
-            //   useStore.setState({ currentScene: "main" });
-            //   break;
-            // case "idle_media":
-            //   useStore.setState({
-            //     currentScene: "main",
-            //     idleStarting: false,
-            //   });
-            //   break;
+            case "sskn":
+              return {
+                contextProvider: getSsknSceneContext,
+                keyPressHandler: handleSsknSceneKeyPress,
+              };
+            case "boot":
+              return {
+                contextProvider: getBootSceneContext,
+                keyPressHandler: handleBootSceneKeyPress,
+              };
+            case "end":
+              return {
+                contextProvider: getEndSceneContext,
+                keyPressHandler: handleEndSceneKeyPress,
+              };
+            case "gate":
+            case "polytan":
+              useStore.setState({ currentScene: "main" });
+              break;
+            case "idle_media":
+              useStore.setState({
+                currentScene: "main",
+                idleStarting: false,
+              });
+              break;
           }
         })();
 
@@ -140,9 +128,8 @@ const KeyPressHandler = () => {
           const { contextProvider, keyPressHandler } = sceneFns;
 
           const ctx = contextProvider(keyPress);
-          const event = keyPressHandler(ctx as any) as any;
+          const event: GameEvent | undefined = keyPressHandler(ctx as any);
           if (event) handleEvent(event);
-          // if (event) eventHandler(event.event, event.mutations);
         }
       }
     },

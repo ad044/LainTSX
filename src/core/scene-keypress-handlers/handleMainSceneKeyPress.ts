@@ -3,7 +3,7 @@ import {
   getNodeById,
   isNodeVisible,
   unknownNodeTemplate,
-} from "../../utils/node-utils";
+} from "../../helpers/node-helpers";
 import { MainSceneContext } from "../../store";
 import {
   changeNode,
@@ -18,19 +18,25 @@ import {
   exitPause,
   exitPrompt,
   explodeNode,
+  hideWordNotFound,
   knockNode,
   knockNodeAndFall,
   loadGame,
   pauseGame,
+  ripNode,
   saveGame,
   selectLevel,
   showAbout,
   showPermissionDenied,
   siteMoveHorizontal,
   siteMoveVertical,
+  throwNode,
 } from "../eventTemplates";
+import { GameEvent } from "../handleEvent";
 
-const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
+const handleMainSceneKeyPress = (
+  mainSceneContext: MainSceneContext
+): GameEvent | undefined => {
   const {
     subscene,
     selectedLevel,
@@ -47,6 +53,7 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
     activePromptComponent,
     gateLvl,
     siteSaveState,
+    wordNotFound,
   } = mainSceneContext;
 
   if (promptVisible) {
@@ -73,8 +80,6 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
                     activeLevel: level.toString().padStart(2, "0"),
                   },
                 };
-                console.log(newSiteSaveState);
-
                 return changeSite({
                   newActiveSite: siteToLoad,
                   newActiveNode: stateToLoad.activeNode,
@@ -92,6 +97,7 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
   } else {
     switch (subscene) {
       case "site":
+        if (wordNotFound) return hideWordNotFound;
         switch (keyPress) {
           case "LEFT":
           case "RIGHT": {
@@ -169,8 +175,7 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
             else return changeNode({ activeNode: newNode });
           }
           case "CIRCLE":
-            const eventAnimation =
-              Math.random() < 0.4 ? "rip_node" : "throw_node";
+            const eventAnimation = Math.random() < 0.4 ? throwNode : ripNode;
 
             const nodeType = activeNode.type;
 
@@ -181,7 +186,7 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
               return;
 
             if (activeNode.upgrade_requirement > ssknLvl) {
-              const rejectEvents = [explodeNode, knockNode, knockNodeAndFall];
+              const rejectEvents = [knockNodeAndFall, knockNode, explodeNode];
               return rejectEvents[Math.floor(Math.random() * 3)];
             }
 
@@ -191,37 +196,19 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
               case 4:
               case 3:
               case 5:
-                return {
-                  event: `${eventAnimation}_media`,
-                  mutations: { scene: "media" },
-                };
+                return eventAnimation({ currentScene: "media" });
               case 6:
                 if (activeNode.node_name.substr(0, 3) === "TaK") {
-                  return {
-                    event: `${eventAnimation}_tak`,
-                    mutations: { scene: "tak" },
-                  };
+                  return eventAnimation({ currentScene: "tak" });
                 } else {
-                  return {
-                    event: `${eventAnimation}_media`,
-                    mutations: { scene: "media" },
-                  };
+                  return eventAnimation({ currentScene: "media" });
                 }
               case 8:
-                return {
-                  event: `${eventAnimation}_gate`,
-                  mutations: { scene: "gate" },
-                };
+                return eventAnimation({ currentScene: "gate" });
               case 7:
-                return {
-                  event: `${eventAnimation}_sskn`,
-                  mutations: { scene: "sskn" },
-                };
+                return eventAnimation({ currentScene: "gate" });
               case 9:
-                return {
-                  event: `${eventAnimation}_polytan`,
-                  mutations: { scene: "polytan" },
-                };
+                return eventAnimation({ currentScene: "polytan" });
             }
             break;
           case "L2":
@@ -284,13 +271,12 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
         switch (keyPress) {
           case "UP":
           case "DOWN":
-            const direction = keyPress.toLowerCase();
             const components = ["load", "about", "change", "save", "exit"];
 
             const newComponent =
               components[
                 components.indexOf(activePauseComponent) +
-                  (direction === "up" ? -1 : 1)
+                  (keyPress === "UP" ? -1 : 1)
               ];
 
             if (newComponent)

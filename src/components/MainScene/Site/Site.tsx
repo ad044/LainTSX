@@ -8,7 +8,7 @@ import InactiveLevelNodes from "./InactiveLevelNodes";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import level_y_values from "../../../resources/level_y_values.json";
-import { filterInvisibleNodes } from "../../../utils/node-utils";
+import { filterInvisibleNodes } from "../../../helpers/node-helpers";
 import Loading from "../../Loading";
 
 export type NodeData = {

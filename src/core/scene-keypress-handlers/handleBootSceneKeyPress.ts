@@ -1,8 +1,25 @@
 import authorize_user_letters from "../../resources/authorize_user_letters.json";
-import handleNameSelection from "../../utils/handleNameSelection";
+import handleNameSelection from "../../helpers/name-selection-helpers";
 import { BootSceneContext } from "../../store";
+import {
+  changeMainMenuComponent,
+  changePromptComponent,
+  enterLoadData,
+  enterUserAuthorization,
+  exitLoadData,
+  exitUserAuthorization,
+  failUpdatePlayerName,
+  loadGame,
+  removePlayerNameLastChar,
+  startNewGame,
+  updateAuthorizeUserLetterIdx,
+  updatePlayerName,
+} from "../eventTemplates";
+import { GameEvent } from "../handleEvent";
 
-const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
+const handleBootSceneKeyPress = (
+  bootSceneContext: BootSceneContext
+): GameEvent | undefined => {
   const {
     keyPress,
     subscene,
@@ -16,17 +33,15 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
   if (promptVisible) {
     switch (keyPress) {
       case "LEFT":
-        return { event: "prompt_left" };
+        return changePromptComponent({ activePromptComponent: "yes" });
       case "RIGHT":
-        return { event: "prompt_right" };
+        return changePromptComponent({ activePromptComponent: "no" });
       case "CIRCLE":
         switch (activePromptComponent) {
           case "no":
-            return { event: "load_data_no" };
+            return exitLoadData;
           case "yes":
-            return {
-              event: "load_data_yes",
-            };
+            return loadGame();
         }
     }
   } else {
@@ -35,28 +50,34 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
         switch (keyPress) {
           case "UP":
           case "DOWN":
-            return { event: `main_menu_${keyPress.toLowerCase()}` };
+            const newComponent =
+              keyPress === "UP" ? "authorize_user" : "load_data";
+            return changeMainMenuComponent({
+              activeMainMenuComponent: newComponent,
+            });
           case "CIRCLE":
-            return { event: `main_menu_${activeMainMenuComponent}_select` };
+            switch (activeMainMenuComponent) {
+              case "authorize_user":
+                return enterUserAuthorization;
+              case "load_data":
+                return enterLoadData;
+            }
         }
         break;
       case "authorize_user":
         switch (keyPress) {
           case "START":
             if (playerName.length > 0) {
-              return {
-                event: "start_new_game",
-              };
+              return startNewGame;
             }
-            break;
+            return;
           case "X":
             if (playerName.length > 0) {
-              return {
-                event: "remove_last_char",
+              return removePlayerNameLastChar({
                 playerName: playerName.slice(0, -1),
-              };
+              });
             } else {
-              return { event: "authorize_user_back" };
+              return exitUserAuthorization;
             }
           case "LEFT":
             // if utmost left, break
@@ -64,7 +85,7 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
               [0, 13, 26, 39, 52].includes(authorizeUserLetterIdx) ||
               authorizeUserLetterIdx === 15
             )
-              break;
+              return;
             // skip
             else if (
               authorizeUserLetterIdx === 41 ||
@@ -74,19 +95,17 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
               authorizeUserLetterIdx === 19 ||
               authorizeUserLetterIdx === 45
             ) {
-              return {
-                event: "authorize_user_left",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 2,
-              };
+              });
             } else {
-              return {
-                event: "authorize_user_left",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 1,
-              };
+              });
             }
           case "RIGHT":
             // if utmost right, break
-            if ([12, 25, 38, 51, 64].includes(authorizeUserLetterIdx)) break;
+            if ([12, 25, 38, 51, 64].includes(authorizeUserLetterIdx)) return;
             // skip empty
             else if (
               authorizeUserLetterIdx === 39 ||
@@ -96,15 +115,13 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
               authorizeUserLetterIdx === 43 ||
               authorizeUserLetterIdx === 17
             ) {
-              return {
-                event: "authorize_user_right",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 2,
-              };
+              });
             } else {
-              return {
-                event: "authorize_user_right",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 1,
-              };
+              });
             }
           case "DOWN":
             // if utmost down, break
@@ -113,7 +130,7 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
                 authorizeUserLetterIdx
               )
             ) {
-              break;
+              return;
               // skip empty
             } else if (
               authorizeUserLetterIdx === 0 ||
@@ -123,20 +140,17 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
               authorizeUserLetterIdx === 31 ||
               authorizeUserLetterIdx === 5
             ) {
-              return {
-                event: "authorize_user_down",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 26,
-              };
+              });
             } else if (authorizeUserLetterIdx === 3) {
-              return {
-                event: "authorize_user_down",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 52,
-              };
+              });
             } else {
-              return {
-                event: "authorize_user_down",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx + 13,
-              };
+              });
             }
           case "UP":
             // if utmost up, break
@@ -145,7 +159,7 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
                 authorizeUserLetterIdx
               )
             ) {
-              break;
+              return;
               // skip empty
             } else if (
               authorizeUserLetterIdx === 26 ||
@@ -154,20 +168,17 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
               authorizeUserLetterIdx === 31 ||
               authorizeUserLetterIdx === 57
             ) {
-              return {
-                event: "authorize_user_up",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 26,
-              };
+              });
             } else if (authorizeUserLetterIdx === 55) {
-              return {
-                event: "authorize_user_up",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 52,
-              };
+              });
             } else {
-              return {
-                event: "authorize_user_up",
+              return updateAuthorizeUserLetterIdx({
                 authorizeUserLetterIdx: authorizeUserLetterIdx - 13,
-              };
+              });
             }
           case "CIRCLE":
             const chosenCharacter =
@@ -178,10 +189,9 @@ const handleBootSceneKeyPress = (bootSceneContext: BootSceneContext) => {
             const newName = handleNameSelection(playerName, chosenCharacter);
 
             if (newName !== undefined)
-              return { event: "update_player_name", playerName: newName };
-            else return { event: "update_player_name_denied" };
+              return updatePlayerName({ playerName: newName });
+            else return failUpdatePlayerName;
         }
-        break;
     }
   }
 };

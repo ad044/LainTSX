@@ -4,7 +4,7 @@ import { useStore } from "../../../store";
 import { SiteData } from "./Site";
 import InactiveLevelNode from "./InactiveLevelNode";
 import usePrevious from "../../../hooks/usePrevious";
-import { generateInactiveNodes } from "../../../utils/node-utils";
+import { generateInactiveNodes } from "../../../helpers/node-helpers";
 
 type ActiveLevelNodesProps = {
   visibleNodes: SiteData;

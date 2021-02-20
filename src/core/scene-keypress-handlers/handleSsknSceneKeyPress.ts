@@ -1,24 +1,42 @@
 import { SsknSceneContext } from "../../store";
+import { changeSsknComponent, exitSskn, upgradeSskn } from "../eventTemplates";
+import { GameEvent } from "../handleEvent";
 
-const handleSsknSceneKeyPress = (ssknSceneContext: SsknSceneContext) => {
-  const { keyPress, activeSsknComponent, activeNode } = ssknSceneContext;
+const handleSsknSceneKeyPress = (
+  ssknSceneContext: SsknSceneContext
+): GameEvent | undefined => {
+  const {
+    keyPress,
+    activeSsknComponent,
+    activeNode,
+    gameProgress,
+    ssknLvl,
+  } = ssknSceneContext;
 
   switch (keyPress) {
     case "UP":
     case "DOWN":
-      return {
-        event: `sskn_${activeSsknComponent}_${keyPress.toLowerCase()}`,
-      };
+      const direction = keyPress.toLowerCase();
+      const newComponent = direction === "up" ? "ok" : "cancel";
+      return changeSsknComponent({ activeSsknComponent: newComponent });
     case "CIRCLE":
-      if (activeSsknComponent === "ok") {
-        return {
-          event: `sskn_ok_select`,
-          node: activeNode,
-        };
-      } else {
-        return {
-          event: `sskn_cancel_select`,
-        };
+      switch (activeSsknComponent) {
+        case "ok":
+          const newGameProgress = {
+            ...gameProgress,
+            [activeNode.node_name]: {
+              is_viewed: 1,
+              is_visible: 0,
+            },
+          };
+          const newSsknLvl = ssknLvl + 1;
+
+          return upgradeSskn({
+            gameProgress: newGameProgress,
+            ssknLvl: newSsknLvl,
+          });
+        case "cancel":
+          return exitSskn;
       }
   }
 };

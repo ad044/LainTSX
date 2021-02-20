@@ -1,10 +1,10 @@
 import { NodeData, SiteData } from "../components/MainScene/Site/Site";
-import node_matrices from "../resources/node_matrices.json";
-import unlocked_nodes from "../resources/initial_progress.json";
-import node_huds from "../resources/node_huds.json";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import {GameProgress} from "../store";
+import node_huds from "../resources/node_huds.json";
+import unlocked_nodes from "../resources/initial_progress.json";
+import node_matrices from "../resources/node_matrices.json";
+import { GameProgress } from "../store";
 
 export const generateInactiveNodes = (
   visibleNodes: SiteData,

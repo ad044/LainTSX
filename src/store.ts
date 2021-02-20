@@ -3,35 +3,103 @@ import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import game_progress from "./resources/initial_progress.json";
 import { NodeData } from "./components/MainScene/Site/Site";
-import { getNodeById } from "./utils/node-utils";
+import { getNodeById } from "./helpers/node-helpers";
 import site_a from "./resources/site_a.json";
+import { AudioAnalyser } from "three";
+import MainScene from "./scenes/MainScene";
+import MediaScene from "./scenes/MediaScene";
+import IdleMediaScene from "./scenes/IdleMediaScene";
+import GateScene from "./scenes/GateScene";
+import BootScene from "./scenes/BootScene";
+import SsknScene from "./scenes/SsknScene";
+import PolytanScene from "./scenes/PolytanScene";
+import TaKScene from "./scenes/TaKScene";
+import ChangeDiscScene from "./scenes/ChangeDiscScene";
+import EndScene from "./scenes/EndScene";
+import React from "react";
 
 export type GameProgress = typeof game_progress;
 
+type NodeAttributes = {
+  interactedWith: boolean;
+  exploding: boolean;
+  shrinking: boolean;
+  visible: boolean;
+};
+
+export type GameScene =
+  | "main"
+  | "media"
+  | "tak"
+  | "sskn"
+  | "polytan"
+  | "idle_media"
+  | "gate"
+  | "boot"
+  | "change_disc"
+  | "end";
+
+type MainSubscene = "site" | "pause" | "level_selection";
+
+export type ActiveSite = "a" | "b";
+
+export type EndComponent = "end" | "continue";
+
+export type PauseComponent = "load" | "about" | "change" | "save" | "exit";
+
+export type MediaSide = "left" | "right";
+export type LeftMediaComponent = "play" | "exit";
+export type RightMediaComponent = "fstWord" | "sndWord" | "thirdWord";
+export type MediaComponent = LeftMediaComponent | RightMediaComponent;
+
+export type SiteSaveState = {
+  a: {
+    activeNode: NodeData;
+    siteRot: number[];
+    activeLevel: string;
+  };
+  b: {
+    activeNode: NodeData;
+    siteRot: number[];
+    activeLevel: string;
+  };
+};
+
+export type SsknComponent = "ok" | "cancel";
+
+export type MainMenuComponent = "authorize_user" | "load_data";
+export type BootSubscene = "main_menu" | "load_data" | "authorize_user";
+
+export type PromptComponent = "yes" | "no";
+
+type PolytanBodyParts = {
+  body: boolean;
+  head: boolean;
+  leftArm: boolean;
+  rightArm: boolean;
+  leftLeg: boolean;
+  rightLeg: boolean;
+};
+
 type State = {
-  currentScene: string;
+  currentScene: GameScene;
 
   gameProgress: GameProgress;
 
-  mainSubscene: string;
+  mainSubscene: MainSubscene;
 
   intro: boolean;
 
   activeNode: NodeData;
   activeNodePos: number[];
   activeNodeRot: number[];
-  activeNodeAttributes: {
-    interactedWith: boolean;
-    exploding: boolean;
-    shrinking: boolean;
-    visible: boolean;
-  };
+  activeNodeAttributes: NodeAttributes;
 
   // lain
   lainMoveState: string;
 
   // site
-  activeSite: "a" | "b";
+  activeSite: ActiveSite;
   siteRot: number[];
   oldSiteRot: number[];
 
@@ -43,23 +111,23 @@ type State = {
   selectedLevel: number;
 
   // end scene
-  activeEndComponent: "end" | "continue";
+  activeEndComponent: EndComponent;
   endSceneSelectionVisible: boolean;
 
   // pause
-  activePauseComponent: "load" | "about" | "change" | "save" | "exit";
+  activePauseComponent: PauseComponent;
   pauseExitAnimation: boolean;
   showingAbout: boolean;
   permissionDenied: boolean;
 
   // media/media scene
-  audioAnalyser: any;
+  audioAnalyser: AudioAnalyser | undefined;
   mediaPercentageElapsed: number;
-  currentMediaSide: "left" | "right";
-  activeMediaComponent: "play" | "exit" | "fstWord" | "sndWord" | "thirdWord";
+  currentMediaSide: MediaSide;
+  activeMediaComponent: MediaComponent;
   lastActiveMediaComponents: {
-    left: "play" | "exit";
-    right: "fstWord" | "sndWord" | "thirdWord";
+    left: LeftMediaComponent;
+    right: RightMediaComponent;
   };
 
   mediaWordPosStateIdx: number;
@@ -72,19 +140,12 @@ type State = {
   idleNodeName: string | undefined;
 
   // sskn scene
-  activeSsknComponent: "ok" | "cancel";
+  activeSsknComponent: SsknComponent;
   ssknLoading: boolean;
   ssknLvl: number;
 
   // polytan scene
-  polytanUnlockedParts: {
-    body: boolean;
-    head: boolean;
-    leftArm: boolean;
-    rightArm: boolean;
-    leftLeg: boolean;
-    rightLeg: boolean;
-  };
+  polytanUnlockedParts: PolytanBodyParts;
 
   // gate scene
   gateLvl: number;
@@ -93,40 +154,32 @@ type State = {
   playerName: string;
 
   // boot scene
-  activeMainMenuComponent: "authorize_user" | "load_data";
+  activeMainMenuComponent: MainMenuComponent;
   authorizeUserLetterIdx: number;
-  bootSubscene: "main_menu" | "load_data" | "authorize_user";
+  bootSubscene: BootSubscene;
 
   // prompt
   promptVisible: boolean;
-  activePromptComponent: "yes" | "no";
+  activePromptComponent: PromptComponent;
 
   // status notifiers
   loadSuccessful: boolean | undefined;
   saveSuccessful: boolean | undefined;
 
-  // save state
-  siteSaveState: {
-    a: {
-      activeNode: NodeData;
-      siteRot: number[];
-      activeLevel: string;
-    };
-    b: {
-      activeNode: NodeData;
-      siteRot: number[];
-      activeLevel: string;
-    };
-  };
+  // word not found notification thing
+  wordNotFound: boolean;
 
-  inputCooldown: boolean;
+  // save state
+  siteSaveState: SiteSaveState;
+
+  inputCooldown: number;
 };
 
 export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "media",
+      currentScene: "main",
 
       // game progress
       gameProgress: game_progress,
@@ -232,6 +285,9 @@ export const useStore = create(
       loadSuccessful: undefined,
       saveSuccessful: undefined,
 
+      // word not found notification thing
+      wordNotFound: false,
+
       // save states for loading the game/changing sites
       siteSaveState: {
         a: {
@@ -252,13 +308,11 @@ export const useStore = create(
         },
       },
 
-      inputCooldown: false,
+      inputCooldown: -1,
     } as State,
     (set) => ({
-      // scene data setters
-      setScene: (to: string) => set(() => ({ currentScene: to })),
+      setScene: (to: GameScene) => set(() => ({ currentScene: to })),
 
-      // node setters
       setNodePos: (to: number[]) => set(() => ({ activeNodePos: to })),
       setNodeRot: (to: number[]) => set(() => ({ activeNodeRot: to })),
       setNodeAttributes: (
@@ -269,102 +323,6 @@ export const useStore = create(
           activeNodeAttributes: { ...state.activeNodeAttributes, [at]: to },
         })),
 
-      // lain setters
-      setLainMoveState: (to: string) => set(() => ({ lainMoveState: to })),
-
-      // site setters
-      setSiteRotX: (to: number) =>
-        set((prev) => {
-          const nextRot = [...prev.siteRot];
-          nextRot[0] = to;
-          return { siteRot: nextRot };
-        }),
-
-      // end scene setters
-      setEndSceneSelectionVisible: (to: boolean) =>
-        set(() => ({ endSceneSelectionVisible: to })),
-
-      // pause setters
-      setShowingAbout: (to: boolean) => set(() => ({ showingAbout: to })),
-
-      // media scene setters
-      setAudioAnalyser: (to: any) => set(() => ({ audioAnalyser: to })),
-      setPercentageElapsed: (to: number) =>
-        set(() => ({ mediaPercentageElapsed: to })),
-      setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
-      updateLeftSide: (
-        newActiveComponent: "fstWord" | "sndWord" | "thirdWord",
-        lastActiveComponent: "exit" | "play"
-      ) =>
-        set((state) => ({
-          activeMediaComponent: newActiveComponent,
-          lastActiveMediaComponents: {
-            ...state.lastActiveMediaComponents,
-            left: lastActiveComponent,
-          },
-          currentMediaSide: "right",
-        })),
-      updateRightSide: (
-        newActiveComponent: "play" | "exit",
-        lastActiveComponent: "fstWord" | "sndWord" | "thirdWord"
-      ) =>
-        set((state) => ({
-          activeMediaComponent: newActiveComponent,
-          lastActiveMediaComponents: {
-            ...state.lastActiveMediaComponents,
-            right: lastActiveComponent,
-          },
-          currentMediaSide: "left",
-        })),
-
-      // idle media setters
-      setIdleStarting: (to: boolean) => set(() => ({ idleStarting: to })),
-      setIdleScene: (to: {
-        images: { "1": string; "2": string; "3": string } | undefined;
-        media: string | undefined;
-        nodeName: string | undefined;
-      }) =>
-        set(() => ({
-          idleMedia: to.media,
-          idleImages: to.images,
-          idleNodeName: to.nodeName,
-        })),
-
-      //polytan setters
-      setPolytanPartUnlocked: (bodyPart: string) =>
-        set((state) => ({
-          polytanUnlockedParts: {
-            ...state.polytanUnlockedParts,
-            [bodyPart]: true,
-          },
-        })),
-
-      changeSite: (to: "a" | "b") =>
-        set((state) => {
-          const newState = state.siteSaveState[to];
-          return {
-            currentScene: "change_disc",
-            promptVisible: false,
-            activePromptComponent: "no",
-            mainSubscene: "site",
-            // load new state
-            activeSite: to,
-            activeNode: newState.activeNode,
-            siteRot: newState.siteRot,
-            activeLevel: newState.activeLevel,
-            // save current state
-            siteSaveState: {
-              ...state.siteSaveState,
-              [to === "a" ? "b" : "a"]: {
-                activeNode: state.activeNode,
-                siteRot: [0, state.siteRot[1], 0],
-                activeLevel: state.activeLevel,
-              },
-            },
-          };
-        }),
-
-      // progress setters
       setNodeViewed: (
         nodeName: string,
         to: { is_viewed: number; is_visible: number }
@@ -376,13 +334,37 @@ export const useStore = create(
           },
         })),
 
-      setInputCooldown: (to: boolean) => set(() => ({ inputCooldown: to })),
+      setLainMoveState: (to: string) => set(() => ({ lainMoveState: to })),
+
+      setEndSceneSelectionVisible: (to: boolean) =>
+        set(() => ({ endSceneSelectionVisible: to })),
+
+      setShowingAbout: (to: boolean) => set(() => ({ showingAbout: to })),
+
+      setAudioAnalyser: (to: AudioAnalyser) =>
+        set(() => ({ audioAnalyser: to })),
+      setPercentageElapsed: (to: number) =>
+        set(() => ({ mediaPercentageElapsed: to })),
+      setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
+
+      setPolytanPartUnlocked: (bodyPart: string) =>
+        set((state) => ({
+          polytanUnlockedParts: {
+            ...state.polytanUnlockedParts,
+            [bodyPart]: true,
+          },
+        })),
+
+      setInputCooldown: (to: number) => set(() => ({ inputCooldown: to })),
+
+      incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
+      incrementSsknLvl: () => set((state) => ({ ssknLvl: state.ssknLvl + 1 })),
     })
   )
 );
 
 type PromptContext = {
-  activePromptComponent: "yes" | "no";
+  activePromptComponent: PromptComponent;
   promptVisible: boolean;
 };
 
@@ -401,25 +383,15 @@ export interface MainSceneContext extends PromptContext {
   activeNode: NodeData;
   showingAbout: boolean;
   level: number;
-  activePauseComponent: "load" | "about" | "change" | "save" | "exit";
+  activePauseComponent: PauseComponent;
   gameProgress: GameProgress;
   gateLvl: number;
   subscene: string;
   siteRotY: number;
-  activeSite: "a" | "b";
+  activeSite: ActiveSite;
   selectedLevel: number;
-  siteSaveState: {
-    a: {
-      activeNode: NodeData;
-      siteRot: number[];
-      activeLevel: string;
-    };
-    b: {
-      activeNode: NodeData;
-      siteRot: number[];
-      activeLevel: string;
-    };
-  };
+  wordNotFound: boolean;
+  siteSaveState: SiteSaveState;
 }
 
 export const getMainSceneContext = (keyPress: string): MainSceneContext => {
@@ -440,13 +412,16 @@ export const getMainSceneContext = (keyPress: string): MainSceneContext => {
     showingAbout: state.showingAbout,
     gateLvl: state.gateLvl,
     siteSaveState: state.siteSaveState,
+    wordNotFound: state.wordNotFound,
   };
 };
 
 export type SsknSceneContext = {
   keyPress: string;
-  activeSsknComponent: "ok" | "cancel";
+  activeSsknComponent: SsknComponent;
   activeNode: NodeData;
+  gameProgress: GameProgress;
+  ssknLvl: number;
 };
 
 export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
@@ -455,21 +430,23 @@ export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
     keyPress: keyPress,
     activeSsknComponent: state.activeSsknComponent,
     activeNode: state.activeNode,
+    gameProgress: state.gameProgress,
+    ssknLvl: state.ssknLvl,
   };
 };
 
 export type MediaSceneContext = {
   keyPress: string;
   wordPosStateIdx: number;
-  currentMediaSide: "left" | "right";
-  activeMediaComponent: "play" | "exit" | "fstWord" | "sndWord" | "thirdWord";
+  currentMediaSide: MediaSide;
+  activeMediaComponent: MediaComponent;
   activeNode: NodeData;
   gameProgress: GameProgress;
   lastActiveMediaComponents: {
-    left: "play" | "exit";
-    right: "fstWord" | "sndWord" | "thirdWord";
+    left: LeftMediaComponent;
+    right: RightMediaComponent;
   };
-  activeSite: "a" | "b";
+  activeSite: ActiveSite;
 };
 
 export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
@@ -490,8 +467,8 @@ export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
 export interface BootSceneContext extends PromptContext {
   keyPress: string;
   playerName: string;
-  subscene: "main_menu" | "load_data" | "authorize_user";
-  activeMainMenuComponent: "load_data" | "authorize_user";
+  subscene: BootSubscene;
+  activeMainMenuComponent: MainMenuComponent;
   authorizeUserLetterIdx: number;
 }
 
@@ -510,7 +487,7 @@ export const getBootSceneContext = (keyPress: string): BootSceneContext => {
 
 export type EndSceneContext = {
   keyPress: string;
-  activeEndComponent: "end" | "continue";
+  activeEndComponent: EndComponent;
   selectionVisible: boolean;
 };
 

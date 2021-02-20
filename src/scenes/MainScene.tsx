@@ -14,7 +14,7 @@ import Lain from "../components/MainScene/Lain";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import Popups from "../components/MainScene/Popups/Popups";
-import * as audio from "../static/sfx";
+import * as audio from "../static/audio/sfx";
 import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
 
@@ -26,6 +26,8 @@ const MainScene = () => {
 
   const wordSelected = useStore((state) => state.wordSelected);
   const setWordSelected = useStore((state) => state.setWordSelected);
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+  const wordNotFound = useStore((state) => state.wordNotFound);
 
   useEffect(() => {
     if (subscene === "pause") {
@@ -78,13 +80,27 @@ const MainScene = () => {
         introWrapperRef.current.rotation.x -= 0.008;
       }
 
+      // introWrapperRef.current.position.z = THREE.MathUtils.lerp(
+      //   introWrapperRef.current.position.z,
+      //   intro ? 0 : -10,
+      //   0.01
+      // );
+      //
+      // introWrapperRef.current.rotation.x = THREE.MathUtils.lerp(
+      //   introWrapperRef.current.rotation.x,
+      //   intro ? 0 : Math.PI / 2,
+      //   0.01
+      // );
+
       if (
+        !introFinished &&
         !(
           introWrapperRef.current.rotation.x > 0 &&
           introWrapperRef.current.position.z < 0
         )
       ) {
         setIntroFinished(true);
+        setInputCooldown(0);
       }
     }
   });
@@ -97,7 +113,7 @@ const MainScene = () => {
         <Pause />
         <group visible={!paused}>
           <group visible={!wordSelected && (intro ? introFinished : true)}>
-            <group visible={subscene !== "not_found"}>
+            <group visible={!wordNotFound}>
               <HUD />
               <MainYellowTextAnimator />
             </group>
