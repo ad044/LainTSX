@@ -1,0 +1,220 @@
+
+jPSXdec: PlayStation 1 Media Decoder/Converter in Java
+Copyright (C) 2007-2019  Michael Sabin
+All rights reserved.
+
+jPSXdec is licensed as a whole under this non-commercial license:
+
+................................................................................
+
+Redistribution and use of the jPSXdec code or any derivative works are
+permitted provided that the following conditions are met:
+
+ * Redistributions may not be sold, nor may they be used in commercial
+   or revenue-generating business activities.
+
+ * Redistributions that are modified from the original source must
+   include the complete source code, including the source code for all
+   components used by a binary built from the modified sources. However, as
+   a special exception, the source code distributed need not include
+   anything that is normally distributed (in either source or binary form)
+   with the major components (compiler, kernel, and so on) of the operating
+   system on which the executable runs, unless that component itself
+   accompanies the executable.
+
+ * Redistributions must reproduce the above copyright notice, this list
+   of conditions and the following disclaimer in the documentation and/or
+   other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+................................................................................
+
+(note: the related PlayStation1_STR_format.txt document is under a MIT license)
+
+
+================================================================================
+
+
+Some individual components are licensed under compatible licenses:
+
+................................................................................
+
+The jPSXdec translations
+Specifically src/jpsxdec/i18n/I.java and Translations*.properties
+
+Copyright:
+    Michael Sabin
+    Víctor González
+    Sergi Medina
+    Gianluigi "Infrid" Cusimano
+
+English and Japanese by Michael Sabin
+Spanish by Víctor González and Sergi Medina
+Italian by Gianluigi "Infrid" Cusimano
+
+Licensed under the Apache License, Version 2.0
+The text of this license is contained in the file apache-2.0.txt
+
+................................................................................
+
+src/jpsxdec/psxvideo/mdec/idct/StephensIDCT.java
+Originally from code written by Stephen Manley.
+http://www.nyx.net/~smanley/
+He generously offers his code free, without restriction.
+
+................................................................................
+
+src/argparser/*
+Argparser library
+http://people.cs.ubc.ca/~lloyd/java/argparser.html
+* Copyright John E. Lloyd, 2004. All rights reserved. Permission to use,
+* copy, modify and redistribute is granted, provided that this copyright
+* notice is retained and the author is given credit whenever appropriate.
+*
+* This  software is distributed "as is", without any warranty, including
+* any implied warranty of merchantability or fitness for a particular
+* use. The author assumes no responsibility for, and shall not be liable
+* for, any special, indirect, or consequential damages, or any damages
+* whatsoever, arising out of or in connection with the use of this
+* software.
+
+................................................................................
+
+src/jpsxdec/util/Fraction.java
+Originally written by Doug Lea and released into the public domain.
+
+................................................................................
+
+src/com/l2fprod/common/*
+L2FProd.com Common Components 7.3 (directory chooser)
+http://www.l2fprod.com/
+Copyright 2005-2007 L2FProd.com
+Licensed under the Apache License, Version 2.0
+The text of this license is contained in the file apache-2.0.txt
+
+................................................................................
+
+src/com/jhlabs/awt/*
+Paragraph Layout
+Copyright (C) Jerry Huxtable 1998-2001. All rights reserved.
+Licensed under the Apache License, Version 2.0
+The text of this license is contained in the file apache-2.0.txt
+
+................................................................................
+
+src/org/openide/*
+From Netbeans IDE
+http://netbeans.org/
+Copyright 1997-2010 Oracle and/or its affiliates. All rights reserved.
+Dual licensed under GNU General Public License Version 2 only ("GPL") or the
+Common Development and Distribution License ("CDDL").
+In this case, it must be licensed under the CDDL to be compatible.
+The text of this dual license can be found in the file CDDL-GPL-2-CP.txt
+
+................................................................................
+
+src/javax/*
+JSR 305: Annotations for Software Defect Detection in Java
+Copyright (c) 2007-2009, JSR305 expert group
+All rights reserved.
+Licensed under the New BSD License.
+The text of this license can be found in the file New-BSD.txt
+
+................................................................................
+
+src/com/pdfjet/*
+PDFJet - Open Source Edition
+http://pdfjet.com/os/edition.html
+Copyright (c) 2007, 2008, 2009 Innovatics Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and / or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+................................................................................
+
+src/jpsxdec/gui/film.png
+src/jpsxdec/gui/insert-numbers.png
+From Silk Icon set
+http://www.famfamfam.com/lab/icons/silk/
+Copyright (c) Mark James
+This work is licensed under a Creative Commons Attribution 2.5 License.
+The text of this license can be found at
+http://creativecommons.org/licenses/by/2.5/
+
+................................................................................
+
+src/jpsxdec/gui/media-optical-5.png
+src/jpsxdec/gui/image-x-generic.png
+From Tango Icon Library
+http://tango.freedesktop.org/Tango_Icon_Library
+Released into Public Domain
+
+################################################################################
+
+The following files are Licensed under the
+GNU Lesser General Public License Version 2.1, and are included in a
+separate .jar with binary distributions to ensure compliance with the LGPL.
+The text of this license is contained in the file lgpl-2.1.txt
+
+
+src-lgpl/jpsxdec/psxvideo/idct/simple_idct.java
+Copyright (c) Michael Niedermayer
+Originally from ffmpeg (ported by Alexander Strange)
+
+src-lgpl/com/mortennobel/imagescaling/*
+Java Image Scaling Library
+http://code.google.com/p/java-image-scaling/
+Copyright 2009, Morten Nobel-Joergensen
+
+src-lgpl/org/jdesktop/beans/*
+src-lgpl/org/jdesktop/swingx/*
+SwingLabs SwingX Project
+http://swinglabs.org/
+Copyright (c) 2005-2006 Sun Microsystems, Inc. All rights reserved.
+
+src-lgpl/org/jdesktop/swingworker/*
+SwingWorker library
+https://swingworker.dev.java.net/
+Copyright (c) 2005 Sun Microsystems, Inc. All rights reserved.
+
+src-lgpl/jpsxdec/gui/knotify.png
+src-lgpl/jpsxdec/gui/layer-new-3.png
+From The Crystal Project icons set
+http://everaldo.com/crystal/
+Copyright (c)  2006-2007  Everaldo Coelho
+
+src-lgpl/jpsxdec/gui/3floppy_unmount.png
+From Nuvola icon set
+http://www.icon-king.com/projects/nuvola/
+Copyright (c)  2003-2004  David Vignoni

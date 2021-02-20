@@ -1,0 +1,583 @@
+v1.00 rev3921 (7 Sept 2019) The "ran out of version numbers" release
+    Bug fixes:
+    - Unsupported EA videos caused error
+    Known issues:
+    - Videos with variable frame rates cause a lot of problems:
+      * Usually unable to detect when videos have a variable frame rate
+      * The audio and video become out of sync when saving a video with 
+        variable frame rates as AVI
+      * Even when a video is identified as having a variable frame rate,
+        some video players do not play the generated AVI correctly (primarily 
+        on Windows). Try a more reliable player (such as VLC media player).
+    - Real-time playback doesn't work for videos with a long audio delay
+    - Real-time playback stops early if audio ends before video ends
+v0.99.9 rev3898 (9 Aug 2019)
+    - Added Italian translation (thanks Gianluigi "Infrid" Cusimano!)
+    - Updated Spanish translation (still many thanks to Víctor González, Sergi Medina!)
+    - Minimum required Java version is now version 6
+    - Updated to be compatible with Java version 9 and higher
+    - Added support for ReBoot video (thanks to XBrav!)
+    - Added support for Policenauts FMVs
+    - Added support for Road Rash 3D FMVs
+    - Added support for opening video of Aconcagua
+    - Improved real-time audio/video player on Linux (hopefully)
+    Bug fixes:
+    - Couldn't save 24-bit TIM images as png
+    - Videos with odd frame dimensions caused errors
+    - Lots of small fixes
+    Internal:
+    - Revamped bitstream handling
+    - Several simplifications
+    Known issues:
+    - Videos with variable frames rates saved as AVI do not play right in 
+      some video players (primarily on Windows). Use a more reliable player 
+      such as VLC media player.
+v0.99.8 rev3788 (21 Jan 2019)
+    - Updated Spanish translation (still many thanks to Víctor González, Sergi Medina)
+    - Updated Japanese translation (still using Google translate)
+    - More thorough searching for content in input files (indexing is slower)
+    - Index format changed, indexes need to be regenerated
+    - Better description about the difference between saving a File item as "normal" vs "raw"
+    - Default uncompressed video saving quality is now "high"
+    - Updated manual with lots of useful information
+    - Generally improved all GUI, command-line and logging messages
+    - Generally improved error handling
+    x Remove volume slider from audio saving GUI
+    Replacing content:
+    - Can now replace audio used in many Square games
+    - When modding/replacing content, all changes wait until the end before actually being applied
+    x Remove ability to replace Tim images with a normal image
+      Tim images can now only be replaced with another Tim image
+    x Audio replacing now requires the new audio to be of exact same length as the existing audio
+    Bug fixes:
+    - Audio filename not being updated when changing selection in the GUI
+    - Items sorted wrong in some cases
+    - 0 sized File items had a sector length of -1
+    - Video disc speed not properly detected when there are multiple parallel audio streams
+    - Opening a file that is too small to be identifiable caused an error
+    - Video sectors being corrupted when trying to replace AC3 and Dredd frames
+    - save.log file name not localized
+    - Bad error handling when there were errors in the input file's filesystem
+    - Empty audio packets written to AVI when saving audio streams from some Square games
+    - Other small bug fixes    
+    Internal:
+    - Added ability to override default logging settings using standard Java logging features
+    - New processing pipeline and a massive restructuring of system makes it 
+      possible to add support for more types of videos
+    - In progress support for SPU audio and 'VAG' files
+    - Frame numbering redesign
+    Known issues:
+    - Video playback on Linux may still not work right
+    - Videos with variable frames rates saved as AVI do not play right in the
+      default video players found in some Windows versions. 
+      Use a more reliable player such VLC media player.
+v0.99.7 rev3397 (8 Jan 2017) The "road to v1.0" release
+    - XA audio can now be replaced using .wav files
+    - Simplified error messages
+    x Command-line -play option removed
+    Bug fixes:
+    - Videos with multiple audio streams was broken
+    - Incorrect correction of corrupted XA audio
+    - Possible failure when saving some movies as image sequence
+    - Some GUI weirdness when first selecting an item
+    - Other minor or command-line related bugs
+    Internal:
+    - Java version of the Hitmen "Psx Audio Tools 0.1" vagpack.c
+    - PSound .ppl file parser
+    - Better error handling
+    - Improved internationalization
+    - Introduced new bugs ;)
+v0.99.6 rev3146 (3 June 2016)
+    - Update Spanish translation (many thanks Víctor González, Sergi Medina)
+    - Allow replacing FF7 frames with STRv2 frame format
+    - Added support for Gran Turismo (1 and 2) videos
+    - Simplified error/warning messages
+    - Improved encoder: removes redundant data to make frames smaller
+    - More flexible Judge Dredd video detection (reduced program size greatly)
+    - Split video at large sector or frame number gaps
+      (fixes JPSXDEC-7 reported by truston, and JPSXDEC-9 reported by hgdagon)
+    - sectordump includes count of sector types at the end
+    - No longer report most channel numbers as corruption
+    - Index saved as UTF-8 to handle Unicode paths
+    - Updated launch4j executable
+    x Remove ability to generate index to stdout
+    Bug fixes:
+    - JPG error message
+    - Single unidentified sectors not being checked for images
+    - Main command-line help text errors
+    - Static data end sector off by 1
+    - 2336/sector image identification issue
+    - "Apply to all X" caps localization issue for Spanish
+    - Corrupted header sector number not handled correctly
+    - Logging issues
+    - other minor bug fixes
+    Internal:
+    - Contextual sector identification, along with more flexible disc indexer
+      may have slowed down indexing speed
+    - Restructured video frame demuxing
+    - More tests
+    Known Problems:
+    - Some .iki frame rate detection is wrong
+    - Audio + Video playback on Linux might be choppy or not display
+v0.99.5 rev3006 (5 Jul 2015)
+    - Spanish translation provided by Víctor González
+    - Index format changed, indexes need to be regenerated
+    Bug fixes:
+    - Indexing fails if XA sector channel = 255 (JPSXDEC-6 reported by truston)
+    - More forgiving FF8 audio detection (JPSXDEC-8 reported by truston)
+    - Tim items duplicated when loading index
+    - Infinite loop during encoding
+    - Encoding writing invalid quantization scale
+    - STRv3 DC encoding error
+    - Message format and type mismatch
+    - replace.xml file name parsing error
+    - JPEG writes bad data for high energy blocks
+    - Various possible null pointer exceptions
+    - various other bug fixes
+    Internal:
+    - Localization overhaul
+    Known Problems:
+    - Some .iki frame rate detection is wrong
+    - Audio + Video playback on Linux might be choppy or not display
+v0.99.4 rev2859 (27 Sep 2014)
+    - New frame numbering and lookup options (see manual)
+        . Frame index number now used by default
+        . -replaceframes XML version now 0.2 to support new frame number options
+    - Indexing improvements for Ace Combat 3, Judge Dredd, Alice in Cyber Land
+    - "Unnamed" changed to "?" in index
+    - GUI very poorly translated to Japanese (Google translate)
+      Please contact me if you would like to help translate to any language!
+    - Index format changed, indexes need to be regenerated
+    Bug fixes:
+    - Image sequence file names messed up
+    - Passing small files as the single command-line parameter causes error
+    - Chroma upsampling on command-line not being handled properly
+    - Issue saving AVI when specifying frame range (command-line)
+    - Image sequence with duplicate header frame numbers overwrites files
+    - Tim images in the same sector not sorted by offset in index
+    - debug0.log timestamp using day instead of minutes
+    Known Problems:
+    - Some .iki frame rate detection is wrong
+    - Audio + Video playback on Linux might be choppy or not display
+v0.99.3 rev2795 (10 May 2014)
+    - Better Ace Combat 3 video support
+    - Reduced size of executable (.jar) and download
+    - Improved frame rate detection
+    - More robust bitstream detection
+    - Improve quality of decoded XA audio from sectors that are corrupted
+    - Index format changed, indexes need to be regenerated
+    Bug fixes:
+    - Video decoding YCbCr->RGB values slightly varies depending on code path
+    - Slightly inaccurate sector header data may be written to replaced sectors
+    - Command-line sloppiness
+    - Blank line in index not handled well
+    - File Chooser drop-down out of order on Java 7
+    - debug.log formatting
+    - FindBugs fixes and other minor fixes
+    Internal:
+    - Preliminary I18N support
+    - Reduce dependence on video sector frame number
+    Known Problems:
+    - Some .iki frame rate detection is wrong
+    - Audio + Video playback on Linux might be choppy or not display
+v0.99.2 rev2705 (8 Nov 2013)
+    - Video player scales to fit window
+    - Writing (M)JPEG is now close to lossless (see manual for details)
+    - Added Tim copy to clipboard button
+    - Added iki video encoding
+    - Automatically open Gui with an index or file by passing it as the only
+      argument (auto detected)
+    - Combined 'high+' quality into just 'high' quality for simplicity
+    - -frameinfodump will show even more info with -verbose 4
+    Bug fixes:
+    ! Incomplete last frame not being written to avi
+    - Unhandled error when iki frame header was incomplete
+    - Replacing data in files with RIFF header corrupted file
+    - Error frames were all black
+    - Fixed when output directory is blank
+    - If there was an error opening another file/index,
+      Gui wouldn't remember if the index was just saved
+    - Fixed several minor bugs
+    Internal:
+    - New Video Decoder Pipeline (VDP)
+    - Player partial redesign
+    - Encoder partial redesign
+    - Main/cmdline redesign
+    - All index and save logging also goes to debug.log
+    Known Problems:
+    - Some .iki frame rate detection is wrong
+    - Audio + Video playback on Linux might be choppy or not display
+v0.99.1 rev2602 (18 Apr 2013)
+    - More robust and lenient XA detection and decoding
+    - Sped up loading large indexes
+    - Several UI bug fixes
+        . Closes files after opening a new one
+        . Fix description of videos with < 1 sec duration
+        . Update and optimize tree table
+        . Prompt to save index
+        . File extension considered when checking for existing file
+        . Fixed order of nested directory tree
+        . Fixed possible UI deadlock when playing
+    - Tim improvements
+        . Fix gray palette transparency
+        . Fix saving 4-bit TIM as .bmp
+        . Prevent saving 16-bit TIM as .bmp
+        . Improve quality of RGB -> 16-bit TIM color conversion
+        . RGB -> 8 or 4bpp TIM CLUT colors are now sorted
+        . Shows output file names
+    - Output filename keeps original extension
+    - -visualize pdf is now vertical
+    - Slightly more correct STR video detection
+    - Slightly optimized video decoding (STRv3)
+    - jPSXdec version added in generated AVI metadata
+    Internals:
+    - Big logging redesign and cleanup
+    - Big Tim cleanup
+    Known Problems:
+    - .iki encoding not implemented yet
+    - Some .iki frame rate detection is wrong
+    - Audio + Video playback on Linux might be choppy
+v0.99.0 rev2494 (3 Nov 2012)
+    - Added support for Crusader: No Remorse
+    - Added -replacexa command-line option
+    - Added handling for some strange Tim formats (thanks to bug report by CUE)
+    - Renamed all items in gui to just image, audio, video
+    - Command-line indexing now overwrites an existing file
+    - Sped up jpg and img writing
+    - Sped up init time (Dredd init)
+    - Added multiple gui icon sizes
+    - Fixed mode 1 disc reading
+    - Fixed FF7 and FF9 frame replacing
+    - Fixed Lain encoder
+    Internals:
+    - Tim cleanup
+    - Adjusted names of many classes
+    - Added MDEC debugging info
+    - Removed audio decode thread from player
+    - Removed various unused stuff
+    Known Problems:
+    - Audio + Video playback on Linux might be choppy
+    - Massive lists of items might scroll slowly on Windows
+    - UmJammer Lammy frame rate detection is wrong
+v0.98.0 rev2318 (9 Mar 2012)
+    - Added handling for Lunar 2 unique 24fps
+    - Added saving Tim images as Tim files
+    - More robust sector corruption detection and handling
+    - Fixed handling for XA streams consisting of adjacent XA sectors
+    - Added -replacetim command-line option
+    - Added Tekken 2 video detection
+    - Added Judge Dredd video detection
+    - Fixed FF8 audio decoding
+    - Fixed indexing of .iso disc images
+    - Various other bugfixes
+    Internals:
+    - Writing sectors to disc now automatically regenerates ECC/EDC
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Massive lists of items scroll choppy on Windows
+    - UmJammer Lammy frame rate detection is wrong
+v0.97.0 rev2196 (1 Nov 2011)
+    - Added many interpolation options for chroma upsampling
+    - Added handling for XA streams consisting of adjacent XA sectors
+    - Fixed handling of XA streams with 8 bits/sample
+    - Optimized bitstream unpacker for faster decoding
+    - Improved detection of 2336 bytes/sector images
+    - Added -static command-line option for decoding TIM, mdec, and bitstream files
+    - Handful of minor bug-fixes and tweaks
+    Internals:
+    - Fixed Tim creation
+    - Added a few unit/function tests
+    - Fixed encoding and improved design
+    - Extracted Lain specific stuff to separate project
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Massive lists of items scroll choppy on Windows
+v0.96.0 rev1996 (28 May 2011)
+    - Added Tim image detection and saving - enjoy thousands of items in the list
+    - Added support for most .iki videos (additional handling to be added later)
+    - Remembers last used directories when opening/saving disc images/index files
+    - Added dropdown lists of previously opened disc images and indexes
+    - Slightly improved color accuracy of nearly exact PSX video conversion
+    - Various bug fixes
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Massive lists of items scroll choppy on Windows
+v0.95.1 rev1831 (11 Jan 2011)
+    - Added Windows .exe to start the program
+    - Fixed and improved audio/video indexing logic
+    - Fixed and improved video identification
+    - Interface changed to select which audio to use with video
+    - Videos with multiple audio clips are now handled the best they can be
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+v0.95.0 rev1779 (9 Nov 2010)
+    - Reimplemented a new and improved GUI!
+    - Greatly reduced the number of reported errors for things that aren't really errors
+    - Added 'Pause' ability to player, and made its logic more robust
+    - Added -visualize option to generate a pdf visualizing the index items
+    - New index format, with unique identifiers
+    - Can now use index item identifiers for -i option
+    - Added -dir option to specify output directory
+    - Appends index item's directory to the output path when saving
+      (as shown in their identifier)
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Not all options have been well tested
+    - Audio and Video indexing logic may be slightly degraded
+    - 'psx' video decoder quality does not quite match actual hardware output
+    - Doesn't handle playing/saving multiple parallel audio clips with video very well
+v0.94.0 rev1671 (12 Oct 2010) [dev release]
+    - Changed command-line arguments to be simpler for me to handle (see manual for details).
+    - Can now automatically use the source file listed in the index file,
+      so no need to explicitly specify the source file in the command-line
+      after index is generated.
+    - Added unique identifier to media items that better indicates how items relate to each other
+    - Added -vf avi:jyuv for full range [0-255] pc.601 yuv video writing
+    - Added -i # -frameinfodump command for detailed frame info (video items only)
+    - Audio and Video indexing logic may be slightly degraded in this version
+    - Reports when index file lines are unrecognized
+    Internals:
+    - MAJOR package rearrangement and cleaning made the code design much simpler
+    - Lots of comments added/cleaned/fixed
+    Known Problems:
+    - Manual is pretty sloppy
+    - Player doesn't release all resources properly until program exits
+    - Player will automatically play very short videos without waiting
+    - Audio + Video player on Linux might be choppy
+    - Prints way too many errors when encountering CD audio track and disc errors
+    - Not all command-line options have been well tested
+    - 'psx' video decoder quality does not quite match actual hardware output
+v0.93.1 rev1617 (6 Sept 2010)
+    - Fixed 'high+' quality output
+v0.93.0 rev1616 (4 Sept 2010)
+    - Added 'high+' quality option which performs bilinear interpolated chroma
+      upsampling for greatly improved image quality
+    - Changed high quality IDCT to match PSX hardware more closely. This will
+      affect the output colors, but hopefully looks better
+    - More careful handling of disc image errors (includes more error printing)
+    - Unidentified frame rate fraction is now simplified in index
+    - Now detects more cases of 20fps
+    - Improved accuracy of 'psx' quality, but it's still not perfect
+    - Output is now printed to stdout instead of stderr
+    - Fixed individual item help printing format regression
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Prints way too many errors when encountering CD audio track and disc errors
+    - Not all command-line options have been well tested
+    - 'psx' video decoder quality definitely does not match actual hardware output
+v0.92.2 rev1532 (31 Jul 2010)
+    - Removed Java 6 dependencies, can now be run with Java 5 again
+    - Improved detection of XA audio streams
+    - Now prints what audio stream is being saved with the video stream
+    - Fixed error in index files (breaks compatibility--indexes need to be recreated)
+    - Fixed -sectordump output regression
+    - Reverted -jpg option to accept a number again
+    - Removed Yuv4mpeg2 writing
+    - Sometimes prints the selected saving options before starting to save
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Gives way too many errors when encountering CD audio track
+    - Not all command-line options have been well tested
+    - 'psx' video decoder quality definitely does not match actual hardware output
+v0.92.1 rev1490 (23 Jul 2010)
+    - Added support for disc images containing subchannel data (2448 bytes/sector)
+    - Disc reading is now buffered, which should speed up everything
+    - Fixed crash when reading from very small disc images
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Gives way too many errors when encountering CD audio track
+    - Not all command-line options are working, and many haven't been well tested
+    - 'psx' video decoder quality definitely does not match actual hardware output
+v0.92.0 rev1335 (24 Apr 2010)
+    - Fixed AVI YV12 and Yuv4mpeg2 output colors.
+    - Fixed A/V sync calculation error that incorrectly added silence to FF9 videos
+    - Renamed video command-line option "-vf avi:bmp" to "-vf avi:rgb"
+    - Fixed frame rate detection
+    Internals:
+    - Renamed 'plugins' to 'modules'
+    - Renamed 'jpsxdec.modules.psx.video.decoding' to 'bitstreams'
+    - Removed unused IDCTs
+    - LOTS of cleaning, commenting, refactoring.
+    Known Problems:
+    - Audio + Video player on Linux might be choppy
+    - Gives way too many errors when encountering CD audio track
+    - Not all command-line options are working, and many haven't been well tested
+    - 'psx' video decoder quality definitely does not match actual hardware output
+v0.91.0 rev1155 (13 Feb 2010)
+    - Fixed yuv (Yuv4mpeg2) saving (pixel order was wrong)
+    - Added saving as AVI in YUV format (specifically YV12 codec)
+      for the highest quality output
+    - Added -preciseav option
+    - Fixed player from ending movies too quickly
+    - Improved handling of multiple parallel video + audio streams
+    - Properly syncs audio and video
+    - Now handles Chrono Cross ending movie
+    - Index files slightly updated, so likely incompatable with 0.90.0 versions
+    - Fixed audio -vol option
+    - Fixed video -jpg option
+    - Fixed video -frames option
+    Internals:
+    - Began adding api for letting index file specify disc file
+    - Added ant build script
+    - Moves lgpl code into separate source folder
+    - Added ArgParser source to the repo (for simplicity)
+    - Softened movie detection logic
+    - Several optimizations, including
+        - Added object pool to player design
+    - Cleaning and simplification where possible
+        - Audio and video saving pipeline almost completely rewritten
+        - Simplified the player design
+        - Modularized AVI writer design
+    - Fixed various bugs (frame rate calculation in some cases, NPEs, etc.)
+     Known Problems:
+    - Frame rate detection is still pretty bad
+    - Audio + Video player on Linux might be choppy
+    - Gives way too many errors when encountering CD audio track
+    - Not all command-line options are working, and many haven't been well tested
+    - 'psx' video decoder quality is not verified
+v0.90.0 rev1038 (18 Jan 2010)
+    - LICENSE CHANGED TO NON-COMMERCIAL USE ONLY
+    - Added a very basic real-time player
+    - Improved indexing and disc item detection, including CD-i audio
+    - More robust disc image file type detection
+    - Added filesystem (ISO9660) detection. Media items found within files are
+      saved with the encompassing file name.
+    - Added yuv4mpeg2 saving
+    - Added new 'psx' video decoder quality that might match actual PlayStation
+      output (not verified).
+    - Changed command-line handling. Now each disc item handles command-line
+      options separately
+    - Fixed end-of-stream error that can occur with some Lain movies.
+    - More accurate frame rate detection, and saves variable-frame-rate
+      AVIs more cleanly (can handle Alice In Cyber Land movies perfectly)
+    - Easier (for me) index file format
+    x Removed ability to specify output filename
+    x GUI removed until core framework is better established
+    x Disabled TIM detection until core framework is better established
+    Internals:
+    - Removed all GPL code
+    - Added new IDCTs
+        simple_idct from ffmpeg, ported by MrVacBob. Only slightly slower then
+        the IDCT from Joerg Anders's mpeg player.
+        Eclipse Jpeg IDCT. Not as fast as the other two.
+        J2meMpegIDCT is slowest.
+    - Broke things up by games
+    - Abstracted video decoding so uncompressing, MDEC, and IDCT can
+      be interchanged.
+    - Changed variable naming convention
+    - Cleaned up TIM class and XA decoding class
+    - Changed most debugging logging to Java's logging framework
+v0.35 rev463 (5 May 2008)
+    - NEW SUPER FAST DECODING AVAILABLE!
+    - AVI writing fixed some more.
+    - Filler frames are produced for frames unable to be decoded at all
+      (text of error printed on frame).
+    - Added missing credits and copyrights for code from Joerg Anders's 
+      MPEG player.
+    - Progress window can now be closed by clicking on the X
+      (for when things go terribly wrong).
+    - Added workaround for Java's 'All files' filter bug on Linux.
+    - Fixed scaling of TIM previews in TIM saver window.
+    - Fixed indexing error that can occur in some cases (because of TIM searching).
+    - Added command-line -copysect and -quality options.
+    - Added Chrono Cross handling for all movies on disc 2 except final movie.
+    - Fixed command-line so -debug can always be used.
+    Internals:
+    - Pulled frame identification into its own class.
+    - Changed AviWriter to use 'JFIF' header instead of 'AVI1'.
+v0.34 (20 Apr 2008)
+    - Command-line options changed, now a little nicer and uses new parsing lib
+    - Cache PSXSector types in iterators for MAJOR speed increase with 
+      indexing (thanks to stream change in v.33).
+    - Fixed decoding of FF7 without camera data (broke in v0.32 or 0.31)
+    - Added new TIM saving GUI that's real snazzy.
+    - Removed yuv saving until it is re-implemented properly.
+    - Added -copy and -dir command-line options.
+    Internals:
+    - Began adding raw CD reading for Windows.
+    - Began adding new fast Java decoder
+    - Began adding a native decoder
+    - Fixed indexing error if TIM was being searched at the end of the input file
+    - Pulled the actual uncompressing/decoding out of the savers and abstracted 
+      it so decoders can be interchangeable.
+    - Lots of new, undocumented classes that will eventually be used for faster decoding.
+v0.33 (development release)
+    ! Basically all command-line decoding is disabled and needs to be re-implemented
+    - Added new dialog to specify media conversion options
+    - FF9 decoding working perfectly now
+    - FF8 decoding working again
+    - Added Chrono Cross decoding as well
+    - Numerous bug-fixes and optimizations
+    - STR_file_format.txt pretty much ready for 0.43 release
+    - XA channels are now treated as separate media items (Saiyuki can now be decoded)
+    - Again changed how some index files are saved
+    Internals:
+    - Cleaned up error handling during saving
+    - Made all videos demuxable via the Push demuxer
+    - Split up PSXSector
+    - Fixed AviWriter header creation, and some other fixes
+    - PsxYuv now generates its own BMP style data directly for use with AviWriter
+    - Unified and cleaned up Square decoding
+    - Fixed MediaHandler to handle discs with over 999 media items
+    - Added more documentation, including package level docs
+    - Most objects are no longer streams. They have a function to produce a stream
+      of the data. This has many advantages:
+      + Able to create multiple streams of the same data (necessary for multiple listeners of the data)
+      + Duplicating very little data for each stream (just indexes)
+      + Making a sub-stream of a stream is again very easy (just duplicate indexes)
+      + I suppose this breaks up the code to be a little more modular
+      + It uses more of well tested java classes, so less jpsxdec code, and more reliable
+      + Implements the read(byte[]) for faster bulk reading.
+v0.32 (development release)
+    - Fixed decoding of Lain final movie (broke in 0.31)
+    - FF9 audio decoding output is not working right (output is almost correct, 
+      but still has an error) and video isn't re-implemented yet.
+    - FF8 video decoding isn't re-implemented yet.
+    - Added AVI encoding
+    - Revamped the index file format somewhat (old versions no longer compatible)
+    - Cleaned up some GUI behavior/looks
+    - Removed GUI's ability to save anything (need to re-implement)
+    - Saving TIM files is broken in some cases (in Main.java)
+    - STR_file_format.txt FF9 section is work-in-progress (lots of extra junk in there)
+    Internals:
+    - Changed to 'push' architecture.
+    - Added FPS calculation (needed for AVI writing)
+    - Adding some features for the S.E. Lain PSX Game Translation Project
+    - Added ISO9660 directory parsing.
+    - Added CD Mode 2 error correction (ecc/edc) generation.
+    - Added TIM writing.
+    - Changed StrFrameUncompressorIS internals (for StrRecompressorIS) so hopefully nothing broke.
+    - Added ability to re-encode STR files (StrDiffCombine.java and StrRecompressorIS.java). 
+      Still need to handle case when recompressed frame is too big to fit.
+v0.31 (3 Feb 2008)
+    - Added a GUI! I hope it works!
+    - Fixed FF8 decoding to handle audio-only 'movies'
+    - Added FF9 decoding.
+    - Fixed error with Audio2048 so it won't fragment certain ISO movies.
+    - Improved handling of media index files.
+    - Countless edits, cleaning, comments, and rearranging of code.
+    - Note: index files generated by prior versions of jpsxdec may not work
+            with this version.
+v0.30 (6 Jan 2008)
+    - Major internal code rearrangement.
+    - Added FF8 audio decoding.
+    - Removed dependencies on Java 1.6. Works now with Java 1.5.
+    - Reverted YUV output to clamp at 0 and 255 (MrVacBob says analog encoding is dead).
+    - Fixed YUV -> RGB green conversion (PSX uses non-standard equation), but this means that raw YUV frames outputted by jPSXdec don't follow the yuv4mpeg2 spec. 
+    - Sped up video decoding when saving .demux by removing excess seeking.
+    - Fixed serialzation/deserialization of STR in index.
+v0.27 (development release)
+    - Made CD ISO image identification more flexible (although it may now just assume any file is an ISO file).
+    - Fixed so it won't crash when CD audio sectors are encountered (checks to make sure all sectors are MODE2).
+    - Added simple TIM file search (won't detect all TIM files in the ISO yet).
+v0.26 (development release)
+    - Sped up video decoding by removing excess seeking.
+    - Can now decode Lain final movie.
+    - Added special plugins for decoding Lain SITEA.BIN SITEB.BIN LAPKS.BIN files.
+    - Fixed decoding of video from ISO type files (by fixing identification of incomplete audio sectors).
+    - Changed YUV output to clamp at 1 and 254 for 'sync encoding'.
+    - Fixed video decoding (BufferedBitReader again)
+v0.25 and earlier
+    - Fixed video decoding (BufferedBitReader)
+    - Fixed crash in CDSectorReader.java:getFilePointer() when header is not available.
+    - Fixed crash in CDSectorReader.java:getFilePointer() when header is not available.
