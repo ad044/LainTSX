@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!three/.*)/\"",
     "eject": "react-scripts eject",
     "dump": "ts-node asset-dump/dump/index.ts"
   },

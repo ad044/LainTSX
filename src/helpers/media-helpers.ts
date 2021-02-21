@@ -1,29 +1,14 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import node_matrices from "../resources/node_matrices.json";
-import { NodeData, SiteData } from "../components/MainScene/Site/Site";
-import { isNodeVisible } from "./node-helpers";
-import { ActiveSite, RightMediaComponent } from "../store";
+import { SiteData } from "../components/MainScene/Site/Site";
+import { ActiveSite } from "../store";
 
 export const findNodeFromWord = (
-  wordLabel: RightMediaComponent,
-  activeNode: NodeData,
-  site: ActiveSite,
-  gameProgress: any
+  wordToFind: string,
+  nodeName: string,
+  site: ActiveSite
 ) => {
-  const labelToIdx = (() => {
-    switch (wordLabel) {
-      case "fstWord":
-        return 1;
-      case "sndWord":
-        return 2;
-      case "thirdWord":
-        return 3;
-    }
-  })();
-
-  const wordToFind = activeNode.words[labelToIdx!];
-
   const siteData: SiteData = site === "a" ? site_a : site_b;
 
   const nodesWithSameWords = Object.values(siteData)
@@ -36,12 +21,8 @@ export const findNodeFromWord = (
 
   const chosenNode =
     nodesWithSameWords[
-      nodesWithSameWords.findIndex(
-        (node) => node.node_name === activeNode.node_name
-      ) + 1
+      nodesWithSameWords.findIndex((node) => node.node_name === nodeName) + 1
     ] ?? nodesWithSameWords[0];
-
-  if (!isNodeVisible(chosenNode, gameProgress)) return;
 
   const pos = chosenNode.id.substr(2);
 

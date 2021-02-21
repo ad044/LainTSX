@@ -1,22 +1,11 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
 import * as THREE from "three";
+import { AudioAnalyser } from "three";
 import game_progress from "./resources/initial_progress.json";
 import { NodeData } from "./components/MainScene/Site/Site";
 import { getNodeById } from "./helpers/node-helpers";
 import site_a from "./resources/site_a.json";
-import { AudioAnalyser } from "three";
-import MainScene from "./scenes/MainScene";
-import MediaScene from "./scenes/MediaScene";
-import IdleMediaScene from "./scenes/IdleMediaScene";
-import GateScene from "./scenes/GateScene";
-import BootScene from "./scenes/BootScene";
-import SsknScene from "./scenes/SsknScene";
-import PolytanScene from "./scenes/PolytanScene";
-import TaKScene from "./scenes/TaKScene";
-import ChangeDiscScene from "./scenes/ChangeDiscScene";
-import EndScene from "./scenes/EndScene";
-import React from "react";
 
 export type GameProgress = typeof game_progress;
 
@@ -142,13 +131,9 @@ type State = {
   // sskn scene
   activeSsknComponent: SsknComponent;
   ssknLoading: boolean;
-  ssknLvl: number;
 
   // polytan scene
   polytanUnlockedParts: PolytanBodyParts;
-
-  // gate scene
-  gateLvl: number;
 
   // player name
   playerName: string;
@@ -254,7 +239,6 @@ export const useStore = create(
       // sskn scene
       activeSsknComponent: "ok",
       ssknLoading: false,
-      ssknLvl: 0,
 
       // polytan scene
       polytanUnlockedParts: {
@@ -265,9 +249,6 @@ export const useStore = create(
         leftLeg: false,
         rightLeg: false,
       },
-
-      // gate scene
-      gateLvl: 0,
 
       // player name
       playerName: "アイウエオ",
@@ -357,8 +338,13 @@ export const useStore = create(
 
       setInputCooldown: (to: number) => set(() => ({ inputCooldown: to })),
 
-      incrementGateLvl: () => set((state) => ({ gateLvl: state.gateLvl + 1 })),
-      incrementSsknLvl: () => set((state) => ({ ssknLvl: state.ssknLvl + 1 })),
+      incrementGateLvl: () =>
+        set((state) => ({
+          gameProgress: {
+            ...state.gameProgress,
+            gate_level: state.gameProgress.gate_level + 1,
+          },
+        })),
     })
   )
 );
@@ -379,13 +365,11 @@ const getPromptContext = () => {
 
 export interface MainSceneContext extends PromptContext {
   keyPress: string;
-  ssknLvl: number;
   activeNode: NodeData;
   showingAbout: boolean;
   level: number;
   activePauseComponent: PauseComponent;
   gameProgress: GameProgress;
-  gateLvl: number;
   subscene: string;
   siteRotY: number;
   activeSite: ActiveSite;
@@ -408,9 +392,7 @@ export const getMainSceneContext = (keyPress: string): MainSceneContext => {
     siteRotY: state.siteRot[1],
     activeNode: state.activeNode,
     level: parseInt(state.activeLevel),
-    ssknLvl: state.ssknLvl,
     showingAbout: state.showingAbout,
-    gateLvl: state.gateLvl,
     siteSaveState: state.siteSaveState,
     wordNotFound: state.wordNotFound,
   };
@@ -421,7 +403,6 @@ export type SsknSceneContext = {
   activeSsknComponent: SsknComponent;
   activeNode: NodeData;
   gameProgress: GameProgress;
-  ssknLvl: number;
 };
 
 export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
@@ -431,7 +412,6 @@ export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
     activeSsknComponent: state.activeSsknComponent,
     activeNode: state.activeNode,
     gameProgress: state.gameProgress,
-    ssknLvl: state.ssknLvl,
   };
 };
 

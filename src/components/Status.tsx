@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import statusContainer from "../static/sprite/status_container.png";
 import loadSuccessfulImg from "../static/sprite/load_successful.png";
 import loadFailImg from "../static/sprite/load_fail.png";
@@ -8,7 +8,7 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../store";
 
-const Status = () => {
+const Status = memo(() => {
   const loadSuccessful = useStore((state) => state.loadSuccessful);
   const saveSuccessful = useStore((state) => state.saveSuccessful);
 
@@ -62,6 +62,6 @@ const Status = () => {
       </sprite>
     </group>
   );
-};
+});
 
 export default Status;

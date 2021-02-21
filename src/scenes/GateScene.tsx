@@ -6,7 +6,7 @@ import GateMiddleObject from "../components/GateScene/GateMiddleObject";
 import { useStore } from "../store";
 
 const GateScene = () => {
-  const gateLvl = useStore((state) => state.gateLvl);
+  const gateLvl = useStore((state) => state.gameProgress.gate_level);
   const incrementGateLvl = useStore((state) => state.incrementGateLvl);
   const [introAnim, setIntroAnim] = useState(true);
 

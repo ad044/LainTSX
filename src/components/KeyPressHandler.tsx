@@ -74,9 +74,9 @@ const KeyPressHandler = () => {
       const now = Date.now();
 
       if (
-        keyPress &&
-        now > timeSinceLastKeyPress.current + inputCooldown &&
-        inputCooldown !== -1
+        keyPress
+        // now > timeSinceLastKeyPress.current + inputCooldown &&
+        // inputCooldown !== -1
       ) {
         if (scene === "main") {
           lainIdleCounter.current = now;

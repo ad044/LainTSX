@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import loadingSpritesheet from "../static/sprite/loading_spritesheet.png";
 import lifeInstinct from "../static/sprite/life_instinct_function_os.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
 
-const Loading = () => {
+const Loading = memo(() => {
   const loadingTex: any = useLoader(THREE.TextureLoader, loadingSpritesheet);
   const lifeInstinctTex = useLoader(THREE.TextureLoader, lifeInstinct);
 
@@ -32,6 +32,6 @@ const Loading = () => {
       </sprite>
     </>
   );
-};
+});
 
 export default Loading;

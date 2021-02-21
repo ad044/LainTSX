@@ -47,15 +47,14 @@ const handleMainSceneKeyPress = (
     activeNode,
     level,
     keyPress,
-    ssknLvl,
     showingAbout,
     promptVisible,
     activePromptComponent,
-    gateLvl,
     siteSaveState,
     wordNotFound,
   } = mainSceneContext;
 
+  console.log(activeNode.matrixIndices);
   if (promptVisible) {
     switch (keyPress) {
       case "LEFT":
@@ -103,9 +102,8 @@ const handleMainSceneKeyPress = (
           case "RIGHT": {
             const direction = keyPress.toLowerCase();
             const nodeData = findNode(
-              activeNode.id,
+              activeNode,
               direction,
-              activeNode.matrixIndices!,
               level,
               activeSite,
               gameProgress,
@@ -144,9 +142,8 @@ const handleMainSceneKeyPress = (
             const direction = keyPress.toLowerCase();
 
             const nodeData = findNode(
-              activeNode.id,
+              activeNode,
               direction,
-              activeNode.matrixIndices!,
               level,
               activeSite,
               gameProgress,
@@ -185,7 +182,7 @@ const handleMainSceneKeyPress = (
             )
               return;
 
-            if (activeNode.upgrade_requirement > ssknLvl) {
+            if (activeNode.upgrade_requirement > gameProgress.sskn_level) {
               const rejectEvents = [knockNodeAndFall, knockNode, explodeNode];
               return rejectEvents[Math.floor(Math.random() * 3)];
             }
@@ -236,11 +233,12 @@ const handleMainSceneKeyPress = (
 
             const direction = selectedLevel > level ? "up" : "down";
 
+            // todo implement this row idx without mutating activenode
             const rowIdx = direction === "up" ? 2 : 0;
+
             const nodeData = findNode(
-              activeNode.id,
+              activeNode,
               direction,
-              { ...activeNode.matrixIndices!, rowIdx: rowIdx },
               selectedLevel,
               activeSite,
               gameProgress,
@@ -294,7 +292,10 @@ const handleMainSceneKeyPress = (
               case "load":
                 return displayPrompt;
               case "change":
-                if (activePauseComponent === "change" && gateLvl > 4)
+                if (
+                  activePauseComponent === "change" &&
+                  gameProgress.gate_level > 4
+                )
                   return showPermissionDenied;
                 else return displayPrompt;
             }
