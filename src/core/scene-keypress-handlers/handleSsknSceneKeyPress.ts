@@ -10,7 +10,6 @@ const handleSsknSceneKeyPress = (
     activeSsknComponent,
     activeNode,
     gameProgress,
-    ssknLvl,
   } = ssknSceneContext;
 
   switch (keyPress) {
@@ -28,13 +27,10 @@ const handleSsknSceneKeyPress = (
               is_viewed: 1,
               is_visible: 0,
             },
+            sskn_level: gameProgress.sskn_level + 1,
           };
-          const newSsknLvl = ssknLvl + 1;
 
-          return upgradeSskn({
-            gameProgress: newGameProgress,
-            ssknLvl: newSsknLvl,
-          });
+          return upgradeSskn({ gameProgress: newGameProgress });
         case "cancel":
           return exitSskn;
       }

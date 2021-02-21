@@ -1,5 +1,5 @@
 import { findNodeFromWord } from "../../helpers/media-helpers";
-import { MediaSceneContext } from "../../store";
+import { MediaSceneContext, RightMediaComponent } from "../../store";
 import {
   changeLeftMediaComponent,
   changeMediaSide,
@@ -10,6 +10,7 @@ import {
   wordNotFound,
 } from "../eventTemplates";
 import { GameEvent } from "../handleEvent";
+import { isNodeVisible } from "../../helpers/node-helpers";
 
 const handleMediaSceneKeyPress = (
   mediaSceneContext: MediaSceneContext
@@ -100,32 +101,37 @@ const handleMediaSceneKeyPress = (
             activeMediaComponent: lastActiveMediaComponents.left,
             lastActiveMediaComponents: {
               ...lastActiveMediaComponents,
-              right: activeMediaComponent as
-                | "fstWord"
-                | "sndWord"
-                | "thirdWord",
+              right: activeMediaComponent as RightMediaComponent,
             },
             currentMediaSide: "left",
           });
 
         case "CIRCLE":
-          const data = findNodeFromWord(
-            activeMediaComponent,
-            activeNode,
-            activeSite,
-            gameProgress
-          );
+          const wordIdx = (() => {
+            switch (activeMediaComponent as RightMediaComponent) {
+              case "fstWord":
+                return 1;
+              case "sndWord":
+                return 2;
+              case "thirdWord":
+                return 3;
+            }
+          })();
 
-          if (data) {
-            const { node, level, siteRotY } = { ...data };
-            return selectWord({
-              activeNode: node,
-              activeLevel: level,
-              siteRot: [0, siteRotY, 0],
-            });
-          } else {
-            return wordNotFound;
-          }
+          const nodeName = activeNode.node_name;
+          const wordToFind = activeNode.words[wordIdx];
+
+          const data = findNodeFromWord(wordToFind, nodeName, activeSite);
+
+          const { node, level, siteRotY } = { ...data };
+
+          if (!isNodeVisible(node, gameProgress)) return wordNotFound;
+
+          return selectWord({
+            activeNode: node,
+            activeLevel: level,
+            siteRot: [0, siteRotY, 0],
+          });
       }
   }
 };

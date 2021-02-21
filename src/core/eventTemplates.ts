@@ -502,13 +502,11 @@ export const changeSsknComponent = (calculatedState: {
 
 export const upgradeSskn = (calculatedState: {
   gameProgress: GameProgress;
-  ssknLvl: number;
 }) => ({
   state: [
     {
       mutation: {
         gameProgress: calculatedState.gameProgress,
-        ssknLvl: calculatedState.ssknLvl,
         ssknLoading: true,
         inputCooldown: -1,
       },

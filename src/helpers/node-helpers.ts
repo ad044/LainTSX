@@ -4,7 +4,7 @@ import site_b from "../resources/site_b.json";
 import node_huds from "../resources/node_huds.json";
 import unlocked_nodes from "../resources/initial_progress.json";
 import node_matrices from "../resources/node_matrices.json";
-import { GameProgress } from "../store";
+import { ActiveSite, GameProgress } from "../store";
 
 export const generateInactiveNodes = (
   visibleNodes: SiteData,
@@ -58,24 +58,33 @@ export const getNodeHud = (nodeMatrixIndices: {
   ];
 };
 
-//visible = (global_final_viewcount > 0) && (req_final_viewcount <= global_final_viewcount + 1)
 export const isNodeVisible = (
   node: NodeData,
   gameProgress: typeof unlocked_nodes
 ) => {
   return node
-    ? (node.unlocked_by === "" ||
-        gameProgress[node.unlocked_by as keyof typeof gameProgress]
-          .is_viewed) &&
-        gameProgress[node.node_name as keyof typeof gameProgress].is_visible
+    ? Boolean(
+        (node.unlocked_by === "" ||
+          gameProgress.nodes[
+            node.unlocked_by as keyof typeof gameProgress.nodes
+          ].is_viewed) &&
+          gameProgress.nodes[node.node_name as keyof typeof gameProgress.nodes]
+            .is_visible &&
+          (node.required_final_video_viewcount > 0
+            ? gameProgress.final_video_viewcount > 0
+              ? node.required_final_video_viewcount <=
+                gameProgress.final_video_viewcount + 1
+              : false
+            : true)
+      )
     : false;
 };
 
 export const getVisibleNodesMatrix = (
   matrixIdx: number,
   activeLevel: number,
-  activeSite: string,
-  gameProgress: any
+  activeSite: ActiveSite,
+  gameProgress: GameProgress
 ) => {
   const formattedLevel = activeLevel.toString().padStart(2, "0");
   const currentMatrix =
@@ -163,18 +172,10 @@ const move = (direction: string, [matrix, level]: [number, number]) => {
 };
 
 export const findNode = (
-  nodeId: string,
-
+  activeNode: NodeData,
   direction: string,
-
-  {
-    matrixIdx,
-    rowIdx,
-    colIdx,
-  }: { matrixIdx: number; rowIdx: number; colIdx: number },
-
   level: number,
-  activeSite: string,
+  activeSite: ActiveSite,
   gameProgress: GameProgress,
   shouldSearchNext: boolean
 ) => {
@@ -190,50 +191,55 @@ export const findNode = (
     down: [nextPos_down, ([, c]: [number, number]) => nextPos_down([-1, c])],
   };
 
-  const initialMatrixIdx = matrixIdx;
+  if (activeNode.matrixIndices) {
+    const nextPos = funcs[direction];
 
-  const nextPos = funcs[direction];
+    const nodeId = activeNode.id;
+    let { matrixIdx, colIdx, rowIdx } = { ...activeNode.matrixIndices };
 
-  for (let i = 0; i < (shouldSearchNext ? 2 : 1); i++) {
-    const nodes = getVisibleNodesMatrix(
-      matrixIdx,
-      level,
-      activeSite,
-      gameProgress
-    );
+    const initialMatrixIdx = matrixIdx;
 
-    for (const [r, c] of nextPos[i]([rowIdx, colIdx])) {
-      const node = nodes[r][c];
+    for (let i = 0; i < (shouldSearchNext ? 2 : 1); i++) {
+      const nodes = getVisibleNodesMatrix(
+        matrixIdx,
+        level,
+        activeSite,
+        gameProgress
+      );
 
-      if (node)
-        return {
-          node,
+      for (const [r, c] of nextPos[i]([rowIdx, colIdx])) {
+        const node = nodes[r][c];
 
-          matrixIndices: {
-            matrixIdx,
-            rowIdx: r,
-            colIdx: c,
-          },
+        if (node)
+          return {
+            node,
 
-          didMove: Boolean(i),
-        };
+            matrixIndices: {
+              matrixIdx,
+              rowIdx: r,
+              colIdx: c,
+            },
+
+            didMove: Boolean(i),
+          };
+      }
+
+      [matrixIdx, level] = move(direction, [matrixIdx, level]);
     }
 
-    [matrixIdx, level] = move(direction, [matrixIdx, level]);
-  }
+    if (nodeId === "") [matrixIdx] = move(direction, [initialMatrixIdx, level]);
 
-  if (nodeId === "") [matrixIdx] = move(direction, [initialMatrixIdx, level]);
-
-  if (direction === "up" || direction === "down" || nodeId === "") {
-    return {
-      node: "unknown",
-      matrixIndices: {
-        matrixIdx,
-        rowIdx: rowIdx,
-        colIdx: colIdx,
-      },
-      didMove: true,
-    };
+    if (direction === "up" || direction === "down" || nodeId === "") {
+      return {
+        node: "unknown",
+        matrixIndices: {
+          matrixIdx,
+          rowIdx: rowIdx,
+          colIdx: colIdx,
+        },
+        didMove: true,
+      };
+    }
   }
 };
 export const filterInvisibleNodes = (
@@ -248,8 +254,9 @@ export const filterInvisibleNodes = (
         visibleNodes[level[0]][node[0]] = {
           ...node[1],
           is_viewed:
-            gameProgress[node[1].node_name as keyof typeof gameProgress]
-              .is_viewed,
+            gameProgress.nodes[
+              node[1].node_name as keyof typeof gameProgress.nodes
+            ].is_viewed,
         };
       }
     });
