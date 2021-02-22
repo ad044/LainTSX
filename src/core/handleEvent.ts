@@ -1,21 +1,6 @@
 import { playAudio, useStore } from "../store";
 import sleep from "../utils/sleep";
-
-type Mutation = {
-  mutation: Object;
-  delay?: number;
-};
-
-type EventAudio = {
-  sfx: HTMLAudioElement[];
-  delay?: number;
-};
-
-export type GameEvent = {
-  state?: Mutation[];
-  audio?: EventAudio[];
-  effects?: (() => void)[];
-};
+import { GameEvent } from "../types/types";
 
 // the async/await here might be misleading for some, it functions as a setTimeout that fires
 // multiple async calls without stopping the execution, which is what we want.

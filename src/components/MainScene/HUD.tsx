@@ -1,35 +1,15 @@
-import React, { memo, useEffect, useRef } from "react";
-import { useFrame, useLoader } from "react-three-fiber";
+import React, {memo, useEffect, useRef} from "react";
+import {useFrame, useLoader} from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../static/sprite/big_hud.png";
 import longHud from "../../static/sprite/long_hud.png";
 import boringHud from "../../static/sprite/long_hud_boring.png";
-import { useStore } from "../../store";
+import {useStore} from "../../store";
 import lerp from "../../utils/lerp";
 import GreenTextRenderer from "../TextRenderer/GreenTextRenderer";
 import usePrevious from "../../hooks/usePrevious";
-import { getNodeHud } from "../../helpers/node-helpers";
-
-export type HUDType = {
-  mirrored: number;
-  long: {
-    position: number[];
-    initial_position: number[];
-  };
-  boring: {
-    position: number[];
-    initial_position: number[];
-  };
-  big: {
-    position: number[];
-    initial_position: number[];
-  };
-  big_text: number[];
-  medium_text: {
-    position: number[];
-    initial_position: number[];
-  };
-};
+import {getNodeHud} from "../../helpers/node-helpers";
+import {HUDData} from "../../types/types";
 
 const HUD = memo(() => {
   const activeRef = useRef(true);
@@ -102,7 +82,7 @@ const HUD = memo(() => {
       bigHudRef.current!.scale.x = Math.abs(bigHudRef.current!.scale.x);
     };
 
-    const setPos = (hud: HUDType, pos: string) => {
+    const setPos = (hud: HUDData, pos: string) => {
       longHudRef.current!.position.set(
         ...(hud.long[pos as keyof typeof hud.long] as [number, number, number])
       );

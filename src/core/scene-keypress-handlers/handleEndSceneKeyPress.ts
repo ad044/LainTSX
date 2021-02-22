@@ -1,10 +1,9 @@
-import { EndSceneContext } from "../../store";
 import {
   changeEndComponent,
   continueGameAfterEnd,
   endGame,
 } from "../eventTemplates";
-import { GameEvent } from "../handleEvent";
+import {EndSceneContext, GameEvent} from "../../types/types";
 
 const handleEndSceneKeyPress = (
   endSceneContext: EndSceneContext

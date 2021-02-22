@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useMemo } from "react";
-import { a, useSpring } from "@react-spring/three";
-import { useStore } from "../../../store";
+import React, {Suspense, useEffect, useMemo} from "react";
+import {a, useSpring} from "@react-spring/three";
+import {useStore} from "../../../store";
 import ActiveLevelNodes from "./ActiveLevelNodes";
 import Rings from "./Rings";
 import NodeAnimations from "./NodeAnimations";
@@ -8,37 +8,8 @@ import InactiveLevelNodes from "./InactiveLevelNodes";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import level_y_values from "../../../resources/level_y_values.json";
-import { filterInvisibleNodes } from "../../../helpers/node-helpers";
+import {filterInvisibleNodes} from "../../../helpers/node-helpers";
 import Loading from "../../Loading";
-
-export type NodeData = {
-  id: string;
-  image_table_indices: { 1: string; 2: string; 3: string };
-  triggers_final_video: number;
-  required_final_video_viewcount: number;
-  media_file: string;
-  node_name: string;
-  site: string;
-  type: number;
-  title: string;
-  unlocked_by: string;
-  upgrade_requirement: number;
-  words: { 1: string; 2: string; 3: string };
-  matrixIndices?: {
-    matrixIdx: number;
-    rowIdx: number;
-    colIdx: number;
-  };
-  is_viewed?: number;
-};
-
-export type Level = {
-  [key: string]: NodeData;
-};
-
-export type SiteData = {
-  [key: string]: Level;
-};
 
 type SiteProps = {
   introFinished: boolean;

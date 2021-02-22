@@ -17,7 +17,8 @@ import { useFrame } from "react-three-fiber";
 import { getRandomIdleLainAnim } from "../helpers/idle-helpers";
 import * as audio from "../static/audio/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
-import handleEvent, { GameEvent } from "../core/handleEvent";
+import handleEvent from "../core/handleEvent";
+import {GameEvent} from "../types/types";
 
 const KeyPressHandler = () => {
   const scene = useStore((state) => state.currentScene);

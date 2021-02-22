@@ -1,4 +1,3 @@
-import { NodeData } from "../components/MainScene/Site/Site";
 import * as audio from "../static/audio/sfx";
 import {
   nodeExplodeAnimation,
@@ -10,17 +9,14 @@ import {
 import { playMediaElement, resetMediaElement } from "../helpers/media-helpers";
 import {
   ActiveSite,
-  EndComponent,
-  GameProgress,
-  GameScene,
+  EndComponent, GameProgress, GameScene,
   LeftMediaComponent,
-  MediaComponent,
-  MediaSide,
+  MediaComponent, MediaSide, NodeData,
   PromptComponent,
   RightMediaComponent,
   SiteSaveState,
-  SsknComponent,
-} from "../store";
+  SsknComponent
+} from "../types/types";
 
 export const siteMoveHorizontal = (calculatedState: {
   lainMoveAnimation: string;

@@ -3,72 +3,32 @@ import { combine } from "zustand/middleware";
 import * as THREE from "three";
 import { AudioAnalyser } from "three";
 import game_progress from "./resources/initial_progress.json";
-import { NodeData } from "./components/MainScene/Site/Site";
 import { getNodeById } from "./helpers/node-helpers";
 import site_a from "./resources/site_a.json";
-
-export type GameProgress = typeof game_progress;
-
-type NodeAttributes = {
-  interactedWith: boolean;
-  exploding: boolean;
-  shrinking: boolean;
-  visible: boolean;
-};
-
-export type GameScene =
-  | "main"
-  | "media"
-  | "tak"
-  | "sskn"
-  | "polytan"
-  | "idle_media"
-  | "gate"
-  | "boot"
-  | "change_disc"
-  | "end";
-
-type MainSubscene = "site" | "pause" | "level_selection";
-
-export type ActiveSite = "a" | "b";
-
-export type EndComponent = "end" | "continue";
-
-export type PauseComponent = "load" | "about" | "change" | "save" | "exit";
-
-export type MediaSide = "left" | "right";
-export type LeftMediaComponent = "play" | "exit";
-export type RightMediaComponent = "fstWord" | "sndWord" | "thirdWord";
-export type MediaComponent = LeftMediaComponent | RightMediaComponent;
-
-export type SiteSaveState = {
-  a: {
-    activeNode: NodeData;
-    siteRot: number[];
-    activeLevel: string;
-  };
-  b: {
-    activeNode: NodeData;
-    siteRot: number[];
-    activeLevel: string;
-  };
-};
-
-export type SsknComponent = "ok" | "cancel";
-
-export type MainMenuComponent = "authorize_user" | "load_data";
-export type BootSubscene = "main_menu" | "load_data" | "authorize_user";
-
-export type PromptComponent = "yes" | "no";
-
-type PolytanBodyParts = {
-  body: boolean;
-  head: boolean;
-  leftArm: boolean;
-  rightArm: boolean;
-  leftLeg: boolean;
-  rightLeg: boolean;
-};
+import {
+    ActiveSite,
+    BootSceneContext,
+    BootSubscene,
+    EndComponent,
+    EndSceneContext,
+    GameProgress,
+    GameScene,
+    LeftMediaComponent,
+    MainMenuComponent,
+    MainSceneContext,
+    MainSubscene,
+    MediaComponent,
+    MediaSceneContext,
+    MediaSide,
+    NodeAttributes, NodeData,
+    PauseComponent,
+    PolytanBodyParts,
+    PromptComponent,
+    RightMediaComponent,
+    SiteSaveState,
+    SsknComponent,
+    SsknSceneContext,
+} from "./types/types";
 
 type State = {
   currentScene: GameScene;
@@ -349,11 +309,6 @@ export const useStore = create(
   )
 );
 
-type PromptContext = {
-  activePromptComponent: PromptComponent;
-  promptVisible: boolean;
-};
-
 const getPromptContext = () => {
   const state = useStore.getState();
 
@@ -362,21 +317,6 @@ const getPromptContext = () => {
     activePromptComponent: state.activePromptComponent,
   };
 };
-
-export interface MainSceneContext extends PromptContext {
-  keyPress: string;
-  activeNode: NodeData;
-  showingAbout: boolean;
-  level: number;
-  activePauseComponent: PauseComponent;
-  gameProgress: GameProgress;
-  subscene: string;
-  siteRotY: number;
-  activeSite: ActiveSite;
-  selectedLevel: number;
-  wordNotFound: boolean;
-  siteSaveState: SiteSaveState;
-}
 
 export const getMainSceneContext = (keyPress: string): MainSceneContext => {
   const state = useStore.getState();
@@ -398,13 +338,6 @@ export const getMainSceneContext = (keyPress: string): MainSceneContext => {
   };
 };
 
-export type SsknSceneContext = {
-  keyPress: string;
-  activeSsknComponent: SsknComponent;
-  activeNode: NodeData;
-  gameProgress: GameProgress;
-};
-
 export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
   const state = useStore.getState();
   return {
@@ -413,20 +346,6 @@ export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
     activeNode: state.activeNode,
     gameProgress: state.gameProgress,
   };
-};
-
-export type MediaSceneContext = {
-  keyPress: string;
-  wordPosStateIdx: number;
-  currentMediaSide: MediaSide;
-  activeMediaComponent: MediaComponent;
-  activeNode: NodeData;
-  gameProgress: GameProgress;
-  lastActiveMediaComponents: {
-    left: LeftMediaComponent;
-    right: RightMediaComponent;
-  };
-  activeSite: ActiveSite;
 };
 
 export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
@@ -444,14 +363,6 @@ export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
   };
 };
 
-export interface BootSceneContext extends PromptContext {
-  keyPress: string;
-  playerName: string;
-  subscene: BootSubscene;
-  activeMainMenuComponent: MainMenuComponent;
-  authorizeUserLetterIdx: number;
-}
-
 export const getBootSceneContext = (keyPress: string): BootSceneContext => {
   const state = useStore.getState();
 
@@ -463,12 +374,6 @@ export const getBootSceneContext = (keyPress: string): BootSceneContext => {
     activeMainMenuComponent: state.activeMainMenuComponent,
     authorizeUserLetterIdx: state.authorizeUserLetterIdx,
   };
-};
-
-export type EndSceneContext = {
-  keyPress: string;
-  activeEndComponent: EndComponent;
-  selectionVisible: boolean;
 };
 
 export const getEndSceneContext = (keyPress: string): EndSceneContext => {

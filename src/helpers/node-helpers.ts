@@ -1,10 +1,15 @@
-import { NodeData, SiteData } from "../components/MainScene/Site/Site";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import node_huds from "../resources/node_huds.json";
 import unlocked_nodes from "../resources/initial_progress.json";
 import node_matrices from "../resources/node_matrices.json";
-import { ActiveSite, GameProgress } from "../store";
+import {
+  ActiveSite,
+  GameProgress,
+  NodeData,
+  NodeMatrixIndices,
+  SiteData,
+} from "../types/types";
 
 export const generateInactiveNodes = (
   visibleNodes: SiteData,
@@ -31,11 +36,7 @@ export const getNodeById = (id: string, activeSite: string) => {
   const level = id.substr(0, 2);
   return (siteData as SiteData)[level][id];
 };
-export const getNodeHud = (nodeMatrixIndices: {
-  matrixIdx: number;
-  rowIdx: number;
-  colIdx: number;
-}) => {
+export const getNodeHud = (nodeMatrixIndices: NodeMatrixIndices) => {
   const hudAssocs = {
     "00": "fg_hud_1",
     "10": "fg_hud_2",
