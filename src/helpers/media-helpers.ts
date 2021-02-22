@@ -1,8 +1,7 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import node_matrices from "../resources/node_matrices.json";
-import { SiteData } from "../components/MainScene/Site/Site";
-import { ActiveSite } from "../store";
+import {ActiveSite, SiteData} from "../types/types";
 
 export const findNodeFromWord = (
   wordToFind: string,

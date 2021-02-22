@@ -1,6 +1,5 @@
-import { SsknSceneContext } from "../../store";
 import { changeSsknComponent, exitSskn, upgradeSskn } from "../eventTemplates";
-import { GameEvent } from "../handleEvent";
+import {GameEvent, SsknSceneContext} from "../../types/types";
 
 const handleSsknSceneKeyPress = (
   ssknSceneContext: SsknSceneContext

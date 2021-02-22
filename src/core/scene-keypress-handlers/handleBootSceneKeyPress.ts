@@ -1,6 +1,5 @@
 import authorize_user_letters from "../../resources/authorize_user_letters.json";
 import handleNameSelection from "../../helpers/name-selection-helpers";
-import { BootSceneContext } from "../../store";
 import {
   changeMainMenuComponent,
   changePromptComponent,
@@ -15,7 +14,7 @@ import {
   updateAuthorizeUserLetterIdx,
   updatePlayerName,
 } from "../eventTemplates";
-import { GameEvent } from "../handleEvent";
+import {BootSceneContext, GameEvent} from "../../types/types";
 
 const handleBootSceneKeyPress = (
   bootSceneContext: BootSceneContext

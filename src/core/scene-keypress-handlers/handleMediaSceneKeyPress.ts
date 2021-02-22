@@ -1,5 +1,4 @@
 import { findNodeFromWord } from "../../helpers/media-helpers";
-import { MediaSceneContext, RightMediaComponent } from "../../store";
 import {
   changeLeftMediaComponent,
   changeMediaSide,
@@ -9,8 +8,8 @@ import {
   selectWord,
   wordNotFound,
 } from "../eventTemplates";
-import { GameEvent } from "../handleEvent";
 import { isNodeVisible } from "../../helpers/node-helpers";
+import {GameEvent, MediaSceneContext, RightMediaComponent} from "../../types/types";
 
 const handleMediaSceneKeyPress = (
   mediaSceneContext: MediaSceneContext

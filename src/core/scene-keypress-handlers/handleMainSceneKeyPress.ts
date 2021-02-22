@@ -4,7 +4,6 @@ import {
   isNodeVisible,
   unknownNodeTemplate,
 } from "../../helpers/node-helpers";
-import { MainSceneContext } from "../../store";
 import {
   changeNode,
   changePauseComponent,
@@ -32,7 +31,7 @@ import {
   siteMoveVertical,
   throwNode,
 } from "../eventTemplates";
-import { GameEvent } from "../handleEvent";
+import {GameEvent, MainSceneContext} from "../../types/types";
 
 const handleMainSceneKeyPress = (
   mainSceneContext: MainSceneContext
@@ -54,7 +53,6 @@ const handleMainSceneKeyPress = (
     wordNotFound,
   } = mainSceneContext;
 
-  console.log(activeNode.matrixIndices);
   if (promptVisible) {
     switch (keyPress) {
       case "LEFT":
