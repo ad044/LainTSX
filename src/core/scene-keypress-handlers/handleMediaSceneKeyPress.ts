@@ -9,7 +9,11 @@ import {
   wordNotFound,
 } from "../eventTemplates";
 import { isNodeVisible } from "../../helpers/node-helpers";
-import {GameEvent, MediaSceneContext, RightMediaComponent} from "../../types/types";
+import {
+  GameEvent,
+  MediaSceneContext,
+  RightMediaComponent,
+} from "../../types/types";
 
 const handleMediaSceneKeyPress = (
   mediaSceneContext: MediaSceneContext
@@ -47,7 +51,7 @@ const handleMediaSceneKeyPress = (
         case "CIRCLE":
           switch (activeMediaComponent) {
             case "play":
-              return playMedia;
+              return playMedia({ activeNode: activeNode });
             case "exit":
               return exitMedia;
           }

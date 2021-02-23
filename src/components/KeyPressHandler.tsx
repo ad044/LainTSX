@@ -8,7 +8,7 @@ import {
   playAudio,
   useStore,
 } from "../store";
-import { getKeyCodeAssociation } from "../utils/getKey";
+import { getKeyCodeAssociation } from "../utils/parseUserInput";
 import handleMediaSceneKeyPress from "../core/scene-keypress-handlers/handleMediaSceneKeyPress";
 import handleSsknSceneKeyPress from "../core/scene-keypress-handlers/handleSsknSceneKeyPress";
 import handleMainSceneKeyPress from "../core/scene-keypress-handlers/handleMainSceneKeyPress";
@@ -18,7 +18,7 @@ import { getRandomIdleLainAnim } from "../helpers/idle-helpers";
 import * as audio from "../static/audio/sfx";
 import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
 import handleEvent from "../core/handleEvent";
-import {GameEvent} from "../types/types";
+import { GameEvent } from "../types/types";
 
 const KeyPressHandler = () => {
   const scene = useStore((state) => state.currentScene);
@@ -75,9 +75,9 @@ const KeyPressHandler = () => {
       const now = Date.now();
 
       if (
-        keyPress
-        // now > timeSinceLastKeyPress.current + inputCooldown &&
-        // inputCooldown !== -1
+        keyPress &&
+        now > timeSinceLastKeyPress.current + inputCooldown &&
+        inputCooldown !== -1
       ) {
         if (scene === "main") {
           lainIdleCounter.current = now;

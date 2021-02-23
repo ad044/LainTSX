@@ -1,6 +1,6 @@
-import React, {Suspense, useEffect, useMemo} from "react";
-import {a, useSpring} from "@react-spring/three";
-import {useStore} from "../../../store";
+import React, { Suspense, useEffect, useMemo } from "react";
+import { a, useSpring } from "@react-spring/three";
+import { useStore } from "../../../store";
 import ActiveLevelNodes from "./ActiveLevelNodes";
 import Rings from "./Rings";
 import NodeAnimations from "./NodeAnimations";
@@ -8,7 +8,7 @@ import InactiveLevelNodes from "./InactiveLevelNodes";
 import site_a from "../../../resources/site_a.json";
 import site_b from "../../../resources/site_b.json";
 import level_y_values from "../../../resources/level_y_values.json";
-import {filterInvisibleNodes} from "../../../helpers/node-helpers";
+import { filterInvisibleNodes } from "../../../helpers/node-helpers";
 import Loading from "../../Loading";
 
 type SiteProps = {
@@ -67,7 +67,7 @@ const Site = (props: SiteProps) => {
   );
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={null}>
       <a.group rotation-x={rotXState.x}>
         <a.group rotation-y={rotYState.y} position-y={posState.y}>
           <ActiveLevelNodes visibleNodes={visibleNodes} />

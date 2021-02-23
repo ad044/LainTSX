@@ -14,7 +14,6 @@ import ChangeDiscScene from "./scenes/ChangeDiscScene";
 import EndScene from "./scenes/EndScene";
 import IdleMediaScene from "./scenes/IdleMediaScene";
 import KeyPressHandler from "./components/KeyPressHandler";
-import Preloader from "./components/Preloader";
 
 const App = () => {
   const currentScene = useStore((state) => state.currentScene);
@@ -35,6 +34,7 @@ const App = () => {
       tak: <TaKScene />,
       change_disc: <ChangeDiscScene />,
       end: <EndScene />,
+      null: <></>,
     }),
     []
   );

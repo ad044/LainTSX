@@ -19,6 +19,9 @@ const MediaScene = () => {
   const activeNode = useStore((state) => state.activeNode);
 
   const setScene = useStore((state) => state.setScene);
+  const incrementFinalVideoViewCount = useStore(
+    (state) => state.incrementFinalVideoViewCount
+  );
 
   useEffect(() => {
     document.getElementsByTagName("canvas")[0].className =
@@ -30,9 +33,16 @@ const MediaScene = () => {
   }, []);
 
   useEffect(() => {
-    if (percentageElapsed === 100 && activeNode.triggers_final_video)
+    if (percentageElapsed === 100 && activeNode.triggers_final_video) {
       setScene("end");
-  }, [activeNode.triggers_final_video, percentageElapsed, setScene]);
+      incrementFinalVideoViewCount();
+    }
+  }, [
+    activeNode.triggers_final_video,
+    incrementFinalVideoViewCount,
+    percentageElapsed,
+    setScene,
+  ]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;

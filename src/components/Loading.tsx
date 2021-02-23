@@ -21,14 +21,26 @@ const Loading = memo(() => {
 
   return (
     <>
-      <sprite scale={[5, 5, 5]}>
-        <spriteMaterial attach="material" color={0x000000} />
+      <sprite scale={[5, 5, 5]} renderOrder={999}>
+        <spriteMaterial attach="material" color={0x000000} depthTest={false} />
       </sprite>
-      <sprite scale={[0.35, 0.6, 0.35]} position={[0, 0.2, 0]}>
-        <spriteMaterial attach="material" map={loadingTex} />
+      <sprite
+        scale={[0.35, 0.6, 0.35]}
+        position={[0, 0.2, 0]}
+        renderOrder={1000}
+      >
+        <spriteMaterial attach="material" map={loadingTex} depthTest={false} />
       </sprite>
-      <sprite scale={[0.4, 0.6, 0.4]} position={[0, -0.5, 0]}>
-        <spriteMaterial attach="material" map={lifeInstinctTex} />
+      <sprite
+        scale={[0.4, 0.6, 0.4]}
+        position={[0, -0.5, 0]}
+        renderOrder={1000}
+      >
+        <spriteMaterial
+          attach="material"
+          map={lifeInstinctTex}
+          depthTest={false}
+        />
       </sprite>
     </>
   );

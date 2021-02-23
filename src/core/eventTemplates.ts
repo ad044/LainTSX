@@ -9,14 +9,23 @@ import {
 import { playMediaElement, resetMediaElement } from "../helpers/media-helpers";
 import {
   ActiveSite,
-  EndComponent, GameProgress, GameScene,
+  EndComponent,
+  GameScene,
   LeftMediaComponent,
-  MediaComponent, MediaSide, NodeData,
+  MediaComponent,
+  MediaSide,
+  NodeData,
   PromptComponent,
   RightMediaComponent,
   SiteSaveState,
-  SsknComponent
+  SsknComponent,
+  UserSaveState,
 } from "../types/types";
+import { saveUserProgress, useStore } from "../store";
+
+const setNodeViewed = useStore.getState().setNodeViewed;
+const resetMediaScene = useStore.getState().resetMediaScene;
+const loadUserSaveState = useStore.getState().loadUserSaveState;
 
 export const siteMoveHorizontal = (calculatedState: {
   lainMoveAnimation: string;
@@ -332,28 +341,64 @@ export const exitPrompt = {
   audio: [{ sfx: [audio.sound28] }],
 };
 
-// todo actually save
-export const saveGame = () => ({
+export const saveGame = (calculatedState: {
+  userSaveState: UserSaveState;
+}) => ({
   state: [
     { mutation: { saveSuccessful: true, inputCooldown: 1200 } },
     {
-      mutation: { saveSuccessful: undefined },
+      mutation: {
+        saveSuccessful: undefined,
+        promptVisible: false,
+        activePromptComponent: "no",
+      },
       delay: 1200,
     },
   ],
   audio: [{ sfx: [audio.sound28] }],
+  effects: [() => saveUserProgress(calculatedState.userSaveState)],
 });
 
-// todo actually load
-export const loadGame = () => ({
+export const loadGameFail = {
+  state: [
+    {
+      mutation: {
+        loadSuccessful: false,
+        inputCooldown: 1200,
+      },
+    },
+    { mutation: { loadSuccessful: undefined }, delay: 1200 },
+  ],
+  audio: [{ sfx: [audio.sound28] }],
+};
+
+export const loadGame = (calculatedState: {
+  userSaveState: UserSaveState;
+}) => ({
   state: [
     { mutation: { loadSuccessful: true, inputCooldown: 1200 } },
     {
-      mutation: { loadSuccessful: undefined },
+      mutation: {
+        loadSuccessful: undefined,
+        currentScene: "null",
+        mainSubscene: "site",
+        lainMoveState: "standing",
+        promptVisible: false,
+        activePromptComponent: "no",
+        activePauseComponent: "change",
+      },
       delay: 1200,
+    },
+    {
+      mutation: { currentScene: "main", intro: true },
+      delay: 1300,
     },
   ],
   audio: [{ sfx: [audio.sound28] }],
+  effects: [
+    () =>
+      setTimeout(() => loadUserSaveState(calculatedState.userSaveState), 1200),
+  ],
 });
 
 export const changeSite = (calculatedState: {
@@ -366,6 +411,7 @@ export const changeSite = (calculatedState: {
   state: [
     {
       mutation: {
+        intro: true,
         currentScene: "change_disc",
         lainMoveState: "standing",
         promptVisible: false,
@@ -418,14 +464,28 @@ export const changeMediaSide = (calculatedState: {
   ],
 });
 
-export const playMedia = {
+export const playMedia = (calculatedState: { activeNode: NodeData }) => ({
   state: [{ mutation: { mediaPercentageElapsed: 0, inputCooldown: 500 } }],
-  effects: [playMediaElement],
-};
+  effects: [
+    playMediaElement,
+    () =>
+      setNodeViewed(calculatedState.activeNode.node_name, {
+        is_viewed: 1,
+        is_visible: 1,
+      }),
+  ],
+});
 
 export const exitMedia = {
-  state: [{ mutation: { currentScene: "main", inputCooldown: -1 } }],
-  effects: [resetMediaElement],
+  state: [
+    {
+      mutation: {
+        currentScene: "main",
+        inputCooldown: -1,
+      },
+    },
+  ],
+  effects: [resetMediaElement, resetMediaScene],
 };
 
 export const changeRightMediaComponent = (calculatedState: {
@@ -455,7 +515,7 @@ export const wordNotFound = {
     },
   ],
   audio: [{ sfx: [audio.sound30] }],
-  effects: [resetMediaElement],
+  effects: [resetMediaElement, resetMediaScene],
 };
 
 export const hideWordNotFound = {
@@ -480,7 +540,7 @@ export const selectWord = (calculatedState: {
     },
   ],
   audio: [{ sfx: [audio.sound29] }],
-  effects: [resetMediaElement],
+  effects: [resetMediaElement, resetMediaScene],
 });
 
 export const changeSsknComponent = (calculatedState: {
@@ -496,18 +556,22 @@ export const changeSsknComponent = (calculatedState: {
   ],
 });
 
-export const upgradeSskn = (calculatedState: {
-  gameProgress: GameProgress;
-}) => ({
+export const upgradeSskn = (calculatedState: { activeNode: NodeData }) => ({
   state: [
     {
       mutation: {
-        gameProgress: calculatedState.gameProgress,
         ssknLoading: true,
         inputCooldown: -1,
       },
     },
     { mutation: { currentScene: "main" }, delay: 6000 },
+  ],
+  effects: [
+    () =>
+      setNodeViewed(calculatedState.activeNode.node_name, {
+        is_viewed: 1,
+        is_visible: 0,
+      }),
   ],
 });
 
@@ -538,20 +602,11 @@ export const changeEndComponent = (calculatedState: {
   audio: [{ sfx: [audio.sound1] }],
 });
 
-export const endGame = {
+export const endGame = (calculatedState: { userSaveState: UserSaveState }) => ({
   state: [{ mutation: { currentScene: "boot", inputCooldown: -1 } }],
   audio: [{ sfx: [audio.sound0] }],
-};
-
-// todo this is probably buggy
-export const continueGameAfterEnd = {
-  state: [
-    {
-      mutation: { currentScene: "change_disc", intro: true, inputCooldown: -1 },
-    },
-  ],
-  audio: [{ sfx: [audio.sound0] }],
-};
+  effects: [() => saveUserProgress(calculatedState.userSaveState)],
+});
 
 export const changeMainMenuComponent = (calculatedState: {
   activeMainMenuComponent: "authorize_user" | "load_data";

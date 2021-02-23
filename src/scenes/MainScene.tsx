@@ -50,8 +50,11 @@ const MainScene = () => {
       setStarfieldIntro(false);
       setLainIntroAnim(false);
       setIntroFinished(false);
+      setInputCooldown(-1);
+    } else {
+      setInputCooldown(0);
     }
-  }, [intro]);
+  }, [intro, setInputCooldown]);
 
   const [starfieldIntro, setStarfieldIntro] = useState(false);
   const [lainIntroAnim, setLainIntroAnim] = useState(false);
@@ -79,18 +82,6 @@ const MainScene = () => {
       if (introWrapperRef.current.rotation.x > 0) {
         introWrapperRef.current.rotation.x -= 0.008;
       }
-
-      // introWrapperRef.current.position.z = THREE.MathUtils.lerp(
-      //   introWrapperRef.current.position.z,
-      //   intro ? 0 : -10,
-      //   0.01
-      // );
-      //
-      // introWrapperRef.current.rotation.x = THREE.MathUtils.lerp(
-      //   introWrapperRef.current.rotation.x,
-      //   intro ? 0 : Math.PI / 2,
-      //   0.01
-      // );
 
       if (
         !introFinished &&

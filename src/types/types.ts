@@ -19,7 +19,8 @@ export type GameScene =
   | "gate"
   | "boot"
   | "change_disc"
-  | "end";
+  | "end"
+  | "null";
 
 export type MainSubscene = "site" | "pause" | "level_selection";
 
@@ -143,6 +144,10 @@ export type EndSceneContext = {
   keyPress: string;
   activeEndComponent: EndComponent;
   selectionVisible: boolean;
+  siteSaveState: SiteSaveState;
+  activeNode: NodeData;
+  siteRot: number[];
+  activeLevel: string;
 };
 
 export type Level = {
@@ -187,4 +192,13 @@ export type HUDData = {
     position: number[];
     initial_position: number[];
   };
+};
+
+export type UserSaveState = {
+  siteSaveState: SiteSaveState;
+  activeNode: NodeData;
+  siteRot: number[];
+  activeLevel: string;
+  activeSite: ActiveSite;
+  gameProgress: GameProgress;
 };

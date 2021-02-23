@@ -12,6 +12,7 @@ const GateScene = () => {
 
   const activeNodeName = useStore((state) => state.activeNode.node_name);
   const setNodeViewed = useStore((state) => state.setNodeViewed);
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   useEffect(() => {
     incrementGateLvl();
@@ -20,7 +21,8 @@ const GateScene = () => {
       is_visible: 0,
     });
     setTimeout(() => setIntroAnim(false), 2500);
-  }, [activeNodeName, incrementGateLvl, setNodeViewed]);
+    setTimeout(() => setInputCooldown(0), 3500);
+  }, [activeNodeName, incrementGateLvl, setInputCooldown, setNodeViewed]);
 
   return (
     <perspectiveCamera position-z={3}>

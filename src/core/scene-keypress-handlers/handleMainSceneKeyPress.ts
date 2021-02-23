@@ -21,6 +21,7 @@ import {
   knockNode,
   knockNodeAndFall,
   loadGame,
+  loadGameFail,
   pauseGame,
   ripNode,
   saveGame,
@@ -31,7 +32,8 @@ import {
   siteMoveVertical,
   throwNode,
 } from "../eventTemplates";
-import {GameEvent, MainSceneContext} from "../../types/types";
+import { GameEvent, MainSceneContext } from "../../types/types";
+import { getCurrentUserState } from "../../store";
 
 const handleMainSceneKeyPress = (
   mainSceneContext: MainSceneContext
@@ -65,7 +67,7 @@ const handleMainSceneKeyPress = (
             return exitPrompt;
           case "yes":
             switch (activePauseComponent) {
-              case "change":
+              case "change": {
                 const siteToLoad = activeSite === "a" ? "b" : "a";
                 const stateToLoad = siteSaveState[siteToLoad];
 
@@ -84,10 +86,18 @@ const handleMainSceneKeyPress = (
                   newActiveLevel: stateToLoad.activeLevel,
                   newSiteSaveState: newSiteSaveState,
                 });
+              }
               case "save":
-                return saveGame();
-              case "load":
-                return loadGame();
+                return saveGame({ userSaveState: getCurrentUserState() });
+              case "load": {
+                const stateToLoad = localStorage.getItem("lainSaveState");
+
+                if (stateToLoad)
+                  return loadGame({
+                    userSaveState: JSON.parse(stateToLoad),
+                  });
+                else return loadGameFail;
+              }
             }
         }
     }
@@ -138,6 +148,13 @@ const handleMainSceneKeyPress = (
           case "UP":
           case "DOWN": {
             const direction = keyPress.toLowerCase();
+
+            const upperLimit = activeSite === "a" ? 22 : 13;
+            if (
+              (direction === "up" && level === upperLimit) ||
+              (direction === "down" && level === 1)
+            )
+              return;
 
             const nodeData = findNode(
               activeNode,
@@ -198,9 +215,9 @@ const handleMainSceneKeyPress = (
                 } else {
                   return eventAnimation({ currentScene: "media" });
                 }
-              case 8:
-                return eventAnimation({ currentScene: "gate" });
               case 7:
+                return eventAnimation({ currentScene: "sskn" });
+              case 8:
                 return eventAnimation({ currentScene: "gate" });
               case 9:
                 return eventAnimation({ currentScene: "polytan" });
@@ -231,11 +248,17 @@ const handleMainSceneKeyPress = (
 
             const direction = selectedLevel > level ? "up" : "down";
 
-            // todo implement this row idx without mutating activenode
-            const rowIdx = direction === "up" ? 2 : 0;
+            const newStartingPoint = {
+              ...activeNode,
+              matrixIndices: {
+                matrixIdx: activeNode.matrixIndices!.matrixIdx,
+                rowIdx: direction === "up" ? 2 : 0,
+                colIdx: 0,
+              },
+            };
 
             const nodeData = findNode(
-              activeNode,
+              newStartingPoint,
               direction,
               selectedLevel,
               activeSite,
