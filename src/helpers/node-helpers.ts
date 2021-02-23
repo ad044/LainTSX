@@ -173,7 +173,7 @@ const move = (direction: string, [matrix, level]: [number, number]) => {
 };
 
 export const findNode = (
-  activeNode: NodeData,
+  startingPoint: NodeData,
   direction: string,
   level: number,
   activeSite: ActiveSite,
@@ -192,11 +192,10 @@ export const findNode = (
     down: [nextPos_down, ([, c]: [number, number]) => nextPos_down([-1, c])],
   };
 
-  if (activeNode.matrixIndices) {
+  if (startingPoint.matrixIndices) {
     const nextPos = funcs[direction];
 
-    const nodeId = activeNode.id;
-    let { matrixIdx, colIdx, rowIdx } = { ...activeNode.matrixIndices };
+    let { matrixIdx, colIdx, rowIdx } = { ...startingPoint.matrixIndices };
 
     const initialMatrixIdx = matrixIdx;
 
@@ -228,6 +227,7 @@ export const findNode = (
       [matrixIdx, level] = move(direction, [matrixIdx, level]);
     }
 
+    const nodeId = startingPoint.id;
     if (nodeId === "") [matrixIdx] = move(direction, [initialMatrixIdx, level]);
 
     if (direction === "up" || direction === "down" || nodeId === "") {

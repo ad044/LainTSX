@@ -12,10 +12,13 @@ const BootScene = () => {
   const [accelaVisible, setAccelaVisible] = useState(true);
   const [mainMenuVisible, setMainMenuVisible] = useState(false);
 
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+
   useEffect(() => {
     setTimeout(() => setAccelaVisible(false), 2000);
     setTimeout(() => setMainMenuVisible(true), 6200);
-  }, []);
+    setTimeout(() => setInputCooldown(0), 500);
+  }, [setInputCooldown]);
 
   return (
     <perspectiveCamera position-z={3}>

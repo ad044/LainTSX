@@ -6,28 +6,30 @@ import game_progress from "./resources/initial_progress.json";
 import { getNodeById } from "./helpers/node-helpers";
 import site_a from "./resources/site_a.json";
 import {
-    ActiveSite,
-    BootSceneContext,
-    BootSubscene,
-    EndComponent,
-    EndSceneContext,
-    GameProgress,
-    GameScene,
-    LeftMediaComponent,
-    MainMenuComponent,
-    MainSceneContext,
-    MainSubscene,
-    MediaComponent,
-    MediaSceneContext,
-    MediaSide,
-    NodeAttributes, NodeData,
-    PauseComponent,
-    PolytanBodyParts,
-    PromptComponent,
-    RightMediaComponent,
-    SiteSaveState,
-    SsknComponent,
-    SsknSceneContext,
+  ActiveSite,
+  BootSceneContext,
+  BootSubscene,
+  EndComponent,
+  EndSceneContext,
+  GameProgress,
+  GameScene,
+  LeftMediaComponent,
+  MainMenuComponent,
+  MainSceneContext,
+  MainSubscene,
+  MediaComponent,
+  MediaSceneContext,
+  MediaSide,
+  NodeAttributes,
+  NodeData,
+  PauseComponent,
+  PolytanBodyParts,
+  PromptComponent,
+  RightMediaComponent,
+  SiteSaveState,
+  SsknComponent,
+  SsknSceneContext,
+  UserSaveState,
 } from "./types/types";
 
 type State = {
@@ -137,8 +139,8 @@ export const useStore = create(
 
       // nodes
       activeNode: {
-        ...site_a["04"]["0422"],
-        matrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+        ...site_a["04"]["0414"],
+        matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
       },
       activeNodePos: [0, 0, 0],
       activeNodeRot: [0, 0, 0],
@@ -233,19 +235,19 @@ export const useStore = create(
       siteSaveState: {
         a: {
           activeNode: {
-            ...getNodeById("0422", "a"),
-            matrixIndices: { matrixIdx: 7, rowIdx: 0, colIdx: 0 },
+            ...getNodeById("0408", "a"),
+            matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
           },
           siteRot: [0, 0, 0],
           activeLevel: "04",
         },
         b: {
           activeNode: {
-            ...getNodeById("0414", "b"),
-            matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
+            ...getNodeById("0105", "b"),
+            matrixIndices: { matrixIdx: 6, rowIdx: 2, colIdx: 0 },
           },
-          siteRot: [0, 0, 0],
-          activeLevel: "04",
+          siteRot: [0, 0 - Math.PI / 4, 0],
+          activeLevel: "01",
         },
       },
 
@@ -268,10 +270,28 @@ export const useStore = create(
         nodeName: string,
         to: { is_viewed: number; is_visible: number }
       ) =>
+        set((state) => {
+          const nodes = { ...state.gameProgress.nodes, [nodeName]: to };
+          return {
+            gameProgress: {
+              ...state.gameProgress,
+              nodes: nodes,
+            },
+          };
+        }),
+
+      resetMediaScene: () =>
+        set(() => ({
+          activeMediaComponent: "play",
+          currentMediaSide: "left",
+          mediaWordPosStateIdx: 1,
+        })),
+
+      incrementFinalVideoViewCount: () =>
         set((state) => ({
           gameProgress: {
             ...state.gameProgress,
-            [nodeName]: to,
+            final_video_viewcount: state.gameProgress.final_video_viewcount + 1,
           },
         })),
 
@@ -304,6 +324,15 @@ export const useStore = create(
             ...state.gameProgress,
             gate_level: state.gameProgress.gate_level + 1,
           },
+        })),
+      loadUserSaveState: (userState: UserSaveState) =>
+        set(() => ({
+          siteSaveState: userState.siteSaveState,
+          activeNode: userState.activeNode,
+          siteRot: userState.siteRot,
+          activeLevel: userState.activeLevel,
+          activeSite: userState.activeSite,
+          gameProgress: userState.gameProgress,
         })),
     })
   )
@@ -383,8 +412,28 @@ export const getEndSceneContext = (keyPress: string): EndSceneContext => {
     keyPress: keyPress,
     activeEndComponent: state.activeEndComponent,
     selectionVisible: state.endSceneSelectionVisible,
+    siteSaveState: state.siteSaveState,
+    activeNode: state.activeNode,
+    siteRot: state.siteRot,
+    activeLevel: state.activeLevel,
   };
 };
+
+export const getCurrentUserState = (): UserSaveState => {
+  const state = useStore.getState();
+
+  return {
+    siteSaveState: state.siteSaveState,
+    activeNode: state.activeNode,
+    siteRot: [0, state.siteRot[1], 0],
+    activeLevel: state.activeLevel,
+    activeSite: state.activeSite,
+    gameProgress: state.gameProgress,
+  };
+};
+
+export const saveUserProgress = (state: UserSaveState) =>
+  localStorage.setItem("lainSaveState", JSON.stringify(state));
 
 export const playAudio = (audio: HTMLAudioElement) => {
   audio.currentTime = 0;

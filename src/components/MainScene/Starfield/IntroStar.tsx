@@ -2,15 +2,13 @@ import React, { useMemo, useRef } from "react";
 import { a } from "@react-spring/three";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import lerp from "../../../utils/lerp";
 
-type StarProps = {
+type IntroStarProps = {
   position: number[];
   color: string;
-  shouldIntro: boolean;
 };
 
-const Star = (props: StarProps) => {
+const IntroStar = (props: IntroStarProps) => {
   const uniforms = useMemo(
     () => ({
       color1: {
@@ -51,15 +49,10 @@ const Star = (props: StarProps) => {
 
   const amp = useRef(Math.random() / 10);
 
-  const introAmpRef = useRef(props.shouldIntro ? 1 : 0);
-
   useFrame(() => {
-    if (starRef.current) {
-      if (starRef.current.position.y > 4) {
-        starRef.current.position.y = props.position[1];
-      }
-      starRef.current.position.y += 0.01 + amp.current + introAmpRef.current;
-      introAmpRef.current = lerp(introAmpRef.current, 0, 0.01);
+    if (starRef.current && starRef.current.visible) {
+      starRef.current.position.y += 0.25 + amp.current;
+      if (starRef.current.position.y > 40) starRef.current.visible = false;
     }
   });
 
@@ -83,4 +76,4 @@ const Star = (props: StarProps) => {
   );
 };
 
-export default Star;
+export default IntroStar;

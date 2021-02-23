@@ -9,12 +9,13 @@ import {
   exitUserAuthorization,
   failUpdatePlayerName,
   loadGame,
+  loadGameFail,
   removePlayerNameLastChar,
   startNewGame,
   updateAuthorizeUserLetterIdx,
   updatePlayerName,
 } from "../eventTemplates";
-import {BootSceneContext, GameEvent} from "../../types/types";
+import { BootSceneContext, GameEvent } from "../../types/types";
 
 const handleBootSceneKeyPress = (
   bootSceneContext: BootSceneContext
@@ -40,7 +41,13 @@ const handleBootSceneKeyPress = (
           case "no":
             return exitLoadData;
           case "yes":
-            return loadGame();
+            const stateToLoad = localStorage.getItem("lainSaveState");
+
+            if (stateToLoad)
+              return loadGame({
+                userSaveState: JSON.parse(stateToLoad),
+              });
+            else return loadGameFail;
         }
     }
   } else {
