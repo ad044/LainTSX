@@ -7,6 +7,7 @@ const ChangeDiscScene = () => {
 
   useEffect(() => {
     if (activeSite === "a") {
+      // todo actually rip the assets from the original
       document.getElementsByTagName("canvas")[0].className =
         "change-disc-scene-a-background";
     } else if (activeSite === "b") {
@@ -15,11 +16,6 @@ const ChangeDiscScene = () => {
     }
 
     setTimeout(() => setScene("main"), 3500);
-
-    return () => {
-      document.getElementsByTagName("canvas")[0].className =
-        "main-scene-background";
-    };
   }, [activeSite, setScene]);
 
   return <></>;

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { memo, useMemo } from "react";
 import Star from "./Star";
 import IntroStar from "./IntroStar";
 

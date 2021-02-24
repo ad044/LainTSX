@@ -67,7 +67,7 @@ const Site = (props: SiteProps) => {
   );
 
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={props.introFinished ? <Loading /> : null}>
       <a.group rotation-x={rotXState.x}>
         <a.group rotation-y={rotYState.y} position-y={posState.y}>
           <ActiveLevelNodes visibleNodes={visibleNodes} />

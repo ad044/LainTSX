@@ -39,14 +39,6 @@ video {
   src: url("../font/Plain_Lain3.ttf") format("truetype");
 }
 
-.main-scene-background {
-  background: #000000;
-}
-
-.main-scene-background {
-  background: url(../sprite/hub_bg.png);
-}
-
 .change-disc-scene-b-background {
   background: url(../sprite/change_disc_b_bg.png);
 }

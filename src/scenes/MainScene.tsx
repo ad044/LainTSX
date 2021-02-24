@@ -17,6 +17,8 @@ import Popups from "../components/MainScene/Popups/Popups";
 import * as audio from "../static/audio/sfx";
 import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
+import MainSceneBackground from "../components/MainScene/Site/MainSceneBackground";
+import { useSpring, a } from "@react-spring/three";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -29,14 +31,22 @@ const MainScene = () => {
   const setInputCooldown = useStore((state) => state.setInputCooldown);
   const wordNotFound = useStore((state) => state.wordNotFound);
 
+  const [bgState, setBgState] = useSpring(() => ({
+    posY: 0,
+    duration: 1200,
+  }));
+
   useEffect(() => {
     if (subscene === "pause") {
+      setTimeout(() => setBgState({ posY: 2 }), 3600);
       setTimeout(() => setPaused(true), 3400);
     } else if (prevData?.subscene === "pause" && subscene === "site") {
+      setBgState({ posY: 0 });
       setPaused(false);
     }
-  }, [prevData?.subscene, subscene]);
+  }, [prevData?.subscene, setBgState, subscene]);
 
+  // move up instead of rotate todo
   useEffect(() => {
     if (wordSelected) {
       setTimeout(() => setWordSelected(false), 3100);
@@ -50,6 +60,11 @@ const MainScene = () => {
       setStarfieldIntro(false);
       setLainIntroAnim(false);
       setIntroFinished(false);
+
+      starfieldIntroRef.current = false;
+      lainIntroRef.current = false;
+      introFinishedRef.current = false;
+
       setInputCooldown(-1);
     } else {
       setInputCooldown(0);
@@ -57,23 +72,28 @@ const MainScene = () => {
   }, [intro, setInputCooldown]);
 
   const [starfieldIntro, setStarfieldIntro] = useState(false);
+  const starfieldIntroRef = useRef(false);
   const [lainIntroAnim, setLainIntroAnim] = useState(false);
+  const lainIntroRef = useRef(false);
   const [introFinished, setIntroFinished] = useState(false);
+  const introFinishedRef = useRef(false);
 
   useFrame(() => {
     if (!introFinished && intro && introWrapperRef.current) {
       if (introWrapperRef.current.position.z === -10) playAudio(audio.sound32);
       if (
         Math.round(introWrapperRef.current.position.z) === -3 &&
-        !starfieldIntro
+        !starfieldIntroRef.current
       ) {
         setStarfieldIntro(true);
+        starfieldIntroRef.current = true;
       }
       if (
         Math.round(introWrapperRef.current.position.z) === -1 &&
-        !lainIntroAnim
+        !lainIntroRef.current
       ) {
         setLainIntroAnim(true);
+        lainIntroRef.current = true;
       }
 
       if (introWrapperRef.current.position.z < 0) {
@@ -84,13 +104,14 @@ const MainScene = () => {
       }
 
       if (
-        !introFinished &&
+        !introFinishedRef.current &&
         !(
           introWrapperRef.current.rotation.x > 0 &&
           introWrapperRef.current.position.z < 0
         )
       ) {
         setIntroFinished(true);
+        introFinishedRef.current = true;
         setInputCooldown(0);
       }
     }
@@ -102,6 +123,9 @@ const MainScene = () => {
         <LevelSelection />
         <Popups />
         <Pause />
+        <a.group visible={introFinished} position-y={bgState.posY}>
+          <MainSceneBackground />
+        </a.group>
         <group visible={!paused}>
           <group visible={!wordSelected && (intro ? introFinished : true)}>
             <group visible={!wordNotFound}>

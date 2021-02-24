@@ -24,15 +24,6 @@ const MediaScene = () => {
   );
 
   useEffect(() => {
-    document.getElementsByTagName("canvas")[0].className =
-      "media-scene-background";
-
-    return () => {
-      document.getElementsByTagName("canvas")[0].className = "";
-    };
-  }, []);
-
-  useEffect(() => {
     if (percentageElapsed === 100 && activeNode.triggers_final_video) {
       setScene("end");
       incrementFinalVideoViewCount();
