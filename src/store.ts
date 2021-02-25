@@ -174,7 +174,6 @@ export const useStore = create(
 
       // pause
       activePauseComponent: "change",
-      pauseExitAnimation: false,
       showingAbout: false,
       permissionDenied: false,
 

@@ -1,25 +1,47 @@
-import React, { useMemo, memo } from "react";
-import * as THREE from "three";
-import { useLoader } from "react-three-fiber";
+import React, { memo, useMemo } from "react";
 import pauseGrayBoxes from "../../../static/sprite/pause_gray_boxes.png";
+import { useLoader } from "react-three-fiber";
+import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
-import { useStore } from "../../../store";
 
 type PauseSquareProps = {
+  geometry: THREE.PlaneBufferGeometry;
   colIdx: number;
   rowIdx: number;
-  geometry: THREE.PlaneBufferGeometry;
+  letter?: string;
   active?: boolean;
-  shouldDisappear?: boolean;
-  intro?: boolean;
+  introFinished?: boolean;
+  exit?: boolean;
 };
 
 const PauseSquare = memo((props: PauseSquareProps) => {
-  const exitAnimation = useStore((state) => state.pauseExitAnimation);
+  const squareTex = useLoader(THREE.TextureLoader, pauseGrayBoxes);
 
-  const grayBoxesTex = useLoader(THREE.TextureLoader, pauseGrayBoxes);
+  const introSpring = useSpring({
+    from: {
+      posX: 1.05,
+      posY: 1.07,
+      rotZ: -1,
+      rotX: Math.PI,
+      rotY: Math.PI,
+    },
+    to: async (next) => {
+      await next({
+        posX: props.colIdx / 2.8,
+        posY: props.rowIdx / 2.8,
+        rotZ: 0,
+        config: { duration: 500 },
+      });
+      await next({
+        rotX: 0,
+        rotY: props.letter ? Math.PI / 2 : 0,
+        delay: (props.rowIdx + props.colIdx) * 100,
+        config: { duration: 200 },
+      });
+    },
+  });
 
-  const getExitAnimValue = useMemo(() => {
+  const exitAnimValue = useMemo(() => {
     let col, row;
     if (props.colIdx < 3) col = -1;
     else if (props.colIdx > 3) col = 1;
@@ -29,85 +51,47 @@ const PauseSquare = memo((props: PauseSquareProps) => {
     else if (props.rowIdx > 3) row = 1;
     else row = 0;
 
-    return { row, col };
+    return { row: row * 2.2, col: col * 2.2 };
   }, [props.colIdx, props.rowIdx]);
 
-  const initialState = useSpring({
-    posX: props.colIdx / 2.8 + getExitAnimValue.col * (exitAnimation ? 2.2 : 0),
-    posY: props.rowIdx / 2.8 + getExitAnimValue.row * (exitAnimation ? 2.2 : 0),
-    rotX: props.active ? (exitAnimation ? Math.PI / 2 : 0) : -Math.PI,
-    rotY: props.active ? (exitAnimation ? Math.PI / 2 : 0) : Math.PI / 2,
-    rotZ: 0,
-    from: { posX: 1.05, posY: 1.07, rotZ: -1 },
+  const spring = useSpring({
+    posX: props.colIdx / 2.8 + (props.exit ? exitAnimValue.col : 0),
+    posY: props.rowIdx / 2.8 + (props.exit ? exitAnimValue.row : 0),
+    rotY: props.active || props.exit ? Math.PI / 2 : 0,
+    rotX: props.active ? Math.PI : 0,
     config: { duration: 500 },
-  });
-
-  const shadowState = useSpring({
-    posX: props.colIdx / 2.8 + getExitAnimValue.col * (exitAnimation ? 2.2 : 0),
-    posY: props.rowIdx / 2.8 + getExitAnimValue.row * (exitAnimation ? 2.2 : 0),
-    rotX: exitAnimation ? Math.PI / 2 : 0,
-    rotY: exitAnimation ? Math.PI / 2 : 0,
-    from: { posX: 1.05, posY: 1.07, rotZ: -1 },
-    config: { duration: 500 },
-  });
-
-  const introState = useSpring({
-    rotX: 0,
-    rotY: props.shouldDisappear ? Math.PI / 2 : 0,
-    from: { rotX: Math.PI, rotY: Math.PI },
-    delay: (props.rowIdx + props.colIdx) * 100 + 500,
-    config: { duration: 200 },
   });
 
   return (
-    <>
-      <a.mesh
-        geometry={props.geometry}
-        position-x={initialState.posX}
-        position-y={initialState.posY}
-        scale={[
-          props.colIdx > 3 ? -0.25 : 0.25,
-          props.rowIdx <= 3 ? -0.25 : 0.25,
-          0,
-        ]}
-        rotation-x={props.intro ? introState.rotX : initialState.rotX}
-        rotation-y={props.intro ? introState.rotY : initialState.rotY}
-        rotation-z={initialState.rotZ}
-        renderOrder={100}
-      >
-        <meshBasicMaterial
-          attach="material"
-          map={grayBoxesTex}
-          side={
-            (props.colIdx > 3 && props.rowIdx <= 3) ||
-            (props.colIdx <= 3 && props.rowIdx > 3)
-              ? THREE.FrontSide
-              : THREE.BackSide
-          }
-          transparent={true}
-          depthTest={false}
-        />
-      </a.mesh>
-      <group scale={[0.9, 0.9, 0]} position={[0.1, 0.1, 0]}>
-        <a.mesh
-          geometry={props.geometry}
-          position-x={shadowState.posX}
-          position-y={shadowState.posY}
-          scale={[0.25, 0.25, 0]}
-          rotation-x={shadowState.rotX}
-          rotation-y={shadowState.rotY}
-          rotation-z={initialState.rotZ}
-          renderOrder={99}
-        >
-          <meshBasicMaterial
-            attach="material"
-            side={THREE.DoubleSide}
-            transparent={true}
-            color={0x1d1d2d}
-          />
-        </a.mesh>
-      </group>
-    </>
+    <a.mesh
+      position-x={props.introFinished ? spring.posX : introSpring.posX}
+      position-y={props.introFinished ? spring.posY : introSpring.posY}
+      rotation-z={props.introFinished ? 0 : introSpring.rotZ}
+      rotation-x={props.introFinished ? spring.rotX : introSpring.rotX}
+      rotation-y={
+        !props.letter && props.introFinished ? spring.rotY : introSpring.rotY
+      }
+      geometry={props.geometry}
+      scale={[
+        props.colIdx > 3 ? -0.25 : 0.25,
+        props.rowIdx <= 3 ? -0.25 : 0.25,
+        0,
+      ]}
+      renderOrder={100}
+    >
+      <meshBasicMaterial
+        attach="material"
+        map={squareTex}
+        side={
+          (props.colIdx > 3 && props.rowIdx <= 3) ||
+          (props.colIdx <= 3 && props.rowIdx > 3)
+            ? THREE.FrontSide
+            : THREE.BackSide
+        }
+        transparent={true}
+        depthTest={false}
+      />
+    </a.mesh>
   );
 });
 

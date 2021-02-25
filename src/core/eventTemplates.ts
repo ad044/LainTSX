@@ -293,14 +293,14 @@ export const exitPause = (calculatedState: { siteRot: number[] }) => ({
     {
       mutation: {
         siteRot: calculatedState.siteRot,
-        pauseExitAnimation: true,
-        activePauseComponent: "change",
         inputCooldown: 1400,
+        mainSubscene: "site",
+        activePauseComponent: "",
       },
     },
     {
       mutation: {
-        mainSubscene: "site",
+        activePauseComponent: "change",
         inputCooldown: false,
         lainMoveState: "standing",
       },

@@ -1,7 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { playAudio, useStore } from "../store";
-import Pause from "../components/MainScene/Pause/Pause";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import HUD from "../components/MainScene/HUD";
 import MainYellowTextAnimator from "../components/TextRenderer/MainYellowTextAnimator";
@@ -19,6 +18,7 @@ import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
 import MainSceneBackground from "../components/MainScene/Site/MainSceneBackground";
 import { useSpring, a } from "@react-spring/three";
+import Pause from "../components/MainScene/Pause/Pause";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -42,11 +42,10 @@ const MainScene = () => {
       setTimeout(() => setPaused(true), 3400);
     } else if (prevData?.subscene === "pause" && subscene === "site") {
       setBgState({ posY: 0 });
-      setPaused(false);
+      setTimeout(() => setPaused(false), 1200);
     }
   }, [prevData?.subscene, setBgState, subscene]);
 
-  // move up instead of rotate todo
   useEffect(() => {
     if (wordSelected) {
       setTimeout(() => setWordSelected(false), 3100);
