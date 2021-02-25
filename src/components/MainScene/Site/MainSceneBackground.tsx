@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import mainSceneBg from "../../../static/sprite/main_scene_background.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
-const MainSceneBackground = () => {
+const MainSceneBackground = memo(() => {
   const mainSceneBgTex = useLoader(THREE.TextureLoader, mainSceneBg);
 
   return (
@@ -16,6 +16,6 @@ const MainSceneBackground = () => {
       />
     </mesh>
   );
-};
+});
 
 export default MainSceneBackground;

@@ -6,36 +6,22 @@ import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
 import { a, useSpring } from "@react-spring/three";
 import React, { useMemo, memo } from "react";
-import { useStore } from "../../store";
 
 const PauseBigLetter = memo(
   (props: {
-    color: string;
     letter: string;
     letterIdx: number;
     position: number[];
-    scale: number[];
-    active?: boolean;
     rowIdx?: number;
     colIdx?: number;
-    intro?: boolean;
+    mainLetter?: boolean;
+    active?: boolean;
+    introFinished?: boolean;
+    exit?: boolean;
   }) => {
-    const exitAnimation = useStore(
-      (state) => state.pauseExitAnimation
-    );
-
-    const tex = useMemo(() => {
-      switch (props.color) {
-        case "white":
-          return whiteFont;
-        case "yellow":
-          return yellowFont;
-        default:
-          return orangeFont;
-      }
-    }, [props.color]);
-
-    const colorTexture: THREE.Texture = useLoader(THREE.TextureLoader, tex);
+    const whiteFontTex = useLoader(THREE.TextureLoader, whiteFont);
+    const orangeFontTex = useLoader(THREE.TextureLoader, orangeFont);
+    const yellowFontTex = useLoader(THREE.TextureLoader, yellowFont);
 
     const lineYOffset = useMemo(() => {
       const lineOne = "ABCDEFGHIJKLMNOPQ";
@@ -93,64 +79,133 @@ const PauseBigLetter = memo(
       return geometry;
     }, [letterData, lineYOffset]);
 
-    const exitAnimValue = useMemo(() => {
-      let col = 0;
-      let row = 0;
-      if (props.colIdx && props.rowIdx) {
-        if (props.colIdx < 3) col = -1;
-        else if (props.colIdx > 3) col = 1;
-
-        if (props.rowIdx < 3) row = -1;
-        else if (props.rowIdx > 3) row = 1;
-
-        return { row, col };
-      }
-    }, [props.colIdx, props.rowIdx]);
-
-    const initialState = useSpring({
-      posX:
-        props.position[0] +
-        (exitAnimValue ? exitAnimValue.col * (exitAnimation ? 2.2 : 0) : 0),
-      posY:
-        -letterData[4] / 50 +
-        props.position[1] +
-        (exitAnimValue ? exitAnimValue.row * (exitAnimation ? 2.2 : 0) : 0),
-      rotX: props.active ? (exitAnimation ? Math.PI / 2 : 0) : -Math.PI,
-      rotY: props.active ? (exitAnimation ? Math.PI / 2 : 0) : Math.PI / 2,
+    const mainLetterIntroSpring = useSpring({
+      from: {
+        rotX: Math.PI,
+        rotY: Math.PI / 2,
+      },
+      to: { rotY: 0, rotX: 0 },
+      delay: (props.rowIdx! + props.colIdx!) * 100 + 500,
       config: { duration: 500 },
     });
 
-    const introState = useSpring({
-      rotX: 0,
-      rotY: 0,
-      from: { rotX: Math.PI, rotY: Math.PI * 2 },
-      delay: (props.rowIdx! + props.colIdx!) * 100 + 500,
-      config: { duration: 200 },
+    const exitAnimValue = useMemo(() => {
+      let col, row;
+      if (props.colIdx! < 3) col = -1;
+      else if (props.colIdx! > 3) col = 1;
+      else col = 0;
+
+      if (props.rowIdx! < 3) row = -1;
+      else if (props.rowIdx! > 3) row = 1;
+      else row = 0;
+
+      return { row: row * 2.2, col: col * 2.2 };
+    }, [props.colIdx, props.rowIdx]);
+
+    const mainLetterSpring = useSpring({
+      orangeRotY: props.active ? 0 : Math.PI / 2,
+      orangeRotX: props.active ? 0 : Math.PI,
+      whiteRotY: props.active || props.exit ? Math.PI / 2 : 0,
+      whiteRotX: props.active || props.exit ? Math.PI : 0,
+      posX: props.colIdx
+        ? props.colIdx / 2.8 + (props.exit ? exitAnimValue.col : 0)
+        : props.position[0],
+      posY: props.rowIdx
+        ? props.rowIdx / 2.8 + (props.exit ? exitAnimValue.row : 0)
+        : -letterData[4] / 50 + props.position[1],
+      config: { duration: 500 },
+    });
+
+    const nonMainLetterSpring = useSpring({
+      rotY: props.active ? 0 : Math.PI / 2,
+      rotX: props.active ? 0 : Math.PI,
+      config: { duration: 500 },
     });
 
     return (
-      <a.mesh
-        position={[
-          props.position[0],
-          -letterData[4] / 50 + props.position[1],
-          props.position[2],
-        ]}
-        position-x={initialState.posX}
-        position-y={initialState.posY}
-        scale={props.scale as [number, number, number]}
-        geometry={geom}
-        rotation-x={props.intro ? introState.rotX : initialState.rotX}
-        rotation-y={props.intro ? introState.rotY : initialState.rotY}
-        renderOrder={100}
-      >
-        <meshBasicMaterial
-          map={colorTexture}
-          attach="material"
-          transparent={true}
-          side={THREE.FrontSide}
-          depthTest={false}
-        />
-      </a.mesh>
+      <>
+        {props.mainLetter ? (
+          <>
+            <a.mesh
+              position={[
+                props.position[0],
+                -letterData[4] / 50 + props.position[1],
+                props.position[2],
+              ]}
+              scale={[0.25, 0.25, 0]}
+              geometry={geom}
+              rotation-x={
+                props.introFinished
+                  ? mainLetterSpring.orangeRotX
+                  : mainLetterIntroSpring.rotX
+              }
+              rotation-y={
+                props.introFinished
+                  ? mainLetterSpring.orangeRotY
+                  : mainLetterIntroSpring.rotY
+              }
+              position-x={mainLetterSpring.posX}
+              position-y={mainLetterSpring.posY}
+              renderOrder={100}
+            >
+              <meshBasicMaterial
+                map={props.introFinished ? orangeFontTex : whiteFontTex}
+                attach="material"
+                transparent={true}
+                side={THREE.FrontSide}
+                depthTest={false}
+              />
+            </a.mesh>
+            <a.mesh
+              position={[
+                props.position[0],
+                -letterData[4] / 50 + props.position[1],
+                props.position[2],
+              ]}
+              scale={[0.25, 0.25, 0]}
+              geometry={geom}
+              position-x={mainLetterSpring.posX}
+              position-y={mainLetterSpring.posY}
+              rotation-x={
+                props.introFinished ? mainLetterSpring.whiteRotX : Math.PI
+              }
+              rotation-y={
+                props.introFinished ? mainLetterSpring.whiteRotY : Math.PI / 2
+              }
+              renderOrder={100}
+            >
+              <meshBasicMaterial
+                map={whiteFontTex}
+                attach="material"
+                transparent={true}
+                side={THREE.FrontSide}
+                depthTest={false}
+              />
+            </a.mesh>
+          </>
+        ) : (
+          <a.mesh
+            position={[
+              props.position[0],
+              -letterData[4] / 50 + props.position[1],
+              props.position[2],
+            ]}
+            scale={[0.25, 0.25, 0]}
+            geometry={geom}
+            rotation-x={nonMainLetterSpring.rotX}
+            rotation-y={nonMainLetterSpring.rotY}
+            renderOrder={100}
+          >
+            <meshBasicMaterial
+              map={yellowFontTex}
+              attach="material"
+              transparent={true}
+              side={THREE.FrontSide}
+              depthTest={false}
+            />
+          </a.mesh>
+        )}
+      </>
     );
   }
 );

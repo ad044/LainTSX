@@ -5,10 +5,14 @@ import { useStore } from "../store";
 
 const PolytanScene = () => {
   const setNodeViewed = useStore((state) => state.setNodeViewed);
-  const setPolytanPartUnlocked = useStore.getState().setPolytanPartUnlocked;
+  const setPolytanPartUnlocked = useStore(
+    (state) => state.setPolytanPartUnlocked
+  );
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
   const activeNodeName = useStore((state) => state.activeNode.node_name);
 
   useEffect(() => {
+    setTimeout(() => setInputCooldown(0), 1000);
     setNodeViewed(activeNodeName, {
       is_viewed: 1,
       is_visible: 0,
@@ -30,7 +34,7 @@ const PolytanScene = () => {
       }
     })();
     if (bodyPart) setPolytanPartUnlocked(bodyPart);
-  }, [activeNodeName, setNodeViewed, setPolytanPartUnlocked]);
+  }, [activeNodeName, setInputCooldown, setNodeViewed, setPolytanPartUnlocked]);
 
   return (
     <>
