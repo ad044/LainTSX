@@ -98,7 +98,6 @@ type PromptContext = {
 };
 
 export interface MainSceneContext extends PromptContext {
-  keyPress: string;
   activeNode: NodeData;
   showingAbout: boolean;
   level: number;
@@ -113,14 +112,11 @@ export interface MainSceneContext extends PromptContext {
 }
 
 export type SsknSceneContext = {
-  keyPress: string;
   activeSsknComponent: SsknComponent;
   activeNode: NodeData;
-  gameProgress: GameProgress;
 };
 
 export type MediaSceneContext = {
-  keyPress: string;
   wordPosStateIdx: number;
   currentMediaSide: MediaSide;
   activeMediaComponent: MediaComponent;
@@ -134,7 +130,6 @@ export type MediaSceneContext = {
 };
 
 export interface BootSceneContext extends PromptContext {
-  keyPress: string;
   playerName: string;
   subscene: BootSubscene;
   activeMainMenuComponent: MainMenuComponent;
@@ -142,7 +137,6 @@ export interface BootSceneContext extends PromptContext {
 }
 
 export type EndSceneContext = {
-  keyPress: string;
   activeEndComponent: EndComponent;
   selectionVisible: boolean;
   siteSaveState: SiteSaveState;

@@ -1,15 +1,11 @@
 import { changeSsknComponent, exitSskn, upgradeSskn } from "../eventTemplates";
 import { GameEvent, SsknSceneContext } from "../../types/types";
 
-const handleSsknSceneKeyPress = (
-  ssknSceneContext: SsknSceneContext
+const handleSsknSceneInput = (
+  ssknSceneContext: SsknSceneContext,
+  keyPress: string
 ): GameEvent | undefined => {
-  const {
-    keyPress,
-    activeSsknComponent,
-    activeNode,
-    gameProgress,
-  } = ssknSceneContext;
+  const { activeSsknComponent, activeNode } = ssknSceneContext;
 
   switch (keyPress) {
     case "UP":
@@ -27,4 +23,4 @@ const handleSsknSceneKeyPress = (
   }
 };
 
-export default handleSsknSceneKeyPress;
+export default handleSsknSceneInput;

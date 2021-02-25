@@ -15,11 +15,11 @@ import {
   RightMediaComponent,
 } from "../../types/types";
 
-const handleMediaSceneKeyPress = (
-  mediaSceneContext: MediaSceneContext
+const handleMediaSceneInput = (
+  mediaSceneContext: MediaSceneContext,
+  keyPress: string
 ): GameEvent | undefined => {
   const {
-    keyPress,
     activeMediaComponent,
     wordPosStateIdx,
     activeNode,
@@ -139,4 +139,4 @@ const handleMediaSceneKeyPress = (
   }
 };
 
-export default handleMediaSceneKeyPress;
+export default handleMediaSceneInput;

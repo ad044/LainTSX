@@ -288,3 +288,26 @@ export const unknownNodeTemplate = {
     "3": "",
   },
 };
+
+export const nodeToScene = (node: NodeData) => {
+  switch (node.type) {
+    case 0:
+    case 2:
+    case 4:
+    case 3:
+    case 5:
+      return "media";
+    case 6:
+      if (node.node_name.substr(0, 3) === "TaK") {
+        return "tak";
+      } else {
+        return "media";
+      }
+    case 7:
+      return "sskn";
+    case 8:
+      return "gate";
+    case 9:
+      return "polytan";
+  }
+};
