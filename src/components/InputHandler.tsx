@@ -9,18 +9,18 @@ import {
   useStore,
 } from "../store";
 import { getKeyCodeAssociation } from "../utils/parseUserInput";
-import handleMediaSceneKeyPress from "../core/scene-keypress-handlers/handleMediaSceneKeyPress";
-import handleSsknSceneKeyPress from "../core/scene-keypress-handlers/handleSsknSceneKeyPress";
-import handleMainSceneKeyPress from "../core/scene-keypress-handlers/handleMainSceneKeyPress";
-import handleBootSceneKeyPress from "../core/scene-keypress-handlers/handleBootSceneKeyPress";
+import handleMediaSceneInput from "../core/input-handlers/handleMediaSceneInput";
+import handleSsknSceneInput from "../core/input-handlers/handleSsknSceneInput";
+import handleMainSceneInput from "../core/input-handlers/handleMainSceneInput";
+import handleBootSceneInput from "../core/input-handlers/handleBootSceneInput";
 import { useFrame } from "react-three-fiber";
 import { getRandomIdleLainAnim } from "../helpers/idle-helpers";
 import * as audio from "../static/audio/sfx";
-import handleEndSceneKeyPress from "../core/scene-keypress-handlers/handleEndSceneKeyPress";
+import handleEndSceneInput from "../core/input-handlers/handleEndSceneInput";
 import handleEvent from "../core/handleEvent";
 import { GameEvent } from "../types/types";
 
-const KeyPressHandler = () => {
+const InputHandler = () => {
   const scene = useStore((state) => state.currentScene);
   const mainSubscene = useStore((state) => state.mainSubscene);
   const inputCooldown = useStore((state) => state.inputCooldown);
@@ -90,27 +90,27 @@ const KeyPressHandler = () => {
             case "main":
               return {
                 contextProvider: getMainSceneContext,
-                keyPressHandler: handleMainSceneKeyPress,
+                keyPressHandler: handleMainSceneInput,
               };
             case "media":
               return {
                 contextProvider: getMediaSceneContext,
-                keyPressHandler: handleMediaSceneKeyPress,
+                keyPressHandler: handleMediaSceneInput,
               };
             case "sskn":
               return {
                 contextProvider: getSsknSceneContext,
-                keyPressHandler: handleSsknSceneKeyPress,
+                keyPressHandler: handleSsknSceneInput,
               };
             case "boot":
               return {
                 contextProvider: getBootSceneContext,
-                keyPressHandler: handleBootSceneKeyPress,
+                keyPressHandler: handleBootSceneInput,
               };
             case "end":
               return {
                 contextProvider: getEndSceneContext,
-                keyPressHandler: handleEndSceneKeyPress,
+                keyPressHandler: handleEndSceneInput,
               };
             case "gate":
             case "polytan":
@@ -128,8 +128,11 @@ const KeyPressHandler = () => {
         if (sceneFns) {
           const { contextProvider, keyPressHandler } = sceneFns;
 
-          const ctx = contextProvider(keyPress);
-          const event: GameEvent | undefined = keyPressHandler(ctx as any);
+          const ctx = contextProvider();
+          const event: GameEvent | undefined = keyPressHandler(
+            ctx as any,
+            keyPress
+          );
           if (event) handleEvent(event);
         }
       }
@@ -148,4 +151,4 @@ const KeyPressHandler = () => {
   return null;
 };
 
-export default KeyPressHandler;
+export default InputHandler;

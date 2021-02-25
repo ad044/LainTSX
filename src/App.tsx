@@ -13,7 +13,7 @@ import TaKScene from "./scenes/TaKScene";
 import ChangeDiscScene from "./scenes/ChangeDiscScene";
 import EndScene from "./scenes/EndScene";
 import IdleMediaScene from "./scenes/IdleMediaScene";
-import KeyPressHandler from "./components/KeyPressHandler";
+import InputHandler from "./components/InputHandler";
 
 const App = () => {
   const currentScene = useStore((state) => state.currentScene);
@@ -43,7 +43,7 @@ const App = () => {
     <div id="game-root" className="game">
       <span className="canvas">
         <Canvas concurrent>
-          <KeyPressHandler />
+          <InputHandler />
           <Suspense fallback={null}>
             {/*<Preloader />*/}
             {dispatchScene[currentScene as keyof typeof dispatchScene]}

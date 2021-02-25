@@ -346,12 +346,11 @@ const getPromptContext = () => {
   };
 };
 
-export const getMainSceneContext = (keyPress: string): MainSceneContext => {
+export const getMainSceneContext = (): MainSceneContext => {
   const state = useStore.getState();
 
   return {
     ...getPromptContext(),
-    keyPress: keyPress,
     subscene: state.mainSubscene,
     selectedLevel: state.selectedLevel,
     activePauseComponent: state.activePauseComponent,
@@ -366,21 +365,18 @@ export const getMainSceneContext = (keyPress: string): MainSceneContext => {
   };
 };
 
-export const getSsknSceneContext = (keyPress: string): SsknSceneContext => {
+export const getSsknSceneContext = (): SsknSceneContext => {
   const state = useStore.getState();
   return {
-    keyPress: keyPress,
     activeSsknComponent: state.activeSsknComponent,
     activeNode: state.activeNode,
-    gameProgress: state.gameProgress,
   };
 };
 
-export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
+export const getMediaSceneContext = (): MediaSceneContext => {
   const state = useStore.getState();
 
   return {
-    keyPress: keyPress,
     lastActiveMediaComponents: state.lastActiveMediaComponents,
     currentMediaSide: state.currentMediaSide,
     activeMediaComponent: state.activeMediaComponent,
@@ -391,12 +387,11 @@ export const getMediaSceneContext = (keyPress: string): MediaSceneContext => {
   };
 };
 
-export const getBootSceneContext = (keyPress: string): BootSceneContext => {
+export const getBootSceneContext = (): BootSceneContext => {
   const state = useStore.getState();
 
   return {
     ...getPromptContext(),
-    keyPress: keyPress,
     playerName: state.playerName,
     subscene: state.bootSubscene,
     activeMainMenuComponent: state.activeMainMenuComponent,
@@ -404,11 +399,10 @@ export const getBootSceneContext = (keyPress: string): BootSceneContext => {
   };
 };
 
-export const getEndSceneContext = (keyPress: string): EndSceneContext => {
+export const getEndSceneContext = (): EndSceneContext => {
   const state = useStore.getState();
 
   return {
-    keyPress: keyPress,
     activeEndComponent: state.activeEndComponent,
     selectionVisible: state.endSceneSelectionVisible,
     siteSaveState: state.siteSaveState,

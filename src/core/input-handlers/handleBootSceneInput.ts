@@ -17,11 +17,11 @@ import {
 } from "../eventTemplates";
 import { BootSceneContext, GameEvent } from "../../types/types";
 
-const handleBootSceneKeyPress = (
-  bootSceneContext: BootSceneContext
+const handleBootSceneInput = (
+  bootSceneContext: BootSceneContext,
+  keyPress: string
 ): GameEvent | undefined => {
   const {
-    keyPress,
     subscene,
     activeMainMenuComponent,
     activePromptComponent,
@@ -73,9 +73,7 @@ const handleBootSceneKeyPress = (
       case "authorize_user":
         switch (keyPress) {
           case "START":
-            if (playerName.length > 0) {
-              return startNewGame;
-            }
+            if (playerName.length > 0) return startNewGame;
             return;
           case "X":
             if (playerName.length > 0) {
@@ -202,4 +200,4 @@ const handleBootSceneKeyPress = (
   }
 };
 
-export default handleBootSceneKeyPress;
+export default handleBootSceneInput;

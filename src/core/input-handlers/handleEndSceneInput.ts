@@ -2,11 +2,11 @@ import { changeEndComponent, changeSite, endGame } from "../eventTemplates";
 import { EndSceneContext, GameEvent } from "../../types/types";
 import { getCurrentUserState } from "../../store";
 
-const handleEndSceneKeyPress = (
-  endSceneContext: EndSceneContext
+const handleEndSceneInput = (
+  endSceneContext: EndSceneContext,
+  keyPress: string
 ): GameEvent | undefined => {
   const {
-    keyPress,
     selectionVisible,
     activeEndComponent,
     siteSaveState,
@@ -49,4 +49,4 @@ const handleEndSceneKeyPress = (
   }
 };
 
-export default handleEndSceneKeyPress;
+export default handleEndSceneInput;

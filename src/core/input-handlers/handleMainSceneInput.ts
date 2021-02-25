@@ -2,6 +2,7 @@ import {
   findNode,
   getNodeById,
   isNodeVisible,
+  nodeToScene,
   unknownNodeTemplate,
 } from "../../helpers/node-helpers";
 import {
@@ -35,8 +36,9 @@ import {
 import { GameEvent, MainSceneContext } from "../../types/types";
 import { getCurrentUserState } from "../../store";
 
-const handleMainSceneKeyPress = (
-  mainSceneContext: MainSceneContext
+const handleMainSceneInput = (
+  mainSceneContext: MainSceneContext,
+  keyPress: string
 ): GameEvent | undefined => {
   const {
     subscene,
@@ -47,7 +49,6 @@ const handleMainSceneKeyPress = (
     siteRotY,
     activeNode,
     level,
-    keyPress,
     showingAbout,
     promptVisible,
     activePromptComponent,
@@ -189,8 +190,6 @@ const handleMainSceneKeyPress = (
           case "CIRCLE":
             const eventAnimation = Math.random() < 0.4 ? throwNode : ripNode;
 
-            const nodeType = activeNode.type;
-
             if (
               activeNode.id === "" ||
               !isNodeVisible(activeNode, gameProgress)
@@ -202,26 +201,8 @@ const handleMainSceneKeyPress = (
               return rejectEvents[Math.floor(Math.random() * 3)];
             }
 
-            switch (nodeType) {
-              case 0:
-              case 2:
-              case 4:
-              case 3:
-              case 5:
-                return eventAnimation({ currentScene: "media" });
-              case 6:
-                if (activeNode.node_name.substr(0, 3) === "TaK") {
-                  return eventAnimation({ currentScene: "tak" });
-                } else {
-                  return eventAnimation({ currentScene: "media" });
-                }
-              case 7:
-                return eventAnimation({ currentScene: "sskn" });
-              case 8:
-                return eventAnimation({ currentScene: "gate" });
-              case 9:
-                return eventAnimation({ currentScene: "polytan" });
-            }
+            const newScene = nodeToScene(activeNode);
+            if (newScene) return eventAnimation({ currentScene: newScene });
             break;
           case "L2":
             return enterLevelSelection({ selectedLevel: level });
@@ -326,4 +307,4 @@ const handleMainSceneKeyPress = (
   }
 };
 
-export default handleMainSceneKeyPress;
+export default handleMainSceneInput;
