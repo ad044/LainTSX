@@ -1,4 +1,4 @@
-import orangeFont from "../../static/sprite/orange_jp_font.png";
+import orangeFont from "../../static/sprites/fonts/orange_jp_font.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import jp_font_json from "../../resources/font_data/jp_font.json";

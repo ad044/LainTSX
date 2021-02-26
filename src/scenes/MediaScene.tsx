@@ -3,7 +3,7 @@ import { createAudioAnalyser, useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
-import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
+import MediaProgressBar from "../components/MediaScene/MediaProgressBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Images from "../components/Images";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
@@ -82,7 +82,7 @@ const MediaScene = () => {
           <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
           <LeftSide />
           <group position={[0, 0.5, -3]}>
-            <MediaLoadingBar />
+            <MediaProgressBar />
             <NodeNameContainer />
           </group>
           <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>

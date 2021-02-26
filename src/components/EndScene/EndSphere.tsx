@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
-import secondCylinder from "../../static/sprite/end_cylinder_2.png";
+import secondCylinder from "../../static/sprites/end/end_cylinder_2.png";
 
 type EndSphereProps = {
   position: number[];

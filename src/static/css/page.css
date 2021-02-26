@@ -34,19 +34,6 @@ video {
   margin-top: -600px;
 }
 
-@font-face {
-  font-family: "lowres";
-  src: url("../font/Plain_Lain3.ttf") format("truetype");
-}
-
-.change-disc-scene-b-background {
-  background: url(../sprite/change_disc_b_bg.png);
-}
-
-.change-disc-scene-a-background {
-  background: url(../sprite/change_disc_a_bg.png);
-}
-
 ::cue {
   font-size: 0;
 }

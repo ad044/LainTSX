@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
-import middleRingTexture from "../../../static/sprite/middle_ring_tex.png";
+import middleRingTexture from "../../../static/sprites/main/middle_ring_tex.png";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "../../../store";

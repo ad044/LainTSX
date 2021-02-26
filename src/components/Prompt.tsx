@@ -1,9 +1,9 @@
 import React, { memo } from "react";
-import answerContainer from "../static/sprite/prompt_answer_container.png";
-import questionContainer from "../static/sprite/prompt_question_container.png";
-import yes from "../static/sprite/prompt_yes.png";
-import no from "../static/sprite/prompt_no.png";
-import question from "../static/sprite/prompt_question.png";
+import answerContainer from "../static/sprites/prompt/prompt_answer_container.png";
+import questionContainer from "../static/sprites/prompt/prompt_question_container.png";
+import yes from "../static/sprites/prompt/prompt_yes.png";
+import no from "../static/sprites/prompt/prompt_no.png";
+import question from "../static/sprites/prompt/prompt_question.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../store";

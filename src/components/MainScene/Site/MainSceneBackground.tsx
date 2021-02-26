@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import mainSceneBg from "../../../static/sprite/main_scene_background.png";
+import mainSceneBg from "../../../static/sprites/main/main_scene_background.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 

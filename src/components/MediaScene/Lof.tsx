@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
-import lofSpriteSheet from "../../static/sprite/lof_spritesheet.png";
+import lofSpriteSheet from "../../static/sprites/media/lof_spritesheet.png";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
 
 const Lof = memo(() => {

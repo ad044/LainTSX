@@ -11,7 +11,7 @@
 # production
 /build
 
-# misc
+# progressbar
 .DS_Store
 .env.local
 .env.development.local
@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 src/static/media_images
-src/static/sprite
 
 .idea
 

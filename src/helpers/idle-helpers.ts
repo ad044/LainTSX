@@ -1,7 +1,7 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
 import { useStore } from "../store";
-import {SiteData} from "../types/types";
+import { SiteData } from "../types/types";
 
 export const getRandomIdleMedia = () => {
   const siteAIdleNodes = {

@@ -20,8 +20,7 @@ export type GameScene =
   | "boot"
   | "change_disc"
   | "end"
-  | "null"
-  | "test";
+  | "null";
 
 export type MainSubscene = "site" | "pause" | "level_selection";
 

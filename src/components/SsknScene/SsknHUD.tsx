@@ -1,16 +1,16 @@
 import React, { memo } from "react";
-import ssknOk from "../../static/sprite/sskn_ok.png";
-import ssknOkInactive from "../../static/sprite/sskn_ok_inactive.png";
-import ssknCancel from "../../static/sprite/sskn_cancel.png";
-import ssknCancelInactive from "../../static/sprite/sskn_cancel_inactive.png";
-import ssknUpgrade from "../../static/sprite/sskn_upgrade.png";
-import ssknArrow from "../../static/sprite/sskn_arrow.png";
-import ssknTextWrapper from "../../static/sprite/sskn_text_wrapper.png";
-import ssknTextWrapperInactive from "../../static/sprite/sskn_text_wrapper_inactive.png";
-import ssknLine from "../../static/sprite/sskn_line.png";
+import ssknOk from "../../static/sprites/sskn/sskn_ok.png";
+import ssknOkInactive from "../../static/sprites/sskn/sskn_ok_inactive.png";
+import ssknCancel from "../../static/sprites/sskn/sskn_cancel.png";
+import ssknCancelInactive from "../../static/sprites/sskn/sskn_cancel_inactive.png";
+import ssknUpgrade from "../../static/sprites/sskn/sskn_upgrade.png";
+import ssknArrow from "../../static/sprites/sskn/sskn_arrow.png";
+import ssknTextWrapper from "../../static/sprites/sskn/sskn_text_wrapper.png";
+import ssknTextWrapperInactive from "../../static/sprites/sskn/sskn_text_wrapper_inactive.png";
+import ssknLine from "../../static/sprites/sskn/sskn_line.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import SsknLoadingBar from "./SsknLoadingBar";
+import SsknProgressBar from "./SsknProgressBar";
 import { useStore } from "../../store";
 
 const SsknHUD = memo(() => {
@@ -37,7 +37,7 @@ const SsknHUD = memo(() => {
   return (
     <>
       {loading ? (
-        <SsknLoadingBar />
+        <SsknProgressBar />
       ) : (
         <group>
           <sprite position={[2.8, -2, 0]} scale={[1, 0.5, 0]}>

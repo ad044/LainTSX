@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
-import loadingSpritesheet from "../static/sprite/loading_spritesheet.png";
-import lifeInstinct from "../static/sprite/life_instinct_function_os.png";
+import loadingSpritesheet from "../static/sprites/loading/loading_spritesheet.png";
+import lifeInstinct from "../static/sprites/loading/life_instinct_function_os.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";

@@ -1,12 +1,8 @@
 import * as eventTemplates from "../../core/eventTemplates";
+import { exitMedia } from "../../core/eventTemplates";
 import { getMediaSceneContext } from "../../store";
 import handleMediaSceneInput from "../../core/input-handlers/handleMediaSceneInput";
-import { exitMedia } from "../../core/eventTemplates";
-import {
-  LeftMediaComponent,
-  MediaSide,
-  RightMediaComponent,
-} from "../../types/types";
+import { LeftMediaComponent, MediaSide } from "../../types/types";
 
 it("Checks whether or not the media scene input handler reacts appropriately for each input", () => {
   {

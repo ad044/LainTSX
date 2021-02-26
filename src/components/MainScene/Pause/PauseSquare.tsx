@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from "react";
-import pauseGrayBoxes from "../../../static/sprite/pause_gray_boxes.png";
+import pauseGrayBoxes from "../../../static/sprites/main/pause_gray_boxes.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { a, useSpring } from "@react-spring/three";

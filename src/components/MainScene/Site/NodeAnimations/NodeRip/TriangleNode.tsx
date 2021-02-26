@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import MULTI from "../../../../../static/sprite/MULTI.png";
+import MULTI from "../../../../../static/sprites/nodes/MULTI.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 

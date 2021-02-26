@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useStore } from "../store";
 import { a, useSpring } from "@react-spring/three";
-import dummy from "../static/sprite/dummy.png";
+import dummy from "../static/sprites/dummy.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 

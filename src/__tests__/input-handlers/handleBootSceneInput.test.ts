@@ -7,11 +7,7 @@ import {
   exitUserAuthorization,
   startNewGame,
 } from "../../core/eventTemplates";
-import {
-  BootSceneContext,
-  BootSubscene,
-  MainMenuComponent,
-} from "../../types/types";
+import { BootSubscene, MainMenuComponent } from "../../types/types";
 
 it("Checks whether or not the boot scene input handler reacts appropriately for each input", () => {
   {
