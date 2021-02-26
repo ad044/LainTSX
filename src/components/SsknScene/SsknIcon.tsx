@@ -1,5 +1,5 @@
 import React, { memo, useRef } from "react";
-import ssknIcon from "../../static/sprite/SSkn_icon.png";
+import ssknIcon from "../../static/sprites/sskn/SSkn_icon.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 

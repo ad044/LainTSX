@@ -1,8 +1,8 @@
 import React, { memo } from "react";
-import statusContainer from "../static/sprite/status_container.png";
-import loadSuccessfulImg from "../static/sprite/load_successful.png";
-import loadFailImg from "../static/sprite/load_fail.png";
-import saveSuccessfulImg from "../static/sprite/save_successful.png";
+import statusContainer from "../static/sprites/status/status_container.png";
+import loadSuccessfulImg from "../static/sprites/status/load_successful.png";
+import loadFailImg from "../static/sprites/status/load_fail.png";
+import saveSuccessfulImg from "../static/sprites/status/save_successful.png";
 
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";

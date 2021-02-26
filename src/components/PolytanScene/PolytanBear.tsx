@@ -1,11 +1,11 @@
 import React, { memo } from "react";
-import body from "../../static/sprite/body.png";
-import head from "../../static/sprite/head.png";
-import leftLeg from "../../static/sprite/left_leg.png";
-import leftArm from "../../static/sprite/left_arm.png";
-import rightArm from "../../static/sprite/right_arm.png";
-import rightLeg from "../../static/sprite/right_leg.png";
-import skeleton from "../../static/sprite/polytan_skeleton.png";
+import body from "../../static/sprites/polytan/body.png";
+import head from "../../static/sprites/polytan/head.png";
+import leftLeg from "../../static/sprites/polytan/left_leg.png";
+import leftArm from "../../static/sprites/polytan/left_arm.png";
+import rightArm from "../../static/sprites/polytan/right_arm.png";
+import rightLeg from "../../static/sprites/polytan/right_leg.png";
+import skeleton from "../../static/sprites/polytan/polytan_skeleton.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../../store";

@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
-import authorizeActive from "../../static/sprite/authorize_user_active.png";
-import authorizeInactive from "../../static/sprite/authorize_user_inactive.png";
-import loadDataActive from "../../static/sprite/load_data_active.png";
-import loadDataInactive from "../../static/sprite/load_data_inactive.png";
+import authorizeActive from "../../static/sprites/boot/authorize_user_active.png";
+import authorizeInactive from "../../static/sprites/boot/authorize_user_inactive.png";
+import loadDataActive from "../../static/sprites/boot/load_data_active.png";
+import loadDataInactive from "../../static/sprites/boot/load_data_inactive.png";
+import authorizeUserHeader from "../../static/sprites/boot/authorize_user_scene_header.png";
+import loadDataHeader from "../../static/sprites/boot/load_data_header.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import authorizeUserHeader from "../../static/sprite/authorize_user_scene_header.png";
-import loadDataHeader from "../../static/sprite/load_data_header.png";
 import { useStore } from "../../store";
 
 type BootMainMenuProps = {

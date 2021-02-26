@@ -1,6 +1,6 @@
 import React, { memo } from "react";
-import notFound from "../../../static/sprite/not_found.png";
-import notFoundLof from "../../../static/sprite/not_found_lof.png";
+import notFound from "../../../static/sprites/main/not_found.png";
+import notFoundLof from "../../../static/sprites/main/not_found_lof.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../../../store";

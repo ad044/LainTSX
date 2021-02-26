@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import gateBlueBinarySingularOne from "../../../static/sprite/blue_binary_singular_one.png";
+import gateBlueBinarySingularOne from "../../../static/sprites/gate/blue_binary_singular_one.png";
 import { a, SpringValue } from "@react-spring/three";
 
 type BlueOneProps = {

@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import bootLof from "../../static/sprite/boot_lof.png";
-import bootBottomBarLeft from "../../static/sprite/boot_bottom_bar_left.png";
-import bootBottomBarRight from "../../static/sprite/boot_bottom_bar_right.png";
-import bootPurpleSquare from "../../static/sprite/boot_purple_square.png";
-import bootGraySquare from "../../static/sprite/boot_gray_square.png";
-import bootDangoText from "../../static/sprite/dango_text.png";
-import bootMisoShio from "../../static/sprite/miso_shio.png";
-import bootArrows from "../../static/sprite/boot_arrows.png";
-import bootStatusTexts from "../../static/sprite/boot_status_texts.png";
-import bootBackgroundText from "../../static/sprite/boot_background_text.png";
-import bootBackgroundDistortedTex from "../../static/sprite/distorted_text.png";
+import bootLof from "../../static/sprites/boot/boot_lof.png";
+import bootBottomBarLeft from "../../static/sprites/boot/boot_bottom_bar_left.png";
+import bootBottomBarRight from "../../static/sprites/boot/boot_bottom_bar_right.png";
+import bootPurpleSquare from "../../static/sprites/boot/boot_purple_square.png";
+import bootGraySquare from "../../static/sprites/boot/boot_gray_square.png";
+import bootDangoText from "../../static/sprites/boot/dango_text.png";
+import bootMisoShio from "../../static/sprites/boot/miso_shio.png";
+import bootArrows from "../../static/sprites/boot/boot_arrows.png";
+import bootStatusTexts from "../../static/sprites/boot/boot_status_texts.png";
+import bootBackgroundText from "../../static/sprites/boot/boot_background_text.png";
+import bootBackgroundDistortedTex from "../../static/sprites/boot/distorted_text.png";
 
 import { useFrame, useLoader } from "react-three-fiber";
 import { a, useSpring } from "@react-spring/three";

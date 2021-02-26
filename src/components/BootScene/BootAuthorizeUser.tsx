@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
-import authorizeGlass from "../../static/sprite/authorize_glass.png";
-import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
-import authorizeOrangeSquare from "../../static/sprite/authorize_orange_square.png";
-import authorizeStartToFinish from "../../static/sprite/authorize_start_to_finish.png";
-import authorizeInactiveLetters from "../../static/sprite/authorize_inactive_letters.png";
-import authorizeActiveLetters from "../../static/sprite/authorize_active_letters.png";
+import authorizeHeaderUnderline from "../../static/sprites/boot/authorize_header_underline.png";
+import authorizeGlass from "../../static/sprites/boot/authorize_glass.png";
+import authorizeGlassUnderline from "../../static/sprites/boot/authorize_glass_underline.png";
+import authorizeOrangeSquare from "../../static/sprites/boot/authorize_orange_square.png";
+import authorizeStartToFinish from "../../static/sprites/boot/authorize_start_to_finish.png";
+import authorizeInactiveLetters from "../../static/sprites/boot/authorize_inactive_letters.png";
+import authorizeActiveLetters from "../../static/sprites/boot/authorize_active_letters.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";

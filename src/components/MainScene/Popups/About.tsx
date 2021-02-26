@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import aboutBg from "../../../static/sprite/about_background.png";
+import aboutBg from "../../../static/sprites/main/about_background.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../../../store";
