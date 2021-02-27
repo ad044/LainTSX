@@ -25,18 +25,6 @@ const HUD = memo(() => {
   const scene = useStore((state) => state.currentScene);
   const prevData = usePrevious({ siteRotY, activeLevel, subscene, scene });
 
-  const lerpObject = (
-    obj: THREE.Object3D,
-    posX: number,
-    initialPosX: number
-  ) => {
-    obj.position.x = lerp(
-      obj.position.x,
-      activeRef.current ? posX : initialPosX,
-      0.12
-    );
-  };
-
   // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
     if (
@@ -46,25 +34,30 @@ const HUD = memo(() => {
       greenTextRef.current
     ) {
       const hud = currentHudRef.current;
-      lerpObject(
-        longHudRef.current,
-        hud.long.position[0],
-        hud.long.initial_position[0]
+
+      longHudRef.current.position.x = lerp(
+        longHudRef.current.position.x,
+        activeRef.current ? hud.long.position[0] : hud.long.initial_position[0],
+        0.12
       );
-      lerpObject(
-        boringHudRef.current,
-        hud.boring.position[0],
-        hud.boring.initial_position[0]
+      boringHudRef.current.position.x = lerp(
+        boringHudRef.current.position.x,
+        activeRef.current
+          ? hud.boring.position[0]
+          : hud.boring.initial_position[0],
+        0.12
       );
-      lerpObject(
-        bigHudRef.current,
-        hud.big.position[0],
-        hud.big.initial_position[0]
+      bigHudRef.current.position.x = lerp(
+        bigHudRef.current.position.x,
+        activeRef.current ? hud.big.position[0] : hud.big.initial_position[0],
+        0.12
       );
-      lerpObject(
-        greenTextRef.current,
-        hud.medium_text.position[0],
-        hud.medium_text.initial_position[0]
+      greenTextRef.current.position.x = lerp(
+        greenTextRef.current.position.x,
+        activeRef.current
+          ? hud.medium_text.position[0]
+          : hud.medium_text.initial_position[0],
+        0.12
       );
     }
   });

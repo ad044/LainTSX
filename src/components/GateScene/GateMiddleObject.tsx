@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import BlueZero from "./GateMiddleObject/BlueZero";
-import BlueOne from "./GateMiddleObject/BlueOne";
 import { a, useSpring, useSprings } from "@react-spring/three";
 import blue_digit_positions from "../../resources/blue_digit_positions.json";
 import Mirror from "./GateMiddleObject/Mirror";
+import BlueDigit from "./GateMiddleObject/BlueDigit";
 
 type GateMiddleObjectProps = {
   intro: boolean;
@@ -16,14 +15,12 @@ const GateMiddleObject = (props: GateMiddleObjectProps) => {
   const [springs, set] = useSprings(44, (intIdx) => {
     const idx = intIdx.toString();
     return {
-      type: blue_digit_positions[idx as keyof typeof blue_digit_positions].type,
       posX:
         blue_digit_positions[idx as keyof typeof blue_digit_positions]
           .initial_x,
       posY:
         blue_digit_positions[idx as keyof typeof blue_digit_positions]
           .initial_y,
-      visibility: false,
       config: { duration: 150 },
     };
   });
@@ -40,7 +37,6 @@ const GateMiddleObject = (props: GateMiddleObjectProps) => {
             .final_y,
         delay:
           blue_digit_positions[idx as keyof typeof blue_digit_positions].delay,
-        visibility: true,
       };
     });
 
@@ -62,23 +58,17 @@ const GateMiddleObject = (props: GateMiddleObjectProps) => {
         position-z={middleObjectGroupState.posZ}
         visible={props.intro}
       >
-        {springs.map((item, idx) =>
-          item.type.get() === 1 ? (
-            <BlueOne
-              posX={item.posX}
-              posY={item.posY}
-              key={idx}
-              visibility={item.visibility}
-            />
-          ) : (
-            <BlueZero
-              posX={item.posX}
-              posY={item.posY}
-              key={idx}
-              visibility={item.visibility}
-            />
-          )
-        )}
+        {springs.map((item, idx) => (
+          <BlueDigit
+            type={
+              blue_digit_positions[
+                idx.toString() as keyof typeof blue_digit_positions
+              ].type
+            }
+            posX={item.posX}
+            posY={item.posY}
+          />
+        ))}
       </a.group>
       <Mirror
         visible={props.gateLvl === 1 ? !props.intro : props.gateLvl > 0}

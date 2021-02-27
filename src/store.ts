@@ -46,32 +46,26 @@ type State = {
   activeNodeRot: number[];
   activeNodeAttributes: NodeAttributes;
 
-  // lain
   lainMoveState: string;
+  canLainMove: boolean;
 
-  // site
   activeSite: ActiveSite;
   siteRot: number[];
   oldSiteRot: number[];
 
-  // level
   activeLevel: string;
   oldLevel: string;
 
-  // level selection
   selectedLevel: number;
 
-  // end scene
   activeEndComponent: EndComponent;
   endSceneSelectionVisible: boolean;
 
-  // pause
   activePauseComponent: PauseComponent;
   pauseExitAnimation: boolean;
   showingAbout: boolean;
   permissionDenied: boolean;
 
-  // media/media scene
   audioAnalyser: AudioAnalyser | undefined;
   mediaPercentageElapsed: number;
   currentMediaSide: MediaSide;
@@ -84,39 +78,30 @@ type State = {
   mediaWordPosStateIdx: number;
   wordSelected: boolean;
 
-  // idle scene
   idleStarting: boolean;
   idleMedia: string;
   idleImages: { "1": string; "2": string; "3": string } | undefined;
   idleNodeName: string | undefined;
 
-  // sskn scene
   activeSsknComponent: SsknComponent;
   ssknLoading: boolean;
 
-  // polytan scene
   polytanUnlockedParts: PolytanBodyParts;
 
-  // player name
   playerName: string;
 
-  // boot scene
   activeMainMenuComponent: MainMenuComponent;
   authorizeUserLetterIdx: number;
   bootSubscene: BootSubscene;
 
-  // prompt
   promptVisible: boolean;
   activePromptComponent: PromptComponent;
 
-  // status notifiers
   loadSuccessful: boolean | undefined;
   saveSuccessful: boolean | undefined;
 
-  // word not found notification thing
   wordNotFound: boolean;
 
-  // save state
   siteSaveState: SiteSaveState;
 
   inputCooldown: number;
@@ -126,7 +111,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "change_disc",
+      currentScene: "main",
 
       // game progress
       gameProgress: game_progress,
@@ -153,6 +138,7 @@ export const useStore = create(
 
       // lain
       lainMoveState: "standing",
+      canLainMove: true,
 
       // site
       activeSite: "a",
@@ -324,6 +310,7 @@ export const useStore = create(
             gate_level: state.gameProgress.gate_level + 1,
           },
         })),
+
       loadUserSaveState: (userState: UserSaveState) =>
         set(() => ({
           siteSaveState: userState.siteSaveState,
@@ -362,6 +349,7 @@ export const getMainSceneContext = (): MainSceneContext => {
     showingAbout: state.showingAbout,
     siteSaveState: state.siteSaveState,
     wordNotFound: state.wordNotFound,
+    canLainMove: state.canLainMove,
   };
 };
 

@@ -3,27 +3,39 @@ import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import gateBlueBinarySingularOne from "../../../static/sprites/gate/blue_binary_singular_one.png";
 import { a, SpringValue } from "@react-spring/three";
+import gateBlueBinarySingularZero from "../../../static/sprites/gate/blue_binary_singular_zero.png";
 
-type BlueOneProps = {
+type BlueDigitProps = {
+  type: number;
   posX: SpringValue<number>;
   posY: SpringValue<number>;
-  visibility: SpringValue<boolean>;
 };
 
-const BlueOne = (props: BlueOneProps) => {
+const BlueDigit = (props: BlueDigitProps) => {
   const gateBlueBinarySingularOneTex = useLoader(
     THREE.TextureLoader,
     gateBlueBinarySingularOne
   );
+  const gateBlueBinarySingularZeroTex = useLoader(
+    THREE.TextureLoader,
+    gateBlueBinarySingularZero
+  );
 
+  const objRef = useRef<THREE.Mesh>();
   const matRef = useRef<THREE.ShaderMaterial>();
 
   const uniforms = useMemo(
     () => ({
-      oneTex: { type: "t", value: gateBlueBinarySingularOneTex },
+      tex: {
+        type: "t",
+        value:
+          props.type === 1
+            ? gateBlueBinarySingularOneTex
+            : gateBlueBinarySingularZeroTex,
+      },
       brightnessMultiplier: { value: 1.5 },
     }),
-    [gateBlueBinarySingularOneTex]
+    [gateBlueBinarySingularOneTex, gateBlueBinarySingularZeroTex, props.type]
   );
 
   const vertexShader = `
@@ -35,21 +47,26 @@ const BlueOne = (props: BlueOneProps) => {
     }
     `;
 
-  const fragmentShaderOne = `
-    uniform sampler2D oneTex;
+  const fragmentShader = `
+    uniform sampler2D tex;
     uniform float brightnessMultiplier;
     varying vec2 vUv;
     
     void main() {
-      gl_FragColor = texture2D(oneTex, vUv) * brightnessMultiplier;
+      gl_FragColor = texture2D(tex, vUv) * brightnessMultiplier;
     }
       `;
 
   useEffect(() => {
     setTimeout(() => {
-      if (matRef.current)
+      if (matRef.current) {
         matRef.current.uniforms.brightnessMultiplier.value = 3.5;
+        matRef.current.uniformsNeedUpdate = true;
+      }
     }, 1400);
+    setTimeout(() => {
+      if (objRef.current) objRef.current.visible = true;
+    }, 150);
   }, []);
 
   return (
@@ -58,11 +75,12 @@ const BlueOne = (props: BlueOneProps) => {
       position-x={props.posX}
       position-y={props.posY}
       renderOrder={5}
-      visible={props.visibility}
+      visible={false}
+      ref={objRef}
     >
-      <planeBufferGeometry attach="geometry"></planeBufferGeometry>
+      <planeBufferGeometry attach="geometry" />
       <shaderMaterial
-        fragmentShader={fragmentShaderOne}
+        fragmentShader={fragmentShader}
         vertexShader={vertexShader}
         uniforms={uniforms}
         attach="material"
@@ -74,4 +92,4 @@ const BlueOne = (props: BlueOneProps) => {
   );
 };
 
-export default BlueOne;
+export default BlueDigit;

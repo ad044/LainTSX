@@ -108,6 +108,7 @@ export interface MainSceneContext extends PromptContext {
   selectedLevel: number;
   wordNotFound: boolean;
   siteSaveState: SiteSaveState;
+  canLainMove: boolean;
 }
 
 export type SsknSceneContext = {

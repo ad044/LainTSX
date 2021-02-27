@@ -24,6 +24,7 @@ import {
   loadGame,
   loadGameFail,
   pauseGame,
+  resetInputCooldown,
   ripNode,
   saveGame,
   selectLevel,
@@ -54,6 +55,7 @@ const handleMainSceneInput = (
     activePromptComponent,
     siteSaveState,
     wordNotFound,
+    canLainMove,
   } = mainSceneContext;
 
   if (promptVisible) {
@@ -137,6 +139,7 @@ const handleMainSceneInput = (
             };
 
             if (nodeData.didMove) {
+              if (!canLainMove) return resetInputCooldown;
               return siteMoveHorizontal({
                 lainMoveAnimation: lainMoveAnimation,
                 siteRot: newSiteRot,
@@ -179,15 +182,18 @@ const handleMainSceneInput = (
               matrixIndices: nodeData.matrixIndices,
             };
 
-            if (nodeData.didMove)
+            if (nodeData.didMove) {
+              if (!canLainMove) return resetInputCooldown;
               return siteMoveVertical({
                 lainMoveAnimation: lainMoveAnimation,
                 activeLevel: newLevel,
                 activeNode: newNode,
               });
-            else return changeNode({ activeNode: newNode });
+            } else return changeNode({ activeNode: newNode });
           }
           case "CIRCLE":
+            if (!canLainMove) return resetInputCooldown;
+
             const eventAnimation = Math.random() < 0.4 ? throwNode : ripNode;
 
             if (
@@ -207,6 +213,7 @@ const handleMainSceneInput = (
           case "L2":
             return enterLevelSelection({ selectedLevel: level });
           case "TRIANGLE":
+            if (!canLainMove) return resetInputCooldown;
             return pauseGame({ siteRot: [Math.PI / 2, siteRotY, 0] });
         }
         break;
@@ -225,6 +232,8 @@ const handleMainSceneInput = (
             return exitLevelSelection;
 
           case "CIRCLE":
+            if (!canLainMove) return resetInputCooldown;
+
             if (level === selectedLevel) return;
 
             const direction = selectedLevel > level ? "up" : "down";
