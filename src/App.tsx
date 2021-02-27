@@ -14,6 +14,7 @@ import ChangeDiscScene from "./scenes/ChangeDiscScene";
 import EndScene from "./scenes/EndScene";
 import IdleMediaScene from "./scenes/IdleMediaScene";
 import InputHandler from "./components/InputHandler";
+import { Html } from "@react-three/drei";
 
 const App = () => {
   const currentScene = useStore((state) => state.currentScene);
@@ -40,16 +41,16 @@ const App = () => {
   );
 
   return (
-    <div id="game-root" className="game">
-      <span className="canvas">
-        <Canvas concurrent>
-          <InputHandler />
-          <Suspense fallback={null}>
-            {/*<Preloader />*/}
-            {dispatchScene[currentScene as keyof typeof dispatchScene]}
-          </Suspense>
-        </Canvas>
-      </span>
+    <div className="game">
+      <Canvas concurrent>
+        <Suspense fallback={null}>
+          {/*<Preloader />*/}
+          {dispatchScene[currentScene as keyof typeof dispatchScene]}
+          <Html center zIndexRange={[0, 0]}>
+            <InputHandler />
+          </Html>
+        </Suspense>
+      </Canvas>
       {["media", "idle_media", "tak", "end"].includes(currentScene) && (
         <MediaPlayer />
       )}

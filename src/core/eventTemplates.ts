@@ -204,7 +204,7 @@ export const changeSelectedLevel = (calculatedState: {
     {
       mutation: {
         selectedLevel: calculatedState.selectedLevel,
-        inputCooldown: 300,
+        inputCooldown: 100,
       },
     },
   ],
@@ -263,7 +263,7 @@ export const changePauseComponent = (calculatedState: {
     {
       mutation: {
         activePauseComponent: calculatedState.activePauseComponent,
-        inputCooldown: 500,
+        inputCooldown: 700,
       },
     },
   ],
@@ -279,7 +279,7 @@ export const showPermissionDenied = {
 };
 
 export const displayPrompt = {
-  state: [{ mutation: { promptVisible: true, inputCooldown: 500 } }],
+  state: [{ mutation: { promptVisible: true, inputCooldown: 0 } }],
   audio: [{ sfx: [audio.sound0] }],
 };
 
@@ -311,7 +311,7 @@ export const exitPause = (calculatedState: { siteRot: number[] }) => ({
 });
 
 export const exitAbout = {
-  state: [{ mutation: { showingAbout: false, inputCooldown: 500 } }],
+  state: [{ mutation: { showingAbout: false, inputCooldown: 0 } }],
 };
 
 export const changePromptComponent = (calculatedState: {
@@ -321,7 +321,7 @@ export const changePromptComponent = (calculatedState: {
     {
       mutation: {
         activePromptComponent: calculatedState.activePromptComponent,
-        inputCooldown: 500,
+        inputCooldown: 100,
       },
     },
   ],
@@ -334,7 +334,7 @@ export const exitPrompt = {
       mutation: {
         activePromptComponent: "no",
         promptVisible: false,
-        inputCooldown: 500,
+        inputCooldown: 0,
       },
     },
   ],
@@ -458,7 +458,7 @@ export const changeMediaSide = (calculatedState: {
         activeMediaComponent: calculatedState.activeMediaComponent,
         lastActiveMediaComponents: calculatedState.lastActiveMediaComponents,
         currentMediaSide: calculatedState.currentMediaSide,
-        inputCooldown: 500,
+        inputCooldown: 0,
       },
     },
   ],
@@ -497,7 +497,7 @@ export const changeRightMediaComponent = (calculatedState: {
       mutation: {
         activeMediaComponent: calculatedState.activeComponent,
         mediaWordPosStateIdx: calculatedState.wordPosStateIdx,
-        inputCooldown: 500,
+        inputCooldown: 300,
       },
     },
   ],
@@ -519,7 +519,7 @@ export const wordNotFound = {
 };
 
 export const hideWordNotFound = {
-  state: [{ mutation: { wordNotFound: false, inputCooldown: 300 } }],
+  state: [{ mutation: { wordNotFound: false, inputCooldown: 0 } }],
 };
 
 export const selectWord = (calculatedState: {
@@ -550,7 +550,7 @@ export const changeSsknComponent = (calculatedState: {
     {
       mutation: {
         activeSsknComponent: calculatedState.activeSsknComponent,
-        inputCooldown: 500,
+        inputCooldown: 100,
       },
     },
   ],
@@ -595,7 +595,7 @@ export const changeEndComponent = (calculatedState: {
     {
       mutation: {
         activeEndComponent: calculatedState.activeEndComponent,
-        inputCooldown: 500,
+        inputCooldown: 100,
       },
     },
   ],
@@ -615,7 +615,7 @@ export const changeMainMenuComponent = (calculatedState: {
     {
       mutation: {
         activeMainMenuComponent: calculatedState.activeMainMenuComponent,
-        inputCooldown: 500,
+        inputCooldown: 200,
       },
     },
   ],
@@ -702,3 +702,58 @@ export const updateAuthorizeUserLetterIdx = (calculatedState: {
     },
   ],
 });
+
+export const playIdleVideo = (calculatedState: { idleMedia: string }) => ({
+  state: [
+    {
+      mutation: {
+        idleStarting: true,
+        idleMedia: calculatedState.idleMedia,
+        inputCooldown: -1,
+      },
+    },
+    { mutation: { currentScene: "idle_media" }, delay: 1200 },
+  ],
+});
+
+export const playIdleAudio = (calculatedState: {
+  idleMedia: string;
+  idleImages: { "1": string; "2": string; "3": string };
+  idleNodeName: string;
+}) => ({
+  state: [
+    {
+      mutation: {
+        idleStarting: true,
+        inputCooldown: -1,
+        idleMedia: calculatedState.idleMedia,
+        idleImages: calculatedState.idleImages,
+        idleNodeName: calculatedState.idleNodeName,
+      },
+    },
+    { mutation: { currentScene: "idle_media" }, delay: 1200 },
+  ],
+});
+
+export const playLainIdleAnim = (calculatedState: {
+  lainMoveState: string;
+  duration: number;
+}) => ({
+  // todo appropriate disable-move here also
+  state: [
+    {
+      mutation: {
+        lainMoveState: calculatedState.lainMoveState,
+        canLainMove: false,
+      },
+    },
+    {
+      mutation: { lainMoveState: "standing", canLainMove: true },
+      delay: calculatedState.duration,
+    },
+  ],
+});
+
+export const resetInputCooldown = {
+  state: [{ mutation: { inputCooldown: 0 } }],
+};

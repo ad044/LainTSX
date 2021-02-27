@@ -28,7 +28,7 @@ const ChangeDiscScene = () => {
   const disc2Tex = useLoader(THREE.TextureLoader, disc2);
 
   useEffect(() => {
-    // setTimeout(() => setScene("main"), 3500);
+    setTimeout(() => setScene("main"), 3500);
   }, [activeSite, setScene]);
 
   return (
@@ -70,7 +70,10 @@ const ChangeDiscScene = () => {
       </sprite>
 
       <sprite scale={[0.4, 0.7, 0]} position={[1.4, -1.9, 0]}>
-        <spriteMaterial attach="material" map={disc1Tex} />
+        <spriteMaterial
+          attach="material"
+          map={activeSite === "a" ? disc1Tex : disc2Tex}
+        />
       </sprite>
     </>
   );

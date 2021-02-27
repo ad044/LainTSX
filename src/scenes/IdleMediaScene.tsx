@@ -15,6 +15,7 @@ const IdleMediaScene = () => {
       useStore.setState({
         currentScene: "main",
         idleStarting: false,
+        intro: false,
       });
   }, [mediaPercentageElapsed]);
 
