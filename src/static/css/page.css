@@ -19,7 +19,6 @@ body {
 .swipe-handler {
   width: 800px;
   height: 600px;
-  border: 1px solid white;
   position: absolute;
   top: 50%;
   left: 50%;

@@ -42,7 +42,11 @@ const App = () => {
 
   return (
     <div className="game">
-      <Canvas concurrent>
+      <Canvas
+        concurrent
+        gl={{ antialias: false }}
+        pixelRatio={1}
+      >
         <Suspense fallback={null}>
           {/*<Preloader />*/}
           {dispatchScene[currentScene as keyof typeof dispatchScene]}
