@@ -25,12 +25,14 @@ const IdleMediaScene = () => {
 
     if (mediaElement) {
       mediaElement.currentTime = 0;
-      import("../static/webvtt/" + idleNodeName + ".vtt")
-        .then((vtt) => {
-          if (vtt) trackElement.src = vtt.default;
-        })
-        // some entries have no spoken words, so the file doesnt exist. we catch that here.
-        .catch((e) => console.log(e));
+      if (idleNodeName) {
+        import("../static/webvtt/" + idleNodeName + ".vtt")
+          .then((vtt) => {
+            if (vtt) trackElement.src = vtt.default;
+          })
+          // some entries have no spoken words, so the file doesnt exist. we catch that here.
+          .catch(() => console.log("no subtitles for this media"));
+      }
 
       if (idleMedia.includes("XA")) {
         import("../static/audio/" + idleMedia + ".ogg").then((media) => {

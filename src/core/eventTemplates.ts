@@ -709,6 +709,8 @@ export const playIdleVideo = (calculatedState: { idleMedia: string }) => ({
       mutation: {
         idleStarting: true,
         idleMedia: calculatedState.idleMedia,
+        idleImages: undefined,
+        idleNodeName: undefined,
         inputCooldown: -1,
       },
     },
@@ -739,7 +741,6 @@ export const playLainIdleAnim = (calculatedState: {
   lainMoveState: string;
   duration: number;
 }) => ({
-  // todo appropriate disable-move here also
   state: [
     {
       mutation: {

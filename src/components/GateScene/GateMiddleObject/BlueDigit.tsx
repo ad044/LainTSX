@@ -71,7 +71,7 @@ const BlueDigit = (props: BlueDigitProps) => {
 
   return (
     <a.mesh
-      scale={[0.04, 0.1, 0]}
+      scale={[props.type === 1 ? 0.04 : 0.08, 0.1, 0]}
       position-x={props.posX}
       position-y={props.posY}
       renderOrder={5}
