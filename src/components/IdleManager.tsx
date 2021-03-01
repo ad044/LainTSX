@@ -43,31 +43,31 @@ const IdleManager = (props: IdleManagerProps) => {
 
         if (event) handleEvent(event);
       }
-      // if (now > props.idleSceneTimerRef.current + 5000) {
-      //   // put it on lock until the next action, since while the idle media plays, the
-      //   // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
-      //   // one way to work around this would be to modify the value depending on the last played idle media's duration
-      //   // but i'm way too lazy for that
-      //   props.idleSceneTimerRef.current = -1;
-      //
-      //   playAudio(audio.sound32);
-      //
-      //   const data = getRandomIdleMedia();
-      //
-      //   const { type, nodeName, images, media } = data;
-      //   let event;
-      //   if (type === "audio" && images && nodeName) {
-      //     event = playIdleAudio({
-      //       idleNodeName: nodeName,
-      //       idleImages: images,
-      //       idleMedia: media,
-      //     });
-      //   } else if (type === "video") {
-      //     event = playIdleVideo({ idleMedia: media });
-      //   }
-      //
-      //   if (event) handleEvent(event);
-      // }
+      if (now > props.idleSceneTimerRef.current + 30000) {
+        // put it on lock until the next action, since while the idle media plays, the
+        // Date.now() value keeps increasing, which can result in another idle media playing right after one finishes
+        // one way to work around this would be to modify the value depending on the last played idle media's duration
+        // but i'm way too lazy for that
+        props.idleSceneTimerRef.current = -1;
+
+        playAudio(audio.sound32);
+
+        const data = getRandomIdleMedia();
+
+        const { type, nodeName, images, media } = data;
+        let event;
+        if (type === "audio" && images && nodeName) {
+          event = playIdleAudio({
+            idleNodeName: nodeName,
+            idleImages: images,
+            idleMedia: media,
+          });
+        } else if (type === "video") {
+          event = playIdleVideo({ idleMedia: media });
+        }
+
+        if (event) handleEvent(event);
+      }
     }
   });
 

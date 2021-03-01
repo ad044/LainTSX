@@ -111,7 +111,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "main",
+      currentScene: "boot",
 
       // game progress
       gameProgress: game_progress,

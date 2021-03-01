@@ -9,6 +9,11 @@ const IdleMediaScene = () => {
 
   const idleMedia = useStore((state) => state.idleMedia);
   const idleNodeName = useStore((state) => state.idleNodeName);
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+
+  useEffect(() => {
+    setInputCooldown(0);
+  }, [setInputCooldown]);
 
   useEffect(() => {
     if (mediaPercentageElapsed === 100)
@@ -16,6 +21,7 @@ const IdleMediaScene = () => {
         currentScene: "main",
         idleStarting: false,
         intro: false,
+        inputCooldown: -1,
       });
   }, [mediaPercentageElapsed]);
 

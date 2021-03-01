@@ -228,7 +228,7 @@ const handleMainSceneInput = (
             if (selectedLevel - 1 >= 1)
               return changeSelectedLevel({ selectedLevel: selectedLevel - 1 });
             break;
-          case "X":
+          case "CROSS":
             return exitLevelSelection;
 
           case "CIRCLE":

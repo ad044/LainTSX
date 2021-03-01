@@ -107,6 +107,8 @@ const HUD = memo(() => {
       ) {
         // set to final pos instantly
         setPos(hud, "position");
+        if (hud.mirrored) mirror();
+        else unMirror();
       } else {
         if (
           prevData?.siteRotY !== siteRotY ||
@@ -121,11 +123,10 @@ const HUD = memo(() => {
             () => {
               // set to initial pos instantly while its hidden
               setPos(hud, "initial_position");
-              if (hud.mirrored) {
-                mirror();
-              } else {
-                unMirror();
-              }
+
+              if (hud.mirrored) mirror();
+              else unMirror();
+
               currentHudRef.current = hud;
               activeRef.current = true;
             },

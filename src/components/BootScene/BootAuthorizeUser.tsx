@@ -49,7 +49,6 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
   const prevData = usePrevious({ letterIdx, subscene });
 
   const bgLettersRef = useRef<THREE.Object3D>();
-  const activeLetterRef = useRef<THREE.Mesh>();
 
   const activeLetterMap = useMemo(() => {
     activeLettersTex.wrapT = activeLettersTex.wrapS = THREE.RepeatWrapping;
@@ -60,11 +59,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
   }, [activeLettersTex]);
 
   useEffect(() => {
-    if (
-      prevData?.subscene === "main_menu" &&
-      subscene === "authorize_user" &&
-      activeLetterRef
-    ) {
+    if (prevData?.subscene === "main_menu" && subscene === "authorize_user") {
       activeLetterMap.offset.x = 0;
       activeLetterMap.offset.y = -0.2;
     }
@@ -115,6 +110,11 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
         activeLetterMap.offset.x += 0.155;
       }
     }
+
+    return () => {
+      activeLetterMap.offset.x = 0;
+      activeLetterMap.offset.y = -0.2;
+    };
   }, [activeLetterMap.offset, letterIdx, prevData]);
 
   const playerName = useStore((state) => state.playerName.split(""));

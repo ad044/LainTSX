@@ -75,7 +75,7 @@ const handleBootSceneInput = (
           case "START":
             if (playerName.length > 0) return startNewGame;
             return;
-          case "X":
+          case "CROSS":
             if (playerName.length > 0) {
               return removePlayerNameLastChar({
                 playerName: playerName.slice(0, -1),
@@ -192,6 +192,7 @@ const handleBootSceneInput = (
 
             const newName = handleNameSelection(playerName, chosenCharacter);
 
+            if (newName?.length === 8) return;
             if (newName !== undefined)
               return updatePlayerName({ playerName: newName });
             else return failUpdatePlayerName;
