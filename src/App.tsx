@@ -45,14 +45,13 @@ const App = () => {
       <Canvas
         concurrent
         gl={{ antialias: false }}
-        pixelRatio={1}
+        pixelRatio={window.devicePixelRatio}
+        className="main-canvas"
       >
         <Suspense fallback={null}>
           {/*<Preloader />*/}
           {dispatchScene[currentScene as keyof typeof dispatchScene]}
-          <Html center zIndexRange={[0, 0]}>
-            <InputHandler />
-          </Html>
+          <InputHandler />
         </Suspense>
       </Canvas>
       {["media", "idle_media", "tak", "end"].includes(currentScene) && (

@@ -15,9 +15,10 @@ const BootScene = () => {
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   useEffect(() => {
+    setInputCooldown(-1);
     setTimeout(() => setAccelaVisible(false), 2000);
     setTimeout(() => setMainMenuVisible(true), 6200);
-    setTimeout(() => setInputCooldown(0), 500);
+    setTimeout(() => setInputCooldown(0), 6500);
   }, [setInputCooldown]);
 
   return (

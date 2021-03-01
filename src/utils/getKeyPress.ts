@@ -5,7 +5,7 @@ const getKeyPress = (keyCode: string) => {
     ArrowUp: "UP", // up arrow
     ArrowRight: "RIGHT", // right arrow
     x: "CIRCLE", // x key
-    z: "X", // z key
+    z: "CROSS", // z key
     d: "TRIANGLE", // d key
     e: "L2", // e key
     v: "START", // v key

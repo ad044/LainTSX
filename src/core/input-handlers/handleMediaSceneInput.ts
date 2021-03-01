@@ -39,6 +39,8 @@ const handleMediaSceneInput = (
           return changeLeftMediaComponent({ activeComponent: newComponent });
         }
         case "RIGHT": {
+          if (!activeNode.media_file.includes("XA")) return;
+
           return changeMediaSide({
             activeMediaComponent: lastActiveMediaComponents.right,
             lastActiveMediaComponents: {
