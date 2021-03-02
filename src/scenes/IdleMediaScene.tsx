@@ -37,7 +37,9 @@ const IdleMediaScene = () => {
             if (vtt) trackElement.src = vtt.default;
           })
           // some entries have no spoken words, so the file doesnt exist. we catch that here.
-          .catch(() => console.log("no subtitles for this media"));
+          .catch(() => {
+            trackElement.removeAttribute("src");
+          });
       }
 
       if (idleMedia.includes("XA")) {

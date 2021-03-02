@@ -24,12 +24,12 @@ const GateScene = () => {
   }, [activeNodeName, incrementGateLvl, setInputCooldown, setNodeViewed]);
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       <pointLight intensity={5.2} color={0xffffff} position={[-2, 0, 0]} />
       <GateSide />
       <GateHUD intro={introAnim} gateLvl={gateLvl} />
       <GateMiddleObject intro={introAnim} gateLvl={gateLvl} />
-    </perspectiveCamera>
+    </group>
   );
 };
 export default GateScene;

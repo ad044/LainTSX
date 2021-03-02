@@ -3,6 +3,7 @@ import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
 import PauseBigLetter from "../../TextRenderer/PauseBigLetter";
 import { useStore } from "../../../store";
+import usePrevious from "../../../hooks/usePrevious";
 
 const Pause = () => {
   const generateSqaureGeom = useCallback((row: number, square: number) => {
@@ -40,6 +41,7 @@ const Pause = () => {
   );
 
   const subscene = useStore((state) => state.mainSubscene);
+  const prevData = usePrevious({ subscene });
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   const [visible, setVisible] = useState(false);
@@ -59,15 +61,15 @@ const Pause = () => {
       setTimeout(() => setInputCooldown(1000), 7600);
     }
 
-    return () => {
+    if (prevData?.subscene === "pause" && subscene === "site") {
       setExit(true);
       setTimeout(() => {
         setVisible(false);
         setFinished(false);
         setExit(false);
       }, 1200);
-    };
-  }, [setInputCooldown, subscene]);
+    }
+  }, [prevData?.subscene, setInputCooldown, subscene]);
 
   const whenActive = useCallback((rowIdx: number, colIdx: number) => {
     switch (rowIdx) {

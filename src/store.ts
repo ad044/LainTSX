@@ -7,6 +7,7 @@ import { getNodeById } from "./helpers/node-helpers";
 import site_a from "./resources/site_a.json";
 import {
   ActiveSite,
+  AuthorizeUserMatrixIndices,
   BootSceneContext,
   BootSubscene,
   EndComponent,
@@ -91,7 +92,7 @@ type State = {
   playerName: string;
 
   activeMainMenuComponent: MainMenuComponent;
-  authorizeUserLetterIdx: number;
+  authorizeUserMatrixIndices: AuthorizeUserMatrixIndices;
   bootSubscene: BootSubscene;
 
   promptVisible: boolean;
@@ -202,7 +203,10 @@ export const useStore = create(
 
       // boot scene
       activeMainMenuComponent: "authorize_user",
-      authorizeUserLetterIdx: 0,
+      authorizeUserMatrixIndices: {
+        rowIdx: 0,
+        colIdx: 0,
+      },
       bootSubscene: "main_menu",
 
       // prompt
@@ -383,7 +387,7 @@ export const getBootSceneContext = (): BootSceneContext => {
     playerName: state.playerName,
     subscene: state.bootSubscene,
     activeMainMenuComponent: state.activeMainMenuComponent,
-    authorizeUserLetterIdx: state.authorizeUserLetterIdx,
+    authorizeUserMatrixIndices: state.authorizeUserMatrixIndices,
   };
 };
 

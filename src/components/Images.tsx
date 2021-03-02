@@ -57,24 +57,27 @@ const Images = () => {
   }, [currentScene, activeSite, idleNodeImages, nodeImages]);
 
   useEffect(() => {
-    const loadNewImage = (imgIdx: number) => {
-      setImageScaleY(0);
+    let timer: ReturnType<typeof setTimeout>;
 
-      setTimeout(() => {
-        textureLoader.load(sceneImages[imgIdx].default, setActiveImage);
+    if (mediaPercentageElapsed === 0 && sceneImages[0]) {
+      textureLoader.load(sceneImages[0].default, setActiveImage);
+    } else if (mediaPercentageElapsed === 35 && sceneImages[1]) {
+      setImageScaleY(0);
+      timer = setTimeout(() => {
+        textureLoader.load(sceneImages[1].default, setActiveImage);
         setImageScaleY(3.75);
       }, 300);
-    };
+    } else if (mediaPercentageElapsed === 70 && sceneImages[2]) {
+      setImageScaleY(0);
+      timer = setTimeout(() => {
+        textureLoader.load(sceneImages[1].default, setActiveImage);
+        setImageScaleY(3.75);
+      }, 300);
+    }
 
-    (async () => {
-      if (mediaPercentageElapsed === 0 && sceneImages[0]) {
-        textureLoader.load(sceneImages[0].default, setActiveImage);
-      } else if (mediaPercentageElapsed === 35 && sceneImages[1]) {
-        loadNewImage(1);
-      } else if (mediaPercentageElapsed === 70 && sceneImages[2]) {
-        loadNewImage(2);
-      }
-    })();
+    return () => {
+      clearTimeout(timer);
+    };
   }, [mediaPercentageElapsed, sceneImages, textureLoader]);
 
   return (

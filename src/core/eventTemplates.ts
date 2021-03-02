@@ -9,6 +9,7 @@ import {
 import { playMediaElement, resetMediaElement } from "../helpers/media-helpers";
 import {
   ActiveSite,
+  AuthorizeUserMatrixIndices,
   EndComponent,
   GameScene,
   LeftMediaComponent,
@@ -164,9 +165,7 @@ export const knockNode = {
 export const knockNodeAndFall = {
   state: [
     { mutation: { lainMoveState: "knock_and_fall", inputCooldown: 6000 } },
-    {
-      mutation: { lainMoveState: "standing" },
-    },
+    { mutation: { lainMoveState: "standing" }, delay: 6000 },
   ],
   effects: [nodeKnockAndFallAnimation],
   audio: [
@@ -649,7 +648,6 @@ export const enterUserAuthorization = {
     {
       mutation: {
         bootSubscene: "authorize_user",
-        authorizeUserLetterIdx: 0,
         inputCooldown: 500,
       },
     },
@@ -664,6 +662,7 @@ export const exitUserAuthorization = {
         playerName: "",
         bootSubscene: "main_menu",
         inputCooldown: 500,
+        authorizeUserMatrixIndices: { rowIdx: 0, colIdx: 0 },
       },
     },
   ],
@@ -690,14 +689,15 @@ export const removePlayerNameLastChar = (calculatedState: {
 
 export const failUpdatePlayerName = { audio: [{ sfx: [audio.sound0] }] };
 
-export const updateAuthorizeUserLetterIdx = (calculatedState: {
-  authorizeUserLetterIdx: number;
+export const updateAuthorizeUserLetterMatrixIndices = (calculatedState: {
+  authorizeUserLetterMatrixIndices: AuthorizeUserMatrixIndices;
 }) => ({
   state: [
     {
       mutation: {
         inputCooldown: 300,
-        authorizeUserLetterIdx: calculatedState.authorizeUserLetterIdx,
+        authorizeUserMatrixIndices:
+          calculatedState.authorizeUserLetterMatrixIndices,
       },
     },
   ],
