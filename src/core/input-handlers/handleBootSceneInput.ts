@@ -12,7 +12,7 @@ import {
   loadGameFail,
   removePlayerNameLastChar,
   startNewGame,
-  updateAuthorizeUserLetterIdx,
+  updateAuthorizeUserLetterMatrixIndices,
   updatePlayerName,
 } from "../eventTemplates";
 import { BootSceneContext, GameEvent } from "../../types/types";
@@ -26,8 +26,8 @@ const handleBootSceneInput = (
     activeMainMenuComponent,
     activePromptComponent,
     promptVisible,
-    authorizeUserLetterIdx,
     playerName,
+    authorizeUserMatrixIndices,
   } = bootSceneContext;
 
   if (promptVisible) {
@@ -83,119 +83,76 @@ const handleBootSceneInput = (
             } else {
               return exitUserAuthorization;
             }
-          case "LEFT":
-            // if utmost left, break
-            if (
-              [0, 13, 26, 39, 52].includes(authorizeUserLetterIdx) ||
-              authorizeUserLetterIdx === 15
-            )
-              return;
-            // skip
-            else if (
-              authorizeUserLetterIdx === 41 ||
-              authorizeUserLetterIdx === 17 ||
-              authorizeUserLetterIdx === 30 ||
-              authorizeUserLetterIdx === 43 ||
-              authorizeUserLetterIdx === 19 ||
-              authorizeUserLetterIdx === 45
-            ) {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx - 2,
-              });
-            } else {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx - 1,
-              });
-            }
-          case "RIGHT":
-            // if utmost right, break
-            if ([12, 25, 38, 51, 64].includes(authorizeUserLetterIdx)) return;
-            // skip empty
-            else if (
-              authorizeUserLetterIdx === 39 ||
-              authorizeUserLetterIdx === 41 ||
-              authorizeUserLetterIdx === 28 ||
-              authorizeUserLetterIdx === 15 ||
-              authorizeUserLetterIdx === 43 ||
-              authorizeUserLetterIdx === 17
-            ) {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx + 2,
-              });
-            } else {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx + 1,
-              });
-            }
-          case "DOWN":
-            // if utmost down, break
-            if (
-              Array.from(new Array(13), (x, i) => i + 52).includes(
-                authorizeUserLetterIdx
-              )
-            ) {
-              return;
-              // skip empty
-            } else if (
-              authorizeUserLetterIdx === 0 ||
-              authorizeUserLetterIdx === 1 ||
-              authorizeUserLetterIdx === 52 ||
-              authorizeUserLetterIdx === 27 ||
-              authorizeUserLetterIdx === 31 ||
-              authorizeUserLetterIdx === 5
-            ) {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx + 26,
-              });
-            } else if (authorizeUserLetterIdx === 3) {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx + 52,
-              });
-            } else {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx + 13,
-              });
-            }
-          case "UP":
-            // if utmost up, break
-            if (
-              Array.from(new Array(13), (x, i) => i).includes(
-                authorizeUserLetterIdx
-              )
-            ) {
-              return;
-              // skip empty
-            } else if (
-              authorizeUserLetterIdx === 26 ||
-              authorizeUserLetterIdx === 27 ||
-              authorizeUserLetterIdx === 53 ||
-              authorizeUserLetterIdx === 31 ||
-              authorizeUserLetterIdx === 57
-            ) {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx - 26,
-              });
-            } else if (authorizeUserLetterIdx === 55) {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx - 52,
-              });
-            } else {
-              return updateAuthorizeUserLetterIdx({
-                authorizeUserLetterIdx: authorizeUserLetterIdx - 13,
-              });
-            }
+          case "LEFT": {
+            const newMatrixIndices = {
+              ...authorizeUserMatrixIndices,
+              colIdx:
+                authorizeUserMatrixIndices.colIdx - 1 < 0
+                  ? authorizeUserMatrixIndices.colIdx
+                  : authorizeUserMatrixIndices.colIdx - 1,
+            };
+
+            return updateAuthorizeUserLetterMatrixIndices({
+              authorizeUserLetterMatrixIndices: newMatrixIndices,
+            });
+          }
+
+          case "RIGHT": {
+            const newMatrixIndices = {
+              ...authorizeUserMatrixIndices,
+              colIdx:
+                authorizeUserMatrixIndices.colIdx + 1 > 12
+                  ? authorizeUserMatrixIndices.colIdx
+                  : authorizeUserMatrixIndices.colIdx + 1,
+            };
+
+            return updateAuthorizeUserLetterMatrixIndices({
+              authorizeUserLetterMatrixIndices: newMatrixIndices,
+            });
+          }
+
+          case "DOWN": {
+            const newMatrixIndices = {
+              ...authorizeUserMatrixIndices,
+              rowIdx:
+                authorizeUserMatrixIndices.rowIdx + 1 > 4
+                  ? authorizeUserMatrixIndices.rowIdx
+                  : authorizeUserMatrixIndices.rowIdx + 1,
+            };
+
+            return updateAuthorizeUserLetterMatrixIndices({
+              authorizeUserLetterMatrixIndices: newMatrixIndices,
+            });
+          }
+
+          case "UP": {
+            const newMatrixIndices = {
+              ...authorizeUserMatrixIndices,
+              rowIdx:
+                authorizeUserMatrixIndices.rowIdx - 1 < 0
+                  ? authorizeUserMatrixIndices.rowIdx
+                  : authorizeUserMatrixIndices.rowIdx - 1,
+            };
+
+            return updateAuthorizeUserLetterMatrixIndices({
+              authorizeUserLetterMatrixIndices: newMatrixIndices,
+            });
+          }
+
           case "CIRCLE":
             const chosenCharacter =
-              authorize_user_letters[
-                authorizeUserLetterIdx.toString() as keyof typeof authorize_user_letters
+              authorize_user_letters.matrix[authorizeUserMatrixIndices.rowIdx][
+                authorizeUserMatrixIndices.colIdx
               ];
 
-            const newName = handleNameSelection(playerName, chosenCharacter);
+            if (chosenCharacter) {
+              const newName = handleNameSelection(playerName, chosenCharacter);
 
-            if (newName?.length === 8) return;
-            if (newName !== undefined)
-              return updatePlayerName({ playerName: newName });
-            else return failUpdatePlayerName;
+              if (newName?.length === 8) return;
+              if (newName !== undefined)
+                return updatePlayerName({ playerName: newName });
+              else return failUpdatePlayerName;
+            }
         }
     }
   }

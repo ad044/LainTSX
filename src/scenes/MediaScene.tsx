@@ -76,7 +76,7 @@ const MediaScene = () => {
   }, [setInputCooldown]);
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       {loaded ? (
         <group position={[0.4, -0.3, 0]}>
           <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
@@ -99,7 +99,7 @@ const MediaScene = () => {
       ) : (
         <Loading />
       )}
-    </perspectiveCamera>
+    </group>
   );
 };
 

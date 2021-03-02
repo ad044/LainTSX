@@ -117,7 +117,7 @@ const MainScene = () => {
   });
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       <Suspense fallback={<Loading />}>
         <LevelSelection />
         <Popups />
@@ -161,7 +161,7 @@ const MainScene = () => {
         <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
         <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
       </Suspense>
-    </perspectiveCamera>
+    </group>
   );
 };
 export default MainScene;

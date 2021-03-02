@@ -67,6 +67,7 @@ const GateMiddleObject = (props: GateMiddleObjectProps) => {
             }
             posX={item.posX}
             posY={item.posY}
+            key={idx}
           />
         ))}
       </a.group>

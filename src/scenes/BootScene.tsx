@@ -22,7 +22,7 @@ const BootScene = () => {
   }, [setInputCooldown]);
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       <BootAccela visible={accelaVisible} />
       <BootAnimation visible={!accelaVisible} activeSubScene={activeSubscene} />
       <BootMainMenuComponents
@@ -31,7 +31,7 @@ const BootScene = () => {
       />
       <BootAuthorizeUser visible={activeSubscene === "authorize_user"} />
       <BootLoadData visible={activeSubscene === "load_data"} />
-    </perspectiveCamera>
+    </group>
   );
 };
 export default BootScene;

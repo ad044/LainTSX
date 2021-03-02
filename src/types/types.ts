@@ -129,11 +129,16 @@ export type MediaSceneContext = {
   activeSite: ActiveSite;
 };
 
+export type AuthorizeUserMatrixIndices = {
+  rowIdx: number;
+  colIdx: number;
+};
+
 export interface BootSceneContext extends PromptContext {
   playerName: string;
   subscene: BootSubscene;
   activeMainMenuComponent: MainMenuComponent;
-  authorizeUserLetterIdx: number;
+  authorizeUserMatrixIndices: AuthorizeUserMatrixIndices;
 }
 
 export type EndSceneContext = {
