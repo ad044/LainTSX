@@ -124,7 +124,7 @@ const LevelSelection = () => {
   ]);
 
   return (
-    <group>
+    <>
       <a.group position-y={pos.vertPosY} renderOrder={5}>
         <mesh
           scale={[0.3, 0.4, 0]}
@@ -212,7 +212,7 @@ const LevelSelection = () => {
           depthTest={false}
         />
       </a.sprite>
-    </group>
+    </>
   );
 };
 

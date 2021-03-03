@@ -199,13 +199,13 @@ export const useStore = create(
       },
 
       // player name
-      playerName: "アイウエオ",
+      playerName: "",
 
       // boot scene
       activeMainMenuComponent: "authorize_user",
       authorizeUserMatrixIndices: {
-        rowIdx: 0,
-        colIdx: 0,
+        rowIdx: 1,
+        colIdx: 7,
       },
       bootSubscene: "main_menu",
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import bootLof from "../../static/sprites/boot/boot_lof.png";
 import bootBottomBarLeft from "../../static/sprites/boot/boot_bottom_bar_left.png";
 import bootBottomBarRight from "../../static/sprites/boot/boot_bottom_bar_right.png";
@@ -11,13 +11,14 @@ import bootStatusTexts from "../../static/sprites/boot/boot_status_texts.png";
 import bootBackgroundText from "../../static/sprites/boot/boot_background_text.png";
 import bootBackgroundDistortedTex from "../../static/sprites/boot/distorted_text.png";
 
-import { useFrame, useLoader } from "react-three-fiber";
-import { a, useSpring } from "@react-spring/three";
+import {useFrame, useLoader} from "react-three-fiber";
+import {a, useSpring} from "@react-spring/three";
 import * as THREE from "three";
 import sleep from "../../utils/sleep";
 
 type BootAnimationProps = {
   visible: boolean;
+  mainMenuVisible: boolean;
   activeSubScene: string;
 };
 
@@ -134,19 +135,21 @@ const BootAnimation = (props: BootAnimationProps) => {
 
         await sleep(100);
         currentBootStatusTextTex.offset.y = 0.79;
-
-        await sleep(1700);
-        currentBootStatusTextTex.offset.x = 0.5;
-        currentBootStatusTextTex.offset.y = 0.005;
-        setBootOpacity(0);
-        setGraySquarePosY(0);
-        setLofPosX(1.3);
-        setLofPosY(1);
-
-        setBackgroundFloatingTextShown(true);
       })();
     }
   }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
+
+  useEffect(() => {
+    if (props.mainMenuVisible) {
+      currentBootStatusTextTex.offset.x = 0.5;
+      currentBootStatusTextTex.offset.y = 0.005;
+      setBootOpacity(0);
+      setGraySquarePosY(0);
+      setLofPosX(1.3);
+      setLofPosY(1);
+      setBackgroundFloatingTextShown(true);
+    }
+  }, [currentBootStatusTextTex.offset, props.mainMenuVisible]);
 
   const [bootOpacity, setBootOpacity] = useState(1);
   const [graySquarePosY, setGraySquarePosY] = useState(-0.8);
@@ -196,7 +199,7 @@ const BootAnimation = (props: BootAnimationProps) => {
           opacity={animationState.graySquareOpacity}
         />
       </a.sprite>
-      {props.activeSubScene !== "authorize_user" ? (
+      {props.activeSubScene !== "authorize_user" && (
         <>
           {/*we have two of each to create looping effect*/}
           <a.sprite
@@ -315,8 +318,6 @@ const BootAnimation = (props: BootAnimationProps) => {
             />
           </sprite>
         </>
-      ) : (
-        <></>
       )}
     </group>
   );

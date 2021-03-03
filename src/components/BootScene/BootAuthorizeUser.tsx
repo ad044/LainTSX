@@ -8,9 +8,7 @@ import authorizeInactiveLetters from "../../static/sprites/boot/authorize_inacti
 import authorizeActiveLetters from "../../static/sprites/boot/authorize_active_letters.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
 import { useStore } from "../../store";
-import usePrevious from "../../hooks/usePrevious";
 import StaticJpCharacter from "../TextRenderer/StaticJpCharacter";
 
 type BootAuthorizeUserProps = {
@@ -44,7 +42,6 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     authorizeActiveLetters
   );
 
-  const subscene = useStore((state) => state.bootSubscene);
   const authorizeUserMatrixIndices = useStore(
     (state) => state.authorizeUserMatrixIndices
   );
@@ -115,8 +112,9 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
           </sprite>
           <sprite
             scale={[0.2, 0.2, 0]}
-            position={[-0.2, -0.3, 0]}
+            position={[-0.19, -0.3, 0]}
             renderOrder={3}
+            visible={!(playerName.length === 8)}
           >
             <spriteMaterial
               map={authorizeOrangeSquareTex}
@@ -125,8 +123,15 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
               depthTest={false}
             />
           </sprite>
-
-          <group position={[playerName.length * -0.25 - 0.2, -0.27, 0]}>
+          <group
+            position={[
+              (playerName.length === 8 ? 0.2 : 0) +
+                playerName.length * -0.2 -
+                0.2,
+              -0.29,
+              0,
+            ]}
+          >
             {playerName.map((char, idx) => (
               <StaticJpCharacter char={char} charIdx={idx} key={idx} />
             ))}
@@ -144,11 +149,10 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             />
           </sprite>
 
-          <OrbitControls />
           <group position={[-1.15, 0.4, 0.3]} rotation={[-0.8, 0, -0.3]}>
             <mesh
               scale={[4, 1.28, 0]}
-              position={[3.35, -0.7, 0]}
+              position={[1.25, -0.45, 0]}
               ref={bgLettersRef}
             >
               <planeBufferGeometry attach="geometry" />
@@ -156,7 +160,6 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
                 map={authorizeInactiveLettersTex}
                 attach="material"
                 transparent={true}
-                side={THREE.DoubleSide}
               />
             </mesh>
             <mesh

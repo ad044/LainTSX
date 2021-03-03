@@ -34,8 +34,8 @@ const StaticJpCharacter = memo((props: { char: string; charIdx: number }) => {
 
   return (
     <mesh
-      position={[props.charIdx / 4, 0, 0]}
-      scale={[0.25, 0.25, 0]}
+      position={[props.charIdx / 5, 0, 0]}
+      scale={[0.2, 0.2, 0]}
       geometry={geom}
       renderOrder={205}
     >

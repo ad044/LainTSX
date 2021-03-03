@@ -1,6 +1,11 @@
-// huge thanks to oo for help with this!!
+import authorize_user_letters from "../resources/authorize_user_letters.json";
+import { AuthorizeUserMatrixIndices } from "../types/types";
 
-const handleNameSelection = (currentString: string, newCharacter: string) => {
+// huge thanks to oo for help with this!!
+export const handleNameSelection = (
+  currentString: string,
+  newCharacter: string
+) => {
   // characters that cannot be the first letter
   const cantBeFirst = [
     "ン",
@@ -120,4 +125,45 @@ const handleNameSelection = (currentString: string, newCharacter: string) => {
   return currentString.concat(newCharacter);
 };
 
-export default handleNameSelection;
+export const handleUserAuthorizationMove = (
+  matrixIndices: AuthorizeUserMatrixIndices,
+  direction: string
+): AuthorizeUserMatrixIndices | undefined => {
+  const funcs = {
+    up: (matIndices: AuthorizeUserMatrixIndices) => ({
+      ...matIndices,
+      rowIdx: matIndices.rowIdx - 1,
+    }),
+    down: (matIndices: AuthorizeUserMatrixIndices) => ({
+      ...matIndices,
+      rowIdx: matIndices.rowIdx + 1,
+    }),
+    left: (matIndices: AuthorizeUserMatrixIndices) => ({
+      ...matIndices,
+      colIdx: matIndices.colIdx - 1,
+    }),
+    right: (matIndices: AuthorizeUserMatrixIndices) => ({
+      ...matIndices,
+      colIdx: matIndices.colIdx + 1,
+    }),
+  };
+
+  const boundaries = {
+    up: (matIndices: AuthorizeUserMatrixIndices) => matIndices.rowIdx === 0,
+    down: (matIndices: AuthorizeUserMatrixIndices) => matIndices.rowIdx === 4,
+    left: (matIndices: AuthorizeUserMatrixIndices) => matIndices.colIdx === 0,
+    right: (matIndices: AuthorizeUserMatrixIndices) => matIndices.colIdx === 12,
+  };
+
+  const isBoundary = boundaries[direction as keyof typeof boundaries](
+    matrixIndices
+  );
+
+  if (isBoundary) return;
+
+  const res = funcs[direction as keyof typeof funcs](matrixIndices);
+  const chosenCharacter = authorize_user_letters.matrix[res.rowIdx][res.colIdx];
+
+  if (chosenCharacter) return res;
+  else return handleUserAuthorizationMove(res, direction);
+};

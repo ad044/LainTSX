@@ -24,7 +24,11 @@ const BootScene = () => {
   return (
     <group position-z={3}>
       <BootAccela visible={accelaVisible} />
-      <BootAnimation visible={!accelaVisible} activeSubScene={activeSubscene} />
+      <BootAnimation
+        visible={!accelaVisible}
+        activeSubScene={activeSubscene}
+        mainMenuVisible={mainMenuVisible}
+      />
       <BootMainMenuComponents
         visible={mainMenuVisible}
         activeSubScene={activeSubscene}

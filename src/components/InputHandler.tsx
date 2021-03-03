@@ -20,6 +20,8 @@ import circleButton from "../static/sprites/controller/circle.png";
 import squareButton from "../static/sprites/controller/square.png";
 import triangleButton from "../static/sprites/controller/triangle.png";
 import crossButton from "../static/sprites/controller/cross.png";
+import startButton from "../static/sprites/controller/start.png";
+import l2Button from "../static/sprites/controller/l2.png";
 import * as THREE from "three";
 import { useGesture } from "react-use-gesture";
 import IdleManager from "./IdleManager";
@@ -32,6 +34,8 @@ const InputHandler = () => {
   const crossButtonTex = useLoader(THREE.TextureLoader, crossButton);
   const squareButtonTex = useLoader(THREE.TextureLoader, squareButton);
   const triangleButtonTex = useLoader(THREE.TextureLoader, triangleButton);
+  const startButtonTex = useLoader(THREE.TextureLoader, startButton);
+  const l2ButtonTex = useLoader(THREE.TextureLoader, l2Button);
 
   const timeSinceLastKeyPress = useRef(-1);
 
@@ -166,7 +170,37 @@ const InputHandler = () => {
         <spriteMaterial attach="material" opacity={0} depthTest={false} />
       </sprite>
 
-      <group scale={[0.8, 0.8, 0]} position={[3.5, -2, 0]}>
+      <sprite
+        scale={[1.5, 1.5, 0]}
+        position={[-4, 3, 0]}
+        renderOrder={99999}
+        onClick={handleVirtualButtonPress}
+        name={"L2"}
+      >
+        <spriteMaterial
+          attach="material"
+          map={l2ButtonTex}
+          depthTest={false}
+          opacity={0.8}
+        />
+      </sprite>
+
+      <sprite
+        scale={[1.5, 1.5, 0]}
+        position={[4, 3, 0]}
+        renderOrder={99999}
+        onClick={handleVirtualButtonPress}
+        name={"START"}
+      >
+        <spriteMaterial
+          attach="material"
+          map={startButtonTex}
+          depthTest={false}
+          opacity={0.8}
+        />
+      </sprite>
+
+      <group scale={[0.8, 0.8, 0]} position={[3.5, -2.3, 0]}>
         <sprite
           scale={[1.5, 1.5, 0]}
           position={[1, 0, 0]}

@@ -1,5 +1,8 @@
 import authorize_user_letters from "../../resources/authorize_user_letters.json";
-import handleNameSelection from "../../helpers/name-selection-helpers";
+import {
+  handleNameSelection,
+  handleUserAuthorizationMove,
+} from "../../helpers/name-selection-helpers";
 import {
   changeMainMenuComponent,
   changePromptComponent,
@@ -83,62 +86,21 @@ const handleBootSceneInput = (
             } else {
               return exitUserAuthorization;
             }
-          case "LEFT": {
-            const newMatrixIndices = {
-              ...authorizeUserMatrixIndices,
-              colIdx:
-                authorizeUserMatrixIndices.colIdx - 1 < 0
-                  ? authorizeUserMatrixIndices.colIdx
-                  : authorizeUserMatrixIndices.colIdx - 1,
-            };
+          case "LEFT":
+          case "UP":
+          case "DOWN":
+          case "RIGHT":
+            const direction = keyPress.toLowerCase();
+            const newMatrixIndices = handleUserAuthorizationMove(
+              authorizeUserMatrixIndices,
+              direction
+            );
 
-            return updateAuthorizeUserLetterMatrixIndices({
-              authorizeUserLetterMatrixIndices: newMatrixIndices,
-            });
-          }
-
-          case "RIGHT": {
-            const newMatrixIndices = {
-              ...authorizeUserMatrixIndices,
-              colIdx:
-                authorizeUserMatrixIndices.colIdx + 1 > 12
-                  ? authorizeUserMatrixIndices.colIdx
-                  : authorizeUserMatrixIndices.colIdx + 1,
-            };
-
-            return updateAuthorizeUserLetterMatrixIndices({
-              authorizeUserLetterMatrixIndices: newMatrixIndices,
-            });
-          }
-
-          case "DOWN": {
-            const newMatrixIndices = {
-              ...authorizeUserMatrixIndices,
-              rowIdx:
-                authorizeUserMatrixIndices.rowIdx + 1 > 4
-                  ? authorizeUserMatrixIndices.rowIdx
-                  : authorizeUserMatrixIndices.rowIdx + 1,
-            };
-
-            return updateAuthorizeUserLetterMatrixIndices({
-              authorizeUserLetterMatrixIndices: newMatrixIndices,
-            });
-          }
-
-          case "UP": {
-            const newMatrixIndices = {
-              ...authorizeUserMatrixIndices,
-              rowIdx:
-                authorizeUserMatrixIndices.rowIdx - 1 < 0
-                  ? authorizeUserMatrixIndices.rowIdx
-                  : authorizeUserMatrixIndices.rowIdx - 1,
-            };
-
-            return updateAuthorizeUserLetterMatrixIndices({
-              authorizeUserLetterMatrixIndices: newMatrixIndices,
-            });
-          }
-
+            if (newMatrixIndices)
+              return updateAuthorizeUserLetterMatrixIndices({
+                authorizeUserLetterMatrixIndices: newMatrixIndices,
+              });
+            break;
           case "CIRCLE":
             const chosenCharacter =
               authorize_user_letters.matrix[authorizeUserMatrixIndices.rowIdx][
@@ -148,7 +110,7 @@ const handleBootSceneInput = (
             if (chosenCharacter) {
               const newName = handleNameSelection(playerName, chosenCharacter);
 
-              if (newName?.length === 8) return;
+              if (newName && newName.length > 8) return;
               if (newName !== undefined)
                 return updatePlayerName({ playerName: newName });
               else return failUpdatePlayerName;
