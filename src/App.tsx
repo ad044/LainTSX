@@ -14,7 +14,6 @@ import ChangeDiscScene from "./scenes/ChangeDiscScene";
 import EndScene from "./scenes/EndScene";
 import IdleMediaScene from "./scenes/IdleMediaScene";
 import InputHandler from "./components/InputHandler";
-import { Html } from "@react-three/drei";
 
 const App = () => {
   const currentScene = useStore((state) => state.currentScene);

@@ -662,7 +662,7 @@ export const exitUserAuthorization = {
         playerName: "",
         bootSubscene: "main_menu",
         inputCooldown: 500,
-        authorizeUserMatrixIndices: { rowIdx: 0, colIdx: 0 },
+        authorizeUserMatrixIndices: { rowIdx: 1, colIdx: 7 },
       },
     },
   ],

@@ -11,6 +11,7 @@ import {
   getRandomIdleMedia,
 } from "../helpers/idle-helpers";
 import handleEvent from "../core/handleEvent";
+import { useEffect } from "react";
 
 type IdleManagerProps = {
   lainIdleTimerRef: any;
@@ -20,6 +21,12 @@ type IdleManagerProps = {
 const IdleManager = (props: IdleManagerProps) => {
   const mainSubscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
+
+  useEffect(() => {
+    if (scene !== "main") {
+      props.idleSceneTimerRef.current = -1;
+    }
+  }, [props.idleSceneTimerRef, scene]);
 
   useFrame(() => {
     const now = Date.now();
