@@ -201,4 +201,5 @@ export type UserSaveState = {
   activeLevel: string;
   activeSite: ActiveSite;
   gameProgress: GameProgress;
+  playerName: string;
 };
