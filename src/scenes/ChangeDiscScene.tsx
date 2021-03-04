@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useStore } from "../store";
 import changeDiscLof from "../static/sprites/change_disc/disc_lof.png";
 import changeSite from "../static/sprites/change_disc/disc_change_site.png";
@@ -27,6 +27,17 @@ const ChangeDiscScene = () => {
   const disc1Tex = useLoader(THREE.TextureLoader, disc1);
   const disc2Tex = useLoader(THREE.TextureLoader, disc2);
 
+  const fixedTextures = useMemo(() => {
+    changeSiteTex.magFilter = THREE.NearestFilter;
+
+    checkingInProgressTex.magFilter = THREE.NearestFilter;
+
+    return {
+      changeSite: changeSiteTex,
+      checkingInProgress: checkingInProgressTex,
+    };
+  }, [changeSiteTex, checkingInProgressTex]);
+
   useEffect(() => {
     setTimeout(() => setScene("main"), 3500);
   }, [activeSite, setScene]);
@@ -40,7 +51,7 @@ const ChangeDiscScene = () => {
         <spriteMaterial attach="material" map={changeDiscLofTex} />
       </sprite>
       <sprite scale={[5, 0.8, 0]} position={[0, 1, 0]}>
-        <spriteMaterial attach="material" map={changeSiteTex} />
+        <spriteMaterial attach="material" map={fixedTextures.changeSite} />
       </sprite>
 
       {[...Array(2).keys()].map((idx) => (
@@ -50,7 +61,10 @@ const ChangeDiscScene = () => {
       ))}
 
       <sprite scale={[7, 0.8, 0]} position={[0, -1, 0]}>
-        <spriteMaterial attach="material" map={checkingInProgressTex} />
+        <spriteMaterial
+          attach="material"
+          map={fixedTextures.checkingInProgress}
+        />
       </sprite>
 
       {[...Array(7).keys()].map((idx) => (

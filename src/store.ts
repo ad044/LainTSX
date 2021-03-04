@@ -112,7 +112,7 @@ export const useStore = create(
   combine(
     {
       // scene data
-      currentScene: "boot",
+      currentScene: "main",
 
       // game progress
       gameProgress: game_progress,
@@ -323,6 +323,7 @@ export const useStore = create(
           activeLevel: userState.activeLevel,
           activeSite: userState.activeSite,
           gameProgress: userState.gameProgress,
+          playerName: userState.playerName,
         })),
     })
   )
@@ -414,6 +415,7 @@ export const getCurrentUserState = (): UserSaveState => {
     activeLevel: state.activeLevel,
     activeSite: state.activeSite,
     gameProgress: state.gameProgress,
+    playerName: state.playerName,
   };
 };
 

@@ -1,4 +1,3 @@
-import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { playAudio, useStore } from "../store";
 import LevelSelection from "../components/MainScene/LevelSelection";
@@ -17,7 +16,7 @@ import * as audio from "../static/audio/sfx";
 import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
 import MainSceneBackground from "../components/MainScene/Site/MainSceneBackground";
-import { useSpring, a } from "@react-spring/three";
+import { a, useSpring } from "@react-spring/three";
 import Pause from "../components/MainScene/Pause/Pause";
 
 const MainScene = () => {
@@ -155,7 +154,6 @@ const MainScene = () => {
         >
           <Site introFinished={intro ? introFinished : true} />
         </group>
-        <OrbitControls />
         <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
         <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
         <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />

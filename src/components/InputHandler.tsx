@@ -26,7 +26,11 @@ import * as THREE from "three";
 import { useGesture } from "react-use-gesture";
 import IdleManager from "./IdleManager";
 
-const InputHandler = () => {
+type InputHandlerProps = {
+  isMobile: boolean;
+};
+
+const InputHandler = (props: InputHandlerProps) => {
   const scene = useStore((state) => state.currentScene);
   const inputCooldown = useStore((state) => state.inputCooldown);
 
@@ -166,98 +170,102 @@ const InputHandler = () => {
 
   return (
     <>
-      <sprite scale={[10, 10, 0]} renderOrder={99999} {...bind()}>
-        <spriteMaterial attach="material" opacity={0} depthTest={false} />
-      </sprite>
+      {props.isMobile && (
+        <>
+          <sprite scale={[10, 10, 0]} renderOrder={99999} {...bind()}>
+            <spriteMaterial attach="material" opacity={0} depthTest={false} />
+          </sprite>
 
-      <sprite
-        scale={[1.5, 1.5, 0]}
-        position={[-4, 3, 0]}
-        renderOrder={99999}
-        onClick={handleVirtualButtonPress}
-        name={"L2"}
-      >
-        <spriteMaterial
-          attach="material"
-          map={l2ButtonTex}
-          depthTest={false}
-          opacity={0.8}
-        />
-      </sprite>
+          <sprite
+            scale={[1.5, 1.5, 0]}
+            position={[-4, 3, 0]}
+            renderOrder={99999}
+            onClick={handleVirtualButtonPress}
+            name={"L2"}
+          >
+            <spriteMaterial
+              attach="material"
+              map={l2ButtonTex}
+              depthTest={false}
+              opacity={0.8}
+            />
+          </sprite>
 
-      <sprite
-        scale={[1.5, 1.5, 0]}
-        position={[4, 3, 0]}
-        renderOrder={99999}
-        onClick={handleVirtualButtonPress}
-        name={"START"}
-      >
-        <spriteMaterial
-          attach="material"
-          map={startButtonTex}
-          depthTest={false}
-          opacity={0.8}
-        />
-      </sprite>
+          <sprite
+            scale={[1.5, 1.5, 0]}
+            position={[4, 3, 0]}
+            renderOrder={99999}
+            onClick={handleVirtualButtonPress}
+            name={"START"}
+          >
+            <spriteMaterial
+              attach="material"
+              map={startButtonTex}
+              depthTest={false}
+              opacity={0.8}
+            />
+          </sprite>
 
-      <group scale={[0.8, 0.8, 0]} position={[3.5, -2.3, 0]}>
-        <sprite
-          scale={[1.5, 1.5, 0]}
-          position={[1, 0, 0]}
-          renderOrder={99999}
-          onClick={handleVirtualButtonPress}
-          name={"CIRCLE"}
-        >
-          <spriteMaterial
-            attach="material"
-            map={circleButtonTex}
-            depthTest={false}
-            opacity={0.8}
-          />
-        </sprite>
-        <sprite
-          scale={[1.5, 1.5, 0]}
-          position={[0, -1, 0]}
-          renderOrder={99999}
-          onClick={handleVirtualButtonPress}
-          name={"CROSS"}
-        >
-          <spriteMaterial
-            attach="material"
-            map={crossButtonTex}
-            depthTest={false}
-            opacity={0.8}
-          />
-        </sprite>
-        <sprite
-          scale={[1.5, 1.5, 0]}
-          position={[0, 1, 0]}
-          renderOrder={99999}
-          onClick={handleVirtualButtonPress}
-          name={"TRIANGLE"}
-        >
-          <spriteMaterial
-            attach="material"
-            map={triangleButtonTex}
-            depthTest={false}
-            opacity={0.8}
-          />
-        </sprite>
-        <sprite
-          scale={[1.5, 1.5, 0]}
-          position={[-1, 0, 0]}
-          renderOrder={99999}
-          onClick={handleVirtualButtonPress}
-          name={"square"}
-        >
-          <spriteMaterial
-            attach="material"
-            map={squareButtonTex}
-            depthTest={false}
-            opacity={0.8}
-          />
-        </sprite>
-      </group>
+          <group
+            scale={[0.8, 0.8, 0]}
+            position={[3.5, -2.3, 0]}
+            renderOrder={9999}
+          >
+            <sprite
+              scale={[1.5, 1.5, 0]}
+              position={[1, 0, 0]}
+              onClick={handleVirtualButtonPress}
+              name={"CIRCLE"}
+            >
+              <spriteMaterial
+                attach="material"
+                map={circleButtonTex}
+                depthTest={false}
+                opacity={0.8}
+              />
+            </sprite>
+            <sprite
+              scale={[1.5, 1.5, 0]}
+              position={[0, -1, 0]}
+              onClick={handleVirtualButtonPress}
+              name={"CROSS"}
+            >
+              <spriteMaterial
+                attach="material"
+                map={crossButtonTex}
+                depthTest={false}
+                opacity={0.8}
+              />
+            </sprite>
+            <sprite
+              scale={[1.5, 1.5, 0]}
+              position={[0, 1, 0]}
+              onClick={handleVirtualButtonPress}
+              name={"TRIANGLE"}
+            >
+              <spriteMaterial
+                attach="material"
+                map={triangleButtonTex}
+                depthTest={false}
+                opacity={0.8}
+              />
+            </sprite>
+            <sprite
+              scale={[1.5, 1.5, 0]}
+              position={[-1, 0, 0]}
+              onClick={handleVirtualButtonPress}
+              name={"square"}
+            >
+              <spriteMaterial
+                attach="material"
+                map={squareButtonTex}
+                depthTest={false}
+                opacity={0.8}
+              />
+            </sprite>
+          </group>
+        </>
+      )}
       <IdleManager
         lainIdleTimerRef={lainIdleTimerRef}
         idleSceneTimerRef={idleSceneTimerRef}
