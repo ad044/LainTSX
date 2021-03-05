@@ -23,6 +23,12 @@ yarn-debug.log*
 yarn-error.log*
 
 src/static/media_images
+src/static/audio
+src/static/movie
+src/static/voice
+
+scripts/extract/discs
+scripts/extract/*.log
 
 .idea
 

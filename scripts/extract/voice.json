@@ -1,0 +1,3196 @@
+[{
+    "original_name": "A.WAV",
+    "translated_name": "\u30a2.WAV",
+    "offset": 0,
+    "size": 10640
+}, {
+    "original_name": "#.WAV",
+    "translated_name": "#.WAV",
+    "offset": 12288,
+    "size": 28076
+}, {
+    "original_name": "A_CAVE.WAV",
+    "translated_name": "\u30a2_CAVE.WAV",
+    "offset": 40960,
+    "size": 168
+}, {
+    "original_name": "A_END.WAV",
+    "translated_name": "\u30a2_END.WAV",
+    "offset": 43008,
+    "size": 4022
+}, {
+    "original_name": "BA.WAV",
+    "translated_name": "\u30d0.WAV",
+    "offset": 47104,
+    "size": 10012
+}, {
+    "original_name": "BE.WAV",
+    "translated_name": "\u30d9.WAV",
+    "offset": 57344,
+    "size": 10048
+}, {
+    "original_name": "BI.WAV",
+    "translated_name": "\u30d3.WAV",
+    "offset": 67584,
+    "size": 9472
+}, {
+    "original_name": "BO.WAV",
+    "translated_name": "\u30dc.WAV",
+    "offset": 77824,
+    "size": 8484
+}, {
+    "original_name": "BU.WAV",
+    "translated_name": "\u30d6.WAV",
+    "offset": 88064,
+    "size": 16904
+}, {
+    "original_name": "BYA.WAV",
+    "translated_name": "\u30d3\u30e3.WAV",
+    "offset": 106496,
+    "size": 18114
+}, {
+    "original_name": "BYO.WAV",
+    "translated_name": "\u30d3\u30e7.WAV",
+    "offset": 124928,
+    "size": 16066
+}, {
+    "original_name": "BYU.WAV",
+    "translated_name": "\u30d3\u30e3.WAV",
+    "offset": 141312,
+    "size": 19680
+}, {
+    "original_name": "DA.WAV",
+    "translated_name": "\u30c0.WAV",
+    "offset": 161792,
+    "size": 10106
+}, {
+    "original_name": "DE.WAV",
+    "translated_name": "\u30c7.WAV",
+    "offset": 172032,
+    "size": 11498
+}, {
+    "original_name": "DI.WAV",
+    "translated_name": "\u30c2.WAV",
+    "offset": 184320,
+    "size": 12124
+}, {
+    "original_name": "DO.WAV",
+    "translated_name": "\u30c9.WAV",
+    "offset": 196608,
+    "size": 13896
+}, {
+    "original_name": "DU.WAV",
+    "translated_name": "\u30c5.WAV",
+    "offset": 210944,
+    "size": 16358
+}, {
+    "original_name": "E.WAV",
+    "translated_name": "\u30a8.WAV",
+    "offset": 227328,
+    "size": 11864
+}, {
+    "original_name": "E_CAVE.WAV",
+    "translated_name": "\u30a8_CAVE.WAV",
+    "offset": 239616,
+    "size": 158
+}, {
+    "original_name": "E_END.WAV",
+    "translated_name": "\u30a8_END.WAV",
+    "offset": 241664,
+    "size": 3644
+}, {
+    "original_name": "FA.WAV",
+    "translated_name": "\u30d5\u30a1.WAV",
+    "offset": 245760,
+    "size": 12280
+}, {
+    "original_name": "FE.WAV",
+    "translated_name": "\u30d5\u30a7.WAV",
+    "offset": 258048,
+    "size": 11840
+}, {
+    "original_name": "FI.WAV",
+    "translated_name": "\u30d5\u30a3.WAV",
+    "offset": 270336,
+    "size": 11334
+}, {
+    "original_name": "FO.WAV",
+    "translated_name": "\u30d5\u30a9.WAV",
+    "offset": 282624,
+    "size": 9012
+}, {
+    "original_name": "FU.WAV",
+    "translated_name": "\u30d5.WAV",
+    "offset": 292864,
+    "size": 15542
+}, {
+    "original_name": "GA.WAV",
+    "translated_name": "\u30ac.WAV",
+    "offset": 309248,
+    "size": 19822
+}, {
+    "original_name": "GE.WAV",
+    "translated_name": "\u30b2.WAV",
+    "offset": 329728,
+    "size": 10822
+}, {
+    "original_name": "GI.WAV",
+    "translated_name": "\u30ae.WAV",
+    "offset": 342016,
+    "size": 19390
+}, {
+    "original_name": "GO.WAV",
+    "translated_name": "\u30b4.WAV",
+    "offset": 362496,
+    "size": 10458
+}, {
+    "original_name": "GU.WAV",
+    "translated_name": "\u30b0.WAV",
+    "offset": 374784,
+    "size": 19492
+}, {
+    "original_name": "GYA.WAV",
+    "translated_name": "\u30ae\u30e3.WAV",
+    "offset": 395264,
+    "size": 18460
+}, {
+    "original_name": "GYO.WAV",
+    "translated_name": "\u30ae\u30e7.WAV",
+    "offset": 415744,
+    "size": 13472
+}, {
+    "original_name": "GYU.WAV",
+    "translated_name": "\u30ae\u30e5.WAV",
+    "offset": 430080,
+    "size": 21772
+}, {
+    "original_name": "HA.WAV",
+    "translated_name": "\u30cf.WAV",
+    "offset": 452608,
+    "size": 10240
+}, {
+    "original_name": "HE.WAV",
+    "translated_name": "\u30d8.WAV",
+    "offset": 462848,
+    "size": 9424
+}, {
+    "original_name": "HI.WAV",
+    "translated_name": "\u30d2.WAV",
+    "offset": 473088,
+    "size": 14204
+}, {
+    "original_name": "HO.WAV",
+    "translated_name": "\u30db.WAV",
+    "offset": 487424,
+    "size": 9894
+}, {
+    "original_name": "HU.WAV",
+    "translated_name": "\u30d5.WAV",
+    "offset": 497664,
+    "size": 10526
+}, {
+    "original_name": "HYA.WAV",
+    "translated_name": "\u30d2\u30e3.WAV",
+    "offset": 509952,
+    "size": 12196
+}, {
+    "original_name": "HYO.WAV",
+    "translated_name": "\u30d2\u30e7.WAV",
+    "offset": 522240,
+    "size": 11968
+}, {
+    "original_name": "HYU.WAV",
+    "translated_name": "\u30d2\u30e5.WAV",
+    "offset": 534528,
+    "size": 11632
+}, {
+    "original_name": "I.WAV",
+    "translated_name": "\u30a4.WAV",
+    "offset": 546816,
+    "size": 11864
+}, {
+    "original_name": "I_CAVE.WAV",
+    "translated_name": "\u30a4_CAVE.WAV",
+    "offset": 559104,
+    "size": 158
+}, {
+    "original_name": "I_END.WAV",
+    "translated_name": "\u30a4_END.WAV",
+    "offset": 561152,
+    "size": 4540
+}, {
+    "original_name": "KA.WAV",
+    "translated_name": "\u30ab.WAV",
+    "offset": 567296,
+    "size": 15274
+}, {
+    "original_name": "KE.WAV",
+    "translated_name": "\u30b1.WAV",
+    "offset": 583680,
+    "size": 14346
+}, {
+    "original_name": "KI.WAV",
+    "translated_name": "\u30ad.WAV",
+    "offset": 600064,
+    "size": 14448
+}, {
+    "original_name": "KO.WAV",
+    "translated_name": "\u30b3.WAV",
+    "offset": 616448,
+    "size": 10156
+}, {
+    "original_name": "KU.WAV",
+    "translated_name": "\u30af.WAV",
+    "offset": 626688,
+    "size": 14116
+}, {
+    "original_name": "KYA.WAV",
+    "translated_name": "\u30ad\u30e3.WAV",
+    "offset": 641024,
+    "size": 14072
+}, {
+    "original_name": "KYO.WAV",
+    "translated_name": "\u30ad\u30e7.WAV",
+    "offset": 655360,
+    "size": 15456
+}, {
+    "original_name": "KYU.WAV",
+    "translated_name": "\u30ad\u30e5.WAV",
+    "offset": 671744,
+    "size": 13706
+}, {
+    "original_name": "MA.WAV",
+    "translated_name": "\u30de.WAV",
+    "offset": 686080,
+    "size": 9178
+}, {
+    "original_name": "ME.WAV",
+    "translated_name": "\u30e1.WAV",
+    "offset": 696320,
+    "size": 11736
+}, {
+    "original_name": "MI.WAV",
+    "translated_name": "\u30df.WAV",
+    "offset": 708608,
+    "size": 10228
+}, {
+    "original_name": "MO.WAV",
+    "translated_name": "\u30e2.WAV",
+    "offset": 718848,
+    "size": 10068
+}, {
+    "original_name": "MU.WAV",
+    "translated_name": "\u30e0.WAV",
+    "offset": 729088,
+    "size": 11364
+}, {
+    "original_name": "MYA.WAV",
+    "translated_name": "\u30df\u30e3.WAV",
+    "offset": 741376,
+    "size": 12904
+}, {
+    "original_name": "MYO.WAV",
+    "translated_name": "\u30df\u30e7.WAV",
+    "offset": 755712,
+    "size": 12708
+}, {
+    "original_name": "MYU.WAV",
+    "translated_name": "\u30df\u30e5.WAV",
+    "offset": 770048,
+    "size": 11668
+}, {
+    "original_name": "NA.WAV",
+    "translated_name": "\u30ca.WAV",
+    "offset": 782336,
+    "size": 10966
+}, {
+    "original_name": "NE.WAV",
+    "translated_name": "\u30cd.WAV",
+    "offset": 794624,
+    "size": 12210
+}, {
+    "original_name": "NI.WAV",
+    "translated_name": "\u30cb.WAV",
+    "offset": 806912,
+    "size": 13264
+}, {
+    "original_name": "NN.WAV",
+    "translated_name": "\u30f3.WAV",
+    "offset": 821248,
+    "size": 8338
+}, {
+    "original_name": "NO.WAV",
+    "translated_name": "\u30ce.WAV",
+    "offset": 831488,
+    "size": 10688
+}, {
+    "original_name": "NU.WAV",
+    "translated_name": "\u30cc.WAV",
+    "offset": 843776,
+    "size": 13726
+}, {
+    "original_name": "NYA.WAV",
+    "translated_name": "\u30cb\u30e3.WAV",
+    "offset": 858112,
+    "size": 12792
+}, {
+    "original_name": "NYO.WAV",
+    "translated_name": "\u30cb\u30e7.WAV",
+    "offset": 872448,
+    "size": 10592
+}, {
+    "original_name": "NYU.WAV",
+    "translated_name": "\u30cb\u30e5.WAV",
+    "offset": 884736,
+    "size": 12398
+}, {
+    "original_name": "N_CAVE.WAV",
+    "translated_name": "\u30f3_CAVE.WAV",
+    "offset": 899072,
+    "size": 164
+}, {
+    "original_name": "N_END.WAV",
+    "translated_name": "\u30f3_END.WAV",
+    "offset": 901120,
+    "size": 2782
+}, {
+    "original_name": "O.WAV",
+    "translated_name": "\u30aa.WAV",
+    "offset": 905216,
+    "size": 12376
+}, {
+    "original_name": "O_CAVE.WAV",
+    "translated_name": "\u30aa_CAVE.WAV",
+    "offset": 919552,
+    "size": 154
+}, {
+    "original_name": "O_END.WAV",
+    "translated_name": "\u30aa_END.WAV",
+    "offset": 921600,
+    "size": 3532
+}, {
+    "original_name": "PA.WAV",
+    "translated_name": "\u30d1.WAV",
+    "offset": 925696,
+    "size": 10072
+}, {
+    "original_name": "PE.WAV",
+    "translated_name": "\u30da.WAV",
+    "offset": 935936,
+    "size": 9380
+}, {
+    "original_name": "PI.WAV",
+    "translated_name": "\u30d4.WAV",
+    "offset": 946176,
+    "size": 9620
+}, {
+    "original_name": "PO.WAV",
+    "translated_name": "\u30dd.WAV",
+    "offset": 956416,
+    "size": 8646
+}, {
+    "original_name": "PU.WAV",
+    "translated_name": "\u30d7.WAV",
+    "offset": 966656,
+    "size": 10960
+}, {
+    "original_name": "PYA.WAV",
+    "translated_name": "\u30d4\u30e3.WAV",
+    "offset": 978944,
+    "size": 12484
+}, {
+    "original_name": "PYO.WAV",
+    "translated_name": "\u30d4\u30e7.WAV",
+    "offset": 993280,
+    "size": 9902
+}, {
+    "original_name": "PYU.WAV",
+    "translated_name": "\u30d4\u30e5.WAV",
+    "offset": 1003520,
+    "size": 11044
+}, {
+    "original_name": "RA.WAV",
+    "translated_name": "\u30e9.WAV",
+    "offset": 1015808,
+    "size": 14256
+}, {
+    "original_name": "RE.WAV",
+    "translated_name": "\u30ec.WAV",
+    "offset": 1030144,
+    "size": 14890
+}, {
+    "original_name": "RI.WAV",
+    "translated_name": "\u30ea.WAV",
+    "offset": 1046528,
+    "size": 11412
+}, {
+    "original_name": "RO.WAV",
+    "translated_name": "\u30ed.WAV",
+    "offset": 1058816,
+    "size": 12736
+}, {
+    "original_name": "RU.WAV",
+    "translated_name": "\u30eb.WAV",
+    "offset": 1073152,
+    "size": 14604
+}, {
+    "original_name": "RYA.WAV",
+    "translated_name": "\u30ea\u30e3.WAV",
+    "offset": 1089536,
+    "size": 16068
+}, {
+    "original_name": "RYO.WAV",
+    "translated_name": "\u30ea\u30e7.WAV",
+    "offset": 1105920,
+    "size": 13544
+}, {
+    "original_name": "RYU.WAV",
+    "translated_name": "\u30ea\u30e5.WAV",
+    "offset": 1120256,
+    "size": 13780
+}, {
+    "original_name": "SA.WAV",
+    "translated_name": "\u30b5.WAV",
+    "offset": 1134592,
+    "size": 21262
+}, {
+    "original_name": "SE.WAV",
+    "translated_name": "\u30bb.WAV",
+    "offset": 1157120,
+    "size": 22694
+}, {
+    "original_name": "SI.WAV",
+    "translated_name": "\u30b7.WAV",
+    "offset": 1181696,
+    "size": 23190
+}, {
+    "original_name": "SO.WAV",
+    "translated_name": "\u30bd.WAV",
+    "offset": 1206272,
+    "size": 17730
+}, {
+    "original_name": "SU.WAV",
+    "translated_name": "\u30b9.WAV",
+    "offset": 1224704,
+    "size": 24708
+}, {
+    "original_name": "SYA.WAV",
+    "translated_name": "\u30b7\u30e3.WAV",
+    "offset": 1251328,
+    "size": 17204
+}, {
+    "original_name": "SYO.WAV",
+    "translated_name": "\u30b7\u30e7.WAV",
+    "offset": 1269760,
+    "size": 15654
+}, {
+    "original_name": "SYU.WAV",
+    "translated_name": "\u30b7\u30e5.WAV",
+    "offset": 1286144,
+    "size": 16264
+}, {
+    "original_name": "TA.WAV",
+    "translated_name": "\u30bf.WAV",
+    "offset": 1302528,
+    "size": 11886
+}, {
+    "original_name": "TE.WAV",
+    "translated_name": "\u30c6.WAV",
+    "offset": 1314816,
+    "size": 12320
+}, {
+    "original_name": "TI.WAV",
+    "translated_name": "\u30c1.WAV",
+    "offset": 1329152,
+    "size": 14452
+}, {
+    "original_name": "TO.WAV",
+    "translated_name": "\u30c8.WAV",
+    "offset": 1345536,
+    "size": 9514
+}, {
+    "original_name": "TU.WAV",
+    "translated_name": "\u30c4.WAV",
+    "offset": 1355776,
+    "size": 14196
+}, {
+    "original_name": "TYA.WAV",
+    "translated_name": "\u30c1\u30e3.WAV",
+    "offset": 1370112,
+    "size": 12712
+}, {
+    "original_name": "TYO.WAV",
+    "translated_name": "\u30c1\u30e7.WAV",
+    "offset": 1384448,
+    "size": 12230
+}, {
+    "original_name": "TYU.WAV",
+    "translated_name": "\u30c1\u30e5.WAV",
+    "offset": 1396736,
+    "size": 13508
+}, {
+    "original_name": "U.WAV",
+    "translated_name": "\u30a6.WAV",
+    "offset": 1411072,
+    "size": 8192
+}, {
+    "original_name": "U_CAVE.WAV",
+    "translated_name": "\u30a6_CAVE.WAV",
+    "offset": 1419264,
+    "size": 158
+}, {
+    "original_name": "U_END.WAV",
+    "translated_name": "\u30a6_END.WAV",
+    "offset": 1421312,
+    "size": 3156
+}, {
+    "original_name": "WA.WAV",
+    "translated_name": "\u30ef.WAV",
+    "offset": 1425408,
+    "size": 11372
+}, {
+    "original_name": "YA.WAV",
+    "translated_name": "\u30e4.WAV",
+    "offset": 1437696,
+    "size": 13674
+}, {
+    "original_name": "YO.WAV",
+    "translated_name": "\u30e8.WAV",
+    "offset": 1452032,
+    "size": 11816
+}, {
+    "original_name": "YU.WAV",
+    "translated_name": "\u30e6.WAV",
+    "offset": 1464320,
+    "size": 13054
+}, {
+    "original_name": "ZA.WAV",
+    "translated_name": "\u30b6.WAV",
+    "offset": 1478656,
+    "size": 17942
+}, {
+    "original_name": "ZE.WAV",
+    "translated_name": "\u30bc.WAV",
+    "offset": 1497088,
+    "size": 18488
+}, {
+    "original_name": "ZI.WAV",
+    "translated_name": "\u30b8.WAV",
+    "offset": 1517568,
+    "size": 18194
+}, {
+    "original_name": "ZO.WAV",
+    "translated_name": "\u30be.WAV",
+    "offset": 1536000,
+    "size": 14010
+}, {
+    "original_name": "ZU.WAV",
+    "translated_name": "\u30ba.WAV",
+    "offset": 1550336,
+    "size": 20394
+}, {
+    "original_name": "ZYA.WAV",
+    "translated_name": "\u30b8\u30e3.WAV",
+    "offset": 1570816,
+    "size": 14648
+}, {
+    "original_name": "ZYO.WAV",
+    "translated_name": "\u30b8\u30e7.WAV",
+    "offset": 1587200,
+    "size": 13344
+}, {
+    "original_name": "ZYU.WAV",
+    "translated_name": "\u30b8\u30e5.WAV",
+    "offset": 1601536,
+    "size": 13820
+}, {
+    "original_name": "A_A.WAV",
+    "translated_name": "\u30a2_\u30a2.WAV",
+    "offset": 1615872,
+    "size": 22432
+}, {
+    "original_name": "A_BA.WAV",
+    "translated_name": "\u30a2_\u30d0.WAV",
+    "offset": 1638400,
+    "size": 24076
+}, {
+    "original_name": "A_BE.WAV",
+    "translated_name": "\u30a2_\u30d9.WAV",
+    "offset": 1662976,
+    "size": 23452
+}, {
+    "original_name": "A_BI.WAV",
+    "translated_name": "\u30a2_\u30d3.WAV",
+    "offset": 1687552,
+    "size": 20532
+}, {
+    "original_name": "A_BO.WAV",
+    "translated_name": "\u30a2_\u30dc.WAV",
+    "offset": 1710080,
+    "size": 22024
+}, {
+    "original_name": "A_BU.WAV",
+    "translated_name": "\u30a2_\u30d6.WAV",
+    "offset": 1732608,
+    "size": 22956
+}, {
+    "original_name": "A_BYA.WAV",
+    "translated_name": "\u30a2_\u30d3\u30e3.WAV",
+    "offset": 1757184,
+    "size": 22050
+}, {
+    "original_name": "A_BYO.WAV",
+    "translated_name": "\u30a2_\u30d3\u30e7.WAV",
+    "offset": 1779712,
+    "size": 23114
+}, {
+    "original_name": "A_BYU.WAV",
+    "translated_name": "\u30a2_\u30d3\u30e3.WAV",
+    "offset": 1804288,
+    "size": 23428
+}, {
+    "original_name": "A_DA.WAV",
+    "translated_name": "\u30a2_\u30c0.WAV",
+    "offset": 1828864,
+    "size": 26092
+}, {
+    "original_name": "A_DE.WAV",
+    "translated_name": "\u30a2_\u30c7.WAV",
+    "offset": 1855488,
+    "size": 22870
+}, {
+    "original_name": "A_DI.WAV",
+    "translated_name": "\u30a2_\u30c2.WAV",
+    "offset": 1880064,
+    "size": 26962
+}, {
+    "original_name": "A_DO.WAV",
+    "translated_name": "\u30a2_\u30c9.WAV",
+    "offset": 1908736,
+    "size": 26280
+}, {
+    "original_name": "A_DU.WAV",
+    "translated_name": "\u30a2_\u30c5.WAV",
+    "offset": 1935360,
+    "size": 27004
+}, {
+    "original_name": "A_DYA.WAV",
+    "translated_name": "\u30a2_\u30c2\u30e3.WAV",
+    "offset": 1964032,
+    "size": 25314
+}, {
+    "original_name": "A_DYO.WAV",
+    "translated_name": "\u30a2_\u30c2\u30e7.WAV",
+    "offset": 1990656,
+    "size": 26812
+}, {
+    "original_name": "A_DYU.WAV",
+    "translated_name": "\u30a2_\u30c2\u30e5.WAV",
+    "offset": 2019328,
+    "size": 25994
+}, {
+    "original_name": "A_E.WAV",
+    "translated_name": "\u30a2_\u30a8.WAV",
+    "offset": 2045952,
+    "size": 24536
+}, {
+    "original_name": "A_FA.WAV",
+    "translated_name": "\u30a2_\u30d5\u30a1.WAV",
+    "offset": 2070528,
+    "size": 27258
+}, {
+    "original_name": "A_FE.WAV",
+    "translated_name": "\u30a2_\u30d5\u30a7.WAV",
+    "offset": 2099200,
+    "size": 27214
+}, {
+    "original_name": "A_FI.WAV",
+    "translated_name": "\u30a2_\u30d5\u30a3.WAV",
+    "offset": 2127872,
+    "size": 25494
+}, {
+    "original_name": "A_FO.WAV",
+    "translated_name": "\u30a2_\u30d5\u30a9.WAV",
+    "offset": 2154496,
+    "size": 26520
+}, {
+    "original_name": "A_FU.WAV",
+    "translated_name": "\u30a2_\u30d5.WAV",
+    "offset": 2181120,
+    "size": 22856
+}, {
+    "original_name": "A_GA.WAV",
+    "translated_name": "\u30a2_\u30ac.WAV",
+    "offset": 2205696,
+    "size": 23978
+}, {
+    "original_name": "A_GE.WAV",
+    "translated_name": "\u30a2_\u30b2.WAV",
+    "offset": 2230272,
+    "size": 27208
+}, {
+    "original_name": "A_GI.WAV",
+    "translated_name": "\u30a2_\u30ae.WAV",
+    "offset": 2258944,
+    "size": 25978
+}, {
+    "original_name": "A_GO.WAV",
+    "translated_name": "\u30a2_\u30b4.WAV",
+    "offset": 2285568,
+    "size": 26860
+}, {
+    "original_name": "A_GU.WAV",
+    "translated_name": "\u30a2_\u30b0.WAV",
+    "offset": 2314240,
+    "size": 22434
+}, {
+    "original_name": "A_GYA.WAV",
+    "translated_name": "\u30a2_\u30ae\u30e3.WAV",
+    "offset": 2336768,
+    "size": 24444
+}, {
+    "original_name": "A_GYO.WAV",
+    "translated_name": "\u30a2_\u30ae\u30e7.WAV",
+    "offset": 2361344,
+    "size": 24654
+}, {
+    "original_name": "A_GYU.WAV",
+    "translated_name": "\u30a2_\u30ae\u30e5.WAV",
+    "offset": 2387968,
+    "size": 24156
+}, {
+    "original_name": "A_HA.WAV",
+    "translated_name": "\u30a2_\u30cf.WAV",
+    "offset": 2412544,
+    "size": 21120
+}, {
+    "original_name": "A_HE.WAV",
+    "translated_name": "\u30a2_\u30d8.WAV",
+    "offset": 2435072,
+    "size": 21186
+}, {
+    "original_name": "A_HI.WAV",
+    "translated_name": "\u30a2_\u30d2.WAV",
+    "offset": 2457600,
+    "size": 21512
+}, {
+    "original_name": "A_HO.WAV",
+    "translated_name": "\u30a2_\u30db.WAV",
+    "offset": 2480128,
+    "size": 23098
+}, {
+    "original_name": "A_HU.WAV",
+    "translated_name": "\u30a2_\u30d5.WAV",
+    "offset": 2504704,
+    "size": 23542
+}, {
+    "original_name": "A_HYA.WAV",
+    "translated_name": "\u30a2_\u30d2\u30e3.WAV",
+    "offset": 2529280,
+    "size": 22874
+}, {
+    "original_name": "A_HYO.WAV",
+    "translated_name": "\u30a2_\u30d2\u30e7.WAV",
+    "offset": 2553856,
+    "size": 23094
+}, {
+    "original_name": "A_HYU.WAV",
+    "translated_name": "\u30a2_\u30d2\u30e5.WAV",
+    "offset": 2578432,
+    "size": 20320
+}, {
+    "original_name": "A_I.WAV",
+    "translated_name": "\u30a2_\u30a4.WAV",
+    "offset": 2598912,
+    "size": 23248
+}, {
+    "original_name": "A_JYA.WAV",
+    "translated_name": "\u30a2_\u30b8\u30e3.WAV",
+    "offset": 2623488,
+    "size": 23394
+}, {
+    "original_name": "A_JYO.WAV",
+    "translated_name": "\u30a2_\u30b8\u30e7.WAV",
+    "offset": 2648064,
+    "size": 23828
+}, {
+    "original_name": "A_JYU.WAV",
+    "translated_name": "\u30a2_\u30b8\u30e5.WAV",
+    "offset": 2672640,
+    "size": 27054
+}, {
+    "original_name": "A_MA.WAV",
+    "translated_name": "\u30a2_\u30de.WAV",
+    "offset": 2701312,
+    "size": 22566
+}, {
+    "original_name": "A_ME.WAV",
+    "translated_name": "\u30a2_\u30e1.WAV",
+    "offset": 2725888,
+    "size": 23498
+}, {
+    "original_name": "A_MI.WAV",
+    "translated_name": "\u30a2_\u30df.WAV",
+    "offset": 2750464,
+    "size": 24196
+}, {
+    "original_name": "A_MO.WAV",
+    "translated_name": "\u30a2_\u30e2.WAV",
+    "offset": 2775040,
+    "size": 23466
+}, {
+    "original_name": "A_MU.WAV",
+    "translated_name": "\u30a2_\u30e0.WAV",
+    "offset": 2799616,
+    "size": 23516
+}, {
+    "original_name": "A_MYA.WAV",
+    "translated_name": "\u30a2_\u30df\u30e3.WAV",
+    "offset": 2824192,
+    "size": 23164
+}, {
+    "original_name": "A_MYO.WAV",
+    "translated_name": "\u30a2_\u30df\u30e7.WAV",
+    "offset": 2848768,
+    "size": 23584
+}, {
+    "original_name": "A_MYU.WAV",
+    "translated_name": "\u30a2_\u30df\u30e5.WAV",
+    "offset": 2873344,
+    "size": 23210
+}, {
+    "original_name": "A_NA.WAV",
+    "translated_name": "\u30a2_\u30ca.WAV",
+    "offset": 2897920,
+    "size": 27438
+}, {
+    "original_name": "A_NE.WAV",
+    "translated_name": "\u30a2_\u30cd.WAV",
+    "offset": 2926592,
+    "size": 27190
+}, {
+    "original_name": "A_NI.WAV",
+    "translated_name": "\u30a2_\u30cb.WAV",
+    "offset": 2955264,
+    "size": 22932
+}, {
+    "original_name": "A_NO.WAV",
+    "translated_name": "\u30a2_\u30ce.WAV",
+    "offset": 2979840,
+    "size": 27412
+}, {
+    "original_name": "A_NU.WAV",
+    "translated_name": "\u30a2_\u30cc.WAV",
+    "offset": 3008512,
+    "size": 25472
+}, {
+    "original_name": "A_NYA.WAV",
+    "translated_name": "\u30a2_\u30cb\u30e3.WAV",
+    "offset": 3035136,
+    "size": 23240
+}, {
+    "original_name": "A_NYO.WAV",
+    "translated_name": "\u30a2_\u30cb\u30e7.WAV",
+    "offset": 3059712,
+    "size": 21352
+}, {
+    "original_name": "A_NYU.WAV",
+    "translated_name": "\u30a2_\u30cb\u30e5.WAV",
+    "offset": 3082240,
+    "size": 23236
+}, {
+    "original_name": "A_O.WAV",
+    "translated_name": "\u30a2_\u30aa.WAV",
+    "offset": 3106816,
+    "size": 23066
+}, {
+    "original_name": "A_RA.WAV",
+    "translated_name": "\u30a2_\u30e9.WAV",
+    "offset": 3131392,
+    "size": 23240
+}, {
+    "original_name": "A_RE.WAV",
+    "translated_name": "\u30a2_\u30ec.WAV",
+    "offset": 3155968,
+    "size": 23632
+}, {
+    "original_name": "A_RI.WAV",
+    "translated_name": "\u30a2_\u30ea.WAV",
+    "offset": 3180544,
+    "size": 22964
+}, {
+    "original_name": "A_RO.WAV",
+    "translated_name": "\u30a2_\u30ed.WAV",
+    "offset": 3205120,
+    "size": 23746
+}, {
+    "original_name": "A_RU.WAV",
+    "translated_name": "\u30a2_\u30eb.WAV",
+    "offset": 3229696,
+    "size": 24158
+}, {
+    "original_name": "A_RYA.WAV",
+    "translated_name": "\u30a2_\u30ea\u30e3.WAV",
+    "offset": 3254272,
+    "size": 22160
+}, {
+    "original_name": "A_RYO.WAV",
+    "translated_name": "\u30a2_\u30ea\u30e7.WAV",
+    "offset": 3276800,
+    "size": 23370
+}, {
+    "original_name": "A_RYU.WAV",
+    "translated_name": "\u30a2_\u30ea\u30e5.WAV",
+    "offset": 3301376,
+    "size": 23458
+}, {
+    "original_name": "A_SA.WAV",
+    "translated_name": "\u30a2_\u30b5.WAV",
+    "offset": 3325952,
+    "size": 25020
+}, {
+    "original_name": "A_SE.WAV",
+    "translated_name": "\u30a2_\u30bb.WAV",
+    "offset": 3352576,
+    "size": 27480
+}, {
+    "original_name": "A_SI.WAV",
+    "translated_name": "\u30a2_\u30b7.WAV",
+    "offset": 3381248,
+    "size": 23632
+}, {
+    "original_name": "A_SO.WAV",
+    "translated_name": "\u30a2_\u30bd.WAV",
+    "offset": 3405824,
+    "size": 23574
+}, {
+    "original_name": "A_SU.WAV",
+    "translated_name": "\u30a2_\u30b9.WAV",
+    "offset": 3430400,
+    "size": 22982
+}, {
+    "original_name": "A_SYA.WAV",
+    "translated_name": "\u30a2_\u30b7\u30e3.WAV",
+    "offset": 3454976,
+    "size": 26970
+}, {
+    "original_name": "A_SYO.WAV",
+    "translated_name": "\u30a2_\u30b7\u30e7.WAV",
+    "offset": 3483648,
+    "size": 26452
+}, {
+    "original_name": "A_SYU.WAV",
+    "translated_name": "\u30a2_\u30b7\u30e5.WAV",
+    "offset": 3510272,
+    "size": 27116
+}, {
+    "original_name": "A_U.WAV",
+    "translated_name": "\u30a2_\u30a6.WAV",
+    "offset": 3538944,
+    "size": 24136
+}, {
+    "original_name": "A_WA.WAV",
+    "translated_name": "\u30a2_\u30ef.WAV",
+    "offset": 3563520,
+    "size": 23384
+}, {
+    "original_name": "A_YA.WAV",
+    "translated_name": "\u30a2_\u30e4.WAV",
+    "offset": 3588096,
+    "size": 24284
+}, {
+    "original_name": "A_YO.WAV",
+    "translated_name": "\u30a2_\u30e8.WAV",
+    "offset": 3612672,
+    "size": 24194
+}, {
+    "original_name": "A_YU.WAV",
+    "translated_name": "\u30a2_\u30e6.WAV",
+    "offset": 3637248,
+    "size": 23684
+}, {
+    "original_name": "A_ZA.WAV",
+    "translated_name": "\u30a2_\u30b6.WAV",
+    "offset": 3661824,
+    "size": 24326
+}, {
+    "original_name": "A_ZE.WAV",
+    "translated_name": "\u30a2_\u30bc.WAV",
+    "offset": 3686400,
+    "size": 22982
+}, {
+    "original_name": "A_ZI.WAV",
+    "translated_name": "\u30a2_\u30b8.WAV",
+    "offset": 3710976,
+    "size": 23908
+}, {
+    "original_name": "A_ZO.WAV",
+    "translated_name": "\u30a2_\u30be.WAV",
+    "offset": 3735552,
+    "size": 21608
+}, {
+    "original_name": "A_ZU.WAV",
+    "translated_name": "\u30a2_\u30ba.WAV",
+    "offset": 3758080,
+    "size": 24580
+}, {
+    "original_name": "E_A.WAV",
+    "translated_name": "\u30a8_\u30a2.WAV",
+    "offset": 3784704,
+    "size": 23804
+}, {
+    "original_name": "E_BA.WAV",
+    "translated_name": "\u30a8_\u30d0.WAV",
+    "offset": 3809280,
+    "size": 26870
+}, {
+    "original_name": "E_BE.WAV",
+    "translated_name": "\u30a8_\u30d9.WAV",
+    "offset": 3837952,
+    "size": 23524
+}, {
+    "original_name": "E_BI.WAV",
+    "translated_name": "\u30a8_\u30d3.WAV",
+    "offset": 3862528,
+    "size": 21684
+}, {
+    "original_name": "E_BO.WAV",
+    "translated_name": "\u30a8_\u30dc.WAV",
+    "offset": 3885056,
+    "size": 27124
+}, {
+    "original_name": "E_BU.WAV",
+    "translated_name": "\u30a8_\u30d6.WAV",
+    "offset": 3913728,
+    "size": 23744
+}, {
+    "original_name": "E_BYA.WAV",
+    "translated_name": "\u30a8_\u30d3\u30e3.WAV",
+    "offset": 3938304,
+    "size": 22852
+}, {
+    "original_name": "E_BYO.WAV",
+    "translated_name": "\u30a8_\u30d3\u30e7.WAV",
+    "offset": 3962880,
+    "size": 21796
+}, {
+    "original_name": "E_BYU.WAV",
+    "translated_name": "\u30a8_\u30d3\u30e3.WAV",
+    "offset": 3985408,
+    "size": 24500
+}, {
+    "original_name": "E_DA.WAV",
+    "translated_name": "\u30a8_\u30c0.WAV",
+    "offset": 4009984,
+    "size": 23282
+}, {
+    "original_name": "E_DE.WAV",
+    "translated_name": "\u30a8_\u30c7.WAV",
+    "offset": 4034560,
+    "size": 21248
+}, {
+    "original_name": "E_DI.WAV",
+    "translated_name": "\u30a8_\u30c2.WAV",
+    "offset": 4057088,
+    "size": 26730
+}, {
+    "original_name": "E_DO.WAV",
+    "translated_name": "\u30a8_\u30c9.WAV",
+    "offset": 4085760,
+    "size": 22210
+}, {
+    "original_name": "E_DU.WAV",
+    "translated_name": "\u30a8_\u30c5.WAV",
+    "offset": 4108288,
+    "size": 26570
+}, {
+    "original_name": "E_DYA.WAV",
+    "translated_name": "\u30a8_\u30c2\u30e3.WAV",
+    "offset": 4134912,
+    "size": 27406
+}, {
+    "original_name": "E_DYO.WAV",
+    "translated_name": "\u30a8_\u30c2\u30e7.WAV",
+    "offset": 4163584,
+    "size": 27344
+}, {
+    "original_name": "E_DYU.WAV",
+    "translated_name": "\u30a8_\u30c2\u30e5.WAV",
+    "offset": 4192256,
+    "size": 27464
+}, {
+    "original_name": "E_E.WAV",
+    "translated_name": "\u30a8_\u30a8.WAV",
+    "offset": 4220928,
+    "size": 23406
+}, {
+    "original_name": "E_FA.WAV",
+    "translated_name": "\u30a8_\u30d5\u30a1.WAV",
+    "offset": 4245504,
+    "size": 26806
+}, {
+    "original_name": "E_FE.WAV",
+    "translated_name": "\u30a8_\u30d5\u30a7.WAV",
+    "offset": 4274176,
+    "size": 27222
+}, {
+    "original_name": "E_FI.WAV",
+    "translated_name": "\u30a8_\u30d5\u30a3.WAV",
+    "offset": 4302848,
+    "size": 26538
+}, {
+    "original_name": "E_FO.WAV",
+    "translated_name": "\u30a8_\u30d5\u30a9.WAV",
+    "offset": 4329472,
+    "size": 26846
+}, {
+    "original_name": "E_FU.WAV",
+    "translated_name": "\u30a8_\u30d5.WAV",
+    "offset": 4358144,
+    "size": 26224
+}, {
+    "original_name": "E_GA.WAV",
+    "translated_name": "\u30a8_\u30ac.WAV",
+    "offset": 4384768,
+    "size": 25186
+}, {
+    "original_name": "E_GE.WAV",
+    "translated_name": "\u30a8_\u30b2.WAV",
+    "offset": 4411392,
+    "size": 25692
+}, {
+    "original_name": "E_GI.WAV",
+    "translated_name": "\u30a8_\u30ae.WAV",
+    "offset": 4438016,
+    "size": 25278
+}, {
+    "original_name": "E_GO.WAV",
+    "translated_name": "\u30a8_\u30b4.WAV",
+    "offset": 4464640,
+    "size": 23804
+}, {
+    "original_name": "E_GU.WAV",
+    "translated_name": "\u30a8_\u30b0.WAV",
+    "offset": 4489216,
+    "size": 23856
+}, {
+    "original_name": "E_GYA.WAV",
+    "translated_name": "\u30a8_\u30ae\u30e3.WAV",
+    "offset": 4513792,
+    "size": 25528
+}, {
+    "original_name": "E_GYO.WAV",
+    "translated_name": "\u30a8_\u30ae\u30e7.WAV",
+    "offset": 4540416,
+    "size": 26620
+}, {
+    "original_name": "E_GYU.WAV",
+    "translated_name": "\u30a8_\u30ae\u30e5.WAV",
+    "offset": 4567040,
+    "size": 25876
+}, {
+    "original_name": "E_HA.WAV",
+    "translated_name": "\u30a8_\u30cf.WAV",
+    "offset": 4593664,
+    "size": 21516
+}, {
+    "original_name": "E_HE.WAV",
+    "translated_name": "\u30a8_\u30d8.WAV",
+    "offset": 4616192,
+    "size": 23798
+}, {
+    "original_name": "E_HI.WAV",
+    "translated_name": "\u30a8_\u30d2.WAV",
+    "offset": 4640768,
+    "size": 24126
+}, {
+    "original_name": "E_HO.WAV",
+    "translated_name": "\u30a8_\u30db.WAV",
+    "offset": 4665344,
+    "size": 23256
+}, {
+    "original_name": "E_HU.WAV",
+    "translated_name": "\u30a8_\u30d5.WAV",
+    "offset": 4689920,
+    "size": 24146
+}, {
+    "original_name": "E_HYA.WAV",
+    "translated_name": "\u30a8_\u30d2\u30e3.WAV",
+    "offset": 4714496,
+    "size": 21512
+}, {
+    "original_name": "E_HYO.WAV",
+    "translated_name": "\u30a8_\u30d2\u30e7.WAV",
+    "offset": 4737024,
+    "size": 19104
+}, {
+    "original_name": "E_HYU.WAV",
+    "translated_name": "\u30a8_\u30d2\u30e5.WAV",
+    "offset": 4757504,
+    "size": 23590
+}, {
+    "original_name": "E_I.WAV",
+    "translated_name": "\u30a8_\u30a4.WAV",
+    "offset": 4782080,
+    "size": 25586
+}, {
+    "original_name": "E_JYA.WAV",
+    "translated_name": "\u30a8_\u30b8\u30e3.WAV",
+    "offset": 4808704,
+    "size": 23418
+}, {
+    "original_name": "E_JYO.WAV",
+    "translated_name": "\u30a8_\u30b8\u30e7.WAV",
+    "offset": 4833280,
+    "size": 22900
+}, {
+    "original_name": "E_JYU.WAV",
+    "translated_name": "\u30a8_\u30b8\u30e5.WAV",
+    "offset": 4857856,
+    "size": 23050
+}, {
+    "original_name": "E_MA.WAV",
+    "translated_name": "\u30a8_\u30de.WAV",
+    "offset": 4882432,
+    "size": 22882
+}, {
+    "original_name": "E_ME.WAV",
+    "translated_name": "\u30a8_\u30e1.WAV",
+    "offset": 4907008,
+    "size": 22846
+}, {
+    "original_name": "E_MI.WAV",
+    "translated_name": "\u30a8_\u30df.WAV",
+    "offset": 4931584,
+    "size": 24104
+}, {
+    "original_name": "E_MO.WAV",
+    "translated_name": "\u30a8_\u30e2.WAV",
+    "offset": 4956160,
+    "size": 23552
+}, {
+    "original_name": "E_MU.WAV",
+    "translated_name": "\u30a8_\u30e0.WAV",
+    "offset": 4980736,
+    "size": 24134
+}, {
+    "original_name": "E_MYA.WAV",
+    "translated_name": "\u30a8_\u30df\u30e3.WAV",
+    "offset": 5005312,
+    "size": 22548
+}, {
+    "original_name": "E_MYO.WAV",
+    "translated_name": "\u30a8_\u30df\u30e7.WAV",
+    "offset": 5029888,
+    "size": 23000
+}, {
+    "original_name": "E_MYU.WAV",
+    "translated_name": "\u30a8_\u30df\u30e5.WAV",
+    "offset": 5054464,
+    "size": 24468
+}, {
+    "original_name": "E_NA.WAV",
+    "translated_name": "\u30a8_\u30ca.WAV",
+    "offset": 5079040,
+    "size": 19552
+}, {
+    "original_name": "E_NE.WAV",
+    "translated_name": "\u30a8_\u30cd.WAV",
+    "offset": 5099520,
+    "size": 21960
+}, {
+    "original_name": "E_NI.WAV",
+    "translated_name": "\u30a8_\u30cb.WAV",
+    "offset": 5122048,
+    "size": 21222
+}, {
+    "original_name": "E_NO.WAV",
+    "translated_name": "\u30a8_\u30ce.WAV",
+    "offset": 5144576,
+    "size": 27524
+}, {
+    "original_name": "E_NU.WAV",
+    "translated_name": "\u30a8_\u30cc.WAV",
+    "offset": 5173248,
+    "size": 21436
+}, {
+    "original_name": "E_NYA.WAV",
+    "translated_name": "\u30a8_\u30cb\u30e3.WAV",
+    "offset": 5195776,
+    "size": 22996
+}, {
+    "original_name": "E_NYO.WAV",
+    "translated_name": "\u30a8_\u30cb\u30e7.WAV",
+    "offset": 5220352,
+    "size": 23524
+}, {
+    "original_name": "E_NYU.WAV",
+    "translated_name": "\u30a8_\u30cb\u30e5.WAV",
+    "offset": 5244928,
+    "size": 25480
+}, {
+    "original_name": "E_O.WAV",
+    "translated_name": "\u30a8_\u30aa.WAV",
+    "offset": 5271552,
+    "size": 25242
+}, {
+    "original_name": "E_RA.WAV",
+    "translated_name": "\u30a8_\u30e9.WAV",
+    "offset": 5298176,
+    "size": 22996
+}, {
+    "original_name": "E_RE.WAV",
+    "translated_name": "\u30a8_\u30ec.WAV",
+    "offset": 5322752,
+    "size": 23526
+}, {
+    "original_name": "E_RI.WAV",
+    "translated_name": "\u30a8_\u30ea.WAV",
+    "offset": 5347328,
+    "size": 22966
+}, {
+    "original_name": "E_RO.WAV",
+    "translated_name": "\u30a8_\u30ed.WAV",
+    "offset": 5371904,
+    "size": 23268
+}, {
+    "original_name": "E_RU.WAV",
+    "translated_name": "\u30a8_\u30eb.WAV",
+    "offset": 5396480,
+    "size": 23672
+}, {
+    "original_name": "E_RYA.WAV",
+    "translated_name": "\u30a8_\u30ea\u30e3.WAV",
+    "offset": 5421056,
+    "size": 22658
+}, {
+    "original_name": "E_RYO.WAV",
+    "translated_name": "\u30a8_\u30ea\u30e7.WAV",
+    "offset": 5445632,
+    "size": 24270
+}, {
+    "original_name": "E_RYU.WAV",
+    "translated_name": "\u30a8_\u30ea\u30e5.WAV",
+    "offset": 5470208,
+    "size": 23378
+}, {
+    "original_name": "E_SA.WAV",
+    "translated_name": "\u30a8_\u30b5.WAV",
+    "offset": 5494784,
+    "size": 26524
+}, {
+    "original_name": "E_SE.WAV",
+    "translated_name": "\u30a8_\u30bb.WAV",
+    "offset": 5521408,
+    "size": 24074
+}, {
+    "original_name": "E_SI.WAV",
+    "translated_name": "\u30a8_\u30b7.WAV",
+    "offset": 5545984,
+    "size": 23090
+}, {
+    "original_name": "E_SO.WAV",
+    "translated_name": "\u30a8_\u30bd.WAV",
+    "offset": 5570560,
+    "size": 21618
+}, {
+    "original_name": "E_SU.WAV",
+    "translated_name": "\u30a8_\u30b9.WAV",
+    "offset": 5593088,
+    "size": 26916
+}, {
+    "original_name": "E_SYA.WAV",
+    "translated_name": "\u30a8_\u30b7\u30e3.WAV",
+    "offset": 5621760,
+    "size": 23334
+}, {
+    "original_name": "E_SYO.WAV",
+    "translated_name": "\u30a8_\u30b7\u30e7.WAV",
+    "offset": 5646336,
+    "size": 26310
+}, {
+    "original_name": "E_SYU.WAV",
+    "translated_name": "\u30a8_\u30b7\u30e5.WAV",
+    "offset": 5672960,
+    "size": 24362
+}, {
+    "original_name": "E_U.WAV",
+    "translated_name": "\u30a8_\u30a6.WAV",
+    "offset": 5697536,
+    "size": 25462
+}, {
+    "original_name": "E_WA.WAV",
+    "translated_name": "\u30a8_\u30ef.WAV",
+    "offset": 5724160,
+    "size": 23002
+}, {
+    "original_name": "E_YA.WAV",
+    "translated_name": "\u30a8_\u30e4.WAV",
+    "offset": 5748736,
+    "size": 23158
+}, {
+    "original_name": "E_YO.WAV",
+    "translated_name": "\u30a8_\u30e8.WAV",
+    "offset": 5773312,
+    "size": 23612
+}, {
+    "original_name": "E_YU.WAV",
+    "translated_name": "\u30a8_\u30e6.WAV",
+    "offset": 5797888,
+    "size": 24368
+}, {
+    "original_name": "E_ZA.WAV",
+    "translated_name": "\u30a8_\u30b6.WAV",
+    "offset": 5822464,
+    "size": 20870
+}, {
+    "original_name": "E_ZE.WAV",
+    "translated_name": "\u30a8_\u30bc.WAV",
+    "offset": 5844992,
+    "size": 21258
+}, {
+    "original_name": "E_ZI.WAV",
+    "translated_name": "\u30a8_\u30b8.WAV",
+    "offset": 5867520,
+    "size": 25324
+}, {
+    "original_name": "E_ZO.WAV",
+    "translated_name": "\u30a8_\u30be.WAV",
+    "offset": 5894144,
+    "size": 26304
+}, {
+    "original_name": "E_ZU.WAV",
+    "translated_name": "\u30a8_\u30ba.WAV",
+    "offset": 5920768,
+    "size": 25400
+}, {
+    "original_name": "I_A.WAV",
+    "translated_name": "\u30a4_\u30a2.WAV",
+    "offset": 5947392,
+    "size": 25726
+}, {
+    "original_name": "I_BA.WAV",
+    "translated_name": "\u30a4_\u30d0.WAV",
+    "offset": 5974016,
+    "size": 23018
+}, {
+    "original_name": "I_BE.WAV",
+    "translated_name": "\u30a4_\u30d9.WAV",
+    "offset": 5998592,
+    "size": 22684
+}, {
+    "original_name": "I_BI.WAV",
+    "translated_name": "\u30a4_\u30d3.WAV",
+    "offset": 6023168,
+    "size": 20412
+}, {
+    "original_name": "I_BO.WAV",
+    "translated_name": "\u30a4_\u30dc.WAV",
+    "offset": 6043648,
+    "size": 22022
+}, {
+    "original_name": "I_BU.WAV",
+    "translated_name": "\u30a4_\u30d6.WAV",
+    "offset": 6066176,
+    "size": 20154
+}, {
+    "original_name": "I_BYA.WAV",
+    "translated_name": "\u30a4_\u30d3\u30e3.WAV",
+    "offset": 6086656,
+    "size": 22626
+}, {
+    "original_name": "I_BYO.WAV",
+    "translated_name": "\u30a4_\u30d3\u30e7.WAV",
+    "offset": 6111232,
+    "size": 22888
+}, {
+    "original_name": "I_BYU.WAV",
+    "translated_name": "\u30a4_\u30d3\u30e3.WAV",
+    "offset": 6135808,
+    "size": 23326
+}, {
+    "original_name": "I_DA.WAV",
+    "translated_name": "\u30a4_\u30c0.WAV",
+    "offset": 6160384,
+    "size": 25480
+}, {
+    "original_name": "I_DE.WAV",
+    "translated_name": "\u30a4_\u30c7.WAV",
+    "offset": 6187008,
+    "size": 25670
+}, {
+    "original_name": "I_DI.WAV",
+    "translated_name": "\u30a4_\u30c2.WAV",
+    "offset": 6213632,
+    "size": 23736
+}, {
+    "original_name": "I_DO.WAV",
+    "translated_name": "\u30a4_\u30c9.WAV",
+    "offset": 6238208,
+    "size": 26072
+}, {
+    "original_name": "I_DU.WAV",
+    "translated_name": "\u30a4_\u30c5.WAV",
+    "offset": 6264832,
+    "size": 25316
+}, {
+    "original_name": "I_DYA.WAV",
+    "translated_name": "\u30a4_\u30c2\u30e3.WAV",
+    "offset": 6291456,
+    "size": 22932
+}, {
+    "original_name": "I_DYO.WAV",
+    "translated_name": "\u30a4_\u30c2\u30e7.WAV",
+    "offset": 6316032,
+    "size": 26214
+}, {
+    "original_name": "I_DYU.WAV",
+    "translated_name": "\u30a4_\u30c2\u30e5.WAV",
+    "offset": 6342656,
+    "size": 25368
+}, {
+    "original_name": "I_E.WAV",
+    "translated_name": "\u30a4_\u30a8.WAV",
+    "offset": 6369280,
+    "size": 25450
+}, {
+    "original_name": "I_FA.WAV",
+    "translated_name": "\u30a4_\u30d5\u30a1.WAV",
+    "offset": 6395904,
+    "size": 27146
+}, {
+    "original_name": "I_FE.WAV",
+    "translated_name": "\u30a4_\u30d5\u30a7.WAV",
+    "offset": 6424576,
+    "size": 26652
+}, {
+    "original_name": "I_FI.WAV",
+    "translated_name": "\u30a4_\u30d5\u30a3.WAV",
+    "offset": 6453248,
+    "size": 26224
+}, {
+    "original_name": "I_FO.WAV",
+    "translated_name": "\u30a4_\u30d5\u30a9.WAV",
+    "offset": 6479872,
+    "size": 26278
+}, {
+    "original_name": "I_FU.WAV",
+    "translated_name": "\u30a4_\u30d5.WAV",
+    "offset": 6506496,
+    "size": 23482
+}, {
+    "original_name": "I_GA.WAV",
+    "translated_name": "\u30a4_\u30ac.WAV",
+    "offset": 6531072,
+    "size": 21484
+}, {
+    "original_name": "I_GE.WAV",
+    "translated_name": "\u30a4_\u30b2.WAV",
+    "offset": 6553600,
+    "size": 24272
+}, {
+    "original_name": "I_GI.WAV",
+    "translated_name": "\u30a4_\u30ae.WAV",
+    "offset": 6578176,
+    "size": 26170
+}, {
+    "original_name": "I_GO.WAV",
+    "translated_name": "\u30a4_\u30b4.WAV",
+    "offset": 6604800,
+    "size": 21708
+}, {
+    "original_name": "I_GU.WAV",
+    "translated_name": "\u30a4_\u30b0.WAV",
+    "offset": 6627328,
+    "size": 25282
+}, {
+    "original_name": "I_GYA.WAV",
+    "translated_name": "\u30a4_\u30ae\u30e3.WAV",
+    "offset": 6653952,
+    "size": 22558
+}, {
+    "original_name": "I_GYO.WAV",
+    "translated_name": "\u30a4_\u30ae\u30e7.WAV",
+    "offset": 6678528,
+    "size": 27138
+}, {
+    "original_name": "I_GYU.WAV",
+    "translated_name": "\u30a4_\u30ae\u30e5.WAV",
+    "offset": 6707200,
+    "size": 25774
+}, {
+    "original_name": "I_HA.WAV",
+    "translated_name": "\u30a4_\u30cf.WAV",
+    "offset": 6733824,
+    "size": 27466
+}, {
+    "original_name": "I_HE.WAV",
+    "translated_name": "\u30a4_\u30d8.WAV",
+    "offset": 6762496,
+    "size": 22658
+}, {
+    "original_name": "I_HI.WAV",
+    "translated_name": "\u30a4_\u30d2.WAV",
+    "offset": 6787072,
+    "size": 25538
+}, {
+    "original_name": "I_HO.WAV",
+    "translated_name": "\u30a4_\u30db.WAV",
+    "offset": 6813696,
+    "size": 23590
+}, {
+    "original_name": "I_HU.WAV",
+    "translated_name": "\u30a4_\u30d5.WAV",
+    "offset": 6838272,
+    "size": 23916
+}, {
+    "original_name": "I_HYA.WAV",
+    "translated_name": "\u30a4_\u30d2\u30e3.WAV",
+    "offset": 6862848,
+    "size": 22582
+}, {
+    "original_name": "I_HYO.WAV",
+    "translated_name": "\u30a4_\u30d2\u30e7.WAV",
+    "offset": 6887424,
+    "size": 23664
+}, {
+    "original_name": "I_HYU.WAV",
+    "translated_name": "\u30a4_\u30d2\u30e5.WAV",
+    "offset": 6912000,
+    "size": 21740
+}, {
+    "original_name": "I_I.WAV",
+    "translated_name": "\u30a4_\u30a4.WAV",
+    "offset": 6934528,
+    "size": 25164
+}, {
+    "original_name": "I_JYA.WAV",
+    "translated_name": "\u30a4_\u30b8\u30e3.WAV",
+    "offset": 6961152,
+    "size": 23338
+}, {
+    "original_name": "I_JYO.WAV",
+    "translated_name": "\u30a4_\u30b8\u30e7.WAV",
+    "offset": 6985728,
+    "size": 26032
+}, {
+    "original_name": "I_JYU.WAV",
+    "translated_name": "\u30a4_\u30b8\u30e5.WAV",
+    "offset": 7012352,
+    "size": 26630
+}, {
+    "original_name": "I_MA.WAV",
+    "translated_name": "\u30a4_\u30de.WAV",
+    "offset": 7041024,
+    "size": 23430
+}, {
+    "original_name": "I_ME.WAV",
+    "translated_name": "\u30a4_\u30e1.WAV",
+    "offset": 7065600,
+    "size": 23356
+}, {
+    "original_name": "I_MI.WAV",
+    "translated_name": "\u30a4_\u30df.WAV",
+    "offset": 7090176,
+    "size": 23268
+}, {
+    "original_name": "I_MO.WAV",
+    "translated_name": "\u30a4_\u30e2.WAV",
+    "offset": 7114752,
+    "size": 22752
+}, {
+    "original_name": "I_MU.WAV",
+    "translated_name": "\u30a4_\u30e0.WAV",
+    "offset": 7139328,
+    "size": 23408
+}, {
+    "original_name": "I_MYA.WAV",
+    "translated_name": "\u30a4_\u30df\u30e3.WAV",
+    "offset": 7163904,
+    "size": 24070
+}, {
+    "original_name": "I_MYO.WAV",
+    "translated_name": "\u30a4_\u30df\u30e7.WAV",
+    "offset": 7188480,
+    "size": 23710
+}, {
+    "original_name": "I_MYU.WAV",
+    "translated_name": "\u30a4_\u30df\u30e5.WAV",
+    "offset": 7213056,
+    "size": 22496
+}, {
+    "original_name": "I_NA.WAV",
+    "translated_name": "\u30a4_\u30ca.WAV",
+    "offset": 7235584,
+    "size": 22576
+}, {
+    "original_name": "I_NE.WAV",
+    "translated_name": "\u30a4_\u30cd.WAV",
+    "offset": 7260160,
+    "size": 23444
+}, {
+    "original_name": "I_NI.WAV",
+    "translated_name": "\u30a4_\u30cb.WAV",
+    "offset": 7284736,
+    "size": 27170
+}, {
+    "original_name": "I_NO.WAV",
+    "translated_name": "\u30a4_\u30ce.WAV",
+    "offset": 7313408,
+    "size": 22420
+}, {
+    "original_name": "I_NU.WAV",
+    "translated_name": "\u30a4_\u30cc.WAV",
+    "offset": 7335936,
+    "size": 26792
+}, {
+    "original_name": "I_NYA.WAV",
+    "translated_name": "\u30a4_\u30cb\u30e3.WAV",
+    "offset": 7364608,
+    "size": 23780
+}, {
+    "original_name": "I_NYO.WAV",
+    "translated_name": "\u30a4_\u30cb\u30e7.WAV",
+    "offset": 7389184,
+    "size": 23374
+}, {
+    "original_name": "I_NYU.WAV",
+    "translated_name": "\u30a4_\u30cb\u30e5.WAV",
+    "offset": 7413760,
+    "size": 23490
+}, {
+    "original_name": "I_O.WAV",
+    "translated_name": "\u30a4_\u30aa.WAV",
+    "offset": 7438336,
+    "size": 22756
+}, {
+    "original_name": "I_RA.WAV",
+    "translated_name": "\u30a4_\u30e9.WAV",
+    "offset": 7462912,
+    "size": 23114
+}, {
+    "original_name": "I_RE.WAV",
+    "translated_name": "\u30a4_\u30ec.WAV",
+    "offset": 7487488,
+    "size": 22568
+}, {
+    "original_name": "I_RI.WAV",
+    "translated_name": "\u30a4_\u30ea.WAV",
+    "offset": 7512064,
+    "size": 24448
+}, {
+    "original_name": "I_RO.WAV",
+    "translated_name": "\u30a4_\u30ed.WAV",
+    "offset": 7536640,
+    "size": 22156
+}, {
+    "original_name": "I_RU.WAV",
+    "translated_name": "\u30a4_\u30eb.WAV",
+    "offset": 7559168,
+    "size": 23600
+}, {
+    "original_name": "I_RYA.WAV",
+    "translated_name": "\u30a4_\u30ea\u30e3.WAV",
+    "offset": 7583744,
+    "size": 22706
+}, {
+    "original_name": "I_RYO.WAV",
+    "translated_name": "\u30a4_\u30ea\u30e7.WAV",
+    "offset": 7608320,
+    "size": 22520
+}, {
+    "original_name": "I_RYU.WAV",
+    "translated_name": "\u30a4_\u30ea\u30e5.WAV",
+    "offset": 7630848,
+    "size": 21532
+}, {
+    "original_name": "I_SA.WAV",
+    "translated_name": "\u30a4_\u30b5.WAV",
+    "offset": 7653376,
+    "size": 26490
+}, {
+    "original_name": "I_SE.WAV",
+    "translated_name": "\u30a4_\u30bb.WAV",
+    "offset": 7680000,
+    "size": 25864
+}, {
+    "original_name": "I_SI.WAV",
+    "translated_name": "\u30a4_\u30b7.WAV",
+    "offset": 7706624,
+    "size": 27132
+}, {
+    "original_name": "I_SO.WAV",
+    "translated_name": "\u30a4_\u30bd.WAV",
+    "offset": 7735296,
+    "size": 25844
+}, {
+    "original_name": "I_SU.WAV",
+    "translated_name": "\u30a4_\u30b9.WAV",
+    "offset": 7761920,
+    "size": 20300
+}, {
+    "original_name": "I_SYA.WAV",
+    "translated_name": "\u30a4_\u30b7\u30e3.WAV",
+    "offset": 7782400,
+    "size": 25924
+}, {
+    "original_name": "I_SYO.WAV",
+    "translated_name": "\u30a4_\u30b7\u30e7.WAV",
+    "offset": 7809024,
+    "size": 26992
+}, {
+    "original_name": "I_SYU.WAV",
+    "translated_name": "\u30a4_\u30b7\u30e5.WAV",
+    "offset": 7837696,
+    "size": 26260
+}, {
+    "original_name": "I_U.WAV",
+    "translated_name": "\u30a4_\u30a6.WAV",
+    "offset": 7864320,
+    "size": 24722
+}, {
+    "original_name": "I_WA.WAV",
+    "translated_name": "\u30a4_\u30ef.WAV",
+    "offset": 7890944,
+    "size": 22716
+}, {
+    "original_name": "I_YA.WAV",
+    "translated_name": "\u30a4_\u30e4.WAV",
+    "offset": 7915520,
+    "size": 24318
+}, {
+    "original_name": "I_YO.WAV",
+    "translated_name": "\u30a4_\u30e8.WAV",
+    "offset": 7940096,
+    "size": 23016
+}, {
+    "original_name": "I_YU.WAV",
+    "translated_name": "\u30a4_\u30e6.WAV",
+    "offset": 7964672,
+    "size": 23652
+}, {
+    "original_name": "I_ZA.WAV",
+    "translated_name": "\u30a4_\u30b6.WAV",
+    "offset": 7989248,
+    "size": 23458
+}, {
+    "original_name": "I_ZE.WAV",
+    "translated_name": "\u30a4_\u30bc.WAV",
+    "offset": 8013824,
+    "size": 27358
+}, {
+    "original_name": "I_ZI.WAV",
+    "translated_name": "\u30a4_\u30b8.WAV",
+    "offset": 8042496,
+    "size": 27400
+}, {
+    "original_name": "I_ZO.WAV",
+    "translated_name": "\u30a4_\u30be.WAV",
+    "offset": 8071168,
+    "size": 26656
+}, {
+    "original_name": "I_ZU.WAV",
+    "translated_name": "\u30a4_\u30ba.WAV",
+    "offset": 8099840,
+    "size": 22488
+}, {
+    "original_name": "N_A.WAV",
+    "translated_name": "\u30f3_\u30a2.WAV",
+    "offset": 8122368,
+    "size": 20852
+}, {
+    "original_name": "N_BA.WAV",
+    "translated_name": "\u30f3_\u30d0.WAV",
+    "offset": 8144896,
+    "size": 22324
+}, {
+    "original_name": "N_BE.WAV",
+    "translated_name": "\u30f3_\u30d9.WAV",
+    "offset": 8167424,
+    "size": 20832
+}, {
+    "original_name": "N_BI.WAV",
+    "translated_name": "\u30f3_\u30d3.WAV",
+    "offset": 8189952,
+    "size": 27306
+}, {
+    "original_name": "N_BO.WAV",
+    "translated_name": "\u30f3_\u30dc.WAV",
+    "offset": 8218624,
+    "size": 25622
+}, {
+    "original_name": "N_BU.WAV",
+    "translated_name": "\u30f3_\u30d6.WAV",
+    "offset": 8245248,
+    "size": 24254
+}, {
+    "original_name": "N_BYA.WAV",
+    "translated_name": "\u30f3_\u30d3\u30e3.WAV",
+    "offset": 8269824,
+    "size": 23618
+}, {
+    "original_name": "N_BYO.WAV",
+    "translated_name": "\u30f3_\u30d3\u30e7.WAV",
+    "offset": 8294400,
+    "size": 23496
+}, {
+    "original_name": "N_BYU.WAV",
+    "translated_name": "\u30f3_\u30d3\u30e3.WAV",
+    "offset": 8318976,
+    "size": 23178
+}, {
+    "original_name": "N_DA.WAV",
+    "translated_name": "\u30f3_\u30c0.WAV",
+    "offset": 8343552,
+    "size": 24548
+}, {
+    "original_name": "N_DE.WAV",
+    "translated_name": "\u30f3_\u30c7.WAV",
+    "offset": 8368128,
+    "size": 26538
+}, {
+    "original_name": "N_DI.WAV",
+    "translated_name": "\u30f3_\u30c2.WAV",
+    "offset": 8394752,
+    "size": 25276
+}, {
+    "original_name": "N_DO.WAV",
+    "translated_name": "\u30f3_\u30c9.WAV",
+    "offset": 8421376,
+    "size": 25290
+}, {
+    "original_name": "N_DU.WAV",
+    "translated_name": "\u30f3_\u30c5.WAV",
+    "offset": 8448000,
+    "size": 25722
+}, {
+    "original_name": "N_DYA.WAV",
+    "translated_name": "\u30f3_\u30c2\u30e3.WAV",
+    "offset": 8474624,
+    "size": 25364
+}, {
+    "original_name": "N_DYO.WAV",
+    "translated_name": "\u30f3_\u30c2\u30e7.WAV",
+    "offset": 8501248,
+    "size": 26092
+}, {
+    "original_name": "N_DYU.WAV",
+    "translated_name": "\u30f3_\u30c2\u30e5.WAV",
+    "offset": 8527872,
+    "size": 23144
+}, {
+    "original_name": "N_E.WAV",
+    "translated_name": "\u30f3_\u30a8.WAV",
+    "offset": 8552448,
+    "size": 23912
+}, {
+    "original_name": "N_FA.WAV",
+    "translated_name": "\u30f3_\u30d5\u30a1.WAV",
+    "offset": 8577024,
+    "size": 21642
+}, {
+    "original_name": "N_FE.WAV",
+    "translated_name": "\u30f3_\u30d5\u30a7.WAV",
+    "offset": 8599552,
+    "size": 27602
+}, {
+    "original_name": "N_FI.WAV",
+    "translated_name": "\u30f3_\u30d5\u30a3.WAV",
+    "offset": 8628224,
+    "size": 23036
+}, {
+    "original_name": "N_FO.WAV",
+    "translated_name": "\u30f3_\u30d5\u30a9.WAV",
+    "offset": 8652800,
+    "size": 22752
+}, {
+    "original_name": "N_FU.WAV",
+    "translated_name": "\u30f3_\u30d5.WAV",
+    "offset": 8677376,
+    "size": 21104
+}, {
+    "original_name": "N_GA.WAV",
+    "translated_name": "\u30f3_\u30ac.WAV",
+    "offset": 8699904,
+    "size": 24108
+}, {
+    "original_name": "N_GE.WAV",
+    "translated_name": "\u30f3_\u30b2.WAV",
+    "offset": 8724480,
+    "size": 25452
+}, {
+    "original_name": "N_GI.WAV",
+    "translated_name": "\u30f3_\u30ae.WAV",
+    "offset": 8751104,
+    "size": 25584
+}, {
+    "original_name": "N_GO.WAV",
+    "translated_name": "\u30f3_\u30b4.WAV",
+    "offset": 8777728,
+    "size": 26020
+}, {
+    "original_name": "N_GU.WAV",
+    "translated_name": "\u30f3_\u30b0.WAV",
+    "offset": 8804352,
+    "size": 26560
+}, {
+    "original_name": "N_GYA.WAV",
+    "translated_name": "\u30f3_\u30ae\u30e3.WAV",
+    "offset": 8830976,
+    "size": 25680
+}, {
+    "original_name": "N_GYO.WAV",
+    "translated_name": "\u30f3_\u30ae\u30e7.WAV",
+    "offset": 8857600,
+    "size": 26728
+}, {
+    "original_name": "N_GYU.WAV",
+    "translated_name": "\u30f3_\u30ae\u30e5.WAV",
+    "offset": 8886272,
+    "size": 26672
+}, {
+    "original_name": "N_HA.WAV",
+    "translated_name": "\u30f3_\u30cf.WAV",
+    "offset": 8914944,
+    "size": 22638
+}, {
+    "original_name": "N_HE.WAV",
+    "translated_name": "\u30f3_\u30d8.WAV",
+    "offset": 8939520,
+    "size": 23432
+}, {
+    "original_name": "N_HI.WAV",
+    "translated_name": "\u30f3_\u30d2.WAV",
+    "offset": 8964096,
+    "size": 21660
+}, {
+    "original_name": "N_HO.WAV",
+    "translated_name": "\u30f3_\u30db.WAV",
+    "offset": 8986624,
+    "size": 25040
+}, {
+    "original_name": "N_HU.WAV",
+    "translated_name": "\u30f3_\u30d5.WAV",
+    "offset": 9013248,
+    "size": 24090
+}, {
+    "original_name": "N_HYA.WAV",
+    "translated_name": "\u30f3_\u30d2\u30e3.WAV",
+    "offset": 9037824,
+    "size": 20642
+}, {
+    "original_name": "N_HYO.WAV",
+    "translated_name": "\u30f3_\u30d2\u30e7.WAV",
+    "offset": 9060352,
+    "size": 23302
+}, {
+    "original_name": "N_HYU.WAV",
+    "translated_name": "\u30f3_\u30d2\u30e5.WAV",
+    "offset": 9084928,
+    "size": 22592
+}, {
+    "original_name": "N_I.WAV",
+    "translated_name": "\u30f3_\u30a4.WAV",
+    "offset": 9109504,
+    "size": 22178
+}, {
+    "original_name": "N_JYA.WAV",
+    "translated_name": "\u30f3_\u30b8\u30e3.WAV",
+    "offset": 9132032,
+    "size": 23408
+}, {
+    "original_name": "N_JYO.WAV",
+    "translated_name": "\u30f3_\u30b8\u30e7.WAV",
+    "offset": 9156608,
+    "size": 22134
+}, {
+    "original_name": "N_JYU.WAV",
+    "translated_name": "\u30f3_\u30b8\u30e5.WAV",
+    "offset": 9179136,
+    "size": 23656
+}, {
+    "original_name": "N_MA.WAV",
+    "translated_name": "\u30f3_\u30de.WAV",
+    "offset": 9203712,
+    "size": 24230
+}, {
+    "original_name": "N_ME.WAV",
+    "translated_name": "\u30f3_\u30e1.WAV",
+    "offset": 9228288,
+    "size": 24008
+}, {
+    "original_name": "N_MI.WAV",
+    "translated_name": "\u30f3_\u30df.WAV",
+    "offset": 9252864,
+    "size": 24068
+}, {
+    "original_name": "N_MO.WAV",
+    "translated_name": "\u30f3_\u30e2.WAV",
+    "offset": 9277440,
+    "size": 25282
+}, {
+    "original_name": "N_MU.WAV",
+    "translated_name": "\u30f3_\u30e0.WAV",
+    "offset": 9304064,
+    "size": 23604
+}, {
+    "original_name": "N_MYA.WAV",
+    "translated_name": "\u30f3_\u30df\u30e3.WAV",
+    "offset": 9328640,
+    "size": 24572
+}, {
+    "original_name": "N_MYO.WAV",
+    "translated_name": "\u30f3_\u30df\u30e7.WAV",
+    "offset": 9353216,
+    "size": 23140
+}, {
+    "original_name": "N_MYU.WAV",
+    "translated_name": "\u30f3_\u30df\u30e5.WAV",
+    "offset": 9377792,
+    "size": 22484
+}, {
+    "original_name": "N_NA.WAV",
+    "translated_name": "\u30f3_\u30ca.WAV",
+    "offset": 9400320,
+    "size": 21876
+}, {
+    "original_name": "N_NE.WAV",
+    "translated_name": "\u30f3_\u30cd.WAV",
+    "offset": 9422848,
+    "size": 25476
+}, {
+    "original_name": "N_NI.WAV",
+    "translated_name": "\u30f3_\u30cb.WAV",
+    "offset": 9449472,
+    "size": 22736
+}, {
+    "original_name": "N_NO.WAV",
+    "translated_name": "\u30f3_\u30ce.WAV",
+    "offset": 9474048,
+    "size": 20088
+}, {
+    "original_name": "N_NU.WAV",
+    "translated_name": "\u30f3_\u30cc.WAV",
+    "offset": 9494528,
+    "size": 27482
+}, {
+    "original_name": "N_NYA.WAV",
+    "translated_name": "\u30f3_\u30cb\u30e3.WAV",
+    "offset": 9523200,
+    "size": 22736
+}, {
+    "original_name": "N_NYO.WAV",
+    "translated_name": "\u30f3_\u30cb\u30e7.WAV",
+    "offset": 9547776,
+    "size": 17490
+}, {
+    "original_name": "N_NYU.WAV",
+    "translated_name": "\u30f3_\u30cb\u30e5.WAV",
+    "offset": 9566208,
+    "size": 22838
+}, {
+    "original_name": "N_O.WAV",
+    "translated_name": "\u30f3_\u30aa.WAV",
+    "offset": 9590784,
+    "size": 23782
+}, {
+    "original_name": "N_RA.WAV",
+    "translated_name": "\u30f3_\u30e9.WAV",
+    "offset": 9615360,
+    "size": 20326
+}, {
+    "original_name": "N_RE.WAV",
+    "translated_name": "\u30f3_\u30ec.WAV",
+    "offset": 9635840,
+    "size": 27646
+}, {
+    "original_name": "N_RI.WAV",
+    "translated_name": "\u30f3_\u30ea.WAV",
+    "offset": 9664512,
+    "size": 23066
+}, {
+    "original_name": "N_RO.WAV",
+    "translated_name": "\u30f3_\u30ed.WAV",
+    "offset": 9689088,
+    "size": 27300
+}, {
+    "original_name": "N_RU.WAV",
+    "translated_name": "\u30f3_\u30eb.WAV",
+    "offset": 9717760,
+    "size": 19666
+}, {
+    "original_name": "N_RYA.WAV",
+    "translated_name": "\u30f3_\u30ea\u30e3.WAV",
+    "offset": 9738240,
+    "size": 24498
+}, {
+    "original_name": "N_RYO.WAV",
+    "translated_name": "\u30f3_\u30ea\u30e7.WAV",
+    "offset": 9762816,
+    "size": 22218
+}, {
+    "original_name": "N_RYU.WAV",
+    "translated_name": "\u30f3_\u30ea\u30e5.WAV",
+    "offset": 9785344,
+    "size": 21556
+}, {
+    "original_name": "N_SA.WAV",
+    "translated_name": "\u30f3_\u30b5.WAV",
+    "offset": 9807872,
+    "size": 25002
+}, {
+    "original_name": "N_SE.WAV",
+    "translated_name": "\u30f3_\u30bb.WAV",
+    "offset": 9834496,
+    "size": 26578
+}, {
+    "original_name": "N_SI.WAV",
+    "translated_name": "\u30f3_\u30b7.WAV",
+    "offset": 9861120,
+    "size": 23682
+}, {
+    "original_name": "N_SO.WAV",
+    "translated_name": "\u30f3_\u30bd.WAV",
+    "offset": 9885696,
+    "size": 26200
+}, {
+    "original_name": "N_SU.WAV",
+    "translated_name": "\u30f3_\u30b9.WAV",
+    "offset": 9912320,
+    "size": 22216
+}, {
+    "original_name": "N_SYA.WAV",
+    "translated_name": "\u30f3_\u30b7\u30e3.WAV",
+    "offset": 9934848,
+    "size": 24878
+}, {
+    "original_name": "N_SYO.WAV",
+    "translated_name": "\u30f3_\u30b7\u30e7.WAV",
+    "offset": 9961472,
+    "size": 27290
+}, {
+    "original_name": "N_SYU.WAV",
+    "translated_name": "\u30f3_\u30b7\u30e5.WAV",
+    "offset": 9990144,
+    "size": 23724
+}, {
+    "original_name": "N_U.WAV",
+    "translated_name": "\u30f3_\u30a6.WAV",
+    "offset": 10014720,
+    "size": 21592
+}, {
+    "original_name": "N_WA.WAV",
+    "translated_name": "\u30f3_\u30ef.WAV",
+    "offset": 10037248,
+    "size": 22554
+}, {
+    "original_name": "N_YA.WAV",
+    "translated_name": "\u30f3_\u30e4.WAV",
+    "offset": 10061824,
+    "size": 23588
+}, {
+    "original_name": "N_YO.WAV",
+    "translated_name": "\u30f3_\u30e8.WAV",
+    "offset": 10086400,
+    "size": 23242
+}, {
+    "original_name": "N_YU.WAV",
+    "translated_name": "\u30f3_\u30e6.WAV",
+    "offset": 10110976,
+    "size": 24100
+}, {
+    "original_name": "N_ZA.WAV",
+    "translated_name": "\u30f3_\u30b6.WAV",
+    "offset": 10135552,
+    "size": 26584
+}, {
+    "original_name": "N_ZE.WAV",
+    "translated_name": "\u30f3_\u30bc.WAV",
+    "offset": 10162176,
+    "size": 27292
+}, {
+    "original_name": "N_ZI.WAV",
+    "translated_name": "\u30f3_\u30b8.WAV",
+    "offset": 10190848,
+    "size": 23896
+}, {
+    "original_name": "N_ZO.WAV",
+    "translated_name": "\u30f3_\u30be.WAV",
+    "offset": 10215424,
+    "size": 24716
+}, {
+    "original_name": "N_ZU.WAV",
+    "translated_name": "\u30f3_\u30ba.WAV",
+    "offset": 10242048,
+    "size": 23642
+}, {
+    "original_name": "O_A.WAV",
+    "translated_name": "\u30aa_\u30a2.WAV",
+    "offset": 10266624,
+    "size": 25534
+}, {
+    "original_name": "O_BA.WAV",
+    "translated_name": "\u30aa_\u30d0.WAV",
+    "offset": 10293248,
+    "size": 23384
+}, {
+    "original_name": "O_BE.WAV",
+    "translated_name": "\u30aa_\u30d9.WAV",
+    "offset": 10317824,
+    "size": 22776
+}, {
+    "original_name": "O_BI.WAV",
+    "translated_name": "\u30aa_\u30d3.WAV",
+    "offset": 10342400,
+    "size": 27640
+}, {
+    "original_name": "O_BO.WAV",
+    "translated_name": "\u30aa_\u30dc.WAV",
+    "offset": 10371072,
+    "size": 27280
+}, {
+    "original_name": "O_BU.WAV",
+    "translated_name": "\u30aa_\u30d6.WAV",
+    "offset": 10399744,
+    "size": 26798
+}, {
+    "original_name": "O_BYA.WAV",
+    "translated_name": "\u30aa_\u30d3\u30e3.WAV",
+    "offset": 10428416,
+    "size": 23092
+}, {
+    "original_name": "O_BYO.WAV",
+    "translated_name": "\u30aa_\u30d3\u30e7.WAV",
+    "offset": 10452992,
+    "size": 24486
+}, {
+    "original_name": "O_BYU.WAV",
+    "translated_name": "\u30aa_\u30d3\u30e3.WAV",
+    "offset": 10477568,
+    "size": 22562
+}, {
+    "original_name": "O_DA.WAV",
+    "translated_name": "\u30aa_\u30c0.WAV",
+    "offset": 10502144,
+    "size": 21936
+}, {
+    "original_name": "O_DE.WAV",
+    "translated_name": "\u30aa_\u30c7.WAV",
+    "offset": 10524672,
+    "size": 27068
+}, {
+    "original_name": "O_DI.WAV",
+    "translated_name": "\u30aa_\u30c2.WAV",
+    "offset": 10553344,
+    "size": 27454
+}, {
+    "original_name": "O_DO.WAV",
+    "translated_name": "\u30aa_\u30c9.WAV",
+    "offset": 10582016,
+    "size": 26240
+}, {
+    "original_name": "O_DU.WAV",
+    "translated_name": "\u30aa_\u30c5.WAV",
+    "offset": 10608640,
+    "size": 25338
+}, {
+    "original_name": "O_DYA.WAV",
+    "translated_name": "\u30aa_\u30c2\u30e3.WAV",
+    "offset": 10635264,
+    "size": 26490
+}, {
+    "original_name": "O_DYO.WAV",
+    "translated_name": "\u30aa_\u30c2\u30e7.WAV",
+    "offset": 10661888,
+    "size": 26204
+}, {
+    "original_name": "O_DYU.WAV",
+    "translated_name": "\u30aa_\u30c2\u30e5.WAV",
+    "offset": 10688512,
+    "size": 26186
+}, {
+    "original_name": "O_E.WAV",
+    "translated_name": "\u30aa_\u30a8.WAV",
+    "offset": 10715136,
+    "size": 26082
+}, {
+    "original_name": "O_FA.WAV",
+    "translated_name": "\u30aa_\u30d5\u30a1.WAV",
+    "offset": 10741760,
+    "size": 27344
+}, {
+    "original_name": "O_FE.WAV",
+    "translated_name": "\u30aa_\u30d5\u30a7.WAV",
+    "offset": 10770432,
+    "size": 26638
+}, {
+    "original_name": "O_FI.WAV",
+    "translated_name": "\u30aa_\u30d5\u30a3.WAV",
+    "offset": 10799104,
+    "size": 27594
+}, {
+    "original_name": "O_FO.WAV",
+    "translated_name": "\u30aa_\u30d5\u30a9.WAV",
+    "offset": 10827776,
+    "size": 27142
+}, {
+    "original_name": "O_FU.WAV",
+    "translated_name": "\u30aa_\u30d5.WAV",
+    "offset": 10856448,
+    "size": 25918
+}, {
+    "original_name": "O_GA.WAV",
+    "translated_name": "\u30aa_\u30ac.WAV",
+    "offset": 10883072,
+    "size": 23894
+}, {
+    "original_name": "O_GE.WAV",
+    "translated_name": "\u30aa_\u30b2.WAV",
+    "offset": 10907648,
+    "size": 27280
+}, {
+    "original_name": "O_GI.WAV",
+    "translated_name": "\u30aa_\u30ae.WAV",
+    "offset": 10936320,
+    "size": 24716
+}, {
+    "original_name": "O_GO.WAV",
+    "translated_name": "\u30aa_\u30b4.WAV",
+    "offset": 10962944,
+    "size": 25062
+}, {
+    "original_name": "O_GU.WAV",
+    "translated_name": "\u30aa_\u30b0.WAV",
+    "offset": 10989568,
+    "size": 26454
+}, {
+    "original_name": "O_GYA.WAV",
+    "translated_name": "\u30aa_\u30ae\u30e3.WAV",
+    "offset": 11016192,
+    "size": 22138
+}, {
+    "original_name": "O_GYO.WAV",
+    "translated_name": "\u30aa_\u30ae\u30e7.WAV",
+    "offset": 11038720,
+    "size": 26210
+}, {
+    "original_name": "O_GYU.WAV",
+    "translated_name": "\u30aa_\u30ae\u30e5.WAV",
+    "offset": 11065344,
+    "size": 25646
+}, {
+    "original_name": "O_HA.WAV",
+    "translated_name": "\u30aa_\u30cf.WAV",
+    "offset": 11091968,
+    "size": 23746
+}, {
+    "original_name": "O_HE.WAV",
+    "translated_name": "\u30aa_\u30d8.WAV",
+    "offset": 11116544,
+    "size": 24524
+}, {
+    "original_name": "O_HI.WAV",
+    "translated_name": "\u30aa_\u30d2.WAV",
+    "offset": 11141120,
+    "size": 24084
+}, {
+    "original_name": "O_HO.WAV",
+    "translated_name": "\u30aa_\u30db.WAV",
+    "offset": 11165696,
+    "size": 25212
+}, {
+    "original_name": "O_HU.WAV",
+    "translated_name": "\u30aa_\u30d5.WAV",
+    "offset": 11192320,
+    "size": 22618
+}, {
+    "original_name": "O_HYA.WAV",
+    "translated_name": "\u30aa_\u30d2\u30e3.WAV",
+    "offset": 11216896,
+    "size": 22656
+}, {
+    "original_name": "O_HYO.WAV",
+    "translated_name": "\u30aa_\u30d2\u30e7.WAV",
+    "offset": 11241472,
+    "size": 22390
+}, {
+    "original_name": "O_HYU.WAV",
+    "translated_name": "\u30aa_\u30d2\u30e5.WAV",
+    "offset": 11264000,
+    "size": 22502
+}, {
+    "original_name": "O_I.WAV",
+    "translated_name": "\u30aa_\u30a4.WAV",
+    "offset": 11286528,
+    "size": 24040
+}, {
+    "original_name": "O_JYA.WAV",
+    "translated_name": "\u30aa_\u30b8\u30e3.WAV",
+    "offset": 11311104,
+    "size": 22712
+}, {
+    "original_name": "O_JYO.WAV",
+    "translated_name": "\u30aa_\u30b8\u30e7.WAV",
+    "offset": 11335680,
+    "size": 24622
+}, {
+    "original_name": "O_JYU.WAV",
+    "translated_name": "\u30aa_\u30b8\u30e5.WAV",
+    "offset": 11362304,
+    "size": 24738
+}, {
+    "original_name": "O_KO.WAV",
+    "translated_name": "\u30aa_\u30b3.WAV",
+    "offset": 11388928,
+    "size": 24792
+}, {
+    "original_name": "O_MA.WAV",
+    "translated_name": "\u30aa_\u30de.WAV",
+    "offset": 11415552,
+    "size": 23382
+}, {
+    "original_name": "O_ME.WAV",
+    "translated_name": "\u30aa_\u30e1.WAV",
+    "offset": 11440128,
+    "size": 24128
+}, {
+    "original_name": "O_MI.WAV",
+    "translated_name": "\u30aa_\u30df.WAV",
+    "offset": 11464704,
+    "size": 22642
+}, {
+    "original_name": "O_MO.WAV",
+    "translated_name": "\u30aa_\u30e2.WAV",
+    "offset": 11489280,
+    "size": 23476
+}, {
+    "original_name": "O_MU.WAV",
+    "translated_name": "\u30aa_\u30e0.WAV",
+    "offset": 11513856,
+    "size": 23412
+}, {
+    "original_name": "O_MYA.WAV",
+    "translated_name": "\u30aa_\u30df\u30e3.WAV",
+    "offset": 11538432,
+    "size": 23910
+}, {
+    "original_name": "O_MYO.WAV",
+    "translated_name": "\u30aa_\u30df\u30e7.WAV",
+    "offset": 11563008,
+    "size": 22764
+}, {
+    "original_name": "O_MYU.WAV",
+    "translated_name": "\u30aa_\u30df\u30e5.WAV",
+    "offset": 11587584,
+    "size": 24118
+}, {
+    "original_name": "O_NA.WAV",
+    "translated_name": "\u30aa_\u30ca.WAV",
+    "offset": 11612160,
+    "size": 22252
+}, {
+    "original_name": "O_NE.WAV",
+    "translated_name": "\u30aa_\u30cd.WAV",
+    "offset": 11634688,
+    "size": 22844
+}, {
+    "original_name": "O_NI.WAV",
+    "translated_name": "\u30aa_\u30cb.WAV",
+    "offset": 11659264,
+    "size": 23896
+}, {
+    "original_name": "O_NO.WAV",
+    "translated_name": "\u30aa_\u30ce.WAV",
+    "offset": 11683840,
+    "size": 21190
+}, {
+    "original_name": "O_NU.WAV",
+    "translated_name": "\u30aa_\u30cc.WAV",
+    "offset": 11706368,
+    "size": 21766
+}, {
+    "original_name": "O_NYA.WAV",
+    "translated_name": "\u30aa_\u30cb\u30e3.WAV",
+    "offset": 11728896,
+    "size": 22856
+}, {
+    "original_name": "O_NYO.WAV",
+    "translated_name": "\u30aa_\u30cb\u30e7.WAV",
+    "offset": 11753472,
+    "size": 22246
+}, {
+    "original_name": "O_NYU.WAV",
+    "translated_name": "\u30aa_\u30cb\u30e5.WAV",
+    "offset": 11776000,
+    "size": 20372
+}, {
+    "original_name": "O_O.WAV",
+    "translated_name": "\u30aa_\u30aa.WAV",
+    "offset": 11796480,
+    "size": 14598
+}, {
+    "original_name": "O_RA.WAV",
+    "translated_name": "\u30aa_\u30e9.WAV",
+    "offset": 11812864,
+    "size": 23096
+}, {
+    "original_name": "O_RE.WAV",
+    "translated_name": "\u30aa_\u30ec.WAV",
+    "offset": 11837440,
+    "size": 24918
+}, {
+    "original_name": "O_RI.WAV",
+    "translated_name": "\u30aa_\u30ea.WAV",
+    "offset": 11864064,
+    "size": 27450
+}, {
+    "original_name": "O_RO.WAV",
+    "translated_name": "\u30aa_\u30ed.WAV",
+    "offset": 11892736,
+    "size": 23502
+}, {
+    "original_name": "O_RU.WAV",
+    "translated_name": "\u30aa_\u30eb.WAV",
+    "offset": 11917312,
+    "size": 23508
+}, {
+    "original_name": "O_RYA.WAV",
+    "translated_name": "\u30aa_\u30ea\u30e3.WAV",
+    "offset": 11941888,
+    "size": 22628
+}, {
+    "original_name": "O_RYO.WAV",
+    "translated_name": "\u30aa_\u30ea\u30e7.WAV",
+    "offset": 11966464,
+    "size": 23152
+}, {
+    "original_name": "O_RYU.WAV",
+    "translated_name": "\u30aa_\u30ea\u30e5.WAV",
+    "offset": 11991040,
+    "size": 22870
+}, {
+    "original_name": "O_SA.WAV",
+    "translated_name": "\u30aa_\u30b5.WAV",
+    "offset": 12015616,
+    "size": 24130
+}, {
+    "original_name": "O_SE.WAV",
+    "translated_name": "\u30aa_\u30bb.WAV",
+    "offset": 12040192,
+    "size": 27252
+}, {
+    "original_name": "O_SI.WAV",
+    "translated_name": "\u30aa_\u30b7.WAV",
+    "offset": 12068864,
+    "size": 24438
+}, {
+    "original_name": "O_SO.WAV",
+    "translated_name": "\u30aa_\u30bd.WAV",
+    "offset": 12093440,
+    "size": 23466
+}, {
+    "original_name": "O_SU.WAV",
+    "translated_name": "\u30aa_\u30b9.WAV",
+    "offset": 12118016,
+    "size": 24098
+}, {
+    "original_name": "O_SYA.WAV",
+    "translated_name": "\u30aa_\u30b7\u30e3.WAV",
+    "offset": 12142592,
+    "size": 25312
+}, {
+    "original_name": "O_SYO.WAV",
+    "translated_name": "\u30aa_\u30b7\u30e7.WAV",
+    "offset": 12169216,
+    "size": 22362
+}, {
+    "original_name": "O_SYU.WAV",
+    "translated_name": "\u30aa_\u30b7\u30e5.WAV",
+    "offset": 12191744,
+    "size": 24738
+}, {
+    "original_name": "O_U.WAV",
+    "translated_name": "\u30aa_\u30a6.WAV",
+    "offset": 12218368,
+    "size": 19580
+}, {
+    "original_name": "O_WA.WAV",
+    "translated_name": "\u30aa_\u30ef.WAV",
+    "offset": 12238848,
+    "size": 22976
+}, {
+    "original_name": "O_YA.WAV",
+    "translated_name": "\u30aa_\u30e4.WAV",
+    "offset": 12263424,
+    "size": 23956
+}, {
+    "original_name": "O_YO.WAV",
+    "translated_name": "\u30aa_\u30e8.WAV",
+    "offset": 12288000,
+    "size": 22772
+}, {
+    "original_name": "O_YU.WAV",
+    "translated_name": "\u30aa_\u30e6.WAV",
+    "offset": 12312576,
+    "size": 23376
+}, {
+    "original_name": "O_ZA.WAV",
+    "translated_name": "\u30aa_\u30b6.WAV",
+    "offset": 12337152,
+    "size": 27068
+}, {
+    "original_name": "O_ZE.WAV",
+    "translated_name": "\u30aa_\u30bc.WAV",
+    "offset": 12365824,
+    "size": 24132
+}, {
+    "original_name": "O_ZI.WAV",
+    "translated_name": "\u30aa_\u30b8.WAV",
+    "offset": 12390400,
+    "size": 27214
+}, {
+    "original_name": "O_ZO.WAV",
+    "translated_name": "\u30aa_\u30be.WAV",
+    "offset": 12419072,
+    "size": 20432
+}, {
+    "original_name": "O_ZU.WAV",
+    "translated_name": "\u30aa_\u30ba.WAV",
+    "offset": 12439552,
+    "size": 26036
+}, {
+    "original_name": "U_A.WAV",
+    "translated_name": "\u30a6_\u30a2.WAV",
+    "offset": 12466176,
+    "size": 24448
+}, {
+    "original_name": "U_BA.WAV",
+    "translated_name": "\u30a6_\u30d0.WAV",
+    "offset": 12490752,
+    "size": 22414
+}, {
+    "original_name": "U_BE.WAV",
+    "translated_name": "\u30a6_\u30d9.WAV",
+    "offset": 12513280,
+    "size": 23510
+}, {
+    "original_name": "U_BI.WAV",
+    "translated_name": "\u30a6_\u30d3.WAV",
+    "offset": 12537856,
+    "size": 23372
+}, {
+    "original_name": "U_BO.WAV",
+    "translated_name": "\u30a6_\u30dc.WAV",
+    "offset": 12562432,
+    "size": 25000
+}, {
+    "original_name": "U_BU.WAV",
+    "translated_name": "\u30a6_\u30d6.WAV",
+    "offset": 12589056,
+    "size": 23328
+}, {
+    "original_name": "U_BYA.WAV",
+    "translated_name": "\u30a6_\u30d3\u30e3.WAV",
+    "offset": 12613632,
+    "size": 24284
+}, {
+    "original_name": "U_BYO.WAV",
+    "translated_name": "\u30a6_\u30d3\u30e7.WAV",
+    "offset": 12638208,
+    "size": 23912
+}, {
+    "original_name": "U_BYU.WAV",
+    "translated_name": "\u30a6_\u30d3\u30e3.WAV",
+    "offset": 12662784,
+    "size": 24204
+}, {
+    "original_name": "U_DA.WAV",
+    "translated_name": "\u30a6_\u30c0.WAV",
+    "offset": 12687360,
+    "size": 27474
+}, {
+    "original_name": "U_DE.WAV",
+    "translated_name": "\u30a6_\u30c7.WAV",
+    "offset": 12716032,
+    "size": 26662
+}, {
+    "original_name": "U_DI.WAV",
+    "translated_name": "\u30a6_\u30c2.WAV",
+    "offset": 12744704,
+    "size": 25600
+}, {
+    "original_name": "U_DO.WAV",
+    "translated_name": "\u30a6_\u30c9.WAV",
+    "offset": 12771328,
+    "size": 26100
+}, {
+    "original_name": "U_DU.WAV",
+    "translated_name": "\u30a6_\u30c5.WAV",
+    "offset": 12797952,
+    "size": 27594
+}, {
+    "original_name": "U_DYA.WAV",
+    "translated_name": "\u30a6_\u30c2\u30e3.WAV",
+    "offset": 12826624,
+    "size": 26434
+}, {
+    "original_name": "U_DYO.WAV",
+    "translated_name": "\u30a6_\u30c2\u30e7.WAV",
+    "offset": 12853248,
+    "size": 26582
+}, {
+    "original_name": "U_DYU.WAV",
+    "translated_name": "\u30a6_\u30c2\u30e5.WAV",
+    "offset": 12879872,
+    "size": 26798
+}, {
+    "original_name": "U_E.WAV",
+    "translated_name": "\u30a6_\u30a8.WAV",
+    "offset": 12908544,
+    "size": 24854
+}, {
+    "original_name": "U_FA.WAV",
+    "translated_name": "\u30a6_\u30d5\u30a1.WAV",
+    "offset": 12935168,
+    "size": 27412
+}, {
+    "original_name": "U_FE.WAV",
+    "translated_name": "\u30a6_\u30d5\u30a7.WAV",
+    "offset": 12963840,
+    "size": 25296
+}, {
+    "original_name": "U_FI.WAV",
+    "translated_name": "\u30a6_\u30d5\u30a3.WAV",
+    "offset": 12990464,
+    "size": 26192
+}, {
+    "original_name": "U_FO.WAV",
+    "translated_name": "\u30a6_\u30d5\u30a9.WAV",
+    "offset": 13017088,
+    "size": 25112
+}, {
+    "original_name": "U_FU.WAV",
+    "translated_name": "\u30a6_\u30d5.WAV",
+    "offset": 13043712,
+    "size": 23104
+}, {
+    "original_name": "U_GA.WAV",
+    "translated_name": "\u30a6_\u30ac.WAV",
+    "offset": 13068288,
+    "size": 23814
+}, {
+    "original_name": "U_GE.WAV",
+    "translated_name": "\u30a6_\u30b2.WAV",
+    "offset": 13092864,
+    "size": 23470
+}, {
+    "original_name": "U_GI.WAV",
+    "translated_name": "\u30a6_\u30ae.WAV",
+    "offset": 13117440,
+    "size": 23170
+}, {
+    "original_name": "U_GO.WAV",
+    "translated_name": "\u30a6_\u30b4.WAV",
+    "offset": 13142016,
+    "size": 23222
+}, {
+    "original_name": "U_GU.WAV",
+    "translated_name": "\u30a6_\u30b0.WAV",
+    "offset": 13166592,
+    "size": 24498
+}, {
+    "original_name": "U_GYA.WAV",
+    "translated_name": "\u30a6_\u30ae\u30e3.WAV",
+    "offset": 13191168,
+    "size": 27204
+}, {
+    "original_name": "U_GYO.WAV",
+    "translated_name": "\u30a6_\u30ae\u30e7.WAV",
+    "offset": 13219840,
+    "size": 25874
+}, {
+    "original_name": "U_GYU.WAV",
+    "translated_name": "\u30a6_\u30ae\u30e5.WAV",
+    "offset": 13246464,
+    "size": 27454
+}, {
+    "original_name": "U_HA.WAV",
+    "translated_name": "\u30a6_\u30cf.WAV",
+    "offset": 13275136,
+    "size": 24402
+}, {
+    "original_name": "U_HE.WAV",
+    "translated_name": "\u30a6_\u30d8.WAV",
+    "offset": 13299712,
+    "size": 24146
+}, {
+    "original_name": "U_HI.WAV",
+    "translated_name": "\u30a6_\u30d2.WAV",
+    "offset": 13324288,
+    "size": 22904
+}, {
+    "original_name": "U_HO.WAV",
+    "translated_name": "\u30a6_\u30db.WAV",
+    "offset": 13348864,
+    "size": 22774
+}, {
+    "original_name": "U_HU.WAV",
+    "translated_name": "\u30a6_\u30d5.WAV",
+    "offset": 13373440,
+    "size": 23780
+}, {
+    "original_name": "U_HYA.WAV",
+    "translated_name": "\u30a6_\u30d2\u30e3.WAV",
+    "offset": 13398016,
+    "size": 22102
+}, {
+    "original_name": "U_HYO.WAV",
+    "translated_name": "\u30a6_\u30d2\u30e7.WAV",
+    "offset": 13420544,
+    "size": 24152
+}, {
+    "original_name": "U_HYU.WAV",
+    "translated_name": "\u30a6_\u30d2\u30e5.WAV",
+    "offset": 13445120,
+    "size": 24054
+}, {
+    "original_name": "U_I.WAV",
+    "translated_name": "\u30a6_\u30a4.WAV",
+    "offset": 13469696,
+    "size": 24626
+}, {
+    "original_name": "U_JYA.WAV",
+    "translated_name": "\u30a6_\u30b8\u30e3.WAV",
+    "offset": 13496320,
+    "size": 27588
+}, {
+    "original_name": "U_JYO.WAV",
+    "translated_name": "\u30a6_\u30b8\u30e7.WAV",
+    "offset": 13524992,
+    "size": 27066
+}, {
+    "original_name": "U_JYU.WAV",
+    "translated_name": "\u30a6_\u30b8\u30e5.WAV",
+    "offset": 13553664,
+    "size": 26906
+}, {
+    "original_name": "U_KO.WAV",
+    "translated_name": "\u30a6_\u30b3.WAV",
+    "offset": 13582336,
+    "size": 24466
+}, {
+    "original_name": "U_MA.WAV",
+    "translated_name": "\u30a6_\u30de.WAV",
+    "offset": 13606912,
+    "size": 22608
+}, {
+    "original_name": "U_ME.WAV",
+    "translated_name": "\u30a6_\u30e1.WAV",
+    "offset": 13631488,
+    "size": 22722
+}, {
+    "original_name": "U_MI.WAV",
+    "translated_name": "\u30a6_\u30df.WAV",
+    "offset": 13656064,
+    "size": 24396
+}, {
+    "original_name": "U_MO.WAV",
+    "translated_name": "\u30a6_\u30e2.WAV",
+    "offset": 13680640,
+    "size": 22836
+}, {
+    "original_name": "U_MU.WAV",
+    "translated_name": "\u30a6_\u30e0.WAV",
+    "offset": 13705216,
+    "size": 24150
+}, {
+    "original_name": "U_MYA.WAV",
+    "translated_name": "\u30a6_\u30df\u30e3.WAV",
+    "offset": 13729792,
+    "size": 23988
+}, {
+    "original_name": "U_MYO.WAV",
+    "translated_name": "\u30a6_\u30df\u30e7.WAV",
+    "offset": 13754368,
+    "size": 23184
+}, {
+    "original_name": "U_MYU.WAV",
+    "translated_name": "\u30a6_\u30df\u30e5.WAV",
+    "offset": 13778944,
+    "size": 23182
+}, {
+    "original_name": "U_NA.WAV",
+    "translated_name": "\u30a6_\u30ca.WAV",
+    "offset": 13803520,
+    "size": 27054
+}, {
+    "original_name": "U_NE.WAV",
+    "translated_name": "\u30a6_\u30cd.WAV",
+    "offset": 13832192,
+    "size": 27178
+}, {
+    "original_name": "U_NI.WAV",
+    "translated_name": "\u30a6_\u30cb.WAV",
+    "offset": 13860864,
+    "size": 26908
+}, {
+    "original_name": "U_NO.WAV",
+    "translated_name": "\u30a6_\u30ce.WAV",
+    "offset": 13889536,
+    "size": 23574
+}, {
+    "original_name": "U_NU.WAV",
+    "translated_name": "\u30a6_\u30cc.WAV",
+    "offset": 13914112,
+    "size": 24668
+}, {
+    "original_name": "U_NYA.WAV",
+    "translated_name": "\u30a6_\u30cb\u30e3.WAV",
+    "offset": 13940736,
+    "size": 23292
+}, {
+    "original_name": "U_NYO.WAV",
+    "translated_name": "\u30a6_\u30cb\u30e7.WAV",
+    "offset": 13965312,
+    "size": 24130
+}, {
+    "original_name": "U_NYU.WAV",
+    "translated_name": "\u30a6_\u30cb\u30e5.WAV",
+    "offset": 13989888,
+    "size": 20870
+}, {
+    "original_name": "U_O.WAV",
+    "translated_name": "\u30a6_\u30aa.WAV",
+    "offset": 14012416,
+    "size": 23836
+}, {
+    "original_name": "U_RA.WAV",
+    "translated_name": "\u30a6_\u30e9.WAV",
+    "offset": 14036992,
+    "size": 22722
+}, {
+    "original_name": "U_RE.WAV",
+    "translated_name": "\u30a6_\u30ec.WAV",
+    "offset": 14061568,
+    "size": 24322
+}, {
+    "original_name": "U_RI.WAV",
+    "translated_name": "\u30a6_\u30ea.WAV",
+    "offset": 14086144,
+    "size": 22204
+}, {
+    "original_name": "U_RO.WAV",
+    "translated_name": "\u30a6_\u30ed.WAV",
+    "offset": 14108672,
+    "size": 23924
+}, {
+    "original_name": "U_RU.WAV",
+    "translated_name": "\u30a6_\u30eb.WAV",
+    "offset": 14133248,
+    "size": 23548
+}, {
+    "original_name": "U_RYA.WAV",
+    "translated_name": "\u30a6_\u30ea\u30e3.WAV",
+    "offset": 14157824,
+    "size": 22908
+}, {
+    "original_name": "U_RYO.WAV",
+    "translated_name": "\u30a6_\u30ea\u30e7.WAV",
+    "offset": 14182400,
+    "size": 22686
+}, {
+    "original_name": "U_RYU.WAV",
+    "translated_name": "\u30a6_\u30ea\u30e5.WAV",
+    "offset": 14206976,
+    "size": 24416
+}, {
+    "original_name": "U_SA.WAV",
+    "translated_name": "\u30a6_\u30b5.WAV",
+    "offset": 14231552,
+    "size": 27426
+}, {
+    "original_name": "U_SE.WAV",
+    "translated_name": "\u30a6_\u30bb.WAV",
+    "offset": 14260224,
+    "size": 23858
+}, {
+    "original_name": "U_SI.WAV",
+    "translated_name": "\u30a6_\u30b7.WAV",
+    "offset": 14284800,
+    "size": 22438
+}, {
+    "original_name": "U_SO.WAV",
+    "translated_name": "\u30a6_\u30bd.WAV",
+    "offset": 14307328,
+    "size": 26298
+}, {
+    "original_name": "U_SU.WAV",
+    "translated_name": "\u30a6_\u30b9.WAV",
+    "offset": 14333952,
+    "size": 22158
+}, {
+    "original_name": "U_SYA.WAV",
+    "translated_name": "\u30a6_\u30b7\u30e3.WAV",
+    "offset": 14356480,
+    "size": 20198
+}, {
+    "original_name": "U_SYO.WAV",
+    "translated_name": "\u30a6_\u30b7\u30e7.WAV",
+    "offset": 14376960,
+    "size": 21444
+}, {
+    "original_name": "U_SYU.WAV",
+    "translated_name": "\u30a6_\u30b7\u30e5.WAV",
+    "offset": 14399488,
+    "size": 27646
+}, {
+    "original_name": "U_U.WAV",
+    "translated_name": "\u30a6_\u30a6.WAV",
+    "offset": 14428160,
+    "size": 26202
+}, {
+    "original_name": "U_WA.WAV",
+    "translated_name": "\u30a6_\u30ef.WAV",
+    "offset": 14454784,
+    "size": 23652
+}, {
+    "original_name": "U_YA.WAV",
+    "translated_name": "\u30a6_\u30e4.WAV",
+    "offset": 14479360,
+    "size": 23228
+}, {
+    "original_name": "U_YO.WAV",
+    "translated_name": "\u30a6_\u30e8.WAV",
+    "offset": 14503936,
+    "size": 23124
+}, {
+    "original_name": "U_YU.WAV",
+    "translated_name": "\u30a6_\u30e6.WAV",
+    "offset": 14528512,
+    "size": 23830
+}, {
+    "original_name": "U_ZA.WAV",
+    "translated_name": "\u30a6_\u30b6.WAV",
+    "offset": 14553088,
+    "size": 26100
+}, {
+    "original_name": "U_ZE.WAV",
+    "translated_name": "\u30a6_\u30bc.WAV",
+    "offset": 14579712,
+    "size": 23012
+}, {
+    "original_name": "U_ZI.WAV",
+    "translated_name": "\u30a6_\u30b8.WAV",
+    "offset": 14604288,
+    "size": 26700
+}, {
+    "original_name": "U_ZO.WAV",
+    "translated_name": "\u30a6_\u30be.WAV",
+    "offset": 14632960,
+    "size": 26806
+}, {
+    "original_name": "U_ZU.WAV",
+    "translated_name": "\u30a6_\u30ba.WAV",
+    "offset": 14661632,
+    "size": 26796
+}]

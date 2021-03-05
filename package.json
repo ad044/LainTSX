@@ -27,7 +27,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!three/.*)/\"",
     "eject": "react-scripts eject",
-    "dump": "ts-node asset-dump/dump/index.ts"
+    "extract": "node scripts/extract/extract.mjs"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,6 +46,7 @@
   },
   "homepage": ".",
   "devDependencies": {
-    "eslint-loader": "^4.0.2"
+    "eslint-loader": "^4.0.2",
+    "wav": "^1.0.2"
   }
 }
