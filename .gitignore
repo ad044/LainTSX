@@ -11,7 +11,7 @@
 # production
 /build
 
-# misc
+# progressbar
 .DS_Store
 .env.local
 .env.development.local
@@ -23,9 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 
 src/static/media_images
-src/static/sprite
 src/static/audio
 src/static/movie
+src/static/voice
 
 scripts/extract/discs
 scripts/extract/*.log
