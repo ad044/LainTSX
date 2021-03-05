@@ -1,7 +1,7 @@
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import greenFont from "../../static/sprites/fonts/white_and_green_texture.png";
-import medium_font_json from "../../resources/font_data/medium_font.json";
+import medium_font_json from "../../resources/fonts/medium_font.json";
 import { a } from "@react-spring/three";
 import React, { memo, useMemo } from "react";
 import { useStore } from "../../store";

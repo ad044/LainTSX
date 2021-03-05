@@ -160,6 +160,7 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
                 map={authorizeInactiveLettersTex}
                 attach="material"
                 transparent={true}
+                opacity={0.6}
               />
             </mesh>
             <mesh

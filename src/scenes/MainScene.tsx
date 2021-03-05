@@ -12,7 +12,7 @@ import Lain from "../components/MainScene/Lain";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import Popups from "../components/MainScene/Popups/Popups";
-import * as audio from "../static/audio/sfx";
+import * as audio from "../static/sfx";
 import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
 import MainSceneBackground from "../components/MainScene/Site/MainSceneBackground";

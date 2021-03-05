@@ -1,4 +1,4 @@
-import * as audio from "../static/audio/sfx";
+import * as audio from "../static/sfx";
 import {
   nodeExplodeAnimation,
   nodeKnockAndFallAnimation,

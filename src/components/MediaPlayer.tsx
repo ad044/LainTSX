@@ -59,7 +59,7 @@ const MediaPlayer = () => {
 
   return (
     <>
-      <video width="800" height="600" id="media" ref={videoRef}>
+      <video id="media" ref={videoRef}>
         <track id={"track"} ref={trackRef} kind="captions" default />
       </video>
       <div id={"subtitle-container"}>

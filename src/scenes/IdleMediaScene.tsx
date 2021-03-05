@@ -32,7 +32,7 @@ const IdleMediaScene = () => {
     if (mediaElement) {
       mediaElement.currentTime = 0;
       if (idleNodeName) {
-        import("../static/webvtt/" + idleNodeName + ".vtt")
+        import("../static/media/webvtt/" + idleNodeName + ".vtt")
           .then((vtt) => {
             if (vtt) trackElement.src = vtt.default;
           })
@@ -43,13 +43,13 @@ const IdleMediaScene = () => {
       }
 
       if (idleMedia.includes("XA")) {
-        import("../static/audio/" + idleMedia + ".ogg").then((media) => {
+        import("../static/media/audio/" + idleMedia + ".ogg").then((media) => {
           mediaElement.src = media.default;
           mediaElement.load();
           mediaElement.play();
         });
       } else {
-        import("../static/movie/" + idleMedia + "[0].webm").then((media) => {
+        import("../static/media/movie/" + idleMedia + "[0].webm").then((media) => {
           mediaElement.src = media.default;
           mediaElement.load();
           mediaElement.play();

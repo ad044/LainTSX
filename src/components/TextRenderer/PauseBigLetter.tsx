@@ -3,7 +3,7 @@ import yellowFont from "../../static/sprites/fonts/yellow_font_texture.png";
 import whiteFont from "../../static/sprites/fonts/white_and_green_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import orange_font_json from "../../resources/font_data/big_font.json";
+import orange_font_json from "../../resources/fonts/big_font.json";
 import { a, useSpring } from "@react-spring/three";
 import React, { useMemo, memo } from "react";
 

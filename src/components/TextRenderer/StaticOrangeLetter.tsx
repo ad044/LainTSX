@@ -1,7 +1,7 @@
 import orangeFont from "../../static/sprites/fonts/orange_font_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import orange_font_json from "../../resources/font_data/big_font.json";
+import orange_font_json from "../../resources/fonts/big_font.json";
 import React, { memo, useMemo } from "react";
 
 const StaticOrangeLetter = memo(

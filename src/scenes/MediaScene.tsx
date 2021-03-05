@@ -43,27 +43,29 @@ const MediaScene = () => {
       setAudioAnalyser(createAudioAnalyser());
 
       mediaElement.currentTime = 0;
-      import("../static/webvtt/" + activeNode.node_name + ".vtt")
+      import("../static/media/webvtt/" + activeNode.node_name + ".vtt")
         .then((vtt) => {
           if (vtt) trackElement.src = vtt.default;
         })
         // some entries have no spoken words, so the file doesnt exist. we catch that here.
-        .catch((e) => console.log(e));
+        .catch(() => {
+          trackElement.removeAttribute("src");
+        });
 
       if (activeNode.media_file.includes("XA")) {
-        import("../static/audio/" + activeNode.media_file + ".ogg").then(
+        import("../static/media/audio/" + activeNode.media_file + ".ogg").then(
           (media) => {
             mediaElement.src = media.default;
             mediaElement.load();
           }
         );
       } else {
-        import("../static/movie/" + activeNode.media_file + "[0].webm").then(
-          (media) => {
-            mediaElement.src = media.default;
-            mediaElement.load();
-          }
-        );
+        import(
+          "../static/media/movie/" + activeNode.media_file + "[0].webm"
+        ).then((media) => {
+          mediaElement.src = media.default;
+          mediaElement.load();
+        });
       }
     }
   }, [activeNode.media_file, activeNode.node_name, setAudioAnalyser]);

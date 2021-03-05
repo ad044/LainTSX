@@ -1,6 +1,6 @@
 import { useFrame } from "react-three-fiber";
 import { playAudio, useStore } from "../store";
-import * as audio from "../static/audio/sfx";
+import * as audio from "../static/sfx";
 import {
   playIdleAudio,
   playIdleVideo,
