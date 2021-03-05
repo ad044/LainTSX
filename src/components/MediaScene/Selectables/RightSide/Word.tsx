@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
-import wordInactiveTexture from "../../../../static/sprite/word_background.png";
-import wordActiveTexture from "../../../../static/sprite/word_background_active.png";
+import wordInactiveTexture from "../../../../static/sprites/media/word_background.png";
+import wordActiveTexture from "../../../../static/sprites/media/word_background_active.png";
 import { useLoader } from "react-three-fiber";
 import { a, SpringValue } from "@react-spring/three";
 
@@ -13,7 +13,7 @@ type WordProps = {
 };
 
 const Word = (props: WordProps) => {
-  const wordFont = useLoader(THREE.FontLoader, "/3d_fonts/MediaWord.blob");
+  const wordFont = useLoader(THREE.FontLoader, "/3d-fonts/MediaWord.blob");
   const config = useMemo(
     () => ({
       font: wordFont,

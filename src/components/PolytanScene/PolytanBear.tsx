@@ -1,26 +1,16 @@
-import React from "react";
-import body from "../../static/sprite/body.png";
-import head from "../../static/sprite/head.png";
-import leftLeg from "../../static/sprite/left_leg.png";
-import leftArm from "../../static/sprite/left_arm.png";
-import rightArm from "../../static/sprite/right_arm.png";
-import rightLeg from "../../static/sprite/right_leg.png";
-import skeleton from "../../static/sprite/polytan_skeleton.png";
+import React, { memo } from "react";
+import body from "../../static/sprites/polytan/body.png";
+import head from "../../static/sprites/polytan/head.png";
+import leftLeg from "../../static/sprites/polytan/left_leg.png";
+import leftArm from "../../static/sprites/polytan/left_arm.png";
+import rightArm from "../../static/sprites/polytan/right_arm.png";
+import rightLeg from "../../static/sprites/polytan/right_leg.png";
+import skeleton from "../../static/sprites/polytan/polytan_skeleton.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
+import { useStore } from "../../store";
 
-type PolytanBearProps = {
-  unlockedParts: {
-    body: boolean;
-    head: boolean;
-    leftArm: boolean;
-    rightArm: boolean;
-    leftLeg: boolean;
-    rightLeg: boolean;
-  };
-};
-
-const PolytanBear = (props: PolytanBearProps) => {
+const PolytanBear = memo(() => {
   const skeletonTex = useLoader(THREE.TextureLoader, skeleton);
   const headTex = useLoader(THREE.TextureLoader, head);
   const bodyTex = useLoader(THREE.TextureLoader, body);
@@ -28,6 +18,8 @@ const PolytanBear = (props: PolytanBearProps) => {
   const leftLegTex = useLoader(THREE.TextureLoader, leftLeg);
   const rightArmTex = useLoader(THREE.TextureLoader, rightArm);
   const rightLegTex = useLoader(THREE.TextureLoader, rightLeg);
+
+  const unlockedParts = useStore((state) => state.polytanUnlockedParts);
 
   return (
     <>
@@ -39,7 +31,7 @@ const PolytanBear = (props: PolytanBearProps) => {
         <spriteMaterial
           attach="material"
           map={bodyTex}
-          visible={props.unlockedParts.body}
+          visible={unlockedParts.body}
         />
       </sprite>
 
@@ -47,39 +39,39 @@ const PolytanBear = (props: PolytanBearProps) => {
         <spriteMaterial
           attach="material"
           map={headTex}
-          visible={props.unlockedParts.head}
+          visible={unlockedParts.head}
         />
       </sprite>
       <sprite scale={[1.9, 1, 0]} position={[1, -2.2, 0]}>
         <spriteMaterial
           attach="material"
           map={leftLegTex}
-          visible={props.unlockedParts.leftLeg}
+          visible={unlockedParts.leftLeg}
         />
       </sprite>
       <sprite scale={[1.5, 1.9, 0]} position={[1.2, -0.4, 0]}>
         <spriteMaterial
           attach="material"
           map={leftArmTex}
-          visible={props.unlockedParts.leftArm}
+          visible={unlockedParts.leftArm}
         />
       </sprite>
       <sprite scale={[1.6, 2, 0]} position={[-1.2, -1.2, 0]}>
         <spriteMaterial
           attach="material"
           map={rightArmTex}
-          visible={props.unlockedParts.rightArm}
+          visible={unlockedParts.rightArm}
         />
       </sprite>
       <sprite scale={[1.9, 1, 0]} position={[-1, -2.2, 0]}>
         <spriteMaterial
           attach="material"
           map={rightLegTex}
-          visible={props.unlockedParts.rightLeg}
+          visible={unlockedParts.rightLeg}
         />
       </sprite>
     </>
   );
-};
+});
 
 export default PolytanBear;

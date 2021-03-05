@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import blueBinary from "../../static/sprite/blue_binary.png";
+import blueBinary from "../../static/sprites/gate/blue_binary.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
@@ -85,7 +85,7 @@ const GateSide = () => {
         scale={[3, 1.5, 0]}
         renderOrder={1}
       >
-        <planeBufferGeometry attach="geometry"></planeBufferGeometry>
+        <planeBufferGeometry attach="geometry" />
         <shaderMaterial
           attach="material"
           uniforms={uniforms}
@@ -101,7 +101,7 @@ const GateSide = () => {
         scale={[-3, 1.5, 0]}
         renderOrder={1}
       >
-        <planeBufferGeometry attach="geometry"></planeBufferGeometry>
+        <planeBufferGeometry attach="geometry" />
         <shaderMaterial
           attach="material"
           uniforms={uniforms}

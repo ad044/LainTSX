@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import mirrorTexture from "../../../static/sprite/gate_object_texture.png";
+import mirrorTexture from "../../../static/sprites/gate/gate_object_texture.png";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 type GLTFResult = GLTF & {

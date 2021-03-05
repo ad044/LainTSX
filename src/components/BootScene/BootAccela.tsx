@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import accelaBootSpriteSheet from "../../static/sprite/login_intro_accela_spritesheet.png";
-import makeMeSad from "../../static/sprite/make_me_sad.png";
+import accelaBootSpriteSheet from "../../static/sprites/boot/login_intro_accela_spritesheet.png";
+import makeMeSad from "../../static/sprites/boot/make_me_sad.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator";

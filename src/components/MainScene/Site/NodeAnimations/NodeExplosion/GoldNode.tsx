@@ -2,20 +2,20 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
-import Cou from "../../../../../static/sprite/Cou.png";
-import CouGold from "../../../../../static/sprite/Cou_gold.png";
-import Dc from "../../../../../static/sprite/Dc.png";
-import DcGold from "../../../../../static/sprite/Dc_gold.png";
-import Sskn from "../../../../../static/sprite/SSkn.png";
-import SsknGold from "../../../../../static/sprite/SSkn_gold.png";
-import Tda from "../../../../../static/sprite/Tda.png";
-import TdaGold from "../../../../../static/sprite/Tda_gold.png";
-import Dia from "../../../../../static/sprite/Dia.png";
-import DiaGold from "../../../../../static/sprite/Dia_gold.png";
-import Lda from "../../../../../static/sprite/Lda.png";
-import LdaGold from "../../../../../static/sprite/Lda_gold.png";
-import MULTI from "../../../../../static/sprite/MULTI.png";
-import MULTIGold from "../../../../../static/sprite/MULTI_gold.png";
+import Cou from "../../../../../static/sprites/nodes/Cou.png";
+import CouGold from "../../../../../static/sprites/nodes/Cou_gold.png";
+import Dc from "../../../../../static/sprites/nodes/Dc.png";
+import DcGold from "../../../../../static/sprites/nodes/Dc_gold.png";
+import Sskn from "../../../../../static/sprites/nodes/SSkn.png";
+import SsknGold from "../../../../../static/sprites/nodes/SSkn_gold.png";
+import Tda from "../../../../../static/sprites/nodes/Tda.png";
+import TdaGold from "../../../../../static/sprites/nodes/Tda_gold.png";
+import Dia from "../../../../../static/sprites/nodes/Dia.png";
+import DiaGold from "../../../../../static/sprites/nodes/Dia_gold.png";
+import Lda from "../../../../../static/sprites/nodes/Lda.png";
+import LdaGold from "../../../../../static/sprites/nodes/Lda_gold.png";
+import MULTI from "../../../../../static/sprites/nodes/MULTI.png";
+import MULTIGold from "../../../../../static/sprites/nodes/MULTI_gold.png";
 import { useStore } from "../../../../../store";
 
 type GLTFResult = GLTF & {
@@ -35,9 +35,7 @@ type GoldNodeProps = {
 const GoldNode = (props: GoldNodeProps) => {
   const { nodes } = useLoader<GLTFResult>(GLTFLoader, "models/gold_node.glb");
 
-  const activeNodeName = useStore(
-    (state) => state.activeNode.node_name
-  );
+  const activeNodeName = useStore((state) => state.activeNode.node_name);
 
   const tex = useMemo(() => {
     if (activeNodeName.includes("S")) {

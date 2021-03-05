@@ -1,7 +1,5 @@
-import { OrbitControls } from "@react-three/drei";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { playAudio, useStore } from "../store";
-import Pause from "../components/MainScene/Pause/Pause";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import HUD from "../components/MainScene/HUD";
 import MainYellowTextAnimator from "../components/TextRenderer/MainYellowTextAnimator";
@@ -14,9 +12,12 @@ import Lain from "../components/MainScene/Lain";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import Popups from "../components/MainScene/Popups/Popups";
-import * as audio from "../static/sfx";
+import * as audio from "../static/audio/sfx";
 import Loading from "../components/Loading";
 import usePrevious from "../hooks/usePrevious";
+import MainSceneBackground from "../components/MainScene/Site/MainSceneBackground";
+import { a, useSpring } from "@react-spring/three";
+import Pause from "../components/MainScene/Pause/Pause";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -26,14 +27,23 @@ const MainScene = () => {
 
   const wordSelected = useStore((state) => state.wordSelected);
   const setWordSelected = useStore((state) => state.setWordSelected);
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+  const wordNotFound = useStore((state) => state.wordNotFound);
+
+  const [bgState, setBgState] = useSpring(() => ({
+    posY: 0,
+    duration: 1200,
+  }));
 
   useEffect(() => {
     if (subscene === "pause") {
+      setTimeout(() => setBgState({ posY: 2 }), 3600);
       setTimeout(() => setPaused(true), 3400);
     } else if (prevData?.subscene === "pause" && subscene === "site") {
-      setPaused(false);
+      setBgState({ posY: 0 });
+      setTimeout(() => setPaused(false), 1200);
     }
-  }, [prevData?.subscene, subscene]);
+  }, [prevData?.subscene, setBgState, subscene]);
 
   useEffect(() => {
     if (wordSelected) {
@@ -48,27 +58,40 @@ const MainScene = () => {
       setStarfieldIntro(false);
       setLainIntroAnim(false);
       setIntroFinished(false);
+
+      starfieldIntroRef.current = false;
+      lainIntroRef.current = false;
+      introFinishedRef.current = false;
+
+      setInputCooldown(-1);
+    } else {
+      setInputCooldown(0);
     }
-  }, [intro]);
+  }, [intro, setInputCooldown]);
 
   const [starfieldIntro, setStarfieldIntro] = useState(false);
+  const starfieldIntroRef = useRef(false);
   const [lainIntroAnim, setLainIntroAnim] = useState(false);
+  const lainIntroRef = useRef(false);
   const [introFinished, setIntroFinished] = useState(false);
+  const introFinishedRef = useRef(false);
 
   useFrame(() => {
     if (!introFinished && intro && introWrapperRef.current) {
       if (introWrapperRef.current.position.z === -10) playAudio(audio.sound32);
       if (
         Math.round(introWrapperRef.current.position.z) === -3 &&
-        !starfieldIntro
+        !starfieldIntroRef.current
       ) {
         setStarfieldIntro(true);
+        starfieldIntroRef.current = true;
       }
       if (
         Math.round(introWrapperRef.current.position.z) === -1 &&
-        !lainIntroAnim
+        !lainIntroRef.current
       ) {
         setLainIntroAnim(true);
+        lainIntroRef.current = true;
       }
 
       if (introWrapperRef.current.position.z < 0) {
@@ -79,25 +102,31 @@ const MainScene = () => {
       }
 
       if (
+        !introFinishedRef.current &&
         !(
           introWrapperRef.current.rotation.x > 0 &&
           introWrapperRef.current.position.z < 0
         )
       ) {
         setIntroFinished(true);
+        introFinishedRef.current = true;
+        setInputCooldown(0);
       }
     }
   });
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       <Suspense fallback={<Loading />}>
         <LevelSelection />
         <Popups />
         <Pause />
+        <a.group visible={introFinished} position-y={bgState.posY}>
+          <MainSceneBackground />
+        </a.group>
         <group visible={!paused}>
           <group visible={!wordSelected && (intro ? introFinished : true)}>
-            <group visible={subscene !== "not_found"}>
+            <group visible={!wordNotFound}>
               <HUD />
               <MainYellowTextAnimator />
             </group>
@@ -125,13 +154,12 @@ const MainScene = () => {
         >
           <Site introFinished={intro ? introFinished : true} />
         </group>
-        <OrbitControls />
         <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
         <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
         <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
         <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
       </Suspense>
-    </perspectiveCamera>
+    </group>
   );
 };
 export default MainScene;

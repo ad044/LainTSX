@@ -1,26 +1,27 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { a } from "@react-spring/three";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
+import lerp from "../../../utils/lerp";
 
 type StarProps = {
   position: number[];
   color: string;
-  introStar?: boolean;
-  shouldIntro?: boolean;
+  shouldIntro: boolean;
 };
 
 const Star = (props: StarProps) => {
-  const uniformConstructor = (col: string) => {
-    return {
+  const uniforms = useMemo(
+    () => ({
       color1: {
         value: new THREE.Color("white"),
       },
       color2: {
-        value: new THREE.Color(col),
+        value: new THREE.Color(props.color),
       },
-    };
-  };
+    }),
+    [props.color]
+  );
 
   const vertexShader = `
     varying vec2 vUv;
@@ -54,17 +55,11 @@ const Star = (props: StarProps) => {
 
   useFrame(() => {
     if (starRef.current) {
-      if (props.introStar) {
-        starRef.current.position.y += 0.25 + amp.current;
-      } else {
-        if (starRef.current.position.y > 4) {
-          starRef.current.position.y = props.position[1];
-        }
-        starRef.current.position.y += 0.01 + amp.current + introAmpRef.current;
-        if (introAmpRef.current > 0) {
-          introAmpRef.current -= 0.004;
-        }
+      if (starRef.current.position.y > 4) {
+        starRef.current.position.y = props.position[1];
       }
+      starRef.current.position.y += 0.01 + amp.current + introAmpRef.current;
+      introAmpRef.current = lerp(introAmpRef.current, 0, 0.01);
     }
   });
 
@@ -82,7 +77,7 @@ const Star = (props: StarProps) => {
         vertexShader={vertexShader}
         transparent={true}
         depthWrite={false}
-        uniforms={uniformConstructor(props.color)}
+        uniforms={uniforms}
       />
     </mesh>
   );

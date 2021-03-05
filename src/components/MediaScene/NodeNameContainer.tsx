@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import mediaNodeNameContainer from "../../static/sprite/media_node_name_container.png";
+import mediaNodeNameContainer from "../../static/sprites/media/media_node_name_container.png";
 
 const NodeNameContainer = () => {
   const mediaNodeNameContainerTex = useLoader(

@@ -1,12 +1,10 @@
-.main-body {
+body {
   width: 100%;
   height: 100%;
   background: black;
 }
 
 .game {
-  width: 800px;
-  height: 600px;
   border: 1px solid white;
   position: absolute;
   top: 50%;
@@ -14,9 +12,10 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
   font-family: Arial, serif;
+  touch-action: none;
 }
 
-.canvas {
+canvas {
   pointer-events: none;
   position: relative;
   z-index: 1;
@@ -27,28 +26,6 @@ video {
   height: 100% !important;
   position: absolute;
   z-index: -1;
-  margin-top: -600px;
-}
-
-@font-face {
-  font-family: "lowres";
-  src: url("../font/Plain_Lain3.ttf") format("truetype");
-}
-
-.main-scene-background {
-  background: #000000;
-}
-
-.main-scene-background {
-  background: url(../sprite/hub_bg.png);
-}
-
-.change-disc-scene-b-background {
-  background: url(../sprite/change_disc_b_bg.png);
-}
-
-.change-disc-scene-a-background {
-  background: url(../sprite/change_disc_a_bg.png);
 }
 
 ::cue {
@@ -61,7 +38,6 @@ video {
   position: absolute;
   z-index: 10;
   pointer-events: none;
-  margin-top: -600px;
   justify-content: center;
   display: flex;
 }

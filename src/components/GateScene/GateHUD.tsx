@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import gateText from "../../static/sprite/gate_pass.png";
-import gateTextUnderline from "../../static/sprite/gate_pass_underline.png";
-import gateTextAccessPass from "../../static/sprite/you_got_an_access_pass.png";
-import changeSiteEnable from "../../static/sprite/change_site_enable.png";
-import gateLeftThing from "../../static/sprite/left_gate_thing.png";
-import gateRightThing from "../../static/sprite/right_gate_thing.png";
+import gateText from "../../static/sprites/gate/gate_pass.png";
+import gateTextUnderline from "../../static/sprites/gate/gate_pass_underline.png";
+import gateTextAccessPass from "../../static/sprites/gate/you_got_an_access_pass.png";
+import changeSiteEnable from "../../static/sprites/gate/change_site_enable.png";
+import gateLeftThing from "../../static/sprites/gate/left_gate_thing.png";
+import gateRightThing from "../../static/sprites/gate/right_gate_thing.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 
@@ -14,7 +14,7 @@ type GateMiddleProps = {
 };
 
 const GateHUD = (props: GateMiddleProps) => {
-  const wordFont = useLoader(THREE.FontLoader, "/3d_fonts/MediaWord.blob");
+  const wordFont = useLoader(THREE.FontLoader, "/3d-fonts/MediaWord.blob");
   const config = useMemo(
     () => ({
       font: wordFont,

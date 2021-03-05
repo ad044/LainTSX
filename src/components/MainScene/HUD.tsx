@@ -1,35 +1,15 @@
 import React, { memo, useEffect, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import bigHud from "../../static/sprite/big_hud.png";
-import longHud from "../../static/sprite/long_hud.png";
-import boringHud from "../../static/sprite/long_hud_boring.png";
+import bigHud from "../../static/sprites/main/big_hud.png";
+import longHud from "../../static/sprites/main/long_hud.png";
+import boringHud from "../../static/sprites/main/boring_hud.png";
 import { useStore } from "../../store";
 import lerp from "../../utils/lerp";
 import GreenTextRenderer from "../TextRenderer/GreenTextRenderer";
 import usePrevious from "../../hooks/usePrevious";
-import { getNodeHud } from "../../utils/node-utils";
-
-export type HUDType = {
-  mirrored: number;
-  long: {
-    position: number[];
-    initial_position: number[];
-  };
-  boring: {
-    position: number[];
-    initial_position: number[];
-  };
-  big: {
-    position: number[];
-    initial_position: number[];
-  };
-  big_text: number[];
-  medium_text: {
-    position: number[];
-    initial_position: number[];
-  };
-};
+import { getNodeHud } from "../../helpers/node-helpers";
+import { HUDData } from "../../types/types";
 
 const HUD = memo(() => {
   const activeRef = useRef(true);
@@ -45,18 +25,6 @@ const HUD = memo(() => {
   const scene = useStore((state) => state.currentScene);
   const prevData = usePrevious({ siteRotY, activeLevel, subscene, scene });
 
-  const lerpObject = (
-    obj: THREE.Object3D,
-    posX: number,
-    initialPosX: number
-  ) => {
-    obj.position.x = lerp(
-      obj.position.x,
-      activeRef.current ? posX : initialPosX,
-      0.12
-    );
-  };
-
   // this part is imperative because it performs a lot better than having a toggleable spring.
   useFrame(() => {
     if (
@@ -66,25 +34,30 @@ const HUD = memo(() => {
       greenTextRef.current
     ) {
       const hud = currentHudRef.current;
-      lerpObject(
-        longHudRef.current,
-        hud.long.position[0],
-        hud.long.initial_position[0]
+
+      longHudRef.current.position.x = lerp(
+        longHudRef.current.position.x,
+        activeRef.current ? hud.long.position[0] : hud.long.initial_position[0],
+        0.12
       );
-      lerpObject(
-        boringHudRef.current,
-        hud.boring.position[0],
-        hud.boring.initial_position[0]
+      boringHudRef.current.position.x = lerp(
+        boringHudRef.current.position.x,
+        activeRef.current
+          ? hud.boring.position[0]
+          : hud.boring.initial_position[0],
+        0.12
       );
-      lerpObject(
-        bigHudRef.current,
-        hud.big.position[0],
-        hud.big.initial_position[0]
+      bigHudRef.current.position.x = lerp(
+        bigHudRef.current.position.x,
+        activeRef.current ? hud.big.position[0] : hud.big.initial_position[0],
+        0.12
       );
-      lerpObject(
-        greenTextRef.current,
-        hud.medium_text.position[0],
-        hud.medium_text.initial_position[0]
+      greenTextRef.current.position.x = lerp(
+        greenTextRef.current.position.x,
+        activeRef.current
+          ? hud.medium_text.position[0]
+          : hud.medium_text.initial_position[0],
+        0.12
       );
     }
   });
@@ -102,7 +75,7 @@ const HUD = memo(() => {
       bigHudRef.current!.scale.x = Math.abs(bigHudRef.current!.scale.x);
     };
 
-    const setPos = (hud: HUDType, pos: string) => {
+    const setPos = (hud: HUDData, pos: string) => {
       longHudRef.current!.position.set(
         ...(hud.long[pos as keyof typeof hud.long] as [number, number, number])
       );
@@ -130,11 +103,12 @@ const HUD = memo(() => {
       if (
         !(scene === "main" && prevData?.scene === "main") ||
         (subscene === "site" && prevData?.subscene === "pause") ||
-        (subscene === "site" && prevData?.subscene === "not_found") ||
         subscene === "pause"
       ) {
         // set to final pos instantly
         setPos(hud, "position");
+        if (hud.mirrored) mirror();
+        else unMirror();
       } else {
         if (
           prevData?.siteRotY !== siteRotY ||
@@ -149,11 +123,10 @@ const HUD = memo(() => {
             () => {
               // set to initial pos instantly while its hidden
               setPos(hud, "initial_position");
-              if (hud.mirrored) {
-                mirror();
-              } else {
-                unMirror();
-              }
+
+              if (hud.mirrored) mirror();
+              else unMirror();
+
               currentHudRef.current = hud;
               activeRef.current = true;
             },

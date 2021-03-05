@@ -2,8 +2,8 @@ import React, { memo, useEffect, useState } from "react";
 import Node from "./Node";
 import node_positions from "../../../resources/node_positions.json";
 import { useStore } from "../../../store";
-import { NodeData, SiteData } from "./Site";
 import usePrevious from "../../../hooks/usePrevious";
+import {NodeData, SiteData} from "../../../types/types";
 
 type ActiveLevelNodesProps = {
   visibleNodes: SiteData;

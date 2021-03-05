@@ -1,23 +1,24 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import bootLof from "../../static/sprite/boot_lof.png";
-import bootBottomBarLeft from "../../static/sprite/boot_bottom_bar_left.png";
-import bootBottomBarRight from "../../static/sprite/boot_bottom_bar_right.png";
-import bootPurpleSquare from "../../static/sprite/boot_purple_square.png";
-import bootGraySquare from "../../static/sprite/boot_gray_square.png";
-import bootDangoText from "../../static/sprite/dango_text.png";
-import bootMisoShio from "../../static/sprite/miso_shio.png";
-import bootArrows from "../../static/sprite/boot_arrows.png";
-import bootStatusTexts from "../../static/sprite/boot_status_texts.png";
-import bootBackgroundText from "../../static/sprite/boot_background_text.png";
-import bootBackgroundDistortedTex from "../../static/sprite/distorted_text.png";
+import React, {useEffect, useMemo, useRef, useState} from "react";
+import bootLof from "../../static/sprites/boot/boot_lof.png";
+import bootBottomBarLeft from "../../static/sprites/boot/boot_bottom_bar_left.png";
+import bootBottomBarRight from "../../static/sprites/boot/boot_bottom_bar_right.png";
+import bootPurpleSquare from "../../static/sprites/boot/boot_purple_square.png";
+import bootGraySquare from "../../static/sprites/boot/boot_gray_square.png";
+import bootDangoText from "../../static/sprites/boot/dango_text.png";
+import bootMisoShio from "../../static/sprites/boot/miso_shio.png";
+import bootArrows from "../../static/sprites/boot/boot_arrows.png";
+import bootStatusTexts from "../../static/sprites/boot/boot_status_texts.png";
+import bootBackgroundText from "../../static/sprites/boot/boot_background_text.png";
+import bootBackgroundDistortedTex from "../../static/sprites/boot/distorted_text.png";
 
-import { useFrame, useLoader } from "react-three-fiber";
-import { a, useSpring } from "@react-spring/three";
+import {useFrame, useLoader} from "react-three-fiber";
+import {a, useSpring} from "@react-spring/three";
 import * as THREE from "three";
 import sleep from "../../utils/sleep";
 
 type BootAnimationProps = {
   visible: boolean;
+  mainMenuVisible: boolean;
   activeSubScene: string;
 };
 
@@ -134,19 +135,21 @@ const BootAnimation = (props: BootAnimationProps) => {
 
         await sleep(100);
         currentBootStatusTextTex.offset.y = 0.79;
-
-        await sleep(1700);
-        currentBootStatusTextTex.offset.x = 0.5;
-        currentBootStatusTextTex.offset.y = 0.005;
-        setBootOpacity(0);
-        setGraySquarePosY(0);
-        setLofPosX(1.3);
-        setLofPosY(1);
-
-        setBackgroundFloatingTextShown(true);
       })();
     }
   }, [bootBackgroundTextTex, currentBootStatusTextTex.offset, props.visible]);
+
+  useEffect(() => {
+    if (props.mainMenuVisible) {
+      currentBootStatusTextTex.offset.x = 0.5;
+      currentBootStatusTextTex.offset.y = 0.005;
+      setBootOpacity(0);
+      setGraySquarePosY(0);
+      setLofPosX(1.3);
+      setLofPosY(1);
+      setBackgroundFloatingTextShown(true);
+    }
+  }, [currentBootStatusTextTex.offset, props.mainMenuVisible]);
 
   const [bootOpacity, setBootOpacity] = useState(1);
   const [graySquarePosY, setGraySquarePosY] = useState(-0.8);
@@ -196,7 +199,7 @@ const BootAnimation = (props: BootAnimationProps) => {
           opacity={animationState.graySquareOpacity}
         />
       </a.sprite>
-      {props.activeSubScene !== "authorize_user" ? (
+      {props.activeSubScene !== "authorize_user" && (
         <>
           {/*we have two of each to create looping effect*/}
           <a.sprite
@@ -315,8 +318,6 @@ const BootAnimation = (props: BootAnimationProps) => {
             />
           </sprite>
         </>
-      ) : (
-        <></>
       )}
     </group>
   );

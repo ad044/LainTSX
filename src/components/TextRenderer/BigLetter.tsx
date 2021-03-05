@@ -1,5 +1,5 @@
-import orangeFont from "../../static/sprite/orange_font_texture.png";
-import yellowFont from "../../static/sprite/yellow_font_texture.png";
+import orangeFont from "../../static/sprites/fonts/orange_font_texture.png";
+import yellowFont from "../../static/sprites/fonts/yellow_font_texture.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import orange_font_json from "../../resources/font_data/big_font.json";
@@ -80,7 +80,7 @@ const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
 
   const subscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
-  const prevData = usePrevious({ scene, subscene });
+  const prevData = usePrevious({ scene, subscene, activeNode });
   const [lastMediaLeftComponent, setLastMediaLeftComponent] = useState("play");
 
   const [shrinkState, set] = useSpring(() => ({
@@ -91,8 +91,13 @@ const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
   useEffect(() => {
     if (
       subscene === "pause" ||
-      (subscene === "site" && prevData?.subscene === "not_found") ||
-      (subscene === "site" && prevData?.subscene === "pause")
+      (subscene === "site" && prevData?.subscene === "pause") ||
+      (activeNode === prevData?.activeNode &&
+        !(
+          subscene === "level_selection" ||
+          color === "orange" ||
+          scene === "media"
+        ))
     )
       return;
     if (scene === "main" && prevData?.scene === "main") {
@@ -124,6 +129,7 @@ const BigLetter = memo((props: { letter: string; letterIdx: number }) => {
     lastMediaLeftComponent,
     prevData?.scene,
     prevData?.subscene,
+    prevData?.activeNode,
   ]);
 
   return (

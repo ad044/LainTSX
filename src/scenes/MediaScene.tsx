@@ -3,7 +3,7 @@ import { createAudioAnalyser, useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";
-import MediaLoadingBar from "../components/MediaScene/MediaLoadingBar";
+import MediaProgressBar from "../components/MediaScene/MediaProgressBar";
 import NodeNameContainer from "../components/MediaScene/NodeNameContainer";
 import Images from "../components/Images";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
@@ -19,20 +19,21 @@ const MediaScene = () => {
   const activeNode = useStore((state) => state.activeNode);
 
   const setScene = useStore((state) => state.setScene);
+  const incrementFinalVideoViewCount = useStore(
+    (state) => state.incrementFinalVideoViewCount
+  );
 
   useEffect(() => {
-    document.getElementsByTagName("canvas")[0].className =
-      "media-scene-background";
-
-    return () => {
-      document.getElementsByTagName("canvas")[0].className = "";
-    };
-  }, []);
-
-  useEffect(() => {
-    if (percentageElapsed === 100 && activeNode.triggers_final_video)
+    if (percentageElapsed === 100 && activeNode.triggers_final_video) {
       setScene("end");
-  }, [activeNode.triggers_final_video, percentageElapsed, setScene]);
+      incrementFinalVideoViewCount();
+    }
+  }, [
+    activeNode.triggers_final_video,
+    incrementFinalVideoViewCount,
+    percentageElapsed,
+    setScene,
+  ]);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
@@ -71,17 +72,17 @@ const MediaScene = () => {
 
   useEffect(() => {
     setLoaded(true);
-    setTimeout(() => setInputCooldown(false), 1000);
+    setTimeout(() => setInputCooldown(500), 1000);
   }, [setInputCooldown]);
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       {loaded ? (
         <group position={[0.4, -0.3, 0]}>
           <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
           <LeftSide />
           <group position={[0, 0.5, -3]}>
-            <MediaLoadingBar />
+            <MediaProgressBar />
             <NodeNameContainer />
           </group>
           <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
@@ -98,7 +99,7 @@ const MediaScene = () => {
       ) : (
         <Loading />
       )}
-    </perspectiveCamera>
+    </group>
   );
 };
 

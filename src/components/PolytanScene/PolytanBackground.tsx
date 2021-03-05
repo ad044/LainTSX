@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import header from "../../static/sprite/polytan_header.png";
-import background from "../../static/sprite/polytan_background.png";
-import leftArmHud from "../../static/sprite/poly_larm_hud.png";
-import rightArmHud from "../../static/sprite/poly_rarm_hud.png";
-import rightLegHud from "../../static/sprite/poly_rleg_hud.png";
-import leftLegHud from "../../static/sprite/poly_lleg_hud.png";
-import headHud from "../../static/sprite/poly_head_hud.png";
-import bodyHud from "../../static/sprite/poly_body_hud.png";
+import header from "../../static/sprites/polytan/polytan_header.png";
+import background from "../../static/sprites/polytan/polytan_background.png";
+import leftArmHud from "../../static/sprites/polytan/poly_larm_hud.png";
+import rightArmHud from "../../static/sprites/polytan/poly_rarm_hud.png";
+import rightLegHud from "../../static/sprites/polytan/poly_rleg_hud.png";
+import leftLegHud from "../../static/sprites/polytan/poly_lleg_hud.png";
+import headHud from "../../static/sprites/polytan/poly_head_hud.png";
+import bodyHud from "../../static/sprites/polytan/poly_body_hud.png";
 
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
@@ -21,7 +21,7 @@ const PolytanBackground = () => {
   const headHudTex = useLoader(THREE.TextureLoader, headHud);
   const bodyHudTex = useLoader(THREE.TextureLoader, bodyHud);
 
-  const wordFont = useLoader(THREE.FontLoader, "/3d_fonts/MediaWord.blob");
+  const wordFont = useLoader(THREE.FontLoader, "/3d-fonts/MediaWord.blob");
 
   const config = useMemo(
     () => ({

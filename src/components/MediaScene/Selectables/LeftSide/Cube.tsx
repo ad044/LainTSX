@@ -1,7 +1,7 @@
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import grayTextureFile from "../../../../static/sprite/gray_box.png";
-import darkGrayTextureFile from "../../../../static/sprite/dark_gray_box.png";
+import grayTextureFile from "../../../../static/sprites/media/gray_box.png";
+import darkGrayTextureFile from "../../../../static/sprites/media/dark_gray_box.png";
 import React, {memo, useRef} from "react";
 import { ShapeProps } from "../LeftSide";
 
