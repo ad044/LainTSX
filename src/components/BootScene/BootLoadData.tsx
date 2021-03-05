@@ -1,5 +1,5 @@
 import React from "react";
-import loadDataUnderline from "../../static/sprite/load_data_header_underline.png";
+import loadDataUnderline from "../../static/sprites/boot/load_data_header_underline.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import Prompt from "../Prompt";

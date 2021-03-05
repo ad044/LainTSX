@@ -1,7 +1,7 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { SiteData } from "../components/MainScene/Site/Site";
 import { useStore } from "../store";
+import { SiteData } from "../types/types";
 
 export const getRandomIdleMedia = () => {
   const siteAIdleNodes = {
@@ -72,39 +72,39 @@ export const getRandomIdleMedia = () => {
     const nodeName = siteData[level][nodeToPlay].node_name;
 
     return {
+      type: "audio",
       images: images,
       media: media,
       nodeName: nodeName,
     };
   } else {
     return {
+      type: "video",
       media:
         idleNodes.video[Math.floor(Math.random() * idleNodes.video.length)],
-      nodeName: undefined,
-      images: undefined,
     };
   }
 };
 
-export const getRandomIdleLainAnim = () => {
-  const moves = [
-    "prayer",
-    "touch_sleeve",
-    "thinking",
-    "stretch_2",
-    "stretch",
-    "spin",
-    "scratch_head",
-    "blush",
-    "hands_behind_head",
-    "hands_on_hips",
-    "hands_on_hips_2",
-    "hands_together",
-    "lean_forward",
-    "lean_left",
-    "lean_right",
-    "look_around",
-    "play_with_hair",
+export const getRandomIdleLainAnim = (): [string, number] => {
+  const moves: [string, number][] = [
+    ["prayer", 3500],
+    ["touch_sleeve", 3000],
+    ["thinking", 3900],
+    ["stretch_2", 3900],
+    ["stretch", 3000],
+    ["spin", 3000],
+    ["scratch_head", 3900],
+    ["blush", 3000],
+    ["hands_behind_head", 2300],
+    ["hands_on_hips", 3000],
+    ["hands_on_hips_2", 3900],
+    ["hands_together", 2500],
+    ["lean_forward", 2700],
+    ["lean_left", 2700],
+    ["lean_right", 3500],
+    ["look_around", 3000],
+    ["play_with_hair", 2900],
   ];
 
   return moves[Math.floor(Math.random() * moves.length)];

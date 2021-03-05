@@ -1,10 +1,15 @@
-import { NodeData, SiteData } from "../components/MainScene/Site/Site";
-import node_matrices from "../resources/node_matrices.json";
-import unlocked_nodes from "../resources/initial_progress.json";
-import node_huds from "../resources/node_huds.json";
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import {GameProgress} from "../store";
+import node_huds from "../resources/node_huds.json";
+import unlocked_nodes from "../resources/initial_progress.json";
+import node_matrices from "../resources/node_matrices.json";
+import {
+  ActiveSite,
+  GameProgress,
+  NodeData,
+  NodeMatrixIndices,
+  SiteData,
+} from "../types/types";
 
 export const generateInactiveNodes = (
   visibleNodes: SiteData,
@@ -31,11 +36,7 @@ export const getNodeById = (id: string, activeSite: string) => {
   const level = id.substr(0, 2);
   return (siteData as SiteData)[level][id];
 };
-export const getNodeHud = (nodeMatrixIndices: {
-  matrixIdx: number;
-  rowIdx: number;
-  colIdx: number;
-}) => {
+export const getNodeHud = (nodeMatrixIndices: NodeMatrixIndices) => {
   const hudAssocs = {
     "00": "fg_hud_1",
     "10": "fg_hud_2",
@@ -58,24 +59,33 @@ export const getNodeHud = (nodeMatrixIndices: {
   ];
 };
 
-//visible = (global_final_viewcount > 0) && (req_final_viewcount <= global_final_viewcount + 1)
 export const isNodeVisible = (
   node: NodeData,
   gameProgress: typeof unlocked_nodes
 ) => {
   return node
-    ? (node.unlocked_by === "" ||
-        gameProgress[node.unlocked_by as keyof typeof gameProgress]
-          .is_viewed) &&
-        gameProgress[node.node_name as keyof typeof gameProgress].is_visible
+    ? Boolean(
+        (node.unlocked_by === "" ||
+          gameProgress.nodes[
+            node.unlocked_by as keyof typeof gameProgress.nodes
+          ].is_viewed) &&
+          gameProgress.nodes[node.node_name as keyof typeof gameProgress.nodes]
+            .is_visible &&
+          (node.required_final_video_viewcount > 0
+            ? gameProgress.final_video_viewcount > 0
+              ? node.required_final_video_viewcount <=
+                gameProgress.final_video_viewcount + 1
+              : false
+            : true)
+      )
     : false;
 };
 
 export const getVisibleNodesMatrix = (
   matrixIdx: number,
   activeLevel: number,
-  activeSite: string,
-  gameProgress: any
+  activeSite: ActiveSite,
+  gameProgress: GameProgress
 ) => {
   const formattedLevel = activeLevel.toString().padStart(2, "0");
   const currentMatrix =
@@ -163,18 +173,10 @@ const move = (direction: string, [matrix, level]: [number, number]) => {
 };
 
 export const findNode = (
-  nodeId: string,
-
+  startingPoint: NodeData,
   direction: string,
-
-  {
-    matrixIdx,
-    rowIdx,
-    colIdx,
-  }: { matrixIdx: number; rowIdx: number; colIdx: number },
-
   level: number,
-  activeSite: string,
+  activeSite: ActiveSite,
   gameProgress: GameProgress,
   shouldSearchNext: boolean
 ) => {
@@ -190,50 +192,55 @@ export const findNode = (
     down: [nextPos_down, ([, c]: [number, number]) => nextPos_down([-1, c])],
   };
 
-  const initialMatrixIdx = matrixIdx;
+  if (startingPoint.matrixIndices) {
+    const nextPos = funcs[direction];
 
-  const nextPos = funcs[direction];
+    let { matrixIdx, colIdx, rowIdx } = { ...startingPoint.matrixIndices };
 
-  for (let i = 0; i < (shouldSearchNext ? 2 : 1); i++) {
-    const nodes = getVisibleNodesMatrix(
-      matrixIdx,
-      level,
-      activeSite,
-      gameProgress
-    );
+    const initialMatrixIdx = matrixIdx;
 
-    for (const [r, c] of nextPos[i]([rowIdx, colIdx])) {
-      const node = nodes[r][c];
+    for (let i = 0; i < (shouldSearchNext ? 2 : 1); i++) {
+      const nodes = getVisibleNodesMatrix(
+        matrixIdx,
+        level,
+        activeSite,
+        gameProgress
+      );
 
-      if (node)
-        return {
-          node,
+      for (const [r, c] of nextPos[i]([rowIdx, colIdx])) {
+        const node = nodes[r][c];
 
-          matrixIndices: {
-            matrixIdx,
-            rowIdx: r,
-            colIdx: c,
-          },
+        if (node)
+          return {
+            node,
 
-          didMove: Boolean(i),
-        };
+            matrixIndices: {
+              matrixIdx,
+              rowIdx: r,
+              colIdx: c,
+            },
+
+            didMove: Boolean(i),
+          };
+      }
+
+      [matrixIdx, level] = move(direction, [matrixIdx, level]);
     }
 
-    [matrixIdx, level] = move(direction, [matrixIdx, level]);
-  }
+    const nodeId = startingPoint.id;
+    if (nodeId === "") [matrixIdx] = move(direction, [initialMatrixIdx, level]);
 
-  if (nodeId === "") [matrixIdx] = move(direction, [initialMatrixIdx, level]);
-
-  if (direction === "up" || direction === "down" || nodeId === "") {
-    return {
-      node: "unknown",
-      matrixIndices: {
-        matrixIdx,
-        rowIdx: rowIdx,
-        colIdx: colIdx,
-      },
-      didMove: true,
-    };
+    if (direction === "up" || direction === "down" || nodeId === "") {
+      return {
+        node: "unknown",
+        matrixIndices: {
+          matrixIdx,
+          rowIdx: rowIdx,
+          colIdx: colIdx,
+        },
+        didMove: true,
+      };
+    }
   }
 };
 export const filterInvisibleNodes = (
@@ -248,8 +255,9 @@ export const filterInvisibleNodes = (
         visibleNodes[level[0]][node[0]] = {
           ...node[1],
           is_viewed:
-            gameProgress[node[1].node_name as keyof typeof gameProgress]
-              .is_viewed,
+            gameProgress.nodes[
+              node[1].node_name as keyof typeof gameProgress.nodes
+            ].is_viewed,
         };
       }
     });
@@ -279,4 +287,27 @@ export const unknownNodeTemplate = {
     "2": "",
     "3": "",
   },
+};
+
+export const nodeToScene = (node: NodeData) => {
+  switch (node.type) {
+    case 0:
+    case 2:
+    case 4:
+    case 3:
+    case 5:
+      return "media";
+    case 6:
+      if (node.node_name.substr(0, 3) === "TaK") {
+        return "tak";
+      } else {
+        return "media";
+      }
+    case 7:
+      return "sskn";
+    case 8:
+      return "gate";
+    case 9:
+      return "polytan";
+  }
 };

@@ -1,10 +1,25 @@
-import { findNodeFromWord } from "../../utils/media-utils";
-import { MediaSceneContext } from "../../store";
-import { changeLeftMediaComponent, changeMediaSide } from "../eventTemplates";
+import { findNodeFromWord } from "../../helpers/media-helpers";
+import {
+  changeLeftMediaComponent,
+  changeMediaSide,
+  changeRightMediaComponent,
+  exitMedia,
+  playMedia,
+  selectWord,
+  wordNotFound,
+} from "../eventTemplates";
+import { isNodeVisible } from "../../helpers/node-helpers";
+import {
+  GameEvent,
+  MediaSceneContext,
+  RightMediaComponent,
+} from "../../types/types";
 
-const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
+const handleMediaSceneInput = (
+  mediaSceneContext: MediaSceneContext,
+  keyPress: string
+): GameEvent | undefined => {
   const {
-    keyPress,
     activeMediaComponent,
     wordPosStateIdx,
     activeNode,
@@ -19,11 +34,13 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
       switch (keyPress) {
         case "UP":
         case "DOWN": {
-          const direction = keyPress.toLowerCase();
-          const newComponent = direction === "up" ? "play" : "exit";
+          const newComponent = keyPress === "UP" ? "play" : "exit";
+
           return changeLeftMediaComponent({ activeComponent: newComponent });
         }
         case "RIGHT": {
+          if (!activeNode.media_file.includes("XA")) return;
+
           return changeMediaSide({
             activeMediaComponent: lastActiveMediaComponents.right,
             lastActiveMediaComponents: {
@@ -36,14 +53,9 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
         case "CIRCLE":
           switch (activeMediaComponent) {
             case "play":
-              return {
-                event: "media_play_select",
-                node: activeNode,
-              };
+              return playMedia({ activeNode: activeNode });
             case "exit":
-              return {
-                event: "media_play_select",
-              };
+              return exitMedia;
           }
       }
       break;
@@ -54,6 +66,7 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
             wordPosStateIdx - 1 < 1 ? 6 : wordPosStateIdx - 1;
           const newComponent = (() => {
             switch (activeMediaComponent) {
+              default:
               case "fstWord":
                 return "thirdWord";
               case "sndWord":
@@ -62,17 +75,17 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
                 return "sndWord";
             }
           })();
-          return {
-            event: "media_rightside_up",
-            newActiveComponent: newComponent,
+          return changeRightMediaComponent({
+            activeComponent: newComponent,
             wordPosStateIdx: newWordPosStateIdx,
-          };
+          });
         }
         case "DOWN": {
           const newWordPosStateIdx =
             wordPosStateIdx + 1 > 6 ? 1 : wordPosStateIdx + 1;
           const newComponent = (() => {
             switch (activeMediaComponent) {
+              default:
               case "fstWord":
                 return "sndWord";
               case "sndWord":
@@ -82,11 +95,10 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
             }
           })();
 
-          return {
-            event: "media_rightside_down",
-            newActiveComponent: newComponent,
+          return changeRightMediaComponent({
+            activeComponent: newComponent,
             wordPosStateIdx: newWordPosStateIdx,
-          };
+          });
         }
 
         case "LEFT":
@@ -94,29 +106,39 @@ const handleMediaSceneKeyPress = (mediaSceneContext: MediaSceneContext) => {
             activeMediaComponent: lastActiveMediaComponents.left,
             lastActiveMediaComponents: {
               ...lastActiveMediaComponents,
-              right: activeMediaComponent as
-                | "fstWord"
-                | "sndWord"
-                | "thirdWord",
+              right: activeMediaComponent as RightMediaComponent,
             },
             currentMediaSide: "left",
           });
 
         case "CIRCLE":
-          const data = findNodeFromWord(
-            activeMediaComponent,
-            activeNode,
-            activeSite,
-            gameProgress
-          );
+          const wordIdx = (() => {
+            switch (activeMediaComponent as RightMediaComponent) {
+              case "fstWord":
+                return 1;
+              case "sndWord":
+                return 2;
+              case "thirdWord":
+                return 3;
+            }
+          })();
 
-          if (data) {
-            return { event: `media_word_select`, ...data };
-          } else {
-            return { event: `word_node_not_found` };
-          }
+          const nodeName = activeNode.node_name;
+          const wordToFind = activeNode.words[wordIdx];
+
+          const data = findNodeFromWord(wordToFind, nodeName, activeSite);
+
+          const { node, level, siteRotY } = { ...data };
+
+          if (!isNodeVisible(node, gameProgress)) return wordNotFound;
+
+          return selectWord({
+            activeNode: node,
+            activeLevel: level,
+            siteRot: [0, siteRotY, 0],
+          });
       }
   }
 };
 
-export default handleMediaSceneKeyPress;
+export default handleMediaSceneInput;

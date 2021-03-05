@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import aboutBg from "../../../static/sprite/about_background.png";
+import aboutBg from "../../../static/sprites/main/about_background.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../../../store";
@@ -10,8 +10,6 @@ const About = () => {
   const aboutBgTex = useLoader(THREE.TextureLoader, aboutBg);
 
   const bgRef = useRef<THREE.Sprite>();
-  // todo im not sure where the other bg file is located,
-  // the one here is just the text, in the original game there's another one
 
   useFrame(() => {
     if (bgRef.current) {

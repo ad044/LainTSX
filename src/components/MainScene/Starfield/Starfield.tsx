@@ -1,5 +1,6 @@
-import React, { memo, useEffect, useMemo, useState } from "react";
+import React, { memo, useMemo } from "react";
 import Star from "./Star";
+import IntroStar from "./IntroStar";
 
 type StarfieldProps = {
   shouldIntro: boolean;
@@ -34,16 +35,10 @@ const Starfield = memo((props: StarfieldProps) => {
   ].map((x) =>
     Array.from({ length: x }, () => [
       lcgInstance() / 1000000050,
-      lcgInstance() / 100000099 - 15,
+      lcgInstance() / 100000059 + 5,
       lcgInstance() / 1000000050,
     ])
   );
-
-  const [introVisible, setIntroVisible] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => setIntroVisible(false), 3200);
-  }, []);
 
   return (
     <>
@@ -101,20 +96,18 @@ const Starfield = memo((props: StarfieldProps) => {
           ))}
         </group>
       </group>
-      {introVisible && props.shouldIntro ? (
+      {props.shouldIntro && (
         <group position={[-2, -15, -30]} rotation={[Math.PI / 3, 0, 0]}>
           {posesBlueFromBottom.map((poses, idx) => (
-            <Star position={poses} color={"blue"} key={idx} introStar={true} />
+            <IntroStar position={poses} color={"blue"} key={idx} />
           ))}
           {posesWhiteFromBottom.map((poses, idx) => (
-            <Star position={poses} color={"white"} key={idx} introStar={true} />
+            <IntroStar position={poses} color={"white"} key={idx} />
           ))}
           {posesCyanFromBottom.map((poses, idx) => (
-            <Star position={poses} color={"cyan"} key={idx} introStar={true} />
+            <IntroStar position={poses} color={"cyan"} key={idx} />
           ))}
         </group>
-      ) : (
-        <></>
       )}
     </>
   );

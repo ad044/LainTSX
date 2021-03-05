@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
-import mainCylinder from "../../static/sprite/end_cylinder_1.png";
+import mainCylinder from "../../static/sprites/end/end_cylinder_1.png";
 
 const EndCylinder = () => {
   const mainCylinderTex = useLoader(THREE.TextureLoader, mainCylinder);

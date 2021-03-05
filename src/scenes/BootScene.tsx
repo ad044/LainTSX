@@ -12,22 +12,30 @@ const BootScene = () => {
   const [accelaVisible, setAccelaVisible] = useState(true);
   const [mainMenuVisible, setMainMenuVisible] = useState(false);
 
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+
   useEffect(() => {
+    setInputCooldown(-1);
     setTimeout(() => setAccelaVisible(false), 2000);
     setTimeout(() => setMainMenuVisible(true), 6200);
-  }, []);
+    setTimeout(() => setInputCooldown(0), 6500);
+  }, [setInputCooldown]);
 
   return (
-    <perspectiveCamera position-z={3}>
+    <group position-z={3}>
       <BootAccela visible={accelaVisible} />
-      <BootAnimation visible={!accelaVisible} activeSubScene={activeSubscene} />
+      <BootAnimation
+        visible={!accelaVisible}
+        activeSubScene={activeSubscene}
+        mainMenuVisible={mainMenuVisible}
+      />
       <BootMainMenuComponents
         visible={mainMenuVisible}
         activeSubScene={activeSubscene}
       />
       <BootAuthorizeUser visible={activeSubscene === "authorize_user"} />
       <BootLoadData visible={activeSubscene === "load_data"} />
-    </perspectiveCamera>
+    </group>
   );
 };
 export default BootScene;

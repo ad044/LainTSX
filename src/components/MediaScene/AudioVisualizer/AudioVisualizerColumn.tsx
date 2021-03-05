@@ -1,6 +1,6 @@
 import React, { MutableRefObject } from "react";
-import audioVisualizerOrangeOrb from "../../../static/sprite/audio_visual_orb_orange.png";
-import audioVisualizerYellowOrb from "../../../static/sprite/audio_visual_orb_yellow.png";
+import audioVisualizerOrangeOrb from "../../../static/sprites/media/audio_visual_orb_orange.png";
+import audioVisualizerYellowOrb from "../../../static/sprites/media/audio_visual_orb_yellow.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 

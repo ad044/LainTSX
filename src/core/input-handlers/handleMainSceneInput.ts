@@ -2,9 +2,9 @@ import {
   findNode,
   getNodeById,
   isNodeVisible,
+  nodeToScene,
   unknownNodeTemplate,
-} from "../../utils/node-utils";
-import { MainSceneContext } from "../../store";
+} from "../../helpers/node-helpers";
 import {
   changeNode,
   changePauseComponent,
@@ -18,19 +18,29 @@ import {
   exitPause,
   exitPrompt,
   explodeNode,
+  hideWordNotFound,
   knockNode,
   knockNodeAndFall,
   loadGame,
+  loadGameFail,
   pauseGame,
+  resetInputCooldown,
+  ripNode,
   saveGame,
   selectLevel,
   showAbout,
   showPermissionDenied,
   siteMoveHorizontal,
   siteMoveVertical,
+  throwNode,
 } from "../eventTemplates";
+import { GameEvent, MainSceneContext } from "../../types/types";
+import { getCurrentUserState } from "../../store";
 
-const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
+const handleMainSceneInput = (
+  mainSceneContext: MainSceneContext,
+  keyPress: string
+): GameEvent | undefined => {
   const {
     subscene,
     selectedLevel,
@@ -40,13 +50,12 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
     siteRotY,
     activeNode,
     level,
-    keyPress,
-    ssknLvl,
     showingAbout,
     promptVisible,
     activePromptComponent,
-    gateLvl,
     siteSaveState,
+    wordNotFound,
+    canLainMove,
   } = mainSceneContext;
 
   if (promptVisible) {
@@ -61,7 +70,7 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
             return exitPrompt;
           case "yes":
             switch (activePauseComponent) {
-              case "change":
+              case "change": {
                 const siteToLoad = activeSite === "a" ? "b" : "a";
                 const stateToLoad = siteSaveState[siteToLoad];
 
@@ -73,8 +82,6 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
                     activeLevel: level.toString().padStart(2, "0"),
                   },
                 };
-                console.log(newSiteSaveState);
-
                 return changeSite({
                   newActiveSite: siteToLoad,
                   newActiveNode: stateToLoad.activeNode,
@@ -82,24 +89,32 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
                   newActiveLevel: stateToLoad.activeLevel,
                   newSiteSaveState: newSiteSaveState,
                 });
+              }
               case "save":
-                return saveGame();
-              case "load":
-                return loadGame();
+                return saveGame({ userSaveState: getCurrentUserState() });
+              case "load": {
+                const stateToLoad = localStorage.getItem("lainSaveState");
+
+                if (stateToLoad)
+                  return loadGame({
+                    userSaveState: JSON.parse(stateToLoad),
+                  });
+                else return loadGameFail;
+              }
             }
         }
     }
   } else {
     switch (subscene) {
       case "site":
+        if (wordNotFound) return hideWordNotFound;
         switch (keyPress) {
           case "LEFT":
           case "RIGHT": {
             const direction = keyPress.toLowerCase();
             const nodeData = findNode(
-              activeNode.id,
+              activeNode,
               direction,
-              activeNode.matrixIndices!,
               level,
               activeSite,
               gameProgress,
@@ -124,6 +139,7 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
             };
 
             if (nodeData.didMove) {
+              if (!canLainMove) return resetInputCooldown;
               return siteMoveHorizontal({
                 lainMoveAnimation: lainMoveAnimation,
                 siteRot: newSiteRot,
@@ -137,10 +153,16 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
           case "DOWN": {
             const direction = keyPress.toLowerCase();
 
+            const upperLimit = activeSite === "a" ? 22 : 13;
+            if (
+              (direction === "up" && level === upperLimit) ||
+              (direction === "down" && level === 1)
+            )
+              return;
+
             const nodeData = findNode(
-              activeNode.id,
+              activeNode,
               direction,
-              activeNode.matrixIndices!,
               level,
               activeSite,
               gameProgress,
@@ -160,19 +182,19 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
               matrixIndices: nodeData.matrixIndices,
             };
 
-            if (nodeData.didMove)
+            if (nodeData.didMove) {
+              if (!canLainMove) return resetInputCooldown;
               return siteMoveVertical({
                 lainMoveAnimation: lainMoveAnimation,
                 activeLevel: newLevel,
                 activeNode: newNode,
               });
-            else return changeNode({ activeNode: newNode });
+            } else return changeNode({ activeNode: newNode });
           }
           case "CIRCLE":
-            const eventAnimation =
-              Math.random() < 0.4 ? "rip_node" : "throw_node";
+            if (!canLainMove) return resetInputCooldown;
 
-            const nodeType = activeNode.type;
+            const eventAnimation = Math.random() < 0.4 ? throwNode : ripNode;
 
             if (
               activeNode.id === "" ||
@@ -180,53 +202,18 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
             )
               return;
 
-            if (activeNode.upgrade_requirement > ssknLvl) {
-              const rejectEvents = [explodeNode, knockNode, knockNodeAndFall];
+            if (activeNode.upgrade_requirement > gameProgress.sskn_level) {
+              const rejectEvents = [knockNodeAndFall, knockNode, explodeNode];
               return rejectEvents[Math.floor(Math.random() * 3)];
             }
 
-            switch (nodeType) {
-              case 0:
-              case 2:
-              case 4:
-              case 3:
-              case 5:
-                return {
-                  event: `${eventAnimation}_media`,
-                  mutations: { scene: "media" },
-                };
-              case 6:
-                if (activeNode.node_name.substr(0, 3) === "TaK") {
-                  return {
-                    event: `${eventAnimation}_tak`,
-                    mutations: { scene: "tak" },
-                  };
-                } else {
-                  return {
-                    event: `${eventAnimation}_media`,
-                    mutations: { scene: "media" },
-                  };
-                }
-              case 8:
-                return {
-                  event: `${eventAnimation}_gate`,
-                  mutations: { scene: "gate" },
-                };
-              case 7:
-                return {
-                  event: `${eventAnimation}_sskn`,
-                  mutations: { scene: "sskn" },
-                };
-              case 9:
-                return {
-                  event: `${eventAnimation}_polytan`,
-                  mutations: { scene: "polytan" },
-                };
-            }
+            const newScene = nodeToScene(activeNode);
+            if (newScene) return eventAnimation({ currentScene: newScene });
             break;
           case "L2":
             return enterLevelSelection({ selectedLevel: level });
           case "TRIANGLE":
+            if (!canLainMove) return resetInputCooldown;
             return pauseGame({ siteRot: [Math.PI / 2, siteRotY, 0] });
         }
         break;
@@ -241,19 +228,28 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
             if (selectedLevel - 1 >= 1)
               return changeSelectedLevel({ selectedLevel: selectedLevel - 1 });
             break;
-          case "X":
+          case "CROSS":
             return exitLevelSelection;
 
           case "CIRCLE":
+            if (!canLainMove) return resetInputCooldown;
+
             if (level === selectedLevel) return;
 
             const direction = selectedLevel > level ? "up" : "down";
 
-            const rowIdx = direction === "up" ? 2 : 0;
+            const newStartingPoint = {
+              ...activeNode,
+              matrixIndices: {
+                matrixIdx: activeNode.matrixIndices!.matrixIdx,
+                rowIdx: direction === "up" ? 2 : 0,
+                colIdx: 0,
+              },
+            };
+
             const nodeData = findNode(
-              activeNode.id,
+              newStartingPoint,
               direction,
-              { ...activeNode.matrixIndices!, rowIdx: rowIdx },
               selectedLevel,
               activeSite,
               gameProgress,
@@ -284,13 +280,12 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
         switch (keyPress) {
           case "UP":
           case "DOWN":
-            const direction = keyPress.toLowerCase();
             const components = ["load", "about", "change", "save", "exit"];
 
             const newComponent =
               components[
                 components.indexOf(activePauseComponent) +
-                  (direction === "up" ? -1 : 1)
+                  (keyPress === "UP" ? -1 : 1)
               ];
 
             if (newComponent)
@@ -308,7 +303,10 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
               case "load":
                 return displayPrompt;
               case "change":
-                if (activePauseComponent === "change" && gateLvl > 4)
+                if (
+                  activePauseComponent === "change" &&
+                  gameProgress.gate_level > 4
+                )
                   return showPermissionDenied;
                 else return displayPrompt;
             }
@@ -318,4 +316,4 @@ const handleMainSceneKeyPress = (mainSceneContext: MainSceneContext) => {
   }
 };
 
-export default handleMainSceneKeyPress;
+export default handleMainSceneInput;

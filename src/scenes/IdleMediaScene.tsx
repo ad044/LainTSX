@@ -9,12 +9,19 @@ const IdleMediaScene = () => {
 
   const idleMedia = useStore((state) => state.idleMedia);
   const idleNodeName = useStore((state) => state.idleNodeName);
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
+
+  useEffect(() => {
+    setInputCooldown(0);
+  }, [setInputCooldown]);
 
   useEffect(() => {
     if (mediaPercentageElapsed === 100)
       useStore.setState({
         currentScene: "main",
         idleStarting: false,
+        intro: false,
+        inputCooldown: -1,
       });
   }, [mediaPercentageElapsed]);
 
@@ -24,12 +31,16 @@ const IdleMediaScene = () => {
 
     if (mediaElement) {
       mediaElement.currentTime = 0;
-      import("../static/webvtt/" + idleNodeName + ".vtt")
-        .then((vtt) => {
-          if (vtt) trackElement.src = vtt.default;
-        })
-        // some entries have no spoken words, so the file doesnt exist. we catch that here.
-        .catch((e) => console.log(e));
+      if (idleNodeName) {
+        import("../static/webvtt/" + idleNodeName + ".vtt")
+          .then((vtt) => {
+            if (vtt) trackElement.src = vtt.default;
+          })
+          // some entries have no spoken words, so the file doesnt exist. we catch that here.
+          .catch(() => {
+            trackElement.removeAttribute("src");
+          });
+      }
 
       if (idleMedia.includes("XA")) {
         import("../static/audio/" + idleMedia + ".ogg").then((media) => {

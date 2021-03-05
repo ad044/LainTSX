@@ -1,7 +1,7 @@
 import React, { memo, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import orbSprite from "../../static/sprite/orb.png";
+import orbSprite from "../../static/sprites/main/orb.png";
 import { useStore } from "../../store";
 
 type YellowOrbProps = {

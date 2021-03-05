@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import headerContainer from "../../../static/sprite/prompt_question_container.png";
+import headerContainer from "../../../static/sprites/prompt/prompt_question_container.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import StaticOrangeLetter from "../../TextRenderer/StaticOrangeLetter";

@@ -1,4 +1,4 @@
-import orangeFont from "../../static/sprite/orange_jp_font.png";
+import orangeFont from "../../static/sprites/fonts/orange_jp_font.png";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import jp_font_json from "../../resources/font_data/jp_font.json";
@@ -34,8 +34,8 @@ const StaticJpCharacter = memo((props: { char: string; charIdx: number }) => {
 
   return (
     <mesh
-      position={[props.charIdx / 4, 0, 0]}
-      scale={[0.25, 0.25, 0]}
+      position={[props.charIdx / 5, 0, 0]}
+      scale={[0.2, 0.2, 0]}
       geometry={geom}
       renderOrder={205}
     >

@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import authorizeHeaderUnderline from "../../static/sprite/authorize_header_underline.png";
-import authorizeGlass from "../../static/sprite/authorize_glass.png";
-import authorizeGlassUnderline from "../../static/sprite/authorize_glass_underline.png";
-import authorizeOrangeSquare from "../../static/sprite/authorize_orange_square.png";
-import authorizeStartToFinish from "../../static/sprite/authorize_start_to_finish.png";
-import authorizeInactiveLetters from "../../static/sprite/authorize_inactive_letters.png";
-import authorizeActiveLetters from "../../static/sprite/authorize_active_letters.png";
+import authorizeHeaderUnderline from "../../static/sprites/boot/authorize_header_underline.png";
+import authorizeGlass from "../../static/sprites/boot/authorize_glass.png";
+import authorizeGlassUnderline from "../../static/sprites/boot/authorize_glass_underline.png";
+import authorizeOrangeSquare from "../../static/sprites/boot/authorize_orange_square.png";
+import authorizeStartToFinish from "../../static/sprites/boot/authorize_start_to_finish.png";
+import authorizeInactiveLetters from "../../static/sprites/boot/authorize_inactive_letters.png";
+import authorizeActiveLetters from "../../static/sprites/boot/authorize_active_letters.png";
 import { useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
 import { useStore } from "../../store";
-import usePrevious from "../../hooks/usePrevious";
 import StaticJpCharacter from "../TextRenderer/StaticJpCharacter";
 
 type BootAuthorizeUserProps = {
@@ -44,78 +42,32 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
     authorizeActiveLetters
   );
 
-  const letterIdx = useStore((state) => state.authorizeUserLetterIdx);
-  const subscene = useStore((state) => state.bootSubscene);
-  const prevData = usePrevious({ letterIdx, subscene });
+  const authorizeUserMatrixIndices = useStore(
+    (state) => state.authorizeUserMatrixIndices
+  );
 
   const bgLettersRef = useRef<THREE.Object3D>();
-  const activeLetterRef = useRef<THREE.Mesh>();
 
   const activeLetterMap = useMemo(() => {
     activeLettersTex.wrapT = activeLettersTex.wrapS = THREE.RepeatWrapping;
     activeLettersTex.repeat.set(0.06, 0.2);
-    activeLettersTex.offset.x = 0;
-    activeLettersTex.offset.y = -0.2;
+    activeLettersTex.offset.x = 0.0775 * authorizeUserMatrixIndices.colIdx;
+    activeLettersTex.offset.y = -0.2 - 0.2 * authorizeUserMatrixIndices.rowIdx;
     return activeLettersTex;
-  }, [activeLettersTex]);
-
-  useEffect(() => {
-    if (
-      prevData?.subscene === "main_menu" &&
-      subscene === "authorize_user" &&
-      activeLetterRef
-    ) {
-      activeLetterMap.offset.x = 0;
-      activeLetterMap.offset.y = -0.2;
-    }
-  }, [subscene, prevData?.subscene, activeLetterMap.offset]);
+  }, [
+    activeLettersTex,
+    authorizeUserMatrixIndices.colIdx,
+    authorizeUserMatrixIndices.rowIdx,
+  ]);
 
   useEffect(() => {
     if (bgLettersRef.current) {
-      //down
-      if (prevData!.letterIdx + 13 === letterIdx) {
-        bgLettersRef.current.position.y += 0.25;
-        activeLetterMap.offset.y -= 0.2;
-        // down skip
-      } else if (letterIdx === prevData!.letterIdx + 26) {
-        bgLettersRef.current.position.y += 0.5;
-        activeLetterMap.offset.y -= 0.4;
-      } else if (letterIdx === prevData!.letterIdx + 52) {
-        bgLettersRef.current.position.y += 1;
-        activeLetterMap.offset.y -= 0.8;
-      }
-      // up
-      else if (letterIdx === prevData!.letterIdx - 13) {
-        bgLettersRef.current.position.y -= 0.25;
-        activeLetterMap.offset.y += 0.2;
-        // up skip
-      } else if (letterIdx === prevData!.letterIdx - 26) {
-        bgLettersRef.current.position.y -= 0.5;
-        activeLetterMap.offset.y += 0.4;
-      } else if (letterIdx === prevData!.letterIdx - 52) {
-        bgLettersRef.current.position.y -= 1;
-        activeLetterMap.offset.y += 0.8;
-      }
-      // left
-      else if (letterIdx === prevData!.letterIdx - 1) {
-        bgLettersRef.current.position.x += 0.3;
-        activeLetterMap.offset.x -= 0.0775;
-      }
-      // left skip
-      else if (letterIdx === prevData!.letterIdx - 2) {
-        bgLettersRef.current.position.x += 0.6;
-        activeLetterMap.offset.x -= 0.155;
-      }
-      // right
-      else if (letterIdx === prevData!.letterIdx + 1) {
-        bgLettersRef.current.position.x -= 0.3;
-        activeLetterMap.offset.x += 0.0775;
-      } else if (letterIdx === prevData!.letterIdx + 2) {
-        bgLettersRef.current.position.x -= 0.6;
-        activeLetterMap.offset.x += 0.155;
-      }
+      bgLettersRef.current.position.y =
+        -0.7 + 0.25 * authorizeUserMatrixIndices.rowIdx;
+      bgLettersRef.current.position.x =
+        3.35 - 0.3 * authorizeUserMatrixIndices.colIdx;
     }
-  }, [activeLetterMap.offset, letterIdx, prevData]);
+  }, [authorizeUserMatrixIndices.colIdx, authorizeUserMatrixIndices.rowIdx]);
 
   const playerName = useStore((state) => state.playerName.split(""));
 
@@ -160,8 +112,9 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
           </sprite>
           <sprite
             scale={[0.2, 0.2, 0]}
-            position={[-0.2, -0.3, 0]}
+            position={[-0.19, -0.3, 0]}
             renderOrder={3}
+            visible={!(playerName.length === 8)}
           >
             <spriteMaterial
               map={authorizeOrangeSquareTex}
@@ -170,8 +123,15 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
               depthTest={false}
             />
           </sprite>
-
-          <group position={[playerName.length * -0.25 - 0.2, -0.27, 0]}>
+          <group
+            position={[
+              (playerName.length === 8 ? 0.2 : 0) +
+                playerName.length * -0.2 -
+                0.2,
+              -0.29,
+              0,
+            ]}
+          >
             {playerName.map((char, idx) => (
               <StaticJpCharacter char={char} charIdx={idx} key={idx} />
             ))}
@@ -189,11 +149,10 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
             />
           </sprite>
 
-          <OrbitControls />
           <group position={[-1.15, 0.4, 0.3]} rotation={[-0.8, 0, -0.3]}>
             <mesh
               scale={[4, 1.28, 0]}
-              position={[3.35, -0.7, 0]}
+              position={[1.25, -0.45, 0]}
               ref={bgLettersRef}
             >
               <planeBufferGeometry attach="geometry" />
@@ -201,7 +160,6 @@ const BootAuthorizeUser = (props: BootAuthorizeUserProps) => {
                 map={authorizeInactiveLettersTex}
                 attach="material"
                 transparent={true}
-                side={THREE.DoubleSide}
               />
             </mesh>
             <mesh

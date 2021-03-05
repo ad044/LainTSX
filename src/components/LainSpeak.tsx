@@ -1,12 +1,12 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
-import takIntro from "../static/sprite/tak_intro.png";
-import takOutro from "../static/sprite/tak_outro.png";
-import mouth1 from "../static/sprite/mouth_1.png";
-import mouth2 from "../static/sprite/mouth_2.png";
-import mouth3 from "../static/sprite/mouth_3.png";
-import mouth4 from "../static/sprite/mouth_4.png";
+import takIntro from "../static/sprites/lain/lain_speak_intro.png";
+import takOutro from "../static/sprites/lain/lain_speak_outro.png";
+import mouth1 from "../static/sprites/lain/mouth_1.png";
+import mouth2 from "../static/sprites/lain/mouth_2.png";
+import mouth3 from "../static/sprites/lain/mouth_3.png";
+import mouth4 from "../static/sprites/lain/mouth_4.png";
 import { useStore } from "../store";
 import { LainConstructor } from "./MainScene/Lain";
 

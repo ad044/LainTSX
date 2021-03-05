@@ -3,28 +3,9 @@ import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
 import PauseBigLetter from "../../TextRenderer/PauseBigLetter";
 import { useStore } from "../../../store";
-import { useLoader } from "react-three-fiber";
+import usePrevious from "../../../hooks/usePrevious";
 
 const Pause = () => {
-  const exit = useStore((state) => state.pauseExitAnimation);
-  const [showActiveComponent, setShowActiveComponent] = useState(false);
-  const [animation, setAnimation] = useState(false);
-  const [intro, setIntro] = useState(true);
-
-  const wordFont = useLoader(THREE.FontLoader, "/3d_fonts/MediaWord.blob");
-
-  const config = useMemo(
-    () => ({
-      font: wordFont,
-      size: 2.5,
-    }),
-    [wordFont]
-  );
-
-  const activeComponent = useStore((state) =>
-    showActiveComponent ? state.activePauseComponent : ""
-  );
-
   const generateSqaureGeom = useCallback((row: number, square: number) => {
     const geometry = new THREE.PlaneBufferGeometry();
     const uvAttribute = geometry.attributes.uv;
@@ -48,306 +29,169 @@ const Pause = () => {
     [generateSqaureGeom]
   );
 
-  const subscene = useStore((state) => state.mainSubscene);
+  const letterLocs = useMemo(
+    () => ({
+      "05": { letter: "E" },
+      "11": { letter: "S" },
+      "33": { letter: "C" },
+      "45": { letter: "A" },
+      "51": { letter: "L" },
+    }),
+    []
+  );
 
+  const subscene = useStore((state) => state.mainSubscene);
+  const prevData = usePrevious({ subscene });
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
+  const [visible, setVisible] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const [exit, setExit] = useState(false);
+
+  const activeComponent = useStore(
+    useCallback((state) => (finished ? state.activePauseComponent : ""), [
+      finished,
+    ])
+  );
+
   useEffect(() => {
-    setAnimation(false);
-    setIntro(true);
-    setShowActiveComponent(false);
     if (subscene === "pause") {
-      setTimeout(() => {
-        setTimeout(() => {
-          setAnimation(true);
-        }, 1000);
-        setTimeout(() => {
-          setShowActiveComponent(true);
-          setIntro(false);
-          setInputCooldown(false);
-        }, 3500);
-      }, 3400);
+      setTimeout(() => setVisible(true), 4400);
+      setTimeout(() => setFinished(true), 7300);
+      setTimeout(() => setInputCooldown(1000), 7600);
     }
-  }, [setInputCooldown, subscene]);
+
+    if (prevData?.subscene === "pause" && subscene === "site") {
+      setExit(true);
+      setTimeout(() => {
+        setVisible(false);
+        setFinished(false);
+        setExit(false);
+      }, 1200);
+    }
+  }, [prevData?.subscene, setInputCooldown, subscene]);
+
+  const whenActive = useCallback((rowIdx: number, colIdx: number) => {
+    switch (rowIdx) {
+      case 5:
+        if (colIdx > 1 && colIdx < 5) return "load";
+        break;
+      case 4:
+        if (colIdx > 5 && colIdx < 7) return "about";
+        break;
+      case 3:
+        if (colIdx > 3 && colIdx < 7) return "change";
+        break;
+      case 1:
+        if (colIdx > 1 && colIdx < 5) return "save";
+        break;
+      case 0:
+        if (colIdx > 4 && colIdx < 7) return "exit";
+        break;
+    }
+  }, []);
 
   return (
     <>
-      {animation && (
-        <>
-          <group position={[-0.85, -0.7, 0]} scale={[0.85, 0.85, 0]}>
-            {[0, 1, 2, 3, 2, 1, 0].map((row: number, rowIdx: number) =>
-              [0, 1, 2, 3, 4, 5, 6].map((col: number) => {
-                if (rowIdx === 5 && col > 0 && col < 5) {
-                  return col === 1 ? (
-                    <React.Fragment key={`Lfragment`}>
-                      <PauseBigLetter
-                        color={"white"}
-                        letter={"L"}
-                        letterIdx={col}
-                        position={[0.35, 1.8, 0]}
-                        scale={[0.25, 0.25, 0.25]}
-                        active={!(activeComponent === "load")}
-                        key={"whiteL"}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        intro={intro}
-                      />
-                      <PauseSquare
-                        geometry={squareGeoms[row][col]}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        key={"whiteLsquare"}
-                        shouldDisappear={true}
-                        intro={intro}
-                      />
-                    </React.Fragment>
-                  ) : (
-                    <PauseSquare
-                      geometry={squareGeoms[row][col]}
+      {visible && (
+        <group position={[-0.9, -0.7, 0]} scale={[0.85, 0.85, 0]}>
+          {[0, 1, 2, 3, 2, 1, 0].map((r: number, rowIdx: number) =>
+            [0, 1, 2, 3, 4, 5, 6].map((c: number, colIdx: number) => {
+              const key = `${rowIdx}${colIdx}`;
+
+              const letter = letterLocs[key as keyof typeof letterLocs];
+              if (letter)
+                return (
+                  <React.Fragment key={`${key}fragment`}>
+                    <PauseBigLetter
+                      letter={letter.letter}
+                      letterIdx={0}
+                      position={[colIdx / 2.8, rowIdx / 2.8, 0]}
                       rowIdx={rowIdx}
-                      colIdx={col}
-                      active={!(activeComponent === "load")}
-                      key={`${rowIdx}${col}L`}
-                      intro={intro}
+                      colIdx={colIdx}
+                      mainLetter={true}
+                      active={
+                        letter.letter ===
+                        activeComponent.charAt(0).toUpperCase()
+                      }
+                      introFinished={finished}
+                      exit={exit}
                     />
-                  );
-                } else if (rowIdx === 4 && col > 4 && col < 7) {
-                  return col === 5 ? (
-                    <React.Fragment key={"AFragment"}>
-                      <PauseBigLetter
-                        color={"white"}
-                        letter={"A"}
-                        letterIdx={col}
-                        position={[1.78, 1.43, 0]}
-                        scale={[0.25, 0.25, 0]}
-                        active={!(activeComponent === "about")}
-                        key={"whiteA"}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        intro={intro}
-                      />
-                      <PauseSquare
-                        geometry={squareGeoms[row][col]}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        key={"whiteAsquare"}
-                        shouldDisappear={true}
-                        intro={intro}
-                      />
-                    </React.Fragment>
-                  ) : (
                     <PauseSquare
-                      geometry={squareGeoms[row][col]}
+                      geometry={squareGeoms[r][c]}
+                      colIdx={colIdx}
                       rowIdx={rowIdx}
-                      colIdx={col}
-                      active={!(activeComponent === "about")}
-                      key={`${rowIdx}${col}A`}
-                      intro={intro}
+                      letter={letter.letter}
+                      introFinished={finished}
+                      exit={exit}
                     />
-                  );
-                } else if (rowIdx === 3 && col > 2 && col < 7) {
-                  return col === 3 ? (
-                    <React.Fragment key={"CFragment"}>
-                      <PauseBigLetter
-                        color={"white"}
-                        letter={"C"}
-                        letterIdx={col}
-                        position={[1.05, 1.07, 0]}
-                        scale={[0.25, 0.25, 0]}
-                        active={!(activeComponent === "change")}
-                        key={"whiteC"}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        intro={intro}
-                      />
-                      <PauseSquare
-                        geometry={squareGeoms[row][col]}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        key={"whiteCsquare"}
-                        shouldDisappear={true}
-                        intro={intro}
-                      />
-                    </React.Fragment>
-                  ) : (
-                    <PauseSquare
-                      geometry={squareGeoms[row][col]}
-                      rowIdx={rowIdx}
-                      colIdx={col}
-                      active={!(activeComponent === "change")}
-                      key={`${rowIdx}${col}C`}
-                      intro={intro}
-                    />
-                  );
-                } else if (rowIdx === 1 && col > 0 && col < 5) {
-                  return col === 1 ? (
-                    <React.Fragment key={"Sfragment"}>
-                      <PauseBigLetter
-                        color={"white"}
-                        letter={"S"}
-                        letterIdx={col}
-                        position={[0.35, 0.35, 0]}
-                        scale={[0.25, 0.25, 0]}
-                        active={!(activeComponent === "save")}
-                        key={"whiteS"}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        intro={intro}
-                      />
-                      <PauseSquare
-                        geometry={squareGeoms[row][col]}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        key={"whiteSsquare"}
-                        shouldDisappear={true}
-                        intro={intro}
-                      />
-                    </React.Fragment>
-                  ) : (
-                    <PauseSquare
-                      geometry={squareGeoms[row][col]}
-                      rowIdx={rowIdx}
-                      colIdx={col}
-                      active={!(activeComponent === "save")}
-                      key={`${rowIdx}${col}S`}
-                      intro={intro}
-                    />
-                  );
-                } else if (rowIdx === 0 && col > 4 && col < 7) {
-                  return col === 5 ? (
-                    <React.Fragment key={"Efragment"}>
-                      <PauseBigLetter
-                        color={"white"}
-                        letter={"E"}
-                        letterIdx={col}
-                        position={[1.78, 0, 0]}
-                        scale={[0.25, 0.25, 0]}
-                        active={!(activeComponent === "exit")}
-                        key={"whiteE"}
-                        rowIdx={1}
-                        colIdx={col}
-                        intro={intro}
-                      />
-                      <PauseSquare
-                        geometry={squareGeoms[row][col]}
-                        rowIdx={rowIdx}
-                        colIdx={col}
-                        key={"whiteEsquare"}
-                        shouldDisappear={true}
-                        intro={intro}
-                      />
-                    </React.Fragment>
-                  ) : (
-                    <PauseSquare
-                      geometry={squareGeoms[row][col]}
-                      rowIdx={rowIdx}
-                      colIdx={col}
-                      active={!(activeComponent === "exit")}
-                      key={`${rowIdx}${col}E`}
-                      intro={intro}
-                    />
-                  );
-                } else {
-                  return (
-                    <PauseSquare
-                      geometry={squareGeoms[row][col]}
-                      rowIdx={rowIdx}
-                      colIdx={col}
-                      key={`${rowIdx}${col}r`}
-                      active={true}
-                      intro={intro}
-                    />
-                  );
-                }
-              })
-            )}
-            {"Load".split("").map((letter, idx) => (
+                  </React.Fragment>
+                );
+              else
+                return (
+                  <PauseSquare
+                    geometry={squareGeoms[r][c]}
+                    colIdx={colIdx}
+                    rowIdx={rowIdx}
+                    key={key}
+                    active={activeComponent === whenActive(rowIdx, colIdx)}
+                    introFinished={finished}
+                    exit={exit}
+                  />
+                );
+            })
+          )}
+
+          <>
+            {"oad".split("").map((letter, idx) => (
               <PauseBigLetter
-                color={idx > 0 ? "yellow" : "orange"}
                 letter={letter}
                 letterIdx={idx}
                 key={idx}
-                position={[0.35 + idx / 2.8, 1.8, 0]}
-                scale={[0.25, 0.25, 0.25]}
+                position={[2 / 2.8 + idx / 2.8, 5 / 2.8, 0]}
                 active={activeComponent === "load"}
               />
             ))}
-            {"About".split("").map((letter, idx) => (
+            {"bout".split("").map((letter, idx) => (
               <PauseBigLetter
-                color={idx > 0 ? "yellow" : "orange"}
                 letter={letter}
                 letterIdx={idx}
-                position={[1.78 + idx / 2.8, 1.43, 0]}
-                scale={[0.25, 0.25, 0]}
+                position={[6 / 2.8 + idx / 2.8, 4 / 2.8, 0]}
                 active={activeComponent === "about"}
                 key={idx}
               />
             ))}
-            {"Change".split("").map((letter, idx) => (
+
+            {"hange".split("").map((letter, idx) => (
               <PauseBigLetter
-                color={idx > 0 ? "yellow" : "orange"}
                 letter={letter}
                 letterIdx={idx}
-                position={[1.05 + idx / 2.8, 1.07, 0]}
-                scale={[0.25, 0.25, 0]}
+                position={[4 / 2.8 + idx / 2.8, 3 / 2.8, 0]}
                 active={activeComponent === "change"}
                 key={idx}
               />
             ))}
-            {"Save".split("").map((letter, idx) => (
+
+            {"ave".split("").map((letter, idx) => (
               <PauseBigLetter
-                color={idx > 0 ? "yellow" : "orange"}
                 letter={letter}
                 letterIdx={idx}
-                position={[0.35 + idx / 2.8, 0.35, 0]}
-                scale={[0.25, 0.25, 0]}
+                position={[2 / 2.8 + idx / 2.8, 1 / 2.8, 0]}
                 active={activeComponent === "save"}
                 key={idx}
               />
             ))}
-            {"Exit".split("").map((letter, idx) => (
+            {"xit".split("").map((letter, idx) => (
               <PauseBigLetter
-                color={idx > 0 ? "yellow" : "orange"}
                 letter={letter}
                 letterIdx={idx}
-                position={[1.78 + idx / 2.8, 0, 0]}
-                scale={[0.25, 0.25, 0]}
+                position={[6 / 2.8 + idx / 2.8, 0, 0]}
                 key={idx}
                 active={activeComponent === "exit"}
               />
             ))}
-            <group visible={!exit}>
-              <sprite
-                position={[0.5, -0.8, 0]}
-                scale={[3, 1, 0]}
-                renderOrder={100}
-              >
-                <spriteMaterial
-                  attach="material"
-                  color={0x000000}
-                  opacity={0.8}
-                  depthTest={false}
-                />
-              </sprite>
-              <mesh
-                scale={[0.08, 0.07, 0]}
-                position={[-0.2, -0.6, 0]}
-                renderOrder={101}
-              >
-                <textGeometry
-                  attach="geometry"
-                  args={["Application Version 1.0", config]}
-                />
-                <meshBasicMaterial
-                  attach="material"
-                  color={0x00ba7c}
-                  transparent={true}
-                  depthTest={false}
-                />
-              </mesh>
-            </group>
-          </group>
-        </>
+          </>
+        </group>
       )}
     </>
   );

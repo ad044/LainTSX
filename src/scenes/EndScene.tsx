@@ -15,7 +15,6 @@ import sleep from "../utils/sleep";
 const EndScene = () => {
   const mainCylinderRef = useRef<THREE.Object3D>();
 
-  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
   const setSelectionVisible = useStore(
     (state) => state.setEndSceneSelectionVisible
   );
@@ -110,7 +109,7 @@ const EndScene = () => {
       mediaElement.load();
       mediaElement.play();
     }
-  }, [setAudioAnalyser]);
+  }, []);
 
   return (
     <>
@@ -128,9 +127,7 @@ const EndScene = () => {
         <EndSphere position={[2, 1.7, -0.5]} outroAnim={sceneOutro} />
         <LainSpeak intro={isIntro} outro={isOutro} />
       </group>
-      <group visible={showSelectionScreen}>
-        <EndSelectionScreen />
-      </group>
+      <EndSelectionScreen visible={showSelectionScreen} />
     </>
   );
 };
