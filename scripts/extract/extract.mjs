@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import { tmpdir } from "os";
-import { mkdtempSync, unlinkSync } from "fs";
+import { mkdtempSync, rmdirSync } from "fs";
 import { join } from "path";
 import { extract_media } from "./extract_media.mjs";
 import { extract_voice } from "./extract_voice.mjs";
@@ -32,4 +32,4 @@ execSync(
 extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index);
 extract_voice(tempdir, jpsxdec_jar, disc1_index);
 
-unlinkSync(tempdir, { recursive: true });
+rmdirSync(tempdir, { recursive: true });

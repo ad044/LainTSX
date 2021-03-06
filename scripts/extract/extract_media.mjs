@@ -1,5 +1,5 @@
 import { execSync, exec } from "child_process";
-import { existsSync, mkdirSync, readdirSync, unlinkSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, rmdirSync } from "fs";
 import { join } from "path";
 
 export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
@@ -78,7 +78,7 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
   }
 
   // cleanup source folders
-  unlinkSync(join(tempdir, "MOVIE"), { recursive: true });
-  unlinkSync(join(tempdir, "MOVIE2"), { recursive: true });
-  unlinkSync(join(tempdir, "XA"), { recursive: true });
+  rmdirSync(join(tempdir, "MOVIE"), { recursive: true });
+  rmdirSync(join(tempdir, "MOVIE2"), { recursive: true });
+  rmdirSync(join(tempdir, "XA"), { recursive: true });
 }
