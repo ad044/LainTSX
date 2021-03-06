@@ -5,6 +5,7 @@ import { a, useSpring } from "@react-spring/three";
 import word_position_states from "../../../resources/word_position_states.json";
 import * as THREE from "three";
 import Lof from "../Lof";
+import { useUpdate } from "react-three-fiber";
 
 const RightSide = memo(() => {
   const words = useStore((state) => state.activeNode.words);
@@ -32,12 +33,21 @@ const RightSide = memo(() => {
     () => [new THREE.Vector3(-10, 0, 0), new THREE.Vector3(10, 0, 0)],
     []
   );
+
   const verticalPoints = useMemo(
     () => [new THREE.Vector3(0, 10, 0), new THREE.Vector3(0, -10, 0)],
     []
   );
 
   const activeMediaComponent = useStore((state) => state.activeMediaComponent);
+
+  const horizontalRef = useUpdate((geometry: THREE.BufferGeometry) => {
+    geometry.setFromPoints(horizontalPoints);
+  }, []);
+
+  const verticalRef = useUpdate((geometry: THREE.BufferGeometry) => {
+    geometry.setFromPoints(verticalPoints);
+  }, []);
 
   return (
     <group position={[0, 0, -3]}>
@@ -47,7 +57,7 @@ const RightSide = memo(() => {
         position-y={wordPositionStateSpring.crossPosY}
       >
         <line>
-          <geometry attach="geometry" vertices={horizontalPoints} />
+          <bufferGeometry attach="geometry" ref={horizontalRef} />
           <lineBasicMaterial
             attach="material"
             color={0xc9d6d5}
@@ -56,7 +66,7 @@ const RightSide = memo(() => {
           />
         </line>
         <line>
-          <geometry attach="geometry" vertices={verticalPoints} />
+          <bufferGeometry attach="geometry" ref={verticalRef} />
           <lineBasicMaterial
             attach="material"
             color={0xc9d6d5}

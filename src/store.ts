@@ -439,3 +439,17 @@ export const createAudioAnalyser = () => {
 
   return new THREE.AudioAnalyser(audio, 2048);
 };
+
+export const isPolytanFullyUnlocked = () => {
+  return (
+    useStore.getState().polytanUnlockedParts ===
+    {
+      body: true,
+      head: true,
+      leftArm: true,
+      rightArm: true,
+      leftLeg: true,
+      rightLeg: true,
+    }
+  );
+};

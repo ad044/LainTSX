@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@react-spring/three": "^9.0.0-rc.3",
-    "@react-three/drei": "^2.2.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -18,8 +17,8 @@
     "react-scripts": "^4.0.0",
     "react-three-fiber": "^4.2.20",
     "react-use-gesture": "^9.0.4",
-    "three": "^0.126.1",
-    "three-plain-animator": "^1.0.2",
+    "three": "^0.125.0",
+    "three-plain-animator": "^1.0.6",
     "typescript": "^3.7.5",
     "zustand": "^3.1.3"
   },

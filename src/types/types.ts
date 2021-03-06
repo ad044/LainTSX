@@ -160,7 +160,7 @@ export type SiteData = {
 
 type Effect = () => void;
 type Mutation = {
-  mutation: Object;
+  mutation: object;
   delay?: number;
 };
 type EventAudio = {

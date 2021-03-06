@@ -1,5 +1,5 @@
 import { execSync, exec } from "child_process";
-import { existsSync, mkdirSync, readdirSync, rmSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, unlinkSync } from "fs";
 import { join } from "path";
 
 export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
@@ -42,7 +42,6 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
   );
 
   // create destination folders
-
   if (!existsSync(output_movie_folder)) {
     mkdirSync(output_movie_folder);
   }
@@ -56,7 +55,11 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
     for (let file of readdirSync(`${join(tempdir, movieDir)}`)) {
       if (file.endsWith(".wav")) continue;
       exec(
-        `ffmpeg -i "${join(tempdir, movieDir, file)}" -pix_fmt yuv420p -n ${join(
+        `ffmpeg -i "${join(
+          tempdir,
+          movieDir,
+          file
+        )}" -pix_fmt yuv420p -n ${join(
           output_movie_folder,
           file.replace("avi", "mp4")
         )}`
@@ -75,7 +78,7 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
   }
 
   // cleanup source folders
-  rmSync(join(tempdir, "MOVIE"), { recursive: true });
-  rmSync(join(tempdir, "MOVIE2"), { recursive: true });
-  rmSync(join(tempdir, "XA"), { recursive: true });
+  unlinkSync(join(tempdir, "MOVIE"), { recursive: true });
+  unlinkSync(join(tempdir, "MOVIE2"), { recursive: true });
+  unlinkSync(join(tempdir, "XA"), { recursive: true });
 }

@@ -18,41 +18,41 @@ export const getRandomIdleMedia = () => {
       "0009",
     ],
     video: [
-      "INS01.STR",
-      "INS02.STR",
-      "INS03.STR",
-      "INS04.STR",
-      "INS05.STR",
-      "INS06.STR",
-      "INS07.STR",
-      "INS08.STR",
-      "INS09.STR",
-      "INS10.STR",
-      "INS11.STR",
-      "INS12.STR",
-      "INS13.STR",
-      "INS14.STR",
-      "INS15.STR",
-      "INS16.STR",
-      "INS17.STR",
-      "INS18.STR",
-      "INS19.STR",
-      "INS20.STR",
-      "INS21.STR",
-      "INS22.STR",
+      "INS01.STR[0]",
+      "INS02.STR[0]",
+      "INS03.STR[0]",
+      "INS04.STR[0]",
+      "INS05.STR[0]",
+      "INS06.STR[0]",
+      "INS07.STR[0]",
+      "INS08.STR[0]",
+      "INS09.STR[0]",
+      "INS10.STR[0]",
+      "INS11.STR[0]",
+      "INS12.STR[0]",
+      "INS13.STR[0]",
+      "INS14.STR[0]",
+      "INS15.STR[0]",
+      "INS16.STR[0]",
+      "INS17.STR[0]",
+      "INS18.STR[0]",
+      "INS19.STR[0]",
+      "INS20.STR[0]",
+      "INS21.STR[0]",
+      "INS22.STR[0]",
     ],
   };
 
   const siteBIdleNodes = {
     audio: ["1015", "1219", "0419", "0500", "0501", "0508", "0510", "0513"],
     video: [
-      "INS16.STR",
-      "INS17.STR",
-      "INS18.STR",
-      "INS19.STR",
-      "INS20.STR",
-      "INS21.STR",
-      "INS22.STR",
+      "INS16.STR[0]",
+      "INS17.STR[0]",
+      "INS18.STR[0]",
+      "INS19.STR[0]",
+      "INS20.STR[0]",
+      "INS21.STR[0]",
+      "INS22.STR[0]",
     ],
   };
 
@@ -78,6 +78,13 @@ export const getRandomIdleMedia = () => {
       nodeName: nodeName,
     };
   } else {
+    if (site === "b" && Math.random() < 0.3) {
+      const polytanMedia = ["PO1.STR[0]", "PO2.STR[0]"];
+      return {
+        type: "video",
+        media: polytanMedia[Math.floor(Math.random() * polytanMedia.length)],
+      };
+    }
     return {
       type: "video",
       media:
