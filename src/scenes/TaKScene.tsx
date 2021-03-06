@@ -47,23 +47,13 @@ const TaKScene = () => {
             trackElement.removeAttribute("src");
           });
 
-        if (activeNode.media_file.includes("XA")) {
-          import(
-            "../static/media/audio/" + activeNode.media_file + ".ogg"
-          ).then((media) => {
+        import("../static/media/audio/" + activeNode.media_file + ".mp4").then(
+          (media) => {
             mediaElement.src = media.default;
             mediaElement.load();
             mediaElement.play();
-          });
-        } else {
-          import(
-            "../static/media/movie/" + activeNode.media_file + "[0].webm"
-          ).then((media) => {
-            mediaElement.src = media.default;
-            mediaElement.load();
-            mediaElement.play();
-          });
-        }
+          }
+        );
         setIsIntro(false);
       }
     }, 3800);

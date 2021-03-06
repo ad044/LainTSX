@@ -43,13 +43,13 @@ const IdleMediaScene = () => {
       }
 
       if (idleMedia.includes("XA")) {
-        import("../static/media/audio/" + idleMedia + ".ogg").then((media) => {
+        import("../static/media/audio/" + idleMedia + ".mp4").then((media) => {
           mediaElement.src = media.default;
           mediaElement.load();
           mediaElement.play();
         });
       } else {
-        import("../static/media/movie/" + idleMedia + "[0].webm").then((media) => {
+        import("../static/media/movie/" + idleMedia + ".mp4").then((media) => {
           mediaElement.src = media.default;
           mediaElement.load();
           mediaElement.play();

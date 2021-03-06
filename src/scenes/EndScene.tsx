@@ -3,10 +3,10 @@ import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
 import { useStore } from "../store";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
-import endroll from "../static/media/movie/ENDROLL1.STR[0].webm";
+import endroll from "../static/media/movie/ENDROLL1.STR[0].mp4";
 import endrollVtt from "../static/media/webvtt/Endroll.vtt";
-import Xa0001 from "../static/media/audio/Xa0001.mp4";
-import Xa0006 from "../static/media/audio/Xa0006.mp4";
+import introSpeech from "../static/media/audio/LAIN21.XA[31].mp4";
+import outroSpeech from "../static/media/audio/LAIN21.XA[16].mp4";
 import LainSpeak from "../components/LainSpeak";
 import EndSphere from "../components/EndScene/EndSphere";
 import EndCylinder from "../components/EndScene/EndCylinder";
@@ -54,7 +54,7 @@ const EndScene = () => {
         setIsIntro(true);
 
         await sleep(3800);
-        mediaElement.src = Xa0001;
+        mediaElement.src = introSpeech;
 
         mediaElement.load();
         mediaElement.play();
@@ -77,7 +77,7 @@ const EndScene = () => {
       }
 
       if (playedMediaCountRef.current === playerNameVoices.length + 1) {
-        mediaElement.src = Xa0006;
+        mediaElement.src = outroSpeech;
 
         mediaElement.load();
         mediaElement.play();

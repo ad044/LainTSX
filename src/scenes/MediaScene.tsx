@@ -53,7 +53,7 @@ const MediaScene = () => {
         });
 
       if (activeNode.media_file.includes("XA")) {
-        import("../static/media/audio/" + activeNode.media_file + ".ogg").then(
+        import("../static/media/audio/" + activeNode.media_file + ".mp4").then(
           (media) => {
             mediaElement.src = media.default;
             mediaElement.load();
@@ -61,7 +61,7 @@ const MediaScene = () => {
         );
       } else {
         import(
-          "../static/media/movie/" + activeNode.media_file + "[0].webm"
+          "../static/media/movie/" + activeNode.media_file + ".mp4"
         ).then((media) => {
           mediaElement.src = media.default;
           mediaElement.load();

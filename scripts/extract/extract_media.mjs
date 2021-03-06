@@ -24,8 +24,22 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
     { stdio: "inherit" }
   );
 
-  const output_movie_folder = join("..", "..", "src", "static", "movie");
-  const output_audio_folder = join("..", "..", "src", "static", "audio");
+  const output_movie_folder = join(
+    "..",
+    "..",
+    "src",
+    "static",
+    "media",
+    "movie"
+  );
+  const output_audio_folder = join(
+    "..",
+    "..",
+    "src",
+    "static",
+    "media",
+    "audio"
+  );
 
   // create destination folders
 
@@ -37,39 +51,31 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
     mkdirSync(output_audio_folder);
   }
 
-  // convert all movies to webm
-  for (let file of readdirSync(`${join(tempdir, "MOVIE")}`)) {
-    if (file.endsWith(".wav")) continue;
-    exec(
-      `ffmpeg -i "${join(tempdir, "MOVIE", file)}" -n ${join(
-        output_movie_folder,
-        file.replace("avi", "webm")
-      )}`
-    ).stderr.on("data", (data) => console.log(data));
+  // convert all movies to mp4
+  for (const movieDir of ["MOVIE", "MOVIE2"]) {
+    for (let file of readdirSync(`${join(tempdir, movieDir)}`)) {
+      if (file.endsWith(".wav")) continue;
+      exec(
+        `ffmpeg -i "${join(tempdir, movieDir, file)}" -pix_fmt yuv420p -n ${join(
+          output_movie_folder,
+          file.replace("avi", "mp4")
+        )}`
+      ).stderr.on("data", (data) => console.log(data));
+    }
   }
 
-  for (let file of readdirSync(`${join(tempdir, "MOVIE2")}`)) {
-    if (file.endsWith(".wav")) continue;
-    exec(
-      `ffmpeg -i "${join(tempdir, "MOVIE", file)}" -n ${join(
-        output_movie_folder,
-        file.replace("avi", "webm")
-      )}`
-    ).stderr.on("data", (data) => console.log(data));
-  }
-
-  // convert all audio to ogg
+  // convert all audio to mp4
   for (let file of readdirSync(`${join(tempdir, "XA")}`)) {
     exec(
       `ffmpeg -i "${join(tempdir, "XA", file)}" -n ${join(
         output_audio_folder,
-        file.replace("wav", "ogg")
+        file.replace("wav", "mp4")
       )}`
     ).stderr.on("data", (data) => console.log(data));
   }
 
   // cleanup source folders
-  rmSync(join(tempdir, 'MOVIE'), {recursive: true});
-  rmSync(join(tempdir, 'MOVIE2'), {recursive: true});
-  rmSync(join(tempdir, 'XA'), {recursive: true});
+  rmSync(join(tempdir, "MOVIE"), { recursive: true });
+  rmSync(join(tempdir, "MOVIE2"), { recursive: true });
+  rmSync(join(tempdir, "XA"), { recursive: true });
 }

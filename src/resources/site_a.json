@@ -273,7 +273,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F013.STR",
+      "media_file": "F013.STR[0]",
       "node_name": "Dc1009",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -539,7 +539,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F014.STR",
+      "media_file": "F014.STR[0]",
       "node_name": "Dc1010",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -1467,7 +1467,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F025.STR",
+      "media_file": "F025.STR[0]",
       "node_name": "Dc1015",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -1643,7 +1643,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "INS01.STR",
+      "media_file": "INS01.STR[0]",
       "node_name": "SSkn01",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -1887,7 +1887,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F029.STR",
+      "media_file": "F029.STR[0]",
       "node_name": "Dc1018",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -2151,7 +2151,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F004.STR",
+      "media_file": "F004.STR[0]",
       "node_name": "Dc1004",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -2747,7 +2747,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "INS02.STR",
+      "media_file": "INS02.STR[0]",
       "node_name": "SSkn02",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -3079,7 +3079,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F022.STR",
+      "media_file": "F022.STR[0]",
       "node_name": "Dc1013",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -3809,7 +3809,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F012.STR",
+      "media_file": "F012.STR[0]",
       "node_name": "Dc1008",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -3941,7 +3941,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F026.STR",
+      "media_file": "F026.STR[0]",
       "node_name": "Dc1016",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -4737,7 +4737,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F036.STR",
+      "media_file": "F036.STR[0]",
       "node_name": "Dc1022",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -4891,7 +4891,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "INS03.STR",
+      "media_file": "INS03.STR[0]",
       "node_name": "SSkn03",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -5399,7 +5399,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F037.STR",
+      "media_file": "F037.STR[0]",
       "node_name": "Dc1023",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -5731,7 +5731,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F033.STR",
+      "media_file": "F033.STR[0]",
       "node_name": "Dc1019",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -6107,7 +6107,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F027.STR",
+      "media_file": "F027.STR[0]",
       "node_name": "Dc1017",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -6393,7 +6393,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F002.STR",
+      "media_file": "F002.STR[0]",
       "node_name": "Dc1002",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -6417,7 +6417,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F003.STR",
+      "media_file": "F003.STR[0]",
       "node_name": "Dc1003",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -6637,7 +6637,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F006.STR",
+      "media_file": "F006.STR[0]",
       "node_name": "Dc1005",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -6769,7 +6769,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F008.STR",
+      "media_file": "F008.STR[0]",
       "node_name": "Dc1006",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -6991,7 +6991,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F010.STR",
+      "media_file": "F010.STR[0]",
       "node_name": "Dc1007",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -7035,7 +7035,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F015.STR",
+      "media_file": "F015.STR[0]",
       "node_name": "Dc1011",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -7277,7 +7277,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F020.STR",
+      "media_file": "F020.STR[0]",
       "node_name": "Dc1012",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -7301,7 +7301,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "INS04.STR",
+      "media_file": "INS04.STR[0]",
       "node_name": "SSkn04",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -7411,7 +7411,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F034.STR",
+      "media_file": "F034.STR[0]",
       "node_name": "Dc1020",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -7587,7 +7587,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F024.STR",
+      "media_file": "F024.STR[0]",
       "node_name": "Dc1014",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -8449,7 +8449,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F035.STR",
+      "media_file": "F035.STR[0]",
       "node_name": "Dc1021",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -8803,7 +8803,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F042.STR",
+      "media_file": "F042.STR[0]",
       "node_name": "Dc1027",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -9841,7 +9841,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F038.STR",
+      "media_file": "F038.STR[0]",
       "node_name": "Dc1024",
       "required_final_video_viewcount": 0,
       "site": "A",
@@ -9885,7 +9885,7 @@
         "2": "-1",
         "3": "-1"
       },
-      "media_file": "F043.STR",
+      "media_file": "F043.STR[0]",
       "node_name": "Dc1028",
       "required_final_video_viewcount": 0,
       "site": "A",
