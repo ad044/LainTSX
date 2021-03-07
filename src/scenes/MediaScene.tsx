@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createAudioAnalyser, useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
@@ -35,6 +35,10 @@ const MediaScene = () => {
     setScene,
   ]);
 
+  const isAudioOnly = useMemo(() => activeNode.media_file.includes("XA"), [
+    activeNode,
+  ]);
+
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
     const trackElement = document.getElementById("track") as HTMLTrackElement;
@@ -52,7 +56,7 @@ const MediaScene = () => {
           trackElement.removeAttribute("src");
         });
 
-      if (activeNode.media_file.includes("XA")) {
+      if (isAudioOnly) {
         import("../static/media/audio/" + activeNode.media_file + ".mp4").then(
           (media) => {
             mediaElement.src = media.default;
@@ -60,15 +64,20 @@ const MediaScene = () => {
           }
         );
       } else {
-        import(
-          "../static/media/movie/" + activeNode.media_file + ".mp4"
-        ).then((media) => {
-          mediaElement.src = media.default;
-          mediaElement.load();
-        });
+        import("../static/media/movie/" + activeNode.media_file + ".mp4").then(
+          (media) => {
+            mediaElement.src = media.default;
+            mediaElement.load();
+          }
+        );
       }
     }
-  }, [activeNode.media_file, activeNode.node_name, setAudioAnalyser]);
+  }, [
+    activeNode.media_file,
+    activeNode.node_name,
+    isAudioOnly,
+    setAudioAnalyser,
+  ]);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -92,7 +101,7 @@ const MediaScene = () => {
           </group>
           <MediaYellowTextAnimator />
 
-          <group visible={activeNode.media_file.includes("XA")}>
+          <group visible={isAudioOnly}>
             <RightSide />
             <AudioVisualizer />
             <Images />

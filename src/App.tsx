@@ -21,6 +21,7 @@ import EndScene from "./scenes/EndScene";
 import IdleMediaScene from "./scenes/IdleMediaScene";
 import InputHandler from "./components/InputHandler";
 import mobileAndTabletCheck from "./utils/mobileAndTabletCheck";
+import Preloader from "./components/Preloader";
 
 const App = () => {
   const currentScene = useStore((state) => state.currentScene);
@@ -98,7 +99,7 @@ const App = () => {
         className="main-canvas"
       >
         <Suspense fallback={null}>
-          {/*<Preloader />*/}
+          <Preloader />
           {dispatchScene[currentScene as keyof typeof dispatchScene]}
           <InputHandler isMobile={isMobile} />
         </Suspense>

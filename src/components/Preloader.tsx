@@ -4,9 +4,6 @@ import moveUpSpriteSheet from "../static/sprites/lain/jump_up.png";
 import standingSpriteSheet from "../static/sprites/lain/standing.png";
 import moveLeftSpriteSheet from "../static/sprites/lain/move_left.png";
 import moveRightSpriteSheet from "../static/sprites/lain/move_right.png";
-import bigHudSpriteSheet from "../static/sprites/big_hud.png";
-import longHudSpriteSheet from "../static/sprites/long_hud.png";
-import boringHudSpriteSheet from "../static/sprites/long_hud_boring.png";
 import throwNodeSpriteSheet from "../static/sprites/lain/throw_node.png";
 import ripMiddleRingSpriteSheet from "../static/sprites/lain/rip_middle_ring.png";
 import ripNodeSpriteSheet from "../static/sprites/lain/rip_node.png";
@@ -30,6 +27,9 @@ import leanLeftSpriteSheet from "../static/sprites/lain/lean_left.png";
 import leanRightSpriteSheet from "../static/sprites/lain/lean_right.png";
 import lookAroundSpriteSheet from "../static/sprites/lain/look_around.png";
 import playWithHairSpriteSheet from "../static/sprites/lain/play_with_hair.png";
+import bigHudSpriteSheet from "../static/sprites/main/big_hud.png";
+import longHudSpriteSheet from "../static/sprites/main/long_hud.png";
+import boringHudSpriteSheet from "../static/sprites/main/boring_hud.png";
 
 import * as THREE from "three";
 import { useLoader, useThree } from "react-three-fiber";
@@ -152,6 +152,7 @@ const Preloader = memo(() => {
     handsOnHips2,
     handsTogether,
   ]);
+
   return null;
 });
 
