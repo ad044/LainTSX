@@ -53,6 +53,11 @@ const handleMediaSceneInput = (
         case "CIRCLE":
           switch (activeMediaComponent) {
             case "play":
+              const mediaElement = document.getElementById(
+                "media"
+              ) as HTMLMediaElement;
+
+              if (!mediaElement.paused) return;
               return playMedia({ activeNode: activeNode });
             case "exit":
               return exitMedia;
