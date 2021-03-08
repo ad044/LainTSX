@@ -44,7 +44,7 @@ const LainSpeak = (props: LainTaKProps) => {
 
   useFrame(() => {
     if (audioAnalyser) {
-      const freq = parseInt(String(audioAnalyser.getAverageFrequency()));
+      const freq = audioAnalyser.getAverageFrequency() * 1.2;
 
       if (mouthRef.current) {
         if (freq >= 50) {

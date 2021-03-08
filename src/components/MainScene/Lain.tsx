@@ -44,11 +44,11 @@ type LainConstructorProps = {
 };
 
 export const LainConstructor = (props: LainConstructorProps) => {
-  const lainSpriteTexture: any = useLoader(THREE.TextureLoader, props.sprite);
+  const lainSprite: any = useLoader(THREE.TextureLoader, props.sprite);
 
   const [animator] = useState(() => {
     const anim = new PlainSingularAnimator(
-      lainSpriteTexture,
+      lainSprite,
       props.framesHorizontal,
       props.framesVertical,
       props.frameCount,
@@ -67,7 +67,7 @@ export const LainConstructor = (props: LainConstructorProps) => {
   return (
     <spriteMaterial
       attach="material"
-      map={lainSpriteTexture}
+      map={lainSprite}
       alphaTest={0.665}
       color={0xffffff}
     />

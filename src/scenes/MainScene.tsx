@@ -18,6 +18,7 @@ import usePrevious from "../hooks/usePrevious";
 import MainSceneBackground from "../components/MainScene/Site/MainSceneBackground";
 import { a, useSpring } from "@react-spring/three";
 import Pause from "../components/MainScene/Pause/Pause";
+import { mainSceneMusic } from "../static/sfx";
 
 const MainScene = () => {
   const intro = useStore((state) => state.intro);
@@ -26,6 +27,7 @@ const MainScene = () => {
   const prevData = usePrevious({ subscene });
 
   const wordSelected = useStore((state) => state.wordSelected);
+  const showingAbout = useStore((state) => state.showingAbout);
   const setWordSelected = useStore((state) => state.setWordSelected);
   const setInputCooldown = useStore((state) => state.setInputCooldown);
   const wordNotFound = useStore((state) => state.wordNotFound);
@@ -115,13 +117,38 @@ const MainScene = () => {
     }
   });
 
+  useEffect(() => {
+    const play = () => {
+      mainSceneMusic.currentTime = 0;
+      mainSceneMusic.volume = 0.5;
+      mainSceneMusic.loop = true;
+      mainSceneMusic.play();
+    };
+
+    if (intro) {
+      if (introFinished) play();
+    } else {
+      play();
+    }
+
+    if (showingAbout) {
+      mainSceneMusic.pause();
+    }
+
+    return () => {
+      mainSceneMusic.pause();
+    };
+  }, [intro, introFinished, showingAbout]);
   return (
     <group position-z={3}>
       <Suspense fallback={<Loading />}>
         <LevelSelection />
         <Popups />
         <Pause />
-        <a.group visible={introFinished} position-y={bgState.posY}>
+        <a.group
+          visible={intro ? introFinished : true}
+          position-y={bgState.posY}
+        >
           <MainSceneBackground />
         </a.group>
         <group visible={!paused}>

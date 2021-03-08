@@ -29,7 +29,7 @@ const AudioVisualizer = memo(() => {
 
         // we up it by 1.2 just so it becomes a bit more noticable, otherwise
         // the visualizer is a bit too "calm"
-        const currentFrequency = frequencyData[32 * idx] * 1.2;
+        const currentFrequency = frequencyData[16 * idx] * 1.2;
 
         switch (true) {
           case currentFrequency >= 255:

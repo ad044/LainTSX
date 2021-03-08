@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import aboutBg from "../../../static/sprites/main/about_background.png";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import { useStore } from "../../../store";
+import { aboutSceneMusic } from "../../../static/sfx";
 
 const About = () => {
   const showingAbout = useStore((state) => state.showingAbout);
@@ -19,6 +20,21 @@ const About = () => {
       }
     }
   });
+
+  useEffect(() => {
+    const play = () => {
+      aboutSceneMusic.currentTime = 1;
+      aboutSceneMusic.volume = 0.5;
+      aboutSceneMusic.loop = true;
+      aboutSceneMusic.play();
+    };
+
+    if (showingAbout) play();
+
+    return () => {
+      aboutSceneMusic.pause();
+    };
+  }, [showingAbout]);
 
   return (
     <>

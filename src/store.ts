@@ -424,7 +424,6 @@ export const saveUserProgress = (state: UserSaveState) =>
 
 export const playAudio = (audio: HTMLAudioElement) => {
   audio.currentTime = 0;
-  audio.currentTime = 0;
   audio.volume = 0.5;
   audio.loop = false;
   audio.play();
