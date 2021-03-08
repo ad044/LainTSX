@@ -1,26 +1,22 @@
 import { execSync, exec } from "child_process";
-import { existsSync, mkdirSync, readdirSync, rmdirSync } from "fs";
+import { mkdirSync, readdirSync, rmdirSync } from "fs";
 import { join } from "path";
 
-export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
-  // extract all video and audio
+export function extract_video(
+  tempdir,
+  jpsxdec_jar,
+  disc1_index,
+  disc2_index,
+  no_delete
+) {
+  // extract all video
   execSync(
     `java -jar ${jpsxdec_jar} -x "${disc1_index}" -a video -dir "${tempdir}" -quality high -vf avi:rgb -up Lanczos3`,
     { stdio: "inherit" }
   );
 
   execSync(
-    `java -jar ${jpsxdec_jar} -x "${disc1_index}" -a audio -dir "${tempdir}"`,
-    { stdio: "inherit" }
-  );
-
-  execSync(
     `java -jar ${jpsxdec_jar} -x "${disc2_index}" -a video -dir "${tempdir}" -quality high -vf avi:rgb -up Lanczos3`,
-    { stdio: "inherit" }
-  );
-
-  execSync(
-    `java -jar ${jpsxdec_jar} -x "${disc2_index}" -a audio -dir "${tempdir}"`,
     { stdio: "inherit" }
   );
 
@@ -32,23 +28,9 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
     "media",
     "movie"
   );
-  const output_audio_folder = join(
-    "..",
-    "..",
-    "src",
-    "static",
-    "media",
-    "audio"
-  );
 
-  // create destination folders
-  if (!existsSync(output_movie_folder)) {
-    mkdirSync(output_movie_folder);
-  }
-
-  if (!existsSync(output_audio_folder)) {
-    mkdirSync(output_audio_folder);
-  }
+  // create destination folder
+  mkdirSync(output_movie_folder, { recursive: true });
 
   // convert all movies to mp4
   for (const movieDir of ["MOVIE", "MOVIE2"]) {
@@ -67,6 +49,43 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
     }
   }
 
+  if (!no_delete) {
+    // cleanup source folders
+    rmdirSync(join(tempdir, "MOVIE"));
+    rmdirSync(join(tempdir, "MOVIE2"));
+  }
+}
+
+export function extract_audio(
+  tempdir,
+  jpsxdec_jar,
+  disc1_index,
+  disc2_index,
+  no_delete
+) {
+  // extract all audio
+  execSync(
+    `java -jar ${jpsxdec_jar} -x "${disc1_index}" -a audio -dir "${tempdir}"`,
+    { stdio: "inherit" }
+  );
+
+  execSync(
+    `java -jar ${jpsxdec_jar} -x "${disc2_index}" -a audio -dir "${tempdir}"`,
+    { stdio: "inherit" }
+  );
+
+  const output_audio_folder = join(
+    "..",
+    "..",
+    "src",
+    "static",
+    "media",
+    "audio"
+  );
+
+  // create destination folder
+  mkdirSync(output_audio_folder, { recursive: true });
+
   // convert all audio to mp4
   for (let file of readdirSync(`${join(tempdir, "XA")}`)) {
     exec(
@@ -77,8 +96,8 @@ export function extract_media(tempdir, jpsxdec_jar, disc1_index, disc2_index) {
     ).stderr.on("data", (data) => console.log(data));
   }
 
-  // cleanup source folders
-  rmdirSync(join(tempdir, "MOVIE"), { recursive: true });
-  rmdirSync(join(tempdir, "MOVIE2"), { recursive: true });
-  rmdirSync(join(tempdir, "XA"), { recursive: true });
+  if (!no_delete) {
+    // cleanup source folder
+    rmdirSync(join(tempdir, "XA"));
+  }
 }

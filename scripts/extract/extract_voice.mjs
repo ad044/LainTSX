@@ -1,6 +1,6 @@
 import { FileWriter } from "wav";
 import { execSync } from "child_process";
-import { readFileSync, existsSync, mkdirSync, writeFileSync } from "fs";
+import { readFileSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 
 export function extract_voice(tempdir, jpsxdec_jar, disc1_index) {
@@ -12,9 +12,8 @@ export function extract_voice(tempdir, jpsxdec_jar, disc1_index) {
 
   let voice_data = readFileSync(join(tempdir, "VOICE.BIN"));
   let output_folder = join("..", "..", "src", "static", "voice");
-  if (!existsSync(output_folder)) {
-    mkdirSync(output_folder);
-  }
+
+  mkdirSync(output_folder, { recursive: true });
 
   for (let voice_file of voice_files) {
     let path = join(output_folder, voice_file.translated_name);
