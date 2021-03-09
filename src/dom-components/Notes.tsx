@@ -1,5 +1,6 @@
 import React from "react";
 import "../static/css/notes.css";
+import { Link } from "react-router-dom";
 
 const Notes = () => {
   return (
@@ -12,7 +13,7 @@ const Notes = () => {
             </td>
             <td>
               <p>
-                The game performs best on chromium-based browsers. Chromium,
+                The game performs best on chromium-based browsers - Chromium,
                 Chrome, Edge, Brave, Opera, Iridium, Vivaldi, etc. It's highly
                 recommended that you use one of those for an optimal experience.
                 This is especially true if you're using a bad setup, and even
@@ -148,7 +149,7 @@ const Notes = () => {
           </tr>
         </tbody>
       </table>
-      <a href="/game">start</a>
+      <Link to="/game">start</Link>
       <br />
     </>
   );

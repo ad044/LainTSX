@@ -155,10 +155,14 @@ const handleMainSceneInput = (
 
             const upperLimit = activeSite === "a" ? 22 : 13;
             if (
-              (direction === "up" && level === upperLimit) ||
-              (direction === "down" && level === 1)
+              (activeNode.matrixIndices?.rowIdx === 0 &&
+                direction === "up" &&
+                level === upperLimit) ||
+              (activeNode.matrixIndices?.rowIdx === 2 &&
+                direction === "down" &&
+                level === 1)
             )
-              return;
+              return resetInputCooldown;
 
             const nodeData = findNode(
               activeNode,
@@ -175,6 +179,7 @@ const handleMainSceneInput = (
             const newLevel = (direction === "up" ? level + 1 : level - 1)
               .toString()
               .padStart(2, "0");
+
             const newNode = {
               ...(nodeData.node !== "unknown"
                 ? getNodeById(nodeData.node, activeSite)
@@ -184,6 +189,7 @@ const handleMainSceneInput = (
 
             if (nodeData.didMove) {
               if (!canLainMove) return resetInputCooldown;
+
               return siteMoveVertical({
                 lainMoveAnimation: lainMoveAnimation,
                 activeLevel: newLevel,

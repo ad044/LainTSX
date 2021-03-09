@@ -49,7 +49,7 @@ export const siteMoveHorizontal = (calculatedState: {
       delay: 3900,
     },
   ],
-  audio: [{ sfx: [audio.sound6, audio.sound34], delay: 1100 }],
+  audio: [{ sfx: [audio.sound6] }, { sfx: [audio.sound34], delay: 1100 }],
 });
 
 export const siteMoveVertical = (calculatedState: {
@@ -360,12 +360,7 @@ export const saveGame = (calculatedState: {
 
 export const loadGameFail = {
   state: [
-    {
-      mutation: {
-        loadSuccessful: false,
-        inputCooldown: 1200,
-      },
-    },
+    { mutation: { loadSuccessful: false, inputCooldown: 1200 } },
     { mutation: { loadSuccessful: undefined }, delay: 1200 },
   ],
   audio: [{ sfx: [audio.sound28] }],

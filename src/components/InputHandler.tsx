@@ -17,7 +17,6 @@ import handleEvent from "../core/handleEvent";
 import { GameEvent } from "../types/types";
 import { MouseEvent, useLoader } from "react-three-fiber";
 import circleButton from "../static/sprites/controller/circle.png";
-import squareButton from "../static/sprites/controller/square.png";
 import triangleButton from "../static/sprites/controller/triangle.png";
 import crossButton from "../static/sprites/controller/cross.png";
 import startButton from "../static/sprites/controller/start.png";
@@ -36,7 +35,6 @@ const InputHandler = (props: InputHandlerProps) => {
 
   const circleButtonTex = useLoader(THREE.TextureLoader, circleButton);
   const crossButtonTex = useLoader(THREE.TextureLoader, crossButton);
-  const squareButtonTex = useLoader(THREE.TextureLoader, squareButton);
   const triangleButtonTex = useLoader(THREE.TextureLoader, triangleButton);
   const startButtonTex = useLoader(THREE.TextureLoader, startButton);
   const l2ButtonTex = useLoader(THREE.TextureLoader, l2Button);
@@ -54,8 +52,8 @@ const InputHandler = (props: InputHandlerProps) => {
         now > timeSinceLastKeyPress.current + inputCooldown &&
         inputCooldown !== -1
       ) {
+        timeSinceLastKeyPress.current = now;
         if (scene === "main") {
-          timeSinceLastKeyPress.current = now;
           lainIdleTimerRef.current = now;
           idleSceneTimerRef.current = now;
         }
@@ -246,19 +244,6 @@ const InputHandler = (props: InputHandlerProps) => {
               <spriteMaterial
                 attach="material"
                 map={triangleButtonTex}
-                depthTest={false}
-                opacity={0.8}
-              />
-            </sprite>
-            <sprite
-              scale={[1.5, 1.5, 0]}
-              position={[-1, 0, 0]}
-              onClick={handleVirtualButtonPress}
-              name={"square"}
-            >
-              <spriteMaterial
-                attach="material"
-                map={squareButtonTex}
                 depthTest={false}
                 opacity={0.8}
               />

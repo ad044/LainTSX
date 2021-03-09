@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./static/css/page.css";
 import Game from "./dom-components/Game";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import Notes from "./dom-components/Notes";
 
 const App = () => {
@@ -10,12 +10,12 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         <Route path={"/"} exact component={Notes} />
         <Route path={"/game"} exact component={Game} />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
