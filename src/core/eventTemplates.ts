@@ -26,6 +26,7 @@ import { saveUserProgress, useStore } from "../store";
 
 const setNodeViewed = useStore.getState().setNodeViewed;
 const resetMediaScene = useStore.getState().resetMediaScene;
+const incrementSsknLvl = useStore.getState().incrementSsknLvl;
 const loadUserSaveState = useStore.getState().loadUserSaveState;
 
 export const siteMoveHorizontal = (calculatedState: {
@@ -462,11 +463,7 @@ export const playMedia = (calculatedState: { activeNode: NodeData }) => ({
   state: [{ mutation: { mediaPercentageElapsed: 0, inputCooldown: 500 } }],
   effects: [
     playMediaElement,
-    () =>
-      setNodeViewed(calculatedState.activeNode.node_name, {
-        is_viewed: 1,
-        is_visible: 1,
-      }),
+    () => setNodeViewed(calculatedState.activeNode.node_name),
   ],
 });
 
@@ -561,11 +558,8 @@ export const upgradeSskn = (calculatedState: { activeNode: NodeData }) => ({
     { mutation: { currentScene: "main" }, delay: 6000 },
   ],
   effects: [
-    () =>
-      setNodeViewed(calculatedState.activeNode.node_name, {
-        is_viewed: 1,
-        is_visible: 0,
-      }),
+    incrementSsknLvl,
+    () => setNodeViewed(calculatedState.activeNode.node_name),
   ],
 });
 
@@ -609,7 +603,7 @@ export const changeMainMenuComponent = (calculatedState: {
     {
       mutation: {
         activeMainMenuComponent: calculatedState.activeMainMenuComponent,
-        inputCooldown: 200,
+        inputCooldown: 100,
       },
     },
   ],
@@ -671,7 +665,11 @@ export const startNewGame = {
 };
 
 export const updatePlayerName = (calculatedState: { playerName: string }) => ({
-  state: [{ mutation: { playerName: calculatedState.playerName } }],
+  state: [
+    {
+      mutation: { playerName: calculatedState.playerName, inputCooldown: 100 },
+    },
+  ],
   audio: [{ sfx: [audio.sound0] }],
 });
 
@@ -690,7 +688,7 @@ export const updateAuthorizeUserLetterMatrixIndices = (calculatedState: {
   state: [
     {
       mutation: {
-        inputCooldown: 300,
+        inputCooldown: 0,
         authorizeUserMatrixIndices:
           calculatedState.authorizeUserLetterMatrixIndices,
       },

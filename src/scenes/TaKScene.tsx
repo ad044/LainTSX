@@ -16,10 +16,7 @@ const TaKScene = () => {
   const setNodeViewed = useStore((state) => state.setNodeViewed);
 
   useEffect(() => {
-    setNodeViewed(activeNode.node_name, {
-      is_viewed: 1,
-      is_visible: 1,
-    });
+    setNodeViewed(activeNode.node_name);
   }, [activeNode.node_name, setNodeViewed]);
 
   useEffect(() => {

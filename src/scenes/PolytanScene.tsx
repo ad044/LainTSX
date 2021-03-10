@@ -13,10 +13,7 @@ const PolytanScene = () => {
 
   useEffect(() => {
     setTimeout(() => setInputCooldown(0), 1000);
-    setNodeViewed(activeNodeName, {
-      is_viewed: 1,
-      is_visible: 0,
-    });
+    setNodeViewed(activeNodeName);
     const bodyPart = (() => {
       switch (parseInt(activeNodeName.slice(-1))) {
         case 6:

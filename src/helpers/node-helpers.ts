@@ -63,22 +63,31 @@ export const isNodeVisible = (
   node: NodeData,
   gameProgress: typeof unlocked_nodes
 ) => {
-  return node
-    ? Boolean(
-        (node.unlocked_by === "" ||
-          gameProgress.nodes[
-            node.unlocked_by as keyof typeof gameProgress.nodes
-          ].is_viewed) &&
-          gameProgress.nodes[node.node_name as keyof typeof gameProgress.nodes]
-            .is_visible &&
-          (node.required_final_video_viewcount > 0
-            ? gameProgress.final_video_viewcount > 0
-              ? node.required_final_video_viewcount <=
-                gameProgress.final_video_viewcount + 1
-              : false
-            : true)
-      )
-    : false;
+  return (() => {
+    switch (node.type) {
+      // polytan, sskn, gate nodes
+      case 7:
+      case 8:
+      case 9:
+        return !gameProgress.nodes[
+          node.node_name as keyof typeof gameProgress.nodes
+        ].is_viewed;
+      // every other node
+      default:
+        return Boolean(
+          (node.unlocked_by === "" ||
+            gameProgress.nodes[
+              node.unlocked_by as keyof typeof gameProgress.nodes
+            ].is_viewed) &&
+            (node.required_final_video_viewcount > 0
+              ? gameProgress.final_video_viewcount > 0
+                ? node.required_final_video_viewcount <=
+                  gameProgress.final_video_viewcount + 1
+                : false
+              : true)
+        );
+    }
+  })();
 };
 
 export const getVisibleNodesMatrix = (
@@ -94,8 +103,10 @@ export const getVisibleNodesMatrix = (
   return currentMatrix.map((row: string[]) =>
     row.map((nodePos: string) => {
       const nodeId = formattedLevel + nodePos;
-      if (isNodeVisible(getNodeById(nodeId, activeSite), gameProgress))
-        return nodeId;
+
+      const node = getNodeById(nodeId, activeSite);
+
+      if (node && isNodeVisible(node, gameProgress)) return nodeId;
       else return undefined;
     })
   );

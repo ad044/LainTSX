@@ -181,7 +181,7 @@ export const useStore = create(
       idleStarting: false,
       idleMedia: site_a["00"]["0000"].media_file,
       idleNodeName: site_a["00"]["0000"].node_name,
-      // this may be undefined depending on whether or not the media is audio or not
+      // this may be undefined depending on whether or not the media is audio only or not
       idleImages: site_a["00"]["0000"].image_table_indices,
 
       // sskn scene
@@ -255,12 +255,12 @@ export const useStore = create(
           activeNodeAttributes: { ...state.activeNodeAttributes, [at]: to },
         })),
 
-      setNodeViewed: (
-        nodeName: string,
-        to: { is_viewed: number; is_visible: number }
-      ) =>
+      setNodeViewed: (nodeName: string) =>
         set((state) => {
-          const nodes = { ...state.gameProgress.nodes, [nodeName]: to };
+          const nodes = {
+            ...state.gameProgress.nodes,
+            [nodeName]: { is_viewed: 1 },
+          };
           return {
             gameProgress: {
               ...state.gameProgress,
@@ -312,6 +312,13 @@ export const useStore = create(
           gameProgress: {
             ...state.gameProgress,
             gate_level: state.gameProgress.gate_level + 1,
+          },
+        })),
+      incrementSsknLvl: () =>
+        set((state) => ({
+          gameProgress: {
+            ...state.gameProgress,
+            sskn_level: state.gameProgress.sskn_level + 1,
           },
         })),
 

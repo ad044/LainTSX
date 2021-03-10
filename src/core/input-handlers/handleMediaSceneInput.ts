@@ -5,6 +5,7 @@ import {
   changeRightMediaComponent,
   exitMedia,
   playMedia,
+  resetInputCooldown,
   selectWord,
   wordNotFound,
 } from "../eventTemplates";
@@ -39,7 +40,7 @@ const handleMediaSceneInput = (
           return changeLeftMediaComponent({ activeComponent: newComponent });
         }
         case "RIGHT": {
-          if (!activeNode.media_file.includes("XA")) return;
+          if (!activeNode.media_file.includes("XA")) return resetInputCooldown;
 
           return changeMediaSide({
             activeMediaComponent: lastActiveMediaComponents.right,

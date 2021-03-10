@@ -15,10 +15,7 @@ const GateScene = () => {
 
   useEffect(() => {
     incrementGateLvl();
-    setNodeViewed(activeNodeName, {
-      is_viewed: 1,
-      is_visible: 0,
-    });
+    setNodeViewed(activeNodeName);
     setTimeout(() => setIntroAnim(false), 2500);
     setTimeout(() => setInputCooldown(0), 3500);
   }, [activeNodeName, incrementGateLvl, setInputCooldown, setNodeViewed]);

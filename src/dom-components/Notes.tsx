@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../static/css/notes.css";
 import { Link } from "react-router-dom";
 
 const Notes = () => {
+  useEffect(() => {
+    document.title = "< notes >";
+  }, []);
+
   return (
     <>
       <table className="main-table">
@@ -19,6 +23,43 @@ const Notes = () => {
                 This is especially true if you're using a bad setup, and even
                 more true if you're using Linux on a bad setup, since Firefox's
                 WebGL implementation on it has had issues for a while now.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>WebGL2</p>
+            </td>
+            <td>
+              <p>
+                Your setup must support WebGL2 in order to play this game. You
+                can check this directly by going to{" "}
+                <a
+                  href={"https://get.webgl.org/webgl2/"}
+                  className="webgl-anchor"
+                >
+                  this website
+                </a>
+                . If it's not supported, this is most likely due to your
+                browser. Try another one, preferably chromium/firefox-based,
+                keeping in mind the notes written inside Performance. This could
+                also be caused by your drivers being outdated.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Browser settings</p>
+            </td>
+            <td>
+              <p>
+                This part might be updated from time to time as more issues pop
+                up. <br />
+                <br />
+                Firefox: <br />
+                privacy.resistFingerprinting needs to be set to false (it should
+                be by default). Otherwise, it limits the maximum WebGL texture size to
+                2048, resulting in poor sprite quality.
               </p>
             </td>
           </tr>
@@ -77,6 +118,7 @@ const Notes = () => {
               </table>
             </td>
           </tr>
+
           <tr>
             <td>
               <p>Mobile/Tablet Controls</p>
@@ -123,27 +165,6 @@ const Notes = () => {
                 <br />
                 The state is stored in a minimized JSON format as a string
                 inside localStorage with the key "lainSaveState".
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>Sound</p>
-            </td>
-            <td>
-              <p>
-                The game assumes that your browser volume is set to 100% (via
-                the sound mixer on your operating system). It uses the Web Audio
-                API to display the audio visualizer and animate Lain's mouth
-                movements inside some media files. Both of those things depend
-                on the browser's output volume, therefore, if you want to lower
-                the game's volume, it is recommended you do so by lowering the
-                system volume itself, as opposed to muting the browser
-                tab/lowering the browser volume directly. Otherwise, the two
-                functionalities mentioned above won't work properly.
-                <br />
-                If this becomes a huge problem later on, I'll try to implement
-                an alternative for it.
               </p>
             </td>
           </tr>

@@ -26,7 +26,7 @@ const Game = () => {
   const currentScene = useStore((state) => state.currentScene);
 
   useEffect(() => {
-    document.title = "< index >";
+    document.title = "< game >";
   }, []);
 
   const dispatchScene = useMemo(
@@ -65,12 +65,7 @@ const Game = () => {
 
   const handleScreenResize = useCallback(() => {
     const isMobile = mobileAndTabletCheck();
-    if (!isMobile) {
-      const h = window.screen.height / 1.8;
-      setWidth(h * 1.3);
-      setHeight(h);
-      setIsMobile(false);
-    } else {
+    if (isMobile) {
       const h = window.screen.height / 1.05;
       setHeight(h);
       setWidth(h * 1.3);
@@ -90,7 +85,10 @@ const Game = () => {
   }, [handleGameResize, handleScreenResize, isMobile]);
 
   return (
-    <div className="game" style={{ width: width, height: height }}>
+    <div
+      className="game"
+      style={{ width: Math.round(width), height: Math.round(height) }}
+    >
       <Canvas
         concurrent
         gl={{ antialias: false }}
