@@ -203,6 +203,8 @@ export const findNode = (
     down: [nextPos_down, ([, c]: [number, number]) => nextPos_down([-1, c])],
   };
 
+  const upperLevelLimit = activeSite === "a" ? 22 : 13;
+
   if (startingPoint.matrixIndices) {
     const nextPos = funcs[direction];
 
@@ -211,6 +213,8 @@ export const findNode = (
     const initialMatrixIdx = matrixIdx;
 
     for (let i = 0; i < (shouldSearchNext ? 2 : 1); i++) {
+      if (level === upperLevelLimit + 1 || level === 0) return;
+
       const nodes = getVisibleNodesMatrix(
         matrixIdx,
         level,

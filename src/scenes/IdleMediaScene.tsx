@@ -12,7 +12,7 @@ const IdleMediaScene = () => {
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   useEffect(() => {
-    setInputCooldown(0);
+    setTimeout(() => setInputCooldown(0), 1500);
   }, [setInputCooldown]);
 
   useEffect(() => {

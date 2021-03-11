@@ -555,7 +555,15 @@ export const upgradeSskn = (calculatedState: { activeNode: NodeData }) => ({
         inputCooldown: -1,
       },
     },
-    { mutation: { currentScene: "main" }, delay: 6000 },
+    {
+      mutation: {
+        currentScene: "main",
+        ssknLoading: false,
+        activeSsknComponent: "ok",
+        inputCooldown: -1,
+      },
+      delay: 6000,
+    },
   ],
   effects: [
     incrementSsknLvl,

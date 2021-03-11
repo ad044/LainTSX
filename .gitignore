@@ -22,9 +22,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-src/static/media_images
+src/static/sprites/*
+src/static/media_images/*
 src/static/media/*
 src/static/voice/*
+src/static/sfx/*
 
 scripts/extract/discs
 scripts/extract/*.log

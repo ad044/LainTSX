@@ -153,17 +153,6 @@ const handleMainSceneInput = (
           case "DOWN": {
             const direction = keyPress.toLowerCase();
 
-            const upperLimit = activeSite === "a" ? 22 : 13;
-            if (
-              (activeNode.matrixIndices?.rowIdx === 0 &&
-                direction === "up" &&
-                level === upperLimit) ||
-              (activeNode.matrixIndices?.rowIdx === 2 &&
-                direction === "down" &&
-                level === 1)
-            )
-              return resetInputCooldown;
-
             const nodeData = findNode(
               activeNode,
               direction,
@@ -173,7 +162,7 @@ const handleMainSceneInput = (
               true
             );
 
-            if (!nodeData) return;
+            if (!nodeData) return resetInputCooldown;
 
             const lainMoveAnimation = `jump_${direction}`;
             const newLevel = (direction === "up" ? level + 1 : level - 1)
@@ -311,7 +300,7 @@ const handleMainSceneInput = (
               case "change":
                 if (
                   activePauseComponent === "change" &&
-                  gameProgress.gate_level < 4
+                  gameProgress.gate_level > 4
                 )
                   return showPermissionDenied;
                 else return displayPrompt;
