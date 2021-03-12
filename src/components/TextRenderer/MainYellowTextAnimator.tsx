@@ -3,12 +3,13 @@ import { useStore } from "../../store";
 import { a, useTrail } from "@react-spring/three";
 import BigLetter from "./BigLetter";
 import usePrevious from "../../hooks/usePrevious";
-import { getNodeHud } from "../../helpers/node-helpers";
+import { getNodeHud, isNodeVisible } from "../../helpers/node-helpers";
 
 const MainYellowTextAnimator = (props: { visible?: boolean }) => {
   const activeNode = useStore((state) => state.activeNode);
   const subscene = useStore((state) => state.mainSubscene);
   const prevData = usePrevious({ subscene });
+  const gameProgress = useStore((state) => state.gameProgress);
 
   const [text, setText] = useState(
     useStore.getState().activeNode.node_name.split("")
@@ -31,9 +32,14 @@ const MainYellowTextAnimator = (props: { visible?: boolean }) => {
         () => set({ posX: hud.big_text[0], posY: hud.big_text[1] }),
         400
       );
-      setTimeout(() => setText(activeNode.node_name.split("")), 1000);
+
+      if (isNodeVisible(activeNode, gameProgress)) {
+        setTimeout(() => setText(activeNode.node_name.split("")), 1000);
+      } else {
+        setText("Unknown".split(""));
+      }
     }
-  }, [activeNode, prevData?.subscene, set, subscene]);
+  }, [activeNode, prevData?.subscene, set, subscene, gameProgress]);
 
   return (
     <a.group position-z={10} visible={props.visible}>

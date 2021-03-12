@@ -331,6 +331,7 @@ export const useStore = create(
           activeSite: userState.activeSite,
           gameProgress: userState.gameProgress,
           playerName: userState.playerName,
+          polytanUnlockedParts: userState.polytanUnlockedParts,
         })),
     })
   )
@@ -423,6 +424,7 @@ export const getCurrentUserState = (): UserSaveState => {
     activeSite: state.activeSite,
     gameProgress: state.gameProgress,
     playerName: state.playerName,
+    polytanUnlockedParts: state.polytanUnlockedParts,
   };
 };
 

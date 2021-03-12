@@ -202,4 +202,5 @@ export type UserSaveState = {
   activeSite: ActiveSite;
   gameProgress: GameProgress;
   playerName: string;
+  polytanUnlockedParts: PolytanBodyParts;
 };

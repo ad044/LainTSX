@@ -44,9 +44,17 @@ const MediaPlayer = () => {
       ) {
         setPercentageElapsed(percentageElapsed);
         lastSetPercentageRef.current = percentageElapsed;
+
+        if (subtitleRef.current) {
+          if (percentageElapsed === 0) {
+            subtitleRef.current.style.visibility = "visible";
+          } else if (percentageElapsed === 100) {
+            subtitleRef.current.style.visibility = "hidden";
+          }
+        }
       }
     }
-  }, [setPercentageElapsed, videoRef]);
+  }, [setPercentageElapsed, videoRef, subtitleRef]);
 
   useEffect(() => {
     (requestRef.current as any) = requestAnimationFrame(updateTime);
@@ -59,13 +67,8 @@ const MediaPlayer = () => {
 
   return (
     <>
-      <video id="media" ref={videoRef}>
-        <track
-          id={"track"}
-          ref={trackRef}
-          kind="metadata"
-          default
-        />
+      <video id="media" ref={videoRef} controls>
+        <track id={"track"} ref={trackRef} kind="metadata" default />
       </video>
       <div id={"subtitle-container"}>
         <p ref={subtitleRef} id={"subtitle"} />

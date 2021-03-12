@@ -14,7 +14,7 @@ const About = () => {
 
   useFrame(() => {
     if (bgRef.current) {
-      bgRef.current.position.y += 0.03;
+      bgRef.current.position.y += 0.01;
       if (Math.round(bgRef.current.position.y) === 14) {
         setShowingAbout(false);
       }
@@ -50,7 +50,7 @@ const About = () => {
           <sprite
             ref={bgRef}
             scale={[10.5 / 2.5, 52.8 / 2.5, 0]}
-            position={[1.1, -13, 0.1]}
+            position={[1.1, -11.5, 0.1]}
             renderOrder={200}
           >
             <spriteMaterial

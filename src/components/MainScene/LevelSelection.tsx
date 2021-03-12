@@ -47,6 +47,8 @@ const LevelSelection = () => {
   const upArrowRef = useRef<THREE.Sprite>();
   const downArrowRef = useRef<THREE.Sprite>();
 
+  const upperLimit = useStore((state) => (state.activeSite === "a" ? 22 : 13));
+
   useEffect(() => {
     const generateGeom = (number: number) => {
       const geometry = new THREE.PlaneBufferGeometry();
@@ -173,6 +175,7 @@ const LevelSelection = () => {
           scale={[0.3, 0.15, 0]}
           position={[1.1, -0.35, 0]}
           renderOrder={4}
+          visible={parseInt(selectedLevel) !== 1}
           ref={downArrowRef}
         >
           <spriteMaterial
@@ -186,6 +189,7 @@ const LevelSelection = () => {
         <sprite
           scale={[0.3, 0.15, 0]}
           position={[1.1, 0.5, 0]}
+          visible={ parseInt(selectedLevel) !== upperLimit}
           renderOrder={4}
           ref={upArrowRef}
         >

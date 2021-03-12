@@ -67,6 +67,8 @@ const Node = memo((props: NodeContructorProps) => {
     }
   }, [props.nodeName]);
 
+  const paused = useStore((state) => state.mainSubscene === "pause");
+
   const materialRef = useRef<THREE.ShaderMaterial>();
 
   const nonActiveTexture = useLoader(
@@ -172,7 +174,7 @@ const Node = memo((props: NodeContructorProps) => {
         0,
       ]}
     >
-      {props.active ? (
+      {props.active && !paused ? (
         <a.group
           scale-x={activeNodeScale}
           scale-y={activeNodeScale}

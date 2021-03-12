@@ -300,7 +300,7 @@ const handleMainSceneInput = (
               case "change":
                 if (
                   activePauseComponent === "change" &&
-                  gameProgress.gate_level > 4
+                  gameProgress.gate_level < 4
                 )
                   return showPermissionDenied;
                 else return displayPrompt;

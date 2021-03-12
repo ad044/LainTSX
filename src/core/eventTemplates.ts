@@ -599,7 +599,21 @@ export const changeEndComponent = (calculatedState: {
 });
 
 export const endGame = (calculatedState: { userSaveState: UserSaveState }) => ({
-  state: [{ mutation: { currentScene: "boot", inputCooldown: -1 } }],
+  state: [
+    {
+      mutation: {
+        currentScene: "boot",
+        inputCooldown: -1,
+        activeMainMenuComponent: "authorize_user",
+        authorizeUserMatrixIndices: {
+          rowIdx: 1,
+          colIdx: 7,
+        },
+        bootSubscene: "main_menu",
+        playerName: "",
+      },
+    },
+  ],
   audio: [{ sfx: [audio.sound0] }],
   effects: [() => saveUserProgress(calculatedState.userSaveState)],
 });

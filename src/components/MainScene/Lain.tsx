@@ -33,6 +33,7 @@ import lookAroundSpriteSheet from "../../static/sprites/lain/look_around.png";
 import playWithHairSpriteSheet from "../../static/sprites/lain/play_with_hair.png";
 
 import { useStore } from "../../store";
+import usePrevious from "../../hooks/usePrevious";
 
 type LainConstructorProps = {
   sprite: string;
@@ -416,10 +417,28 @@ const Lain = (props: LainProps) => {
   }, [glowColor, wordSelected]);
 
   useFrame(() => {
-    if (lainRef.current) {
+    if (lainRef.current)
       lainRef.current.material.color.lerp(regularColor, 0.07);
-    }
   });
+
+  const subscene = useStore((state) => state.mainSubscene);
+  const prevData = usePrevious({ subscene });
+
+  useEffect(() => {
+    if (subscene === "pause") {
+      setTimeout(() => {
+        if (lainRef.current) {
+          lainRef.current.material.depthTest = false;
+          lainRef.current.renderOrder = 2;
+        }
+      }, 3400);
+    } else if (prevData?.subscene === "pause" && subscene === "site") {
+      if (lainRef.current) {
+        lainRef.current.material.depthTest = true;
+        lainRef.current.renderOrder = 0;
+      }
+    }
+  }, [prevData?.subscene, subscene]);
 
   return (
     <Suspense fallback={null}>
