@@ -459,13 +459,10 @@ export const changeMediaSide = (calculatedState: {
   ],
 });
 
-export const playMedia = (calculatedState: { activeNode: NodeData }) => ({
+export const playMedia = {
   state: [{ mutation: { mediaPercentageElapsed: 0, inputCooldown: 500 } }],
-  effects: [
-    playMediaElement,
-    () => setNodeViewed(calculatedState.activeNode.node_name),
-  ],
-});
+  effects: [playMediaElement],
+};
 
 export const exitMedia = {
   state: [

@@ -55,7 +55,11 @@ const ChangeDiscScene = () => {
       </sprite>
 
       {[...Array(2).keys()].map((idx) => (
-        <sprite scale={[9, 0.03, 0]} position={[0, 0.5 - idx / 10, 0]}>
+        <sprite
+          scale={[9, 0.03, 0]}
+          position={[0, 0.5 - idx / 10, 0]}
+          key={idx}
+        >
           <spriteMaterial attach="material" map={discLineTex} />
         </sprite>
       ))}
@@ -68,13 +72,21 @@ const ChangeDiscScene = () => {
       </sprite>
 
       {[...Array(7).keys()].map((idx) => (
-        <sprite scale={[9, 0.03, 0]} position={[0, -1.5 - idx / 9, 0]}>
+        <sprite
+          scale={[9, 0.03, 0]}
+          position={[0, -1.5 - idx / 9, 0]}
+          key={idx}
+        >
           <spriteMaterial attach="material" map={discLineTex} />
         </sprite>
       ))}
 
       {[...Array(2).keys()].map((idx) => (
-        <sprite scale={[8, 0.13, 0]} position={[0, -2.2 - idx / 8, 0]}>
+        <sprite
+          scale={[8, 0.13, 0]}
+          position={[0, -2.2 - idx / 8, 0]}
+          key={idx}
+        >
           <spriteMaterial attach="material" map={discSlopeLineTex} />
         </sprite>
       ))}

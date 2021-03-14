@@ -224,7 +224,7 @@ export const useStore = create(
       siteSaveState: {
         a: {
           activeNode: {
-            ...getNodeById("0408", "a"),
+            ...getNodeById("0414", "a"),
             matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
           },
           siteRot: [0, 0, 0],

@@ -121,7 +121,7 @@ const handleMainSceneInput = (
               true
             );
 
-            if (!nodeData) return;
+            if (!nodeData) return resetInputCooldown;
 
             const lainMoveAnimation = `move_${direction}`;
             const newSiteRot = [
@@ -145,9 +145,7 @@ const handleMainSceneInput = (
                 siteRot: newSiteRot,
                 activeNode: newNode,
               });
-            } else {
-              return changeNode({ activeNode: newNode });
-            }
+            } else return changeNode({ activeNode: newNode });
           }
           case "UP":
           case "DOWN": {
@@ -195,7 +193,7 @@ const handleMainSceneInput = (
               activeNode.id === "" ||
               !isNodeVisible(activeNode, gameProgress)
             )
-              return;
+              return resetInputCooldown;
 
             if (activeNode.upgrade_requirement > gameProgress.sskn_level) {
               const rejectEvents = [knockNodeAndFall, knockNode, explodeNode];
@@ -229,7 +227,7 @@ const handleMainSceneInput = (
           case "CIRCLE":
             if (!canLainMove) return resetInputCooldown;
 
-            if (level === selectedLevel) return;
+            if (level === selectedLevel) return resetInputCooldown;
 
             const direction = selectedLevel > level ? "up" : "down";
 

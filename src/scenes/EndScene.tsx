@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { useStore } from "../store";
+import { createAudioAnalyser, useStore } from "../store";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
-import endroll from "../static/media/movie/ENDROLL1.STR[0].mp4";
-import endrollVtt from "../static/media/webvtt/Endroll.vtt";
 import introSpeech from "../static/media/audio/LAIN21.XA[31].mp4";
 import outroSpeech from "../static/media/audio/LAIN21.XA[16].mp4";
 import LainSpeak from "../components/LainSpeak";
@@ -18,6 +16,7 @@ const EndScene = () => {
   const setSelectionVisible = useStore(
     (state) => state.setEndSceneSelectionVisible
   );
+  const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
 
   useFrame(() => {
     if (mainCylinderRef.current) {
@@ -43,73 +42,60 @@ const EndScene = () => {
   const playerName = useStore((state) => state.playerName);
   const playerNameVoices = useMemo(() => playerName.split(""), [playerName]);
 
-  useEffect(() => {
-    const mediaElement = document.getElementById("media") as HTMLMediaElement;
-
-    const playNextMedia = async () => {
-      playedMediaCountRef.current++;
-      mediaElement.currentTime = 0;
-      if (playedMediaCountRef.current === 1) {
-        setObjectsVisible(true);
-        setIsIntro(true);
-
-        await sleep(3800);
-        mediaElement.src = introSpeech;
-
-        mediaElement.load();
-        mediaElement.play();
-        setIsIntro(false);
-      }
-
-      if (
-        playedMediaCountRef.current > 1 &&
-        playedMediaCountRef.current < playerNameVoices.length + 1
-      ) {
-        import(
-          "../static/voice/" +
-            playerNameVoices[playedMediaCountRef.current - 1] +
-            ".WAV"
-        ).then((media) => {
-          mediaElement.src = media.default;
-          mediaElement.load();
-          mediaElement.play();
-        });
-      }
-
-      if (playedMediaCountRef.current === playerNameVoices.length + 1) {
-        mediaElement.src = outroSpeech;
-
-        mediaElement.load();
-        mediaElement.play();
-
-        await sleep(4000);
-        setIsOutro(true);
-        setSceneOutro(true);
-
-        await sleep(3000);
-        setObjectsVisible(false);
-        setShowSelectionScreen(true);
-        setSelectionVisible(true);
-      }
-    };
-
-    mediaElement.addEventListener("ended", playNextMedia);
-  }, [playerNameVoices, setSelectionVisible]);
+  const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
-    const trackElement = document.getElementById("track") as HTMLTrackElement;
 
     if (mediaElement) {
-      mediaElement.currentTime = 0;
+      const playMedia = async (idx: number) => {
+        switch (idx) {
+          case 0:
+            setAudioAnalyser(createAudioAnalyser());
+            setObjectsVisible(true);
+            setIsIntro(true);
 
-      trackElement.src = endrollVtt;
-      mediaElement.src = endroll;
+            await sleep(3800);
+            mediaElement.src = introSpeech;
 
-      mediaElement.load();
-      mediaElement.play();
+            mediaElement.load();
+            mediaElement.play();
+            setIsIntro(false);
+            break;
+          default:
+            import("../static/voice/" + playerNameVoices[idx - 1] + ".mp4")
+              .then((media) => {
+                mediaElement.src = media.default;
+                mediaElement.load();
+                mediaElement.play();
+              })
+              .catch((e) => console.log(e));
+            break;
+          case playerNameVoices.length + 1:
+            mediaElement.src = outroSpeech;
+            mediaElement.load();
+            mediaElement.play();
+
+            setIsOutro(true);
+
+            await sleep(4000);
+            setSceneOutro(true);
+
+            await sleep(3000);
+            setObjectsVisible(false);
+            setShowSelectionScreen(true);
+            setSelectionVisible(true);
+            setInputCooldown(0);
+        }
+      };
+
+      playMedia(0);
+      mediaElement.addEventListener("ended", () => {
+        playedMediaCountRef.current++;
+        playMedia(playedMediaCountRef.current);
+      });
     }
-  }, []);
+  }, [playerNameVoices, setAudioAnalyser, setInputCooldown, setSelectionVisible]);
 
   return (
     <>

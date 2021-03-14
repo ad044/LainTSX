@@ -59,7 +59,7 @@ const handleMediaSceneInput = (
               ) as HTMLMediaElement;
 
               if (!mediaElement.paused) return;
-              return playMedia({ activeNode: activeNode });
+              return playMedia;
             case "exit":
               return exitMedia;
           }

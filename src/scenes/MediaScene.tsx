@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createAudioAnalyser, useStore } from "../store";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
@@ -9,6 +9,8 @@ import Images from "../components/Images";
 import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 import Loading from "../components/Loading";
+import endroll from "../static/media/movie/ENDROLL1.STR[0].mp4";
+import endrollVtt from "../static/media/webvtt/Endroll.vtt";
 
 const MediaScene = () => {
   const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
@@ -23,15 +25,47 @@ const MediaScene = () => {
     (state) => state.incrementFinalVideoViewCount
   );
 
+  const endrollPlayingRef = useRef(false);
+  const mediaSceneGroupRef = useRef<THREE.Group>();
+
+  const setNodeViewed = useStore.getState().setNodeViewed;
+
   useEffect(() => {
-    if (percentageElapsed === 100 && activeNode.triggers_final_video) {
-      setScene("end");
-      incrementFinalVideoViewCount();
+    if (percentageElapsed === 100) {
+      setNodeViewed(activeNode.node_name);
+
+      if (endrollPlayingRef.current) setScene("end");
+
+      else if (!endrollPlayingRef.current && activeNode.triggers_final_video) {
+        if (mediaSceneGroupRef.current)
+          mediaSceneGroupRef.current.visible = false;
+
+        const mediaElement = document.getElementById(
+          "media"
+        ) as HTMLMediaElement;
+        const trackElement = document.getElementById(
+          "track"
+        ) as HTMLTrackElement;
+
+        if (mediaElement) {
+          mediaElement.currentTime = 0;
+
+          trackElement.src = endrollVtt;
+          mediaElement.src = endroll;
+
+          mediaElement.load();
+          mediaElement.play();
+          incrementFinalVideoViewCount();
+          endrollPlayingRef.current = true;
+        }
+      }
     }
   }, [
+    activeNode.node_name,
     activeNode.triggers_final_video,
     incrementFinalVideoViewCount,
     percentageElapsed,
+    setNodeViewed,
     setScene,
   ]);
 
@@ -87,7 +121,7 @@ const MediaScene = () => {
   }, [setInputCooldown]);
 
   return (
-    <group position-z={3}>
+    <group position-z={3} ref={mediaSceneGroupRef}>
       {loaded ? (
         <group position={[0.4, -0.3, 0]}>
           <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
