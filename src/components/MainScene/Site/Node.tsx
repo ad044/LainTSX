@@ -132,32 +132,34 @@ const Node = memo((props: NodeContructorProps) => {
     config: { duration: 800 },
   }));
 
-  useEffect(() => {
-    useStore.subscribe(set, (state) => ({
-      activeNodePosX: state.activeNodeAttributes.interactedWith
-        ? state.activeNodePos[0]
-        : props.position[0],
-      activeNodePosY: state.activeNodeAttributes.interactedWith
-        ? state.activeNodePos[1]
-        : props.position[1],
-      activeNodePosZ: state.activeNodeAttributes.interactedWith
-        ? state.activeNodePos[2]
-        : props.position[2],
-      activeNodeRotZ: state.activeNodeAttributes.interactedWith
-        ? state.activeNodeRot[2]
-        : 0,
-      activeNodeScale: state.activeNodeAttributes.shrinking ? 0 : 1,
-      activeNodeVisible: state.activeNodeAttributes.visible,
-    }));
-  }, [
-    props.level,
-    activeNodePosX,
-    activeNodePosZ,
-    activeNodeRotZ,
-    props.position,
-    set,
-    props.rotation,
-  ]);
+  useEffect(
+    () =>
+      useStore.subscribe(set, (state) => ({
+        activeNodePosX: state.activeNodeAttributes.interactedWith
+          ? state.activeNodePos[0]
+          : props.position[0],
+        activeNodePosY: state.activeNodeAttributes.interactedWith
+          ? state.activeNodePos[1]
+          : props.position[1],
+        activeNodePosZ: state.activeNodeAttributes.interactedWith
+          ? state.activeNodePos[2]
+          : props.position[2],
+        activeNodeRotZ: state.activeNodeAttributes.interactedWith
+          ? state.activeNodeRot[2]
+          : 0,
+        activeNodeScale: state.activeNodeAttributes.shrinking ? 0 : 1,
+        activeNodeVisible: state.activeNodeAttributes.visible,
+      })),
+    [
+      props.level,
+      activeNodePosX,
+      activeNodePosZ,
+      activeNodeRotZ,
+      props.position,
+      set,
+      props.rotation,
+    ]
+  );
 
   useFrame(() => {
     if (materialRef.current) {

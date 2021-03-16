@@ -459,8 +459,26 @@ export const changeMediaSide = (calculatedState: {
   ],
 });
 
+export const playMediaMovie = {
+  state: [
+    {
+      mutation: {
+        activeMediaComponent: "exit",
+        inputCooldown: 1200,
+      },
+    },
+  ],
+  audio: [{ sfx: [audio.sound28] }],
+  effects: [
+    () => {
+      setTimeout(() => playMediaElement(), 1200);
+    },
+  ],
+};
+
 export const playMedia = {
   state: [{ mutation: { mediaPercentageElapsed: 0, inputCooldown: 500 } }],
+  audio: [{ sfx: [audio.sound28] }],
   effects: [playMediaElement],
 };
 

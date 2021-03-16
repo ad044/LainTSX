@@ -1,4 +1,7 @@
-import { findNodeFromWord } from "../../helpers/media-helpers";
+import {
+  findNodeFromWord,
+  playMediaElement,
+} from "../../helpers/media-helpers";
 import {
   changeLeftMediaComponent,
   changeMediaSide,
@@ -8,6 +11,7 @@ import {
   resetInputCooldown,
   selectWord,
   wordNotFound,
+  playMediaMovie,
 } from "../eventTemplates";
 import { isNodeVisible } from "../../helpers/node-helpers";
 import {
@@ -58,7 +62,10 @@ const handleMediaSceneInput = (
                 "media"
               ) as HTMLMediaElement;
 
-              if (!mediaElement.paused) return;
+              if (!mediaElement.paused) return resetInputCooldown;
+
+              if (!activeNode.media_file.includes("XA")) return playMediaMovie;
+
               return playMedia;
             case "exit":
               return exitMedia;

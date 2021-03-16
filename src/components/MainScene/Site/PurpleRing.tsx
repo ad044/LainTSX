@@ -18,8 +18,10 @@ const PurpleRing = memo((props: PurpleRingProps) => {
 
   const purpleRingRef = useRef<THREE.Object3D>();
 
-  const dispatchSiteLevelTextureOffset = (level: string) => {
-    const siteTextures = {
+  const levelTextureOffsets = useMemo(() => {
+    const formattedLevel = props.level.padStart(2, "0");
+
+    const offsets: { [key: string]: number } = {
       "9": 0.035,
       "8": 0.039,
       "7": 0.001,
@@ -31,25 +33,27 @@ const PurpleRing = memo((props: PurpleRingProps) => {
       "1": 0.026,
       "0": 0.031,
     };
-    return siteTextures[level as keyof typeof siteTextures];
-  };
+
+    return [
+      offsets[formattedLevel.charAt(0)],
+      offsets[formattedLevel.charAt(1)],
+    ];
+  }, [props.level]);
 
   const uniforms = useMemo(() => {
     const uniform = THREE.UniformsUtils.merge([THREE.UniformsLib["lights"]]);
 
-    const formattedLevel = props.level.padStart(2, "0");
-
     uniform.tex = { type: "t", value: null };
     uniform.siteLevels = { type: "t", value: siteLevels };
     uniform.siteLevelFirstCharacterOffset = {
-      value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(0)),
+      value: levelTextureOffsets[0],
     };
     uniform.siteLevelSecondCharacterOffset = {
-      value: dispatchSiteLevelTextureOffset(formattedLevel.charAt(1)),
+      value: levelTextureOffsets[1],
     };
 
     return uniform;
-  }, [props.level, siteLevels]);
+  }, [siteLevels, levelTextureOffsets]);
 
   const vertexShader = `
     varying vec2 vUv;

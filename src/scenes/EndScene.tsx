@@ -17,6 +17,7 @@ const EndScene = () => {
     (state) => state.setEndSceneSelectionVisible
   );
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
+  const audioAnalyser = useStore((state) => state.audioAnalyser);
 
   useFrame(() => {
     if (mainCylinderRef.current) {
@@ -45,13 +46,17 @@ const EndScene = () => {
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   useEffect(() => {
+    if (!audioAnalyser) setAudioAnalyser(createAudioAnalyser());
+  }, [audioAnalyser, setAudioAnalyser]);
+
+  useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
 
     if (mediaElement) {
       const playMedia = async (idx: number) => {
         switch (idx) {
+          // intro speech
           case 0:
-            setAudioAnalyser(createAudioAnalyser());
             setObjectsVisible(true);
             setIsIntro(true);
 
@@ -62,6 +67,7 @@ const EndScene = () => {
             mediaElement.play();
             setIsIntro(false);
             break;
+          // name pronounciation syllable by syllable
           default:
             import("../static/voice/" + playerNameVoices[idx - 1] + ".mp4")
               .then((media) => {
@@ -71,6 +77,7 @@ const EndScene = () => {
               })
               .catch((e) => console.log(e));
             break;
+          // outro laugh
           case playerNameVoices.length + 1:
             mediaElement.src = outroSpeech;
             mediaElement.load();
@@ -92,10 +99,16 @@ const EndScene = () => {
       playMedia(0);
       mediaElement.addEventListener("ended", () => {
         playedMediaCountRef.current++;
-        playMedia(playedMediaCountRef.current);
+        if (playedMediaCountRef.current <= playerNameVoices.length + 1)
+          playMedia(playedMediaCountRef.current);
       });
     }
-  }, [playerNameVoices, setAudioAnalyser, setInputCooldown, setSelectionVisible]);
+  }, [
+    playerNameVoices,
+    setAudioAnalyser,
+    setInputCooldown,
+    setSelectionVisible,
+  ]);
 
   return (
     <>

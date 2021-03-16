@@ -12,10 +12,6 @@ import sleep from "../../../utils/sleep";
 const MiddleRing = () => {
   const middleRingTex = useLoader(THREE.TextureLoader, middleRingTexture);
 
-  const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
-  const middleRingRef = useRef<THREE.Object3D>();
-  const middleRingPartRef = useRef<THREE.Object3D>();
-
   const vertexShader = `
     varying vec2 vUv;
     uniform float uTime;
@@ -168,6 +164,9 @@ const MiddleRing = () => {
 
   const noiseAmpRef = useRef(0.03);
   const wobbleAmpRef = useRef(0);
+  const middleRingMaterialRef = useRef<THREE.ShaderMaterial>();
+  const middleRingRef = useRef<THREE.Object3D>();
+  const middleRingPartRef = useRef<THREE.Object3D>();
 
   useFrame(() => {
     if (middleRingMaterialRef.current) {
@@ -227,7 +226,7 @@ const MiddleRing = () => {
       setRot({ rotZ: rotValues[1] });
 
       isAnimatingRef.current = false;
-      
+
       await sleep(1000);
       setRot({ rotZ: 0 });
     };

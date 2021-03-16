@@ -30,22 +30,26 @@ const MediaScene = () => {
 
   const setNodeViewed = useStore.getState().setNodeViewed;
 
+  const isAudioOnly = useMemo(() => activeNode.media_file.includes("XA"), [
+    activeNode,
+  ]);
+
   useEffect(() => {
     if (percentageElapsed === 100) {
+      const mediaElement = document.getElementById("media") as HTMLMediaElement;
+      const trackElement = document.getElementById("track") as HTMLTrackElement;
+
+      if (!isAudioOnly && mediaElement) {
+        mediaElement.currentTime = 0;
+        mediaElement.pause();
+      }
+
       setNodeViewed(activeNode.node_name);
 
       if (endrollPlayingRef.current) setScene("end");
-
       else if (!endrollPlayingRef.current && activeNode.triggers_final_video) {
         if (mediaSceneGroupRef.current)
           mediaSceneGroupRef.current.visible = false;
-
-        const mediaElement = document.getElementById(
-          "media"
-        ) as HTMLMediaElement;
-        const trackElement = document.getElementById(
-          "track"
-        ) as HTMLTrackElement;
 
         if (mediaElement) {
           mediaElement.currentTime = 0;
@@ -64,13 +68,10 @@ const MediaScene = () => {
     activeNode.node_name,
     activeNode.triggers_final_video,
     incrementFinalVideoViewCount,
+    isAudioOnly,
     percentageElapsed,
     setNodeViewed,
     setScene,
-  ]);
-
-  const isAudioOnly = useMemo(() => activeNode.media_file.includes("XA"), [
-    activeNode,
   ]);
 
   useEffect(() => {

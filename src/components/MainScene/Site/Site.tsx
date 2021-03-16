@@ -43,19 +43,31 @@ const Site = (props: SiteProps) => {
     config: { duration: 1200 },
   }));
 
-  useEffect(() => {
-    useStore.subscribe(setRotY, (state) => ({
-      y: state.siteRot[1],
-      delay: 1100,
-    }));
-    useStore.subscribe(setRotX, (state) => ({
-      x: state.siteRot[0],
-    }));
-    useStore.subscribe(setPos, (state) => ({
-      y: -level_y_values[state.activeLevel as keyof typeof level_y_values],
-      delay: 1300,
-    }));
-  }, [setPos, setRotX, setRotY]);
+  useEffect(
+    () =>
+      useStore.subscribe(setRotY, (state) => ({
+        y: state.siteRot[1],
+        delay: 1100,
+      })),
+    [setRotY]
+  );
+
+  useEffect(
+    () =>
+      useStore.subscribe(setRotX, (state) => ({
+        x: state.siteRot[0],
+      })),
+    [setRotX]
+  );
+
+  useEffect(
+    () =>
+      useStore.subscribe(setPos, (state) => ({
+        y: -level_y_values[state.activeLevel as keyof typeof level_y_values],
+        delay: 1300,
+      })),
+    [setPos]
+  );
 
   const activeSite = useStore((state) => state.activeSite);
   const gameProgress = useStore((state) => state.gameProgress);

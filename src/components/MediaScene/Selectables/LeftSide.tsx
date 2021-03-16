@@ -60,7 +60,7 @@ const LeftSide = memo(() => {
         <Cube position={[-2.7, -1.6, 0.6]} active={cubesActive} />
         <TriangularPrism
           position={[-3.5, -1.6, 0.6]}
-          active={!trianglesActive}
+          active={trianglesActive}
         />
       </a.group>
       <a.group
