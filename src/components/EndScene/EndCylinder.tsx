@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import * as THREE from "three";
 import { useLoader } from "react-three-fiber";
 import mainCylinder from "../../static/sprites/end/end_cylinder_1.png";
 
-const EndCylinder = () => {
+const EndCylinder = memo(() => {
   const mainCylinderTex = useLoader(THREE.TextureLoader, mainCylinder);
 
   return (
@@ -54,6 +54,6 @@ const EndCylinder = () => {
       </mesh>
     </>
   );
-};
+});
 
 export default EndCylinder;

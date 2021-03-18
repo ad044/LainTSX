@@ -1,7 +1,4 @@
-import {
-  findNodeFromWord,
-  playMediaElement,
-} from "../../helpers/media-helpers";
+import { findNodeFromWord } from "../../helpers/media-helpers";
 import {
   changeLeftMediaComponent,
   changeMediaSide,

@@ -44,14 +44,22 @@ const LainSpeak = (props: LainTaKProps) => {
 
   useFrame(() => {
     if (audioAnalyser) {
-      const freq = audioAnalyser.getAverageFrequency() * 1.2;
+      const buffer = new Uint8Array(audioAnalyser.analyser.fftSize / 2);
+      audioAnalyser.analyser.getByteTimeDomainData(buffer);
+
+      let rms = 0;
+      for (let i = 0; i < buffer.length; i++) {
+        rms += buffer[i] * buffer[i];
+      }
+
+      rms = Math.sqrt(rms / buffer.length);
 
       if (mouthRef.current) {
-        if (freq >= 50) {
+        if (rms >= 130) {
           mouthRef.current.map = mouth4Tex;
-        } else if (freq >= 40 && freq <= 50) {
+        } else if (rms >= 129 && rms <= 130) {
           mouthRef.current.map = mouth3Tex;
-        } else if (freq >= 30 && freq <= 40) {
+        } else if (rms > 128 && rms <= 129) {
           mouthRef.current.map = mouth2Tex;
         } else {
           mouthRef.current.map = mouth1Tex;

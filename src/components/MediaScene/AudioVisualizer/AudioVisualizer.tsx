@@ -5,7 +5,7 @@ import AudioVisualizerColumn from "./AudioVisualizerColumn";
 import { useStore } from "../../../store";
 
 const AudioVisualizer = memo(() => {
-  const audioAnalyser = useStore(state=> state.audioAnalyser)
+  const audioAnalyser = useStore((state) => state.audioAnalyser);
   const columnRefs = useMemo(
     () =>
       Array.from({ length: 15 }, () => [
@@ -27,9 +27,7 @@ const AudioVisualizer = memo(() => {
         const ref3 = refArray[2];
         const ref4 = refArray[3];
 
-        // we up it by 1.2 just so it becomes a bit more noticable, otherwise
-        // the visualizer is a bit too "calm"
-        const currentFrequency = frequencyData[16 * idx] * 1.2;
+        const currentFrequency = frequencyData[16 * idx];
 
         switch (true) {
           case currentFrequency >= 255:

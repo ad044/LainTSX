@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, memo } from "react";
 import * as THREE from "three";
 import { useFrame, useLoader } from "react-three-fiber";
 import secondCylinder from "../../static/sprites/end/end_cylinder_2.png";
@@ -8,7 +8,7 @@ type EndSphereProps = {
   outroAnim: boolean;
 };
 
-const EndSphere = (props: EndSphereProps) => {
+const EndSphere = memo((props: EndSphereProps) => {
   const secondCylinderTex = useLoader(THREE.TextureLoader, secondCylinder);
 
   const meshRef = useRef<THREE.Object3D>();
@@ -46,6 +46,6 @@ const EndSphere = (props: EndSphereProps) => {
       />
     </mesh>
   );
-};
+});
 
 export default EndSphere;

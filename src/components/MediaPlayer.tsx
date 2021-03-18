@@ -67,7 +67,7 @@ const MediaPlayer = () => {
 
   return (
     <>
-      <video id="media" ref={videoRef}>
+      <video id="media" ref={videoRef} disablePictureInPicture>
         <track id={"track"} ref={trackRef} kind="metadata" default />
       </video>
       <div id={"subtitle-container"}>

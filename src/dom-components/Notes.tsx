@@ -49,17 +49,22 @@ const Notes = () => {
           </tr>
           <tr>
             <td>
-              <p>Browser settings</p>
+              <p>Browser Settings</p>
             </td>
             <td>
               <p>
-                This part might be updated from time to time as more issues pop
-                up. <br />
-                <br />
-                Firefox: <br />
-                privacy.resistFingerprinting needs to be set to false (it should
-                be by default). Otherwise, it limits the maximum WebGL texture size to
-                2048, resulting in poor sprite quality.
+                <span className="text-center">Firefox</span>
+                <div className="browser-notes">
+                  privacy.resistFingerprinting should be set to false (it should
+                  be by default). Otherwise, it limits the maximum WebGL texture
+                  size to 2048, resulting in poor sprite quality.
+                  <br />
+                  <br />
+                  Picture-In-Picture functionality should not be used (you most
+                  likely have it disabled already). Just having it enabled won't
+                  break anything, but actually using it might lead to some funny
+                  visual bugs with media files.
+                </div>
               </p>
             </td>
           </tr>
