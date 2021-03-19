@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { spawnSync } from "child_process";
 import { tmpdir } from "os";
 import { mkdtempSync, rmSync, mkdirSync } from "fs";
 import { join } from "path";
@@ -33,7 +33,7 @@ const argv = yargs(hideBin(process.argv))
   .option("no_delete", {
     type: "boolean",
     description:
-    "Don't delete any temporary files or directories, useful when using --tempdir (WARNING: uses 6+ GB of space)",
+      "Don't delete any temporary files or directories, useful when using --tempdir (WARNING: uses 6+ GB of space)",
   })
   .option("no_audio", {
     type: "boolean",
@@ -43,50 +43,35 @@ const argv = yargs(hideBin(process.argv))
 mkdirSync(argv.tempdir, { recursive: true });
 
 const jpsxdec_jar = join("jpsxdec", "jpsxdec.jar");
-const disc1_index = join(argv.tempdir, "disc1.idx");
-const disc2_index = join(argv.tempdir, "disc2.idx");
 
 // generate disc indexes
 if (!argv.no_index) {
-  execSync(
-    `java -jar ${jpsxdec_jar} -f ${join(
-      "discs",
-      "disc1.bin"
-    )} -x "${disc1_index}"`,
-    { stdio: "inherit" }
-  );
-
-  execSync(
-    `java -jar ${jpsxdec_jar} -f ${join(
-      "discs",
-      "disc2.bin"
-    )} -x "${disc2_index}"`,
-    { stdio: "inherit" }
-  );
+  for (const disc of ["disc1", "disc2"]) {
+    spawnSync(
+      "java",
+      [
+        "-jar",
+        jpsxdec_jar,
+        "-f",
+        join("discs", disc + ".bin"),
+        "-x",
+        join(argv.tempdir, disc + ".idx"),
+      ],
+      { stdio: "inherit" }
+    );
+  }
 }
 
 if (!argv.no_video) {
-  extract_video(
-    argv.tempdir,
-    jpsxdec_jar,
-    disc1_index,
-    disc2_index,
-    argv.no_delete
-  );
+  extract_video(argv.tempdir, jpsxdec_jar, argv.no_delete);
 }
 
 if (!argv.no_audio) {
-  extract_audio(
-    argv.tempdir,
-    jpsxdec_jar,
-    disc1_index,
-    disc2_index,
-    argv.no_delete
-  );
+  extract_audio(argv.tempdir, jpsxdec_jar, argv.no_delete);
 }
 
 if (!argv.no_voice) {
-  extract_voice(argv.tempdir, jpsxdec_jar, disc1_index);
+  extract_voice(argv.tempdir, jpsxdec_jar);
 }
 
 if (!argv.no_delete) {
