@@ -4,16 +4,8 @@ import greenFont from "../../static/sprites/fonts/white_and_green_texture.png";
 import medium_font_json from "../../resources/fonts/medium_font.json";
 import { a } from "@react-spring/three";
 import React, { memo, useMemo } from "react";
-import { useStore } from "../../store";
 
-const GreenTextRenderer = memo(() => {
-  const textToRender = useStore((state) =>
-    (state.currentScene === "main"
-      ? state.activeNode.title
-      : state.activeNode.node_name
-    ).split("")
-  );
-
+const GreenTextRenderer = memo((props: { textToRender: string[] }) => {
   const colorTexture = useLoader(THREE.TextureLoader, greenFont);
 
   const getLineYOffset = (letter: string) => {
@@ -69,7 +61,7 @@ const GreenTextRenderer = memo(() => {
       return geometry;
     };
 
-    return textToRender.map((letter, idx) => {
+    return props.textToRender.map((letter, idx) => {
       const letterData =
         medium_font_json.glyphs[letter as keyof typeof medium_font_json.glyphs];
       const geom = getGeom(letter, letterData);
@@ -92,7 +84,7 @@ const GreenTextRenderer = memo(() => {
         </a.mesh>
       );
     });
-  }, [colorTexture, textToRender]);
+  }, [colorTexture, props.textToRender]);
 
   return <>{text}</>;
 });

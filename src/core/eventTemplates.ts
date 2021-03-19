@@ -243,7 +243,6 @@ export const pauseGame = (calculatedState: { siteRot: number[] }) => ({
     {
       mutation: {
         lainMoveState: "rip_middle_ring",
-        pauseExitAnimation: false,
         mainSubscene: "pause",
         inputCooldown: -1,
       },
@@ -781,6 +780,19 @@ export const playLainIdleAnim = (calculatedState: {
     {
       mutation: { lainMoveState: "standing", canLainMove: true },
       delay: calculatedState.duration,
+    },
+  ],
+});
+
+export const setProtocolLines = (calculatedState: {
+  protocolLinesToggled: boolean;
+}) => ({
+  state: [
+    {
+      mutation: {
+        protocolLinesToggled: calculatedState.protocolLinesToggled,
+        inputCooldown: 0,
+      },
     },
   ],
 });

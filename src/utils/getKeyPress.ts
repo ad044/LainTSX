@@ -1,16 +1,20 @@
 const getKeyPress = (key: string) => {
-  if (["X", "Z", "D", "E", "V"].includes(key)) key = key.toLowerCase();
+  if (["X", "Z", "D", "E", "V", "T", "W", "R"].includes(key))
+    key = key.toLowerCase();
 
   const keyCodeAssocs = {
-    ArrowDown: "DOWN", // down arrow
-    ArrowLeft: "LEFT", // left arrow
-    ArrowUp: "UP", // up arrow
-    ArrowRight: "RIGHT", // right arrow
-    x: "CIRCLE", // x key
-    z: "CROSS", // z key
-    d: "TRIANGLE", // d key
-    e: "L2", // e key
-    v: "START", // v key
+    ArrowDown: "DOWN",
+    ArrowLeft: "LEFT",
+    ArrowUp: "UP",
+    ArrowRight: "RIGHT",
+    x: "CIRCLE",
+    z: "CROSS",
+    d: "TRIANGLE",
+    s: "SQUARE",
+    e: "L2",
+    v: "START",
+    w: "L1",
+    r: "R1",
   };
   return keyCodeAssocs[key as keyof typeof keyCodeAssocs];
 };

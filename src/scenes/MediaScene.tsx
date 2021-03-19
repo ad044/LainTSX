@@ -132,7 +132,7 @@ const MediaScene = () => {
             <NodeNameContainer />
           </group>
           <group scale={[0.06, 0.12, 0]} position={[0.8, 1.37, 0]}>
-            <GreenTextRenderer />
+            <GreenTextRenderer textToRender={activeNode.node_name.split("")} />
           </group>
           <MediaYellowTextAnimator />
 

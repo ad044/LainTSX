@@ -47,6 +47,8 @@ type State = {
   activeNodeRot: number[];
   activeNodeAttributes: NodeAttributes;
 
+  protocolLinesToggled: boolean;
+
   lainMoveState: string;
   canLainMove: boolean;
 
@@ -63,7 +65,6 @@ type State = {
   endSceneSelectionVisible: boolean;
 
   activePauseComponent: PauseComponent;
-  pauseExitAnimation: boolean;
   showingAbout: boolean;
   permissionDenied: boolean;
 
@@ -140,6 +141,9 @@ export const useStore = create(
       // lain
       lainMoveState: "standing",
       canLainMove: true,
+
+      // extra node data display
+      protocolLinesToggled: false,
 
       // site
       activeSite: "a",
@@ -363,6 +367,7 @@ export const getMainSceneContext = (): MainSceneContext => {
     siteSaveState: state.siteSaveState,
     wordNotFound: state.wordNotFound,
     canLainMove: state.canLainMove,
+    protocolLinesToggled: state.protocolLinesToggled,
   };
 };
 

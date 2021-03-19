@@ -2,6 +2,7 @@ import {
   findNode,
   getNodeById,
   isNodeVisible,
+  moveHorizontalAndFindNode,
   nodeToScene,
   unknownNodeTemplate,
 } from "../../helpers/node-helpers";
@@ -28,6 +29,7 @@ import {
   ripNode,
   saveGame,
   selectLevel,
+  setProtocolLines,
   showAbout,
   showPermissionDenied,
   siteMoveHorizontal,
@@ -56,6 +58,7 @@ const handleMainSceneInput = (
     siteSaveState,
     wordNotFound,
     canLainMove,
+    protocolLinesToggled,
   } = mainSceneContext;
 
   if (promptVisible) {
@@ -176,7 +179,6 @@ const handleMainSceneInput = (
 
             if (nodeData.didMove) {
               if (!canLainMove) return resetInputCooldown;
-
               return siteMoveVertical({
                 lainMoveAnimation: lainMoveAnimation,
                 activeLevel: newLevel,
@@ -208,6 +210,46 @@ const handleMainSceneInput = (
           case "TRIANGLE":
             if (!canLainMove) return resetInputCooldown;
             return pauseGame({ siteRot: [Math.PI / 2, siteRotY, 0] });
+          case "L1":
+          case "R1":
+            const direction = keyPress === "L1" ? "left" : "right";
+
+            const nodeData = moveHorizontalAndFindNode(
+              activeNode,
+              direction,
+              level,
+              activeSite,
+              gameProgress
+            );
+
+            if (!nodeData) return resetInputCooldown;
+
+            const lainMoveAnimation = `move_${direction}`;
+            const newSiteRot = [
+              0,
+              direction === "left"
+                ? siteRotY + Math.PI / 4
+                : siteRotY - Math.PI / 4,
+              0,
+            ];
+
+            const newNode = {
+              ...(nodeData.node !== "unknown"
+                ? getNodeById(nodeData.node, activeSite)
+                : unknownNodeTemplate),
+              matrixIndices: nodeData.matrixIndices,
+            };
+
+            if (!canLainMove) return resetInputCooldown;
+            return siteMoveHorizontal({
+              lainMoveAnimation: lainMoveAnimation,
+              siteRot: newSiteRot,
+              activeNode: newNode,
+            });
+          case "SQUARE":
+            return setProtocolLines({
+              protocolLinesToggled: !protocolLinesToggled,
+            });
         }
         break;
       case "level_selection":
@@ -223,7 +265,6 @@ const handleMainSceneInput = (
             break;
           case "CROSS":
             return exitLevelSelection;
-
           case "CIRCLE":
             if (!canLainMove) return resetInputCooldown;
 

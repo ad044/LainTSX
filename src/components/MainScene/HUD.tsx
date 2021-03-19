@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { createRef, memo, useEffect, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../static/sprites/main/big_hud.png";
@@ -11,6 +11,8 @@ import usePrevious from "../../hooks/usePrevious";
 import { getNodeHud } from "../../helpers/node-helpers";
 import { HUDData } from "../../types/types";
 
+// the hud is an imperative mess. unfortunately this seems to perform by far the best out of all the approaches i've tried.
+
 const HUD = memo(() => {
   const activeRef = useRef(true);
   const currentHudRef = useRef(
@@ -19,20 +21,36 @@ const HUD = memo(() => {
   const activeNodeMatrixIndices = useStore(
     (state) => state.activeNode.matrixIndices
   );
+  const activeNode = useStore((state) => state.activeNode);
   const siteRotY = useStore((state) => state.siteRot[1]);
   const activeLevel = useStore((state) => state.activeLevel);
   const subscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
-  const prevData = usePrevious({ siteRotY, activeLevel, subscene, scene });
+  const protocolLinesToggled = useStore((state) => state.protocolLinesToggled);
+  const prevData = usePrevious({
+    siteRotY,
+    activeLevel,
+    subscene,
+    scene,
+    protocolLinesToggled,
+  });
 
-  // this part is imperative because it performs a lot better than having a toggleable spring.
+  const longHudRef = useRef<THREE.Object3D>();
+  const boringHudRef = useRef<THREE.Object3D>();
+  const bigHudRef = useRef<THREE.Object3D>();
+  const nodeTitleRef = useRef<THREE.Object3D>();
+  const protocolLine1Ref = useRef<THREE.Object3D>();
+  const protocolLine2Ref = useRef<THREE.Object3D>();
+  const protocolLine3Ref = useRef<THREE.Object3D>();
+
+  const protocolLineTitleRefs = useRef([
+    useRef<THREE.Object3D>(),
+    useRef<THREE.Object3D>(),
+    useRef<THREE.Object3D>(),
+  ]);
+
   useFrame(() => {
-    if (
-      longHudRef.current &&
-      bigHudRef.current &&
-      boringHudRef.current &&
-      greenTextRef.current
-    ) {
+    if (longHudRef.current && bigHudRef.current && boringHudRef.current) {
       const hud = currentHudRef.current;
 
       longHudRef.current.position.x = lerp(
@@ -52,13 +70,6 @@ const HUD = memo(() => {
         activeRef.current ? hud.big.position[0] : hud.big.initial_position[0],
         0.12
       );
-      greenTextRef.current.position.x = lerp(
-        greenTextRef.current.position.x,
-        activeRef.current
-          ? hud.medium_text.position[0]
-          : hud.medium_text.initial_position[0],
-        0.12
-      );
     }
   });
 
@@ -67,12 +78,30 @@ const HUD = memo(() => {
       longHudRef.current!.scale.x = -Math.abs(longHudRef.current!.scale.x);
       boringHudRef.current!.scale.x = -Math.abs(boringHudRef.current!.scale.x);
       bigHudRef.current!.scale.x = -Math.abs(bigHudRef.current!.scale.x);
+      nodeTitleRef.current!.scale.x = -Math.abs(nodeTitleRef.current!.scale.x);
+      nodeTitleRef.current!.position.x = 0.2;
+
+      if (protocolLinesToggled) {
+        protocolLineTitleRefs.current.forEach((ref) => {
+          ref.current!.scale.x = -Math.abs(ref.current!.scale.x);
+          ref.current!.position.x = 0.2;
+        });
+      }
     };
 
     const unMirror = () => {
       longHudRef.current!.scale.x = Math.abs(longHudRef.current!.scale.x);
       boringHudRef.current!.scale.x = Math.abs(boringHudRef.current!.scale.x);
       bigHudRef.current!.scale.x = Math.abs(bigHudRef.current!.scale.x);
+      nodeTitleRef.current!.scale.x = Math.abs(nodeTitleRef.current!.scale.x);
+      nodeTitleRef.current!.position.x = -0.2;
+
+      if (protocolLinesToggled) {
+        protocolLineTitleRefs.current.forEach((ref) => {
+          ref.current!.scale.x = Math.abs(ref.current!.scale.x);
+          ref.current!.position.x = -0.2;
+        });
+      }
     };
 
     const setPos = (hud: HUDData, pos: string) => {
@@ -89,13 +118,21 @@ const HUD = memo(() => {
       bigHudRef.current!.position.set(
         ...(hud.big[pos as keyof typeof hud.big] as [number, number, number])
       );
-      greenTextRef.current!.position.set(
-        ...(hud.medium_text[pos as keyof typeof hud.medium_text] as [
-          number,
-          number,
-          number
-        ])
-      );
+      if (
+        protocolLine1Ref.current &&
+        protocolLine2Ref.current &&
+        protocolLine3Ref.current
+      ) {
+        protocolLine1Ref.current.position.set(
+          ...(hud.big.protocol_line_positions[0] as [number, number, number])
+        );
+        protocolLine2Ref.current.position.set(
+          ...(hud.big.protocol_line_positions[1] as [number, number, number])
+        );
+        protocolLine3Ref.current.position.set(
+          ...(hud.big.protocol_line_positions[2] as [number, number, number])
+        );
+      }
     };
 
     if (activeRef.current !== undefined) {
@@ -103,7 +140,8 @@ const HUD = memo(() => {
       if (
         !(scene === "main" && prevData?.scene === "main") ||
         (subscene === "site" && prevData?.subscene === "pause") ||
-        subscene === "pause"
+        subscene === "pause" ||
+        protocolLinesToggled !== prevData?.protocolLinesToggled
       ) {
         // set to final pos instantly
         setPos(hud, "position");
@@ -142,28 +180,19 @@ const HUD = memo(() => {
     prevData?.scene,
     prevData?.siteRotY,
     prevData?.subscene,
+    prevData?.protocolLinesToggled,
     scene,
     siteRotY,
     subscene,
+    protocolLinesToggled,
   ]);
-
-  const longHudRef = useRef<THREE.Object3D>();
-  const boringHudRef = useRef<THREE.Object3D>();
-  const bigHudRef = useRef<THREE.Object3D>();
-  const greenTextRef = useRef<THREE.Object3D>();
-
   const longHudTex = useLoader(THREE.TextureLoader, longHud);
   const boringHudTex = useLoader(THREE.TextureLoader, boringHud);
   const bigHudTex = useLoader(THREE.TextureLoader, bigHud);
 
   return (
     <group position={[0, 0, 10]}>
-      <mesh
-        scale={[1, 0.03, 1]}
-        renderOrder={2}
-        ref={longHudRef}
-        position-z={-8.6}
-      >
+      <mesh scale={[1, 0.03, 1]} renderOrder={2} ref={longHudRef}>
         <planeBufferGeometry attach="geometry" />
         <meshBasicMaterial
           attach="material"
@@ -172,12 +201,7 @@ const HUD = memo(() => {
           depthTest={false}
         />
       </mesh>
-      <mesh
-        scale={[1, 0.03, 1]}
-        renderOrder={2}
-        ref={boringHudRef}
-        position-z={-8.6}
-      >
+      <mesh scale={[1, 0.03, 1]} renderOrder={2} ref={boringHudRef}>
         <planeBufferGeometry attach="geometry" />
         <meshBasicMaterial
           attach="material"
@@ -186,22 +210,81 @@ const HUD = memo(() => {
           depthTest={false}
         />
       </mesh>
-      <mesh
-        scale={[0.5, 0.06, 1]}
-        renderOrder={2}
-        ref={bigHudRef}
-        position-z={-8.6}
-      >
-        <planeBufferGeometry attach="geometry" />
-        <meshBasicMaterial
-          attach="material"
-          map={bigHudTex}
-          transparent={true}
-          depthTest={false}
-        />
-      </mesh>
-      <group position-z={-8.7} scale={[0.02, 0.035, 0.02]} ref={greenTextRef}>
-        <GreenTextRenderer />
+      <group ref={bigHudRef}>
+        <mesh scale={[0.5, 0.06, 1]} renderOrder={2}>
+          <planeBufferGeometry attach="geometry" />
+          <meshBasicMaterial
+            attach="material"
+            map={bigHudTex}
+            transparent={true}
+            depthTest={false}
+          />
+        </mesh>
+        <group ref={nodeTitleRef} scale={[0.016, 0.03, 0.016]}>
+          <GreenTextRenderer textToRender={activeNode.title.split("")} />
+        </group>
+        {protocolLinesToggled && (
+          <>
+            <group ref={protocolLine1Ref}>
+              <mesh scale={[0.5, 0.06, 1]} renderOrder={2}>
+                <planeBufferGeometry attach="geometry" />
+                <meshBasicMaterial
+                  attach="material"
+                  map={bigHudTex}
+                  transparent={true}
+                  depthTest={false}
+                />
+              </mesh>
+              <group
+                scale={[0.016, 0.03, 0.016]}
+                ref={protocolLineTitleRefs.current[0]}
+              >
+                <GreenTextRenderer
+                  textToRender={activeNode.protocol_lines["1"].split("")}
+                />
+              </group>
+            </group>
+            <group ref={protocolLine2Ref}>
+              <mesh scale={[0.5, 0.06, 1]} renderOrder={2}>
+                <planeBufferGeometry attach="geometry" />
+                <meshBasicMaterial
+                  attach="material"
+                  map={bigHudTex}
+                  transparent={true}
+                  depthTest={false}
+                />
+              </mesh>
+              <group
+                scale={[0.016, 0.03, 0.016]}
+                ref={protocolLineTitleRefs.current[1]}
+              >
+                <GreenTextRenderer
+                  textToRender={activeNode.protocol_lines["2"].split("")}
+                />
+              </group>
+            </group>
+
+            <group ref={protocolLine3Ref}>
+              <mesh scale={[0.5, 0.06, 1]} renderOrder={2}>
+                <planeBufferGeometry attach="geometry" />
+                <meshBasicMaterial
+                  attach="material"
+                  map={bigHudTex}
+                  transparent={true}
+                  depthTest={false}
+                />
+              </mesh>
+              <group
+                scale={[0.016, 0.03, 0.016]}
+                ref={protocolLineTitleRefs.current[2]}
+              >
+                <GreenTextRenderer
+                  textToRender={activeNode.protocol_lines["3"].split("")}
+                />
+              </group>
+            </group>
+          </>
+        )}
       </group>
     </group>
   );

@@ -22,10 +22,7 @@ const AudioVisualizer = memo(() => {
       const frequencyData = audioAnalyser.getFrequencyData();
 
       columnRefs.forEach((refArray, idx) => {
-        const ref1 = refArray[0];
-        const ref2 = refArray[1];
-        const ref3 = refArray[2];
-        const ref4 = refArray[3];
+        const [ref1, ref2, ref3, ref4] = [...refArray];
 
         const currentFrequency = frequencyData[16 * idx];
 

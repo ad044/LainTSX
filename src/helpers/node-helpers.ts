@@ -183,6 +183,66 @@ const move = (direction: string, [matrix, level]: [number, number]) => {
   return [matrix, level];
 };
 
+export const moveHorizontalAndFindNode = (
+  startingPoint: NodeData,
+  direction: string,
+  level: number,
+  activeSite: ActiveSite,
+  gameProgress: GameProgress
+) => {
+  const funcs: {
+    [key: string]: ([row, col]: [number, number]) => Generator<number[], void>;
+  } = {
+    left: ([r]: [number, number]) => nextPos_right([r, -1]),
+    right: ([r]: [number, number]) => nextPos_left([r, 4]),
+  };
+
+  if (startingPoint.matrixIndices) {
+    const nextPos = funcs[direction];
+
+    let { matrixIdx, colIdx, rowIdx } = { ...startingPoint.matrixIndices };
+
+    [matrixIdx] = move(direction, [matrixIdx, level]);
+
+    const nodes = getVisibleNodesMatrix(
+      matrixIdx,
+      level,
+      activeSite,
+      gameProgress
+    );
+
+    for (const [r, c] of nextPos([rowIdx, colIdx])) {
+      const node = nodes[r][c];
+
+      if (node)
+        return {
+          node,
+
+          matrixIndices: {
+            matrixIdx,
+            rowIdx: r,
+            colIdx: c,
+          },
+
+          didMove: true,
+        };
+    }
+
+    const nodeId = startingPoint.id;
+    if (nodeId === "") {
+      return {
+        node: "unknown",
+        matrixIndices: {
+          matrixIdx,
+          rowIdx: rowIdx,
+          colIdx: colIdx,
+        },
+        didMove: true,
+      };
+    }
+  }
+};
+
 export const findNode = (
   startingPoint: NodeData,
   direction: string,
@@ -298,6 +358,11 @@ export const unknownNodeTemplate = {
   unlocked_by: "",
   upgrade_requirement: 0,
   words: {
+    "1": "",
+    "2": "",
+    "3": "",
+  },
+  protocol_lines: {
     "1": "",
     "2": "",
     "3": "",

@@ -57,6 +57,11 @@ export type NodeData = {
   unlocked_by: string;
   upgrade_requirement: number;
   words: { 1: string; 2: string; 3: string };
+  protocol_lines: {
+    1: string;
+    2: string;
+    3: string;
+  };
   matrixIndices?: NodeMatrixIndices;
   is_viewed?: number;
 };
@@ -109,6 +114,7 @@ export interface MainSceneContext extends PromptContext {
   wordNotFound: boolean;
   siteSaveState: SiteSaveState;
   canLainMove: boolean;
+  protocolLinesToggled: boolean;
 }
 
 export type SsknSceneContext = {
@@ -186,12 +192,9 @@ export type HUDData = {
   big: {
     position: number[];
     initial_position: number[];
+    protocol_line_positions: number[][];
   };
   big_text: number[];
-  medium_text: {
-    position: number[];
-    initial_position: number[];
-  };
 };
 
 export type UserSaveState = {
