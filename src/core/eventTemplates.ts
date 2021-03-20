@@ -94,10 +94,15 @@ export const changeNode = (calculatedState: { activeNode: NodeData }) => ({
 
 export const throwNode = (calculatedState: { currentScene: GameScene }) => ({
   state: [
-    { mutation: { lainMoveState: "throw_node", inputCooldown: -1 } },
     {
       mutation: {
+        lainMoveState: "throw_node",
+        inputCooldown: -1,
         cameraTiltValue: 0,
+      },
+    },
+    {
+      mutation: {
         currentScene: calculatedState.currentScene,
         intro: false,
         lainMoveState: "standing",
@@ -115,11 +120,16 @@ export const throwNode = (calculatedState: { currentScene: GameScene }) => ({
 
 export const ripNode = (calculatedState: { currentScene: GameScene }) => ({
   state: [
-    { mutation: { lainMoveState: "rip_node", inputCooldown: -1 } },
+    {
+      mutation: {
+        lainMoveState: "rip_node",
+        inputCooldown: -1,
+        cameraTiltValue: 0,
+      },
+    },
     {
       mutation: {
         currentScene: calculatedState.currentScene,
-        cameraTiltValue: 0,
         intro: false,
         lainMoveState: "standing",
       },
@@ -755,6 +765,7 @@ export const playIdleVideo = (calculatedState: { idleMedia: string }) => ({
   state: [
     {
       mutation: {
+        cameraTiltValue: 0,
         idleStarting: true,
         idleMedia: calculatedState.idleMedia,
         idleImages: undefined,
@@ -774,6 +785,7 @@ export const playIdleAudio = (calculatedState: {
   state: [
     {
       mutation: {
+        cameraTiltValue: 0,
         idleStarting: true,
         inputCooldown: -1,
         idleMedia: calculatedState.idleMedia,
