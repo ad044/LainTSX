@@ -25,10 +25,12 @@ import {
   loadGame,
   loadGameFail,
   pauseGame,
+  resetCameraTilt,
   resetInputCooldown,
   ripNode,
   saveGame,
   selectLevel,
+  setCameraTilt,
   setProtocolLines,
   showAbout,
   showPermissionDenied,
@@ -59,6 +61,8 @@ const handleMainSceneInput = (
     wordNotFound,
     canLainMove,
     protocolLinesToggled,
+    cameraTiltValue,
+    lastCameraTiltValue,
   } = mainSceneContext;
 
   if (promptVisible) {
@@ -208,6 +212,7 @@ const handleMainSceneInput = (
           case "L2":
             return enterLevelSelection({ selectedLevel: level });
           case "TRIANGLE":
+          case "SELECT":
             if (!canLainMove) return resetInputCooldown;
             return pauseGame({ siteRot: [Math.PI / 2, siteRotY, 0] });
           case "L1":
@@ -250,6 +255,16 @@ const handleMainSceneInput = (
             return setProtocolLines({
               protocolLinesToggled: !protocolLinesToggled,
             });
+          case "R2":
+            if (cameraTiltValue === 0) {
+              return setCameraTilt({
+                cameraTiltValue: -lastCameraTiltValue,
+              });
+            } else {
+              return resetCameraTilt({
+                lastCameraTiltValue: -lastCameraTiltValue,
+              });
+            }
         }
         break;
       case "level_selection":

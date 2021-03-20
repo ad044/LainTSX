@@ -42,19 +42,19 @@ const MainYellowTextAnimator = (props: { visible?: boolean }) => {
   }, [activeNode, prevData?.subscene, set, subscene, gameProgress]);
 
   return (
-    <a.group position-z={10} visible={props.visible}>
+    <group position={[0, 0, 10]} visible={props.visible}>
       {trail.map(({ posX, posY }, idx) => (
         <a.group
           key={idx}
           position-x={posX}
           position-y={posY}
-          position-z={-8.7}
-          scale={[0.04, 0.06, 0.04]}
+          position-z={-8.6}
+          scale={[0.035, 0.055, 0.035]}
         >
           <BigLetter letter={text[idx]} letterIdx={idx} key={idx} />
         </a.group>
       ))}
-    </a.group>
+    </group>
   );
 };
 

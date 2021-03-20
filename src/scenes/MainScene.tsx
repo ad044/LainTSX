@@ -139,6 +139,18 @@ const MainScene = () => {
       mainSceneMusic.pause();
     };
   }, [intro, introFinished, showingAbout]);
+
+  const [tiltState, setTiltState] = useSpring(() => ({
+    posY: 0,
+    config: { duration: 200 },
+  }));
+
+  useEffect(() =>
+    useStore.subscribe(setTiltState, (state) => ({
+      posY: -state.cameraTiltValue,
+    }))
+  );
+
   return (
     <group position-z={3}>
       <Suspense fallback={<Loading />}>
@@ -153,10 +165,10 @@ const MainScene = () => {
         </a.group>
         <group visible={!paused}>
           <group visible={!wordSelected && (intro ? introFinished : true)}>
-            <group visible={!wordNotFound}>
+            <a.group visible={!wordNotFound} position-y={tiltState.posY}>
               <HUD />
               <MainYellowTextAnimator />
-            </group>
+            </a.group>
             <MiddleRing />
             <GrayPlanes />
           </group>
@@ -168,12 +180,12 @@ const MainScene = () => {
             mainVisible={intro ? starfieldIntro : true}
           />
         </group>
-        <group visible={!wordSelected}>
+        <a.group visible={!wordSelected} position-y={tiltState.posY}>
           <Lain
             shouldAnimate={lainIntroAnim}
             introFinished={intro ? introFinished : true}
           />
-        </group>
+        </a.group>
         <group
           ref={introWrapperRef}
           position-z={intro ? -10 : 0}

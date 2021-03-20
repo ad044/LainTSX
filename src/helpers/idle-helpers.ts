@@ -1,6 +1,6 @@
 import site_a from "../resources/site_a.json";
 import site_b from "../resources/site_b.json";
-import { useStore } from "../store";
+import { isPolytanFullyUnlocked, useStore } from "../store";
 import { SiteData } from "../types/types";
 
 export const getRandomIdleMedia = () => {
@@ -78,7 +78,7 @@ export const getRandomIdleMedia = () => {
       nodeName: nodeName,
     };
   } else {
-    if (site === "b" && Math.random() < 0.3) {
+    if (site === "b" && isPolytanFullyUnlocked() && Math.random() < 0.3) {
       const polytanMedia = ["PO1.STR[0]", "PO2.STR[0]"];
       return {
         type: "video",

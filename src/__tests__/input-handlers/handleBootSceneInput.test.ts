@@ -36,7 +36,10 @@ it("Checks whether or not the boot scene input handler reacts appropriately for 
   }
   {
     // change letter in authorize user scene
-    const spy = jest.spyOn(eventTemplates, "updateAuthorizeUserLetterIdx");
+    const spy = jest.spyOn(
+      eventTemplates,
+      "updateAuthorizeUserLetterMatrixIndices"
+    );
     const testContext = {
       ...getBootSceneContext(),
       subscene: "authorize_user" as BootSubscene,
@@ -65,7 +68,7 @@ it("Checks whether or not the boot scene input handler reacts appropriately for 
       playerName: "チ",
     };
 
-    handleBootSceneInput(testContext, "X");
+    handleBootSceneInput(testContext, "CROSS");
 
     expect(spy).toHaveBeenCalled();
   }
@@ -77,7 +80,7 @@ it("Checks whether or not the boot scene input handler reacts appropriately for 
       playerName: "",
     };
 
-    expect(handleBootSceneInput(testContext, "X")).toEqual(
+    expect(handleBootSceneInput(testContext, "CROSS")).toEqual(
       exitUserAuthorization
     );
   }

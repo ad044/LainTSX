@@ -43,6 +43,11 @@ const Site = (props: SiteProps) => {
     config: { duration: 1200 },
   }));
 
+  const [tiltState, setTiltState] = useSpring(() => ({
+    tilt: 0,
+    config: { duration: 200 },
+  }));
+
   useEffect(
     () =>
       useStore.subscribe(setRotY, (state) => ({
@@ -69,6 +74,12 @@ const Site = (props: SiteProps) => {
     [setPos]
   );
 
+  useEffect(() =>
+    useStore.subscribe(setTiltState, (state) => ({
+      tilt: state.cameraTiltValue,
+    }))
+  );
+
   const activeSite = useStore((state) => state.activeSite);
   const gameProgress = useStore((state) => state.gameProgress);
 
@@ -80,13 +91,15 @@ const Site = (props: SiteProps) => {
 
   return (
     <Suspense fallback={props.introFinished ? <Loading /> : null}>
-      <a.group rotation-x={rotXState.x}>
-        <a.group rotation-y={rotYState.y} position-y={posState.y}>
-          <ActiveLevelNodes visibleNodes={visibleNodes} />
-          <InactiveLevelNodes visibleNodes={visibleNodes} />
-          <Rings activateAllRings={props.introFinished} />
+      <a.group rotation-x={tiltState.tilt}>
+        <a.group rotation-x={rotXState.x}>
+          <a.group rotation-y={rotYState.y} position-y={posState.y}>
+            <ActiveLevelNodes visibleNodes={visibleNodes} />
+            <InactiveLevelNodes visibleNodes={visibleNodes} />
+            <Rings activateAllRings={props.introFinished} />
+          </a.group>
+          <NodeAnimations />
         </a.group>
-        <NodeAnimations />
       </a.group>
     </Suspense>
   );

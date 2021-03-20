@@ -100,8 +100,24 @@ const Notes = () => {
                     <td>✖</td>
                   </tr>
                   <tr>
+                    <td>s</td>
+                    <td>◼</td>
+                  </tr>
+                  <tr>
                     <td>d</td>
                     <td>▲</td>
+                  </tr>
+                  <tr>
+                    <td>r</td>
+                    <td>R1</td>
+                  </tr>
+                  <tr>
+                    <td>t</td>
+                    <td>R2</td>
+                  </tr>
+                  <tr>
+                    <td>w</td>
+                    <td>L1</td>
                   </tr>
                   <tr>
                     <td>e</td>
@@ -110,6 +126,10 @@ const Notes = () => {
                   <tr>
                     <td>v</td>
                     <td>START</td>
+                  </tr>
+                  <tr>
+                    <td>c</td>
+                    <td>SELECT</td>
                   </tr>
                   <tr>
                     <td>k</td>

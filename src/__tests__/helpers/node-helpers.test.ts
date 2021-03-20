@@ -6,7 +6,7 @@ it("Finds the node by it's id", () => {
   expect(getNodeById("0422", "a").node_name).toEqual("Tda028");
   expect(getNodeById("0000", "a").node_name).toEqual("Env001");
   expect(getNodeById("0616", "a").node_name).toEqual("Cou015");
-  expect(getNodeById("0100", "b").node_name).toEqual("Sskn04#");
+  expect(getNodeById("0100", "b").node_name).toEqual("SSkn04#");
   expect(getNodeById("0101", "b").node_name).toEqual("Dc1025");
 });
 

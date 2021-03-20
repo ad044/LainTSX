@@ -39,6 +39,7 @@ export const siteMoveHorizontal = (calculatedState: {
       mutation: {
         lainMoveState: calculatedState.lainMoveAnimation,
         siteRot: calculatedState.siteRot,
+        cameraTiltValue: 0,
         inputCooldown: 5500,
       },
     },
@@ -62,6 +63,7 @@ export const siteMoveVertical = (calculatedState: {
     {
       mutation: {
         lainMoveState: calculatedState.lainMoveAnimation,
+        cameraTiltValue: 0,
         activeLevel: calculatedState.activeLevel,
         inputCooldown: 5500,
       },
@@ -95,6 +97,7 @@ export const throwNode = (calculatedState: { currentScene: GameScene }) => ({
     { mutation: { lainMoveState: "throw_node", inputCooldown: -1 } },
     {
       mutation: {
+        cameraTiltValue: 0,
         currentScene: calculatedState.currentScene,
         intro: false,
         lainMoveState: "standing",
@@ -116,6 +119,7 @@ export const ripNode = (calculatedState: { currentScene: GameScene }) => ({
     {
       mutation: {
         currentScene: calculatedState.currentScene,
+        cameraTiltValue: 0,
         intro: false,
         lainMoveState: "standing",
       },
@@ -136,6 +140,7 @@ export const explodeNode = {
       mutation: {
         lainMoveState: "touch_node_and_get_scared",
         inputCooldown: 3800,
+        cameraTiltValue: 0,
       },
     },
     {
@@ -153,7 +158,13 @@ export const explodeNode = {
 
 export const knockNode = {
   state: [
-    { mutation: { lainMoveState: "knock", inputCooldown: 3500 } },
+    {
+      mutation: {
+        lainMoveState: "knock",
+        cameraTiltValue: 0,
+        inputCooldown: 3500,
+      },
+    },
     {
       mutation: { lainMoveState: "standing" },
       delay: 3500,
@@ -165,7 +176,13 @@ export const knockNode = {
 
 export const knockNodeAndFall = {
   state: [
-    { mutation: { lainMoveState: "knock_and_fall", inputCooldown: 6000 } },
+    {
+      mutation: {
+        lainMoveState: "knock_and_fall",
+        cameraTiltValue: 0,
+        inputCooldown: 6000,
+      },
+    },
     { mutation: { lainMoveState: "standing" }, delay: 6000 },
   ],
   effects: [nodeKnockAndFallAnimation],
@@ -184,6 +201,7 @@ export const enterLevelSelection = (calculatedState: {
     {
       mutation: {
         selectedLevel: calculatedState.selectedLevel,
+        cameraTiltValue: 0,
         mainSubscene: "level_selection",
         inputCooldown: 1500,
       },
@@ -243,6 +261,7 @@ export const pauseGame = (calculatedState: { siteRot: number[] }) => ({
     {
       mutation: {
         lainMoveState: "rip_middle_ring",
+        cameraTiltValue: 0,
         mainSubscene: "pause",
         inputCooldown: -1,
       },
@@ -792,6 +811,33 @@ export const setProtocolLines = (calculatedState: {
       mutation: {
         protocolLinesToggled: calculatedState.protocolLinesToggled,
         inputCooldown: 0,
+      },
+    },
+  ],
+});
+
+export const setCameraTilt = (calculatedState: {
+  cameraTiltValue: number;
+}) => ({
+  state: [
+    {
+      mutation: {
+        cameraTiltValue: calculatedState.cameraTiltValue,
+        inputCooldown: 100,
+      },
+    },
+  ],
+});
+
+export const resetCameraTilt = (calculatedState: {
+  lastCameraTiltValue: number;
+}) => ({
+  state: [
+    {
+      mutation: {
+        cameraTiltValue: 0,
+        lastCameraTiltValue: calculatedState.lastCameraTiltValue,
+        inputCooldown: 100,
       },
     },
   ],

@@ -1,4 +1,4 @@
-import React, { createRef, memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { useFrame, useLoader } from "react-three-fiber";
 import * as THREE from "three";
 import bigHud from "../../static/sprites/main/big_hud.png";

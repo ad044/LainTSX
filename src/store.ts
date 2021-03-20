@@ -52,6 +52,9 @@ type State = {
   lainMoveState: string;
   canLainMove: boolean;
 
+  lastCameraTiltValue: number;
+  cameraTiltValue: number;
+
   activeSite: ActiveSite;
   siteRot: number[];
   oldSiteRot: number[];
@@ -144,6 +147,10 @@ export const useStore = create(
 
       // extra node data display
       protocolLinesToggled: false,
+
+      // camera tilt
+      lastCameraTiltValue: -0.08,
+      cameraTiltValue: 0,
 
       // site
       activeSite: "a",
@@ -368,6 +375,8 @@ export const getMainSceneContext = (): MainSceneContext => {
     wordNotFound: state.wordNotFound,
     canLainMove: state.canLainMove,
     protocolLinesToggled: state.protocolLinesToggled,
+    cameraTiltValue: state.cameraTiltValue,
+    lastCameraTiltValue: state.lastCameraTiltValue,
   };
 };
 
@@ -454,15 +463,10 @@ export const createAudioAnalyser = () => {
 };
 
 export const isPolytanFullyUnlocked = () => {
-  return (
-    useStore.getState().polytanUnlockedParts ===
-    {
-      body: true,
-      head: true,
-      leftArm: true,
-      rightArm: true,
-      leftLeg: true,
-      rightLeg: true,
-    }
-  );
+  const polytanProgress = useStore.getState().polytanUnlockedParts;
+
+  for (const key in polytanProgress)
+    if (!polytanProgress[key as keyof typeof polytanProgress]) return false;
+
+  return true;
 };

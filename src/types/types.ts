@@ -115,6 +115,8 @@ export interface MainSceneContext extends PromptContext {
   siteSaveState: SiteSaveState;
   canLainMove: boolean;
   protocolLinesToggled: boolean;
+  cameraTiltValue: number;
+  lastCameraTiltValue: number;
 }
 
 export type SsknSceneContext = {

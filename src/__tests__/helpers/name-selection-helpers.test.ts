@@ -1,4 +1,4 @@
-import handleNameSelection from "../../helpers/name-selection-helpers";
+import { handleNameSelection } from "../../helpers/name-selection-helpers";
 
 it("Handles the logic for japanese characters", () => {
   // cant be first character check
