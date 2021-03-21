@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, memo } from "react";
 import {
   getBootSceneContext,
   getEndSceneContext,
@@ -15,29 +15,11 @@ import handleBootSceneInput from "../core/input-handlers/handleBootSceneInput";
 import handleEndSceneInput from "../core/input-handlers/handleEndSceneInput";
 import handleEvent from "../core/handleEvent";
 import { GameEvent } from "../types/types";
-import { MouseEvent, useLoader } from "react-three-fiber";
-import circleButton from "../static/sprites/controller/circle.png";
-import triangleButton from "../static/sprites/controller/triangle.png";
-import crossButton from "../static/sprites/controller/cross.png";
-import startButton from "../static/sprites/controller/start.png";
-import l2Button from "../static/sprites/controller/l2.png";
-import * as THREE from "three";
-import { useGesture } from "react-use-gesture";
 import IdleManager from "./IdleManager";
 
-type InputHandlerProps = {
-  isMobile: boolean;
-};
-
-const InputHandler = (props: InputHandlerProps) => {
+const InputHandler = memo(() => {
   const scene = useStore((state) => state.currentScene);
   const inputCooldown = useStore((state) => state.inputCooldown);
-
-  const circleButtonTex = useLoader(THREE.TextureLoader, circleButton);
-  const crossButtonTex = useLoader(THREE.TextureLoader, crossButton);
-  const triangleButtonTex = useLoader(THREE.TextureLoader, triangleButton);
-  const startButtonTex = useLoader(THREE.TextureLoader, startButton);
-  const l2ButtonTex = useLoader(THREE.TextureLoader, l2Button);
 
   const timeSinceLastKeyPress = useRef(-1);
 
@@ -115,21 +97,6 @@ const InputHandler = (props: InputHandlerProps) => {
     [inputCooldown, scene]
   );
 
-  const bind = useGesture(
-    {
-      onDragEnd: ({ axis, direction: xy }) => {
-        if (axis === "x") {
-          if (xy[0] > 0) handleKeyPress("RIGHT");
-          else handleKeyPress("LEFT");
-        } else {
-          if (xy[1] > 0) handleKeyPress("DOWN");
-          else handleKeyPress("UP");
-        }
-      },
-    },
-    { drag: { delay: true } }
-  );
-
   const firedRef = useRef(false);
 
   const handleKeyBoardEvent = useCallback(
@@ -140,13 +107,6 @@ const InputHandler = (props: InputHandlerProps) => {
 
         if (key) handleKeyPress(key);
       }
-    },
-    [handleKeyPress]
-  );
-
-  const handleVirtualButtonPress = useCallback(
-    (event: MouseEvent) => {
-      handleKeyPress(event.object.name);
     },
     [handleKeyPress]
   );
@@ -167,96 +127,11 @@ const InputHandler = (props: InputHandlerProps) => {
   }, [handleKeyBoardEvent]);
 
   return (
-    <>
-      {props.isMobile && (
-        <>
-          <sprite scale={[10, 10, 0]} renderOrder={99999} {...bind()}>
-            <spriteMaterial attach="material" opacity={0} depthTest={false} />
-          </sprite>
-
-          <sprite
-            scale={[1.5, 1.5, 0]}
-            position={[-4, 3, 0]}
-            renderOrder={99999}
-            onClick={handleVirtualButtonPress}
-            name={"L2"}
-          >
-            <spriteMaterial
-              attach="material"
-              map={l2ButtonTex}
-              depthTest={false}
-              opacity={0.8}
-            />
-          </sprite>
-
-          <sprite
-            scale={[1.5, 1.5, 0]}
-            position={[4, 3, 0]}
-            renderOrder={99999}
-            onClick={handleVirtualButtonPress}
-            name={"START"}
-          >
-            <spriteMaterial
-              attach="material"
-              map={startButtonTex}
-              depthTest={false}
-              opacity={0.8}
-            />
-          </sprite>
-
-          <group
-            scale={[0.8, 0.8, 0]}
-            position={[3.5, -2.3, 0]}
-            renderOrder={9999}
-          >
-            <sprite
-              scale={[1.5, 1.5, 0]}
-              position={[1, 0, 0]}
-              onClick={handleVirtualButtonPress}
-              name={"CIRCLE"}
-            >
-              <spriteMaterial
-                attach="material"
-                map={circleButtonTex}
-                depthTest={false}
-                opacity={0.8}
-              />
-            </sprite>
-            <sprite
-              scale={[1.5, 1.5, 0]}
-              position={[0, -1, 0]}
-              onClick={handleVirtualButtonPress}
-              name={"CROSS"}
-            >
-              <spriteMaterial
-                attach="material"
-                map={crossButtonTex}
-                depthTest={false}
-                opacity={0.8}
-              />
-            </sprite>
-            <sprite
-              scale={[1.5, 1.5, 0]}
-              position={[0, 1, 0]}
-              onClick={handleVirtualButtonPress}
-              name={"TRIANGLE"}
-            >
-              <spriteMaterial
-                attach="material"
-                map={triangleButtonTex}
-                depthTest={false}
-                opacity={0.8}
-              />
-            </sprite>
-          </group>
-        </>
-      )}
-      <IdleManager
-        lainIdleTimerRef={lainIdleTimerRef}
-        idleSceneTimerRef={idleSceneTimerRef}
-      />
-    </>
+    <IdleManager
+      lainIdleTimerRef={lainIdleTimerRef}
+      idleSceneTimerRef={idleSceneTimerRef}
+    />
   );
-};
+});
 
 export default InputHandler;

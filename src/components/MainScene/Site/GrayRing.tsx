@@ -78,7 +78,7 @@ const GrayRing = memo((props: GrayRingProps) => {
     vec4 color(vec2 vUv, int quadnum, bool textureexists, int thinperiod, int quadlen, float step) {
       if (!textureexists) {
         return vec4(0.259,0.259,0.322, 1);
-      } else if (uint(quadnum) % uint(2) == uint(1)) {
+      } else if (mod(float(quadnum), 2.0) == 1.0) {
         return texture2D(hole, vec2(tolocal(vUv.x, quadlen-thinperiod, step), vUv.y));
           // return vec4(tolocal(vUv.x, quadlen-thinperiod, step), 0, 0, 1);
       } else if (quadnum == 0) {
@@ -118,18 +118,18 @@ const GrayRing = memo((props: GrayRingProps) => {
       int quadlen = int(step)/4;
       
       // segment within circle's quad
-      uint quadel = uint(segment) % uint(quadlen);
+      int quadel = int(mod(float(segment), float(quadlen)));
       
       // which quad
-      int quadnum = int(uint(segment) / uint(quadlen));
+      int quadnum = int(int(segment) / int(quadlen));
      
      // how big thin part is
      int thinperiod = 8;
      
-      if (quadel < uint(thinperiod) && isheight(vUv.y, thin)) {
+      if (quadel < thinperiod && isheight(vUv.y, thin)) {
           // thin line
           gl_FragColor = color(vUv, quadnum, false, thinperiod, quadlen, step) * addedLights;
-      } else if (quadel == uint(thinperiod)) {
+      } else if (quadel == thinperiod) {
           // slope up
           float dist = tolocal(vUv.x, 1, step);
           if (vUv.y > slope(1.0-dist, thin) && vUv.y < 1.0-slope(1.0-dist, thin)) {
@@ -137,7 +137,7 @@ const GrayRing = memo((props: GrayRingProps) => {
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (quadel == uint(quadlen-1)) {
+      } else if (quadel == quadlen-1) {
           // slope down
           float dist = tolocal(vUv.x, 1, step);
           if (vUv.y > slope(dist, thin) && vUv.y < 1.0-slope(dist, thin)) {
@@ -145,7 +145,7 @@ const GrayRing = memo((props: GrayRingProps) => {
           } else {
               gl_FragColor = vec4(0, 0, 0, 0);
           }
-      } else if (quadel > uint(thinperiod)) {
+      } else if (quadel > thinperiod) {
             gl_FragColor = color(vUv, quadnum, true, thinperiod, quadlen, step) * addedLights;
       } else {
           // transparent

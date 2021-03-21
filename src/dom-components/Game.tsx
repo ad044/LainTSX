@@ -16,7 +16,6 @@ import PolytanScene from "../scenes/PolytanScene";
 import TaKScene from "../scenes/TaKScene";
 import ChangeDiscScene from "../scenes/ChangeDiscScene";
 import EndScene from "../scenes/EndScene";
-import mobileAndTabletCheck from "../utils/mobileAndTabletCheck";
 import { Canvas } from "react-three-fiber";
 import Preloader from "../components/Preloader";
 import InputHandler from "../components/InputHandler";
@@ -49,8 +48,6 @@ const Game = () => {
   const [width, setWidth] = useState((window.screen.height / 1.8) * 1.3);
   const [height, setHeight] = useState(window.screen.height / 1.8);
 
-  const [isMobile, setIsMobile] = useState(false);
-
   const handleGameResize = useCallback((event) => {
     switch (event.key) {
       case "k":
@@ -63,26 +60,13 @@ const Game = () => {
     }
   }, []);
 
-  const handleScreenResize = useCallback(() => {
-    const isMobile = mobileAndTabletCheck();
-    if (isMobile) {
-      const h = window.screen.height / 1.05;
-      setHeight(h);
-      setWidth(h * 1.3);
-      setIsMobile(true);
-    }
-  }, []);
-
   useEffect(() => {
-    if (!isMobile) window.addEventListener("keydown", handleGameResize);
-
-    window.addEventListener("resize", handleScreenResize);
+    window.addEventListener("keydown", handleGameResize);
 
     return () => {
       window.removeEventListener("keydown", handleGameResize);
-      window.removeEventListener("resize", handleScreenResize);
     };
-  }, [handleGameResize, handleScreenResize, isMobile]);
+  }, [handleGameResize]);
 
   return (
     <div
@@ -98,7 +82,7 @@ const Game = () => {
         <Suspense fallback={null}>
           <Preloader />
           {dispatchScene[currentScene as keyof typeof dispatchScene]}
-          <InputHandler isMobile={isMobile} />
+          <InputHandler />
         </Suspense>
       </Canvas>
       {["media", "idle_media", "tak", "end"].includes(currentScene) && (

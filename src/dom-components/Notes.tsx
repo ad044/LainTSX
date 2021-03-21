@@ -43,7 +43,12 @@ const Notes = () => {
                 . If it's not supported, this is most likely due to your
                 browser. Try another one, preferably chromium/firefox-based,
                 keeping in mind the notes written inside Performance. This could
-                also be caused by your drivers being outdated.
+                also be caused by your drivers being outdated. <br />
+                <br />
+                The game still runs on a setup with WebGL1, but some textures
+                will look extremely low-quality. This is because WebGL1 can't
+                generate mipmaps with non-POT (power of two) textures, so it has
+                to downscale each texture to be POT.
               </p>
             </td>
           </tr>
@@ -144,39 +149,6 @@ const Notes = () => {
             </td>
           </tr>
 
-          <tr>
-            <td>
-              <p>Mobile/Tablet Controls</p>
-            </td>
-            <td>
-              <table className="control-table">
-                <tbody>
-                  <tr>
-                    <td>Swipe Down</td>
-                    <td>↓</td>
-                  </tr>
-                  <tr>
-                    <td>Swipe Left</td>
-                    <td>←</td>
-                  </tr>
-                  <tr>
-                    <td>Swipe Up</td>
-                    <td>↑</td>
-                  </tr>
-                  <tr>
-                    <td>Swipe Right</td>
-                    <td>→</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p>
-                The rest of the buttons are layed out on the game screen itself.
-                <br />
-                Also, please rotate the phone horizontally when playing, I don't
-                want feature creep because of psychopaths.
-              </p>
-            </td>
-          </tr>
           <tr>
             <td>
               <p>Saving Progress</p>

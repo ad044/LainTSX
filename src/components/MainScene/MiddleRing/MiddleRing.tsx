@@ -124,7 +124,7 @@ const MiddleRing = () => {
       vUv = uv;
 
       // offset of the wobble when jumping
-      const float angleOffset = -0.8f;
+      const float angleOffset = -0.8;
       
       // compute world position of the vertex
       // (ie, position after model rotation and translation)
