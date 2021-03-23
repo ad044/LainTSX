@@ -284,6 +284,10 @@ export const useStore = create(
           activeMediaComponent: "play",
           currentMediaSide: "left",
           mediaWordPosStateIdx: 1,
+          lastActiveMediaComponents: {
+            left: "play",
+            right: "fstWord",
+          },
         })),
 
       incrementFinalVideoViewCount: () =>

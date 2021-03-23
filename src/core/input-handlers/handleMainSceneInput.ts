@@ -255,9 +255,12 @@ const handleMainSceneInput = (
               activeNode: newNode,
             });
           case "SQUARE":
-            return setProtocolLines({
-              protocolLinesToggled: !protocolLinesToggled,
-            });
+            if (activeNode.node_name !== "Unknown") {
+              return setProtocolLines({
+                protocolLinesToggled: !protocolLinesToggled,
+              });
+            }
+            break;
           case "R2":
             if (cameraTiltValue === 0) {
               return setCameraTilt({

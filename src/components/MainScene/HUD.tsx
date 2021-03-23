@@ -18,9 +18,6 @@ const HUD = memo(() => {
   const currentHudRef = useRef(
     getNodeHud(useStore.getState().activeNode.matrixIndices!)
   );
-  const activeNodeMatrixIndices = useStore(
-    (state) => state.activeNode.matrixIndices
-  );
   const activeNode = useStore((state) => state.activeNode);
   const siteRotY = useStore((state) => state.siteRot[1]);
   const activeLevel = useStore((state) => state.activeLevel);
@@ -136,7 +133,7 @@ const HUD = memo(() => {
     };
 
     if (activeRef.current !== undefined) {
-      const hud = getNodeHud(activeNodeMatrixIndices!);
+      const hud = getNodeHud(activeNode.matrixIndices!);
       if (
         !(scene === "main" && prevData?.scene === "main") ||
         (subscene === "site" && prevData?.subscene === "pause") ||
@@ -175,7 +172,6 @@ const HUD = memo(() => {
     }
   }, [
     activeLevel,
-    activeNodeMatrixIndices,
     prevData?.activeLevel,
     prevData?.scene,
     prevData?.siteRotY,
@@ -185,6 +181,8 @@ const HUD = memo(() => {
     siteRotY,
     subscene,
     protocolLinesToggled,
+    activeNode.matrixIndices,
+    activeNode.node_name,
   ]);
   const longHudTex = useLoader(THREE.TextureLoader, longHud);
   const boringHudTex = useLoader(THREE.TextureLoader, boringHud);

@@ -39,13 +39,16 @@ Once you've saved the game manually (going into pause => selecting Save), look i
 
 ## Screenshots
 
-<img src="markdown/img/1.png" width="50%"></img>
-<img src="markdown/img/2.jpg" width="50%"></img>
-<img src="markdown/img/3.png" width="50%"></img>
-<img src="markdown/img/4.png" width="50%"></img>
-<img src="markdown/img/5.png" width="50%"></img>
-<img src="markdown/img/6.png" width="50%"></img>
-<img src="markdown/img/7.png" width="50%"></img>
+<p align="center">
+  <img src="markdown/1.png" width="49%">
+  <img src="markdown/2.jpg" width="49%">
+  <img src="markdown/3.png" width="49%">
+  <img src="markdown/4.png" width="49%">
+  <img src="markdown/5.png" width="49%">
+  <img src="markdown/6.png" width="49%">
+  <img src="markdown/7.png" width="49%">
+  <img src="markdown/8.png" width="49%">
+</p>
 
 ## TODO
 

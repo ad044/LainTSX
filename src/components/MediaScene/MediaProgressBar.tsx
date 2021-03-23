@@ -151,7 +151,7 @@ const MediaProgressBar = () => {
 
   return (
     <>
-      <sprite scale={[5.2, 0.5, 1]} position={[2.15, 3.005, 0]}>
+      <sprite scale={[5.2, 0.5, 1]} position={[2.15, 3.005, 0]} renderOrder={3}>
         <spriteMaterial attach="material" map={progressBarContainerTex} />
       </sprite>
       <mesh
@@ -161,6 +161,7 @@ const MediaProgressBar = () => {
           2.945,
           0,
         ]}
+        renderOrder={3}
       >
         <planeBufferGeometry attach="geometry" />
         <meshBasicMaterial

@@ -10,8 +10,13 @@ const NodeNameContainer = () => {
   );
 
   return (
-    <sprite scale={[2.6, 0.5, 1]} position={[3.425, 2.5, 0]}>
-      <spriteMaterial attach="material" map={mediaNodeNameContainerTex} />
+    <sprite scale={[2.6, 0.5, 1]} position={[3.425, 2.5, 0]} renderOrder={3}>
+      <spriteMaterial
+        attach="material"
+        map={mediaNodeNameContainerTex}
+        transparent={true}
+        depthTest={false}
+      />
     </sprite>
   );
 };
