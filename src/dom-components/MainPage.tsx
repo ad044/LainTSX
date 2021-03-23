@@ -33,7 +33,7 @@ const MainPage = () => {
         />
         <QA
           question={"Source code?"}
-          answer={`<a href="https://github.com/ad044/lain-psx-ts">On my github.</a>`}
+          answer={`<a href="https://github.com/ad044/lainTSX">On my github.</a>`}
         />
         <QA
           question={"I found an issue/have a suggestion/etc."}
