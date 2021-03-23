@@ -130,14 +130,6 @@ const handleMainSceneInput = (
 
             if (!nodeData) return resetInputCooldown;
 
-            const lainMoveAnimation = `move_${direction}`;
-            const newSiteRot = [
-              0,
-              direction === "left"
-                ? siteRotY + Math.PI / 4
-                : siteRotY - Math.PI / 4,
-              0,
-            ];
             const newNode = {
               ...(nodeData.node !== "unknown"
                 ? getNodeById(nodeData.node, activeSite)
@@ -147,6 +139,16 @@ const handleMainSceneInput = (
 
             if (nodeData.didMove) {
               if (!canLainMove) return resetInputCooldown;
+
+              const lainMoveAnimation = `move_${direction}`;
+              const newSiteRot = [
+                0,
+                direction === "left"
+                  ? siteRotY + Math.PI / 4
+                  : siteRotY - Math.PI / 4,
+                0,
+              ];
+
               return siteMoveHorizontal({
                 lainMoveAnimation: lainMoveAnimation,
                 siteRot: newSiteRot,
@@ -169,11 +171,6 @@ const handleMainSceneInput = (
 
             if (!nodeData) return resetInputCooldown;
 
-            const lainMoveAnimation = `jump_${direction}`;
-            const newLevel = (direction === "up" ? level + 1 : level - 1)
-              .toString()
-              .padStart(2, "0");
-
             const newNode = {
               ...(nodeData.node !== "unknown"
                 ? getNodeById(nodeData.node, activeSite)
@@ -183,6 +180,12 @@ const handleMainSceneInput = (
 
             if (nodeData.didMove) {
               if (!canLainMove) return resetInputCooldown;
+
+              const lainMoveAnimation = `jump_${direction}`;
+              const newLevel = (direction === "up" ? level + 1 : level - 1)
+                .toString()
+                .padStart(2, "0");
+
               return siteMoveVertical({
                 lainMoveAnimation: lainMoveAnimation,
                 activeLevel: newLevel,

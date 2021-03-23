@@ -1,4 +1,5 @@
-import { playAudio, useStore } from "../store";
+import { useStore } from "../store";
+import playAudio from "../utils/playAudio";
 import sleep from "../utils/sleep";
 import { GameEvent } from "../types/types";
 

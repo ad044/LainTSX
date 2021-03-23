@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "../static/css/notes.css";
 import { Link } from "react-router-dom";
+import Header from "./Header";
 
 const Notes = () => {
   useEffect(() => {
@@ -9,6 +10,7 @@ const Notes = () => {
 
   return (
     <>
+      <Header />
       <table className="main-table">
         <tbody>
           <tr>
@@ -23,6 +25,25 @@ const Notes = () => {
                 This is especially true if you're using a bad setup, and even
                 more true if you're using Linux on a bad setup, since Firefox's
                 WebGL implementation on it has had issues for a while now.
+                <br />
+                <br />
+                If it's your first time playing the game, the first time loading
+                it might take a while depending on the factors mentioned above.
+                If you're seeing a black screen for a bit, just wait it out.
+                Subsequent website visits will be much faster once the browser
+                caches all the assets.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Sounds</p>
+            </td>
+            <td>
+              <p>
+                Browsers require user permission to autoplay audio. If you're
+                not hearing any sound effects, just click somewhere around the
+                page.
               </p>
             </td>
           </tr>
@@ -57,19 +78,17 @@ const Notes = () => {
               <p>Browser Settings</p>
             </td>
             <td>
-              <p>
-                <span className="text-center">Firefox</span>
-                <div className="browser-notes">
-                  privacy.resistFingerprinting should be set to false (it should
-                  be by default). Otherwise, it limits the maximum WebGL texture
-                  size to 2048, resulting in poor sprite quality.
-                  <br />
-                  <br />
-                  Picture-In-Picture functionality should not be used (you most
-                  likely have it disabled already). Just having it enabled won't
-                  break anything, but actually using it might lead to some funny
-                  visual bugs with media files.
-                </div>
+              <span className="text-center">Firefox</span>
+              <p className="browser-notes">
+                privacy.resistFingerprinting should be set to false (it should
+                be by default). Otherwise, it limits the maximum WebGL texture
+                size to 2048, resulting in poor sprite quality.
+                <br />
+                <br />
+                Picture-In-Picture functionality should not be used (you most
+                likely have it disabled already). Just having it enabled won't
+                break anything, but actually using it might lead to some funny
+                visual bugs with media files.
               </p>
             </td>
           </tr>

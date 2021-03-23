@@ -20,6 +20,7 @@ import { Canvas } from "react-three-fiber";
 import Preloader from "../components/Preloader";
 import InputHandler from "../components/InputHandler";
 import MediaPlayer from "../components/MediaPlayer";
+import Header from "./Header";
 
 const Game = () => {
   const currentScene = useStore((state) => state.currentScene);
@@ -68,29 +69,40 @@ const Game = () => {
     };
   }, [handleGameResize]);
 
+  useEffect(() => {
+    document.body.style.overflowY = "hidden";
+
+    return () => {
+      document.body.style.overflowY = "visible";
+    };
+  }, []);
+
   return (
-    <div
-      className="game"
-      style={{ width: Math.round(width), height: Math.round(height) }}
-    >
-      <Canvas
-        concurrent
-        gl={{ antialias: false }}
-        pixelRatio={window.devicePixelRatio}
-        className="main-canvas"
+    <>
+      <Header />
+      <div
+        className="game"
+        style={{ width: Math.round(width), height: Math.round(height) }}
       >
-        <Suspense fallback={null}>
-          <Preloader />
-          {dispatchScene[currentScene as keyof typeof dispatchScene]}
-          <InputHandler />
-        </Suspense>
-      </Canvas>
-      {["media", "idle_media", "tak", "end"].includes(currentScene) && (
-        <div style={{ marginTop: -height }}>
-          <MediaPlayer />
-        </div>
-      )}
-    </div>
+        <Canvas
+          concurrent
+          gl={{ antialias: false }}
+          pixelRatio={window.devicePixelRatio}
+          className="main-canvas"
+        >
+          <Suspense fallback={null}>
+            <Preloader />
+            {dispatchScene[currentScene as keyof typeof dispatchScene]}
+            <InputHandler />
+          </Suspense>
+        </Canvas>
+        {["media", "idle_media", "tak", "end"].includes(currentScene) && (
+          <div style={{ marginTop: -height }}>
+            <MediaPlayer />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

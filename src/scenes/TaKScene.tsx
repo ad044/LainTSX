@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LainSpeak from "../components/LainSpeak";
-import { createAudioAnalyser, useStore } from "../store";
+import { useStore } from "../store";
+import createAudioAnalyser from "../utils/createAudioAnalyser";
 
 const TaKScene = () => {
   const setScene = useStore((state) => state.setScene);

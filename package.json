@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.7",
     "@types/three": "^0.126.0",
+    "music-metadata": "^7.8.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",

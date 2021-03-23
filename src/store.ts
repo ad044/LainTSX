@@ -1,6 +1,5 @@
 import create from "zustand";
 import { combine } from "zustand/middleware";
-import * as THREE from "three";
 import { AudioAnalyser } from "three";
 import game_progress from "./resources/initial_progress.json";
 import { getNodeById } from "./helpers/node-helpers";
@@ -444,23 +443,6 @@ export const getCurrentUserState = (): UserSaveState => {
 
 export const saveUserProgress = (state: UserSaveState) =>
   localStorage.setItem("lainSaveState", JSON.stringify(state));
-
-export const playAudio = (audio: HTMLAudioElement) => {
-  audio.currentTime = 0;
-  audio.volume = 0.5;
-  audio.loop = false;
-  audio.play();
-};
-
-export const createAudioAnalyser = () => {
-  const mediaElement = document.getElementById("media") as HTMLMediaElement;
-  const listener = new THREE.AudioListener();
-  const audio = new THREE.Audio(listener);
-
-  audio.setMediaElementSource(mediaElement);
-
-  return new THREE.AudioAnalyser(audio, 2048);
-};
 
 export const isPolytanFullyUnlocked = () => {
   const polytanProgress = useStore.getState().polytanUnlockedParts;

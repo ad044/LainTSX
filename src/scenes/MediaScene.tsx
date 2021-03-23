@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { createAudioAnalyser, useStore } from "../store";
+import { useStore } from "../store";
+import createAudioAnalyser from "../utils/createAudioAnalyser";
 import LeftSide from "../components/MediaScene/Selectables/LeftSide";
 import RightSide from "../components/MediaScene/Selectables/RightSide";
 import AudioVisualizer from "../components/MediaScene/AudioVisualizer/AudioVisualizer";

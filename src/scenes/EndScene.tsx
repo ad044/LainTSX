@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "react-three-fiber";
-import { createAudioAnalyser, useStore } from "../store";
+import { useStore } from "../store";
+import createAudioAnalyser from "../utils/createAudioAnalyser";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
 import introSpeech from "../static/media/audio/LAIN21.XA[31].mp4";
 import outroSpeech from "../static/media/audio/LAIN21.XA[16].mp4";

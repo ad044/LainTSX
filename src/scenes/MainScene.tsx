@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { playAudio, useStore } from "../store";
+import { useStore } from "../store";
+import playAudio from "../utils/playAudio";
 import LevelSelection from "../components/MainScene/LevelSelection";
 import HUD from "../components/MainScene/HUD";
 import MainYellowTextAnimator from "../components/TextRenderer/MainYellowTextAnimator";
