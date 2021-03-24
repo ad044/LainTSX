@@ -23,10 +23,11 @@ yarn-debug.log*
 yarn-error.log*
 
 src/static/sprites/*
-src/static/media_images/*
 src/static/media/*
+!src/static/media/webvtt
 src/static/voice/*
 src/static/sfx/*
+!src/static/sfx/index.ts
 
 scripts/extract/discs
 scripts/extract/*.log

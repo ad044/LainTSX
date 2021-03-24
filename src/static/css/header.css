@@ -1,0 +1,14 @@
+.header {
+  display: block;
+  margin: 0 auto;
+  margin-top: 2em;
+  text-align: center;
+}
+
+.header a {
+  display: inline-block;
+}
+
+.header a:not(:first-child) {
+  margin-left: 1em;
+}

@@ -14,7 +14,7 @@ Building locally is currently not possible. This is because the repository lacks
 
 ## Code strutcure
 
-- **/src/**
+- **src/**
 
   - **/\_\_tests\_\_/** - Jest tests.
   - **/components/** - TSX components used in the actual 3D environment (sprites, meshes, etc.).
@@ -29,13 +29,21 @@ Building locally is currently not possible. This is because the repository lacks
   - **/utils/** - Utility functions.
   - **store.ts** - Zustand store used for managing global state.
 
-- **/scripts/**
+- **scripts/**
 
   - **/extract/** - WIP extraction script to automate the local building process of the game.
 
 ## Importing/exporting game progress from within the browser
 
 Once you've saved the game manually (going into pause => selecting Save), look inside the `localStorage` of your browser and copy the value of the key `lainSaveState`. Changing that value and calling Load Game from the main menu will load that save state. Keep in mind manually modifying the JSON and loading it might lead to some funny bugs since the dependency graph of the game progress is not linear.
+
+## TODO
+
+- **Finish writing the extraction script**
+- **Improve/complete the translation**
+- **Implement an interface for changing languages**
+- **Allow the player to modify the keybindings**
+- **Implement a better way of exporting/importing save files**
 
 ## Screenshots
 
@@ -49,14 +57,6 @@ Once you've saved the game manually (going into pause => selecting Save), look i
   <img src="markdown/7.png" width="49%">
   <img src="markdown/8.png" width="49%">
 </p>
-
-## TODO
-
-- **Finish writing the extraction script**
-- **Improve/complete the translation**
-- **Implement an interface for changing languages**
-- **Allow the player to modify the keybindings**
-- **Implement a better way of exporting/importing save files**
 
 ## Reporting bugs/Contributing
 
