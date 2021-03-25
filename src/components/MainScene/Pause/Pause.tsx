@@ -1,9 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import * as THREE from "three";
 import PauseSquare from "./PauseSquare";
 import PauseBigLetter from "../../TextRenderer/PauseBigLetter";
 import { useStore } from "../../../store";
-import usePrevious from "../../../hooks/usePrevious";
 
 const Pause = () => {
   const generateSqaureGeom = useCallback((row: number, square: number) => {
@@ -41,7 +46,7 @@ const Pause = () => {
   );
 
   const subscene = useStore((state) => state.mainSubscene);
-  const prevData = usePrevious({ subscene });
+  const scene = useStore((state) => state.currentScene);
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
   const [visible, setVisible] = useState(false);
@@ -54,22 +59,43 @@ const Pause = () => {
     ])
   );
 
+  const isMountedRef = useRef<boolean>();
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, [scene]);
+
   useEffect(() => {
     if (subscene === "pause") {
-      setTimeout(() => setVisible(true), 4400);
-      setTimeout(() => setFinished(true), 7300);
-      setTimeout(() => setInputCooldown(1000), 7600);
-    }
+      let timers: ReturnType<typeof setTimeout>[] = [];
+      timers.push(setTimeout(() => setVisible(true), 4400));
+      timers.push(setTimeout(() => setFinished(true), 7300));
+      timers.push(setTimeout(() => setInputCooldown(1000), 7600));
 
-    if (prevData?.subscene === "pause" && subscene === "site") {
-      setExit(true);
-      setTimeout(() => {
-        setVisible(false);
-        setFinished(false);
-        setExit(false);
-      }, 1200);
+      return () => {
+        setExit(true);
+
+        if (isMountedRef.current) {
+          setTimeout(() => {
+            setVisible(false);
+            setFinished(false);
+            setExit(false);
+          }, 1200);
+        } else {
+          setVisible(false);
+          setFinished(false);
+          setExit(false);
+        }
+
+        for (const timer of timers) {
+          clearTimeout(timer);
+        }
+      };
     }
-  }, [prevData?.subscene, setInputCooldown, subscene]);
+  }, [setInputCooldown, subscene]);
 
   const whenActive = useCallback((rowIdx: number, colIdx: number) => {
     switch (rowIdx) {

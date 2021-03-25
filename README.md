@@ -58,11 +58,11 @@ Once you've saved the game manually (going into pause => selecting Save), look i
   <img src="markdown/8.png" width="49%">
 </p>
 
-## Reporting bugs/Contributing
+## Reporting bugs and contributing
 
 If you have any ideas/suggestions/found an issue or want to help us with the translation or anything else, please submit an issue or join our [Discord server](https://discord.com/invite/W22Ga2R).
 
-## Tools used while developing
+## Tools used during development
 
 - [`jPSXdec`](https://github.com/m35/jpsxdec) - PlayStation 1 audio/video converter.
 - [`three.js`](https://github.com/mrdoob/three.js/) - JavaScript 3D renderer.

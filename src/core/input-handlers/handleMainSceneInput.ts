@@ -255,12 +255,14 @@ const handleMainSceneInput = (
               activeNode: newNode,
             });
           case "SQUARE":
-            if (activeNode.node_name !== "Unknown") {
+            if (
+              activeNode.node_name !== "Unknown" &&
+              isNodeVisible(activeNode, gameProgress)
+            ) {
               return setProtocolLines({
                 protocolLinesToggled: !protocolLinesToggled,
               });
-            }
-            break;
+            } else return resetInputCooldown;
           case "R2":
             if (cameraTiltValue === 0) {
               return setCameraTilt({
@@ -358,11 +360,7 @@ const handleMainSceneInput = (
               case "load":
                 return displayPrompt;
               case "change":
-                if (
-                  activePauseComponent === "change" &&
-                  gameProgress.gate_level < 4
-                )
-                  return showPermissionDenied;
+                if (gameProgress.gate_level > 4) return showPermissionDenied;
                 else return displayPrompt;
             }
         }

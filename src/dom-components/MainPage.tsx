@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../static/css/mainpage.css";
 import Credit from "./Credit";
@@ -6,6 +6,10 @@ import Header from "./Header";
 import QA from "./QA";
 
 const MainPage = () => {
+  useEffect(() => {
+    document.title = "< index >";
+  }, []);
+
   return (
     <>
       <Header />

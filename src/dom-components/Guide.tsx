@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import "../static/css/guide.css";
 
 const Guide = () => {
+  useEffect(() => {
+    document.title = "< guide >";
+  }, []);
+
   return (
     <>
       <Header />
@@ -82,15 +86,15 @@ const Guide = () => {
         <br /> <br />
         Category C - Upgrades:
         <br />
-        SSkn - Not sure what SSkn stands for - The main upgrade inside the game.
-        Some nodes have an "upgrade requirement" that you need to meet to be
-        able to view them, the way you do that is by collecting these. So, the
-        next time you see Lain try to knock on a node and fall over, know that
-        you need to collect more SSkn nodes.
+        SSkn - Saisei-kun (roughly translates to Mr. Recovery) - The main
+        upgrade inside the game. Some nodes have an "upgrade requirement" that
+        you need to meet to be able to view them, the way you do that is by
+        collecting these. So, the next time you see Lain try to knock on a node
+        and fall over, know that you need to collect more SSkn nodes.
         <br />
         GaTE - Gate (I guess) - A "gate pass" as the game calls it - after
-        collecting all of them, you unlock Site B, which contains
-        more nodes and is the place where you continue the story.
+        collecting all of them, you unlock Site B, which contains more nodes and
+        is the place where you continue the story.
         <br /> <br />
       </p>
     </>
