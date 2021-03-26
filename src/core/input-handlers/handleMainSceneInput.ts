@@ -60,7 +60,7 @@ const handleMainSceneInput = (
     siteSaveState,
     wordNotFound,
     canLainMove,
-    protocolLinesToggled,
+    protocolLinesEnabled,
     cameraTiltValue,
     lastCameraTiltValue,
   } = mainSceneContext;
@@ -260,7 +260,7 @@ const handleMainSceneInput = (
               isNodeVisible(activeNode, gameProgress)
             ) {
               return setProtocolLines({
-                protocolLinesToggled: !protocolLinesToggled,
+                protocolLinesEnabled: !protocolLinesEnabled,
               });
             } else return resetInputCooldown;
           case "R2":

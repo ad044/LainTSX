@@ -114,7 +114,7 @@ export interface MainSceneContext extends PromptContext {
   wordNotFound: boolean;
   siteSaveState: SiteSaveState;
   canLainMove: boolean;
-  protocolLinesToggled: boolean;
+  protocolLinesEnabled: boolean;
   cameraTiltValue: number;
   lastCameraTiltValue: number;
 }

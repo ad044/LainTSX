@@ -70,10 +70,9 @@ const Pause = () => {
 
   useEffect(() => {
     if (subscene === "pause") {
-      let timers: ReturnType<typeof setTimeout>[] = [];
-      timers.push(setTimeout(() => setVisible(true), 4400));
-      timers.push(setTimeout(() => setFinished(true), 7300));
-      timers.push(setTimeout(() => setInputCooldown(1000), 7600));
+      setTimeout(() => setVisible(true), 4400);
+      setTimeout(() => setFinished(true), 7300);
+      setTimeout(() => setInputCooldown(1000), 7600);
 
       return () => {
         setExit(true);
@@ -88,10 +87,6 @@ const Pause = () => {
           setVisible(false);
           setFinished(false);
           setExit(false);
-        }
-
-        for (const timer of timers) {
-          clearTimeout(timer);
         }
       };
     }

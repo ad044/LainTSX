@@ -409,6 +409,7 @@ export const loadGame = (calculatedState: {
         promptVisible: false,
         activePromptComponent: "no",
         activePauseComponent: "change",
+        protocolLinesEnabled: false,
       },
       delay: 1200,
     },
@@ -440,6 +441,7 @@ export const changeSite = (calculatedState: {
         promptVisible: false,
         activePromptComponent: "no",
         mainSubscene: "site",
+        protocolLinesEnabled: false,
         // load state
         activeSite: calculatedState.newActiveSite,
         activeNode: calculatedState.newActiveNode,
@@ -723,6 +725,7 @@ export const exitUserAuthorization = {
   audio: [{ sfx: [audio.sound29] }],
 };
 
+// todo reset state
 export const startNewGame = {
   state: [
     { mutation: { currentScene: "main", intro: true, inputCooldown: -1 } },
@@ -816,12 +819,12 @@ export const playLainIdleAnim = (calculatedState: {
 });
 
 export const setProtocolLines = (calculatedState: {
-  protocolLinesToggled: boolean;
+  protocolLinesEnabled: boolean;
 }) => ({
   state: [
     {
       mutation: {
-        protocolLinesToggled: calculatedState.protocolLinesToggled,
+        protocolLinesEnabled: calculatedState.protocolLinesEnabled,
         inputCooldown: 0,
       },
     },

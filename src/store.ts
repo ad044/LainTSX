@@ -46,7 +46,7 @@ type State = {
   activeNodeRot: number[];
   activeNodeAttributes: NodeAttributes;
 
-  protocolLinesToggled: boolean;
+  protocolLinesEnabled: boolean;
 
   lainMoveState: string;
   canLainMove: boolean;
@@ -145,7 +145,7 @@ export const useStore = create(
       canLainMove: true,
 
       // extra node data display
-      protocolLinesToggled: false,
+      protocolLinesEnabled: false,
 
       // camera tilt
       lastCameraTiltValue: -0.08,
@@ -377,7 +377,7 @@ export const getMainSceneContext = (): MainSceneContext => {
     siteSaveState: state.siteSaveState,
     wordNotFound: state.wordNotFound,
     canLainMove: state.canLainMove,
-    protocolLinesToggled: state.protocolLinesToggled,
+    protocolLinesEnabled: state.protocolLinesEnabled,
     cameraTiltValue: state.cameraTiltValue,
     lastCameraTiltValue: state.lastCameraTiltValue,
   };

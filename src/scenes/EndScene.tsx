@@ -4,6 +4,7 @@ import { useFrame } from "react-three-fiber";
 import { useStore } from "../store";
 import createAudioAnalyser from "../utils/createAudioAnalyser";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
+import introSpeechVtt from "../static/media/webvtt/Xa0001.vtt";
 import introSpeech from "../static/media/audio/LAIN21.XA[31].mp4";
 import outroSpeech from "../static/media/audio/LAIN21.XA[16].mp4";
 import LainSpeak from "../components/LainSpeak";
@@ -52,6 +53,7 @@ const EndScene = () => {
 
   useEffect(() => {
     const mediaElement = document.getElementById("media") as HTMLMediaElement;
+    const trackElement = document.getElementById("track") as HTMLMediaElement;
 
     if (mediaElement) {
       const playMedia = async (idx: number) => {
@@ -63,6 +65,7 @@ const EndScene = () => {
 
             await sleep(3800);
             mediaElement.src = introSpeech;
+            trackElement.src = introSpeechVtt;
 
             mediaElement.load();
             mediaElement.play();
@@ -100,6 +103,9 @@ const EndScene = () => {
       playMedia(0);
       mediaElement.addEventListener("ended", () => {
         playedMediaCountRef.current++;
+        if (playedMediaCountRef.current === 1) {
+          trackElement.removeAttribute("src");
+        }
         if (playedMediaCountRef.current <= playerNameVoices.length + 1)
           playMedia(playedMediaCountRef.current);
       });

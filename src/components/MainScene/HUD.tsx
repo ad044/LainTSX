@@ -23,13 +23,13 @@ const HUD = memo(() => {
   const activeLevel = useStore((state) => state.activeLevel);
   const subscene = useStore((state) => state.mainSubscene);
   const scene = useStore((state) => state.currentScene);
-  const protocolLinesToggled = useStore((state) => state.protocolLinesToggled);
+  const protocolLinesEnabled = useStore((state) => state.protocolLinesEnabled);
   const prevData = usePrevious({
     siteRotY,
     activeLevel,
     subscene,
     scene,
-    protocolLinesToggled,
+    protocolLinesEnabled,
   });
 
   const longHudRef = useRef<THREE.Object3D>();
@@ -78,7 +78,7 @@ const HUD = memo(() => {
       nodeTitleRef.current!.scale.x = -Math.abs(nodeTitleRef.current!.scale.x);
       nodeTitleRef.current!.position.x = 0.2;
 
-      if (protocolLinesToggled) {
+      if (protocolLinesEnabled) {
         protocolLineTitleRefs.current.forEach((ref) => {
           ref.current!.scale.x = -Math.abs(ref.current!.scale.x);
           ref.current!.position.x = 0.2;
@@ -93,7 +93,7 @@ const HUD = memo(() => {
       nodeTitleRef.current!.scale.x = Math.abs(nodeTitleRef.current!.scale.x);
       nodeTitleRef.current!.position.x = -0.2;
 
-      if (protocolLinesToggled) {
+      if (protocolLinesEnabled) {
         protocolLineTitleRefs.current.forEach((ref) => {
           ref.current!.scale.x = Math.abs(ref.current!.scale.x);
           ref.current!.position.x = -0.2;
@@ -138,7 +138,7 @@ const HUD = memo(() => {
         !(scene === "main" && prevData?.scene === "main") ||
         (subscene === "site" && prevData?.subscene === "pause") ||
         subscene === "pause" ||
-        protocolLinesToggled !== prevData?.protocolLinesToggled
+        protocolLinesEnabled !== prevData?.protocolLinesEnabled
       ) {
         // set to final pos instantly
         setPos(hud, "position");
@@ -176,11 +176,11 @@ const HUD = memo(() => {
     prevData?.scene,
     prevData?.siteRotY,
     prevData?.subscene,
-    prevData?.protocolLinesToggled,
+    prevData?.protocolLinesEnabled,
     scene,
     siteRotY,
     subscene,
-    protocolLinesToggled,
+    protocolLinesEnabled,
     activeNode.matrixIndices,
     activeNode.node_name,
   ]);
@@ -221,7 +221,7 @@ const HUD = memo(() => {
         <group ref={nodeTitleRef} scale={[0.016, 0.03, 0.016]}>
           <GreenTextRenderer textToRender={activeNode.title.split("")} />
         </group>
-        {protocolLinesToggled && (
+        {protocolLinesEnabled && (
           <>
             <group ref={protocolLine1Ref}>
               <mesh scale={[0.5, 0.06, 1]} renderOrder={2}>

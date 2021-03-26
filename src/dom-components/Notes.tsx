@@ -44,6 +44,11 @@ const Notes = () => {
                 Browsers require user permission to autoplay audio. If you're
                 not hearing any sound effects, just click somewhere around the
                 page.
+                <br /> <br />
+                We've also had an issue where the player left the game idle for
+                30~ mins, and the browser's autoplay permissions reset. Again,
+                if this happens to you, just click around the page and it'll get
+                fixed.
               </p>
             </td>
           </tr>
