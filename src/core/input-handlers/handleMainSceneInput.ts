@@ -204,7 +204,11 @@ const handleMainSceneInput = (
             )
               return resetInputCooldown;
 
-            if (activeNode.upgrade_requirement > gameProgress.sskn_level) {
+            if (
+              activeNode.upgrade_requirement > gameProgress.sskn_level ||
+              activeNode.required_final_video_viewcount >
+                gameProgress.final_video_viewcount
+            ) {
               const rejectEvents = [knockNodeAndFall, knockNode, explodeNode];
               return rejectEvents[Math.floor(Math.random() * 3)];
             }
@@ -360,7 +364,7 @@ const handleMainSceneInput = (
               case "load":
                 return displayPrompt;
               case "change":
-                if (gameProgress.gate_level > 4) return showPermissionDenied;
+                if (gameProgress.gate_level < 4) return showPermissionDenied;
                 else return displayPrompt;
             }
         }

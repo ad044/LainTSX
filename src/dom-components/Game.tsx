@@ -78,31 +78,28 @@ const Game = () => {
   }, []);
 
   return (
-    <>
-      <Header />
-      <div
-        className="game"
-        style={{ width: Math.round(width), height: Math.round(height) }}
+    <div
+      className="game"
+      style={{ width: Math.round(width), height: Math.round(height) }}
+    >
+      <Canvas
+        concurrent
+        gl={{ antialias: false }}
+        pixelRatio={window.devicePixelRatio}
+        className="main-canvas"
       >
-        <Canvas
-          concurrent
-          gl={{ antialias: false }}
-          pixelRatio={window.devicePixelRatio}
-          className="main-canvas"
-        >
-          <Suspense fallback={null}>
-            <Preloader />
-            {dispatchScene[currentScene as keyof typeof dispatchScene]}
-            <InputHandler />
-          </Suspense>
-        </Canvas>
-        {["media", "idle_media", "tak", "end"].includes(currentScene) && (
-          <div style={{ marginTop: -height }}>
-            <MediaPlayer />
-          </div>
-        )}
-      </div>
-    </>
+        <Suspense fallback={null}>
+          <Preloader />
+          {dispatchScene[currentScene as keyof typeof dispatchScene]}
+          <InputHandler />
+        </Suspense>
+      </Canvas>
+      {["media", "idle_media", "tak", "end"].includes(currentScene) && (
+        <div style={{ marginTop: -height }}>
+          <MediaPlayer />
+        </div>
+      )}
+    </div>
   );
 };
 

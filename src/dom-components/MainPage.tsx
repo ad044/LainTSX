@@ -74,6 +74,7 @@ const MainPage = () => {
         />
         <Credit name={"Bunbuns"} credit={"Fonts, help with japanese."} />
         <Credit name={"Phenomenal"} credit={"Help with 3D stuff, fonts."} />
+        <Credit name={"wires"} credit={"Help with asset extraction."} />
         <Credit name={"oo"} credit={"Help with japanese."} />
         <Credit name={"JToke"} credit={"Help with shaders."} />
         <Credit name={"retard"} credit={"Made 3D models."} />
