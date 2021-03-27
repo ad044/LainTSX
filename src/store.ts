@@ -23,7 +23,6 @@ import {
   NodeAttributes,
   NodeData,
   PauseComponent,
-  PolytanBodyParts,
   PromptComponent,
   RightMediaComponent,
   SiteSaveState,
@@ -89,8 +88,6 @@ type State = {
 
   activeSsknComponent: SsknComponent;
   ssknLoading: boolean;
-
-  polytanUnlockedParts: PolytanBodyParts;
 
   playerName: string;
 
@@ -198,16 +195,6 @@ export const useStore = create(
       activeSsknComponent: "ok",
       ssknLoading: false,
 
-      // polytan scene
-      polytanUnlockedParts: {
-        body: false,
-        head: false,
-        leftArm: false,
-        rightArm: false,
-        leftLeg: false,
-        rightLeg: false,
-      },
-
       // player name
       playerName: "",
 
@@ -312,12 +299,18 @@ export const useStore = create(
       setWordSelected: (to: boolean) => set(() => ({ wordSelected: to })),
 
       setPolytanPartUnlocked: (bodyPart: string) =>
-        set((state) => ({
-          polytanUnlockedParts: {
-            ...state.polytanUnlockedParts,
+        set((state) => {
+          const polytanParts = {
+            ...state.gameProgress.polytan_unlocked_parts,
             [bodyPart]: true,
-          },
-        })),
+          };
+          return {
+            gameProgress: {
+              ...state.gameProgress,
+              polytan_unlocked_parts: polytanParts,
+            },
+          };
+        }),
 
       setInputCooldown: (to: number) => set(() => ({ inputCooldown: to })),
 
@@ -345,7 +338,36 @@ export const useStore = create(
           activeSite: userState.activeSite,
           gameProgress: userState.gameProgress,
           playerName: userState.playerName,
-          polytanUnlockedParts: userState.polytanUnlockedParts,
+        })),
+
+      restartGameState: () =>
+        set(() => ({
+          siteSaveState: {
+            a: {
+              activeNode: {
+                ...getNodeById("0414", "a"),
+                matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
+              },
+              siteRot: [0, 0, 0],
+              activeLevel: "04",
+            },
+            b: {
+              activeNode: {
+                ...getNodeById("0105", "b"),
+                matrixIndices: { matrixIdx: 6, rowIdx: 2, colIdx: 0 },
+              },
+              siteRot: [0, 0 - Math.PI / 4, 0],
+              activeLevel: "01",
+            },
+          },
+          activeNode: {
+            ...site_a["04"]["0414"],
+            matrixIndices: { matrixIdx: 7, rowIdx: 1, colIdx: 0 },
+          },
+          siteRot: [0, 0, 0],
+          activeLevel: "04",
+          activeSite: "a",
+          gameProgress: game_progress,
         })),
     })
   )
@@ -441,7 +463,6 @@ export const getCurrentUserState = (): UserSaveState => {
     activeSite: state.activeSite,
     gameProgress: state.gameProgress,
     playerName: state.playerName,
-    polytanUnlockedParts: state.polytanUnlockedParts,
   };
 };
 
@@ -449,7 +470,8 @@ export const saveUserProgress = (state: UserSaveState) =>
   localStorage.setItem("lainSaveState", JSON.stringify(state));
 
 export const isPolytanFullyUnlocked = () => {
-  const polytanProgress = useStore.getState().polytanUnlockedParts;
+  const polytanProgress = useStore.getState().gameProgress
+    .polytan_unlocked_parts;
 
   for (const key in polytanProgress)
     if (!polytanProgress[key as keyof typeof polytanProgress]) return false;

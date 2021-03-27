@@ -87,15 +87,6 @@ export type BootSubscene = "main_menu" | "load_data" | "authorize_user";
 
 export type PromptComponent = "yes" | "no";
 
-export type PolytanBodyParts = {
-  body: boolean;
-  head: boolean;
-  leftArm: boolean;
-  rightArm: boolean;
-  leftLeg: boolean;
-  rightLeg: boolean;
-};
-
 type PromptContext = {
   activePromptComponent: PromptComponent;
   promptVisible: boolean;
@@ -207,5 +198,4 @@ export type UserSaveState = {
   activeSite: ActiveSite;
   gameProgress: GameProgress;
   playerName: string;
-  polytanUnlockedParts: PolytanBodyParts;
 };

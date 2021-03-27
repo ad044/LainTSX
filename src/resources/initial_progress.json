@@ -2,6 +2,14 @@
   "sskn_level": 0,
   "gate_level": 0,
   "final_video_viewcount": 0,
+  "polytan_unlocked_parts": {
+    "body": false,
+    "head": false,
+    "left_arm": false,
+    "right_arm": false,
+    "left_leg": false,
+    "right_leg": false
+  },
   "nodes": {
     "Cou001": {
       "is_viewed": 0

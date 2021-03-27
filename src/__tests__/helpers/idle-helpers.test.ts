@@ -10,25 +10,37 @@ describe("Idle helpers", () => {
     const fullyUnlocked = {
       body: true,
       head: true,
-      leftArm: true,
-      rightArm: true,
-      leftLeg: true,
-      rightLeg: true,
+      left_arm: true,
+      right_arm: true,
+      left_leg: true,
+      right_leg: true,
     };
 
-    useStore.setState({ polytanUnlockedParts: fullyUnlocked });
+    const state = useStore.getState();
+
+    useStore.setState({
+      gameProgress: {
+        ...state.gameProgress,
+        polytan_unlocked_parts: fullyUnlocked,
+      },
+    });
     expect(isPolytanFullyUnlocked()).toEqual(true);
 
     const partiallyUnlocked = {
       body: false,
       head: true,
-      leftArm: false,
-      rightArm: true,
-      leftLeg: true,
-      rightLeg: true,
+      left_arm: false,
+      right_arm: true,
+      left_leg: true,
+      right_leg: true,
     };
 
-    useStore.setState({ polytanUnlockedParts: partiallyUnlocked });
+    useStore.setState({
+      gameProgress: {
+        ...state.gameProgress,
+        polytan_unlocked_parts: partiallyUnlocked,
+      },
+    });
     expect(isPolytanFullyUnlocked()).toEqual(false);
   });
 

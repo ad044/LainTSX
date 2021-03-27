@@ -28,6 +28,7 @@ const setNodeViewed = useStore.getState().setNodeViewed;
 const resetMediaScene = useStore.getState().resetMediaScene;
 const incrementSsknLvl = useStore.getState().incrementSsknLvl;
 const loadUserSaveState = useStore.getState().loadUserSaveState;
+const restartGameState = useStore.getState().restartGameState;
 
 export const siteMoveHorizontal = (calculatedState: {
   lainMoveAnimation: string;
@@ -725,11 +726,12 @@ export const exitUserAuthorization = {
   audio: [{ sfx: [audio.sound29] }],
 };
 
-// todo reset state
 export const startNewGame = {
   state: [
     { mutation: { currentScene: "main", intro: true, inputCooldown: -1 } },
   ],
+
+  effects: [restartGameState],
 };
 
 export const updatePlayerName = (calculatedState: { playerName: string }) => ({

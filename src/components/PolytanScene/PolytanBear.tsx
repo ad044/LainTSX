@@ -19,7 +19,9 @@ const PolytanBear = memo(() => {
   const rightArmTex = useLoader(THREE.TextureLoader, rightArm);
   const rightLegTex = useLoader(THREE.TextureLoader, rightLeg);
 
-  const unlockedParts = useStore((state) => state.polytanUnlockedParts);
+  const unlockedParts = useStore(
+    (state) => state.gameProgress.polytan_unlocked_parts
+  );
 
   return (
     <>
@@ -46,28 +48,28 @@ const PolytanBear = memo(() => {
         <spriteMaterial
           attach="material"
           map={leftLegTex}
-          visible={unlockedParts.leftLeg}
+          visible={unlockedParts.left_leg}
         />
       </sprite>
       <sprite scale={[1.5, 1.9, 0]} position={[1.2, -0.4, 0]}>
         <spriteMaterial
           attach="material"
           map={leftArmTex}
-          visible={unlockedParts.leftArm}
+          visible={unlockedParts.left_arm}
         />
       </sprite>
       <sprite scale={[1.6, 2, 0]} position={[-1.2, -1.2, 0]}>
         <spriteMaterial
           attach="material"
           map={rightArmTex}
-          visible={unlockedParts.rightArm}
+          visible={unlockedParts.right_arm}
         />
       </sprite>
       <sprite scale={[1.9, 1, 0]} position={[-1, -2.2, 0]}>
         <spriteMaterial
           attach="material"
           map={rightLegTex}
-          visible={unlockedParts.rightLeg}
+          visible={unlockedParts.right_leg}
         />
       </sprite>
     </>

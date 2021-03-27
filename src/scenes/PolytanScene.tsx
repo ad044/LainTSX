@@ -19,13 +19,13 @@ const PolytanScene = () => {
         case 6:
           return "head";
         case 5:
-          return "rightArm";
+          return "right_arm";
         case 4:
-          return "leftArm";
+          return "left_arm";
         case 3:
-          return "rightLeg";
+          return "right_leg";
         case 2:
-          return "leftLeg";
+          return "left_leg";
         case 1:
           return "body";
       }
