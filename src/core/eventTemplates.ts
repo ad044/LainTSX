@@ -191,10 +191,10 @@ export const knockNodeAndFall = {
       mutation: {
         lainMoveState: "knock_and_fall",
         cameraTiltValue: 0,
-        inputCooldown: 6000,
+        inputCooldown: 6200,
       },
     },
-    { mutation: { lainMoveState: "standing" }, delay: 6000 },
+    { mutation: { lainMoveState: "standing" }, delay: 6200 },
   ],
   effects: [nodeKnockAndFallAnimation],
   audio: [
