@@ -13,6 +13,8 @@ import {
 
 custom implementation of TextureLoader that automatically sets minFilter to NearestFilter for proper WebGL1 support.
 
+this is still experimental
+
 */
 export class CustomTextureLoader extends Loader {
   load = (

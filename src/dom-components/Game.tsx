@@ -88,7 +88,7 @@ const Game = () => {
         className="main-canvas"
       >
         <Suspense fallback={null}>
-          {/* <Preloader /> */}
+          <Preloader />
           {dispatchScene[currentScene as keyof typeof dispatchScene]}
           <InputHandler />
         </Suspense>
