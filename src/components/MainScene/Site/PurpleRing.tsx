@@ -215,8 +215,9 @@ const PurpleRing = memo((props: PurpleRingProps) => {
     `;
 
   const matRef = useRef<THREE.ShaderMaterial>();
-  useFrame(() => {
-    purpleRingRef.current!.rotation.y += 0.005;
+
+  useFrame((state, delta) => {
+    purpleRingRef.current!.rotation.y += delta / 3;
   });
 
   useEffect(() => {

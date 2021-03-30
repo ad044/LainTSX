@@ -168,24 +168,31 @@ const MiddleRing = () => {
   const middleRingRef = useRef<THREE.Object3D>();
   const middleRingPartRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
-    if (middleRingMaterialRef.current) {
-      middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
-      wobbleAmpRef.current = lerp(wobbleAmpRef.current, wobbleAmp, 0.1);
-      noiseAmpRef.current = lerp(noiseAmpRef.current, noiseAmp, 0.1);
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
 
-      middleRingMaterialRef.current.uniforms.wobbleStrength.value =
-        wobbleAmpRef.current;
-      middleRingMaterialRef.current.uniforms.noiseAmp.value =
-        noiseAmpRef.current;
+    if (deltaRef.current > 0.016) {
+      if (middleRingMaterialRef.current) {
+        middleRingMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
+        wobbleAmpRef.current = lerp(wobbleAmpRef.current, wobbleAmp, 0.1);
+        noiseAmpRef.current = lerp(noiseAmpRef.current, noiseAmp, 0.1);
 
-      middleRingMaterialRef.current.needsUpdate = true;
-    }
-    if (rotating && middleRingRef.current) {
-      middleRingRef.current!.rotation.y += 0.05;
-    }
-    if (rotating && middleRingPartRef.current) {
-      middleRingPartRef.current!.rotation.y += 0.05;
+        middleRingMaterialRef.current.uniforms.wobbleStrength.value =
+          wobbleAmpRef.current;
+        middleRingMaterialRef.current.uniforms.noiseAmp.value =
+          noiseAmpRef.current;
+
+        middleRingMaterialRef.current.needsUpdate = true;
+      }
+      if (rotating && middleRingRef.current) {
+        middleRingRef.current!.rotation.y += 0.05;
+      }
+      if (rotating && middleRingPartRef.current) {
+        middleRingPartRef.current!.rotation.y += 0.05;
+      }
+
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

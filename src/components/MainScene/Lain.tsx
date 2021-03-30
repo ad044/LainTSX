@@ -416,9 +416,15 @@ const Lain = (props: LainProps) => {
     }
   }, [glowColor, wordSelected]);
 
-  useFrame(() => {
-    if (lainRef.current)
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+
+    if (deltaRef.current > 0.016 && lainRef.current) {
       lainRef.current.material.color.lerp(regularColor, 0.07);
+
+      deltaRef.current = deltaRef.current % 0.016;
+    }
   });
 
   const subscene = useStore((state) => state.mainSubscene);

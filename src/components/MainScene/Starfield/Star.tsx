@@ -53,13 +53,18 @@ const Star = (props: StarProps) => {
 
   const introAmpRef = useRef(props.shouldIntro ? 1 : 0);
 
-  useFrame(() => {
-    if (starRef.current) {
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+
+    if (deltaRef.current > 0.016 && starRef.current) {
       if (starRef.current.position.y > 4) {
         starRef.current.position.y = props.position[1];
       }
       starRef.current.position.y += 0.01 + amp.current + introAmpRef.current;
       introAmpRef.current = lerp(introAmpRef.current, 0, 0.01);
+
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

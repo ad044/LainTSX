@@ -31,12 +31,19 @@ const Mirror = (props: MirrorProps) => {
     return mirrorTex;
   }, [mirrorTex]);
 
-  useFrame(() => {
-    if (mirrorGroupRef.current) {
-      mirrorGroupRef.current.rotation.y -= 0.03;
-    }
-    if (materialRef.current) {
-      tex.offset.x -= 0.0025;
+  const deltaRef = useRef(0);
+
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+    if (deltaRef.current > 0.016) {
+      if (mirrorGroupRef.current) {
+        mirrorGroupRef.current.rotation.y -= 0.03;
+      }
+      if (materialRef.current) {
+        tex.offset.x -= 0.0025;
+      }
+
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

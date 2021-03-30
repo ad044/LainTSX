@@ -79,42 +79,50 @@ const MainScene = () => {
   const [introFinished, setIntroFinished] = useState(false);
   const introFinishedRef = useRef(false);
 
-  useFrame(() => {
-    if (!introFinished && intro && introWrapperRef.current) {
-      if (introWrapperRef.current.position.z === -10) playAudio(audio.sound32);
-      if (
-        Math.round(introWrapperRef.current.position.z) === -3 &&
-        !starfieldIntroRef.current
-      ) {
-        setStarfieldIntro(true);
-        starfieldIntroRef.current = true;
-      }
-      if (
-        Math.round(introWrapperRef.current.position.z) === -1 &&
-        !lainIntroRef.current
-      ) {
-        setLainIntroAnim(true);
-        lainIntroRef.current = true;
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+
+    if (deltaRef.current > 0.016) {
+      if (!introFinished && intro && introWrapperRef.current) {
+        if (introWrapperRef.current.position.z === -10)
+          playAudio(audio.sound32);
+        if (
+          Math.round(introWrapperRef.current.position.z) === -3 &&
+          !starfieldIntroRef.current
+        ) {
+          setStarfieldIntro(true);
+          starfieldIntroRef.current = true;
+        }
+        if (
+          Math.round(introWrapperRef.current.position.z) === -1 &&
+          !lainIntroRef.current
+        ) {
+          setLainIntroAnim(true);
+          lainIntroRef.current = true;
+        }
+
+        if (introWrapperRef.current.position.z < 0) {
+          introWrapperRef.current.position.z += 0.05;
+        }
+        if (introWrapperRef.current.rotation.x > 0) {
+          introWrapperRef.current.rotation.x -= 0.008;
+        }
+
+        if (
+          !introFinishedRef.current &&
+          !(
+            introWrapperRef.current.rotation.x > 0 &&
+            introWrapperRef.current.position.z < 0
+          )
+        ) {
+          setIntroFinished(true);
+          introFinishedRef.current = true;
+          setInputCooldown(0);
+        }
       }
 
-      if (introWrapperRef.current.position.z < 0) {
-        introWrapperRef.current.position.z += 0.05;
-      }
-      if (introWrapperRef.current.rotation.x > 0) {
-        introWrapperRef.current.rotation.x -= 0.008;
-      }
-
-      if (
-        !introFinishedRef.current &&
-        !(
-          introWrapperRef.current.rotation.x > 0 &&
-          introWrapperRef.current.position.z < 0
-        )
-      ) {
-        setIntroFinished(true);
-        introFinishedRef.current = true;
-        setInputCooldown(0);
-      }
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

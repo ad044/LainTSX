@@ -20,7 +20,6 @@ import { Canvas } from "react-three-fiber";
 import Preloader from "../components/Preloader";
 import InputHandler from "../components/InputHandler";
 import MediaPlayer from "../components/MediaPlayer";
-import Header from "./Header";
 
 const Game = () => {
   const currentScene = useStore((state) => state.currentScene);
@@ -89,7 +88,7 @@ const Game = () => {
         className="main-canvas"
       >
         <Suspense fallback={null}>
-          <Preloader />
+          {/* <Preloader /> */}
           {dispatchScene[currentScene as keyof typeof dispatchScene]}
           <InputHandler />
         </Suspense>

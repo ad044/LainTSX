@@ -43,8 +43,10 @@ const YellowOrb = memo((props: YellowOrbProps) => {
 
   const bigOrbScale = useMemo(() => new THREE.Vector3(2, 2, 2), []);
 
-  useFrame(() => {
-    if (props.visible) {
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+    if (deltaRef.current > 0.016 && props.visible) {
       const orbPosFirst = curves[0].getPoint(idxRef.current / 250);
       const orbPosSecond = curves[1].getPoint(idxRef.current / 250);
 
@@ -110,6 +112,7 @@ const YellowOrb = memo((props: YellowOrbProps) => {
           orbRef.current.position.y = orbPosSecond.y;
         }
       }
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

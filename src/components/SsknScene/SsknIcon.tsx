@@ -8,10 +8,10 @@ const SsknIcon = memo(() => {
   const ssknIconRef = useRef<THREE.Object3D>();
   const ssknIconShadowRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (ssknIconRef.current && ssknIconShadowRef.current) {
-      ssknIconRef.current.rotation.y += 0.03;
-      ssknIconShadowRef.current.rotation.y += 0.03;
+      ssknIconRef.current.rotation.y += delta * 2;
+      ssknIconShadowRef.current.rotation.y += delta * 2;
     }
   });
   return (

@@ -46,11 +46,11 @@ const EndSelectionScreen = memo((props: EndSelectionScreenProps) => {
   const lastTime = useRef(0);
 
   const middleBoxRef = useRef<THREE.Object3D>();
-  useFrame(() => {
+  useFrame((state, delta) => {
     middleSpritesheetAnimator.animate();
     circleSpritesheetAnimator.animate();
     if (middleBoxRef.current) {
-      middleBoxRef.current.rotation.z -= 0.005;
+      middleBoxRef.current.rotation.z -= delta / 5;
     }
     const now = Date.now();
     if (now > lastTime.current + 15000) {

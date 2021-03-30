@@ -12,8 +12,12 @@ const EndSphere = memo((props: EndSphereProps) => {
   const secondCylinderTex = useLoader(THREE.TextureLoader, secondCylinder);
 
   const meshRef = useRef<THREE.Object3D>();
-  useFrame(() => {
-    if (meshRef.current) {
+  const deltaRef = useRef(0);
+
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+
+    if (deltaRef.current > 0.016 && meshRef.current) {
       meshRef.current.rotation.y += 0.005;
       if (
         props.outroAnim &&
@@ -25,6 +29,7 @@ const EndSphere = memo((props: EndSphereProps) => {
         meshRef.current.scale.y -= 0.025;
         meshRef.current.scale.z -= 0.025;
       }
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

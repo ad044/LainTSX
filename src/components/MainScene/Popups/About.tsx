@@ -12,9 +12,9 @@ const About = () => {
 
   const bgRef = useRef<THREE.Sprite>();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (bgRef.current) {
-      bgRef.current.position.y += 0.01;
+      bgRef.current.position.y += delta;
       if (Math.round(bgRef.current.position.y) === 14) {
         setShowingAbout(false);
       }

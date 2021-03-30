@@ -11,9 +11,9 @@ const Cube = memo((props: ShapeProps) => {
 
   const cubeRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (props.selectable && props.active) {
-      cubeRef.current!.rotation.y -= 0.015;
+      cubeRef.current!.rotation.y -= delta;
     } else {
       cubeRef.current!.rotation.y = 0;
     }
