@@ -14,9 +14,9 @@ const TriangleNode = (props: TriangleNodeProps) => {
 
   const triangleNodeRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (triangleNodeRef.current && props.shouldAnimate) {
-      triangleNodeRef.current.position.z += 0.05;
+      triangleNodeRef.current.position.z += delta * 2.8;
     }
   });
 

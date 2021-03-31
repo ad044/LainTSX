@@ -46,27 +46,36 @@ const HUD = memo(() => {
     useRef<THREE.Object3D>(),
   ]);
 
-  useFrame(() => {
-    if (longHudRef.current && bigHudRef.current && boringHudRef.current) {
-      const hud = currentHudRef.current;
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
 
-      longHudRef.current.position.x = lerp(
-        longHudRef.current.position.x,
-        activeRef.current ? hud.long.position[0] : hud.long.initial_position[0],
-        0.12
-      );
-      boringHudRef.current.position.x = lerp(
-        boringHudRef.current.position.x,
-        activeRef.current
-          ? hud.boring.position[0]
-          : hud.boring.initial_position[0],
-        0.12
-      );
-      bigHudRef.current.position.x = lerp(
-        bigHudRef.current.position.x,
-        activeRef.current ? hud.big.position[0] : hud.big.initial_position[0],
-        0.12
-      );
+    if (deltaRef.current > 0.016) {
+      if (longHudRef.current && bigHudRef.current && boringHudRef.current) {
+        const hud = currentHudRef.current;
+
+        longHudRef.current.position.x = lerp(
+          longHudRef.current.position.x,
+          activeRef.current
+            ? hud.long.position[0]
+            : hud.long.initial_position[0],
+          0.12
+        );
+        boringHudRef.current.position.x = lerp(
+          boringHudRef.current.position.x,
+          activeRef.current
+            ? hud.boring.position[0]
+            : hud.boring.initial_position[0],
+          0.12
+        );
+        bigHudRef.current.position.x = lerp(
+          bigHudRef.current.position.x,
+          activeRef.current ? hud.big.position[0] : hud.big.initial_position[0],
+          0.12
+        );
+      }
+
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

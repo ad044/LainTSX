@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import bootLof from "../../static/sprites/boot/boot_lof.png";
 import bootBottomBarLeft from "../../static/sprites/boot/boot_bottom_bar_left.png";
 import bootBottomBarRight from "../../static/sprites/boot/boot_bottom_bar_right.png";
@@ -11,8 +11,8 @@ import bootStatusTexts from "../../static/sprites/boot/boot_status_texts.png";
 import bootBackgroundText from "../../static/sprites/boot/boot_background_text.png";
 import bootBackgroundDistortedTex from "../../static/sprites/boot/distorted_text.png";
 
-import {useFrame, useLoader} from "react-three-fiber";
-import {a, useSpring} from "@react-spring/three";
+import { useFrame, useLoader } from "react-three-fiber";
+import { a, useSpring } from "@react-spring/three";
 import * as THREE from "three";
 import sleep from "../../utils/sleep";
 
@@ -55,52 +55,58 @@ const BootAnimation = (props: BootAnimationProps) => {
   const graySquareRef = useRef<THREE.SpriteMaterial>();
   const arrowRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
-    if (graySquareRef.current) {
-      graySquareRef.current.rotation -= 0.1;
-    }
-    if (arrowRef.current && Date.now() % 5 === 0) {
-      arrowRef.current.position.y =
-        arrowRef.current.position.y === -1.04 ? -0.96 : -1.04;
-    }
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
 
-    if (
-      backgroundFloatingTextShown &&
-      firstBackgroundTextRef.current &&
-      sndBackgroundTextRef.current &&
-      firstDistortedBackgroundTextRef.current &&
-      sndDistortedBackgroundTextRef.current
-    ) {
-      if (firstBackgroundTextRef.current.position.y > 3.5) {
-        firstBackgroundTextRef.current.position.y = -3.5;
-        firstBackgroundTextRef.current.position.x = -0.85;
-      } else {
-        firstBackgroundTextRef.current.position.y += 0.01;
-        firstBackgroundTextRef.current.position.x += 0.001;
+    if (deltaRef.current > 0.016) {
+      if (graySquareRef.current) {
+        graySquareRef.current.rotation -= 0.1;
       }
-      if (sndBackgroundTextRef.current.position.y > 3.5) {
-        sndBackgroundTextRef.current.position.y = -3.5;
-        sndBackgroundTextRef.current.position.x = -0.85;
-      } else {
-        sndBackgroundTextRef.current.position.y += 0.01;
-        sndBackgroundTextRef.current.position.x += 0.001;
+      if (arrowRef.current && Date.now() % 5 === 0) {
+        arrowRef.current.position.y =
+          arrowRef.current.position.y === -1.04 ? -0.96 : -1.04;
       }
 
-      if (firstDistortedBackgroundTextRef.current.position.y > 2.8) {
-        firstDistortedBackgroundTextRef.current.position.y = -3;
-        firstDistortedBackgroundTextRef.current.position.x = 0;
-      } else {
-        firstDistortedBackgroundTextRef.current.position.y += 0.025;
-        firstDistortedBackgroundTextRef.current.position.x -= 0.013;
-      }
+      if (
+        backgroundFloatingTextShown &&
+        firstBackgroundTextRef.current &&
+        sndBackgroundTextRef.current &&
+        firstDistortedBackgroundTextRef.current &&
+        sndDistortedBackgroundTextRef.current
+      ) {
+        if (firstBackgroundTextRef.current.position.y > 3.5) {
+          firstBackgroundTextRef.current.position.y = -3.5;
+          firstBackgroundTextRef.current.position.x = -0.85;
+        } else {
+          firstBackgroundTextRef.current.position.y += 0.01;
+          firstBackgroundTextRef.current.position.x += 0.001;
+        }
+        if (sndBackgroundTextRef.current.position.y > 3.5) {
+          sndBackgroundTextRef.current.position.y = -3.5;
+          sndBackgroundTextRef.current.position.x = -0.85;
+        } else {
+          sndBackgroundTextRef.current.position.y += 0.01;
+          sndBackgroundTextRef.current.position.x += 0.001;
+        }
 
-      if (sndDistortedBackgroundTextRef.current.position.y > 2.8) {
-        sndDistortedBackgroundTextRef.current.position.y = -3;
-        sndDistortedBackgroundTextRef.current.position.x = 0;
-      } else {
-        sndDistortedBackgroundTextRef.current.position.y += 0.025;
-        sndDistortedBackgroundTextRef.current.position.x -= 0.013;
+        if (firstDistortedBackgroundTextRef.current.position.y > 2.8) {
+          firstDistortedBackgroundTextRef.current.position.y = -3;
+          firstDistortedBackgroundTextRef.current.position.x = 0;
+        } else {
+          firstDistortedBackgroundTextRef.current.position.y += 0.025;
+          firstDistortedBackgroundTextRef.current.position.x -= 0.013;
+        }
+
+        if (sndDistortedBackgroundTextRef.current.position.y > 2.8) {
+          sndDistortedBackgroundTextRef.current.position.y = -3;
+          sndDistortedBackgroundTextRef.current.position.x = 0;
+        } else {
+          sndDistortedBackgroundTextRef.current.position.y += 0.025;
+          sndDistortedBackgroundTextRef.current.position.x -= 0.013;
+        }
       }
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

@@ -23,9 +23,9 @@ const TriangularPrism = memo((props: ShapeProps) => {
 
   const prismRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (props.selectable && props.active) {
-      prismRef.current!.rotation.y -= 0.015;
+      prismRef.current!.rotation.y -= delta;
     } else {
       prismRef.current!.rotation.y = 0;
     }

@@ -68,23 +68,23 @@ const GoldNode = (props: GoldNodeProps) => {
     }
   }, [activeNodeName]);
 
-  const r = useRef<THREE.Object3D>();
+  const goldNodeRef = useRef<THREE.Object3D>();
 
   const regularTex = useLoader(THREE.TextureLoader, tex![0]);
   const goldTex = useLoader(THREE.TextureLoader, tex![1]);
 
   useEffect(() => {
-    if (r.current && !props.visible) {
-      r.current.rotation.x = Math.PI / 2;
-      r.current.rotation.y = 0;
-      r.current.rotation.z = Math.PI / 2 - 0.3;
+    if (goldNodeRef.current && !props.visible) {
+      goldNodeRef.current.rotation.x = Math.PI / 2;
+      goldNodeRef.current.rotation.y = 0;
+      goldNodeRef.current.rotation.z = Math.PI / 2 - 0.3;
     }
   }, [props.visible]);
 
-  useFrame(() => {
-    if (r.current && props.visible) {
-      r.current.rotation.y -= 0.03;
-      r.current.rotation.z += 0.03;
+  useFrame((state, delta) => {
+    if (goldNodeRef.current && props.visible) {
+      goldNodeRef.current.rotation.y -= delta * 2;
+      goldNodeRef.current.rotation.z += delta * 2;
     }
   });
 
@@ -94,7 +94,7 @@ const GoldNode = (props: GoldNodeProps) => {
       position={[-0.155, -0.45, 0]}
       rotation={[Math.PI / 2, 0, Math.PI / 2 - 0.3]}
       scale={[-0.1 / 1.15, 0.2 / 1.35, 0.1 / 1.15]}
-      ref={r}
+      ref={goldNodeRef}
     >
       <meshBasicMaterial
         attach="material"

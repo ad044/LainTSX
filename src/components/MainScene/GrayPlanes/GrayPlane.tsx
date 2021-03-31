@@ -9,9 +9,9 @@ type GrayPlaneProps = {
 const GrayPlane = (props: GrayPlaneProps) => {
   const meshRef = useRef<THREE.Object3D>();
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.03;
+      meshRef.current.rotation.y += delta / 4;
     }
   });
 

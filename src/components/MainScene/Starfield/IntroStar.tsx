@@ -49,10 +49,19 @@ const IntroStar = (props: IntroStarProps) => {
 
   const amp = useRef(Math.random() / 10);
 
-  useFrame(() => {
-    if (starRef.current && starRef.current.visible) {
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+
+    if (
+      deltaRef.current > 0.016 &&
+      starRef.current &&
+      starRef.current.visible
+    ) {
       starRef.current.position.y += 0.25 + amp.current;
       if (starRef.current.position.y > 40) starRef.current.visible = false;
+
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

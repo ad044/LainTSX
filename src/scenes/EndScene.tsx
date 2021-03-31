@@ -21,8 +21,11 @@ const EndScene = () => {
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
   const audioAnalyser = useStore((state) => state.audioAnalyser);
 
-  useFrame(() => {
-    if (mainCylinderRef.current) {
+  const deltaRef = useRef(0);
+  useFrame((state, delta) => {
+    deltaRef.current += delta;
+
+    if (deltaRef.current > 0.016 && mainCylinderRef.current) {
       mainCylinderRef.current.rotation.y -= 0.01;
       if (sceneOutro) {
         mainCylinderRef.current.position.z -= 0.25;
@@ -31,6 +34,8 @@ const EndScene = () => {
           mainCylinderRef.current.scale.y -= 0.01;
         }
       }
+
+      deltaRef.current = deltaRef.current % 0.016;
     }
   });
 

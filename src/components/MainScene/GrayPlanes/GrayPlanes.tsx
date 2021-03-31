@@ -19,8 +19,8 @@ const GrayPlanes = memo(() => {
     []
   );
 
-  useFrame(() => {
-    grayPlaneGroupRef.current!.rotation.y -= 0.01;
+  useFrame((state, delta) => {
+    grayPlaneGroupRef.current!.rotation.y -= delta / 1.5;
   });
 
   return (
