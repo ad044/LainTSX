@@ -48,8 +48,19 @@ const Game = () => {
   const [width, setWidth] = useState((window.screen.height / 1.8) * 1.3);
   const [height, setHeight] = useState(window.screen.height / 1.8);
 
-  const handleGameResize = useCallback((event) => {
+  const handleWindowKeypress = useCallback((event) => {
     switch (event.key) {
+      case "l":
+        const saveState = prompt(
+          `This is your current save state. It's empty if you haven't saved the game yet. To export it, just copy this value and save it somewhere, to import another one, simply replace it and click ok. 
+          \n If you wish to reset your progress, simply delete it and click ok.
+          \n Keep in mind replacing this with something other than a save state/manually modifying it without being careful will result in a crash upon trying to load it.`,
+          localStorage.getItem("lainSaveState") || undefined
+        );
+
+        localStorage.setItem("lainSaveState", saveState || "");
+
+        break;
       case "k":
         setWidth((prevWidth) => prevWidth * 1.1);
         setHeight((prevHeight) => prevHeight * 1.1);
@@ -61,12 +72,12 @@ const Game = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("keydown", handleGameResize);
+    window.addEventListener("keydown", handleWindowKeypress);
 
     return () => {
-      window.removeEventListener("keydown", handleGameResize);
+      window.removeEventListener("keydown", handleWindowKeypress);
     };
-  }, [handleGameResize]);
+  }, [handleWindowKeypress]);
 
   useEffect(() => {
     document.body.style.overflowY = "hidden";

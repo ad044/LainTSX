@@ -33,17 +33,13 @@ Building locally is currently not possible. This is because the repository lacks
 
   - **/extract/** - WIP extraction script to automate the local building process of the game.
 
-## Importing/exporting game progress from within the browser
-
-Once you've saved the game manually (going into pause => selecting Save), look inside the `localStorage` of your browser and copy the value of the key `lainSaveState`. Changing that value and calling Load Game from the main menu will load that save state. Keep in mind manually modifying the JSON and loading it might lead to some funny bugs since the dependency graph of the game progress is not linear.
-
 ## TODO
 
 - **Finish writing the extraction script**
 - **Improve/complete the translation**
 - **Implement an interface for changing languages**
 - **Allow the player to modify the keybindings**
-- **Implement a better way of exporting/importing save files**
+- **Add controller support**
 
 ## Screenshots
 
