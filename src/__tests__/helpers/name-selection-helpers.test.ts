@@ -1,6 +1,6 @@
 import { handleNameSelection } from "../../helpers/name-selection-helpers";
 
-it("Handles the logic for japanese characters", () => {
+it("Handles the logic for Japanese characters", () => {
   // cant be first character check
   expect(handleNameSelection("", "ン")).toEqual(undefined);
   // if its not first, then fine
