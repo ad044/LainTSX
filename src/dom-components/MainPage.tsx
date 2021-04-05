@@ -41,7 +41,7 @@ const MainPage = () => {
         />
         <QA
           question={"I found an issue/have a suggestion/etc."}
-          answer={`Please join our  <a href="https://discord.com/invite/W22Ga2R">discord server</a> and tell us about it!`}
+          answer={`Please join our <a href="https://discord.com/invite/W22Ga2R">discord server</a> and tell us about it!`}
         />
       </p>
       <h2 className="mainpage-header">credits</h2>
@@ -96,20 +96,19 @@ const MainPage = () => {
         />
         <Credit
           name={
-            "mutronics, lelenium, Lorenzo, elliotcraft79, CosmicKiwii, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, Bunbuns, claire, Eternofímero, Cal, Cena"
+            "mutronics, lelenium, Lorenzo, elliotcraft79, Nichts, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, Bunbuns, claire, Eternofímero, Cal, Cena"
           }
           credit={"Subtitle timing team."}
         />{" "}
         <Credit
           name={"psx.lain.pl team"}
-          credit={"providing the base translation."}
+          credit={"Providing the base translation."}
         />{" "}
         <Credit
           name={"INITIATE"}
-          credit={"helping the project gain recognition initially."}
+          credit={"Helping the project gain recognition initially."}
         />{" "}
-        Special thanks to
-        <a href="https://twitter.com/pmndrs"> Poimandres</a> for answering all
+        Special thanks to <a href="https://twitter.com/pmndrs">Poimandres</a> for answering all
         the dumb questions I had while programming and creating the amazing
         libraries used in this project.
       </p>
