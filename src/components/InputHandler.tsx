@@ -120,9 +120,6 @@ const InputHandler = memo(() => {
 
     return () => {
       window.removeEventListener("keydown", handleKeyBoardEvent);
-      window.removeEventListener("keyup", () => {
-        firedRef.current = false;
-      });
     };
   }, [handleKeyBoardEvent]);
 

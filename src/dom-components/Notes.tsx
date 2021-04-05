@@ -60,10 +60,7 @@ const Notes = () => {
               <p>
                 Your setup must support WebGL2 in order to play this game. You
                 can check this directly by going to{" "}
-                <a
-                  href={"https://get.webgl.org/webgl2/"}
-                  className="webgl-anchor"
-                >
+                <a href={"https://get.webgl.org/webgl2/"} className="notes-a">
                   this website
                 </a>
                 . If it's not supported, this is most likely due to your
@@ -174,6 +171,14 @@ const Notes = () => {
                   </tr>
                 </tbody>
               </table>
+              <br />
+              <span className="text-center">
+                If you'd like to change the keybindings, go{" "}
+                <Link to={"/keybinding"} className="notes-a">
+                  here
+                </Link>
+                .
+              </span>
             </td>
           </tr>
 

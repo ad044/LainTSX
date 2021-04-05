@@ -1,0 +1,20 @@
+.keybinding {
+  color: white;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.keybinding-note {
+  text-align: center;
+  font-size: 1.7rem;
+  color: white;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+.reset-to-default-button {
+  display: block;
+  margin: 0 auto;
+}

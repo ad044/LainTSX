@@ -105,6 +105,8 @@ type State = {
 
   siteSaveState: SiteSaveState;
 
+  keybindings: Record<string, string>;
+
   inputCooldown: number;
 };
 
@@ -237,6 +239,24 @@ export const useStore = create(
         },
       },
 
+      // keybindings
+      keybindings: {
+        DOWN: "ArrowDown",
+        LEFT: "ArrowLeft",
+        UP: "ArrowUp",
+        RIGHT: "ArrowRight",
+        CIRCLE: "x",
+        CROSS: "z",
+        TRIANGLE: "d",
+        SQUARE: "s",
+        R2: "t",
+        L2: "e",
+        L1: "w",
+        R1: "r",
+        START: "v",
+        SELECT: "c",
+      },
+
       inputCooldown: -1,
     } as State,
     (set) => ({
@@ -339,6 +359,9 @@ export const useStore = create(
           gameProgress: userState.gameProgress,
           playerName: userState.playerName,
         })),
+
+      setKeybindings: (to: Record<string, string>) =>
+        set(() => ({ keybindings: to })),
 
       restartGameState: () =>
         set(() => ({

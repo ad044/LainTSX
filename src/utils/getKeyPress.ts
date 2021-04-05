@@ -1,25 +1,13 @@
-const getKeyPress = (key: string) => {
-  // make the keybinds work with caps lock on aswell
-  if (["X", "Z", "D", "E", "V", "T", "W", "R", "S", "C"].includes(key))
-    key = key.toLowerCase();
+import { useStore } from "../store";
 
-  const keyCodeAssocs = {
-    ArrowDown: "DOWN",
-    ArrowLeft: "LEFT",
-    ArrowUp: "UP",
-    ArrowRight: "RIGHT",
-    x: "CIRCLE",
-    z: "CROSS",
-    d: "TRIANGLE",
-    s: "SQUARE",
-    t: "R2",
-    e: "L2",
-    w: "L1",
-    r: "R1",
-    v: "START",
-    c: "SELECT",
-  };
-  return keyCodeAssocs[key as keyof typeof keyCodeAssocs];
+const getKeyPress = (key: string) => {
+  const keybindings = useStore.getState().keybindings;
+
+  console.log(keybindings);
+  // make the keybinds work with caps lock on aswell
+  if (key.length === 1) key = key.toLowerCase();
+
+  return Object.keys(keybindings).find((k) => keybindings[k] === key);
 };
 
 export default getKeyPress;
