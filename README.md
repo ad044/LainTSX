@@ -4,7 +4,7 @@ A browser-based implementation of the Serial Experiments Lain PSX game using `re
 
 ## History
 
-The original PSX game was released in Japan, back in 1998. The game never got a proper english adaptation, which resulted in all non-japanese speaking players either having to play through the game while simultaneously reading through the translation, or simply not playing the game at all and only reading it.
+The original PSX game was released in Japan, back in 1998. The game never got a proper english adaptation, which resulted in all non-Japanese speaking players either having to play through the game while simultaneously reading through the translation, or simply not playing the game at all and only reading it.
 
 The goal of this project is to provide a better experience for those willing to play the game, and the way to do so is by implementing a subtitle system, which has the capability to support multiple languages.
 

@@ -72,17 +72,17 @@ const MainPage = () => {
           name={"lelenium"}
           credit={"Helped with literally everything."}
         />
-        <Credit name={"Bunbuns"} credit={"Fonts, help with japanese."} />
+        <Credit name={"Bunbuns"} credit={"Fonts, help with Japanese."} />
         <Credit name={"Phenomenal"} credit={"Help with 3D stuff, fonts."} />
         <Credit name={"wires"} credit={"Help with asset extraction."} />
-        <Credit name={"oo"} credit={"Help with japanese."} />
+        <Credit name={"oo"} credit={"Help with Japanese."} />
         <Credit name={"JToke"} credit={"Help with shaders."} />
         <Credit name={"retard"} credit={"Made 3D models."} />
         <Credit name={"knobluch"} credit={"Made 3D models."} />
         <Credit name={"ridderhoff"} credit={"Help with 3D stuff."} />
         <Credit
           name={"claire"}
-          credit={"Helped with japanese and Lain's voice."}
+          credit={"Helped with Japanese and Lain's voice."}
         />
         <Credit name={"Lorenzo"} credit={"Majority of the subtitle timing."} />
         <Credit
