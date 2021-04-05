@@ -26,12 +26,12 @@ const MainPage = () => {
         FAQ:
         <br /> <br />
         <QA
-          question={"I'm confused about the game"}
+          question={"I'm confused about the game."}
           answer={"Amazing! That means the game is working properly."}
         />
         <QA
           question={
-            "I'm extremely confused about the game and I'm not sure what I'm doing"
+            "I'm extremely confused about the game and I'm not sure what I'm doing."
           }
           answer={`Read the <a href="/#/guide">guide</a>. Keep in mind though that this is only my interpretation of the game and what I pieced together while developing it, it could be wrong.`}
         />
