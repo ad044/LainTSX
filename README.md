@@ -38,7 +38,6 @@ Building locally is currently not possible. This is because the repository lacks
 - **Finish writing the extraction script**
 - **Improve/complete the translation**
 - **Implement an interface for changing languages**
-- **Allow the player to modify the keybindings**
 - **Add controller support**
 
 ## Screenshots
