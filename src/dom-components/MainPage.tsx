@@ -26,12 +26,12 @@ const MainPage = () => {
         FAQ:
         <br /> <br />
         <QA
-          question={"I'm confused about the game"}
+          question={"I'm confused about the game."}
           answer={"Amazing! That means the game is working properly."}
         />
         <QA
           question={
-            "I'm extremely confused about the game and I'm not sure what I'm doing"
+            "I'm extremely confused about the game and I'm not sure what I'm doing."
           }
           answer={`Read the <a href="/#/guide">guide</a>. Keep in mind though that this is only my interpretation of the game and what I pieced together while developing it, it could be wrong.`}
         />
@@ -41,7 +41,7 @@ const MainPage = () => {
         />
         <QA
           question={"I found an issue/have a suggestion/etc."}
-          answer={`Please join our  <a href="https://discord.com/invite/W22Ga2R">discord server</a> and tell us about it!`}
+          answer={`Please join our <a href="https://discord.com/invite/W22Ga2R">discord server</a> and tell us about it!`}
         />
       </p>
       <h2 className="mainpage-header">credits</h2>
@@ -72,17 +72,17 @@ const MainPage = () => {
           name={"lelenium"}
           credit={"Helped with literally everything."}
         />
-        <Credit name={"Bunbuns"} credit={"Fonts, help with japanese."} />
+        <Credit name={"Bunbuns"} credit={"Fonts, help with Japanese."} />
         <Credit name={"Phenomenal"} credit={"Help with 3D stuff, fonts."} />
         <Credit name={"wires"} credit={"Help with asset extraction."} />
-        <Credit name={"oo"} credit={"Help with japanese."} />
+        <Credit name={"oo"} credit={"Help with Japanese."} />
         <Credit name={"JToke"} credit={"Help with shaders."} />
         <Credit name={"retard"} credit={"Made 3D models."} />
         <Credit name={"knobluch"} credit={"Made 3D models."} />
         <Credit name={"ridderhoff"} credit={"Help with 3D stuff."} />
         <Credit
           name={"claire"}
-          credit={"Helped with japanese and Lain's voice."}
+          credit={"Helped with Japanese and Lain's voice."}
         />
         <Credit name={"Lorenzo"} credit={"Majority of the subtitle timing."} />
         <Credit
@@ -96,20 +96,19 @@ const MainPage = () => {
         />
         <Credit
           name={
-            "mutronics, lelenium, Lorenzo, elliotcraft79, CosmicKiwii, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, Bunbuns, claire, Eternofímero, Cal, Cena"
+            "mutronics, lelenium, Lorenzo, elliotcraft79, Nichts, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, Bunbuns, claire, Eternofímero, Cal, Cena"
           }
           credit={"Subtitle timing team."}
         />{" "}
         <Credit
           name={"psx.lain.pl team"}
-          credit={"providing the base translation."}
+          credit={"Providing the base translation."}
         />{" "}
         <Credit
           name={"INITIATE"}
-          credit={"helping the project gain recognition initially."}
+          credit={"Helping the project gain recognition initially."}
         />{" "}
-        Special thanks to
-        <a href="https://twitter.com/pmndrs"> Poimandres</a> for answering all
+        Special thanks to <a href="https://twitter.com/pmndrs">Poimandres</a> for answering all
         the dumb questions I had while programming and creating the amazing
         libraries used in this project.
       </p>
