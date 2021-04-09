@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../static/css/savefile.css";
-import Header from "./Header";
 
 const Savefile = () => {
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -20,7 +19,6 @@ const Savefile = () => {
 
   return (
     <>
-      <Header />
       <div className="savefile-wrapper">
         <p className="savefile-note">
           If you've saved the game during the playthrough, the text provided in

@@ -5,9 +5,9 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 import Notes from "./dom-components/Notes";
 import MainPage from "./dom-components/MainPage";
 import Guide from "./dom-components/Guide";
-import Keybinding from "./dom-components/Keybinding";
+import Options from "./dom-components/Options";
 import { useStore } from "./store";
-import Savefile from "./dom-components/Savefile";
+
 
 const App = () => {
   const setKeybindings = useStore((state) => state.setKeybindings);
@@ -24,8 +24,7 @@ const App = () => {
         <Route path={"/notes"} exact component={Notes} />
         <Route path={"/game"} exact component={Game} />
         <Route path={"/guide"} exact component={Guide} />
-        <Route path={"/keybinding"} exact component={Keybinding} />
-        <Route path={"/savefile"} exact component={Savefile} />
+        <Route path={"/options"} exact component={Options} />
       </Switch>
     </HashRouter>
   );

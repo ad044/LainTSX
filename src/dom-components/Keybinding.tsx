@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import { formatKey } from "../helpers/keybinding-helpers";
 import "../static/css/keybinding.css";
 import { useStore } from "../store";
-import Header from "./Header";
 
 const Keybinding = () => {
   const setKeybindings = useStore((state) => state.setKeybindings);
@@ -73,8 +72,6 @@ const Keybinding = () => {
   }, [setKeybindings]);
   return (
     <>
-      <Header />
-      <br />
       <p className="keybinding-note">
         This is the keybindings page. To change a keybinding, just click on it
         and press the button you wish to bind it to after. In order for this to
