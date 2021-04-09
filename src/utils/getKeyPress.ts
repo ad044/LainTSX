@@ -3,7 +3,6 @@ import { useStore } from "../store";
 const getKeyPress = (key: string) => {
   const keybindings = useStore.getState().keybindings;
 
-  console.log(keybindings);
   // make the keybinds work with caps lock on aswell
   if (key.length === 1) key = key.toLowerCase();
 

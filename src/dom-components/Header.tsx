@@ -11,6 +11,7 @@ const Header = () => {
       <Link to="/guide">guide</Link>
       <a href="https://discord.com/invite/W22Ga2R">discord</a>
       <Link to="/keybinding">keybinding</Link>
+      <Link to="/savefile">savefile</Link>
     </div>
   );
 };

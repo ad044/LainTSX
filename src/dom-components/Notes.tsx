@@ -165,10 +165,6 @@ const Notes = () => {
                     <td>j</td>
                     <td>Downscale Game Window</td>
                   </tr>
-                  <tr>
-                    <td>l</td>
-                    <td>Save Manager</td>
-                  </tr>
                 </tbody>
               </table>
               <br />

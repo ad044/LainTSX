@@ -1,0 +1,13 @@
+.savefile-wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.savefile-note {
+  text-align: center;
+  font-size: 1.7rem;
+  color: white;
+  padding-left: 5em;
+  padding-right: 5em;
+}
