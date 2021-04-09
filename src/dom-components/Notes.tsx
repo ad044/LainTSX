@@ -170,7 +170,7 @@ const Notes = () => {
               <br />
               <span className="text-center">
                 If you'd like to change the keybindings, go{" "}
-                <Link to={"/keybinding"} className="notes-a">
+                <Link to={"/options"} className="notes-a">
                   here
                 </Link>
                 .
