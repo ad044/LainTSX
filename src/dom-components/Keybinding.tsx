@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { formatKey } from "../helpers/keybinding-helpers";
 import "../static/css/keybinding.css";
 import { useStore } from "../store";
@@ -6,10 +6,6 @@ import { useStore } from "../store";
 const Keybinding = () => {
   const setKeybindings = useStore((state) => state.setKeybindings);
   const bindings = useStore((state) => state.keybindings);
-
-  useEffect(() => {
-    document.title = "< keybinding >";
-  }, []);
 
   const handleRemap = useCallback(
     (keyToRemap: string, to: string) => {
