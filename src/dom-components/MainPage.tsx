@@ -95,6 +95,10 @@ const MainPage = () => {
           credit={"Provided initial models for the rings."}
         />
         <Credit
+          name={"The God of Kino"}
+          credit={"Writing the guide."}
+        />
+        <Credit
           name={
             "mutronics, lelenium, Lorenzo, elliotcraft79, Nichts, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, Bunbuns, claire, Eternofímero, Cal, Cena"
           }
