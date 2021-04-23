@@ -8,7 +8,7 @@ const Savefile = () => {
     setTextAreaValue(localStorage.getItem("lainSaveState") || "");
   }, []);
 
-  const saveState = useCallback(() => {
+  const loadState = useCallback(() => {
     if (textAreaValue) localStorage.setItem("lainSaveState", textAreaValue);
     else localStorage.setItem("lainSaveState", "");
   }, [textAreaValue]);
@@ -25,11 +25,11 @@ const Savefile = () => {
           the box below is your "save file". To export it for future use, just
           copy everything inside it and paste it inside a file somewhere
           locally. To re-import it later, take the contents of the file, paste
-          them here, and press "Save state". After that, reload the website.
+          them here, and press "Load state". After that, reload the website.
           <br />
           <br />
           If you're here simply to reset your progress, just delete everything
-          inside the textbox below and press "Save state".
+          inside the textbox below and press "Load state".
           <br />
           <br />
           Keep in mind, manually modifying the contents without being
@@ -38,7 +38,7 @@ const Savefile = () => {
         </p>
         <textarea value={textAreaValue} onChange={handleTextValueChange} />
         <br />
-        <button onClick={saveState}>Save state</button>
+        <button onClick={loadState}>Load State</button>
       </div>
     </>
   );
