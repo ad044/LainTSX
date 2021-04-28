@@ -43,6 +43,10 @@ const MainPage = () => {
           question={"I found an issue/have a suggestion/etc."}
           answer={`Please join our <a href="https://discord.com/invite/W22Ga2R">discord server</a> and tell us about it!`}
         />
+        <QA
+          question={"Is it possible to run the game offline?"}
+          answer={`Yes, please follow <a href="https://laingame.net/offline.html">this guide</a>.`}
+        />
       </p>
       <h2 className="mainpage-header">credits</h2>
       <p className="credits">
