@@ -7,6 +7,7 @@ import { extract_voice } from "./extract_voice.mjs";
 import { extract_lapks } from "./extract_lapks.mjs";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import {extract_site_images} from "./extract_site_images.mjs";
 
 const argv = yargs(hideBin(process.argv))
   .option("tempdir", {
@@ -39,6 +40,10 @@ const argv = yargs(hideBin(process.argv))
   .option("no_lapks", {
     type: "boolean",
     description: "Don't extract lapks.bin",
+  })
+  .option("no_site_images", {
+    type: "boolean",
+    description: "Don't extract sitea.bin or siteb.bin",
   }).argv;
 
 mkdirSync(argv.tempdir, { recursive: true });
@@ -77,6 +82,10 @@ if (!argv.no_voice) {
 
 if (!argv.no_lapks) {
   extract_lapks(argv.tempdir, jpsxdec_jar);
+}
+
+if (!argv.no_site_images) {
+  extract_site_images(argv.tempdir, jpsxdec_jar);
 }
 
 if (!argv.no_delete) {
