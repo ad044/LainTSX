@@ -11,6 +11,7 @@ import LainSpeak from "../components/LainSpeak";
 import EndSphere from "../components/EndScene/EndSphere";
 import EndCylinder from "../components/EndScene/EndCylinder";
 import sleep from "../utils/sleep";
+import getVoiceFilenames from "../utils/getVoiceFilenames";
 
 const EndScene = () => {
   const mainCylinderRef = useRef<THREE.Object3D>();
@@ -48,7 +49,7 @@ const EndScene = () => {
   const playedMediaCountRef = useRef(0);
 
   const playerName = useStore((state) => state.playerName);
-  const playerNameVoices = useMemo(() => playerName.split(""), [playerName]);
+  const playerNameVoices = useMemo(() => getVoiceFilenames(playerName), [playerName]);
 
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
