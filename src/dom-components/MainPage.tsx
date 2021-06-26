@@ -76,7 +76,7 @@ const MainPage = () => {
           name={"lelenium"}
           credit={"Helped with literally everything."}
         />
-        <Credit name={"Bunbuns"} credit={"Fonts, help with Japanese."} />
+        <Credit name={"BimBuns"} credit={"Fonts, help with Japanese."} />
         <Credit name={"Phenomenal"} credit={"Help with 3D stuff, fonts."} />
         <Credit name={"wires"} credit={"Help with asset extraction."} />
         <Credit name={"oo"} credit={"Help with Japanese."} />
@@ -105,7 +105,7 @@ const MainPage = () => {
         />
         <Credit
           name={
-            "mutronics, lelenium, Lorenzo, elliotcraft79, Nichts, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, Bunbuns, claire, Eternofímero, Cal, Cena"
+            "mutronics, lelenium, Lorenzo, elliotcraft79, Nichts, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, BimBuns, claire, Eternofímero, Cal, Cena"
           }
           credit={"Subtitle timing team."}
         />{" "}
