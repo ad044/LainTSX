@@ -70,7 +70,7 @@ const Images = () => {
     } else if (mediaPercentageElapsed === 70 && sceneImages[2]) {
       setImageScaleY(0);
       timer = setTimeout(() => {
-        textureLoader.load(sceneImages[1].default, setActiveImage);
+        textureLoader.load(sceneImages[2].default, setActiveImage);
         setImageScaleY(3.75);
       }, 300);
     }
