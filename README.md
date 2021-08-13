@@ -37,8 +37,6 @@ Building locally is currently not possible. This is because the repository lacks
 
 - **Finish writing the extraction script**
 - **Improve/complete the translation**
-- **Implement an interface for changing languages**
-- **Add controller support**
 
 ## Screenshots
 

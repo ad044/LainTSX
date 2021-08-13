@@ -1,0 +1,3 @@
+[submodule "webvtt"]
+	path = src/static/media/webvtt
+	url = https://github.com/lelenium/lainvtt

@@ -7,6 +7,8 @@ const IdleMediaScene = () => {
     (state) => state.mediaPercentageElapsed
   );
 
+  const language = useStore((state) => state.language);
+
   const idleMedia = useStore((state) => state.idleMedia);
   const idleNodeName = useStore((state) => state.idleNodeName);
   const setInputCooldown = useStore((state) => state.setInputCooldown);
@@ -32,7 +34,9 @@ const IdleMediaScene = () => {
     if (mediaElement) {
       mediaElement.currentTime = 0;
       if (idleNodeName) {
-        import("../static/media/webvtt/" + idleNodeName + ".vtt")
+        import(
+          "../static/media/webvtt/" + language + "/" + idleNodeName + ".vtt"
+        )
           .then((vtt) => {
             if (vtt) trackElement.src = vtt.default;
           })
@@ -56,7 +60,7 @@ const IdleMediaScene = () => {
         });
       }
     }
-  }, [idleMedia, idleNodeName]);
+  }, [idleMedia, idleNodeName, language]);
 
   return (
     <group visible={idleMedia.includes("XA")}>

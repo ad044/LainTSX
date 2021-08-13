@@ -4,7 +4,6 @@ import { useFrame } from "react-three-fiber";
 import { useStore } from "../store";
 import createAudioAnalyser from "../utils/createAudioAnalyser";
 import EndSelectionScreen from "../components/EndScene/EndSelectionScreen";
-import introSpeechVtt from "../static/media/webvtt/Xa0001.vtt";
 import introSpeech from "../static/media/audio/LAIN21.XA[31].mp4";
 import outroSpeech from "../static/media/audio/LAIN21.XA[16].mp4";
 import LainSpeak from "../components/LainSpeak";
@@ -15,6 +14,7 @@ import getVoiceFilenames from "../utils/getVoiceFilenames";
 
 const EndScene = () => {
   const mainCylinderRef = useRef<THREE.Object3D>();
+  const language = useStore((state) => state.language);
 
   const setSelectionVisible = useStore(
     (state) => state.setEndSceneSelectionVisible
@@ -49,7 +49,10 @@ const EndScene = () => {
   const playedMediaCountRef = useRef(0);
 
   const playerName = useStore((state) => state.playerName);
-  const playerNameVoices = useMemo(() => getVoiceFilenames(playerName), [playerName]);
+  const playerNameVoices = useMemo(
+    () => getVoiceFilenames(playerName),
+    [playerName]
+  );
 
   const setInputCooldown = useStore((state) => state.setInputCooldown);
 
@@ -70,8 +73,13 @@ const EndScene = () => {
             setIsIntro(true);
 
             await sleep(3800);
+
+            import("../static/media/webvtt/" + language + "/Xa0001.vtt").then(
+              (introSpeechVtt) => {
+                trackElement.src = introSpeechVtt.default;
+              }
+            );
             mediaElement.src = introSpeech;
-            trackElement.src = introSpeechVtt;
 
             mediaElement.load();
             mediaElement.play();
@@ -117,6 +125,7 @@ const EndScene = () => {
       });
     }
   }, [
+    language,
     playerNameVoices,
     setAudioAnalyser,
     setInputCooldown,

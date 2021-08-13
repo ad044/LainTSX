@@ -8,14 +8,16 @@ import Guide from "./dom-components/Guide";
 import Options from "./dom-components/Options";
 import { useStore } from "./store";
 
-
 const App = () => {
   const setKeybindings = useStore((state) => state.setKeybindings);
+  const setLanguage = useStore((state) => state.setLanguage);
 
   useEffect(() => {
     const keybindingSettings = localStorage.getItem("lainKeybindings");
+    const language = localStorage.getItem("lainLanguage");
     if (keybindingSettings) setKeybindings(JSON.parse(keybindingSettings));
-  }, [setKeybindings]);
+    if (language) setLanguage(JSON.parse(language));
+  }, [setKeybindings, setLanguage]);
 
   return (
     <HashRouter>

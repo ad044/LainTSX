@@ -94,6 +94,21 @@ const Notes = () => {
               </p>
             </td>
           </tr>
+
+          <tr>
+            <td>
+              <p>Changing Language</p>
+            </td>
+            <td>
+              <p>
+                To change the language of subtitles, go to{" "}
+                <Link to={"/options"} className="notes-a">
+                  options
+                </Link>.
+              </p>
+            </td>
+          </tr>
+
           <tr>
             <td>
               <p>Keyboard Controls</p>

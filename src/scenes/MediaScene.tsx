@@ -11,10 +11,10 @@ import GreenTextRenderer from "../components/TextRenderer/GreenTextRenderer";
 import MediaYellowTextAnimator from "../components/TextRenderer/MediaYellowTextAnimator";
 import Loading from "../components/Loading";
 import endroll from "../static/media/movie/ENDROLL1.STR[0].mp4";
-import endrollVtt from "../static/media/webvtt/Endroll.vtt";
 
 const MediaScene = () => {
   const percentageElapsed = useStore((state) => state.mediaPercentageElapsed);
+  const language = useStore((state) => state.language);
 
   const setInputCooldown = useStore((state) => state.setInputCooldown);
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
@@ -31,9 +31,10 @@ const MediaScene = () => {
 
   const setNodeViewed = useStore.getState().setNodeViewed;
 
-  const isAudioOnly = useMemo(() => activeNode.media_file.includes("XA"), [
-    activeNode,
-  ]);
+  const isAudioOnly = useMemo(
+    () => activeNode.media_file.includes("XA"),
+    [activeNode]
+  );
 
   useEffect(() => {
     if (percentageElapsed === 100) {
@@ -55,7 +56,11 @@ const MediaScene = () => {
         if (mediaElement) {
           mediaElement.currentTime = 0;
 
-          trackElement.src = endrollVtt;
+          import("../static/media/webvtt/" + language + "/Endroll.vtt").then(
+            (endrollVtt) => {
+              trackElement.src = endrollVtt.default;
+            }
+          );
           mediaElement.src = endroll;
 
           mediaElement.load();
@@ -70,6 +75,7 @@ const MediaScene = () => {
     activeNode.triggers_final_video,
     incrementFinalVideoViewCount,
     isAudioOnly,
+    language,
     percentageElapsed,
     setNodeViewed,
     setScene,
@@ -83,7 +89,13 @@ const MediaScene = () => {
       setAudioAnalyser(createAudioAnalyser());
 
       mediaElement.currentTime = 0;
-      import("../static/media/webvtt/" + activeNode.node_name + ".vtt")
+      import(
+        "../static/media/webvtt/" +
+          language +
+          "/" +
+          activeNode.node_name +
+          ".vtt"
+      )
         .then((vtt) => {
           if (vtt) trackElement.src = vtt.default;
         })
@@ -112,6 +124,7 @@ const MediaScene = () => {
     activeNode.media_file,
     activeNode.node_name,
     isAudioOnly,
+    language,
     setAudioAnalyser,
   ]);
 

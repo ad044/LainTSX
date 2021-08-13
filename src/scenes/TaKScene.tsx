@@ -6,6 +6,7 @@ import createAudioAnalyser from "../utils/createAudioAnalyser";
 const TaKScene = () => {
   const setScene = useStore((state) => state.setScene);
   const setAudioAnalyser = useStore((state) => state.setAudioAnalyser);
+  const language = useStore((state) => state.language);
 
   const activeNode = useStore((state) => state.activeNode);
 
@@ -36,7 +37,13 @@ const TaKScene = () => {
       if (mediaElement) {
         setAudioAnalyser(createAudioAnalyser());
         mediaElement.currentTime = 0;
-        import("../static/media/webvtt/" + activeNode.node_name + ".vtt")
+        import(
+          "../static/media/webvtt/" +
+            language +
+            "/" +
+            activeNode.node_name +
+            ".vtt"
+        )
           .then((vtt) => {
             if (vtt) trackElement.src = vtt.default;
           })
@@ -55,7 +62,7 @@ const TaKScene = () => {
         setIsIntro(false);
       }
     }, 3800);
-  }, [activeNode.media_file, activeNode.node_name, setAudioAnalyser]);
+  }, [activeNode.media_file, activeNode.node_name, language, setAudioAnalyser]);
 
   return <LainSpeak intro={isIntro} outro={isOutro} />;
 };

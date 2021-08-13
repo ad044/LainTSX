@@ -107,6 +107,8 @@ type State = {
 
   keybindings: Record<string, string>;
 
+  language: string;
+
   inputCooldown: number;
 };
 
@@ -257,6 +259,8 @@ export const useStore = create(
         SELECT: "c",
       },
 
+      language: "en",
+
       inputCooldown: -1,
     } as State,
     (set) => ({
@@ -362,6 +366,8 @@ export const useStore = create(
 
       setKeybindings: (to: Record<string, string>) =>
         set(() => ({ keybindings: to })),
+
+      setLanguage: (to: string) => set(() => ({ language: to })),
 
       restartGameState: () =>
         set(() => ({
@@ -493,8 +499,8 @@ export const saveUserProgress = (state: UserSaveState) =>
   localStorage.setItem("lainSaveState", JSON.stringify(state));
 
 export const isPolytanFullyUnlocked = () => {
-  const polytanProgress = useStore.getState().gameProgress
-    .polytan_unlocked_parts;
+  const polytanProgress =
+    useStore.getState().gameProgress.polytan_unlocked_parts;
 
   for (const key in polytanProgress)
     if (!polytanProgress[key as keyof typeof polytanProgress]) return false;
