@@ -69,9 +69,10 @@ const Keybinding = () => {
   return (
     <>
       <p className="keybinding-note">
-        This is the keybindings page. To change a keybinding, just click on it
-        and press the button you wish to bind it to after. In order for this to
-        take effect, you must refresh the game page.
+        To change a keybinding, just click on it and press the button you wish
+        to bind it to after.
+        <br />
+        In order for this to take effect, you must refresh the game page.
       </p>
       <br />
       <div className="keybinding">

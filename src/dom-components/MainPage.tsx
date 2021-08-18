@@ -17,8 +17,8 @@ const MainPage = () => {
         This is a web reimplementation of the Serial Experiments Lain PSX game
         with the aim to provide multi-language support.
         <br />
-        Please make sure to read the <Link to="/notes">notes</Link> before you
-        start playing.
+        <h3><b>Please make sure to read the <Link to="/notes">notes</Link> before you
+        start playing.</b></h3>
         <br />
         <br />
       </p>
@@ -26,18 +26,14 @@ const MainPage = () => {
         FAQ:
         <br /> <br />
         <QA
-          question={"I'm confused about the game."}
-          answer={"Amazing! That means the game is working properly."}
-        />
-        <QA
           question={
             "I'm extremely confused about the game and I'm not sure what I'm doing."
           }
-          answer={`Read the <a href="/#/guide">guide</a>. Keep in mind though that this is only my interpretation of the game and what I pieced together while developing it, it could be wrong.`}
+          answer={`The game is meant to be confusing, if you feel like you can't enjoy it the way it is, check out the <a href="/#/guide">guide</a>. Keep in mind though that this is only my interpretation of the game and what I pieced together while developing it, it could be wrong.`}
         />
         <QA
           question={"Source code?"}
-          answer={`<a href="https://github.com/ad044/lainTSX">On my github.</a>`}
+          answer={`<a href="https://github.com/ad044/lainTSX">On my github</a>.`}
         />
         <QA
           question={"I found an issue/have a suggestion/etc."}
@@ -74,7 +70,7 @@ const MainPage = () => {
         <Credit name={"Popcorn"} credit={"Programming help."} />
         <Credit
           name={"lelenium"}
-          credit={"Helped with literally everything."}
+          credit={"Managing subtitles/translation, sprites."}
         />
         <Credit name={"BimBuns"} credit={"Fonts, help with Japanese."} />
         <Credit name={"Phenomenal"} credit={"Help with 3D stuff, fonts."} />
@@ -108,6 +104,12 @@ const MainPage = () => {
             "mutronics, lelenium, Lorenzo, elliotcraft79, Nichts, Mikix, shemishtameshel, espilya, Yokuba, oo, Shuji, BimBuns, claire, Eternofímero, Cal, Cena"
           }
           credit={"Subtitle timing team."}
+        />{" "}
+        <Credit
+          name={
+            "Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"
+          }
+          credit={"Korean translation."}
         />{" "}
         <Credit
           name={"psx.lain.pl team"}
