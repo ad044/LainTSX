@@ -41,7 +41,7 @@ const MainPage = () => {
         />
         <QA
           question={"I found an issue/have a suggestion/etc."}
-          answer={`Please join our <a href="https://discord.com/invite/W22Ga2R">discord server</a> and tell us about it!`}
+          answer={`Please join our <a href="https://discord.com/invite/JGnEyhD6ah">discord server</a> and tell us about it!`}
         />
         <QA
           question={"Is it possible to run the game offline?"}
