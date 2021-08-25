@@ -17,8 +17,8 @@ const MainPage = () => {
         This is a web reimplementation of the Serial Experiments Lain PSX game
         with the aim to provide multi-language support.
         <br />
-        <h3><b>Please make sure to read the <Link to="/notes">notes</Link> before you
-        start playing.</b></h3>
+        <b>Please make sure to read the <Link to="/notes">notes</Link> before you
+        start playing.</b>
         <br />
         <br />
       </p>

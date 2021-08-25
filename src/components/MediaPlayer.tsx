@@ -6,6 +6,7 @@ const MediaPlayer = () => {
 
   // use it as a guard to avoid multiple set states inside updateTime
   const lastSetPercentageRef = useRef<undefined | number>(undefined);
+  const language = useStore((state) => state.language);
 
   const requestRef = useRef();
   const videoRef = createRef<HTMLVideoElement>();
@@ -71,7 +72,11 @@ const MediaPlayer = () => {
         <track id={"track"} ref={trackRef} kind="metadata" default />
       </video>
       <div id={"subtitle-container"}>
-        <p ref={subtitleRef} id={"subtitle"} />
+        <p
+          ref={subtitleRef}
+          id={"subtitle"}
+          style={language === "ko" ? { fontFamily: "sans-serif" } : {}}
+        />
       </div>
     </>
   );
