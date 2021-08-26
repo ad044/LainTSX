@@ -75,7 +75,7 @@ const MediaPlayer = () => {
         <p
           ref={subtitleRef}
           id={"subtitle"}
-          style={language === "ko" ? { fontFamily: "sans-serif" } : {}}
+          style={language === "ko" ? { fontFamily: "sans-serif", wordBreak: "keep-all" } : {}}
         />
       </div>
     </>
