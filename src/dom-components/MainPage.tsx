@@ -18,7 +18,7 @@ const MainPage = () => {
         with the aim to provide multi-language support.
         <br />
         <b>Please make sure to read the <Link to="/notes">notes</Link> before you
-        start playing.</b>
+          start playing.</b>
         <br />
         <br />
       </p>
@@ -110,6 +110,12 @@ const MainPage = () => {
             "Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"
           }
           credit={"Korean translation."}
+        />{" "}
+        <Credit
+          name={
+            "DarcoldDestolle, Gigoteur, Pierre Missègue, atomheartother"
+          }
+          credit={"French translation."}
         />{" "}
         <Credit
           name={"psx.lain.pl team"}
