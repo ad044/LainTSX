@@ -9,7 +9,6 @@ const Header = () => {
       <Link to="/notes">notes</Link>
       <Link to="/game">start</Link>
       <Link to="/guide">guide</Link>
-      <a href="https://discord.com/invite/JGnEyhD6ah">discord</a>
       <Link to="/options">options</Link>
     </div>
   );
