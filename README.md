@@ -53,7 +53,7 @@ Building locally is currently not possible. This is because the repository lacks
 
 ## Reporting bugs and contributing
 
-If you have any ideas/suggestions/found an issue or want to help us with the translation or anything else, please submit an issue or join our [Discord server](https://discord.com/invite/JGnEyhD6ah).
+If you have any ideas/suggestions/found an issue or want to help us with the translation or anything else, please [make an issue](https://github.com/ad044/lainTSX/issues).
 
 ## Tools used during development
 

@@ -10,6 +10,7 @@ const Language = () => {
   const supportedLanguages = [
     { language: "English", code: "en" },
     { language: "Korean", code: "ko" },
+    { language: "French", code: "fr" }
   ];
 
   const updateLanguage = useCallback(
