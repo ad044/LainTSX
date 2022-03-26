@@ -18,7 +18,7 @@ const MainPage = () => {
         with the aim to provide multi-language support.
         <br />
         <b>Please make sure to read the <Link to="/notes">notes</Link> before you
-          start playing.</b>
+        start playing.</b>
         <br />
         <br />
       </p>
