@@ -107,15 +107,27 @@ const MainPage = () => {
         />{" "}
         <Credit
           name={
+            "DarcoldDestolle, Gigoteur, Pierre Missègue, atomheartother"
+          }
+          credit={"French translation."}
+        />{" "}
+        <Credit
+          name={
             "Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"
           }
           credit={"Korean translation."}
         />{" "}
         <Credit
           name={
-            "DarcoldDestolle, Gigoteur, Pierre Missègue, atomheartother"
+            "LaCreatura, Brenner da Costa, Fuka, Lucas Emanuel, workingsea, lucasafshc, Sudonyn, Layla Dead"
           }
-          credit={"French translation."}
+          credit={"Portuguese, Brazilian translation."}
+        />{" "}
+        <Credit
+          name={
+            "AstartaHao, cherrydrum, Dolamroth, FormerSmoker, Ilya, Kamagata Emiko, mutronics, Oldovschik, Shouner, tsu, Va1 V3R"
+          }
+          credit={"Russian translation."}
         />{" "}
         <Credit
           name={"psx.lain.pl team"}
