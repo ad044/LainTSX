@@ -34,9 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-/public
-!/public/models
-!/public/media/webvtt
+public/*
+!public/models/
+!public/media/
+public/media/*
+!public/media/webvtt
 
 scripts/extract/discs
 scripts/extract/*.log

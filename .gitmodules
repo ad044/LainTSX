@@ -1,0 +1,3 @@
+[submodule "public/media/webvtt"]
+	path = public/media/webvtt
+	url = git@github.com:laingame-net/lainvtt.git
