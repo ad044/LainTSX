@@ -1,0 +1,243 @@
+.guide-paragraph {
+  text-align: left;
+  font-size: 1.5em;
+  color: white;
+  display: block;
+  padding: 2em;
+}
+
+.header {
+  display: block;
+  margin: 0 auto;
+  margin-top: 2em;
+  text-align: center;
+}
+
+.header a {
+  display: inline-block;
+}
+
+.header a:not(:first-child) {
+  margin-left: 1em;
+}
+
+.keybinding {
+  color: white;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.keybinding-note {
+  text-align: center;
+  font-size: 1.7rem;
+  color: white;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+.reset-to-default-button {
+  display: block;
+  margin: 0 auto;
+}
+
+.language-note {
+  text-align: center;
+  font-size: 1.7rem;
+  color: white;
+}
+
+.language-entry {
+  text-align: center;
+  color: white;
+  font-size: 1.6rem;
+}
+
+.header-paragraph,
+.credits {
+  display: block;
+  margin-top: 2em;
+  text-align: center;
+  color: white;
+  font-size: 1.5em;
+}
+
+.header-paragraph a,
+.faq a,
+.credits a {
+  font-size: 1em;
+  display: inline;
+  font-family: unset;
+}
+
+.cool-text {
+  color: #ffa531;
+}
+
+.faq {
+  display: block;
+  margin: 0 auto;
+  padding-left: 5em;
+  padding-right: 5em;
+  text-align: left;
+  font-size: 1.5em;
+  color: white;
+}
+
+.mainpage-header {
+  text-align: center;
+  font-size: 2.5em;
+  color: white;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background: black;
+  margin: 0;
+}
+
+.game {
+  border: 1px solid white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  font-family: Arial, serif;
+  touch-action: none;
+}
+
+canvas {
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
+video {
+  height: 100% !important;
+  position: absolute;
+  z-index: -1;
+}
+
+a {
+  text-align: center;
+  font-size: 2em;
+  display: block;
+  text-decoration: none;
+  color: #ffa531;
+  font-family: "Courier New", serif;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#subtitle-container {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  justify-content: center;
+  display: flex;
+}
+
+#subtitle {
+  text-shadow: 3px 0 0 #000, -3px 0 0 #000, 0 3px 0 #000, 0 -3px 0 #000,
+    1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  text-align: center;
+  color: white;
+  align-self: flex-end;
+  font-size: 2rem;
+}
+
+.text-center {
+  text-align: center;
+  display: block;
+}
+
+.savefile-wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+.savefile-note {
+  text-align: center;
+  font-size: 1.7rem;
+  color: white;
+}
+
+textarea {
+  width: 70%;
+}
+
+.main-table {
+  font-size: 1.5em;
+  width: 95%;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: separate;
+  border-spacing: 0 2em;
+}
+
+.main-table h3 {
+  text-align: center;
+}
+
+@media (min-width: 1900px) {
+  .main-table {
+    padding: 0 calc(100% / 4) 0 calc(100% / 4);
+  }
+}
+
+.main-table tr td:first-child {
+  width: 20%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.main-table tr td:nth-child(2) {
+  padding-left: 1em;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.main-table p {
+  text-align: initial;
+}
+
+.control-table {
+  margin: 0 auto;
+  border: 1px solid white;
+  padding: 1em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.control-table tr td:nth-child(3) {
+  text-align: right;
+}
+.control-table tr td:nth-child(2) {
+  text-align: center;
+}
+
+.notes-a {
+  text-align: unset;
+  font-size: unset;
+  font-weight: unset;
+  display: unset;
+  font-family: unset;
+}
+
+.browser-notes {
+  border: 1px solid white;
+  padding: 1em;
+}

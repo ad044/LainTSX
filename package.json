@@ -1,57 +1,37 @@
 {
-  "name": "lain-tsx",
-  "version": "0.1.0",
+  "name": "laintsx",
+  "version": "0.4.4",
   "private": true,
-  "dependencies": {
-    "@react-spring/three": "^9.0.0-rc.3",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.54",
-    "@types/react": "^16.9.47",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/three": "^0.126.0",
-    "music-metadata": "^7.8.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.0",
-    "react-three-fiber": "^4.2.20",
-    "three": "^0.125.0",
-    "three-plain-animator": "^1.0.6",
-    "typescript": "^3.7.5",
-    "zustand": "^3.1.3"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!three/.*)/\"",
-    "eject": "react-scripts eject",
-    "extract": "node scripts/extract/extract.mjs",
-    "postinstall": "node scripts/postinstall.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest --watch"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "@react-three/drei": "^9.13.2",
+    "@react-three/fiber": "^8.0.26",
+    "next": "12.1.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "rxjs": "^7.5.5",
+    "three": "^0.141.0",
+    "three-plain-animator": "^1.1.2",
+    "zustand": "^4.0.0-rc.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "homepage": ".",
   "devDependencies": {
-    "eslint-loader": "^4.0.2",
-    "kaitai-struct": "^0.9.0",
-    "replace-in-file": "^6.2.0",
-    "yargs": "^16.2.0"
+    "@types/jest": "^28.1.4",
+    "@types/node": "18.0.0",
+    "@types/react": "18.0.14",
+    "@types/react-dom": "18.0.5",
+    "@types/three": "^0.141.0",
+    "eslint": "8.18.0",
+    "eslint-config-next": "12.1.6",
+    "file-loader": "^6.2.0",
+    "jest": "^28.1.2",
+    "jest-environment-jsdom": "^28.1.2",
+    "raw-loader": "^4.0.2",
+    "typescript": "4.7.4"
   }
 }
