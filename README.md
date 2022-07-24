@@ -14,24 +14,24 @@ Building locally is currently not possible. This is because the repository lacks
 
 ## Code strutcure
 
-- **src/**
+- **\_\_tests\_\_/** - Jest tests.
 
-  - **/\_\_tests\_\_/** - Jest tests.
-  - **/components/** - TSX components used in the actual 3D environment (sprites, meshes, etc.).
-  - **/dom-components/** - TSX components used in the website itself (index page, guide, notes, etc.).
-  - **/core/** - State management. Contextual (scene/state influenced) processors, mutation handler, event templates.
-  - **/helpers/** - Helper functions used to boostrap functionalities (node finding algorithm, name selection handlers, etc.).
-  - **/hooks/** - Custom hooks for React.
-  - **/resources/** - Mostly reverse-engineered JSON data the game uses for a variety of tasks (node positions, font texture atlas definitions, etc.).
-  - **/scenes/** - TSX components containing scene definitions.
-  - **/static/** - Static files (sprites, css, sfx, media, fonts).
-  - **/types/** - Type definitions.
-  - **/utils/** - Utility functions.
+- **src/**
+  - **components/canvas/** - TSX components used in the actual 3D environment (sprites, meshes, etc.).
+  - **components/dom/** - TSX components used for the website pages.
+  - **core/** - State management. Contextual (scene/state influenced) processors, mutation handler, event templates.
+  - **hooks/** - Custom hooks for React.
+  - **json/** - Reverse-engineered JSON data the game uses for a variety of tasks (node positions, font texture atlas definitions, etc.).
+  - **pages/** - Pages for the website (index, notes, guide, options, etc.).
+  - **shaders/** - Fragment/Vertex shaders.
+  - **styles/** - CSS.
+  - **types/** - Type definitions.
+  - **utils/** - Utilities/helper functions used to boostrap functionalities (node finding algorithm, name selection handlers, etc.).
   - **store.ts** - Zustand store used for managing global state.
 
 - **scripts/**
 
-  - **/extract/** - WIP extraction script to automate the local building process of the game.
+  - **extract/** - WIP extraction script to automate the local building process of the game.
 
 ## TODO
 
@@ -41,14 +41,14 @@ Building locally is currently not possible. This is because the repository lacks
 ## Screenshots
 
 <p align="center">
-  <img src="markdown/1.png" width="49%">
-  <img src="markdown/2.jpg" width="49%">
-  <img src="markdown/3.png" width="49%">
-  <img src="markdown/4.png" width="49%">
-  <img src="markdown/5.png" width="49%">
-  <img src="markdown/6.png" width="49%">
-  <img src="markdown/7.png" width="49%">
-  <img src="markdown/8.png" width="49%">
+  <img src="screenshots/1.png" width="49%">
+  <img src="screenshots/2.jpg" width="49%">
+  <img src="screenshots/3.png" width="49%">
+  <img src="screenshots/4.png" width="49%">
+  <img src="screenshots/5.png" width="49%">
+  <img src="screenshots/6.png" width="49%">
+  <img src="screenshots/7.png" width="49%">
+  <img src="screenshots/8.png" width="49%">
 </p>
 
 ## Reporting bugs and contributing
