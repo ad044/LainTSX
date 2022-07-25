@@ -88,8 +88,8 @@ export const getRandomIdle = (
   } else {
     // video
     const polytanProgress = gameProgress.polytan_unlocked_parts;
-    const isPolytanFullyUnlocked = Object.keys(polytanProgress).every(
-      (key) => !polytanProgress[key as keyof typeof polytanProgress]
+    const isPolytanFullyUnlocked = Object.values(polytanProgress).every(
+      (v) => v
     );
     if (site === GameSite.B && isPolytanFullyUnlocked && Math.random() < 0.3) {
       return {
