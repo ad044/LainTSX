@@ -3,12 +3,19 @@ import { useFrame } from "@react-three/fiber";
 import { useStore } from "@/store";
 import usePrevious from "@/hooks/usePrevious";
 import { getNodeHud, isNodeVisible } from "@/utils/node";
-import { HUDData, MainSubscene, Position, TextType } from "@/types";
+import {
+  GameScene,
+  GameSite,
+  HUDData,
+  MainSubscene,
+  Position,
+  TextType,
+} from "@/types";
 import { useTexture } from "@react-three/drei";
 import TextRenderer from "../TextRenderer/TextRenderer";
 import AnimatedBigTextRenderer from "../TextRenderer/AnimatedBigTextRenderer";
 import { MathUtils } from "three";
-import {logError} from "@/utils/log";
+import { logError } from "@/utils/log";
 
 // the hud is an imperative mess. unfortunately this seems to perform by far the best out of all the approaches i've tried.
 
@@ -161,6 +168,14 @@ const HUD = () => {
 
     const hud = getNodeHud(nodeMatrixIndex);
 
+    if (prev?.scene !== GameScene.Main) {
+      setHud(hud, false);
+
+      currentHudRef.current = hud;
+      activeRef.current = true;
+      return;
+    }
+
     const wasHidden = !activeRef.current;
     activeRef.current = false;
 
@@ -179,7 +194,7 @@ const HUD = () => {
       },
       wasHidden ? 0 : 500
     );
-  }, [nodeMatrixIndex, subscene]);
+  }, [nodeMatrixIndex, prev?.scene, subscene]);
 
   // changing node
   useEffect(() => {
