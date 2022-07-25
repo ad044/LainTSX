@@ -2424,7 +2424,7 @@
     "required_final_video_viewcount": 0,
     "site": "A",
     "title": "COUNSELING REC.",
-    "triggers_final_video": 1,
+    "triggers_final_video": 0,
     "type": 3,
     "unlocked_by": null,
     "upgrade_requirement": 0,
