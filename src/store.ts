@@ -23,7 +23,7 @@ import { getLayout } from "@/utils/site";
 
 const initialState = {
   // scene data
-  scene: GameScene.Main,
+  scene: GameScene.Boot,
 
   // game progress
   gameProgress: gameProgressJson,
