@@ -11,7 +11,6 @@ import { useStore } from "@/store";
 import { GameScene, MediaComponent, Position, TextType } from "@/types";
 import { createAudioAnalyser } from "@/utils/audio";
 import Images from "@canvas/objects/Images";
-import Loading from "@canvas/objects/Loading";
 import AudioVisualizer from "@canvas/objects/MediaScene/AudioVisualizer";
 import LeftSide from "@canvas/objects/MediaScene/LeftSide";
 import NodeNameContainer from "@canvas/objects/MediaScene/NodeNameContainer";
@@ -140,7 +139,7 @@ const MediaScene = () => {
 
   return (
     <group position-z={3} ref={mediaSceneGroupRef}>
-      {node && loaded ? (
+      {node && loaded && (
         <group position={[0.4, -0.3, 0]}>
           <pointLight intensity={1.2} color={0xffffff} position={[-2, 0, 0]} />
           <LeftSide />
@@ -178,8 +177,6 @@ const MediaScene = () => {
             <Images imageTableIndices={node.image_table_indices} />
           </group>
         </group>
-      ) : (
-        <Loading />
       )}
     </group>
   );

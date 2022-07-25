@@ -24,6 +24,7 @@ import MediaPlayer from "@canvas/objects/MediaPlayer";
 import { GameScene } from "@/types";
 import Head from "next/head";
 import Preloader from "@/components/canvas/objects/Preloader";
+import Loading from "@/components/canvas/objects/Loading";
 
 const Game = () => {
   const scene = useStore((state) => state.scene);
@@ -116,9 +117,15 @@ const Game = () => {
             linear
             className="main-canvas"
           >
-            <Suspense fallback={null}>
-              <Preloader />
+            <Suspense
+              fallback={
+                scene === GameScene.Main || scene === GameScene.Media ? (
+                  <Loading />
+                ) : null
+              }
+            >
               {dispatchScene[scene]}
+              <Preloader />
               <InputHandler />
             </Suspense>
           </Canvas>

@@ -20,7 +20,7 @@ const Loading = () => {
   });
 
   return (
-    <>
+    <group position={[0, 0, 3]}>
       <sprite scale={[5, 5, 5]} renderOrder={999}>
         <spriteMaterial color={0x000000} depthTest={false} />
       </sprite>
@@ -38,7 +38,7 @@ const Loading = () => {
       >
         <spriteMaterial map={lifeInstinct} depthTest={false} />
       </sprite>
-    </>
+    </group>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "@/store";
 import { playAudio } from "@/utils/audio";
 import LevelSelection from "@canvas/objects/MainScene/LevelSelection";
@@ -8,12 +8,15 @@ import MiddleRing from "@canvas/objects/MainScene/MiddleRing";
 import Starfield from "@canvas/objects/MainScene/Starfield";
 import Site from "@canvas/objects/MainScene/Site";
 import Lain from "@canvas/objects/MainScene/Lain";
-import Loading from "@canvas/objects/Loading";
 import usePrevious from "@/hooks/usePrevious";
-import { a, useSpring } from "@react-spring/three";
+import {
+  a,
+  useSpring,
+  AnimationResult,
+} from "@react-spring/three";
 import Pause from "@canvas/objects/MainScene/Pause";
 import GrayPlane from "@canvas/objects/MainScene/GrayPlane";
-import { MainSubscene, Position } from "@/types";
+import { MainSubscene, Position, Rotation } from "@/types";
 import { handleEvent } from "@/core";
 import {
   resetInputCooldown,
@@ -79,17 +82,13 @@ const MainScene = () => {
     }
   }, [wordSelected]);
 
-  const introWrapperRef = useRef<THREE.Group>(null);
-
   useEffect(() => {
     if (intro) {
+      playAudio("snd_32.mp4");
+
       setStarfieldIntro(false);
       setLainIntroAnim(false);
       setIntroFinished(false);
-
-      starfieldIntroRef.current = false;
-      lainIntroRef.current = false;
-      introFinishedRef.current = false;
 
       handleEvent(setInputCooldown(-1));
     } else {
@@ -98,49 +97,10 @@ const MainScene = () => {
   }, [intro]);
 
   const [starfieldIntro, setStarfieldIntro] = useState(false);
-  const starfieldIntroRef = useRef(false);
   const [lainIntroAnim, setLainIntroAnim] = useState(false);
-  const lainIntroRef = useRef(false);
   const [introFinished, setIntroFinished] = useState(false);
-  const introFinishedRef = useRef(false);
 
   useFrame((_, delta) => {
-    if (!introFinished && intro && introWrapperRef.current) {
-      if (introWrapperRef.current.position.z === -10) playAudio("snd_32.mp4");
-      if (
-        Math.round(introWrapperRef.current.position.z) === -3 &&
-        !starfieldIntroRef.current
-      ) {
-        setStarfieldIntro(true);
-        starfieldIntroRef.current = true;
-      }
-      if (
-        Math.round(introWrapperRef.current.position.z) === -1 &&
-        !lainIntroRef.current
-      ) {
-        setLainIntroAnim(true);
-        lainIntroRef.current = true;
-      }
-
-      if (introWrapperRef.current.position.z < 0) {
-        introWrapperRef.current.position.z += 2.5 * delta;
-      }
-      if (introWrapperRef.current.rotation.x > 0) {
-        introWrapperRef.current.rotation.x -= 0.4 * delta;
-      }
-
-      if (
-        !introFinishedRef.current &&
-        introWrapperRef.current.rotation.x < 0 &&
-        introWrapperRef.current.position.z > 0
-      ) {
-        introFinishedRef.current = true;
-        setIntroFinished(true);
-
-        handleEvent(resetInputCooldown);
-      }
-    }
-
     if (grayPlaneGroupRef.current) {
       grayPlaneGroupRef.current.rotation.y -= delta / 1.5;
     }
@@ -175,67 +135,99 @@ const MainScene = () => {
     )
   );
 
+  const introSpring = useSpring<{
+    from: { position: Position; rotation: Rotation };
+    to: { position: Position; rotation: Rotation };
+  }>({
+    from: {
+      position: [0, 0, intro ? -8 : 0],
+      rotation: [intro ? Math.PI / 2 : 0, 0, 0],
+    },
+    to: {
+      rotation: [0, 0, 0],
+      position: [0, 0, 0],
+    },
+    config: { duration: 3000 },
+    onChange: (result: AnimationResult) => {
+      const { position } = result.value as {
+        position: Position;
+        rotation: Rotation;
+      };
+
+      if (!starfieldIntro && position[2] > -4) {
+        setStarfieldIntro(true);
+      }
+
+      if (!lainIntroAnim && position[2] > -1) {
+        setLainIntroAnim(true);
+      }
+    },
+    onRest: () => {
+      setIntroFinished(true);
+      handleEvent(resetInputCooldown);
+    },
+  });
+
   return (
     <group position-z={3}>
-      <Suspense fallback={<Loading />}>
-        <LevelSelection />
-        <Pause />
-        <group position={[-0.85, -0.7, 0]} scale={[0.85, 0.85, 0]}>
-          <group position={[1, 0.6, 0]} scale={[1.2, 1.2, 0]}>
-            <Prompt />
-          </group>
-          <About />
-          <PermissionDenied />
-          <SaveStatusDisplay />
+      <LevelSelection />
+      <Pause />
+      <group position={[-0.85, -0.7, 0]} scale={[0.85, 0.85, 0]}>
+        <group position={[1, 0.6, 0]} scale={[1.2, 1.2, 0]}>
+          <Prompt />
         </group>
-        <NotFound />
-        <a.group
-          visible={intro ? introFinished : true}
-          position={bgSpring.position}
-        >
-          <mesh renderOrder={-5} scale={[5, 1, 0]}>
-            <planeBufferGeometry attach="geometry" />
-            <meshBasicMaterial map={mainSceneBg} depthTest={false} />
-          </mesh>
-        </a.group>
-        <group visible={!paused}>
-          <group visible={!wordSelected && (intro ? introFinished : true)}>
-            <a.group visible={!wordNotFound} position-y={tiltSpring.value}>
-              <HUD />
-            </a.group>
-            <MiddleRing />
-            <group position={[0.1, 0, -2]} ref={grayPlaneGroupRef}>
-              {grayPlanePoses.map((position, idx: number) => (
-                <GrayPlane position={position} key={idx} />
-              ))}
-            </group>
+        <About />
+        <PermissionDenied />
+        <SaveStatusDisplay />
+      </group>
+      <NotFound />
+      <a.group
+        visible={intro ? introFinished : true}
+        position={bgSpring.position}
+      >
+        <mesh renderOrder={-5} scale={[5, 1, 0]}>
+          <planeBufferGeometry attach="geometry" />
+          <meshBasicMaterial map={mainSceneBg} depthTest={false} />
+        </mesh>
+      </a.group>
+      <group visible={!paused}>
+        <group visible={!wordSelected && (intro ? introFinished : true)}>
+          <a.group visible={!wordNotFound} position-y={tiltSpring.value}>
+            <HUD />
+          </a.group>
+          <MiddleRing />
+          <group position={[0.1, 0, -2]} ref={grayPlaneGroupRef}>
+            {grayPlanePoses.map((position, idx: number) => (
+              <GrayPlane position={position} key={idx} />
+            ))}
           </group>
-          <group visible={intro ? introFinished : true}>
-            <YellowOrb visible={!paused} />
-          </group>
-          <Starfield
-            shouldIntro={intro}
-            mainVisible={intro ? starfieldIntro : true}
-          />
         </group>
-        <a.group visible={!wordSelected} position-y={tiltSpring.value}>
-          <Lain
-            shouldAnimate={lainIntroAnim}
-            introFinished={intro ? introFinished : true}
-          />
-        </a.group>
-        <group
-          ref={introWrapperRef}
-          position-z={intro ? -10 : 0}
-          rotation-x={intro ? Math.PI / 2 : 0}
-        >
-          <Site introFinished={intro ? introFinished : true} />
+        <group visible={intro ? introFinished : true}>
+          <YellowOrb visible={!paused} />
         </group>
-        <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
-        <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
-        <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
-        <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
-      </Suspense>
+        <Starfield
+          shouldIntro={intro}
+          mainVisible={intro ? starfieldIntro : true}
+        />
+      </group>
+      <a.group visible={!wordSelected} position-y={tiltSpring.value}>
+        <Lain
+          shouldAnimate={lainIntroAnim}
+          introFinished={intro ? introFinished : true}
+        />
+      </a.group>
+      <a.group
+        position={introSpring.position}
+        // NOTE (cast to any)
+        // throws a type error, but works
+        rotation={introSpring.rotation as any}
+      >
+        <Site introFinished={intro ? introFinished : true} />
+      </a.group>
+      <pointLight color={0xffffff} position={[0, 0, 7]} intensity={1} />
+      <pointLight color={0x7f7f7f} position={[0, 10, 0]} intensity={1.5} />
+      <pointLight color={0xffffff} position={[8, 0, 0]} intensity={0.2} />
+      <pointLight color={0xffffff} position={[-8, 0, 0]} intensity={0.2} />
     </group>
   );
 };

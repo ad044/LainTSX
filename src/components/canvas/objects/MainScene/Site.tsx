@@ -1,8 +1,7 @@
-import React, { Suspense, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "@/store";
 import Levels from "./Levels";
-import Loading from "@canvas/objects/Loading";
 import { FlattenedSiteLayout, MainSubscene, NodeID } from "@/types";
 import { getLevelY } from "@/utils/site";
 import { getRotationForSegment } from "@/utils/site";
@@ -106,18 +105,16 @@ const Site = (props: SiteProps) => {
   }, [siteLayout]);
 
   return (
-    <Suspense fallback={props.introFinished ? <Loading /> : null}>
-      <a.group rotation-x={tiltState.tilt}>
-        <a.group rotation-x={rotationSpring.x}>
-          <a.group rotation-y={rotationSpring.y} position-y={positionSpring.y}>
-            <Levels
-              flattenedLayout={layout}
-              activateAllLevels={props.introFinished}
-            />
-          </a.group>
+    <a.group rotation-x={tiltState.tilt}>
+      <a.group rotation-x={rotationSpring.x}>
+        <a.group rotation-y={rotationSpring.y} position-y={positionSpring.y}>
+          <Levels
+            flattenedLayout={layout}
+            activateAllLevels={props.introFinished}
+          />
         </a.group>
       </a.group>
-    </Suspense>
+    </a.group>
   );
 };
 
