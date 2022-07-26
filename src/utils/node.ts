@@ -11,10 +11,12 @@ import {
   NodeRow,
   NodeID,
   Position,
+  Rotation,
 } from "@/types";
 import { State } from "@/types";
-import nodeHudsJson from "@/json/node_huds.json";
 import { getLayout, getLevelLimit } from "./site";
+import nodeHudsJson from "@/json/node_huds.json";
+import nodePositionsJson from "@/json/node_positions.json";
 
 export const getNode = (id: NodeID): NodeData => {
   return nodesJson[id] as NodeData;
@@ -410,4 +412,12 @@ export const translatePositionByAngle = (
 
 export const isAudioOnly = (media: string) => {
   return media.includes("XA");
+};
+
+export const getNodeWorldPosition = (position: number) => {
+  return nodePositionsJson[position].position as Position;
+};
+
+export const getNodeWorldRotation = (position: number) => {
+  return nodePositionsJson[position].rotation as Rotation;
 };

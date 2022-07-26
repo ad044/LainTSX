@@ -11,8 +11,13 @@ import { a, useSpring } from "@react-spring/three";
 import { useStore } from "@/store";
 import { LainAnimation, NodeID, Position, Rotation, Scale } from "@/types";
 import useNodeTexture from "@/hooks/useNodeTexture";
-import { getNode, isNodeViewed, translatePositionByAngle } from "@/utils/node";
-import nodePositionsJson from "@/json/node_positions.json";
+import {
+  getNode,
+  getNodeWorldPosition,
+  getNodeWorldRotation,
+  isNodeViewed,
+  translatePositionByAngle,
+} from "@/utils/node";
 import { DoubleSide, UniformsLib, UniformsUtils } from "three";
 import vertex from "@/shaders/node.vert";
 import fragment from "@/shaders/node.frag";
@@ -20,6 +25,7 @@ import NodeExplosion from "./NodeExplosion";
 import NodeRip from "./NodeRip";
 import sleep from "@/utils/sleep";
 import { getRotationForSegment } from "@/utils/site";
+import StaticNode from "./StaticNode";
 
 type NodeProps = {
   id: NodeID;
@@ -40,8 +46,8 @@ const Node = (props: NodeProps) => {
     [gameProgress, props.id]
   );
 
-  const worldPosition = nodePositionsJson[position].position as Position;
-  const rotation = nodePositionsJson[position].rotation as Rotation;
+  const worldPosition = getNodeWorldPosition(position);
+  const rotation = getNodeWorldRotation(position);
 
   const { activeTexture, viewedTexture, normalTexture } = useNodeTexture(type);
 
@@ -294,19 +300,7 @@ const Node = (props: NodeProps) => {
       </group>
     </>
   ) : (
-    <a.mesh
-      position={worldPosition}
-      rotation={rotation}
-      scale={[0.36, 0.18, 0.36]}
-      renderOrder={1}
-    >
-      <planeBufferGeometry attach="geometry" />
-      <meshStandardMaterial
-        map={isViewed ? viewedTexture : normalTexture}
-        side={DoubleSide}
-        transparent={true}
-      />
-    </a.mesh>
+    <StaticNode id={props.id} />
   );
 };
 

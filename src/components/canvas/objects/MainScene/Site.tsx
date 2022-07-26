@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo } from "react";
 import { a, useSpring } from "@react-spring/three";
 import { useStore } from "@/store";
-import Levels from "./Levels";
 import { FlattenedSiteLayout, MainSubscene, NodeID } from "@/types";
 import { getLevelY } from "@/utils/site";
 import { getRotationForSegment } from "@/utils/site";
+import Rings from "./Rings";
+import StaticLevelNodes from "./StaticLevelNodes";
+import LevelNodes from "./LevelNodes";
 
 type SiteProps = {
   introFinished: boolean;
@@ -97,7 +99,7 @@ const Site = (props: SiteProps) => {
   );
 
   const siteLayout = useStore((state) => state.siteLayouts[state.site]);
-
+  const site = useStore((state) => state.site);
   const layout: FlattenedSiteLayout = useMemo(() => {
     return siteLayout.map((level) =>
       level.flat().filter((e): e is NodeID => e !== null)
@@ -108,10 +110,9 @@ const Site = (props: SiteProps) => {
     <a.group rotation-x={tiltState.tilt}>
       <a.group rotation-x={rotationSpring.x}>
         <a.group rotation-y={rotationSpring.y} position-y={positionSpring.y}>
-          <Levels
-            flattenedLayout={layout}
-            activateAllLevels={props.introFinished}
-          />
+          <StaticLevelNodes flattenedLayout={layout} site={site} />
+          <LevelNodes flattenedLayout={layout} site={site} />
+          <Rings activateAllRings={props.introFinished} site={site} />
         </a.group>
       </a.group>
     </a.group>
