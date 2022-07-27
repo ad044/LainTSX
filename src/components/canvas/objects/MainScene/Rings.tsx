@@ -19,8 +19,8 @@ const Rings = (props: RingsProps) => {
     if (props.activateAllRings) {
       return range(1, getLevelLimit(props.site) + 1);
     } else {
-      const start = Math.max(0, level - 2);
-      const end = Math.min(getLevelLimit(props.site) + 1, level + 2);
+      const start = Math.max(0, level - 3);
+      const end = Math.min(getLevelLimit(props.site) + 1, level + 3);
 
       return range(start, end);
     }
