@@ -293,7 +293,9 @@ export const enterTakScene = (state: State): GameEvent => {
   return {
     state: [
       {
-        mutation: { scene: GameScene.Tak },
+        mutation: {
+          scene: GameScene.Tak,
+        },
       },
     ],
     additionalEvents: [
@@ -305,7 +307,13 @@ export const enterTakScene = (state: State): GameEvent => {
 };
 
 export const enterSsknScene: GameEvent = {
-  state: [{ mutation: { scene: GameScene.Sskn } }],
+  state: [
+    {
+      mutation: {
+        scene: GameScene.Sskn,
+      },
+    },
+  ],
 };
 
 export const enterPolytanScene = (state: State): GameEvent => {
@@ -365,6 +373,7 @@ export const enterGateScene = (state: State): GameEvent => {
         mutation: {
           scene: GameScene.Gate,
           gameProgress: newProgress,
+          intro: false,
         },
       },
     ],
@@ -402,7 +411,7 @@ export const throwNode = (setSceneEvent: GameEvent): GameEvent => ({
         intro: false,
         lainAnimation: LainAnimation.Standing,
       },
-      delay: 3450,
+      delay: 3650,
     },
   ],
   audio: [
@@ -427,7 +436,7 @@ export const ripNode = (setSceneEvent: GameEvent): GameEvent => ({
         intro: false,
         lainAnimation: LainAnimation.Standing,
       },
-      delay: 6000,
+      delay: 6200,
     },
   ],
   audio: [
@@ -799,7 +808,7 @@ export const tryLoadGame = (): GameEvent => {
     return loadGameFail;
   }
 
-  const newState: SaveState = JSON.parse(newStateStr)
+  const newState: SaveState = JSON.parse(newStateStr);
 
   return {
     state: [
