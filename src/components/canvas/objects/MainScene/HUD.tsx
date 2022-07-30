@@ -196,6 +196,15 @@ const HUD = () => {
     );
   }, [nodeMatrixIndex, prev?.scene, subscene]);
 
+
+  // toggling extra node info display
+  useEffect(() => {
+    if (protocolLinesEnabled) {
+      const hud = getNodeHud(nodeMatrixIndex);
+      setHud(hud, false);
+    }
+  }, [nodeMatrixIndex, protocolLinesEnabled]);
+
   // changing node
   useEffect(() => {
     if (subscene !== MainSubscene.Site) {
