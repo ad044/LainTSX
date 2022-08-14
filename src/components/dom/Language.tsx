@@ -7,8 +7,11 @@ const Language = () => {
   const currentLanguage = useStore((state) => state.language);
   const supportedLanguages = [
     { language: "English", code: "en" },
-    { language: "Korean", code: "ko" },
     { language: "French", code: "fr" },
+    { language: "German", code: "de" },
+    { language: "Korean", code: "ko" },
+    { language: "Portuguese, Brazilian", code: "pt-BR" },
+    { language: "Russian", code: "ru" }
   ];
 
   const updateLanguage = (langCode: string) => {
