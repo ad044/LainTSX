@@ -112,6 +112,11 @@ const Home: NextPage = () => {
             "yfzcsc y, Reki, A Daiλ, parrotisticm, QuintuplicateConfederation, ailes, lzw-723"
           }
           credit={"Chinese translation."}
+        <Credit
+          name={
+            "DarcoldDestolle, Gigoteur, Pierre Missègue, atomheartother"
+          }
+          credit={"French translation."}
         />{" "}
         <Credit
           name={
