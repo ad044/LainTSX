@@ -108,12 +108,39 @@ const Home: NextPage = () => {
           credit={"Subtitle timing team."}
         />{" "}
         <Credit
-          name={"Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"}
+          name={
+            "yfzcsc y, Reki, A Daiλ, parrotisticm, QuintuplicateConfederation, ailes, lzw-723"
+          }
+          credit={"Chinese translation."}
+        <Credit
+          name={
+            "DarcoldDestolle, Gigoteur, Pierre Missègue, atomheartother"
+          }
+          credit={"French translation."}
+        />{" "}
+        <Credit
+          name={
+            "publicdesert, Sealtyth, Doftos, dogukan57"
+          }
+          credit={"German translation."}
+        />{" "}
+        <Credit
+          name={
+            "Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"
+          }
           credit={"Korean translation."}
         />{" "}
         <Credit
-          name={"DarcoldDestolle, Gigoteur, Pierre Missègue, atomheartother"}
-          credit={"French translation."}
+          name={
+            "LaCreatura, Brenner da Costa, Fuka, Lucas Emanuel, workingsea, lucasafshc, Sudonyn, Layla Dead"
+          }
+          credit={"Portuguese, Brazilian translation."}
+        />{" "}
+        <Credit
+          name={
+            "AstartaHao, cherrydrum, Dolamroth, FormerSmoker, Ilya, Kamagata Emiko, mutronics, Oldovschik, Shouner, tsu, Va1 V3R"
+          }
+          credit={"Russian translation."}
         />{" "}
         <Credit
           name={"psx.lain.pl team"}
