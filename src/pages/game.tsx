@@ -51,7 +51,7 @@ const Game = () => {
   const [dpr, setDpr] = useState<undefined | number>();
 
   const handleWindowKeypress = useCallback((event: KeyboardEvent) => {
-    switch (event.key) {
+    switch (event.key.toLowerCase()) {
       case "k":
         setWindowDims(
           (prev) =>
