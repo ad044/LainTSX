@@ -52,7 +52,7 @@ export function extract_video(tempdir, jpsxdec_jar, no_delete) {
           "yuv420p",
           "-n",
           "-filter:v",
-          "zscale=w=640:h=526:dither=error_diffusion:filter=lanczos:rin=full:r=limited:tin=601:t=709:min=470bg:m=709:cin=center:c=left",
+          "zscale=w=582:h=448:dither=error_diffusion:filter=lanczos:rin=full:r=limited:tin=601:t=709:min=470bg:m=709:cin=center:c=left",
           "-crf",
           "15",
           "-preset",
