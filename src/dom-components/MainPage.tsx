@@ -113,6 +113,12 @@ const MainPage = () => {
         />{" "}
         <Credit
           name={
+            "publicdesert, Sealtyth, Doftos, dogukan57"
+          }
+          credit={"German translation."}
+        />{" "}
+        <Credit
+          name={
             "Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"
           }
           credit={"Korean translation."}

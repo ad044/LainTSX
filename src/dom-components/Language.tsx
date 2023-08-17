@@ -10,6 +10,7 @@ const Language = () => {
   const supportedLanguages = [
     { language: "English", code: "en" },
     { language: "French", code: "fr" },
+    { language: "German", code: "de" },
     { language: "Korean", code: "ko" },
     { language: "Portuguese, Brazilian", code: "pt-BR"},
     { language: "Russian", code: "ru"}
