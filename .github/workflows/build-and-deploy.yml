@@ -55,9 +55,14 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build --verbose
+      - name: Copy current subtitles to the build
+        run: cp -r src/static/media/webvtt/ build/ && rm -rf build/webvtt/.git
       - name: Set outputs
         id: vars
-        run: echo "filename=lainTSX-$(date +%Y-%m-%d_%H-%M-%S)-$(git rev-parse --short HEAD).zip" >> $GITHUB_OUTPUT
+        run: |
+              BUILD_VERSION=$(date +%Y-%m-%d_%H-%M-%S)-$(git rev-parse --short HEAD)
+              echo ${BUILD_VERSION} | tee build/version.txt
+              echo "filename=lainTSX-${BUILD_VERSION}.zip" >> $GITHUB_OUTPUT
       - name: Redbean download
         run: |
               curl --fail \
