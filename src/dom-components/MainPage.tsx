@@ -119,6 +119,12 @@ const MainPage = () => {
         />{" "}
         <Credit
           name={
+            "Dylan Del Castillo Dunn Meynell"
+          }
+          credit={"Japanese transcript."}
+        />{" "}
+        <Credit
+          name={
             "Cyle, Chair Broken, aeon, Mainu, karuhaku, pb29"
           }
           credit={"Korean translation."}
