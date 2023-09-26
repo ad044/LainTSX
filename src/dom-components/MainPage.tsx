@@ -119,7 +119,7 @@ const MainPage = () => {
         />{" "}
         <Credit
           name={
-            "Dylan Del Castillo Dunn Meynell"
+            "radioyama, Dylan Del Castillo Dunn Meynell"
           }
           credit={"Japanese transcript."}
         />{" "}
