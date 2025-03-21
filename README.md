@@ -8,6 +8,9 @@ The original PSX game was released in Japan, back in 1998. The game never got a 
 
 The goal of this project is to provide a better experience for those willing to play the game, and the way to do so is by implementing a subtitle system, which has the capability to support multiple languages.
 
+## How do I contribute to the translations?
+Go to https://crowdin.com/project/lain-psx
+
 ## Building locally
 
 Building locally is currently not possible. This is because the repository lacks static assets ripped from the game due to it being copyrighted content. The plan is to write an extraction script (currently located inside `scripts/extract`), where the user who owns the game provides the disc binaries themselves, and the script automates the static file extraction. This script is still WIP.
